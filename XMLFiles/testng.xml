@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="AIA Application Test Automation Test Suite">
+
+<listeners>
+	<listener class-name="com.aia.utility.GenerateReportsListener"></listener>
+	
+</listeners>
+	<test name="AIA Application Test Cases">
+		<classes>
+			<class name="com.aia.testcases.membership.MembershipSignUpTest"></class>
+		</classes>
+	</test>
+</suite>
