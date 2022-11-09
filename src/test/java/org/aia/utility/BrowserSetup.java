@@ -1,0 +1,63 @@
+package org.aia.utility;
+//org - TODO
+
+import java.time.Duration;
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.WebDriver;
+import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.safari.SafariDriver;
+
+public class BrowserSetup {
+	
+    public static WebDriver startApplication(WebDriver driver, String browser, String url){
+
+        if(browser.equalsIgnoreCase("Chrome")){
+        	//System.setProperty("webdriver.chrome.driver", "./chromedriver.exe");
+        	System.setProperty("webdriver.chrome.driver",System.getProperty("user.dir")+"\\Drivers\\chromedriver.exe");
+        	ChromeOptions options = new ChromeOptions();
+            options.addArguments("--ignore-ssl-errors=yes");
+            options.addArguments("--ignore-certificate-errors");
+            options.addArguments("--disable-notifications");
+            driver = new ChromeDriver(options);
+        }
+        else if (browser.equalsIgnoreCase("firefox")) {
+        	System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir")+"\\Drivers\\geckodriver.exe");
+            driver = new FirefoxDriver();
+			
+		}
+        else if (browser.equalsIgnoreCase("edge")) {
+			System.setProperty("webdriver.edge.driver", System.getProperty("user.dir")+"\\Drivers\\MicrosoftWebDriver.exe");
+			driver = new EdgeDriver();
+		}
+		else if (browser.equalsIgnoreCase("safari")) {
+			driver = new SafariDriver();
+
+		}
+        else  {
+			System.out.println("Browser version is not supported.");
+		}
+        driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(120));
+        driver.manage().window().maximize();
+        driver.get(url);
+        
+        
+        return driver;
+    }
+    
+    public static void closeBrowser(WebDriver driver)
+	{
+		
+		System.out.println("LOG :Info- Browser Session getting terminated");
+
+		driver.quit();
+		
+		System.out.println("LOG :Info- Browser Session terminated");
+
+	}
+}
