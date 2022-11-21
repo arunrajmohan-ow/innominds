@@ -48,3 +48,6 @@ Access the Jenkins project and click on Build Now
 
 ######Execution Report
 Extent report HTML file 'ExtentReportResults.html' can be accessed from the test-output folder.
+
+###### Email Extent report
+User can get the extent reports via email
