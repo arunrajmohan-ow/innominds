@@ -210,5 +210,10 @@ public class Utility {
 	 
 	}
 	
+	public void enterText(WebDriver driver, WebElement ele, String txt) throws InterruptedException {
+		waitUntilElement(driver, ele);
+		ele.sendKeys(txt);
+	}
+	
 	
 }

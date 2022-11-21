@@ -1,7 +1,8 @@
-package org.aia.pages.membership;
+package org.aia.pages.ces;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
@@ -11,6 +12,9 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import io.qameta.allure.Step;
 
@@ -19,40 +23,48 @@ public class SignUpPage {
 	WebDriver driver;
 	Utility util = new Utility(driver, 30);
 	
-	public SignUpPage(WebDriver Idriver)
-	{
-		this.driver=Idriver;
-	}
-
-	@FindBy(xpath="//*[@id=\"email \"]") WebElement enteremail;
+		public SignUpPage(WebDriver Idriver)
+		{
+			this.driver=Idriver;
+		}
 	
-	@FindBy(xpath="//p[text()='Continue']")WebElement continuebtn;
 	
-	@FindBy(xpath="//p[text()='Create an account']")WebElement createaccount;
+	@FindBy(xpath="//a[text()='Sign up']")	WebElement signUp;
 	
 	@FindBy(xpath="//input[@formcontrolname='firstName']")	WebElement firstName;
 	
-	@FindBy(xpath="//input[@formcontrolname='lastName']") WebElement lastName;
+	@FindBy(xpath="//input[@formcontrolname='lastName']")
+	public WebElement lastName;
 	
-	@FindBy(xpath="//input[@formcontrolname='email']") WebElement emailAddress;
+	@FindBy(xpath="//input[@formcontrolname='email']")
+	public WebElement emailAddress;
 	
-	@FindBy(xpath="//mat-select[@formcontrolname='mobilePhoneCountry']") WebElement mobileCountry;
+	@FindBy(xpath="//mat-select[@formcontrolname='mobilePhoneCountry']")
+	public WebElement mobileCountry;
 	
-	@FindBy(xpath="//span[text()=' United States of America (+1) ']") WebElement mobileCountryoption;	
+	@FindBy(xpath="//span[text()=' United States of America (+1) ']")
+	public WebElement mobileCountryoption;	
 	
-	@FindBy(xpath="//input[@formcontrolname='mobilePhone']") WebElement mobilePhoneNum;
+	@FindBy(xpath="//input[@formcontrolname='mobilePhone']")
+	public WebElement mobilePhoneNum;
 	
-	@FindBy(xpath="//input[@formcontrolname='password']") WebElement desirdPwd;
+	@FindBy(xpath="//input[@formcontrolname='password']")
+	public WebElement desirdPwd;
 	
-	@FindBy(xpath="//input[@formcontrolname='confirmPassword']") WebElement confrmPwd;
+	@FindBy(xpath="//input[@formcontrolname='confirmPassword']")
+	public WebElement confrmPwd;
 	
-	@FindBy(xpath="//span[text()='Sign Up']") WebElement signUpSubmitbtn;
+	@FindBy(xpath="//span[text()='Sign Up']")
+	public WebElement signUpSubmitbtn;
 	
-	@FindBy(xpath="//iframe[@title='reCAPTCHA']") WebElement captchaFrame;
+	@FindBy(xpath="//iframe[@title='reCAPTCHA']")
+	public WebElement captchaFrame;
 	
-	@FindBy(xpath="//div[@class = 'recaptcha-checkbox-border']") WebElement captchaChckbx;
+	@FindBy(xpath="//div[@class = 'recaptcha-checkbox-border']")
+	public WebElement captchaChckbx;
 	
-	@FindBy(xpath="//span[text()= 'Close']") WebElement closebtn;
+	@FindBy(xpath="//span[text()= 'Close']")
+	public WebElement closebtn;
 	
 	 String fName;
 	 String lName;
@@ -63,16 +75,6 @@ public class SignUpPage {
 	 public String emailDomain;
 	 ArrayList<String> list = new ArrayList<String>();
 	 
-	 
-	 public void gotoMembershipSignUpPage(String emaildata)
-		{
-			util.waitUntilElement(driver, enteremail);
-			enteremail.sendKeys(emaildata);
-			util.waitUntilElement(driver, continuebtn);
-			continuebtn.click();
-			util.waitUntilElement(driver, createaccount);
-			createaccount.click();
-		}
 	 
 	public ArrayList<String> signUpData() throws Exception { 
 		
@@ -101,6 +103,11 @@ public class SignUpPage {
 		  return list;
 		  }
 	
+	@Step("click on SignupLink")
+	public void clickSignUplink( ) throws Exception
+	{
+		signUp.click();
+	}
 	
 	@Step("Enter user details and click on submit button")
 	public void signUpUser( ) throws Exception
@@ -118,18 +125,22 @@ public class SignUpPage {
 		desirdPwd.sendKeys(password);
 		confrmPwd.sendKeys(password); 
 		
-		//Add this code if you encounter captcha
-		 /* WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-		  wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(captchaFrame));
-		  
-		  wait.until(ExpectedConditions.elementToBeClickable(captchaChckbx)).click();
-		  
-		  Thread.sleep(10000); driver.switchTo().defaultContent();*/
+		/*
+		 * WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+		 * wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(captchaFrame));
+		 * 
+		 * wait.until(ExpectedConditions.elementToBeClickable(captchaChckbx)).click();
+		 * 
+		 * Thread.sleep(10000); driver.switchTo().defaultContent();
+		 */
+        
 		signUpSubmitbtn.click();
+		
 	}
 	
-	
-	
-	
-	
+	public void clickCloseAfterVerification() throws InterruptedException
+	{
+		closebtn.click();
+		Thread.sleep(1000);
+	}
 }

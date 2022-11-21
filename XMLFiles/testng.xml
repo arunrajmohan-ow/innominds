@@ -2,12 +2,12 @@
 <suite name="AIA Application Test Automation Test Suite">
 
 <listeners>
-	<listener class-name="com.aia.utility.GenerateReportsListener"></listener>
+	<listener class-name="org.aia.utility.GenerateReportsListener"></listener>
 	
 </listeners>
 	<test name="AIA Application Test Cases">
 		<classes>
-			<class name="com.aia.testcases.membership.MembershipSignUpTest"></class>
+			<class name="org.aia.testcases.membership.TestJoin_MembershipTypes"></class>
 		</classes>
 	</test>
 </suite>
