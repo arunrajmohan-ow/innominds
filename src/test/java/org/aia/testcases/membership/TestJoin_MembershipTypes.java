@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import org.aia.pages.BaseClass;
 import org.aia.pages.api.MailinatorAPI;
+import org.aia.pages.api.membership.JoinAPIValidation;
 import org.aia.pages.membership.*;
 import org.aia.utility.BrowserSetup;
 import org.aia.utility.ConfigDataProvider;
@@ -40,6 +41,7 @@ public class TestJoin_MembershipTypes extends BaseClass {
 	OrderSummaryPage orderSummaryPage;
 	PaymentInformation paymentInfoPage;
 	FinalPageThankYou finalPage;
+	JoinAPIValidation apiValidation;
 
 	public ExtentReports extent;
 	public ExtentTest extentTest;
@@ -57,6 +59,7 @@ public class TestJoin_MembershipTypes extends BaseClass {
 		closeButtnPage = PageFactory.initElements(driver, CheckYourEmailPage.class);
 		mailinator = PageFactory.initElements(driver, MailinatorAPI.class);
 		successPage = PageFactory.initElements(driver, SignUpSuccess.class);
+		apiValidation = PageFactory.initElements(driver, JoinAPIValidation.class);
 		primaryInfoPage = PageFactory.initElements(driver,
 		PrimaryInformationPage.class); orderSummaryPage =
 		PageFactory.initElements(driver, OrderSummaryPage.class); paymentInfoPage =
@@ -69,21 +72,23 @@ public class TestJoin_MembershipTypes extends BaseClass {
 	public void TestArchitectMembershipJoin() throws Exception
 	{
 		ArrayList<String> dataList = signUpPage.signUpData();
-		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
-		/*
-		 * signUpPage.signUpUser();
-		 * mailinator.verifyEmailForAccountSetup(dataList.get(3));
-		 * closeButtnPage.clickCloseAfterVerification();
-		 * signInpage.login(dataList.get(5), dataList.get(6));
-		 * primaryInfoPage.enterPrimaryInfo("activeUSLicense", "Non profit");
-		 * orderSummaryPage.clickonPayInFull(); paymentInfoPage.enterCrditCardDetails();
-		 * finalPage.verifyThankYouMessage(); ArrayList<String> data =
-		 * finalPage.getFinalReceiptrData();
-		 */
-		/*
-		 * Reporter.log("LOG : INFO -Receipt Number is"+data.get(0));
-		 * Reporter.log("LOG : INFO -Customer AIA Number is : "+data.get(1));
-		 */
+		
+		  signUpPage.gotoMembershipSignUpPage(dataList.get(5));
+			/*
+			 * signUpPage.signUpUser();
+			 * mailinator.verifyEmailForAccountSetup(dataList.get(3));
+			 * closeButtnPage.clickCloseAfterVerification();
+			 * signInpage.login(dataList.get(5), dataList.get(6));
+			 * primaryInfoPage.enterPrimaryInfo("activeUSLicense", "Non profit");
+			 * orderSummaryPage.clickonPayInFull(); paymentInfoPage.enterCrditCardDetails();
+			 * finalPage.verifyThankYouMessage(); ArrayList<String> data =
+			 * finalPage.getFinalReceiptData();
+			 * Reporter.log("LOG : INFO -Receipt Number is"+data.get(0));
+			 * Reporter.log("LOG : INFO -Customer AIA Number is : "+data.get(1));
+			 */
+		  apiValidation.verifyMemebershipCreation("automation_xjtg11282022", DataProviderFactory.getConfig().getValue("termEndDate"), 638.0 ,DataProviderFactory.getConfig().getValue("type_aia_national"));
+		  apiValidation.verifySalesOrder("Paid", "Closed", 638.0, "Posted");
+		  apiValidation.verifyReciptDetails("0000105204", 638.0);
 	}
 
 

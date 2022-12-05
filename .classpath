@@ -13,9 +13,8 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5">
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7">
 		<attributes>
-			<attribute name="module" value="true"/>
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
@@ -24,12 +23,12 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/paggrawal/.m2/repository/io/github/bonigarcia/webdrivermanager/5.0.3/webdrivermanager-5.0.3.jar" sourcepath="C:/Users/paggrawal/.m2/repository/io/github/bonigarcia/webdrivermanager/5.0.3/webdrivermanager-5.0.3-sources.jar">
+	<classpathentry kind="lib" path="C:/Users/paggrawal/.m2/repository/io/github/bonigarcia/webdrivermanager/5.0.1/webdrivermanager-5.0.1.jar" sourcepath="C:/Users/paggrawal/.m2/repository/io/github/bonigarcia/webdrivermanager/5.0.1/webdrivermanager-5.0.1-sources.jar">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
 			<attribute name="maven.groupId" value="io.github.bonigarcia"/>
 			<attribute name="maven.artifactId" value="webdrivermanager"/>
-			<attribute name="maven.version" value="5.0.3"/>
+			<attribute name="maven.version" value="5.0.1"/>
 			<attribute name="maven.scope" value="compile"/>
 		</attributes>
 	</classpathentry>
