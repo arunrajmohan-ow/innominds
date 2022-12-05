@@ -27,10 +27,13 @@ public class OrderSummaryPage {
 	
 	
 	
-	public void clickonPayInFull()
+	public void clickonPayInFull() throws InterruptedException
 	{
+		Thread.sleep(10000);
 		util.waitUntilElement(driver, duesLabel);
+		Thread.sleep(10000);
 		util.waitUntilElement(driver, confirmLicense);
+		Thread.sleep(10000);
 		confirmLicense.click();
 		confirmTerms.click();
 		payInFull.click();

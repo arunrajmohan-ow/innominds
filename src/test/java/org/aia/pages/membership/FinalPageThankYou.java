@@ -36,7 +36,7 @@ WebDriver driver;
 		System.out.println("Thank you !  Message is Displayed");
 	}
 	
-	public ArrayList<String> getFinalReceiptrData() {
+	public ArrayList<String> getFinalReceiptData() {
 		
 		ArrayList<String> receiptData = new ArrayList<String>();
 		String receiptNumber = receiptNum.getText();
