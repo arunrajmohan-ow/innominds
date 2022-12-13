@@ -17,6 +17,7 @@ import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.io.FileHandler;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -214,6 +215,9 @@ public class Utility {
 		waitUntilElement(driver, ele);
 		ele.sendKeys(txt);
 	}
-	
-	
+
+	public void selectDropDownByText(WebElement element, String text) throws InterruptedException {
+		Select sel = new Select(element);
+		sel.selectByVisibleText(text);
+	}
 }

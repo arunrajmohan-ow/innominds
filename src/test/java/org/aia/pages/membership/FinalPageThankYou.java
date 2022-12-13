@@ -27,6 +27,7 @@ WebDriver driver;
 	
 	@FindBy(xpath="//body[@id='document']/span/table/tbody/tr[3]/td/table/tbody/tr/td[1]/table/tbody/tr[3]/td/table/tbody/tr[5]/td[2]") WebElement custAIANum;
 
+	@FindBy(xpath="//body[@id='document']/span/table/tbody/tr[3]/td/table/tbody/tr/td[1]/table/tbody/tr[3]/td/table/tbody/tr[6]/td[2]") WebElement totalAmount;
 	
 	
 	public void verifyThankYouMessage() throws InterruptedException {
@@ -36,14 +37,16 @@ WebDriver driver;
 		System.out.println("Thank you !  Message is Displayed");
 	}
 	
-	public ArrayList<String> getFinalReceiptData() {
+	public ArrayList<Object> getFinalReceiptData() {
 		
-		ArrayList<String> receiptData = new ArrayList<String>();
+		ArrayList<Object> receiptData = new ArrayList<Object>();
 		String receiptNumber = receiptNum.getText();
 		receiptData.add(0, receiptNumber);
 		String customerAIANumber = custAIANum.getText();
 		receiptData.add(1, customerAIANumber);
-		
+		Object totalAmnt = Double.valueOf(totalAmount.getText().replaceAll("[$]*","").trim());
+		receiptData.add(2, totalAmnt);
+		//$638.00
 		return receiptData;
 	}
 }
