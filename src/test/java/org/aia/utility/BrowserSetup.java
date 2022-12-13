@@ -37,7 +37,6 @@ public class BrowserSetup {
 		}
 		else if (browser.equalsIgnoreCase("safari")) {
 			driver = new SafariDriver();
-
 		}
         else  {
 			System.out.println("Browser version is not supported.");

@@ -1,9 +1,18 @@
 package org.aia.pages.api.membership;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import org.aia.utility.DataProviderFactory;
+import org.aia.utility.DateUtils;
 import org.aia.utility.Utility;
 import org.json.JSONObject;
 import org.openqa.selenium.WebDriver;
@@ -35,10 +44,11 @@ public class JoinAPIValidation
 	int retryCount = 0;
 	private static String accountID = null;
 	
-	FontevaConnection bt = new FontevaConnection(); 
+	static FontevaConnection bt = new FontevaConnection(); 
 	private static final String bearerToken = DataProviderFactory.getConfig().getValue("access_token");//bt.getbearerToken();;
+	//private static final String bearerToken = bt.getbearerToken();
 	
-	public void verifyMemebershipCreation(String memberAccount, String enddate, Object dues, String type) 
+	public void verifyMemebershipCreation(String memberAccount, String enddate, Object dues, String type, String MembershipTypeAssigned) 
 			throws InterruptedException	
 	{
 		// GET Account ID
@@ -73,7 +83,8 @@ public class JoinAPIValidation
 					 		+ "OrderApi__Status__c,"
 					 		+ "OrderApi__Activated_Date__c,"
 					 		+ "OrderApi__Paid_Through_Date__c,"
-					 		+ "OrderApi__Days_To_Lapse__c").
+					 		+ "OrderApi__Days_To_Lapse__c,"
+					 		+ "OrderApi__Item__c").
 					 when().get(SUBSCRIPTIONS_URI).
 					 then().statusCode(200).extract().response();
 	
@@ -96,6 +107,7 @@ public class JoinAPIValidation
 			Double termDues = jsonPathEval.getDouble("records[0].OrderApi__Term_Dues_Total__c");
 			String membershipType = jsonPathEval.getString("records[0].Membership_Type__c");
 			String membershipStatus = jsonPathEval.getString("records[0].OrderApi__Status__c");
+			String membershipItemID = jsonPathEval.getString("records[0].OrderApi__Item__c");
 	
 			System.out.println("=====================================");
 			System.out.println("Membership type :" + membershipType);
@@ -107,12 +119,41 @@ public class JoinAPIValidation
 			assertEquals(membershipStatus, "Active");
 			assertEquals(membershipType, type);
 			assertEquals(termEndDate, enddate);
-			assertEquals(termStartDate, "2022-11-28");//java.time.LocalDate.now().toString());
-			assertEquals(activatedDate, "2022-11-28");//java.time.LocalDate.now().toString());
+			assertEquals(termStartDate, java.time.LocalDate.now().toString());
+			assertEquals(activatedDate, java.time.LocalDate.now().toString());
 			assertEquals(paidThroughDate, enddate);//java.time.LocalDate.now().toString());
-			assertEquals(lapseDays, 398.0);
 			
-			//assertSame(termDues, dues);
+			SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
+			String inputString1 = termStartDate;
+			String inputString2 = paidThroughDate;
+			Object days = null;
+			try {
+			    Date date1 = myFormat.parse(inputString1);
+			    Date date2 = myFormat.parse(inputString2);
+			    long diff = date2.getTime() - date1.getTime();
+			    days = Double.valueOf(TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS)); 
+			    System.out.println ("Days: " + TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS));
+			} catch (ParseException e) {
+			    e.printStackTrace();
+			}
+			assertEquals(lapseDays, days);
+			
+			//AIA_Member_Type_Assignment
+			String Member_Type_Assignment_URI = "https://aia--w21upgrade.my.salesforce.com/services/data/v56.0/sobjects" + "/OrderApi__Item__c/" + membershipItemID;
+			Response response2 = 
+			    	 given().
+					 header("Authorization", "Bearer " + bearerToken).
+					 header("Content-Type",ContentType.JSON).
+					 header("Accept",ContentType.JSON).
+					 param("fields", "AIA_Member_Type_Assignment__c").
+					 when().get(Member_Type_Assignment_URI).
+					 then().statusCode(200).extract().response();
+	
+			jsonPathEval = response2.jsonPath();
+			
+			String AIA_Member_Type = jsonPathEval.getString("AIA_Member_Type_Assignment__c");
+			System.out.println("AIA_Member_Type_Assignment : " + AIA_Member_Type);
+			assertEquals(AIA_Member_Type, MembershipTypeAssigned);
 			
 		} else {
 			System.out.println("No active memberships found!!!");
@@ -156,11 +197,11 @@ public class JoinAPIValidation
 			System.out.println("Sales orders paid date :" + salesOrderPaidDate);
 			System.out.println("=====================================");
 	
-			assertEquals(salesOrderStatus, "Paid");
-			assertEquals(closedStatus, "Closed");
-			assertEquals(postingStatus, "Posted");
-			assertEquals(amountPaid, 638.0);
-			assertEquals(salesOrderPaidDate, "2022-11-28");//java.time.LocalDate.now().toString());
+			assertEquals(salesOrderStatus, orderPaidStatus);
+			assertEquals(closedStatus, closed);
+			assertEquals(postingStatus, posted);
+			assertEquals(amountPaid, dues);
+			assertEquals(salesOrderPaidDate, java.time.LocalDate.now().toString());
 			
 		} 
 		else {
@@ -168,7 +209,7 @@ public class JoinAPIValidation
 		}
 	}
 	
-	public void verifyReciptDetails(String receipt, Object feePaid) throws InterruptedException
+	public void verifyReciptDetails(Object receipt, Object feePaid) throws InterruptedException
 	{
 		// Use Account ID to fetch account details.
 		String RECIPTS_URI = ACCOUNT_URI + "/" + accountID + "/OrderApi__Receipts__r";
@@ -196,8 +237,8 @@ public class JoinAPIValidation
 			System.out.println("Total fee paid :" + totalFeePaid);
 			System.out.println("=====================================");
 	
-			assertEquals(receiptNumber, "0000105204");
-			assertEquals(totalFeePaid, 638.0);
+			assertEquals(receiptNumber, receipt);
+			assertEquals(totalFeePaid, feePaid);
 			
 		} 
 		else {

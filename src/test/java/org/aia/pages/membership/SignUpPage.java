@@ -76,20 +76,20 @@ public class SignUpPage {
 	 
 	public ArrayList<String> signUpData() throws Exception { 
 		
-		  fName = "AutoFn";
+		fName = "autofn"+RandomStringUtils.randomAlphabetic(4);
 		  list.add(0, fName);
 		  System.out.println(fName); 
-		  lName = "AutoLn";
+		  lName = "autoln"+RandomStringUtils.randomAlphabetic(4);
 		  list.add(1, lName);
-		  mobNumb = String.format("%06d", new Random().nextInt(10000));
+		  mobNumb = "012345"+String.format("%05d", new Random().nextInt(10000));
 		  list.add(2, mobNumb);
-		  System.out.println(mobNumb); 
+		  System.out.println(mobNumb);
 		  DateFormat dateFormat = new SimpleDateFormat("MMddyyyy");
 		  Date date = new Date();
 		  System.out.println(date.toString());
 		  String date1= dateFormat.format(date);
 		  System.out.println(date1);
-		  emailPrefix = "automation_"+RandomStringUtils.randomAlphabetic(4).toLowerCase()+date1;
+		  emailPrefix = "auto_"+RandomStringUtils.randomAlphabetic(4).toLowerCase()+date1;
 		  list.add(3, emailPrefix);
 		  emailDomain = "@architects-team.m8r.co";
 		  list.add(4, emailDomain);

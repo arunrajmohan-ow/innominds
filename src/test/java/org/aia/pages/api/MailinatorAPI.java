@@ -11,6 +11,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
@@ -30,6 +31,9 @@ public class MailinatorAPI {
 
 	String domain = "architects-team.m8r.co";
 	String msgId = "";
+	String bearerToken = "13779f35d3cc4108a0cf41ef417d183f";
+	String MAILINATOR_API = "https://api.mailinator.com/v2/domains/architects-team.m8r.co/inboxes/";
+	String MAILINATOR_INBOS_ENDPOINT = "https://mailinator.com/api/v2/domains/architects-team.m8r.co/inboxes/";
 	
 	@FindBy(xpath="//span[text()='SUCCESS']") WebElement successMessage;
 	
@@ -37,23 +41,17 @@ public class MailinatorAPI {
 		String inbox = emailPrefix;
 
 		JsonPath jsonPathEval = null;
-
-		String mailinator_uri = "https://api.mailinator.com/v2/domains/architects-team.m8r.co/inboxes/" + inbox;
-
-		String bearerToken = "13779f35d3cc4108a0cf41ef417d183f";
+		String mailinator_uri = MAILINATOR_API + inbox;
 		Thread.sleep(10000);
 
 		Response response =  RestAssured.given().headers("Content-Type", ContentType.JSON, "Accept", ContentType.JSON,"Authorization",bearerToken).when().get(mailinator_uri).then().extract().response();
-	
 		System.out.println(response.getBody().asPrettyString());
 
 		jsonPathEval = response.jsonPath();
-
 		String messageId = jsonPathEval.getString("msgs[0].id");
-
 		System.out.println("Message Id is "+messageId);
 
-		String message_uri = "https://mailinator.com/api/v2/domains/architects-team.m8r.co/inboxes/" + inbox
+		String message_uri = MAILINATOR_INBOS_ENDPOINT + inbox
 				+ "/messages/" + messageId + "/links";
 		 response =  RestAssured.given().headers("Content-Type", ContentType.JSON, "Accept", ContentType.JSON,"Authorization",bearerToken).when().get(message_uri).then().extract().response();
 
@@ -118,5 +116,58 @@ public class MailinatorAPI {
         
         return lnk;
 	}
-	
+
+	public void welcomeAIAEmailLink(ArrayList<String> dataList, ArrayList<String> receiptData) throws InterruptedException {
+		String inbox = dataList.get(3);
+
+		JsonPath jsonPathEval = null;
+
+		String mailinator_uri = MAILINATOR_API + inbox;
+		Thread.sleep(10000);
+
+		Response response =  RestAssured.given().headers("Content-Type",
+				ContentType.JSON, "Accept",
+				ContentType.JSON,"Authorization",
+				bearerToken).
+				when().
+				get(mailinator_uri).
+				then().
+				extract().response();
+		System.out.println(response.getBody().asPrettyString());
+
+		jsonPathEval = response.jsonPath();
+		String messageId = jsonPathEval.getString("msgs[0].id");
+		System.out.println("Message Id is "+messageId);
+
+		String message_uri = MAILINATOR_INBOS_ENDPOINT + inbox + "/messages/" + messageId + "/links";
+		 response =  RestAssured.given().
+				 headers("Content-Type", ContentType.JSON, "Accept", ContentType.JSON,"Authorization",bearerToken).when().get(message_uri).then().extract().response();
+
+		jsonPathEval = response.jsonPath();
+		Thread.sleep(5000);
+		
+		String value = response.path("parts[1].body").toString();
+		System.out.println("body is " + value);
+		
+		Assert.assertTrue(value.contains("Thanks for joining AIA!"));
+		Assert.assertTrue(value.contains(dataList.get(0)));
+		Assert.assertTrue(value.contains(dataList.get(1)));
+		Assert.assertTrue(value.contains(receiptData.get(1)));
+
+		String links_uri = "https://mailinator.com/api/v2/domains/architects-team.m8r.co/inboxes/" + inbox
+				+ "/messages/" + messageId + "/links";
+		 response =  RestAssured.given().headers("Content-Type", ContentType.JSON, "Accept", ContentType.JSON,"Authorization",bearerToken).when().get(links_uri).then().extract().response();
+
+		jsonPathEval = response.jsonPath();
+		Thread.sleep(5000);
+		
+		String link = jsonPathEval.getString("links[4]");
+
+		((JavascriptExecutor)driver).executeScript("window.open()");
+		ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
+		driver.switchTo().window(tabs.get(1));
+		driver.get(link);
+		util.waitUntilElement(driver, successMessage);		
+		driver.switchTo().window(tabs.get(0));
+	}
 }

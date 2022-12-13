@@ -32,7 +32,6 @@ public class PaymentInformation {
 	
 	@FindBy(xpath="//iframe[@title='Card number']") WebElement cardNumFrame2;
 	
-	
 	@FindBy(xpath="//input[@name='card_number']") WebElement cardNum;
 	
 	@FindBy(xpath="//select[@name='Exp month']") WebElement expMonth;
@@ -43,13 +42,18 @@ public class PaymentInformation {
 	
 	@FindBy(xpath="//button[@data-name='processBtn']") WebElement procssPaymntBtn;
 	
+	@FindBy(xpath="//*[@class=\"shopping-cart-summary-component\"]//li[1]//span/table/tbody/tr/td[4]/span/span/span") WebElement aiaNational;
+
 	
-	
-	public void enterCrditCardDetails() throws InterruptedException 
+	public String enterCrditCardDetails() throws InterruptedException 
 	{
 		util.waitUntilElement(driver, creditCard);
 		util.waitUntilElement(driver, cardNumFrame1);
+		
+		String aiaNatnl = aiaNational.getText();
+		
 		driver.switchTo().frame(cardNumFrame1);
+		Thread.sleep(2000);
 		driver.switchTo().frame(cardNumFrame2);
 		util.enterText(driver, cardNum, creditCardNum);
 		driver.switchTo().defaultContent();
@@ -61,6 +65,7 @@ public class PaymentInformation {
 		
 		chckBox.click();
 		procssPaymntBtn.click();
+		return aiaNatnl;
 	}
 	
 }

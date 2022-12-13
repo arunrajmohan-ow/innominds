@@ -106,9 +106,7 @@ public class BaseClass {
 		}
 		else if(result.getStatus()==ITestResult.FAILURE)
 		{
-			
-			
-
+			System.out.println("LOG : FAIL Test failed to executed");
 		}
 		else if(result.getStatus()==ITestResult.SKIP)
 		{

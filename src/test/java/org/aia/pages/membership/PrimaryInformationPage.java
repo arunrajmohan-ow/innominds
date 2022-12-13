@@ -2,12 +2,9 @@ package org.aia.pages.membership;
 
 import org.aia.utility.Utility;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.Select;
 import org.testng.Reporter;
 
 public class PrimaryInformationPage {
@@ -64,7 +61,6 @@ public class PrimaryInformationPage {
 	@FindBy(xpath="//label[text()='Zip Code']//following-sibling::div/input") WebElement zipCode2;
 
 	@FindBy(xpath="//p[text()='Next']//parent::span/parent::button") WebElement nextButn;
-	
 
 
 	/*
@@ -75,7 +71,6 @@ public class PrimaryInformationPage {
 	 * Allied(allied people like designers,plumbers etc)
 	 */
 	public void selfDescribe_selectRadioBtnByValue( String string) {
-
 		Utility.waitForWebElement(driver, welocomeToAIA, 10);
 		String radioBtnValue = string;
 		String value="";
@@ -102,9 +97,7 @@ public class PrimaryInformationPage {
 		Reporter.log("LOG : INFO -Membership Type : Allied member");
 		break;
 		}
-		
-	 driver.findElement(By.xpath("//span[text()= '"+value+"'] //parent::label")).click();
-
+		driver.findElement(By.xpath("//span[text()= '"+value+"'] //parent::label")).click();
 	}
 	
 	
@@ -122,7 +115,6 @@ public class PrimaryInformationPage {
 		WebElement e2 = Utility.waitForWebElement(driver, "//li[text()='"+careerType+"']", 10);
 		e2.click();
 	}
-
 
 	public void enterAddressDetails() throws InterruptedException {
 		util.enterText(driver, searchAddress, address);
@@ -151,10 +143,8 @@ public class PrimaryInformationPage {
 		else if(radbtnString.contentEquals("faculty")) {
 			selectCareerType(careerType);
 		}
-		
 		enterAddressDetails();
 		nextButn.click();
-		
 	}	
 
 }
