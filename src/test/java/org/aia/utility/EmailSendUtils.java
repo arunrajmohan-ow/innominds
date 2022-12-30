@@ -59,6 +59,10 @@ public class EmailSendUtils {
 		System.out.println("count_skippedTCs: " + count_skippedTCs);
 
 		return "<html>\r\n" + "\r\n" + " \r\n" + "\r\n"
+				+ "<head>\"Hello, "
+				+ ""
+				+ "We just got a new build to test."
+				+ "We have run a quick test to verify the Application is smooth and up. Please check the reports. <b>Here is a quick summary :</b> \"</head>"
 				+ "        <body> \r\n<table class=\"container\" align=\"center\" style=\"padding-top:20px\">\r\n<tr align=\"center\"><td colspan=\"4\"><h2>"
 				+ Constants.getProjectName() + "</h2></td></tr>\r\n<tr><td>\r\n\r\n"
 				+ "       <table style=\"background:#67c2ef;width:120px\" >\r\n"

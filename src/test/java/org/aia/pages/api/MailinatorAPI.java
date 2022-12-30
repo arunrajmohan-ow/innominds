@@ -117,7 +117,7 @@ public class MailinatorAPI {
         return lnk;
 	}
 
-	public void welcomeAIAEmailLink(ArrayList<String> dataList, ArrayList<String> receiptData) throws InterruptedException {
+	public void welcomeAIAEmailLink(ArrayList<String> dataList, ArrayList<Object> receiptData) throws InterruptedException {
 		String inbox = dataList.get(3);
 
 		JsonPath jsonPathEval = null;
@@ -139,7 +139,7 @@ public class MailinatorAPI {
 		String messageId = jsonPathEval.getString("msgs[0].id");
 		System.out.println("Message Id is "+messageId);
 
-		String message_uri = MAILINATOR_INBOS_ENDPOINT + inbox + "/messages/" + messageId + "/links";
+		String message_uri = MAILINATOR_INBOS_ENDPOINT + inbox + "/messages/" + messageId ;
 		 response =  RestAssured.given().
 				 headers("Content-Type", ContentType.JSON, "Accept", ContentType.JSON,"Authorization",bearerToken).when().get(message_uri).then().extract().response();
 
@@ -152,7 +152,7 @@ public class MailinatorAPI {
 		Assert.assertTrue(value.contains("Thanks for joining AIA!"));
 		Assert.assertTrue(value.contains(dataList.get(0)));
 		Assert.assertTrue(value.contains(dataList.get(1)));
-		Assert.assertTrue(value.contains(receiptData.get(1)));
+		Assert.assertTrue(value.contains((CharSequence) receiptData.get(1)));
 
 		String links_uri = "https://mailinator.com/api/v2/domains/architects-team.m8r.co/inboxes/" + inbox
 				+ "/messages/" + messageId + "/links";
@@ -162,12 +162,19 @@ public class MailinatorAPI {
 		Thread.sleep(5000);
 		
 		String link = jsonPathEval.getString("links[4]");
+		String finallink;
+		if(link.contains("apex")) {
+			finallink = link;
+		}else {
+			String link1 = jsonPathEval.getString("links[3]");
+			finallink = link1;
+		}
 
 		((JavascriptExecutor)driver).executeScript("window.open()");
 		ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
 		driver.switchTo().window(tabs.get(1));
-		driver.get(link);
-		util.waitUntilElement(driver, successMessage);		
+		driver.get(finallink);
+		//util.waitUntilElement(driver, successMessage);		
 		driver.switchTo().window(tabs.get(0));
 	}
 }

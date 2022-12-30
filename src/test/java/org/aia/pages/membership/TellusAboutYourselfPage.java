@@ -70,18 +70,26 @@ public class TellusAboutYourselfPage {
 	@FindBy(xpath="//label[text()='Zip code']/parent::div/following-sibling::div[1]//div/input") WebElement zipCodeTellpage;
 	
 	@FindBy(xpath="//button[text()='Next >']") WebElement nextBtnTellpage;
+	
+	@FindBy(xpath="//*[@name='HomePhone']") WebElement homephoneTellpage;
+	
+	@FindBy(xpath="//*[@name='OrderApi__Work_Phone__c']") WebElement workPhoneTellpage;
+	
+	@FindBy(xpath="//*[@name='OrderApi__Work_Email__c']") WebElement workEmailTellpage;
 
 	@FindBy(xpath="//h1[text()='Equity, diversity and inclusion']") WebElement EquityLabelEquityPage;
 	
 	@FindBy(xpath="//button[text()='Next >']") WebElement nextBtnEquitypage;
 	
+	@FindBy(xpath="//label[@id='careerType']//parent::div") WebElement careerTypedrpdwn;
 	
-	public void enterTellUsAboutYourSelfdetails(String text) throws InterruptedException {
-		if(text.contentEquals("allied")||text.contentEquals("noLicense")||text.contentEquals("graduate")
+	
+	public void enterTellUsAboutYourSelfdetails(String text, String careerType) throws InterruptedException {
+		if(text.contentEquals("noLicense")||text.contentEquals("graduate")
 				||text.contentEquals("axp")||text.contentEquals("faculty")) 
 		{
 			Thread.sleep(5000);
-			entercareerType();			
+			entercareerType(careerType);			
 			JavascriptExecutor js = (JavascriptExecutor) driver;
 			js.executeScript("window.scrollBy(0,900)", workBusinesChckboxTellpage);
 			clickonChckBox();
@@ -92,7 +100,7 @@ public class TellusAboutYourselfPage {
 		else if(text.contentEquals("activeUSLicense"))
 		{
 			Thread.sleep(3000);
-			entercareerType();
+			entercareerType(careerType);
 			enterLicenseDetails();			
 			clickonChckBox();
 			enterdetails(homecountryUnitedStates2Tellpage);
@@ -100,7 +108,7 @@ public class TellusAboutYourselfPage {
 		else if(text.contentEquals("activeNonUSLicense"))
 		{
 			Thread.sleep(3000);
-			entercareerType();
+			entercareerType(careerType);
 			enterLicenseDetailsNonUS();		
 			clickonChckBox();
 			enterdetails(homecountryUnitedStates2Tellpage);
@@ -109,8 +117,18 @@ public class TellusAboutYourselfPage {
 		else if(text.contentEquals("supervision"))
 		{
 			Thread.sleep(3000);
-			entercareerType();	
+			entercareerType(careerType);	
 			entersupervisorDetails();
+			JavascriptExecutor js = (JavascriptExecutor) driver;
+			js.executeScript("window.scrollBy(0,500)", workBusinesChckboxTellpage);
+			clickonChckBox();
+			enterdetails(homecountryUnitedStatesTellpage);
+		}
+		
+		else if(text.contentEquals("allied"))
+		{
+			Thread.sleep(5000);
+			entercareerType(careerType);			
 			JavascriptExecutor js = (JavascriptExecutor) driver;
 			js.executeScript("window.scrollBy(0,500)", workBusinesChckboxTellpage);
 			clickonChckBox();
@@ -120,14 +138,74 @@ public class TellusAboutYourselfPage {
 	}
 	
 	
-	public void entercareerType() throws InterruptedException {
+	public void enterFullTellUsAboutYourSelfdetails(String text, String careerType) throws InterruptedException {
+		if(text.contentEquals("noLicense")||text.contentEquals("graduate")
+				||text.contentEquals("axp")||text.contentEquals("faculty")) 
+		{
+			Thread.sleep(5000);
+			entercareerType(careerType);			
+			JavascriptExecutor js = (JavascriptExecutor) driver;
+			js.executeScript("window.scrollBy(0,900)", workBusinesChckboxTellpage);
+			clickonChckBox();
+			enterdetails(homecountryUnitedStatesTellpage);
+			
+		}
+		
+		else if(text.contentEquals("activeUSLicense"))
+		{
+			Thread.sleep(3000);
+			entercareerType(careerType);
+			enterLicenseDetails();			
+			clickonChckBox();
+			enterFullDetails(homecountryUnitedStates2Tellpage);
+		}
+		else if(text.contentEquals("activeNonUSLicense"))
+		{
+			Thread.sleep(3000);
+			entercareerType(careerType);
+			enterLicenseDetailsNonUS();		
+			clickonChckBox();
+			enterdetails(homecountryUnitedStates2Tellpage);
+		}
+		
+		else if(text.contentEquals("supervision"))
+		{
+			Thread.sleep(3000);
+			entercareerType(careerType);	
+			entersupervisorDetails();
+			JavascriptExecutor js = (JavascriptExecutor) driver;
+			js.executeScript("window.scrollBy(0,500)", workBusinesChckboxTellpage);
+			clickonChckBox();
+			enterdetails(homecountryUnitedStatesTellpage);
+		}
+		
+		else if(text.contentEquals("allied"))
+		{
+			Thread.sleep(5000);
+			entercareerType(careerType);			
+			JavascriptExecutor js = (JavascriptExecutor) driver;
+			js.executeScript("window.scrollBy(0,500)", workBusinesChckboxTellpage);
+			clickonChckBox();
+			enterdetails(homecountryUnitedStatesTellpage);
+		}
+		
+	}
+	
+	public void entercareerType(String careerType) throws InterruptedException {
 
 		Thread.sleep(3000);
 		util.waitUntilElement(driver, TellUsAbtLabelTellpage);
 		util.waitUntilElement(driver, CareeTypTellpage);	
+		Thread.sleep(1000);
 		CareeTypTellpage.click();
 		util.waitUntilElement(driver, nonProfitCarTypTellpage);	
-		nonProfitCarTypTellpage.click();
+		if(careerType.equalsIgnoreCase("Non profit")) {
+			nonProfitCarTypTellpage.click();
+		}
+		else {
+			WebElement e2 = Utility.waitForWebElement(driver, "//span/span[text()='"+careerType+"']", 10);
+			e2.click();
+		}
 	}
 	
 	public void enterLicenseDetails() throws InterruptedException {
@@ -247,7 +325,7 @@ public class TellusAboutYourselfPage {
 		
 		//act.moveToElement(nextBtnTellpage).click().build().perform();
 		nextBtnTellpage.click();
-		Thread.sleep(4000);
+		Thread.sleep(7000);
 		util.waitUntilElement(driver, EquityLabelEquityPage);
 		
 		util.waitUntilElement(driver, nextBtnEquitypage);
@@ -256,5 +334,57 @@ public class TellusAboutYourselfPage {
 	}
 	
 	
+	public void enterFullDetails(WebElement ele) throws InterruptedException 
+	{	
+		JavascriptExecutor js = (JavascriptExecutor) driver;
 
+		js.executeScript("window.scrollBy(0,03)", homecountryTellpage);
+		util.waitUntilElement(driver, homecountryTellpage);		
+		Thread.sleep(1000);
+		homecountryTellpage.click();	
+		
+		util.waitUntilElement(driver, ele);			
+		js.executeScript("window.scrollBy(0,30)", ele);
+		Actions act = new Actions(driver);
+		act.moveToElement(ele).click().build().perform();
+
+		Thread.sleep(1000);
+		js.executeScript("window.scrollBy(0,100)", homestreetTellpage);
+		
+		act.moveToElement(homestreetTellpage).click().build().perform();
+		act.moveToElement(homestreetTellpage).sendKeys("Jan Drive");
+		
+		act.moveToElement(homeCityTellpage).click().build().perform();
+		act.moveToElement(homeCityTellpage).sendKeys("La Mesa");
+		
+		util.waitUntilElement(driver, stateTellpage);
+		act.moveToElement(stateTellpage).click().build().perform();
+		
+		util.waitUntilElement(driver, californiaStateTellpage);
+
+		Thread.sleep(1000);
+		js.executeScript("window.scrollBy(0,50)", californiaStateTellpage);
+		act.moveToElement(californiaStateTellpage).click().build().perform();
+
+		Thread.sleep(1000);
+		js.executeScript("window.scrollBy(0,30)", zipCodeTellpage);
+		act.moveToElement(zipCodeTellpage).click().build().perform();
+		zipCodeTellpage.sendKeys("91942");
+		
+		js.executeScript("window.scrollBy(0,400)", homephoneTellpage);
+		homephoneTellpage.sendKeys("1122334567");
+		
+		js.executeScript("window.scrollBy(0,50)", workPhoneTellpage);
+		workPhoneTellpage.sendKeys("1122338976");
+		
+		js.executeScript("window.scrollBy(0,50)", workEmailTellpage);
+		workEmailTellpage.sendKeys("auto_abc@gmail.com");
+		
+		//act.moveToElement(nextBtnTellpage).click().build().perform();
+
+		util.waitUntilElement(driver, nextBtnTellpage);
+		nextBtnTellpage.click();
+		Thread.sleep(7000);
+	}
+	
 }

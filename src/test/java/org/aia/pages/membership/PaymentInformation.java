@@ -44,14 +44,38 @@ public class PaymentInformation {
 	
 	@FindBy(xpath="//*[@class=\"shopping-cart-summary-component\"]//li[1]//span/table/tbody/tr/td[4]/span/span/span") WebElement aiaNational;
 
+	@FindBy(xpath="//a[@id='completePayment']") WebElement completeOrder;
+
+
+	public String paymentDetails(String text ) throws InterruptedException {
+		String aiaNatnl = null;
+		if(text.contentEquals("noLicense")||text.contentEquals("graduate")
+				||text.contentEquals("axp")) 
+		{
+			//util.waitUntilElement(driver, completeOrder);
+			aiaNatnl =	enterCrditCardDetails();
+			Thread.sleep(30000);
+			//completeOrder.click();
+			Thread.sleep(30000);
+		}
+		else if(text.contentEquals("activeUSLicense")||text.contentEquals("activeNonUSLicense")||text.contentEquals("supervision")||text.contentEquals("faculty")
+				||text.contentEquals("allied")) {
+		 aiaNatnl =	enterCrditCardDetails();
+
+			Thread.sleep(10000);
+		}
+		
+		return aiaNatnl;
+	}
 	
 	public String enterCrditCardDetails() throws InterruptedException 
 	{
+		Thread.sleep(10000);
 		util.waitUntilElement(driver, creditCard);
 		util.waitUntilElement(driver, cardNumFrame1);
 		
 		String aiaNatnl = aiaNational.getText();
-		
+		util.waitUntilElement(driver, cardNumFrame1);
 		driver.switchTo().frame(cardNumFrame1);
 		Thread.sleep(2000);
 		driver.switchTo().frame(cardNumFrame2);

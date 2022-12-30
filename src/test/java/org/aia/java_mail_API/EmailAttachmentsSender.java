@@ -102,6 +102,7 @@ public class EmailAttachmentsSender {
 				    
 					// Create object to add multimedia type content
 					MimeMessage messageBodyPart1 = new MimeMessage( session );
+										
 					Multipart multipart = new MimeMultipart();
 					
 					// Set the body of email
@@ -109,10 +110,11 @@ public class EmailAttachmentsSender {
 					textPart.setText("Hello, We just got a new build to test" + "\n\nWe have run a quick test to verify the Application is smooth and up. Please check the reports. Here is a quick summary : ");
 					
 					MimeBodyPart htmlPart = new MimeBodyPart();
-					htmlPart.setContent(messageBodyPart1, "text/html");
-				    
+					htmlPart.setContent(message, "text/html");
+					multipart.addBodyPart(htmlPart);
+					
 					// Create another object to add another content
-					MimeBodyPart messageBodyPart2 = new MimeBodyPart();
+					MimeBodyPart messageBodyPart = new MimeBodyPart();
 		 
 					// Mention the file which you want to send
 					String filename = Constants.GENERATE_REPORT_PATH;
@@ -121,15 +123,19 @@ public class EmailAttachmentsSender {
 					DataSource source = new FileDataSource(filename);
 		 
 					// set the handler
-					messageBodyPart2.setDataHandler(new DataHandler(source));
+					messageBodyPart.setDataHandler(new DataHandler(source));
 		 
 					// set the file
-					messageBodyPart2.setFileName(filename);
+					try {
+						messageBodyPart.attachFile(filename);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 		 
 					// add body part 1
-					multipart.addBodyPart(messageBodyPart2);
-					multipart.addBodyPart(textPart);
-				    multipart.addBodyPart(htmlPart);
+				    multipart.addBodyPart(textPart);
+					multipart.addBodyPart(messageBodyPart);
 					
 					// set the content
 					message1.setContent(multipart);

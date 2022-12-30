@@ -36,7 +36,7 @@ public class GenerateReports {
 		extent = new ExtentReports();
 		extent.attachReporter(htmlReporter);
 		extent.setSystemInfo("Host Name", "AIA");
-		extent.setSystemInfo("Environment", "Staging-w21");
+		extent.setSystemInfo("Environment", "Testing-Sandbox");
 		extent.setSystemInfo("User Name", "Pallavi");
 
 		htmlReporter.config().setDocumentTitle("Test Execution Report");

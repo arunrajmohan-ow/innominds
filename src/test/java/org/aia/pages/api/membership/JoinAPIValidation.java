@@ -37,7 +37,7 @@ public class JoinAPIValidation
 
 	String PARAMETERIZED_SEARCH_URI = DataProviderFactory.getConfig().getValue("parameterizedSearch_uri");
 	String ACCOUNT_URI = DataProviderFactory.getConfig().getValue("account_uri");
-	String SALES_ORDER_URI = DataProviderFactory.getConfig().getValue("account_uri");
+	String SOBJECT_URI = DataProviderFactory.getConfig().getValue("sobject_uri");
 	String RECCIPT_URI = DataProviderFactory.getConfig().getValue("account_uri");
 	int totalMembershipCount = 0;
 	JsonPath jsonPathEval = null;
@@ -45,10 +45,10 @@ public class JoinAPIValidation
 	private static String accountID = null;
 	
 	static FontevaConnection bt = new FontevaConnection(); 
-	private static final String bearerToken = DataProviderFactory.getConfig().getValue("access_token");//bt.getbearerToken();;
-	//private static final String bearerToken = bt.getbearerToken();
+	//private static final String bearerToken = DataProviderFactory.getConfig().getValue("access_token");//bt.getbearerToken();;
+	private static final String bearerToken = bt.getbearerToken();
 	
-	public void verifyMemebershipCreation(String memberAccount, String enddate, Object dues, String type, String MembershipTypeAssigned) 
+	public void verifyMemebershipCreation(String memberAccount, String enddate, Object dues, String type, String MembershipTypeAssigned, String CareerType) 
 			throws InterruptedException	
 	{
 		// GET Account ID
@@ -84,7 +84,8 @@ public class JoinAPIValidation
 					 		+ "OrderApi__Activated_Date__c,"
 					 		+ "OrderApi__Paid_Through_Date__c,"
 					 		+ "OrderApi__Days_To_Lapse__c,"
-					 		+ "OrderApi__Item__c").
+					 		+ "OrderApi__Item__c, "
+					 		+ "OrderApi__Contact__c").
 					 when().get(SUBSCRIPTIONS_URI).
 					 then().statusCode(200).extract().response();
 	
@@ -108,6 +109,7 @@ public class JoinAPIValidation
 			String membershipType = jsonPathEval.getString("records[0].Membership_Type__c");
 			String membershipStatus = jsonPathEval.getString("records[0].OrderApi__Status__c");
 			String membershipItemID = jsonPathEval.getString("records[0].OrderApi__Item__c");
+			String contactID = jsonPathEval.getString("records[0].OrderApi__Contact__c");
 	
 			System.out.println("=====================================");
 			System.out.println("Membership type :" + membershipType);
@@ -139,7 +141,7 @@ public class JoinAPIValidation
 			assertEquals(lapseDays, days);
 			
 			//AIA_Member_Type_Assignment
-			String Member_Type_Assignment_URI = "https://aia--w21upgrade.my.salesforce.com/services/data/v56.0/sobjects" + "/OrderApi__Item__c/" + membershipItemID;
+			String Member_Type_Assignment_URI = SOBJECT_URI + "/OrderApi__Item__c/" + membershipItemID;
 			Response response2 = 
 			    	 given().
 					 header("Authorization", "Bearer " + bearerToken).
@@ -155,7 +157,26 @@ public class JoinAPIValidation
 			System.out.println("AIA_Member_Type_Assignment : " + AIA_Member_Type);
 			assertEquals(AIA_Member_Type, MembershipTypeAssigned);
 			
-		} else {
+			//AIA_Career_Type__c
+			String contact_URI = SOBJECT_URI + "/Contact/" + contactID;
+			Response response_contact = 
+			    	 given().
+					 header("Authorization", "Bearer " + bearerToken).
+					 header("Content-Type",ContentType.JSON).
+					 header("Accept",ContentType.JSON).
+					 param("fields", "AIA_Career_Type__c").
+					 when().get(contact_URI).
+					 then().statusCode(200).extract().response();
+
+			jsonPathEval = response_contact.jsonPath();
+			
+			String AIA_Career_Type = jsonPathEval.getString("AIA_Career_Type__c");
+			System.out.println("AIA_Career_Type : " + AIA_Career_Type);
+			assertEquals(AIA_Career_Type, CareerType);
+		} 
+		
+		else 
+		{
 			System.out.println("No active memberships found!!!");
 		}
    }

@@ -73,7 +73,7 @@ public class SignUpPage {
 			util.waitUntilElement(driver, createaccount);
 			createaccount.click();
 		}
-	 
+
 	public ArrayList<String> signUpData() throws Exception { 
 		
 		fName = "autofn"+RandomStringUtils.randomAlphabetic(4);
@@ -101,7 +101,6 @@ public class SignUpPage {
 		  return list;
 		  }
 	
-	
 	@Step("Enter user details and click on submit button")
 	public void signUpUser( ) throws Exception
 	{
@@ -127,9 +126,5 @@ public class SignUpPage {
 		  Thread.sleep(10000); driver.switchTo().defaultContent();*/
 		signUpSubmitbtn.click();
 	}
-	
-	
-	
-	
 	
 }
