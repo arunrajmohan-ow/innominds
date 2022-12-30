@@ -29,6 +29,8 @@ WebDriver driver;
 
 	@FindBy(xpath="//body[@id='document']/span/table/tbody/tr[3]/td/table/tbody/tr/td[1]/table/tbody/tr[3]/td/table/tbody/tr[6]/td[2]") WebElement totalAmount;
 	
+	String totalAmnt= null;
+	String finalPagetotal = null;
 	
 	public void verifyThankYouMessage() throws InterruptedException {
 		util.waitUntilElement(driver, frame);
@@ -37,16 +39,43 @@ WebDriver driver;
 		System.out.println("Thank you !  Message is Displayed");
 	}
 	
-	public ArrayList<Object> getFinalReceiptData() {
-		
+	public ArrayList<Object> getFinalReceiptData() {	
 		ArrayList<Object> receiptData = new ArrayList<Object>();
 		String receiptNumber = receiptNum.getText();
 		receiptData.add(0, receiptNumber);
 		String customerAIANumber = custAIANum.getText();
 		receiptData.add(1, customerAIANumber);
+		totalAmnt = totalAmount.getText();	
+		int i  = totalAmnt.indexOf(".");
+		finalPagetotal = totalAmnt.substring(1, i);
 		Object totalAmnt = Double.valueOf(totalAmount.getText().replaceAll("[$]*","").trim());
 		receiptData.add(2, totalAmnt);
-		//$638.00
+		receiptData.add(3, finalPagetotal);
 		return receiptData;
 	}
+	
+	public void ValidateTotalAmount(String totalMembership) {
+		String Ototal= null;
+		if(totalMembership.contentEquals("$ 0")) 
+		{
+			 Ototal = totalMembership.substring(2);
+		}
+		else 
+		{
+		int i  = totalMembership.indexOf(".");
+		String t = totalMembership.substring(2, i);
+		
+		int amnt =  Integer.parseInt(t) + 40;
+		int total = amnt/6;
+		Ototal = Integer.toString(total);
+		
+		System.out.println("Total amount is "+ Ototal);
+		}
+		if(finalPagetotal.contentEquals(Ototal)) 
+		{
+			System.out.println("Total amount is validated");
+		}
+	}
+
 }
+	

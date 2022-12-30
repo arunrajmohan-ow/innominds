@@ -44,7 +44,4 @@ public class SignInPage {
 		submitbtn.click();			
 	}
 
-
-	
-
 }

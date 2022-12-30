@@ -32,6 +32,21 @@ public class OrderSummaryPage {
 	//Testing Env
 	@FindBy(xpath="//p[text()='Pay now']") WebElement payNowBtn;
 	
+	@FindBy(xpath="//*[@id='menu-subscriptionPlanId']/div[3]/ul/li[1]/text()") WebElement devpayinFull;
+	
+	@FindBy(xpath="//*[@id='menu-subscriptionPlanId']/div[3]/ul/li[2]") WebElement sixInstallments;
+	
+	@FindBy(xpath="//input[@id='confirmInstallments']/parent::span") WebElement confirmInstallments;
+	
+	@FindBy(xpath="//form/table[2]/tbody/tr/td[2]") WebElement totalMembershipDues;
+	
+	@FindBy(xpath="//label[text()='Installments']/following-sibling::div/div") WebElement Installments;	
+	
+	@FindBy(xpath="//p[text()='Pay offline']") WebElement payoffline;
+	
+	@FindBy(xpath="//span[text()='ArchiPAC donation']/preceding-sibling::span") WebElement pacChkBx;
+	
+	@FindBy(xpath="//*[@id=\"root\"]/div/div/div/div[2]/div[1]/form/table[3]/tbody/tr/td[2]/span") WebElement pacValue;
 	
 	public void confirmTerms(String text) throws InterruptedException {
 		if(text.contentEquals("activeNonUSLicense")||text.contentEquals("supervision")||text.contentEquals("noLicense")||text.contentEquals("graduate")
@@ -77,6 +92,13 @@ public class OrderSummaryPage {
 		payNowBtn.click();
 	}
 	
+	public void clickonPayOffline()
+	{
+		payoffline.click();
+		
+	}
+
+	// Staging Env 
 	public void clickonPayInInstallments()
 	{
 		util.waitUntilElement(driver, duesLabel);
@@ -85,5 +107,54 @@ public class OrderSummaryPage {
 		payInInstallments.click();
 	}
 	
+	// Testing Env 
+	public String payInInstallmentsClick(String text) throws InterruptedException
+	{	
+		String totalMembership= null;
+
+		if(text.contentEquals("activeUSLicense")||text.contentEquals("allied"))
+		{
+			util.waitUntilElement(driver, Installments);
+			totalMembership = totalMembershipDues.getText();
+			Installments.click();
+			sixInstallments.click();
+			util.waitUntilElement(driver, confirmInstallments);
+			confirmInstallments.click();
+		}
+		
+		if(text.contentEquals("graduate")||text.contentEquals("axp")||text.contentEquals("noLicense")||text.contentEquals("supervision")
+				||text.contentEquals("faculty"))
+		{
+
+			totalMembership = totalMembershipDues.getText();
+			System.out.println("Continue");
+		}
+		
+		if(text.contentEquals("activeNonUSLicense"))
+		{
+			totalMembership = totalMembershipDues.getText();
+			Installments.click();
+			sixInstallments.click();
+			util.waitUntilElement(driver, confirmInstallments);
+			confirmInstallments.click();
+		}
+		payNowBtn.click();
+		Thread.sleep(5000);
+		
+		return totalMembership;
+	}
 	
+	public int GetPacDonationAmount() {
+		String pac = pacValue.getText();
+		int i  = pac.indexOf(".");
+		String p = pac.substring(2, i);
+		pacChkBx.click();
+		String total = totalMembershipDues.getText();
+		 i  = total.indexOf(".");
+		String t = total.substring(2, i);
+		
+		int amnt =  Integer.parseInt(t) + Integer.parseInt(p);
+		return amnt;
+	}
+
 }

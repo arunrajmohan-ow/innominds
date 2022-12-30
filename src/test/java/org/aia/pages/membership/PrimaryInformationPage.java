@@ -33,7 +33,6 @@ public class PrimaryInformationPage {
 		this.driver = IDriver;
 	}
 	
-	
 	@FindBy(xpath="//h1[text()= 'Welcome to AIA']") WebElement welocomeToAIA;
 		
 	@FindBy(xpath="//div[@id='country']") WebElement licenseCountry;
@@ -86,12 +85,16 @@ public class PrimaryInformationPage {
 		Reporter.log("LOG : INFO - Membership Type :  Associate member.");
 		break;
 		case "axp":  				value= "I am enrolled in AXP.";
+		Reporter.log("LOG : INFO - Membership Type :  Associate.");
 		break;
 		case "noLicense":  			value= "I am not licensed, but I have an architecture degree.";
+		Reporter.log("LOG : INFO - Membership Type :  Associate.");
 		break;
 		case "supervision":  		value= "I do not have an architecture degree, but I am working under the supervision of a licensed architect.";
+		Reporter.log("LOG : INFO - Membership Type :  Associate.");
 		break;
 		case "faculty":  			value= "I am a faculty member in an architecture program.";
+		Reporter.log("LOG : INFO - Membership Type :  Associate.");
 		break;
 		case "allied":  			value= "I am an allied professional.";
 		Reporter.log("LOG : INFO -Membership Type : Allied member");
