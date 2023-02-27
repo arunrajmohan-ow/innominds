@@ -42,11 +42,28 @@ public class PaymentInformation {
 	
 	@FindBy(xpath="//button[@data-name='processBtn']") WebElement procssPaymntBtn;
 	
+	@FindBy(xpath="//button[text()='Process payment']") WebElement processPaymnt;
+	
 	@FindBy(xpath="//*[@class=\"shopping-cart-summary-component\"]//li[1]//span/table/tbody/tr/td[4]/span/span/span") WebElement aiaNational;
 
 	@FindBy(xpath="//a[@id='completePayment']") WebElement completeOrder;
+	
+	@FindBy(xpath="//li[@title=\"Credit card\"]/a") WebElement creditCardLink;
 
 
+	public void clickOnProcesspaymnt() {
+		
+		util.waitUntilElement(driver, processPaymnt);
+		processPaymnt.click();
+		
+	}
+	
+	public void clickOnCreditCard() {
+		
+		util.waitUntilElement(driver, creditCard);
+		creditCard.click();
+		
+	}
 	public String paymentDetails(String text ) throws InterruptedException {
 		String aiaNatnl = null;
 		if(text.contentEquals("noLicense")||text.contentEquals("graduate")
@@ -70,7 +87,7 @@ public class PaymentInformation {
 	
 	public String enterCrditCardDetails() throws InterruptedException 
 	{
-		Thread.sleep(10000);
+		Thread.sleep(20000);
 		util.waitUntilElement(driver, creditCard);
 		util.waitUntilElement(driver, cardNumFrame1);
 		

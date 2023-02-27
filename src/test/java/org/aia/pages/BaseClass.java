@@ -7,6 +7,7 @@ import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.DataProviderFactory;
 import org.aia.utility.GenerateReports;
 import org.aia.utility.Utility;
+import org.aia.utility.Logging;
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestResult;
 import org.testng.Reporter;
@@ -31,6 +32,7 @@ public class BaseClass {
 	protected Utility util;
 	public static ExtentHtmlReporter htmlReporter;
 	public static GenerateReports reports;
+	// Configure Log4j to perform error logging
 	
 	@BeforeSuite
 	public void setup()

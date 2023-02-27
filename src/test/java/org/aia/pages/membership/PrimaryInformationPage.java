@@ -12,21 +12,28 @@ public class PrimaryInformationPage {
 	
 	WebDriver driver;
 	Utility util = new Utility(driver, 30);
-	String zipCode = "91942";
+	String zipCode = "38671";
 	String licenseDate = "12/03/2021";
 	String graduateDate = "12/03/2021";
-	String address = "Jan Drive, La Mesa, CA, USA";
-	String addressStreet = "Jan Dr";
-	String addressCity = "La Mesa";
-	String addressState = "CA";
+	String address = "Main Street, Southaven, MS, USA";
+	String addressStreet = "Main St";
+	String addressCity = "Southaven";
+	String addressState = "MS";
 	String addressCountry = "United States";
-	String addressZipCode = "91942";
+	String addressZipCode = "38671";
 	String CREDIT_CARD_NUMBER = "4111111111111111";
 	String CREDIT_CARD_EXP_MONTH = "02";
 	String CREDIT_CARD_EXP_YEAR = "2027";
 	String LICENSE_EXP_DATE = "Dec 3, 2029";
 	String LICENSE_NUMBER = "123456";
 	String LICENSE_COUNTRY = "Afganisthan";
+	
+	String zipCodepac = "94107";
+	String addresspac = "San Francisco, CA 94107, USA";
+	String addressStreetpac = "Main St";
+	String addressCitypac = "San Francisco";
+	String addressStatepac = "CA";
+	String addressZipCodepac = "94107";
 	
 	public PrimaryInformationPage(WebDriver IDriver) 
 	{
@@ -69,8 +76,9 @@ public class PrimaryInformationPage {
 	 * International(foreign members holding architecture license)
 	 * Allied(allied people like designers,plumbers etc)
 	 */
-	public void selfDescribe_selectRadioBtnByValue( String string) {
-		Utility.waitForWebElement(driver, welocomeToAIA, 10);
+	public void selfDescribe_selectRadioBtnByValue( String string) throws InterruptedException {
+		Thread.sleep(5000);
+		Utility.waitForWebElement(driver, welocomeToAIA, 20);
 		String radioBtnValue = string;
 		String value="";
 		switch(radioBtnValue)
@@ -147,6 +155,37 @@ public class PrimaryInformationPage {
 			selectCareerType(careerType);
 		}
 		enterAddressDetails();
+		nextButn.click();
+	}
+	
+	public void enterAddressDetails_pac() throws InterruptedException {
+		util.enterText(driver, searchAddress, addresspac);
+		util.enterText(driver, streetAddress, addressStreetpac);
+		util.enterText(driver, city, addressCitypac);
+		util.enterText(driver, state, addressStatepac);
+		util.enterText(driver, country2, addressCountry);
+		util.enterText(driver, zipCode2, zipCodepac);
+	}
+	
+	public void enterPrimaryInfo_pac(String radbtnString, String careerType) throws InterruptedException {
+		selfDescribe_selectRadioBtnByValue(radbtnString);
+		if (!radbtnString.contentEquals("allied")) {
+			selectCountry();
+			util.enterText(driver, zipCode1, zipCodepac);
+		}
+		
+		if(radbtnString.contentEquals("activeUSLicense")||radbtnString.contentEquals("activeNonUSLicense"))
+		{
+			util.enterText(driver, originalLicenseDate, licenseDate);
+			selectCareerType(careerType);
+		} 
+		else if(radbtnString.contentEquals("graduate")||radbtnString.contentEquals("axp")||radbtnString.contentEquals("noLicense")) {
+			util.enterText(driver, gradDate, graduateDate);
+		} 
+		else if(radbtnString.contentEquals("faculty")) {
+			selectCareerType(careerType);
+		}
+		enterAddressDetails_pac();
 		nextButn.click();
 	}	
 

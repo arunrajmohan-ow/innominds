@@ -48,17 +48,18 @@ WebDriver driver;
 		totalAmnt = totalAmount.getText();	
 		int i  = totalAmnt.indexOf(".");
 		finalPagetotal = totalAmnt.substring(1, i);
-		Object totalAmnt = Double.valueOf(totalAmount.getText().replaceAll("[$]*","").trim());
-		receiptData.add(2, totalAmnt);
+		String totalAmnt = totalAmount.getText().replaceAll("[$]*","").trim();
+		Object totalAmnt1 = Double.valueOf(((String) totalAmnt).replaceAll(",","").trim()); 
+		receiptData.add(2, totalAmnt1);
 		receiptData.add(3, finalPagetotal);
 		return receiptData;
 	}
 	
 	public void ValidateTotalAmount(String totalMembership) {
-		String Ototal= null;
+		String total= null;
 		if(totalMembership.contentEquals("$ 0")) 
 		{
-			 Ototal = totalMembership.substring(2);
+			total = totalMembership.substring(2);
 		}
 		else 
 		{
@@ -66,14 +67,27 @@ WebDriver driver;
 		String t = totalMembership.substring(2, i);
 		
 		int amnt =  Integer.parseInt(t) + 40;
-		int total = amnt/6;
-		Ototal = Integer.toString(total);
+		int totalamt = amnt/6;
+		total = Integer.toString(totalamt);
 		
-		System.out.println("Total amount is "+ Ototal);
+		System.out.println("Total amount is "+ total);
 		}
-		if(finalPagetotal.contentEquals(Ototal)) 
+		if(finalPagetotal.contentEquals(total)) 
 		{
 			System.out.println("Total amount is validated");
+		}
+	}
+	
+	public void ValidatePacAndTotal(int pac) {
+		
+		totalAmnt = totalAmount.getText();	
+		int i  = totalAmnt.indexOf(".");
+		String t = totalAmnt.substring(1, i);
+		int finalPagetotal =  Integer.parseInt(t);
+		
+		if(finalPagetotal==pac) 
+		{
+			System.out.println("Total amount with PAC is same");
 		}
 	}
 

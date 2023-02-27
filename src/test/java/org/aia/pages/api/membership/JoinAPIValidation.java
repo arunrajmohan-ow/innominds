@@ -195,7 +195,8 @@ public class JoinAPIValidation
 				 		+ "OrderApi__Status__c,"
 				 		+ "OrderApi__Posting_Status__c,"
 				 		+ "OrderApi__Amount_Paid__c,"
-				 		+ "OrderApi__Paid_Date__c").
+				 		+ "OrderApi__Date__c, "
+				 		+ "AIA_National_Subscription_Plan__c").
 				 when().get(SALESORDER_URI).
 				 then().statusCode(200).extract().response();
 
@@ -208,14 +209,16 @@ public class JoinAPIValidation
 			String salesOrderStatus = jsonPathEval.getString("records[0].OrderApi__Sales_Order_Status__c");
 			String postingStatus = jsonPathEval.getString("records[0].OrderApi__Posting_Status__c");
 			Object amountPaid = jsonPathEval.getDouble("records[0].OrderApi__Amount_Paid__c");
-			String salesOrderPaidDate = jsonPathEval.getString("records[0].OrderApi__Paid_Date__c");
+			String salesOrderPaidDate = jsonPathEval.getString("records[0].OrderApi__Date__c");
+			String subscriptionPlan = jsonPathEval.getString("records[0].AIA_National_Subscription_Plan__c");
 	
 			System.out.println("=====================================");
 			System.out.println("Status :" + closedStatus);
 			System.out.println("Status of Sales orders :" + salesOrderStatus);
 			System.out.println("Sales orders Posting Status :" + postingStatus);
 			System.out.println("Sales orders amount paid :" + amountPaid);
-			System.out.println("Sales orders paid date :" + salesOrderPaidDate);
+			System.out.println("Sales orders date :" + salesOrderPaidDate);
+			System.out.println("Sales orders Subscription_Plan :" + subscriptionPlan);
 			System.out.println("=====================================");
 	
 			assertEquals(salesOrderStatus, orderPaidStatus);
@@ -223,6 +226,9 @@ public class JoinAPIValidation
 			assertEquals(postingStatus, posted);
 			assertEquals(amountPaid, dues);
 			assertEquals(salesOrderPaidDate, java.time.LocalDate.now().toString());
+			if(postingStatus.equalsIgnoreCase("unpaid")) {
+				assertEquals(subscriptionPlan, "Dues Installment Plan - 6 Installments");
+			}
 			
 		} 
 		else {

@@ -15,7 +15,7 @@ This framework supports the API and UI automation through Selenium and Rest Assu
 ###### Prerequisite 
 1. Selenium - Version 4 or higher
 2. Rest Assured - Version 4.4.0 or higher
-3. Java - Version 1.8 or higher
+3. Java - Version 1.7 or higher
 4. TestNG Plugin - Latest
 5. Maven
 6. Jenkins
