@@ -193,7 +193,7 @@ public class TellusAboutYourselfPage {
 	
 	public void entercareerType(String careerType) throws InterruptedException {
 
-		Thread.sleep(3000);
+		Thread.sleep(20000);
 		util.waitUntilElement(driver, TellUsAbtLabelTellpage);
 		util.waitUntilElement(driver, CareeTypTellpage);	
 		Thread.sleep(1000);
@@ -325,7 +325,7 @@ public class TellusAboutYourselfPage {
 		
 		//act.moveToElement(nextBtnTellpage).click().build().perform();
 		nextBtnTellpage.click();
-		Thread.sleep(7000);
+		Thread.sleep(15000);
 		util.waitUntilElement(driver, EquityLabelEquityPage);
 		
 		util.waitUntilElement(driver, nextBtnEquitypage);

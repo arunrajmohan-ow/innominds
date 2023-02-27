@@ -68,7 +68,6 @@ public class MailinatorAPI {
 		driver.switchTo().window(tabs.get(0));
 
 	}
-
 	
 	public String GetLinks(ArrayList<String> dataList) 
 	{
@@ -174,6 +173,71 @@ public class MailinatorAPI {
 		ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
 		driver.switchTo().window(tabs.get(1));
 		driver.get(finallink);
+		//util.waitUntilElement(driver, successMessage);		
+		driver.switchTo().window(tabs.get(0));
+	}
+
+	public void thanksForRenewingEmailLink(ArrayList<String> dataList, ArrayList<Object> receiptData) throws InterruptedException {
+		String inbox = dataList.get(3);
+
+		JsonPath jsonPathEval = null;
+
+		String mailinator_uri = MAILINATOR_API + inbox;
+		Thread.sleep(10000);
+
+		Response response =  RestAssured.given().headers("Content-Type",
+				ContentType.JSON, "Accept",
+				ContentType.JSON,"Authorization",
+				bearerToken).
+				when().
+				get(mailinator_uri).
+				then().
+				extract().response();
+		System.out.println(response.getBody().asPrettyString());
+
+		jsonPathEval = response.jsonPath();
+		String messageId = jsonPathEval.getString("msgs[0].id");
+		String messageSubject = jsonPathEval.getString("msgs[0].subject");
+		System.out.println("Message Id is "+messageId);
+		System.out.println("Member got renewed "+messageSubject);
+		Assert.assertTrue(messageSubject.contains("Thanks for renewing your AIA membership"));
+
+		String message_uri = MAILINATOR_INBOS_ENDPOINT + inbox + "/messages/" + messageId ;
+		 response =  RestAssured.given().
+				 headers("Content-Type", ContentType.JSON, "Accept", ContentType.JSON,"Authorization",bearerToken).when().get(message_uri).then().extract().response();
+
+		jsonPathEval = response.jsonPath();
+		Thread.sleep(5000);
+		
+		String value = response.path("parts[1].body").toString();
+		System.out.println("body is " + value);
+		
+		Assert.assertTrue(value.contains("your AIA membership. By renewing"));
+		Assert.assertTrue(value.contains(dataList.get(0)));
+		Assert.assertTrue(value.contains(dataList.get(1)));
+		Assert.assertTrue(value.contains((CharSequence) receiptData.get(1)));
+
+		String links_uri = "https://mailinator.com/api/v2/domains/architects-team.m8r.co/inboxes/" + inbox
+				+ "/messages/" + messageId + "/links";
+		 response =  RestAssured.given().headers("Content-Type", ContentType.JSON, "Accept", ContentType.JSON,"Authorization",bearerToken).when().get(links_uri).then().extract().response();
+
+		jsonPathEval = response.jsonPath();
+		Thread.sleep(5000);
+		
+		String link = jsonPathEval.getString("links[4]");
+		String finallink;
+		if(link.contains("apex")) {
+			finallink = link;
+		}else {
+			String link1 = jsonPathEval.getString("links[3]");
+			finallink = link1;
+		}
+
+		((JavascriptExecutor)driver).executeScript("window.open()");
+		ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
+		driver.switchTo().window(tabs.get(1));
+		driver.get(finallink);
+		// Bug
 		//util.waitUntilElement(driver, successMessage);		
 		driver.switchTo().window(tabs.get(0));
 	}

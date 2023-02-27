@@ -33,15 +33,15 @@ public class SignInPage {
 	
 	
 	@Test(priority= 1, description="Enter credentials with username {0} and password {1} and click on submit button")
-	public void login(String uname,String pwd)
+	public void login(String uname,String pwd) throws InterruptedException
 	{
+		Thread.sleep(5000);
 		util.waitUntilElement(driver, emailAddress);
 		System.out.println("Waiting for the email text field to appear");
-		
 		System.out.println("Email Text field displayed");
 		emailAddress.sendKeys(uname);
 		password.sendKeys(pwd);
-		submitbtn.click();			
+		submitbtn.click();		
 	}
 
 }

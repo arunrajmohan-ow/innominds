@@ -40,7 +40,7 @@ public class GenerateReports {
 		extent.setSystemInfo("User Name", "Pallavi");
 
 		htmlReporter.config().setDocumentTitle("Test Execution Report");
-		htmlReporter.config().setReportName("AIA autoation Test");
+		htmlReporter.config().setReportName("AIA automation Test");
 		htmlReporter.config().setTestViewChartLocation(ChartLocation.TOP);
 		htmlReporter.config().setTheme(Theme.STANDARD);
 	}
