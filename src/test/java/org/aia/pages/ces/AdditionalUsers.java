@@ -26,7 +26,7 @@ WebDriver driver;
 	
 	@FindBy(xpath="//input[@value='newUser']/following-sibling::label/span[1]") WebElement createnewUserRdobtn;
 	
-	@FindBy(xpath="//input[@value='noUser']/following-sibling::label/span") WebElement doneCreatingUsers;
+	@FindBy(xpath="//input[@value='noUser']/following-sibling::label/span[1]") WebElement doneCreatingUsers;
 	
 	@FindBy(xpath="//div/button[1]/text()/parent::button") WebElement additionalPrevious;
 	
@@ -45,8 +45,9 @@ WebDriver driver;
 		additionalNext.click();
 	}
 	
-	public void doneWithCreatingUsers() {
+	public void doneWithCreatingUsers() throws Exception {
 		util.waitUntilElement(driver, doneCreatingUsers);
+		Thread.sleep(2000);
 		doneCreatingUsers.click();
 		additionalNext.click();
 	}
