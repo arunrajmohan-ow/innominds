@@ -121,6 +121,4 @@ public class DevSandBoxFonteva {
 		act.sendKeys(Keys.F5);
 		Thread.sleep(5000);
 	}
-	
-	
 }

@@ -1,6 +1,12 @@
 package org.aia.utility;
 
+import java.io.File;
 import java.io.IOException;
+
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.io.FileHandler;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
@@ -40,7 +46,7 @@ public class GenerateReports {
 		extent.setSystemInfo("User Name", "Pallavi");
 
 		htmlReporter.config().setDocumentTitle("Test Execution Report");
-		htmlReporter.config().setReportName("AIA automation Test");
+		htmlReporter.config().setReportName("Fonteva Ops Automation Test results");
 		htmlReporter.config().setTestViewChartLocation(ChartLocation.TOP);
 		htmlReporter.config().setTheme(Theme.STANDARD);
 	}
@@ -78,5 +84,4 @@ public class GenerateReports {
 		
 		logger.addScreenCaptureFromPath(path);
 	}
-
 }
