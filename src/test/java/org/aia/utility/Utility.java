@@ -7,6 +7,8 @@ import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -59,7 +61,7 @@ public class Utility {
 		return wait.until(ExpectedConditions.alertIsPresent()).getText();
 	}
 	
-	public static String captureScreenshot(WebDriver driver)
+	public static String captureScreenshotld(WebDriver driver)
 	{
 		
 		TakesScreenshot ts=(TakesScreenshot)driver;
@@ -84,25 +86,22 @@ public class Utility {
 	
 	public static String captureScreenshotFromBase64(WebDriver driver)
 	{
-	
 		String newBase=null;
 		TakesScreenshot ts=(TakesScreenshot)driver;
-				
 		try 
 		{
 
-	String mybase=	ts.getScreenshotAs(OutputType.BASE64);
-		
-	newBase="data:image/png;base64,"+mybase;
-	
-	System.out.println(mybase);
+			String mybase=	ts.getScreenshotAs(OutputType.BASE64);
+				
+			newBase="data:image/png;base64,"+mybase;
+			
+			System.out.println(mybase);
 	
 		} 
 		catch (WebDriverException e) 
 		{
-		System.out.println("Unable to capture screenshots "+e.getMessage());
+			System.out.println("Unable to capture screenshots "+e.getMessage());
 		} 
-		
 		return newBase;
 	}
 	
@@ -213,11 +212,69 @@ public class Utility {
 	
 	public void enterText(WebDriver driver, WebElement ele, String txt) throws InterruptedException {
 		waitUntilElement(driver, ele);
+		ele.clear();
 		ele.sendKeys(txt);
 	}
 
 	public void selectDropDownByText(WebElement element, String text) throws InterruptedException {
 		Select sel = new Select(element);
 		sel.selectByVisibleText(text);
+	}
+	
+	public String getSubString(String text, String textpattern) {
+		// Custom input
+        String string1
+            = "Payment Method Receipt Number: 0000218551 Posted Date";
+ 
+        // Paranthesis indicate it is a group and signifies
+        // it can have substring enclosed in single quote
+        Pattern p;
+        if(textpattern.isBlank() || textpattern.isEmpty()) {
+        	p = Pattern.compile(".+:(.+) Posted Date");
+        }else {
+        	p = Pattern.compile(textpattern);
+        }
+        // This method returns a pattern object
+ 
+        // Calling matcher() method of pattern object
+        // and passing input character sequence
+        Matcher m1 = p.matcher(string1);
+ 
+        // Printing complete entered string 1
+        System.out.println("String to be extracted : "
+                           + string1);
+ 
+        // Condition check using matches() method which
+        // looks out for content if any in single quote
+        if (m1.matches()) {
+ 
+            // Print the required sub-string
+            System.out.println("Extracted part         : "
+                               + m1.group(1));
+            return m1.group(1);
+        }
+        else {
+        	System.out.println("Extracted part not matched,");
+        	return null;
+        }
+	}
+	
+	public static String captureScreenshotbase64(WebDriver driver) {
+		TakesScreenshot screenshot = (TakesScreenshot) driver;
+		String base64code = screenshot.getScreenshotAs(OutputType.BASE64);
+		return base64code;
+	}
+
+	public static String captureScreenshot(WebDriver driver) {
+		TakesScreenshot screenshot = (TakesScreenshot) driver;
+		File sourceFile = screenshot.getScreenshotAs(OutputType.FILE);
+		File sspath = new File(System.getProperty("user.dir") + "/ScreenShots/" + "AIA_" + getCurrentDateTime() + ".png");
+		try 
+		{
+			FileHandler.copy(sourceFile, sspath);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return sspath.getAbsolutePath();
 	}
 }

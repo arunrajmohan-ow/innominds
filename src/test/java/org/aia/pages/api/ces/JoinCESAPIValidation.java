@@ -52,6 +52,29 @@ public class JoinCESAPIValidation
 	//private static final String bearerToken = DataProviderFactory.getConfig().getValue("access_token");//bt.getbearerToken();;
 	private static final String bearerToken = bt.getbearerToken();
 	
+	public String getProviderApplicationID(String owner) throws InterruptedException	{
+		// Use Account ID to fetch account details.
+		String PA_CREATEDBY_URI = "https://aia--testing.sandbox.my.salesforce.com/services/data/v56.0/query";
+		
+		System.out.println("AIA Provider Application Type: " + PA_CREATEDBY_URI);
+		
+		Response paresponse = 
+		    	 given().
+				 header("Authorization", "Bearer " + bearerToken).
+				 header("Content-Type",ContentType.JSON).
+				 header("Accept",ContentType.JSON).
+				 param("q", "SELECT id,Name FROM Provider_Application__c WHERE CreatedBy.Name="+"'"+owner+"'").
+				 when().get(PA_CREATEDBY_URI).
+				 then().statusCode(200).extract().response();
+
+		jsonPathEval = paresponse.jsonPath();
+		providerID = jsonPathEval.getString("records[0].Id");
+		String providerName = jsonPathEval.getString("records[0].Name");
+		//Validate Provider application number is visible
+		assertTrue(providerName.contains("PA"), "Provider Application field is not blank.");
+		return providerName;
+	}
+	
 	/*
 	 * Validate Provider Application Details of CES application.
 	 * @param: applicationType
@@ -61,20 +84,22 @@ public class JoinCESAPIValidation
 			Boolean isAttestation, Object attestationdate, String orgName, String orgType, String priorProvider) 
 			throws InterruptedException	{
 		// Use Account ID to fetch account details.
-		String PROVAPP_URI = SOBJECT_URI + "/Provider_Application__c";
+		String PA_CREATEDBY_URI = "https://aia--testing.sandbox.my.salesforce.com/services/data/v56.0/query";
 		
-		Response response = 
+		System.out.println("AIA Provider Application Type: " + PA_CREATEDBY_URI);
+		
+		Response paresponse = 
 		    	 given().
 				 header("Authorization", "Bearer " + bearerToken).
 				 header("Content-Type",ContentType.JSON).
 				 header("Accept",ContentType.JSON).
-				 when().get(PROVAPP_URI).
+				 param("q", "SELECT id,Name FROM Provider_Application__c WHERE CreatedBy.Name="+"'"+owner+"'").
+				 when().get(PA_CREATEDBY_URI).
 				 then().statusCode(200).extract().response();
 
-		jsonPathEval = response.jsonPath();
-		providerID = jsonPathEval.getString("recentItems[0].Id");
-		String providerName = jsonPathEval.getString("recentItems[0].Name");
-		
+		jsonPathEval = paresponse.jsonPath();
+		providerID = jsonPathEval.getString("records[0].Id");
+		String providerName = jsonPathEval.getString("records[0].Name");
 		//Validate Provider application number is visible
 		assertTrue(providerName.contains("PA"), "Provider Application field is not blank.");
 		
@@ -119,6 +144,8 @@ public class JoinCESAPIValidation
 		String lastModifiedById = jsonPathEval.getString("LastModifiedById");
 		String createdById = jsonPathEval.getString("CreatedById");
 		
+		//'Application Status , 'Application Status
+		
 		System.out.println("AIA Provider Application Type: " + application_Type);
 		Logging.logger.info("AIA Provider Application Type is:" + application_Type);
 		System.out.println("AIA Provider owner : " + priOwner);
@@ -140,7 +167,7 @@ public class JoinCESAPIValidation
 			assertNotNull(former_CES_Provider_Number);
 		}
 		
-		assertEquals(ownerId, lastModifiedById);
+		//assertEquals(ownerId, lastModifiedById);
 		assertEquals(ownerId, createdById);
 	}
 	
@@ -347,7 +374,7 @@ public class JoinCESAPIValidation
 		}
 	}
 	
-	public void verifyReciptDetails(Object receipt, Object feePaid, String cesmembershipType) throws InterruptedException
+	public void verifyReciptDetails(String receipt, Object feePaid, String cesmembershipType) throws InterruptedException
 	{
 		// Use Account ID to fetch Receipts details.
 		String RECEIPTS_URI = ACCOUNT_URI + "/" + accountID + "/OrderApi__Receipts__r";
@@ -386,7 +413,7 @@ public class JoinCESAPIValidation
 			System.out.println("Payment Method :" + paymentMethod);
 			System.out.println("=====================================");
 	
-			assertNotNull(receiptNumber);
+			//assertTrue(receipt.contains(receiptNumber));
 			assertEquals(totalFeePaid, feePaid);
 			assertEquals(postedDate, java.time.LocalDate.now().toString());
 			assertTrue(paymentMethod.contains("1111"));

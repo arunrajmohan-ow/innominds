@@ -10,7 +10,7 @@ public class Constants {
 	public static final String YES = "yes";
 	public static final String NO = "no";
 	
-	private static final String PROJECT_NAME = "GUI Automation Report - Membership";
+	private static final String PROJECT_NAME = "Fonteva GUI Automation Report";
 	public static String getProjectName() {
 		return PROJECT_NAME;
 	}
