@@ -22,7 +22,8 @@ import org.testng.annotations.Parameters;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.MediaEntityBuilder;
-import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
+//import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
+import com.aventstack.extentreports.reporter.ExtentReporter;
 
 public class BaseClass {
 
@@ -30,7 +31,7 @@ public class BaseClass {
 	ExtentReports report;
 	ExtentTest logger;
 	protected Utility util;
-	public static ExtentHtmlReporter htmlReporter;
+	public static ExtentReporter htmlReporter;
 	public static GenerateReports reports;
 	// Configure Log4j to perform error logging
 	

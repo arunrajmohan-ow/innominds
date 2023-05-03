@@ -44,7 +44,7 @@ WebDriver driver;
 		totalAmnt = paymentTotalTxt.getText().replaceAll("[$]*","").trim();
 		Object totalAmnt1 = Double.valueOf(((String) totalAmnt).replaceAll(",","").trim()); 
 		viewReceiptBtn.click();
-		
+		Thread.sleep(10000);
 		Set<String>links = driver.getWindowHandles();
 		String currWin = driver.getWindowHandle();
 		Thread.sleep(1000);
@@ -71,7 +71,10 @@ WebDriver driver;
 				document=PDDocument.load(fileParse);
 				
 				//creating object he he & returning the content
-				pdfContent=new PDFTextStripper().getText(document);
+				PDFTextStripper strip=new PDFTextStripper();
+				
+				strip.setStartPage(1);
+				pdfContent=strip.getText(document);		
 				
 				//Printing the content on console
 				System.out.println(pdfContent);

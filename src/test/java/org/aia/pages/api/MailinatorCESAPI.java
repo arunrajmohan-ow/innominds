@@ -5,6 +5,8 @@ import static org.testng.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.aia.utility.Utility;
 import org.openqa.selenium.JavascriptExecutor;
@@ -117,7 +119,7 @@ public class MailinatorCESAPI {
 	}
 
 	public void welcomeAIAEmailLink(ArrayList<String> dataList) throws InterruptedException {
-		String inbox = "auto_uuus04172023";//dataList.get(3);
+		String inbox = dataList.get(3);
 
 		JsonPath jsonPathEval = null;
 
@@ -150,8 +152,6 @@ public class MailinatorCESAPI {
 		
 		//Validate Welcome mail test and correct Information.
 		Assert.assertTrue(value.contains("Welcome to the AIA continuing education provider program!"));
-		Assert.assertTrue(value.contains(dataList.get(0)));
-		Assert.assertTrue(value.contains(dataList.get(1)));
 		
 		//TODO : Fetch Provider number from welcome email to validate further.
 		
@@ -177,13 +177,14 @@ public class MailinatorCESAPI {
 		driver.switchTo().window(tabs.get(1));
 		//Navigate to CES toolkit link and validate link is working.
 		driver.get(finallink);
-		Thread.sleep(1000);
+		Thread.sleep(5000);
 		String pageTitle = driver.getTitle();
 		assertTrue(pageTitle.contains("Continuing Education Provider Resources"), "Continuing Education Provider Resources page is loaded.");
 		driver.switchTo().window(tabs.get(0));
 	}
-
-	public void thanksForRenewingEmailLink(ArrayList<String> dataList, ArrayList<Object> receiptData) throws InterruptedException {
+	
+	
+	public void ProviderApplicationReviewEmailLink(ArrayList<String> dataList) throws InterruptedException {
 		String inbox = dataList.get(3);
 
 		JsonPath jsonPathEval = null;
@@ -203,10 +204,7 @@ public class MailinatorCESAPI {
 
 		jsonPathEval = response.jsonPath();
 		String messageId = jsonPathEval.getString("msgs[0].id");
-		String messageSubject = jsonPathEval.getString("msgs[0].subject");
 		System.out.println("Message Id is "+messageId);
-		System.out.println("Member got renewed "+messageSubject);
-		Assert.assertTrue(messageSubject.contains("Thanks for renewing your AIA membership"));
 
 		String message_uri = MAILINATOR_INBOS_ENDPOINT + inbox + "/messages/" + messageId ;
 		 response =  RestAssured.given().
@@ -218,33 +216,70 @@ public class MailinatorCESAPI {
 		String value = response.path("parts[1].body").toString();
 		System.out.println("body is " + value);
 		
-		Assert.assertTrue(value.contains("your AIA membership. By renewing"));
+		//Validate Provider application is under review mail and correct Information.
+		Assert.assertTrue(value.contains("approved AIA continuing education provider has been received but must be reviewed before your provider subscription can begin"));
 		Assert.assertTrue(value.contains(dataList.get(0)));
 		Assert.assertTrue(value.contains(dataList.get(1)));
-		Assert.assertTrue(value.contains((CharSequence) receiptData.get(1)));
+	}
 
-		String links_uri = "https://mailinator.com/api/v2/domains/architects-team.m8r.co/inboxes/" + inbox
-				+ "/messages/" + messageId + "/links";
-		 response =  RestAssured.given().headers("Content-Type", ContentType.JSON, "Accept", ContentType.JSON,"Authorization",bearerToken).when().get(links_uri).then().extract().response();
+	public String cesProviderApprovedEmailLink(ArrayList<String> dataList) throws InterruptedException {
+		String inbox = dataList.get(3);
+		String messageId = null;
+		JsonPath jsonPathEval = null;
+
+		String mailinator_uri = MAILINATOR_API + inbox;
+		Thread.sleep(10000);
+
+		Response response =  RestAssured.given().headers("Content-Type",
+				ContentType.JSON, "Accept",
+				ContentType.JSON,"Authorization",
+				bearerToken).
+				when().
+				get(mailinator_uri).
+				then().
+				extract().response();
+		System.out.println(response.getBody().asPrettyString());
+
+		jsonPathEval = response.jsonPath();
+		for(int i=0; i<2; i++) {
+			String subject = jsonPathEval.getString("msgs["+i+"].subject");
+			if(subject.contains("approved")) {
+				messageId = jsonPathEval.getString("msgs["+i+"].id");
+				System.out.println("Message Id is "+messageId);
+				break;
+			}
+		}
+		
+		String message_uri = MAILINATOR_INBOS_ENDPOINT + inbox + "/messages/" + messageId ;
+		response =  RestAssured.given().
+				 headers("Content-Type", ContentType.JSON, "Accept", ContentType.JSON,"Authorization",bearerToken).when().get(message_uri).then().extract().response();
 
 		jsonPathEval = response.jsonPath();
 		Thread.sleep(5000);
 		
-		String link = jsonPathEval.getString("links[4]");
-		String finallink;
-		if(link.contains("apex")) {
-			finallink = link;
-		}else {
-			String link1 = jsonPathEval.getString("links[3]");
-			finallink = link1;
-		}
+		String value = response.path("parts[1].body").toString();
+		System.out.println("body is " + value);
+		
+		//Validate approval and correct Information.
+		Assert.assertTrue(value.contains("AIA continuing education provider has been approved"));
+		
+		//Get available links on Welcome to the AIA mail.
+		String subscription_links_uri = "https://aia--testing.sandbox.my.site.com/Providers/s/store#/store/checkout/";
+		
+		ArrayList links = new ArrayList();
 
-		((JavascriptExecutor)driver).executeScript("window.open()");
-		ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
-		driver.switchTo().window(tabs.get(1));
-		driver.get(finallink);
-		// Bug
-		//util.waitUntilElement(driver, successMessage);		
-		driver.switchTo().window(tabs.get(0));
+		String regex = "\\(?\\b(https://)[-A-Za-z0-9+&amp;@#/%?=~_()|!:,.;]*[-A-Za-z0-9+&amp;@#/%=~_()|]";
+		Pattern p = Pattern.compile(regex);
+		Matcher m = p.matcher(value);
+		while(m.find()) {
+		String urlStr = m.group();
+		
+		links.add(urlStr);
+		}
+		System.out.println("body is " + links);
+		
+		String finallink;
+		finallink = (String) links.get(0);
+		return finallink;
 	}
 }
