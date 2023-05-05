@@ -79,7 +79,7 @@ public class GenerateReports {
 	}
 	
 	public void logTestFailedWithException(Exception e) {
-		logger.log(Status.ERROR,e);
+		logger.log(Status.FAIL,e);
 	}
 	
 	public void logTestSkipped(String testcaseName) {
