@@ -106,8 +106,8 @@
 					<!-- <systemPropertyVariables> <url>${url}</url> <browser>${browser}</browser> 
 						<userame>${username}</userame> <password>${password}</password> </systemPropertyVariables> -->
 
-					<!-- <suiteXmlFiles> <suiteXmlFile>XMLFiles\${xmlFileName}</suiteXmlFile> 
-						</suiteXmlFiles> -->
+					 <suiteXmlFiles> <suiteXmlFile>XMLFiles/testng.xml</suiteXmlFile> 
+						</suiteXmlFiles>
 				</configuration>
 			</plugin>
 			<plugin>
