@@ -47,7 +47,6 @@ public class GenerateReports {
 		sparkReport = new ExtentSparkReporter(file);
 		
 		extentreport.attachReporter(sparkReport);
-		extentreport.attachReporter(sparkReport);
 		extentreport.setSystemInfo("Host Name", "AIA");
 		extentreport.setSystemInfo("Environment", "Testing-Sandbox");
 		extentreport.setSystemInfo("User Name", "Pallavi");
@@ -79,7 +78,7 @@ public class GenerateReports {
 	}
 	
 	public void logTestFailedWithException(Exception e) {
-		logger.log(Status.ERROR,e);
+		logger.log(Status.FAIL,e);
 	}
 	
 	public void logTestSkipped(String testcaseName) {
