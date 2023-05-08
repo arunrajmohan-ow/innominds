@@ -115,9 +115,14 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>3.0.0</version>
 				<configuration>
-					<includes>
-						<include>XMLFiles/testng.xml</include>
-					</includes>
+					<suiteXmlFiles>
+						<suiteXmlFile>XMLFiles/testng.xml</suiteXmlFile>
+						 
+					</suiteXmlFiles> 
+					<!-- <systemPropertyVariables> <url>${url}</url> <browser>${browser}</browser> 
+						<userame>${username}</userame> <password>${password}</password> </systemPropertyVariables> -->
+
+				
 				</configuration>
 			</plugin>
 			<plugin>
