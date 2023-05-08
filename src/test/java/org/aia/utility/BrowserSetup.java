@@ -3,6 +3,7 @@ package org.aia.utility;
 
 import java.time.Duration;
 
+
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.WebDriver;
@@ -13,10 +14,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.safari.SafariDriver;
 
-<<<<<<< HEAD
-=======
 import io.github.bonigarcia.wdm.WebDriverManager;
->>>>>>> 25f29f133f411b22584ec0aee245c84018abe24a
 
 public class BrowserSetup {
 	
