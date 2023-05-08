@@ -13,6 +13,10 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.safari.SafariDriver;
 
+<<<<<<< HEAD
+=======
+import io.github.bonigarcia.wdm.WebDriverManager;
+>>>>>>> 25f29f133f411b22584ec0aee245c84018abe24a
 
 public class BrowserSetup {
 	
@@ -20,6 +24,7 @@ public class BrowserSetup {
 
         if(browser.equalsIgnoreCase("Chrome")){
         	//System.setProperty("webdriver.chrome.driver", "./chromedriver.exe");
+        	WebDriverManager.chromedriver().setup();
         	System.setProperty("webdriver.chrome.driver",System.getProperty("user.dir")+"\\Drivers\\chromedriver.exe");
         	ChromeOptions options = new ChromeOptions();
             options.addArguments("--ignore-ssl-errors=yes");
