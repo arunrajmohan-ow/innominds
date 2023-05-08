@@ -47,7 +47,6 @@ public class GenerateReports {
 		sparkReport = new ExtentSparkReporter(file);
 		
 		extentreport.attachReporter(sparkReport);
-		extentreport.attachReporter(sparkReport);
 		extentreport.setSystemInfo("Host Name", "AIA");
 		extentreport.setSystemInfo("Environment", "Testing-Sandbox");
 		extentreport.setSystemInfo("User Name", "Pallavi");
