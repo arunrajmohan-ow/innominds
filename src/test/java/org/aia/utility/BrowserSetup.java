@@ -12,12 +12,15 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.safari.SafariDriver;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
+
 public class BrowserSetup {
 	
     public static WebDriver startApplication(WebDriver driver, String browser, String url){
 
         if(browser.equalsIgnoreCase("Chrome")){
         	//System.setProperty("webdriver.chrome.driver", "./chromedriver.exe");
+        	WebDriverManager.chromedriver().setup();
         	System.setProperty("webdriver.chrome.driver",System.getProperty("user.dir")+"\\Drivers\\chromedriver.exe");
         	ChromeOptions options = new ChromeOptions();
             options.addArguments("--ignore-ssl-errors=yes");
