@@ -23,7 +23,7 @@ public class BrowserSetup {
         if(browser.equalsIgnoreCase("Chrome")){
         	//System.setProperty("webdriver.chrome.driver", "./chromedriver.exe");
         	WebDriverManager.chromedriver().setup();
-        	System.setProperty("webdriver.chrome.driver",System.getProperty("user.dir")+"\\Drivers\\chromedriver.exe");
+        	//System.setProperty("webdriver.chrome.driver",System.getProperty("user.dir")+"\\Drivers\\chromedriver.exe");
         	ChromeOptions options = new ChromeOptions();
             options.addArguments("--ignore-ssl-errors=yes");
             options.addArguments("--ignore-certificate-errors");
