@@ -65,6 +65,9 @@ public class ContactCreateUser {
 	@FindBy(xpath = "//input[@name='lastName']")
 	WebElement lastName;
 
+	@FindBy(xpath="//input[@name='OrderApi__Personal_Email__c']")
+	WebElement emailAddress;
+	
 	@FindBy(xpath = "//button[text()='Save']")
 	WebElement saveBtn;
 
@@ -205,14 +208,18 @@ public class ContactCreateUser {
 		firstName.sendKeys(fName);
 		util.waitUntilElement(driver, lastName);
 		lastName.sendKeys(lName);
+		executor.executeScript("arguments[0].scrollIntoView(true);", emailAddress);
+		emailAddress.sendKeys(emailaddressdata);
 		saveBtn.click();
 	}
 
 	/**
 	 * @param membership
 	 * @param career
+	 * @throws InterruptedException 
 	 */
-	public void joinCreatedUser(String membership, String career) {
+	public void joinCreatedUser(String membership, String career) throws InterruptedException {
+	   Thread.sleep(7000);
 		util.waitUntilElement(driver, joinBtn);
 		joinBtn.click();
 		util.waitUntilElement(driver, selectMemTypeBtn);
@@ -226,7 +233,9 @@ public class ContactCreateUser {
 		careerTypeDrp.click();
 		WebElement selectCareerType = driver.findElement(By.xpath(String.format(careerType, career)));
 		selectCareerType.click();
-		action.scrollToElement(nextBtn).perform();
+		action.scrollToElement(nextBtn);
+		//executor.executeScript("arguments[0].scrollIntoView(true);", nextBtn);
+		util.waitUntilElement(driver, nextBtn);
 		nextBtn.click();
 	}
 
@@ -241,13 +250,16 @@ public class ContactCreateUser {
 		WebElement enterState = driver
 				.findElement(By.xpath(String.format(state, data.testDataProvider().getProperty("LICENSE_STATE"))));
 		enterState.click();
-		action.scrollToElement(licenseStartDate).perform();
+		action.scrollToElement(licenseStartDate);
+		//executor.executeScript("arguments[0].scrollIntoView(true);", licenseStartDate);
 		licenseStartDate.click();
+		//executor.executeScript("arguments[0].scrollIntoView(true);", selectTodayDate);
 		util.waitUntilElement(driver, selectTodayDate);
 		selectTodayDate.click();
 		util.enterText(driver, licenseExpireDate, data.testDataProvider().getProperty("LICENSE_EXP_DATE"));
 		licenseExpireDate.sendKeys(Keys.ENTER);
-		action.scrollToElement(nextBtn).perform();
+		action.scrollToElement(nextBtn);
+	//	executor.executeScript("arguments[0].scrollIntoView(true);", nextBtn);
 		nextBtn.click();
 	}
 
@@ -291,14 +303,16 @@ public class ContactCreateUser {
 		driver.switchTo().frame(cardNumIframe1);
 		util.waitUntilElement(driver, cardNumIframe2);
 		driver.switchTo().frame(cardNumIframe2);
-		action.scrollToElement(cardNum).perform();
+		action.scrollToElement(cardNum);
+		//executor.executeScript("arguments[0].scrollIntoView(true);", cardNum);
 		util.enterText(driver, cardNum, data.testDataProvider().getProperty("CREDIT_CARD_NUMBER"));
 		driver.switchTo().defaultContent();
 		//check wait
 		Thread.sleep(5000);
 		driver.switchTo().frame(drpIframe);
 		util.waitUntilElement(driver, expMonth);
-		action.scrollToElement(expMonth).perform();
+		//executor.executeScript("arguments[0].scrollIntoView(true);", expMonth);
+		action.scrollToElement(expMonth);
 		util.selectDrp(expMonth).selectByValue(data.testDataProvider().getProperty("CREDIT_CARD_EXP_MONTH"));
 		util.waitUntilElement(driver, expYear);
 		util.selectDrp(expYear).selectByValue(data.testDataProvider().getProperty("CREDIT_CARD_EXP_YEAR"));
