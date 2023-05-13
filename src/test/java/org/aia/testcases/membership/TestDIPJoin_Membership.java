@@ -26,7 +26,6 @@ import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.google.inject.Key;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
 import io.qameta.allure.Description;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
@@ -49,10 +48,9 @@ public class TestDIPJoin_Membership extends BaseClass {
 
 	@BeforeMethod
 	public void setUp() throws Exception {
-		/*driver = BrowserSetup.startApplication(driver, DataProviderFactory.getConfig().getValue("browser"),
+		driver = BrowserSetup.startApplication(driver, DataProviderFactory.getConfig().getValue("browser"),
 				DataProviderFactory.getConfig().getValue("devstagingurl_membership"));
-		inbox = DataProviderFactory.getConfig().getValue("inbox");*/
-		WebDriverManager.chromedriver().setup();
+		inbox = DataProviderFactory.getConfig().getValue("inbox");
 		util = new Utility(driver, 30);
 		mailinator = PageFactory.initElements(driver, MailinatorAPI.class);
 		signUpPage = PageFactory.initElements(driver, SignUpPage.class);
