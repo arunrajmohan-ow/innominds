@@ -29,7 +29,7 @@ public class BrowserSetup {
             options.addArguments("--ignore-certificate-errors");
             options.addArguments("--disable-notifications");
             options.addArguments("--remote-allow-origins=*");
-            driver = new ChromeDriver();
+            driver = new ChromeDriver(options);
         }
         else if (browser.equalsIgnoreCase("firefox")) {
         	System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir")+"\\Drivers\\geckodriver.exe");
