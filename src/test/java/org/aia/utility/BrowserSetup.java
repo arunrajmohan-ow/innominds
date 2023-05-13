@@ -22,14 +22,14 @@ public class BrowserSetup {
 
         if(browser.equalsIgnoreCase("Chrome")){
         	//System.setProperty("webdriver.chrome.driver", "./chromedriver.exe");
-        	WebDriverManager.chromedriver().browserVersion("80.0.3987.106");
+        	WebDriverManager.chromedriver().setup();
         	//System.setProperty("webdriver.chrome.driver",System.getProperty("user.dir")+"\\Drivers\\chromedriver.exe");
         	ChromeOptions options = new ChromeOptions();
             options.addArguments("--ignore-ssl-errors=yes");
             options.addArguments("--ignore-certificate-errors");
             options.addArguments("--disable-notifications");
             options.addArguments("--remote-allow-origins=*");
-            driver = new ChromeDriver(options);
+            driver = new ChromeDriver();
         }
         else if (browser.equalsIgnoreCase("firefox")) {
         	System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir")+"\\Drivers\\geckodriver.exe");
@@ -37,7 +37,8 @@ public class BrowserSetup {
 			
 		}
         else if (browser.equalsIgnoreCase("edge")) {
-			System.setProperty("webdriver.edge.driver", System.getProperty("user.dir")+"\\Drivers\\MicrosoftWebDriver.exe");
+			//System.setProperty("webdriver.edge.driver", System.getProperty("user.dir")+"\\Drivers\\MicrosoftWebDriver.exe");
+			WebDriverManager.edgedriver().setup();
 			driver = new EdgeDriver();
 		}
 		else if (browser.equalsIgnoreCase("safari")) {
