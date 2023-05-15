@@ -152,6 +152,15 @@ public class ContactCreateUser {
 	@FindBy(xpath = "//span[text()='Process Payment']/parent::button")
 	WebElement processPaymentBtn;
 
+	@FindBy(xpath="//lightning-formatted-text[@slot='primaryField']")
+	WebElement receiptNo;
+	
+	@FindBy(xpath="(//a[contains(@href,'OrderApi__Sales_Order__c')])[2]/slot/slot/span")
+	WebElement aiaNumber;
+	
+	@FindBy(xpath="(//p[text()='Total']/parent::div/p)[2]/slot/lightning-formatted-text")
+	WebElement totalAmmount;
+	
 	String fName;
 	String lName;
 	String emailPrefix;
@@ -312,6 +321,23 @@ public class ContactCreateUser {
 		util.waitUntilElement(driver, expYear);
 		util.selectDrp(expYear).selectByValue(data.testDataProvider().getProperty("CREDIT_CARD_EXP_YEAR"));
 		processPaymentBtn.click();
+	}
+	
+	/**
+	 * @return 
+	 * 
+	 */
+	public ArrayList<Object> getPaymentReceiptData() {
+		ArrayList<Object> receiptData = new ArrayList<Object>();
+		util.waitUntilElement(driver, receiptNo);
+		String receiptNumber = receiptNo.getText();
+		receiptData.add(0, receiptNumber);
+		util.waitUntilElement(driver, aiaNumber);
+		String customerAIANumber = aiaNumber.getText();
+		receiptData.add(1, customerAIANumber);
+		String totalAmmountText = totalAmmount.getText().replaceAll("[$]*","").trim();
+		receiptData.add(2, totalAmmountText);
+		return receiptData;
 	}
 
 }
