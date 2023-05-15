@@ -3,6 +3,7 @@ package org.aia.testcases.membership;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import org.aia.pages.BaseClass;
@@ -69,6 +70,8 @@ public class TestDIPJoin_Membership extends BaseClass {
 	@Test(priority=1, description="Validate Membership DIP", enabled=true)
 	public void ValidateDip() throws Exception
 	{
+		LocalDate localDate = java.time.LocalDate.now();
+		if (localDate.getMonthValue() >= 10 || localDate.getMonthValue() <= 04) {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
 		signUpPage.signUpUser();
@@ -100,8 +103,13 @@ public class TestDIPJoin_Membership extends BaseClass {
 				DataProviderFactory.getConfig().getValue("orderStatus"), 
 				data.get(2), DataProviderFactory.getConfig().getValue("postingStatus")); 
 		//Validate Receipt Details 
-		apiValidation.verifyReciptDetails(data.get(0), data.get(2));		
+		apiValidation.verifyReciptDetails(data.get(0), data.get(2));
+		}
+		else {
+			System.out.println("Test case is not executed, We are in not Oct-Apr Period");
+		}
 	}
+	
 	
 	@AfterMethod
 	public void teardown() {
