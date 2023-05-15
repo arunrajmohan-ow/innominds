@@ -59,9 +59,9 @@ public class BaseClass {
 		
 		Reporter.log("LOG: INFO : Creating browser instances", true);
 			
-		 driver=BrowserSetup.startApplication(driver, DataProviderFactory.getConfig().getValue("browser"),DataProviderFactory.getConfig().getValue("logiurl"));
+		//driver=BrowserSetup.startApplication(driver, DataProviderFactory.getConfig().getValue("browser"),DataProviderFactory.getConfig().getValue("logiurl"));
 		
-		  //driver=new BrowserSetup().startApplication(browser,url);
+		//driver=new BrowserSetup().startApplication(browser,url);
 		
 		util=new Utility(driver, 30);
 		
