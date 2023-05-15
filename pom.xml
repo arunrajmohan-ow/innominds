@@ -104,7 +104,8 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>1.18.22</version>
+			<version>1.18.24</version>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 	<build>
@@ -112,25 +113,25 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>3.0.0-M3</version>
+				<version>2.19.1</version>
 				<configuration>
 					<suiteXmlFiles>
 						<suiteXmlFile>XMLFiles/testng.xml</suiteXmlFile>
 						 
-					</suiteXmlFiles>
+					</suiteXmlFiles> 
 					<!-- <systemPropertyVariables> <url>${url}</url> <browser>${browser}</browser> 
 						<userame>${username}</userame> <password>${password}</password> </systemPropertyVariables> -->
 
-					<!-- <suiteXmlFiles> <suiteXmlFile>XMLFiles\${xmlFileName}</suiteXmlFile> 
-						</suiteXmlFiles> -->
+
 				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
 				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
+					<source>1.7</source>
+					<target>1.7</target>
 				</configuration>
 			</plugin>
 		</plugins>

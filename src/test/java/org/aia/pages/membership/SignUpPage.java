@@ -81,6 +81,7 @@ public class SignUpPage {
 		  System.out.println(fName); 
 		  lName = "autoln"+RandomStringUtils.randomAlphabetic(4);
 		  list.add(1, lName);
+		  System.out.println("Full name is:"+fName+""+lName);
 		  mobNumb = "012345"+String.format("%05d", new Random().nextInt(10000));
 		  list.add(2, mobNumb);
 		  System.out.println(mobNumb);
@@ -94,7 +95,8 @@ public class SignUpPage {
 		  emailDomain = "@architects-team.m8r.co";
 		  list.add(4, emailDomain);
 		  emailaddressdata = emailPrefix + emailDomain;
-		  list.add(5, emailaddressdata);		  
+		  list.add(5, emailaddressdata);		 
+		  System.out.println("Email address is:"+emailaddressdata);
 		  password = "Login_123";
 		  list.add(6, password);
 		  
