@@ -3,6 +3,7 @@ package org.aia.testcases.membership;
 import java.util.ArrayList;
 
 import org.aia.pages.BaseClass;
+import org.aia.pages.api.MailinatorAPI;
 import org.aia.pages.fonteva.membership.ContactCreateUser;
 import org.aia.utility.BrowserSetup;
 import org.aia.utility.DataProviderFactory;
@@ -22,7 +23,7 @@ import com.aventstack.extentreports.ExtentTest;
  */
 public class TestOfflineJoin_Membership extends BaseClass {
 	ContactCreateUser fontevaJoin;
-
+	MailinatorAPI apiValidation;
 	public ExtentReports extent;
 	public ExtentTest extentTest;
 
@@ -32,7 +33,7 @@ public class TestOfflineJoin_Membership extends BaseClass {
 				DataProviderFactory.getConfig().getValue("fonteva_endpoint"));
 		util = new Utility(driver, 30);
 		fontevaJoin = PageFactory.initElements(driver, ContactCreateUser.class);
-
+		apiValidation=PageFactory.initElements(driver,MailinatorAPI.class);
 		// Configure Log4j to perform error logging
 		Logging.configure();
 	}
@@ -51,6 +52,8 @@ public class TestOfflineJoin_Membership extends BaseClass {
 		fontevaJoin.enterLicenseDetail();
 		fontevaJoin.createSalesOrder();
 		fontevaJoin.applyPayment();
+		//Validation of Thank you massage in email inbox after register.
+		apiValidation.thankYouEmailforOfflineJoin(dataList.get(2));
 	}
 
 	@AfterMethod
