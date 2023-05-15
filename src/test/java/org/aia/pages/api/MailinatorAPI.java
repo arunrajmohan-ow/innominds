@@ -241,4 +241,34 @@ public class MailinatorAPI {
 		//util.waitUntilElement(driver, successMessage);		
 		driver.switchTo().window(tabs.get(0));
 	}
+	
+	public void thankYouEmailforOfflineJoin(String emailPrefix) throws InterruptedException {
+		String inbox=emailPrefix;
+		JsonPath jsonPathEval = null;
+		String mailinator_uri = MAILINATOR_API + inbox;
+		Thread.sleep(7000);
+		Response response =  RestAssured.given().headers("Content-Type",
+				ContentType.JSON, "Accept",
+				ContentType.JSON,"Authorization",
+				bearerToken).
+				when().
+				get(mailinator_uri).
+				then().
+				extract().response();
+		System.out.println(response.getBody().asPrettyString());
+
+		jsonPathEval = response.jsonPath();
+		String messageId = jsonPathEval.getString("msgs[0].id");
+		String message_uri = MAILINATOR_INBOS_ENDPOINT + inbox + "/messages/" + messageId ;
+		 response =  RestAssured.given().
+				 headers("Content-Type", ContentType.JSON, "Accept", ContentType.JSON,"Authorization",bearerToken).when().get(message_uri).then().extract().response();
+
+		jsonPathEval = response.jsonPath();
+		Thread.sleep(5000);
+		String msgBody = response.path("parts[0].body").toString();
+		System.out.println("body is " + msgBody);
+		Assert.assertTrue(msgBody.contains("Thanks for joining AIA!"));
+	}
+	
+	
 }

@@ -233,8 +233,8 @@ public class ContactCreateUser {
 		careerTypeDrp.click();
 		WebElement selectCareerType = driver.findElement(By.xpath(String.format(careerType, career)));
 		selectCareerType.click();
-		action.scrollToElement(nextBtn);
-		//executor.executeScript("arguments[0].scrollIntoView(true);", nextBtn);
+		//action.scrollToElement(nextBtn);
+		executor.executeScript("arguments[0].scrollIntoView(true);", nextBtn);
 		util.waitUntilElement(driver, nextBtn);
 		nextBtn.click();
 	}
@@ -251,15 +251,12 @@ public class ContactCreateUser {
 				.findElement(By.xpath(String.format(state, data.testDataProvider().getProperty("LICENSE_STATE"))));
 		enterState.click();
 		action.scrollToElement(licenseStartDate);
-		//executor.executeScript("arguments[0].scrollIntoView(true);", licenseStartDate);
 		licenseStartDate.click();
-		//executor.executeScript("arguments[0].scrollIntoView(true);", selectTodayDate);
 		util.waitUntilElement(driver, selectTodayDate);
 		selectTodayDate.click();
 		util.enterText(driver, licenseExpireDate, data.testDataProvider().getProperty("LICENSE_EXP_DATE"));
 		licenseExpireDate.sendKeys(Keys.ENTER);
-		action.scrollToElement(nextBtn);
-	//	executor.executeScript("arguments[0].scrollIntoView(true);", nextBtn);
+		executor.executeScript("arguments[0].scrollIntoView(true);", nextBtn);
 		nextBtn.click();
 	}
 
@@ -304,14 +301,12 @@ public class ContactCreateUser {
 		util.waitUntilElement(driver, cardNumIframe2);
 		driver.switchTo().frame(cardNumIframe2);
 		action.scrollToElement(cardNum);
-		//executor.executeScript("arguments[0].scrollIntoView(true);", cardNum);
 		util.enterText(driver, cardNum, data.testDataProvider().getProperty("CREDIT_CARD_NUMBER"));
 		driver.switchTo().defaultContent();
 		//check wait
 		Thread.sleep(5000);
 		driver.switchTo().frame(drpIframe);
 		util.waitUntilElement(driver, expMonth);
-		//executor.executeScript("arguments[0].scrollIntoView(true);", expMonth);
 		action.scrollToElement(expMonth);
 		util.selectDrp(expMonth).selectByValue(data.testDataProvider().getProperty("CREDIT_CARD_EXP_MONTH"));
 		util.waitUntilElement(driver, expYear);
