@@ -50,13 +50,14 @@ public class MailinatorAPI {
 		jsonPathEval = response.jsonPath();
 		String messageId = jsonPathEval.getString("msgs[0].id");
 		System.out.println("Message Id is "+messageId);
-
+		
+		Thread.sleep(15000);
 		String message_uri = MAILINATOR_INBOS_ENDPOINT + inbox
 				+ "/messages/" + messageId + "/links";
 		 response =  RestAssured.given().headers("Content-Type", ContentType.JSON, "Accept", ContentType.JSON,"Authorization",bearerToken).when().get(message_uri).then().extract().response();
 
 		jsonPathEval = response.jsonPath();
-		Thread.sleep(5000);
+		Thread.sleep(15000);
 		
 		String link = jsonPathEval.getString("links[0]");
 
