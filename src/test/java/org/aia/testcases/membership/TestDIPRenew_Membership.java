@@ -3,6 +3,7 @@ package org.aia.testcases.membership;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import org.aia.pages.BaseClass;
@@ -25,6 +26,7 @@ import org.testng.annotations.AfterTest;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.model.Log;
 import com.google.inject.Key;
 
 import io.qameta.allure.Description;
@@ -76,6 +78,8 @@ public class TestDIPRenew_Membership extends BaseClass {
 	@Test(priority=1, description="Validate DIP Renew", enabled=true)
 	public void ValidateDipRenew() throws Exception
 	{
+		LocalDate localDate = java.time.LocalDate.now();
+		if (localDate.getMonthValue() >= 10 || localDate.getMonthValue() <= 04) {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
 		signUpPage.signUpUser();
@@ -127,6 +131,10 @@ public class TestDIPRenew_Membership extends BaseClass {
 				  DataProviderFactory.getConfig().getValue("postingStatus")); 
 		  //Validate Receipt Details 
 		apiValidationRenew.verifyReciptDetails(data.get(0), data.get(2));
+		}
+		else {
+			System.out.println("Test case is not executed, We are in not Oct-Apr Period");
+		}
 	}
 	
 	
