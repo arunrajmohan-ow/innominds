@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.aia.pages.BaseClass;
 import org.aia.pages.api.MailinatorAPI;
+import org.aia.pages.api.membership.JoinAPIValidation;
 import org.aia.pages.fonteva.membership.ContactCreateUser;
 import org.aia.utility.BrowserSetup;
 import org.aia.utility.DataProviderFactory;
@@ -23,7 +24,8 @@ import com.aventstack.extentreports.ExtentTest;
  */
 public class TestOfflineJoin_Membership extends BaseClass {
 	ContactCreateUser fontevaJoin;
-	MailinatorAPI apiValidation;
+	MailinatorAPI malinator;
+	JoinAPIValidation offlinApiValidation;
 	public ExtentReports extent;
 	public ExtentTest extentTest;
 
@@ -33,7 +35,8 @@ public class TestOfflineJoin_Membership extends BaseClass {
 				DataProviderFactory.getConfig().getValue("fonteva_endpoint"));
 		util = new Utility(driver, 30);
 		fontevaJoin = PageFactory.initElements(driver, ContactCreateUser.class);
-		apiValidation=PageFactory.initElements(driver,MailinatorAPI.class);
+		malinator=PageFactory.initElements(driver,MailinatorAPI.class);
+		offlinApiValidation=PageFactory.initElements(driver,JoinAPIValidation.class);
 		// Configure Log4j to perform error logging
 		Logging.configure();
 	}
@@ -52,8 +55,16 @@ public class TestOfflineJoin_Membership extends BaseClass {
 		fontevaJoin.enterLicenseDetail();
 		fontevaJoin.createSalesOrder();
 		fontevaJoin.applyPayment();
+		ArrayList<Object> data =fontevaJoin.getPaymentReceiptData();
 		//Validation of Thank you massage in email inbox after register.
-		apiValidation.thankYouEmailforOfflineJoin(dataList.get(2));
+		malinator.thankYouEmailforOfflineJoin(dataList.get(2));
+		//Validate Membership & Term is got created
+		offlinApiValidation.verifyMemebershipCreation(dataList.get(3),
+				DataProviderFactory.getConfig().getValue("termEndDate"), data.get(2),
+				DataProviderFactory.getConfig().getValue("type_aia_national"), "Architect", "Non profit");
+		//Validate sales order is created or not
+		offlinApiValidation.verifySalesOrderForPriceRule("Architect");
+		
 	}
 
 	@AfterMethod
