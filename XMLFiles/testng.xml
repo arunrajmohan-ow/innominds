@@ -3,13 +3,13 @@
 <suite name="All Test cases">
   <test thread-count="5" name="Test">
     <classes>
-      <class name="org.aia.testcases.membership.TestRenew_Membership"/>
+   <!-- <class name="org.aia.testcases.membership.TestRenew_Membership"/>
       <class name="org.aia.testcases.membership.TestDIPJoin_Membership"/>
       <class name="org.aia.testcases.membership.TestDIPRenew_Membership"/>
-      <class name="org.aia.testcases.membership.TestJoin_Membership"/>
-      <!-- <class name="org.aia.testcases.ces.TestJoinArchitectureFirm_CES"/>
+      <class name="org.aia.testcases.membership.TestJoin_Membership"/> -->   
+      <class name="org.aia.testcases.ces.TestJoinArchitectureFirm_CES"/>
       <class name="org.aia.testcases.ces.TestJoinPassport_CES"/>
-      <class name="org.aia.testcases.ces.TestLogin_CES"/> --> 
+      <class name="org.aia.testcases.ces.TestLogin_CES"/> 
     </classes>
   </test> <!-- Test -->
 </suite> <!-- All Test cases -->
