@@ -22,15 +22,15 @@ public class BrowserSetup {
         	//System.setProperty("webdriver.chrome.driver", "./chromedriver.exe");
         	WebDriverManager.chromedriver().setup();
         	//System.setProperty("webdriver.chrome.driver",System.getProperty("user.dir")+"\\Drivers\\chromedriver.exe");
-        	ChromeOptions options = new ChromeOptions();
-            options.addArguments("--ignore-ssl-errors=yes");
-            options.addArguments("--ignore-certificate-errors");
-            options.addArguments("--disable-notifications");
-            options.addArguments("--remote-allow-origins=*");
+        	//ChromeOptions options = new ChromeOptions();
+          //  options.addArguments("--ignore-ssl-errors=yes");
+           // options.addArguments("--ignore-certificate-errors");
+          //  options.addArguments("--disable-notifications");
+          //  options.addArguments("--remote-allow-origins=*");
            // options.addArguments("--headless"); //!!!should be enabled for Jenkins
             //options.addArguments("--disable-dev-shm-usage"); //!!!should be enabled for Jenkins
            // options.addArguments("--window-size=1920x1080"); //!!!should be enabled for Jenkins
-             driver = new ChromeDriver(options);
+              driver = new ChromeDriver();
         }
         else if (browser.equalsIgnoreCase("firefox")) {
         	System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir")+"\\Drivers\\geckodriver.exe");
