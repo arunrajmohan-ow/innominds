@@ -1,6 +1,9 @@
 package org.aia.pages.ces;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Random;
 
 import org.aia.utility.Utility;
@@ -50,18 +53,33 @@ WebDriver driver;
 	String fName_addUser;
 	String lName_addUser;
 	String workmobNumb_addUser;
+	public String emailaddressdata;
+	public String  emailPrefix;
+	public String emailDomain;
 	ArrayList<String> list = new ArrayList<String>();
 
 	public ArrayList<String> addUserData() throws Exception { 
 			
-	  fName_addUser = "autofn"+RandomStringUtils.randomAlphabetic(4);
+	  fName_addUser = "autoAddUserfn"+RandomStringUtils.randomAlphabetic(4);
 	  list.add(0, fName_addUser);
 	  System.out.println(fName_addUser); 
-	  lName_addUser = "autoln"+RandomStringUtils.randomAlphabetic(4);
+	  lName_addUser = "autoAddUserln"+RandomStringUtils.randomAlphabetic(4);
 	  list.add(1, lName_addUser);
 	  workmobNumb_addUser = "09999"+String.format("%05d", new Random().nextInt(100000));
 	  list.add(2, workmobNumb_addUser);
 	  System.out.println(workmobNumb_addUser);
+	  DateFormat dateFormat = new SimpleDateFormat("mmmddyyyy");
+	  Date date = new Date();
+	  System.out.println(date.toString());
+	  String date1= dateFormat.format(date);
+	  System.out.println(date1);
+	  emailPrefix = "auto_adduser_"+RandomStringUtils.randomAlphabetic(4).toLowerCase()+date1;
+	  list.add(3, emailPrefix);
+	  emailDomain = "@architects-team.m8r.co";
+	  list.add(4, emailDomain);
+	  emailaddressdata = emailPrefix + emailDomain;
+	  list.add(5, emailaddressdata);
+	  System.out.println("Additional User emai ID: " + emailaddressdata);
 	  return list;
 	  }
 
@@ -76,11 +94,11 @@ WebDriver driver;
 			firstNameApuTxt.sendKeys(apu_List.get(0));
 			lasttNameAputxt.sendKeys(apu_List.get(1));
 			util.waitUntilElement(driver, workPhoneCountryApuLst);
-			workPhoneCountryApuLst.click();
+			//workPhoneCountryApuLst.click();
 			Thread.sleep(1000);
 			selectWorkPhoneCountry(country);
 			workPhoneNumApuTxt.sendKeys(apu_List.get(2));
-			primaryEmailAddressApuTxt.sendKeys(dataList.get(5));
+			primaryEmailAddressApuTxt.sendKeys(apu_List.get(5));
 			apuNextBtn.click();	
 	}
 	
