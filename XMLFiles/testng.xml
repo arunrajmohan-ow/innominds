@@ -9,7 +9,9 @@
       <class name="org.aia.testcases.membership.TestJoin_Membership"/> -->   
       <class name="org.aia.testcases.ces.TestJoinArchitectureFirm_CES"/>
       <class name="org.aia.testcases.ces.TestJoinPassport_CES"/>
-      <class name="org.aia.testcases.ces.TestLogin_CES"/> 
+      <class name="org.aia.testcases.ces.TestJoinProfessional_CES"/>
+      <class name="org.aia.testcases.ces.TestLogin_CES"/>
+      <class name="org.aia.testcases.ces.TestJoin_Passport_CES"/>
     </classes>
   </test> <!-- Test -->
 </suite> <!-- All Test cases -->
