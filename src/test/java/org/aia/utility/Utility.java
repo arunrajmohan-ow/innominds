@@ -210,13 +210,13 @@ public class Utility {
 	 
 	}
 	
-	public void enterText(WebDriver driver, WebElement ele, String txt) throws InterruptedException {
+	public void enterText(WebDriver driver, WebElement ele, String txt) {
 		waitUntilElement(driver, ele);
 		ele.clear();
 		ele.sendKeys(txt);
 	}
 
-	public void selectDropDownByText(WebElement element, String text) throws InterruptedException {
+	public void selectDropDownByText(WebElement element, String text) {
 		Select sel = new Select(element);
 		sel.selectByVisibleText(text);
 	}
@@ -277,4 +277,10 @@ public class Utility {
 		}
 		return sspath.getAbsolutePath();
 	}
+	
+	public Select selectDrp(WebElement element) {
+		Select option = new Select(element);
+		return option;
+	}
+	
 }

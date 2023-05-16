@@ -2,6 +2,7 @@ package org.aia.utility;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -28,6 +29,24 @@ public class ConfigDataProvider {
 
 		}
 		
+	}
+	
+	/**
+	 * @return Properties
+	 * 
+	 */
+	public Properties testDataProvider() {
+		pro=new Properties();
+		try {
+			FileInputStream ip = new FileInputStream("./testData/testData.properties");
+		pro.load(ip);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return pro;
 	}
 	
 	
