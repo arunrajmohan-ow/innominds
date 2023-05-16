@@ -163,6 +163,7 @@ public class ContactCreateUser {
 	
 	String fName;
 	String lName;
+	String fullname;
 	String emailPrefix;
 	String emailDomain;
 	String emailaddressdata;
@@ -202,6 +203,8 @@ public class ContactCreateUser {
 		emailaddressdata = emailPrefix + emailDomain;
 		log.info("Email:" + emailaddressdata);
 		userList.add(4, emailaddressdata);
+	    fullname = fName+" "+lName;
+	    userList.add(5,fullname);
 		return userList;
 	}
 
