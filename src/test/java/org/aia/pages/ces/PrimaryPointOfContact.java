@@ -65,6 +65,19 @@ public class PrimaryPointOfContact {
 		/*
 		 * Enter primary POC info with 10 digit numbers in work phone field.
 		 */
+		public void enterPrimaryPocAllDetails(String prefix, String suffix, String workPhoneNumber) throws InterruptedException {
+			util.waitUntilElement(driver, prefixPrimary);
+			util.selectDropDownByText(prefixPrimary, prefix);
+			util.selectDropDownByText(SuffixPicklistPrimary, suffix);
+			util.waitUntilElement(driver, workPhoneNumPrimary);
+			workPhoneNumPrimary.clear();
+			workPhoneNumPrimary.sendKeys(workPhoneNumber);
+			nextBtnPrimary.click();
+		}
+		
+		/*
+		 * Enter primary POC info with 10 digit numbers in work phone field.
+		 */
 		public void enterInvalidNumberValidation(String prefix, String suffix, String invalidNumber) throws InterruptedException {
 			enterPrimaryPocDetails(prefix, suffix, invalidNumber);
 			util.waitUntilElement(driver, invalidNumberValidation);

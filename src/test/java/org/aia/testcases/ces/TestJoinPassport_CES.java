@@ -22,6 +22,7 @@ import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.DataProviderFactory;
 import org.aia.utility.Logging;
 import org.aia.utility.Utility;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Reporter;
 import org.testng.annotations.AfterMethod;
@@ -59,6 +60,7 @@ public class TestJoinPassport_CES extends BaseClass {
 	
 	public ExtentReports extent;
 	public ExtentTest extentTest;
+	final static Logger logger = Logger.getLogger(TestJoinPassport_CES.class);
 	
 	@BeforeMethod
 	public void setUp() throws Exception
@@ -83,7 +85,7 @@ public class TestJoinPassport_CES extends BaseClass {
 		apiValidation = PageFactory.initElements(driver, JoinCESAPIValidation.class);
 	}
 	
-	@Test(priority=1, description="Validate creation of CES passport membership and view receipt.", enabled=false)
+	@Test(priority=1, description="Validate creation of CES passport membership and view receipt.", enabled=true)
 	public void ValidateReceiptForPassportJoin() throws Exception
 	{
 		String prefix = "Dr.";
@@ -142,7 +144,7 @@ public class TestJoinPassport_CES extends BaseClass {
 		mailinator.welcomeAIAEmailLink(userAccount);
 	}
 	
-	@Test(priority=3, description="Validate Join Passport..", enabled=false)
+	@Test(priority=3, description="Validate Join Passport.", enabled=true)
 	public void ValidatePassportJoin() throws Exception
 	{
 		String prefix = "Dr.";
@@ -170,7 +172,57 @@ public class TestJoinPassport_CES extends BaseClass {
 		String reciptNumber = util.getSubString(reciptData, "" );
 		
 		// Validate Provider Application & CES Provider account details - Fonteva API validations
-		  apiValidation.verifyProviderApplicationDetails("Passport", userAccount.get(0)+" "+userAccount.get(1), 
+		  apiValidation.verifyProviderApplicationDetails("Approved", userAccount, "Passport", userAccount.get(0)+" "+userAccount.get(1), 
+				  true, java.time.LocalDate.now().toString(), "AutomationOrg", "Other", "No"); 
+		  
+		// Validate CES Provider account details - Fonteva API validations
+		  apiValidation.verifyProviderApplicationAccountDetails("Active", "CES Passport", "2023-12-31",
+				  false);
+		 
+		// Validate sales order
+		  apiValidation.verifySalesOrder(DataProviderFactory.getConfig().getValue("salesOrderStatus"), 
+					DataProviderFactory.getConfig().getValue("orderStatus"), 
+					amount, DataProviderFactory.getConfig().getValue("postingStatus"));
+		  
+		//Validate Receipt Details 
+			apiValidation.verifyReciptDetails(reciptData, amount, "CES Passport");
+			
+		//Validate Primary POC 
+		apiValidation.verifyPointOfContact("CES Primary", userAccount.get(5), userAccount.get(0)+" "+userAccount.get(1));
+
+	}
+	
+	@Test(priority=4, description="Validate Join Passport, with additional users.", enabled=true)
+	public void ValidatePassportJoinWithAdditionalUser() throws Exception
+	{
+		String prefix = "Dr.";
+		String suffix = "Sr.";
+		signUpPage.clickSignUplink(); 
+		ArrayList<String> dataList = signUpPage.signUpData(); 
+		ArrayList<String> userAccount = dataList;
+		signUpPage.signUpUser();
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
+		closeButtnPage.clickCloseAfterVerification();
+		loginPageCes.loginToCes(dataList.get(5), dataList.get(6));
+		loginPageCes.checkLoginSuccess();
+		primarypocPage.enterPrimaryPocDetails(prefix, suffix, dataList.get(2));
+		String text = organizationPage.enterAllOrgDetails(dataList, 
+				  "Other", "No", "United States", "United States of America (+1)");
+		subscribePage.SubscriptionType(text, "Yes", null, "Non-profit");
+		secPoc.enterSecondaryPocDetails(dataList, prefix, suffix, "Yes", "United States of America (+1)"); 
+		additionalUsers.verifyCesPrimDetails(dataList);
+		additionalUsers.doneWithCreatingUsers();
+		providerStatement.providerStatementEnterNameDate2("FNProviderStatement");
+		checkOutPageCes.SubscriptionType(text);
+		Logging.logger.info("Total Amount is : " + paymntSuccesFullPageCes.amountPaid());
+		Object amount = paymntSuccesFullPageCes.amountPaid(); 
+		logger.info("Total Amount is 2: " + amount);
+		String reciptData = paymntSuccesFullPageCes.ClickonViewReceipt(); 
+		//Get Receipt number 
+		String reciptNumber = util.getSubString(reciptData, "" );
+		
+		// Validate Provider Application & CES Provider account details - Fonteva API validations
+		  apiValidation.verifyProviderApplicationDetails("Approved", userAccount, "Passport", userAccount.get(0)+" "+userAccount.get(1), 
 				  true, java.time.LocalDate.now().toString(), "AutomationOrg", "Other", "No"); 
 		  
 		// Validate CES Provider account details - Fonteva API validations
