@@ -158,7 +158,7 @@ public class TestJoinArchitectureFirm_CES extends BaseClass {
 		mailinator.welcomeAIAEmailLink(userAccount);
 		
 		// Validate Provider Application & CES Provider account details - Fonteva API validations
-		apiValidation.verifyProviderApplicationDetails("Architecture Firm", userAccount.get(0)+" "+userAccount.get(1), 
+		apiValidation.verifyProviderApplicationDetails("Approved", dataList, "Architecture Firm", userAccount.get(0)+" "+userAccount.get(1), 
 				true, java.time.LocalDate.now().toString(), "AutomationOrg", "Architecture Firm", "No"); 
 		  
 		// Validate CES Provider account details - Fonteva API validations

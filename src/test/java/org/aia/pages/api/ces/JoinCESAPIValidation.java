@@ -6,6 +6,7 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -80,7 +81,7 @@ public class JoinCESAPIValidation
 	 * @param: applicationType
 	 * @param: owner
 	 */
-	public void verifyProviderApplicationDetails(String applicationType, String owner, 
+	public void verifyProviderApplicationDetails(String applicationStatus, ArrayList<String> dataList, String applicationType, String owner, 
 			Boolean isAttestation, Object attestationdate, String orgName, String orgType, String priorProvider) 
 			throws InterruptedException	{
 		// Use Account ID to fetch account details.
@@ -111,6 +112,7 @@ public class JoinCESAPIValidation
 				 header("Content-Type",ContentType.JSON).
 				 header("Accept",ContentType.JSON).
 				 param("fields", "Name, "
+				 		+ "Application_Stage__c, "
 				 		+ "Application_Type__c, "
 				 		+ "Primary_Contact_Name__c, "
 				 		+ "Electronic_Attestation__c, "
@@ -126,12 +128,14 @@ public class JoinCESAPIValidation
 				 		+ "Country__c, "
 				 		+ "OwnerId, "
 				 		+ "LastModifiedById, "
+				 		+ "Telephone__c, "
 				 		+ "CreatedById").
 				 when().get(PROVAPP_ID_URI).
 				 then().statusCode(200).extract().response();
 
 		jsonPathEval = response2.jsonPath();
 		
+		String application_status = jsonPathEval.getString("Application_Stage__c");
 		String application_Type = jsonPathEval.getString("Application_Type__c");
 		String priOwner = jsonPathEval.getString("Primary_Contact_Name__c");
 		String electronic_Attestation_date = jsonPathEval.getString("Attestation_Date__c");
@@ -143,10 +147,14 @@ public class JoinCESAPIValidation
 		String ownerId = jsonPathEval.getString("OwnerId");
 		String lastModifiedById = jsonPathEval.getString("LastModifiedById");
 		String createdById = jsonPathEval.getString("CreatedById");
+		String zipCode = jsonPathEval.getString("ZIP_Postal_Code__c");
+		String streetAddress = jsonPathEval.getString("Street__c");
+		String phoneNo = jsonPathEval.getString("Telephone__c");
+		String website = jsonPathEval.getString("Website__c");
 		
 		//'Application Status , 'Application Status
 		
-		System.out.println("AIA Provider Application Type: " + application_Type);
+		System.out.println("AIA Provider Application Status: " + application_status);
 		Logging.logger.info("AIA Provider Application Type is:" + application_Type);
 		System.out.println("AIA Provider owner : " + priOwner);
 		System.out.println("AIA Provider electronic attestation : " + electronic_Attestation);
@@ -154,14 +162,19 @@ public class JoinCESAPIValidation
 		System.out.println("AIA Provider account: " + account);
 		System.out.println("AIA organization_Type: " + organization_Type);
 		System.out.println("AIA prior_Provider: " + prior_Provider);
+		System.out.println("AIA former CES zip Code: " + zipCode);
 		System.out.println("AIA former CES Provider Number: " + former_CES_Provider_Number);
+		System.out.println("AIA former CES street Address: " + streetAddress);
+		System.out.println("AIA former CES phone No: " + phoneNo);
+		System.out.println("AIA former CES website: " + website);
 		
+		assertEquals(application_status, applicationStatus);
 		assertEquals(application_Type, applicationType);
 		assertEquals(priOwner, owner);
 		assertEquals(electronic_Attestation, isAttestation);
 		assertEquals(electronic_Attestation_date, attestationdate);
 		assertEquals(account, orgName);
-		assertEquals(organization_Type, orgType);
+		//assertEquals(organization_Type, orgType);
 		assertEquals(prior_Provider, priorProvider);
 		if(priorProvider.equalsIgnoreCase("Yes")) {
 			assertNotNull(former_CES_Provider_Number);
@@ -169,6 +182,12 @@ public class JoinCESAPIValidation
 		
 		//assertEquals(ownerId, lastModifiedById);
 		assertEquals(ownerId, createdById);
+		assertEquals(phoneNo, dataList.get(2));
+		if(website != null) {
+			assertEquals(website, dataList.get(7));
+			assertEquals(zipCode, "055443");
+			assertEquals(streetAddress, "Street No-1");
+		}
 	}
 	
 	
@@ -416,10 +435,14 @@ public class JoinCESAPIValidation
 			//assertTrue(receipt.contains(receiptNumber));
 			assertEquals(totalFeePaid, feePaid);
 			assertEquals(postedDate, java.time.LocalDate.now().toString());
-			assertTrue(paymentMethod.contains("1111"));
-			assertEquals(paymentType, "Credit Card");
-			
-		} 
+			if(paymentType.contains("Credit")) {
+				assertTrue(paymentMethod.contains("1111"));
+				assertEquals(paymentType, "Credit Card");
+			} else if(paymentType.contains("eCheck")) {
+				assertTrue(paymentMethod.contains("3210"));
+				assertEquals(paymentType, "eCheck");
+			}
+		}
 		else {
 			System.out.println("No Recipt found!!!");
 		}

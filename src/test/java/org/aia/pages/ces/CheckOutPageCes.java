@@ -76,7 +76,7 @@ WebDriver driver;
 	
 	@FindBy(xpath="#eCheckMethod>div:nth-child(6)>div>div:nth-child(2)>div>label>span:nth-child(2)") WebElement checkboxECheckoutCes;
 	
-	@FindBy(xpath="div[data-name='paymentMethodsDiv']>div:nth-child(2)>div>button") WebElement btnProcessPaymntECheckoutCes;
+	@FindBy(xpath="//button[text()='Process payment']") WebElement btnProcessPaymntECheckoutCes;
 	
 	@FindBy(xpath="div[data-name='paymentMethodsDiv']>div:nth-child(2)>div>button") WebElement sendPerformaInvoiceBtnCes; 
 	
@@ -125,17 +125,19 @@ WebDriver driver;
 	}
 	
 	
-	public void enterECheckDetailsCes() throws InterruptedException {
+	public void enterECheckDetailsCes(String accountHolderName ,String bankName, String bankRoutingNumber, String bankAccountNumber) throws InterruptedException {
 		util.waitUntilElement(driver, eCheckCes);
 		eCheckCes.click();
+		Thread.sleep(2000);
 		util.waitUntilElement(driver, fullNameECheckoutCes);
-		fullNameECheckoutCes.sendKeys("ECAutofn");
-		bankNameECheckoutCes.sendKeys("ECAutobn");
-		bankRoutingECheckoutCes.sendKeys("1122334455");
+		fullNameECheckoutCes.sendKeys(accountHolderName);
+		bankNameECheckoutCes.sendKeys(bankName);
+		bankRoutingECheckoutCes.sendKeys(bankRoutingNumber);
+		bankAccntNumECheckoutCes.sendKeys(bankAccountNumber);
 		util.selectDropDownByText(bankAccntTypeECheckoutCes, "savings");
 		util.selectDropDownByText(bankAccntHolderTypeECheckoutCes, "personal");
-		checkboxECheckoutCes.click();
-		discountCodeOrderCes.sendKeys("");
+		//checkboxECheckoutCes.click();
+		//discountCodeOrderCes.sendKeys("");
 		btnProcessPaymntECheckoutCes.click();
 	}
 

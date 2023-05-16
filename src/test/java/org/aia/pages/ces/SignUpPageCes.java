@@ -58,6 +58,7 @@ public class SignUpPageCes {
 	 String lName;
 	 String mobNumb;
 	 String password;
+	 String website;
 	 public String emailaddressdata;
 	 public String  emailPrefix;
 	 public String emailDomain;
@@ -94,7 +95,9 @@ public class SignUpPageCes {
 		  password = "Login_123";
 		  System.out.println(password); 
 		  list.add(6, password);
-		  
+		  website = "https://www.aiaautomation.com";
+		  System.out.println(website); 
+		  list.add(7, website);
 		  return list;
 	}
 	
