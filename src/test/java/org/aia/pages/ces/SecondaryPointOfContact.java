@@ -53,6 +53,9 @@ WebDriver driver;
 	String fName_sec;
 	String lName_sec;
 	String workmobNumb;
+	public String emailaddressdata;
+	public String  emailPrefix;
+	public String emailDomain;
 	ArrayList<String> list = new ArrayList<String>();
 
 	public ArrayList<String> secPOCData() throws Exception { 
@@ -65,6 +68,18 @@ WebDriver driver;
 	  workmobNumb = "09999"+String.format("%05d", new Random().nextInt(100000));
 	  list.add(2, workmobNumb);
 	  System.out.println(workmobNumb);
+	  DateFormat dateFormat = new SimpleDateFormat("mmmddyyyy");
+	  Date date = new Date();
+	  System.out.println(date.toString());
+	  String date1= dateFormat.format(date);
+	  System.out.println(date1);
+	  emailPrefix = "auto_secuser_"+RandomStringUtils.randomAlphabetic(4).toLowerCase()+date1;
+	  list.add(3, emailPrefix);
+	  emailDomain = "@architects-team.m8r.co";
+	  list.add(4, emailDomain);
+	  emailaddressdata = emailPrefix + emailDomain;
+	  list.add(5, emailaddressdata);
+	  System.out.println("Additional User emai ID: " + emailaddressdata);
 	  return list;
 	  }
 
@@ -85,7 +100,7 @@ WebDriver driver;
 			selectWorkPhoneCountry(country);
 			workPhoneNumSecondary.clear();
 			workPhoneNumSecondary.sendKeys(sec_pocList.get(2));
-			primaryEmailAddress.sendKeys(dataList.get(5));
+			primaryEmailAddress.sendKeys(sec_pocList.get(5));
 		}
 			nextBtnSecondary.click();
 	}

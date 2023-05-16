@@ -105,6 +105,7 @@ public class Organization {
 			orgWorkPhoneCountry.click();
 			driver.findElement(By.xpath("//span[@title='"+countryCode+"']")).click();
 			organizationWorkPhoneNum.sendKeys(dataList.get(2));
+			orgWebsite.sendKeys(dataList.get(7));
 			orgNext.click();	
 			
 			return orgType;

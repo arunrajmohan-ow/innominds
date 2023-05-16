@@ -44,7 +44,7 @@ public class MailinatorCESAPI {
 
 		JsonPath jsonPathEval = null;
 		String mailinator_uri = MAILINATOR_API + inbox;
-		Thread.sleep(10000);
+		Thread.sleep(15000);
 
 		Response response =  RestAssured.given().headers("Content-Type", ContentType.JSON, "Accept", ContentType.JSON,"Authorization",bearerToken).when().get(mailinator_uri).then().extract().response();
 		System.out.println(response.getBody().asPrettyString());
@@ -267,6 +267,67 @@ public class MailinatorCESAPI {
 		String subscription_links_uri = "https://aia--testing.sandbox.my.site.com/Providers/s/store#/store/checkout/";
 		
 		ArrayList links = new ArrayList();
+
+		String regex = "\\(?\\b(https://)[-A-Za-z0-9+&amp;@#/%?=~_()|!:,.;]*[-A-Za-z0-9+&amp;@#/%=~_()|]";
+		Pattern p = Pattern.compile(regex);
+		Matcher m = p.matcher(value);
+		while(m.find()) {
+		String urlStr = m.group();
+		
+		links.add(urlStr);
+		}
+		System.out.println("body is " + links);
+		
+		String finallink;
+		finallink = (String) links.get(0);
+		return finallink;
+	}
+	
+	public String cesProviderApprovedNewProviders(ArrayList<String> dataList) throws InterruptedException {
+		String inbox = dataList.get(3);
+		String messageId = null;
+		JsonPath jsonPathEval = null;
+
+		String mailinator_uri = MAILINATOR_API + inbox;
+		Thread.sleep(10000);
+
+		Response response =  RestAssured.given().headers("Content-Type",
+				ContentType.JSON, "Accept",
+				ContentType.JSON,"Authorization",
+				bearerToken).
+				when().
+				get(mailinator_uri).
+				then().
+				extract().response();
+		System.out.println(response.getBody().asPrettyString());
+
+		jsonPathEval = response.jsonPath();
+		for(int i=0; i<2; i++) {
+			String subject = jsonPathEval.getString("msgs["+i+"].subject");
+			if(subject.contains("Requires Changes")) {
+				messageId = jsonPathEval.getString("msgs["+i+"].id");
+				System.out.println("Message Id is "+messageId);
+				break;
+			}
+		}
+		
+		String message_uri = MAILINATOR_INBOS_ENDPOINT + inbox + "/messages/" + messageId ;
+		response =  RestAssured.given().
+				 headers("Content-Type", ContentType.JSON, "Accept", ContentType.JSON,"Authorization",bearerToken).when().get(message_uri).then().extract().response();
+
+		jsonPathEval = response.jsonPath();
+		Thread.sleep(5000);
+		
+		String value = response.path("parts[1].body").toString();
+		System.out.println("body is " + value);
+		
+		//Validate approval and correct Information.
+		//Assert.assertTrue(value.contains("AIA continuing education provider has been approved"));
+		
+		//Get available links on Welcome to the AIA mail.
+		String subscription_links_uri = "https://aia--testing.sandbox.my.site.com/Providers/s/store#/store/checkout/";
+		
+		ArrayList<String> links = new ArrayList<String>();
 
 		String regex = "\\(?\\b(https://)[-A-Za-z0-9+&amp;@#/%?=~_()|!:,.;]*[-A-Za-z0-9+&amp;@#/%=~_()|]";
 		Pattern p = Pattern.compile(regex);
