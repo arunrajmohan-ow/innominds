@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.Utility;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -23,7 +24,7 @@ public class MailinatorAPI {
 	WebDriver driver;
 	
 	Utility util = new Utility(driver, 30);
-	
+	ConfigDataProvider data = new ConfigDataProvider();
 	public MailinatorAPI(WebDriver IDriver){
 		this.driver = IDriver;
 	}
@@ -268,8 +269,34 @@ public class MailinatorAPI {
 		Thread.sleep(5000);
 		String msgBody = response.path("parts[0].body").toString();
 		System.out.println("body is " + msgBody);
-		Assert.assertTrue(msgBody.contains("Thanks for joining AIA!"));
+		Assert.assertTrue(msgBody.contains(data.testDataProvider().getProperty("thankyouJoinMail")));
 	}
 	
-	
+	public void thankYouEmailforOfflineRenew(String emailPrefix) throws InterruptedException {
+		String inbox=emailPrefix;
+		JsonPath jsonPathEval = null;
+		String mailinator_uri = MAILINATOR_API + inbox;
+		Thread.sleep(7000);
+		Response response =  RestAssured.given().headers("Content-Type",
+				ContentType.JSON, "Accept",
+				ContentType.JSON,"Authorization",
+				bearerToken).
+				when().
+				get(mailinator_uri).
+				then().
+				extract().response();
+		System.out.println(response.getBody().asPrettyString());
+
+		jsonPathEval = response.jsonPath();
+		String messageId = jsonPathEval.getString("msgs[0].id");
+		String message_uri = MAILINATOR_INBOS_ENDPOINT + inbox + "/messages/" + messageId ;
+		 response =  RestAssured.given().
+				 headers("Content-Type", ContentType.JSON, "Accept", ContentType.JSON,"Authorization",bearerToken).when().get(message_uri).then().extract().response();
+
+		jsonPathEval = response.jsonPath();
+		Thread.sleep(5000);
+		String msgBody = response.path("parts[0].body").toString();
+		System.out.println("body is " + msgBody);
+		Assert.assertTrue(msgBody.contains(data.testDataProvider().getProperty("thankyouJoinMail")));
+	}
 }

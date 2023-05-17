@@ -1,5 +1,7 @@
 package org.aia.pages.fonteva.membership;
 
+import java.util.List;
+
 import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.Utility;
 import org.apache.log4j.Logger;
@@ -30,78 +32,89 @@ public class ReNewUser {
 		action = new Actions(driver);
 		executor = (JavascriptExecutor) driver;
 	}
-	
-	String contact ="//span[text()='%s']//ancestor::a";
-	
-	@FindBy(xpath="(//span[contains(text(),'Memberships')])[3]/ancestor::a")
+
+	String contact = "//span[text()='%s']//ancestor::a";
+
+	@FindBy(xpath = "(//span[contains(text(),'Memberships')])[3]/ancestor::a")
 	WebElement selectMembership;
-	
-	@FindBy(xpath="(//table[@aria-label='Memberships']//tr)[2]/th/span/a")
+
+	@FindBy(xpath = "(//table[@aria-label='Memberships']//tr)[2]/th/span/a")
 	WebElement subscriptionId;
-	
-	@FindBy(xpath="(//span[contains(text(),'Terms')])[2]/ancestor::a")
+
+	@FindBy(xpath = "(//span[contains(text(),'Terms')])[2]/ancestor::a")
 	WebElement termsLink;
-	
-	@FindBy(xpath="(//table[@aria-label='Terms']//tr)[2]/th/span/a")
+
+	@FindBy(xpath = "(//table[@aria-label='Terms']//tr)[2]/th/span/a")
 	WebElement termId;
-	
-	@FindBy(xpath="//button[@title='Edit Term End Date']")
+
+	@FindBy(xpath = "//button[@title='Edit Term End Date']")
 	WebElement termEditBtn;
-	
-	@FindBy(xpath="//input[@name='OrderApi__Term_End_Date__c']")
+
+	@FindBy(xpath = "//input[@name='OrderApi__Term_End_Date__c']")
 	WebElement termDate;
-	
-	@FindBy(xpath="//button[text()='Save']")
+
+	@FindBy(xpath = "//button[text()='Save']")
 	WebElement saveBtn;
-	
-	String contactTerm="(//span[text()='%s']//ancestor::a)[2]";
-	
-	@FindBy(xpath="(//button[text()='Renew'])[2]")
+
+	String contactTerm = "(//span[text()='%s']//ancestor::a)[2]";
+
+	@FindBy(xpath = "(//button[text()='Renew'])[2]")
 	WebElement renewBtn;
-	
-	@FindBy(xpath="//button[contains(@aria-label,'Subscription ')]")
+
+	@FindBy(xpath = "//button[contains(@aria-label,'Subscription ')]")
 	WebElement subPlanDrp;
-	
-	@FindBy(xpath="//span[text()='Dues - Renew Payment in Full']")
+
+	@FindBy(xpath = "//span[text()='Dues - Renew Payment in Full']")
 	WebElement selectDeusPlan;
-	
-	@FindBy(xpath="//button[@name='executeRenew']")
+
+	@FindBy(xpath = "//button[@name='executeRenew']")
 	WebElement updateSalesOrderBtn;
+
+	@FindBy(xpath = "//button[text()='Ready For Payment']")
+	WebElement readyForPayment;
+
+	@FindBy(xpath = "//button[text()='Apply Payment']")
+	WebElement applyPaymentTab;
+
+	@FindBy(xpath = "(//iframe[@title='accessibility title'])[3]")
+	WebElement drpIframe;
 	
-	
+	@FindBy(xpath = "//span[text()='Apply Payment']/parent::button")
+	WebElement applyLastPayment;
+
 	/**
 	 * @param fullName
-	 * @throws InterruptedException 
+	 * @throws InterruptedException
 	 */
 	public void changeTermDate(String fullName) throws InterruptedException {
 		Thread.sleep(7000);
-		WebElement selectContact =driver.findElement(By.xpath(String.format(contact, fullName)));
-        executor.executeScript("arguments[0].click();", selectContact);
-        util.waitUntilElement(driver, selectMembership);
-        selectMembership.click();
-        Thread.sleep(10000);
-        driver.navigate().refresh();
-        util.waitUntilElement(driver, subscriptionId);
-        subscriptionId.click();
-        util.waitUntilElement(driver, termsLink);
-        termsLink.click();
-        util.waitUntilElement(driver, termId);
-        termId.click();
-        util.waitUntilElement(driver, termEditBtn);
-        action.scrollToElement(termEditBtn);
-        termEditBtn.click();
-        util.enterText(driver, termDate, data.testDataProvider().getProperty("termEndDate"));
-        Thread.sleep(5000);
-        saveBtn.click();
+		WebElement selectContact = driver.findElement(By.xpath(String.format(contact, fullName)));
+		executor.executeScript("arguments[0].click();", selectContact);
+		util.waitUntilElement(driver, selectMembership);
+		selectMembership.click();
+		Thread.sleep(10000);
+		driver.navigate().refresh();
+		util.waitUntilElement(driver, subscriptionId);
+		subscriptionId.click();
+		util.waitUntilElement(driver, termsLink);
+		termsLink.click();
+		util.waitUntilElement(driver, termId);
+		termId.click();
+		util.waitUntilElement(driver, termEditBtn);
+		action.scrollToElement(termEditBtn);
+		termEditBtn.click();
+		util.enterText(driver, termDate, data.testDataProvider().getProperty("termEndDate"));
+		Thread.sleep(5000);
+		saveBtn.click();
 	}
-	
+
 	/**
 	 * @param fullName
-	 * @throws InterruptedException 
+	 * @throws InterruptedException
 	 */
 	public void renewMembership(String fullName) throws InterruptedException {
 		Thread.sleep(10000);
-		executor.executeScript("window.scrollBy(0,-500)", "" );
+		executor.executeScript("window.scrollBy(0,-500)", "");
 		WebElement contactInTermLink = driver.findElement(By.xpath(String.format(contactTerm, fullName)));
 		executor.executeScript("arguments[0].click();", contactInTermLink);
 		util.waitUntilElement(driver, renewBtn);
@@ -112,14 +125,29 @@ public class ReNewUser {
 		util.waitUntilElement(driver, updateSalesOrderBtn);
 		updateSalesOrderBtn.click();
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+	/**
+	 * @throws InterruptedException
+	 */
+	public void applyForPayment() throws InterruptedException {
+		util.waitUntilElement(driver, readyForPayment);
+		readyForPayment.click();
+		util.waitUntilElement(driver, applyPaymentTab);
+		applyPaymentTab.click();
+		Thread.sleep(10000);
+		// check wait
+		driver.switchTo().frame(drpIframe);
+		Thread.sleep(7000);
+		// check wait
+		List<WebElement> options = driver.findElements(By.xpath("//select[@aria-label='Payment Type']/option"));
+		for (WebElement drpOption : options) {
+			System.out.println(drpOption.getText());
+			if (drpOption.getText().equalsIgnoreCase("Credit card")) {
+				drpOption.click();
+			}
+		}
+		util.waitUntilElement(driver, applyLastPayment);
+		applyLastPayment.click();
+	}
+
 }
