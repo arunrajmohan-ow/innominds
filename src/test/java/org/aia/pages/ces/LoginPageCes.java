@@ -42,7 +42,7 @@ public class LoginPageCes {
 	@FindBy(xpath="//span[contains(text(),'Your password is incorrect')]") WebElement loginError;
 	
 	@Step("Enter credentials with username {0} and password {1} and click on submit button")
-	public void loginToCes(String uname,String pwd)
+	public void loginToCes(String uname,String pwd) throws Exception
 	{
 		util.waitUntilElement(driver, emailAddress);
 		Logging.logger.info("Waiting for the email text field to appear.");
@@ -50,6 +50,23 @@ public class LoginPageCes {
 		emailAddress.sendKeys(uname);
 		password.sendKeys(pwd);
 		submitbtn.click();
+		// Workaround for defect #  FM-321.
+	    try {
+	    	util.waitUntilElement(driver, pageTitleProviderApp);
+			Logging.logger.info("Waiting for provider application page to appear.");
+			Thread.sleep(1000);
+			String title = driver.getTitle();
+			assertTrue(title.equalsIgnoreCase("Provider Application"), "Provider Application page is loaded.");
+	    } catch (Exception ex) {
+	    	driver.navigate().refresh();
+	    	util.waitUntilElement(driver, emailAddress);
+			Logging.logger.info("Waiting for the email text field to appear.");
+			System.out.println("Email Text field displayed");
+			emailAddress.sendKeys(uname);
+			password.sendKeys(pwd);
+			submitbtn.click();
+			Thread.sleep(1000);
+	    }
 	}
 
 	@Step("Check login success.")
