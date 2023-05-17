@@ -26,3 +26,4 @@ hs_err_pid*
 /dist
 /test-results
 /test-output
+/Report/report.html
