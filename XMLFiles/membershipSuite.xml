@@ -6,10 +6,11 @@
 </listeners>
   <test thread-count="5" name="Test">
     <classes>
-      <class name="org.aia.testcases.membership.TestRenew_Membership"/>
+    <!--  <class name="org.aia.testcases.membership.TestRenew_Membership"/>
+           <class name="org.aia.testcases.membership.TestDIPRenew_Membership"/>
+      <class name="org.aia.testcases.membership.TestJoin_Membership"/>    -->  
       <class name="org.aia.testcases.membership.TestDIPJoin_Membership"/>
-      <class name="org.aia.testcases.membership.TestDIPRenew_Membership"/>
-      <class name="org.aia.testcases.membership.TestJoin_Membership"/>   
+      
     <!--<class name="org.aia.testcases.ces.TestJoinArchitectureFirm_CES"/>
       <class name="org.aia.testcases.ces.TestJoinPassport_CES"/>
       <class name="org.aia.testcases.ces.TestJoinProfessional_CES"/>
