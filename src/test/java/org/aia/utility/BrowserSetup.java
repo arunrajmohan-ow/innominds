@@ -49,6 +49,7 @@ public class BrowserSetup {
 			System.out.println("Browser version is not supported.");
 		}
         driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(120));
+        driver.manage().deleteAllCookies();
         driver.manage().window().maximize();
         driver.get(url);
         

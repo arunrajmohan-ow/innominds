@@ -93,6 +93,7 @@ public class TellusAboutYourselfPage {
 			JavascriptExecutor js = (JavascriptExecutor) driver;
 			js.executeScript("window.scrollBy(0,900)", workBusinesChckboxTellpage);
 			clickonChckBox();
+			Thread.sleep(7000);
 			enterdetails(homecountryUnitedStatesTellpage);
 			
 		}
@@ -103,6 +104,7 @@ public class TellusAboutYourselfPage {
 			entercareerType(careerType);
 			enterLicenseDetails();			
 			clickonChckBox();
+			Thread.sleep(7000);
 			enterdetails(homecountryUnitedStates2Tellpage);
 		}
 		else if(text.contentEquals("activeNonUSLicense"))
@@ -111,6 +113,7 @@ public class TellusAboutYourselfPage {
 			entercareerType(careerType);
 			enterLicenseDetailsNonUS();		
 			clickonChckBox();
+			Thread.sleep(7000);
 			enterdetails(homecountryUnitedStates2Tellpage);
 		}
 		
@@ -122,6 +125,7 @@ public class TellusAboutYourselfPage {
 			JavascriptExecutor js = (JavascriptExecutor) driver;
 			js.executeScript("window.scrollBy(0,500)", workBusinesChckboxTellpage);
 			clickonChckBox();
+			Thread.sleep(7000);
 			enterdetails(homecountryUnitedStatesTellpage);
 		}
 		
@@ -132,6 +136,7 @@ public class TellusAboutYourselfPage {
 			JavascriptExecutor js = (JavascriptExecutor) driver;
 			js.executeScript("window.scrollBy(0,500)", workBusinesChckboxTellpage);
 			clickonChckBox();
+			Thread.sleep(7000);
 			enterdetails(homecountryUnitedStatesTellpage);
 		}
 		
@@ -147,6 +152,7 @@ public class TellusAboutYourselfPage {
 			JavascriptExecutor js = (JavascriptExecutor) driver;
 			js.executeScript("window.scrollBy(0,900)", workBusinesChckboxTellpage);
 			clickonChckBox();
+			Thread.sleep(7000);
 			enterdetails(homecountryUnitedStatesTellpage);
 			
 		}
@@ -157,6 +163,7 @@ public class TellusAboutYourselfPage {
 			entercareerType(careerType);
 			enterLicenseDetails();			
 			clickonChckBox();
+			Thread.sleep(7000);
 			enterFullDetails(homecountryUnitedStates2Tellpage);
 		}
 		else if(text.contentEquals("activeNonUSLicense"))
@@ -165,6 +172,7 @@ public class TellusAboutYourselfPage {
 			entercareerType(careerType);
 			enterLicenseDetailsNonUS();		
 			clickonChckBox();
+			Thread.sleep(7000);
 			enterdetails(homecountryUnitedStates2Tellpage);
 		}
 		
@@ -176,6 +184,7 @@ public class TellusAboutYourselfPage {
 			JavascriptExecutor js = (JavascriptExecutor) driver;
 			js.executeScript("window.scrollBy(0,500)", workBusinesChckboxTellpage);
 			clickonChckBox();
+			Thread.sleep(7000);
 			enterdetails(homecountryUnitedStatesTellpage);
 		}
 		
@@ -222,7 +231,7 @@ public class TellusAboutYourselfPage {
 		js.executeScript("window.scrollBy(0,300)", countryOfLicenseTellpage);
 		countryOfLicenseTellpage.click();
 		js.executeScript("window.scrollBy(0,50)", homecountryUnitedStatesTellpage);
-		
+		Thread.sleep(7000);
 		act.moveToElement(homecountryUnitedStatesTellpage).click().build().perform();
 		
 		js.executeScript("window.scrollBy(0,30)", stateOfLicenceTellpage);
@@ -249,7 +258,7 @@ public class TellusAboutYourselfPage {
 		js.executeScript("window.scrollBy(0,200)", countryOfLicenseTellpage);
 		countryOfLicenseTellpage.click();
 		js.executeScript("window.scrollBy(0,50)", homecountryUnitedStatesTellpage);
-		
+		Thread.sleep(7000);
 		act.moveToElement(homecountryUnitedStatesTellpage).click().build().perform();
 		
 		js.executeScript("window.scrollBy(0,30)", licenseNumTellpage);
