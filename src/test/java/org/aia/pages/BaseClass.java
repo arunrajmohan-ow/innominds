@@ -31,6 +31,7 @@ public class BaseClass {
 	ExtentReports report;
 	ExtentTest logger;
 	protected Utility util;
+	protected ConfigDataProvider testData;
 	public static ExtentReporter htmlReporter;
 	public static GenerateReports reports;
 	// Configure Log4j to perform error logging
