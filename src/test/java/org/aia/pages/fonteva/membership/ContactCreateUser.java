@@ -277,7 +277,7 @@ public class ContactCreateUser {
 	 *             option from dropdown
 	 * @throws InterruptedException
 	 */
-	public void createSalesOrder() throws InterruptedException {
+	public void createSalesOrder(String paymentOpt) throws InterruptedException {
 		util.waitUntilElement(driver, selectDuesDrp);
 		selectDuesDrp.click();
 		selectDeusOpt.click();
@@ -294,7 +294,7 @@ public class ContactCreateUser {
 		List<WebElement> options = driver.findElements(By.xpath("//select[@aria-label='Payment Type']/option"));
 		for (WebElement drpOption : options) {
 			System.out.println(drpOption.getText());
-			if (drpOption.getText().equalsIgnoreCase("Credit card")) {
+			if (drpOption.getText().equalsIgnoreCase(paymentOpt)) {
 				drpOption.click();
 			}
 		}
