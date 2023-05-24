@@ -2,6 +2,7 @@ package org.aia.utility;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Driver;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
@@ -24,7 +25,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class Utility {
-	
 	
 	WebDriverWait wait;
 	
@@ -281,6 +281,12 @@ public class Utility {
 	public Select selectDrp(WebElement element) {
 		Select option = new Select(element);
 		return option;
+	}
+	
+	public WebElement getCustomizedWebElement(WebDriver driver,String element,String replacement) {
+		WebElement finalElement= driver.findElement(By.xpath(String.format(element, replacement)));
+		waitUntilElement(driver, finalElement);
+		return finalElement;
 	}
 	
 }

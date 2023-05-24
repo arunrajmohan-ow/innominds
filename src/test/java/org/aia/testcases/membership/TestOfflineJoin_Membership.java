@@ -7,6 +7,7 @@ import org.aia.pages.api.MailinatorAPI;
 import org.aia.pages.api.membership.JoinAPIValidation;
 import org.aia.pages.fonteva.membership.ContactCreateUser;
 import org.aia.utility.BrowserSetup;
+import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.DataProviderFactory;
 import org.aia.utility.Logging;
 import org.aia.utility.Utility;
@@ -34,9 +35,10 @@ public class TestOfflineJoin_Membership extends BaseClass {
 		driver = BrowserSetup.startApplication(driver, DataProviderFactory.getConfig().getValue("browser"),
 				DataProviderFactory.getConfig().getValue("fonteva_endpoint"));
 		util = new Utility(driver, 30);
+		testData = new ConfigDataProvider();
 		fontevaJoin = PageFactory.initElements(driver, ContactCreateUser.class);
-		malinator=PageFactory.initElements(driver,MailinatorAPI.class);
-		offlinApiValidation=PageFactory.initElements(driver,JoinAPIValidation.class);
+		malinator = PageFactory.initElements(driver, MailinatorAPI.class);
+		offlinApiValidation = PageFactory.initElements(driver, JoinAPIValidation.class);
 		// Configure Log4j to perform error logging
 		Logging.configure();
 	}
@@ -51,19 +53,21 @@ public class TestOfflineJoin_Membership extends BaseClass {
 		ArrayList<String> dataList = fontevaJoin.userData();
 		fontevaJoin.signInFonteva();
 		fontevaJoin.createUserInFonteva();
-		fontevaJoin.joinCreatedUser("Architect", "Non profit");
+		fontevaJoin.joinCreatedUser(testData.testDataProvider().getProperty("membershipType"),
+				testData.testDataProvider().getProperty("selection"));
 		fontevaJoin.enterLicenseDetail();
-		fontevaJoin.createSalesOrder();
+		fontevaJoin.createSalesOrder(testData.testDataProvider().getProperty("paymentMethod"));
 		fontevaJoin.applyPayment();
 		ArrayList<Object> data =fontevaJoin.getPaymentReceiptData();
 		//Validation of Thank you massage in email inbox after register.
 		malinator.thankYouEmailforOfflineJoin(dataList.get(2));
 		//Validate Membership & Term is got created
-		offlinApiValidation.verifyMemebershipCreation(dataList.get(3),
+		offlinApiValidation.verifyMemebershipCreation(dataList.get(2),
 				DataProviderFactory.getConfig().getValue("termEndDate"), data.get(2),
-				DataProviderFactory.getConfig().getValue("type_aia_national"), "Architect", "Non profit");
+				DataProviderFactory.getConfig().getValue("type_aia_national"), testData.testDataProvider().getProperty("membershipType"),
+				testData.testDataProvider().getProperty("selection"));
 		//Validate sales order is created or not
-		offlinApiValidation.verifySalesOrderForPriceRule("Architect");
+		offlinApiValidation.verifySalesOrderForPriceRule(testData.testDataProvider().getProperty("membershipType"));
 		
 	}
 

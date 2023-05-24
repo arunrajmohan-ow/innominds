@@ -34,7 +34,10 @@ public class ReNewUser {
 	}
 
 	String contact = "//span[text()='%s']//ancestor::a";
-
+   
+  	@FindBy(xpath="//a[contains(text(),'Show All')]")
+  	WebElement showAll;
+  	
 	@FindBy(xpath = "(//span[contains(text(),'Memberships')])[3]/ancestor::a")
 	WebElement selectMembership;
 
@@ -90,6 +93,8 @@ public class ReNewUser {
 		Thread.sleep(7000);
 		WebElement selectContact = driver.findElement(By.xpath(String.format(contact, fullName)));
 		executor.executeScript("arguments[0].click();", selectContact);
+		util.waitUntilElement(driver, showAll);
+		showAll.click();
 		util.waitUntilElement(driver, selectMembership);
 		selectMembership.click();
 		Thread.sleep(10000);
@@ -129,7 +134,7 @@ public class ReNewUser {
 	/**
 	 * @throws InterruptedException
 	 */
-	public void applyForPayment() throws InterruptedException {
+	public void applyForPayment(String paymentMethod) throws InterruptedException {
 		util.waitUntilElement(driver, readyForPayment);
 		readyForPayment.click();
 		util.waitUntilElement(driver, applyPaymentTab);
@@ -142,7 +147,7 @@ public class ReNewUser {
 		List<WebElement> options = driver.findElements(By.xpath("//select[@aria-label='Payment Type']/option"));
 		for (WebElement drpOption : options) {
 			System.out.println(drpOption.getText());
-			if (drpOption.getText().equalsIgnoreCase("Credit card")) {
+			if (drpOption.getText().equalsIgnoreCase(paymentMethod)) {
 				drpOption.click();
 			}
 		}

@@ -2,7 +2,6 @@ package org.aia.testcases.membership;
 
 import java.util.ArrayList;
 
-
 import org.aia.pages.BaseClass;
 import org.aia.pages.api.MailinatorAPI;
 import org.aia.pages.api.membership.RenewAPIValidation;
@@ -31,6 +30,7 @@ public class TestOfflineRenew_Membership extends BaseClass {
 	RenewAPIValidation offlinApiValidation;
 	public ExtentReports extent;
 	public ExtentTest extentTest;
+
 	@BeforeMethod
 	public void setUp() throws Exception {
 		driver = BrowserSetup.startApplication(driver, DataProviderFactory.getConfig().getValue("browser"),
@@ -51,32 +51,32 @@ public class TestOfflineRenew_Membership extends BaseClass {
 		ArrayList<String> dataList = fontevaJoin.userData();
 		fontevaJoin.signInFonteva();
 		fontevaJoin.createUserInFonteva();
-		fontevaJoin.joinCreatedUser("Architect", "Non profit");
+		fontevaJoin.joinCreatedUser(testData.testDataProvider().getProperty("membershipType"),
+				testData.testDataProvider().getProperty("selection"));
 		fontevaJoin.enterLicenseDetail();
-		fontevaJoin.createSalesOrder();
+		fontevaJoin.createSalesOrder(testData.testDataProvider().getProperty("paymentMethod"));
 		fontevaJoin.applyPayment();
 		ArrayList<Object> data = fontevaJoin.getPaymentReceiptData();
 		reNew.changeTermDate(dataList.get(5));
 		reNew.renewMembership(dataList.get(5));
-		reNew.applyForPayment();
+		reNew.applyForPayment(testData.testDataProvider().getProperty("paymentMethod"));
 		fontevaJoin.applyPayment();
 		ArrayList<Object> renewReciept = fontevaJoin.getPaymentReceiptData();
 		// Validation of Thank you massage in email inbox after renew
 		malinator.thankYouEmailforOfflineRenew(dataList.get(2));
 		// Validate Membership & Term is got created
-		offlinApiValidation.verifyMemebershipRenewal(dataList.get(3), 
-				  testData.testDataProvider().getProperty("termEndDate"), 
-				  renewReciept.get(2), 
-				  DataProviderFactory.getConfig().getValue("type_aia_national"), 
-				  "Architect", "Non profit"); 
-		 // Validate sales order created or not
-		offlinApiValidation.verifySalesOrder(DataProviderFactory.getConfig().getValue("salesOrderStatus"), 
-				  DataProviderFactory.getConfig().getValue("orderStatus"),
-				  renewReciept.get(2), 
-				  DataProviderFactory.getConfig().getValue("postingStatus")); 
-		//Validate Receipt Details 
+		offlinApiValidation.verifyMemebershipRenewal(dataList.get(3),
+				testData.testDataProvider().getProperty("termEndDate"), renewReciept.get(2),
+				DataProviderFactory.getConfig().getValue("type_aia_national"),
+				testData.testDataProvider().getProperty("membershipType"),
+				testData.testDataProvider().getProperty("selection"));
+		// Validate sales order created or not
+		offlinApiValidation.verifySalesOrder(DataProviderFactory.getConfig().getValue("salesOrderStatus"),
+				DataProviderFactory.getConfig().getValue("orderStatus"), renewReciept.get(2),
+				DataProviderFactory.getConfig().getValue("postingStatus"));
+		// Validate Receipt Details
 		offlinApiValidation.verifyReciptDetails(data.get(0), data.get(2));
-		
+
 	}
 
 	@AfterMethod
