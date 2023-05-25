@@ -12,6 +12,7 @@ import org.aia.pages.BaseClass;
 import org.aia.pages.api.MailinatorAPI;
 import org.aia.pages.api.MailinatorCESAPI;
 import org.aia.pages.api.ces.JoinCESAPIValidation;
+import org.aia.pages.api.membership.FontevaConnectionSOAP;
 import org.aia.pages.api.membership.JoinAPIValidation;
 import org.aia.pages.ces.*;
 import org.aia.pages.membership.DevSandBoxFonteva;
@@ -117,7 +118,10 @@ public class TestJoinArchitectureFirm_CES extends BaseClass {
 		String paId = apiValidation.getProviderApplicationID(userAccount.get(0)+" "+userAccount.get(1)); 
 		
 		// Navigate to Fonteva app and make record renew eligible.
-		driver.get(DataProviderFactory.getConfig().getValue("fonteva_endpoint"));
+		FontevaConnectionSOAP sessionID = new FontevaConnectionSOAP(); 
+		final String sID = sessionID.getSessionID();
+		driver.get("https://aia--testing.sandbox.my.salesforce.com/secur/frontdoor.jsp?sid=" + sID);
+		//driver.get(DataProviderFactory.getConfig().getValue("fonteva_endpoint"));
 		fontevaPage.changeProviderApplicationStatus(userAccount.get(0)+" "+userAccount.get(1), paId, "Approved");
 		
 		String checkoutpagelink = mailinator.cesProviderApprovedEmailLink(userAccount);
