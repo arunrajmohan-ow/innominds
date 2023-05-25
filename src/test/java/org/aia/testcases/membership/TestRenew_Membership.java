@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import org.aia.pages.BaseClass;
 import org.aia.pages.api.MailinatorAPI;
+import org.aia.pages.api.membership.FontevaConnectionSOAP;
 import org.aia.pages.api.membership.JoinAPIValidation;
 import org.aia.pages.api.membership.RenewAPIValidation;
 import org.aia.pages.membership.*;
@@ -102,7 +103,10 @@ public class TestRenew_Membership extends BaseClass {
 		mailinator.welcomeAIAEmailLink(dataList, receiptData);
 		
 		// Navigate to Fonteva app and make record renew eligible.
-		driver.get(DataProviderFactory.getConfig().getValue("fonteva_endpoint"));
+		FontevaConnectionSOAP sessionID = new FontevaConnectionSOAP(); 
+		final String sID = sessionID.getSessionID();
+		driver.get("https://aia--testing.sandbox.my.salesforce.com/secur/frontdoor.jsp?sid=" + sID);
+		//driver.get(DataProviderFactory.getConfig().getValue("fonteva_endpoint"));
 		fontevaPage.changeTermDates(dataList.get(0)+" "+dataList.get(1));
 		
 		// Navigate back to membership portal
@@ -161,7 +165,10 @@ public class TestRenew_Membership extends BaseClass {
 		mailinator.welcomeAIAEmailLink(dataList, receiptData);
 		
 		// Navigate to Fonteva app and make record renew eligible.
-		driver.get(DataProviderFactory.getConfig().getValue("fonteva_endpoint"));
+		FontevaConnectionSOAP sessionID = new FontevaConnectionSOAP(); 
+		final String sID = sessionID.getSessionID();
+		driver.get("https://aia--testing.sandbox.my.salesforce.com/secur/frontdoor.jsp?sid=" + sID);
+		//driver.get(DataProviderFactory.getConfig().getValue("fonteva_endpoint"));
 		fontevaPage.changeTermDates(dataList.get(0)+" "+dataList.get(1));
 		
 		// Navigate back to membership portal
@@ -219,7 +226,10 @@ public class TestRenew_Membership extends BaseClass {
 		mailinator.welcomeAIAEmailLink(dataList, receiptData);
 
 		// Navigate to Fonteva app and make record renew eligible.
-		driver.get(DataProviderFactory.getConfig().getValue("fonteva_endpoint"));
+		FontevaConnectionSOAP sessionID = new FontevaConnectionSOAP(); 
+		final String sID = sessionID.getSessionID();
+		driver.get("https://aia--testing.sandbox.my.salesforce.com/secur/frontdoor.jsp?sid=" + sID);
+		//driver.get(DataProviderFactory.getConfig().getValue("fonteva_endpoint"));
 		fontevaPage.changeTermDates(dataList.get(0)+" "+dataList.get(1));
 		
 		// Navigate back to membership portal
@@ -271,7 +281,10 @@ public class TestRenew_Membership extends BaseClass {
 		finalPage.verifyThankYouMessage();
 		
 		// Navigate to Fonteva app and make record renew eligible.
-		driver.get(DataProviderFactory.getConfig().getValue("fonteva_endpoint"));
+		FontevaConnectionSOAP sessionID = new FontevaConnectionSOAP(); 
+		final String sID = sessionID.getSessionID();
+		driver.get("https://aia--testing.sandbox.my.salesforce.com/secur/frontdoor.jsp?sid=" + sID);
+		//driver.get(DataProviderFactory.getConfig().getValue("fonteva_endpoint"));
 		fontevaPage.changeTermDates(dataList.get(0)+" "+dataList.get(1));
 		
 		// Navigate back to membership portal
@@ -333,7 +346,10 @@ public class TestRenew_Membership extends BaseClass {
 		mailinator.welcomeAIAEmailLink(dataList, receiptData);
 
 		// Navigate to Fonteva app and make record renew eligible.
-		driver.get(DataProviderFactory.getConfig().getValue("fonteva_endpoint"));
+		FontevaConnectionSOAP sessionID = new FontevaConnectionSOAP(); 
+		final String sID = sessionID.getSessionID();
+		driver.get("https://aia--testing.sandbox.my.salesforce.com/secur/frontdoor.jsp?sid=" + sID);
+		//driver.get(DataProviderFactory.getConfig().getValue("fonteva_endpoint"));
 		fontevaPage.changeTermDates(dataList.get(0)+" "+dataList.get(1));
 		
 		// Navigate back to membership portal
