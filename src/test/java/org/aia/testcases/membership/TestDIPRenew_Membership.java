@@ -3,6 +3,7 @@ package org.aia.testcases.membership;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import org.aia.pages.BaseClass;
@@ -76,6 +77,8 @@ public class TestDIPRenew_Membership extends BaseClass {
 	@Test(priority=1, description="Validate DIP Renew", enabled=true)
 	public void ValidateDipRenew() throws Exception
 	{
+		LocalDate localDate = java.time.LocalDate.now();
+		if (localDate.getMonthValue() >= 10 || localDate.getMonthValue() <= 04) {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
 		signUpPage.signUpUser();
@@ -127,6 +130,10 @@ public class TestDIPRenew_Membership extends BaseClass {
 				  DataProviderFactory.getConfig().getValue("postingStatus")); 
 		  //Validate Receipt Details 
 		apiValidationRenew.verifyReciptDetails(data.get(0), data.get(2));
+		}
+		else {
+			System.out.println("We are not DIP period");
+		}
 	}
 	
 	

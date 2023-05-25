@@ -40,7 +40,7 @@ public class TestProcessException_Membership extends BaseClass {
 	 * @throws InterruptedException
 	 */
 	@Test(priority = 1, description = "Saving New Processing Exception", enabled = true)
-	public void offlineRenewProcess() throws InterruptedException {
+	public void processException() throws InterruptedException {
 		ArrayList<String> dataList = fontevaJoin.userData();
 		// First we create new user in Fonteva
 		fontevaJoin.signInFonteva();
