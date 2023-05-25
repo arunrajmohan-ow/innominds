@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import org.aia.pages.BaseClass;
 import org.aia.pages.api.MailinatorAPI;
 import org.aia.pages.api.MailinatorCESAPI;
+import org.aia.pages.api.ces.FontevaConnection;
+import org.aia.pages.api.ces.FontevaConnectionSOAP;
 import org.aia.pages.api.ces.JoinCESAPIValidation;
 import org.aia.pages.api.membership.JoinAPIValidation;
 import org.aia.pages.ces.*;
@@ -86,21 +88,6 @@ public class TestJoinProfessional_CES extends BaseClass {
 		paymntSuccesFullPageCes = PageFactory.initElements(driver, PaymentSuccessFullPageCes.class);
 		apiValidation = PageFactory.initElements(driver, JoinCESAPIValidation.class);
 		fontevaPage = PageFactory.initElements(driver, FontevaCES.class);
-	}
-
-	@Test(priority = 1, description = "Validate Online JOIN for Architecture Firm using credit card.", enabled = false)
-	public void ValidateArchitectureJoin() throws Exception {
-		String prefix = "Dr.";
-		String suffix = "Sr.";
-		signUpPage.clickSignUplink();
-		ArrayList<String> dataList = signUpPage.signUpData();
-		// ArrayList<String> userAccount = dataList;
-		// Verify welcome email details.
-		// mailinator.cesProviderApprovedEmailLink(userAccount);
-
-		// Navigate to Fonteva app and make record renew eligible.
-		driver.get(DataProviderFactory.getConfig().getValue("fonteva_endpoint"));
-		fontevaPage.changeProviderApplicationStatus(dataList.get(0) + " " + dataList.get(1), "PA-0002153", "Approved");
 	}
 
 	@Test(priority = 1, description = "Validate Online JOIN for Professional E-Check.", enabled = true)
@@ -180,7 +167,7 @@ public class TestJoinProfessional_CES extends BaseClass {
 				userAccount.get(0) + " " + userAccount.get(1));
 	}
 
-	@Test(priority = 1, description = "Validate Online JOIN - Approved for Passport.", enabled = true)
+	@Test(priority = 2, description = "Validate Online JOIN - Approved for Passport.", enabled = true)
 	public void ValidateJoinApproveForPassport() throws Exception {
 		String prefix = "Dr.";
 		String suffix = "Sr.";
@@ -233,10 +220,6 @@ public class TestJoinProfessional_CES extends BaseClass {
 		Reporter.log("LOG : INFO -Customer AIA Number is : " + userAccount.get(1));
 		// Verify welcome email details.
 		mailinator.welcomeAIAEmailLink(userAccount);
-		/*
-		 * ArrayList<String> addUserAccount = additionalProviderUser.addUserData();
-		 * mailinator.welcomeAIAEmailLink(addUserAccount);
-		 */
 
 		// Validate Provider Application & CES Provider account details - Fonteva API
 		// validations
@@ -253,7 +236,7 @@ public class TestJoinProfessional_CES extends BaseClass {
 				DataProviderFactory.getConfig().getValue("postingStatus"));
 
 		// Validate Receipt Details
-		apiValidation.verifyReciptDetails(reciptData, amount, "CES Professional");
+		apiValidation.verifyReciptDetails(reciptData, amount, "CES Passport");
 
 		// Validate Primary POC
 		apiValidation.verifyPointOfContact("CES Primary", userAccount.get(5),
