@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import org.aia.pages.BaseClass;
 import org.aia.pages.api.MailinatorAPI;
+import org.aia.pages.api.membership.FontevaConnectionSOAP;
 import org.aia.pages.api.membership.JoinAPIValidation;
 import org.aia.pages.api.membership.RenewAPIValidation;
 import org.aia.pages.membership.*;
@@ -102,7 +103,10 @@ public class TestRenew_Membership extends BaseClass {
 		mailinator.welcomeAIAEmailLink(dataList, receiptData);
 		
 		// Navigate to Fonteva app and make record renew eligible.
-		driver.get(DataProviderFactory.getConfig().getValue("fonteva_endpoint"));
+		FontevaConnectionSOAP sessionID = new FontevaConnectionSOAP(); 
+		final String sID = sessionID.getSessionID();
+		driver.get("https://aia--testing.sandbox.my.salesforce.com/secur/frontdoor.jsp?sid=" + sID);
+		//driver.get(DataProviderFactory.getConfig().getValue("fonteva_endpoint"));
 		fontevaPage.changeTermDates(dataList.get(0)+" "+dataList.get(1));
 		
 		// Navigate back to membership portal
@@ -161,7 +165,10 @@ public class TestRenew_Membership extends BaseClass {
 		mailinator.welcomeAIAEmailLink(dataList, receiptData);
 		
 		// Navigate to Fonteva app and make record renew eligible.
-		driver.get(DataProviderFactory.getConfig().getValue("fonteva_endpoint"));
+		FontevaConnectionSOAP sessionID = new FontevaConnectionSOAP(); 
+		final String sID = sessionID.getSessionID();
+		driver.get("https://aia--testing.sandbox.my.salesforce.com/secur/frontdoor.jsp?sid=" + sID);
+		//driver.get(DataProviderFactory.getConfig().getValue("fonteva_endpoint"));
 		fontevaPage.changeTermDates(dataList.get(0)+" "+dataList.get(1));
 		
 		// Navigate back to membership portal
@@ -169,8 +176,8 @@ public class TestRenew_Membership extends BaseClass {
 		
 		//Renew user
 		renew.renewMembership(dataList.get(5));
-		orderSummaryPage.confirmTerms("activeUSLicense");
 		orderSummaryPage.enterSupplementalDuesDetails("architecturalFirmOwner","1","1","1");
+		orderSummaryPage.confirmTerms("activeUSLicense");
 		orderSummaryPage.clickonPayNow();
 		paymentInfoPage.clickOnCreditCard();
 		paymentInfoPage.paymentDetails("activeUSLicense");
@@ -219,7 +226,10 @@ public class TestRenew_Membership extends BaseClass {
 		mailinator.welcomeAIAEmailLink(dataList, receiptData);
 
 		// Navigate to Fonteva app and make record renew eligible.
-		driver.get(DataProviderFactory.getConfig().getValue("fonteva_endpoint"));
+		FontevaConnectionSOAP sessionID = new FontevaConnectionSOAP(); 
+		final String sID = sessionID.getSessionID();
+		driver.get("https://aia--testing.sandbox.my.salesforce.com/secur/frontdoor.jsp?sid=" + sID);
+		//driver.get(DataProviderFactory.getConfig().getValue("fonteva_endpoint"));
 		fontevaPage.changeTermDates(dataList.get(0)+" "+dataList.get(1));
 		
 		// Navigate back to membership portal
@@ -227,10 +237,9 @@ public class TestRenew_Membership extends BaseClass {
 		
 		//Renew user
 		renew.renewMembership(dataList.get(5));
-		//signInpage.login(dataList.get(5), dataList.get(6));
+		orderSummaryPage.enterSupplementalDuesDetails("solePractitioner","1","1","1");
 		orderSummaryPage.confirmTerms("activeUSLicense");
 		//int pac = orderSummaryPage.GetPacDonationAmount();
-		orderSummaryPage.enterSupplementalDuesDetails("solePractitioner","1","1","1");
 		orderSummaryPage.clickonPayNow();
 		paymentInfoPage.clickOnCreditCard();
 		paymentInfoPage.paymentDetails("activeUSLicense");
@@ -272,16 +281,17 @@ public class TestRenew_Membership extends BaseClass {
 		finalPage.verifyThankYouMessage();
 		
 		// Navigate to Fonteva app and make record renew eligible.
-		driver.get(DataProviderFactory.getConfig().getValue("fonteva_endpoint"));
+		FontevaConnectionSOAP sessionID = new FontevaConnectionSOAP(); 
+		final String sID = sessionID.getSessionID();
+		driver.get("https://aia--testing.sandbox.my.salesforce.com/secur/frontdoor.jsp?sid=" + sID);
+		//driver.get(DataProviderFactory.getConfig().getValue("fonteva_endpoint"));
 		fontevaPage.changeTermDates(dataList.get(0)+" "+dataList.get(1));
 		
 		// Navigate back to membership portal
 		driver.get(DataProviderFactory.getConfig().getValue("membership_app_endpoint"));
 		renew.renewMembership(dataList.get(5));
-		orderSummaryPage.confirmTerms("activeUSLicense");
-		
-		
 		orderSummaryPage.enterSupplementalDuesDetails("architectureFirmManager","1","1","1");
+		orderSummaryPage.confirmTerms("activeUSLicense");
 		orderSummaryPage.clickonPayNow();
 		paymentInfoPage.clickOnCreditCard();
 		paymentInfoPage.paymentDetails("activeUSLicense");
@@ -336,7 +346,10 @@ public class TestRenew_Membership extends BaseClass {
 		mailinator.welcomeAIAEmailLink(dataList, receiptData);
 
 		// Navigate to Fonteva app and make record renew eligible.
-		driver.get(DataProviderFactory.getConfig().getValue("fonteva_endpoint"));
+		FontevaConnectionSOAP sessionID = new FontevaConnectionSOAP(); 
+		final String sID = sessionID.getSessionID();
+		driver.get("https://aia--testing.sandbox.my.salesforce.com/secur/frontdoor.jsp?sid=" + sID);
+		//driver.get(DataProviderFactory.getConfig().getValue("fonteva_endpoint"));
 		fontevaPage.changeTermDates(dataList.get(0)+" "+dataList.get(1));
 		
 		// Navigate back to membership portal
@@ -345,9 +358,9 @@ public class TestRenew_Membership extends BaseClass {
 		//Renew user
 		renew.renewMembership(dataList.get(5));
 		//signInpage.login(dataList.get(5), dataList.get(6));
+		orderSummaryPage.enterSupplementalDuesDetails("notSolePractitioner","1","1","1");
 		orderSummaryPage.confirmTerms("activeUSLicense");
 		//int pac = orderSummaryPage.GetPacDonationAmount();
-		orderSummaryPage.enterSupplementalDuesDetails("notSolePractitioner","1","1","1");
 		orderSummaryPage.clickonPayNow();
 		paymentInfoPage.clickOnCreditCard();
 		paymentInfoPage.paymentDetails("activeUSLicense");
