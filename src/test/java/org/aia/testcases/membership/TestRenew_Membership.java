@@ -169,8 +169,8 @@ public class TestRenew_Membership extends BaseClass {
 		
 		//Renew user
 		renew.renewMembership(dataList.get(5));
-		orderSummaryPage.confirmTerms("activeUSLicense");
 		orderSummaryPage.enterSupplementalDuesDetails("architecturalFirmOwner","1","1","1");
+		orderSummaryPage.confirmTerms("activeUSLicense");
 		orderSummaryPage.clickonPayNow();
 		paymentInfoPage.clickOnCreditCard();
 		paymentInfoPage.paymentDetails("activeUSLicense");
@@ -227,10 +227,9 @@ public class TestRenew_Membership extends BaseClass {
 		
 		//Renew user
 		renew.renewMembership(dataList.get(5));
-		//signInpage.login(dataList.get(5), dataList.get(6));
+		orderSummaryPage.enterSupplementalDuesDetails("solePractitioner","1","1","1");
 		orderSummaryPage.confirmTerms("activeUSLicense");
 		//int pac = orderSummaryPage.GetPacDonationAmount();
-		orderSummaryPage.enterSupplementalDuesDetails("solePractitioner","1","1","1");
 		orderSummaryPage.clickonPayNow();
 		paymentInfoPage.clickOnCreditCard();
 		paymentInfoPage.paymentDetails("activeUSLicense");
@@ -278,10 +277,8 @@ public class TestRenew_Membership extends BaseClass {
 		// Navigate back to membership portal
 		driver.get(DataProviderFactory.getConfig().getValue("membership_app_endpoint"));
 		renew.renewMembership(dataList.get(5));
-		orderSummaryPage.confirmTerms("activeUSLicense");
-		
-		
 		orderSummaryPage.enterSupplementalDuesDetails("architectureFirmManager","1","1","1");
+		orderSummaryPage.confirmTerms("activeUSLicense");
 		orderSummaryPage.clickonPayNow();
 		paymentInfoPage.clickOnCreditCard();
 		paymentInfoPage.paymentDetails("activeUSLicense");
@@ -345,9 +342,9 @@ public class TestRenew_Membership extends BaseClass {
 		//Renew user
 		renew.renewMembership(dataList.get(5));
 		//signInpage.login(dataList.get(5), dataList.get(6));
+		orderSummaryPage.enterSupplementalDuesDetails("notSolePractitioner","1","1","1");
 		orderSummaryPage.confirmTerms("activeUSLicense");
 		//int pac = orderSummaryPage.GetPacDonationAmount();
-		orderSummaryPage.enterSupplementalDuesDetails("notSolePractitioner","1","1","1");
 		orderSummaryPage.clickonPayNow();
 		paymentInfoPage.clickOnCreditCard();
 		paymentInfoPage.paymentDetails("activeUSLicense");
