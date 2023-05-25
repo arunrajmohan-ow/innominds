@@ -89,22 +89,6 @@ public class TestJoinArchitectureFirm_CES extends BaseClass {
 		fontevaPage = PageFactory.initElements(driver, FontevaCES.class);
 	}
 	
-	@Test(priority=1, description="Validate Online JOIN for Architecture Firm using credit card.", enabled=false)
-	public void ValidateArchitectureJoin() throws Exception
-	{
-		String prefix = "Dr.";
-		String suffix = "Sr.";
-		signUpPage.clickSignUplink(); 
-		ArrayList<String> dataList = signUpPage.signUpData(); 
-		//ArrayList<String> userAccount = dataList;
-		//Verify welcome email details.
-		//mailinator.cesProviderApprovedEmailLink(userAccount);
-		
-		// Navigate to Fonteva app and make record renew eligible.
-		driver.get(DataProviderFactory.getConfig().getValue("fonteva_endpoint"));
-		fontevaPage.changeProviderApplicationStatus(dataList.get(0)+" "+dataList.get(1), "PA-0002153", "Approved");
-	}
-	
 	
 	@Test(priority=1, description="Validate Online JOIN for Architecture Firm using credit card.", enabled=true)
 	public void ValidateJoinArchitectureFirm() throws Exception
