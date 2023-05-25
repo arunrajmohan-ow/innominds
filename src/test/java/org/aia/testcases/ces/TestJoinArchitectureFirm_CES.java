@@ -12,6 +12,7 @@ import org.aia.pages.BaseClass;
 import org.aia.pages.api.MailinatorAPI;
 import org.aia.pages.api.MailinatorCESAPI;
 import org.aia.pages.api.ces.JoinCESAPIValidation;
+import org.aia.pages.api.membership.FontevaConnectionSOAP;
 import org.aia.pages.api.membership.JoinAPIValidation;
 import org.aia.pages.ces.*;
 import org.aia.pages.membership.DevSandBoxFonteva;
@@ -89,22 +90,6 @@ public class TestJoinArchitectureFirm_CES extends BaseClass {
 		fontevaPage = PageFactory.initElements(driver, FontevaCES.class);
 	}
 	
-	@Test(priority=1, description="Validate Online JOIN for Architecture Firm using credit card.", enabled=true)
-	public void ValidateArchitectureJoin() throws Exception
-	{
-		String prefix = "Dr.";
-		String suffix = "Sr.";
-		signUpPage.clickSignUplink(); 
-		ArrayList<String> dataList = signUpPage.signUpData(); 
-		//ArrayList<String> userAccount = dataList;
-		//Verify welcome email details.
-		//mailinator.cesProviderApprovedEmailLink(userAccount);
-		
-		// Navigate to Fonteva app and make record renew eligible.
-		driver.get(DataProviderFactory.getConfig().getValue("fonteva_endpoint"));
-		fontevaPage.changeProviderApplicationStatus(dataList.get(0)+" "+dataList.get(1), "PA-0002153", "Approved");
-	}
-	
 	
 	@Test(priority=1, description="Validate Online JOIN for Architecture Firm using credit card.", enabled=true)
 	public void ValidateJoinArchitectureFirm() throws Exception
@@ -133,7 +118,10 @@ public class TestJoinArchitectureFirm_CES extends BaseClass {
 		String paId = apiValidation.getProviderApplicationID(userAccount.get(0)+" "+userAccount.get(1)); 
 		
 		// Navigate to Fonteva app and make record renew eligible.
-		driver.get(DataProviderFactory.getConfig().getValue("fonteva_endpoint"));
+		FontevaConnectionSOAP sessionID = new FontevaConnectionSOAP(); 
+		final String sID = sessionID.getSessionID();
+		driver.get("https://aia--testing.sandbox.my.salesforce.com/secur/frontdoor.jsp?sid=" + sID);
+		//driver.get(DataProviderFactory.getConfig().getValue("fonteva_endpoint"));
 		fontevaPage.changeProviderApplicationStatus(userAccount.get(0)+" "+userAccount.get(1), paId, "Approved");
 		
 		String checkoutpagelink = mailinator.cesProviderApprovedEmailLink(userAccount);
