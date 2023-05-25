@@ -95,6 +95,7 @@ public class ReNewUser {
 		executor.executeScript("arguments[0].click();", selectContact);
 		util.waitUntilElement(driver, showAll);
 		showAll.click();
+		action.moveByOffset(200, 200).build().perform();
 		util.waitUntilElement(driver, selectMembership);
 		selectMembership.click();
 		Thread.sleep(10000);

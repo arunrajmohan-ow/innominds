@@ -69,10 +69,10 @@ public class DevSandBoxFonteva {
 		//userName.sendKeys("smurala@innominds.com.aia.prod.testing");
 		//userName.sendKeys("integration@aia.org.testing");
 		//userName.sendKeys("paggrawal@innominds.com.aia.testing");
-		userName.sendKeys("paggrawal@innominds.com.aia.testing.platform");
+		userName.sendKeys("sgopisetty@innominds.com.aia.testing");
 		//password.sendKeys("Srk_09122022");
 		//password.sendKeys("x9VKwVwkS3G#");
-		password.sendKeys("Login_123");
+		password.sendKeys("Harshi@437");
 		loginBtn.click();
 		util.waitUntilElement(driver, contacts);
 		contactsDiv.click();

@@ -8,11 +8,14 @@
 
 	<test name="AIA Application Test Cases">
 		<classes>
+			
+			<!-- <class name="org.aia.testcases.membership.TestDIPJoin_Membership"></class>  
+			<class name="org.aia.testcases.membership.TestDIPRenew_Membership"></class>
 			<class name="org.aia.testcases.membership.TestJoin_Membership"></class>
-			<!--<class name="org.aia.testcases.membership.TestDIPJoin_Membership"></class>  -->
-			<!-- <class name="org.aia.testcases.membership.TestDIPRenew_Membership"></class>
-			<class name="org.aia.testcases.membership.TestRenew_Membership"></class>
-			<class name="org.aia.testcases.ces.TestJoinPassport_CES"></class>-->
+			<class name="org.aia.testcases.membership.TestOfflineJoin_Membership"></class>
+			<class name="org.aia.testcases.membership.TestProcessException_Membership"></class> -->
+		    <class name="org.aia.testcases.membership.TestOfflineRenew_Membership"></class>
+		    <class name="org.aia.testcases.membership.TestRenew_Membership"></class>
 		</classes>
 	</test>
 </suite>
