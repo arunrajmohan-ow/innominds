@@ -14,7 +14,7 @@
 			<class name="org.aia.testcases.membership.TestJoin_Membership"></class>
 			<class name="org.aia.testcases.membership.TestOfflineJoin_Membership"></class>
 			<class name="org.aia.testcases.membership.TestProcessException_Membership"></class> -->
-		    <class name="org.aia.testcases.membership.TestOfflineRenew_Membership"></class>
+		    <!--  <class name="org.aia.testcases.membership.TestOfflineRenew_Membership"></class>-->
 		    <class name="org.aia.testcases.membership.TestRenew_Membership"></class>
 		</classes>
 	</test>

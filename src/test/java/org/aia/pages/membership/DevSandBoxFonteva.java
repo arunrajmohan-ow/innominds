@@ -65,27 +65,15 @@ public class DevSandBoxFonteva {
 	
 	public void changeTermDates(String fullName) throws InterruptedException 
 	{
-<<<<<<< HEAD
-		util.waitUntilElement(driver, userName);
+		//util.waitUntilElement(driver, userName);
 		//userName.sendKeys("smurala@innominds.com.aia.prod.testing");
 		//userName.sendKeys("integration@aia.org.testing");
 		//userName.sendKeys("paggrawal@innominds.com.aia.testing");
-		userName.sendKeys("sgopisetty@innominds.com.aia.testing");
+		//userName.sendKeys("sgopisetty@innominds.com.aia.testing");
 		//password.sendKeys("Srk_09122022");
 		//password.sendKeys("x9VKwVwkS3G#");
-		password.sendKeys("Harshi@437");
-		loginBtn.click();
-=======
-		/*
-		 * util.waitUntilElement(driver, userName);
-		 * //userName.sendKeys("smurala@innominds.com.aia.prod.testing");
-		 * //userName.sendKeys("integration@aia.org.testing");
-		 * //userName.sendKeys("paggrawal@innominds.com.aia.testing");
-		 * userName.sendKeys("paggrawal@innominds.com.aia.testing.platform");
-		 * //password.sendKeys("Srk_09122022"); //password.sendKeys("x9VKwVwkS3G#");
-		 * password.sendKeys("Login_1234"); loginBtn.click();
-		 */
->>>>>>> 722f55c12efeb949a975c07ce980e563b7bf1b59
+		//password.sendKeys("Harshi@437");
+		//loginBtn.click();
 		util.waitUntilElement(driver, contacts);
 		contactsDiv.click();
 		util.waitUntilElement(driver, tableheaderName);
