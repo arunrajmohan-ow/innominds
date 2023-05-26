@@ -1,15 +1,20 @@
 package org.aia.pages.membership;
 
+import static org.testng.Assert.*;
+
+import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.Utility;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
+import org.testng.Assert;
 
 public class PaymentInformation {
 
 	WebDriver driver;
 	Utility util = new Utility(driver, 10);
+	ConfigDataProvider data = new ConfigDataProvider();
 	
 	public PaymentInformation(WebDriver Idriver) 
 	{
@@ -49,6 +54,10 @@ public class PaymentInformation {
 	@FindBy(xpath="//a[@id='completePayment']") WebElement completeOrder;
 	
 	@FindBy(xpath="//li[@title=\"Credit card\"]/a") WebElement creditCardLink;
+	
+	@FindBy(xpath="//span[@id='order_total']") WebElement afterZeroSalesOrderAmtText;
+	
+	@FindBy(xpath="//a[@id='completePayment']") WebElement complatePaymentBtn;
 
 
 	public void clickOnProcesspaymnt() {
@@ -107,6 +116,18 @@ public class PaymentInformation {
 		chckBox.click();
 		procssPaymntBtn.click();
 		return aiaNatnl;
+	}
+	
+	/**
+	 * Owner: Suhas
+	 * this method is created for $0 sales order 
+	 */
+	public void makeZeroOrderPayment() {
+	    util.waitUntilElement(driver, afterZeroSalesOrderAmtText);
+	    //Validate final price is become zero in UI.
+        assertEquals(afterZeroSalesOrderAmtText.getText(),data.testDataProvider().getProperty("replacatedAmt"));
+        util.waitUntilElement(driver, complatePaymentBtn);
+        complatePaymentBtn.click();
 	}
 	
 }
