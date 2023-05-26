@@ -74,10 +74,7 @@ public class DevSandBoxFonteva {
 		 * //password.sendKeys("Srk_09122022"); //password.sendKeys("x9VKwVwkS3G#");
 		 * password.sendKeys("Login_1234"); loginBtn.click();
 		 */
-<<<<<<< HEAD
 
-=======
->>>>>>> f27ac640b474141c9c63ad305928dd62170c5bc8
 		util.waitUntilElement(driver, contacts);
 		contactsDiv.click();
 		util.waitUntilElement(driver, tableheaderName);
