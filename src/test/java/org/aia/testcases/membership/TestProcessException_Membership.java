@@ -39,8 +39,8 @@ public class TestProcessException_Membership extends BaseClass {
 	/**
 	 * @throws InterruptedException
 	 */
-	@Test(priority = 1, description = "Saving New Processing Exception", enabled = true)
-	public void processException() throws InterruptedException {
+	@Test(priority = 1, description = "Saving New Processing Exception", enabled = false)
+	public void newProcessException() throws InterruptedException {
 		ArrayList<String> dataList = fontevaJoin.userData();
 		// First we create new user in Fonteva
 		fontevaJoin.signInFonteva();
@@ -57,11 +57,51 @@ public class TestProcessException_Membership extends BaseClass {
 				testData.testDataProvider().getProperty("reasonOption"),
 				testData.testDataProvider().getProperty("intitialReachOutOption"),
 				testData.testDataProvider().getProperty("statusOption"));
-		//We Validate process exception is created
+		// We Validate process exception is created
 		processException.validateProcessException(testData.testDataProvider().getProperty("activityOption"),
 				testData.testDataProvider().getProperty("reasonOption"),
 				testData.testDataProvider().getProperty("intitialReachOutOption"),
 				testData.testDataProvider().getProperty("enterNote"));
+	}
+
+	/**
+	 * @throws InterruptedException
+	 */
+	@Test(priority = 2, description = "Editing an existing Processing Exception ", enabled = true)
+	public void editProcessException() throws InterruptedException {
+		ArrayList<String> dataList = fontevaJoin.userData();
+		// First we create new user in Fonteva
+		fontevaJoin.signInFonteva();
+		fontevaJoin.createUserInFonteva();
+		fontevaJoin.joinCreatedUser(testData.testDataProvider().getProperty("membershipType"),
+				testData.testDataProvider().getProperty("selection"));
+		fontevaJoin.enterLicenseDetail();
+		fontevaJoin.createSalesOrder(testData.testDataProvider().getProperty("paymentMethod"));
+		fontevaJoin.applyPayment();
+		// We set the process exception
+		processException.createNewProcessException(dataList.get(0) + " " + dataList.get(1),
+				testData.testDataProvider().getProperty("activityOption"),
+				testData.testDataProvider().getProperty("enterNote"),
+				testData.testDataProvider().getProperty("reasonOption"),
+				testData.testDataProvider().getProperty("intitialReachOutOption"),
+				testData.testDataProvider().getProperty("statusOption"));
+		// We Validate process exception is created
+		processException.validateProcessException(testData.testDataProvider().getProperty("activityOption"),
+				testData.testDataProvider().getProperty("reasonOption"),
+				testData.testDataProvider().getProperty("intitialReachOutOption"),
+				testData.testDataProvider().getProperty("enterNote"));
+		// Here we edit new exception process
+		processException.editProcessException(testData.testDataProvider().getProperty("editActivityOption"),
+				testData.testDataProvider().getProperty("editEnterNote"),
+				testData.testDataProvider().getProperty("editReasonOption"),
+				testData.testDataProvider().getProperty("editIntitialReachOutOption"),
+				testData.testDataProvider().getProperty("editStatusOption"));
+		// We Validate process exception is created
+		processException.validateEditedProcessException(testData.testDataProvider().getProperty("editActivityOption"),
+				testData.testDataProvider().getProperty("editEnterNote"),
+				testData.testDataProvider().getProperty("editReasonOption"),
+				testData.testDataProvider().getProperty("editIntitialReachOutOption"));
+
 	}
 
 }

@@ -1,7 +1,9 @@
 package org.aia.pages.fonteva.membership;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.Utility;
@@ -12,6 +14,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
 
 public class ProcessException {
 	WebDriver driver;
@@ -61,23 +64,37 @@ public class ProcessException {
 	@FindBy(xpath = "//button[text()='Save']")
 	WebElement saveBtn;
 
-	@FindBy(xpath="//table[@aria-label]")
+	@FindBy(xpath = "//table[@aria-label]")
 	WebElement exceptionTable;
 
-	@FindBy(xpath="//td[2]/span/span")
+	@FindBy(xpath = "//td[2]/span/span")
 	WebElement activityText;
-	
-	@FindBy(xpath="//td[3]/span/span")
+
+	@FindBy(xpath = "//td[3]/span/span")
 	WebElement initialReachOutText;
-	
-	@FindBy(xpath="//td[4]/span/span")
+
+	@FindBy(xpath = "//td[4]/span/span")
 	WebElement reasonText;
-	
-	@FindBy(xpath="//td[5]/span/span")
+
+	@FindBy(xpath = "//td[5]/span/span")
 	WebElement noteText;
-	
-	@FindBy(xpath="//h2[text()='New Processing Exception']")
+
+	@FindBy(xpath = "//h2[text()='New Processing Exception']")
 	WebElement heading;
+
+	@FindBy(xpath = "(//table[@aria-label='Processing Exceptions']//tr)[2]/th/span/a")
+	WebElement processExceptionId;
+
+	@FindBy(xpath = "(//button[text()='Edit'])[2]")
+	WebElement editBtn;
+
+	@FindBy(xpath = "(//slot//lightning-formatted-text[@slot='primaryField'])[2]")
+	WebElement exceptionId;
+
+	@FindBy(xpath = "//div[@class='actionBody']//h2")
+	WebElement PopUpheading;
+
+	static ArrayList<String> valueList = new ArrayList<String>();
 
 	/**
 	 * @param fullName
@@ -103,7 +120,7 @@ public class ProcessException {
 		util.enterText(driver, noteInput, enterNote);
 		util.waitUntilElement(driver, reasonDrp);
 		reasonDrp.click();
-	    util.getCustomizedWebElement(driver, reasonOpt, reasonOption).click();
+		util.getCustomizedWebElement(driver, reasonOpt, reasonOption).click();
 		util.waitUntilElement(driver, initialReachOutDrp);
 		initialReachOutDrp.click();
 		util.getCustomizedWebElement(driver, initialReachOutOpt, intitialReachOutOption).click();
@@ -126,6 +143,50 @@ public class ProcessException {
 		assertEquals(reasonText.getText(), reason);
 		assertEquals(initialReachOutText.getText(), initialReach);
 		assertEquals(noteText.getText(), note);
+		valueList.add(0, activityText.getText());
+		valueList.add(1, reasonText.getText());
+		valueList.add(2, initialReachOutText.getText());
+		valueList.add(3, noteText.getText());
+
+	}
+
+	/**
+	 * @param activityOption
+	 * @param enterNote
+	 * @param reasonOption
+	 * @param intitialReachOutOption
+	 * @param statusOption
+	 */
+	public void editProcessException(String activityOption, String enterNote, String reasonOption,
+			String intitialReachOutOption, String statusOption) {
+		util.waitUntilElement(driver, processExceptionId);
+		processExceptionId.click();
+		util.waitUntilElement(driver, editBtn);
+		editBtn.click();
+		util.waitUntilElement(driver, PopUpheading);
+		assertTrue(PopUpheading.getText().contains(exceptionId.getText()));
+		util.waitUntilElement(driver, activityDrp);
+		activityDrp.click();
+		util.getCustomizedWebElement(driver, activityOpt, activityOption).click();
+		util.enterText(driver, noteInput, enterNote);
+		util.waitUntilElement(driver, reasonDrp);
+		reasonDrp.click();
+		util.getCustomizedWebElement(driver, reasonOpt, reasonOption).click();
+		util.waitUntilElement(driver, initialReachOutDrp);
+		initialReachOutDrp.click();
+		util.getCustomizedWebElement(driver, initialReachOutOpt, intitialReachOutOption).click();
+		util.waitUntilElement(driver, statusDrp);
+		statusDrp.click();
+		util.getCustomizedWebElement(driver, statusOpt, statusOption).click();
+		saveBtn.click();
+	}
+
+	public void validateEditedProcessException(String editactivity, String editreason, String editinitialReach,
+			String editnote) {
+		assertNotEquals(valueList.get(0), editactivity);
+		assertNotEquals(valueList.get(1), editreason);
+		assertNotEquals(valueList.get(2), editinitialReach);
+		assertNotEquals(valueList.get(3), editnote);
 	}
 
 }
