@@ -2,6 +2,7 @@ package org.aia.utility;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Driver;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
@@ -24,7 +25,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class Utility {
-	
 	
 	WebDriverWait wait;
 	
@@ -210,13 +210,13 @@ public class Utility {
 	 
 	}
 	
-	public void enterText(WebDriver driver, WebElement ele, String txt) throws InterruptedException {
+	public void enterText(WebDriver driver, WebElement ele, String txt) {
 		waitUntilElement(driver, ele);
 		ele.clear();
 		ele.sendKeys(txt);
 	}
 
-	public void selectDropDownByText(WebElement element, String text) throws InterruptedException {
+	public void selectDropDownByText(WebElement element, String text) {
 		Select sel = new Select(element);
 		sel.selectByVisibleText(text);
 	}
@@ -277,4 +277,16 @@ public class Utility {
 		}
 		return sspath.getAbsolutePath();
 	}
+	
+	public Select selectDrp(WebElement element) {
+		Select option = new Select(element);
+		return option;
+	}
+	
+	public WebElement getCustomizedWebElement(WebDriver driver,String element,String replacement) {
+		WebElement finalElement= driver.findElement(By.xpath(String.format(element, replacement)));
+		waitUntilElement(driver, finalElement);
+		return finalElement;
+	}
+	
 }
