@@ -65,17 +65,6 @@ public class DevSandBoxFonteva {
 	
 	public void changeTermDates(String fullName) throws InterruptedException 
 	{
-<<<<<<< HEAD
-		util.waitUntilElement(driver, userName);
-		//userName.sendKeys("smurala@innominds.com.aia.prod.testing");
-		//userName.sendKeys("integration@aia.org.testing");
-		//userName.sendKeys("paggrawal@innominds.com.aia.testing");
-		userName.sendKeys("paggrawal@innominds.com.aia.testing.platform");
-		//password.sendKeys("Srk_09122022");
-		//password.sendKeys("x9VKwVwkS3G#");
-		password.sendKeys("Login_1234");
-		loginBtn.click();
-=======
 		/*
 		 * util.waitUntilElement(driver, userName);
 		 * //userName.sendKeys("smurala@innominds.com.aia.prod.testing");
@@ -85,7 +74,7 @@ public class DevSandBoxFonteva {
 		 * //password.sendKeys("Srk_09122022"); //password.sendKeys("x9VKwVwkS3G#");
 		 * password.sendKeys("Login_1234"); loginBtn.click();
 		 */
->>>>>>> 1be9d7fe5a2253b93c5362aafa97b7b910b1ebeb
+
 		util.waitUntilElement(driver, contacts);
 		contactsDiv.click();
 		util.waitUntilElement(driver, tableheaderName);
