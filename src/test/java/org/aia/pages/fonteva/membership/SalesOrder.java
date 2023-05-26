@@ -117,7 +117,8 @@ public class SalesOrder {
 		util.waitUntilElement(driver, afterDiscountAmt);
 		//Validate discount is set as $0 for second Line
 		assertEquals(afterDiscountAmt.getText(),data.testDataProvider().getProperty("replacatedAmt"));
-		driver.switchTo().window(ARRAY_MISMATCH_TEMPLATE);
+		ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
+		driver.switchTo().window(tabs.get(0));
 	
 	}
 	
