@@ -2,13 +2,13 @@ package org.aia.pages.fonteva.membership;
 
 import static org.testng.Assert.*;
 
+
 import java.util.ArrayList;
 
 import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.Utility;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -72,9 +72,10 @@ public class SalesOrder {
     WebElement afterDiscountAmt;
 	
 	/**
+	 * @throws InterruptedException 
 	 * 
 	 */
-	public void setDiscount() {
+	public void setDiscount() throws InterruptedException {
 		util.waitUntilElement(driver, salesOrderLink);
 		executor.executeScript("arguments[0].click();", salesOrderLink);
 		// Validate sales order line is there
@@ -119,7 +120,8 @@ public class SalesOrder {
 		assertEquals(afterDiscountAmt.getText(),data.testDataProvider().getProperty("replacatedAmt"));
 		ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
 		driver.switchTo().window(tabs.get(0));
-	
+		Thread.sleep(10000);
+        driver.navigate().refresh();
 	}
 	
 	public void switchToTab() {
