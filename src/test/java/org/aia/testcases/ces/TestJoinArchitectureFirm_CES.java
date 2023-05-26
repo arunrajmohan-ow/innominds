@@ -90,7 +90,7 @@ public class TestJoinArchitectureFirm_CES extends BaseClass {
 		fontevaPage = PageFactory.initElements(driver, FontevaCES.class);
 	}
 	
-<<<<<<< HEAD
+
 
 	@Test(priority=1, description="Validate Online JOIN for Architecture Firm using credit card.", enabled=true)
 	public void ValidateArchitectureJoin() throws Exception
@@ -108,8 +108,7 @@ public class TestJoinArchitectureFirm_CES extends BaseClass {
 		fontevaPage.changeProviderApplicationStatus(dataList.get(0)+" "+dataList.get(1), "PA-0002153", "Approved");
 	}
 
-=======
->>>>>>> f27ac640b474141c9c63ad305928dd62170c5bc8
+
 	
 	@Test(priority=1, description="Validate Online JOIN for Architecture Firm using credit card.", enabled=true)
 	public void ValidateJoinArchitectureFirm() throws Exception
