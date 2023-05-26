@@ -87,10 +87,11 @@ public class FontevaCES {
 	
 	public void changeProviderApplicationStatus(String fullName, String providerID, String providerStatus) throws InterruptedException 
 	{
-		util.waitUntilElement(driver, userName);
-		userName.sendKeys("sgopisetty@innominds.com.aia.testing");
-		password.sendKeys("Harshi@437");
-		loginBtn.click();
+		/*
+		 * util.waitUntilElement(driver, userName);
+		 * userName.sendKeys("sgopisetty@innominds.com.aia.testing");
+		 * password.sendKeys("Harshi@437"); loginBtn.click();
+		 */
 		util.waitUntilElement(driver, appLauncherIcn);
 		Thread.sleep(10000);
 		appLauncherIcn.click();

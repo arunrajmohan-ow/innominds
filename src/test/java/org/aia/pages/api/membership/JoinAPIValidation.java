@@ -60,7 +60,7 @@ public class JoinAPIValidation {
 
 			jsonPathEval = response.jsonPath();
 			accountID = jsonPathEval.getString("searchRecords[0].Id");
-
+            System.out.println("Account ID:"+accountID);
 			// Use Account ID to fetch account details.
 			String SUBSCRIPTIONS_URI = ACCOUNT_URI + "/" + accountID + "/OrderApi__Subscriptions__r";
 
