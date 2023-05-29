@@ -31,6 +31,8 @@ public class ProcessException {
 	}
 
 	String contact = "//span[text()='%s']//ancestor::a";
+	
+	String exceptionContact="(//span[text()='%s']//ancestor::a)[3]";
 
 	@FindBy(xpath = "//span[contains(text(),'Processing Exceptions')]/ancestor::a")
 	WebElement processExceptionTab;
@@ -66,6 +68,15 @@ public class ProcessException {
 
 	@FindBy(xpath = "//table[@aria-label]")
 	WebElement exceptionTable;
+	
+	@FindBy(xpath="(//table[@aria-label]//tr)[2]")
+	WebElement existingExceptionTable;
+	
+	@FindBy(xpath="//button[@title='Close this window']")
+	WebElement closeTheWindow;
+	
+	@FindBy(xpath="//table[@aria-label]//tr[2]")
+	WebElement cloneExceptionTable;
 
 	@FindBy(xpath = "//td[2]/span/span")
 	WebElement activityText;
@@ -93,6 +104,9 @@ public class ProcessException {
 
 	@FindBy(xpath = "//div[@class='actionBody']//h2")
 	WebElement PopUpheading;
+	
+	@FindBy(xpath="//button[text()='Clone']")
+	WebElement cloneBtn;
 
 	static ArrayList<String> valueList = new ArrayList<String>();
 
@@ -187,6 +201,28 @@ public class ProcessException {
 		assertNotEquals(valueList.get(1), editreason);
 		assertNotEquals(valueList.get(2), editinitialReach);
 		assertNotEquals(valueList.get(3), editnote);
+	}
+	
+	/**
+	 * @param fullName
+	 * @throws InterruptedException
+	 */
+	public void cloneExistingProcessException(String fullName) throws InterruptedException {
+		util.waitUntilElement(driver, processExceptionId);
+		processExceptionId.click();
+		util.waitUntilElement(driver, cloneBtn);
+		cloneBtn.click();
+		util.waitUntilElement(driver, heading);
+		assertTrue(heading.isDisplayed());
+		saveBtn.click();
+		Thread.sleep(60000);
+		executor.executeScript("arguments[0].click();", util.getCustomizedWebElement(driver, exceptionContact, fullName));
+		util.waitUntilElement(driver, processExceptionTab);
+		processExceptionTab.click();
+		util.waitUntilElement(driver, existingExceptionTable);
+		assertTrue(existingExceptionTable.isDisplayed());
+		util.waitUntilElement(driver, cloneExceptionTable);
+		assertTrue(cloneExceptionTable.isDisplayed());
 	}
 
 }

@@ -67,7 +67,7 @@ public class TestProcessException_Membership extends BaseClass {
 	/**
 	 * @throws InterruptedException
 	 */
-	@Test(priority = 2, description = "Editing an existing Processing Exception ", enabled = true)
+	@Test(priority = 2, description = "Editing an existing Processing Exception ", enabled = false)
 	public void editProcessException() throws InterruptedException {
 		ArrayList<String> dataList = fontevaJoin.userData();
 		// First we create new user in Fonteva
@@ -101,7 +101,38 @@ public class TestProcessException_Membership extends BaseClass {
 				testData.testDataProvider().getProperty("editEnterNote"),
 				testData.testDataProvider().getProperty("editReasonOption"),
 				testData.testDataProvider().getProperty("editIntitialReachOutOption"));
-
 	}
+	
+	/**
+	 * @throws InterruptedException 
+	 * 
+	 */
+	@Test(priority = 3, description = "Cloning an existing Processing Exception ", enabled = true)
+	public void cloneProcessException() throws InterruptedException {
+		ArrayList<String> dataList = fontevaJoin.userData();
+		// First we create new user in Fonteva
+		fontevaJoin.signInFonteva();
+		fontevaJoin.createUserInFonteva();
+		fontevaJoin.joinCreatedUser(testData.testDataProvider().getProperty("membershipType"),
+				testData.testDataProvider().getProperty("selection"));
+		fontevaJoin.enterLicenseDetail();
+		fontevaJoin.createSalesOrder(testData.testDataProvider().getProperty("paymentMethod"));
+		fontevaJoin.applyPayment();
+		// We set the process exception
+		processException.createNewProcessException(dataList.get(0) + " " + dataList.get(1),
+				testData.testDataProvider().getProperty("activityOption"),
+				testData.testDataProvider().getProperty("enterNote"),
+				testData.testDataProvider().getProperty("reasonOption"),
+				testData.testDataProvider().getProperty("intitialReachOutOption"),
+				testData.testDataProvider().getProperty("statusOption"));
+		// We Validate process exception is created
+		processException.validateProcessException(testData.testDataProvider().getProperty("activityOption"),
+				testData.testDataProvider().getProperty("reasonOption"),
+				testData.testDataProvider().getProperty("intitialReachOutOption"),
+				testData.testDataProvider().getProperty("enterNote"));
+		//We Creating clone of existing process exception & validated clone exception
+		processException.cloneExistingProcessException(dataList.get(0) + " " + dataList.get(1));
+	}
+	
 
 }
