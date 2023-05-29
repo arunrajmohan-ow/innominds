@@ -85,15 +85,15 @@ public class Utility {
 	}
 	
 	public static String captureScreenshotFromBase64(WebDriver driver)
-	{
-		String newBase=null;
+	{  
+		String newBase = null;
 		TakesScreenshot ts=(TakesScreenshot)driver;
 		try 
 		{
 
 			String mybase=	ts.getScreenshotAs(OutputType.BASE64);
 				
-			newBase="data:image/png;base64,"+mybase;
+			 newBase="data:image/png;base64,"+mybase;
 			
 			System.out.println(mybase);
 	
