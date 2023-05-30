@@ -31,7 +31,7 @@ public class FontevaConnection {
         .contentType(ContentType.JSON)
         .accept(ContentType.JSON)
         .param("username", "sgopisetty@innominds.com.aia.testing")
-        .param("password", "Harshi@437R4KwbJDau88qBbyJng5aTTvG")
+        .param("password", "Harshi@438")
         .param("client_id", "3MVG9ZM6Cuht.9St5FCATeNnzGJZdZhv6GlIJ1Dp336uMPMHOYwBy47aCa0TAKNY9Ya5.zulbUhmNVetwlo8N")
         .param("client_secret", "8CC272DD9BA7FDF1E32471FC6E275E1A510133952F25EE47E9AADBDEDFDA1FF6")
         .param("grant_type", "password")

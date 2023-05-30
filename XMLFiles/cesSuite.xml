@@ -12,7 +12,7 @@
       <class name="org.aia.testcases.membership.TestJoin_Membership"/> -->   
       <class name="org.aia.testcases.ces.TestJoinArchitectureFirm_CES"/>
       <class name="org.aia.testcases.ces.TestJoinPassport_CES"/>
-      <class name="org.aia.testcases.ces.TestJoinProfessional_CES"/>
+      <class name="org.aia.testcases.ces.TestJoinProfessional_CES"/> 
       <class name="org.aia.testcases.ces.TestLogin_CES"/>
     </classes>
   </test> <!-- Test -->
