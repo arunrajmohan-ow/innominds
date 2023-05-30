@@ -26,13 +26,13 @@ import io.restassured.path.xml.XmlPath;
 
 public class FontevaConnectionSOAP {
 
-	public String getSessionID()
+	public static String getSessionID()
     {
 		String requestBody = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:urn=\"urn:partner.soap.sforce.com\"> \r\n"
 				+ "   <soapenv:Body>\r\n"
 				+ "      <urn:login>    \r\n"
 				+ "        <urn:username>sgopisetty@innominds.com.aia.testing</urn:username>\r\n"
-				+ "         <urn:password>Harshi@437R4KwbJDau88qBbyJng5aTTvG</urn:password>\r\n"
+				+ "         <urn:password>Harshi@438gyK1o6agNCnn8R3Eth3xPTXIB</urn:password>\r\n"
 				+ "      </urn:login>    \r\n"
 				+ "   </soapenv:Body>    \r\n"
 				+ "</soapenv:Envelope>";
