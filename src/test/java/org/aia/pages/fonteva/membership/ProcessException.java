@@ -2,6 +2,13 @@ package org.aia.pages.fonteva.membership;
 
 import static org.testng.Assert.*;
 
+import java.awt.AWTException;
+import java.awt.Robot;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
+import java.awt.event.KeyEvent;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -31,8 +38,8 @@ public class ProcessException {
 	}
 
 	String contact = "//span[text()='%s']//ancestor::a";
-	
-	String exceptionContact="(//span[text()='%s']//ancestor::a)[3]";
+
+	String exceptionContact = "(//span[text()='%s']//ancestor::a)[3]";
 
 	@FindBy(xpath = "//span[contains(text(),'Processing Exceptions')]/ancestor::a")
 	WebElement processExceptionTab;
@@ -68,14 +75,14 @@ public class ProcessException {
 
 	@FindBy(xpath = "//table[@aria-label]")
 	WebElement exceptionTable;
-	
-	@FindBy(xpath="(//table[@aria-label]//tr)[2]")
+
+	@FindBy(xpath = "(//table[@aria-label]//tr)[2]")
 	WebElement existingExceptionTable;
-	
-	@FindBy(xpath="//button[@title='Close this window']")
+
+	@FindBy(xpath = "//button[@title='Close this window']")
 	WebElement closeTheWindow;
-	
-	@FindBy(xpath="//table[@aria-label]//tr[2]")
+
+	@FindBy(xpath = "//table[@aria-label]//tr[2]")
 	WebElement cloneExceptionTable;
 
 	@FindBy(xpath = "//td[2]/span/span")
@@ -104,9 +111,15 @@ public class ProcessException {
 
 	@FindBy(xpath = "//div[@class='actionBody']//h2")
 	WebElement PopUpheading;
-	
-	@FindBy(xpath="//button[text()='Clone']")
+
+	@FindBy(xpath = "//button[text()='Clone']")
 	WebElement cloneBtn;
+
+	@FindBy(xpath = "(//a[text()='Related'])[2]")
+	WebElement relatedTab;
+
+	@FindBy(xpath = "(//span[contains(text(),'Or drop files')])[3]")
+	WebElement fileUpload;
 
 	static ArrayList<String> valueList = new ArrayList<String>();
 
@@ -202,7 +215,7 @@ public class ProcessException {
 		assertNotEquals(valueList.get(2), editinitialReach);
 		assertNotEquals(valueList.get(3), editnote);
 	}
-	
+
 	/**
 	 * @param fullName
 	 * @throws InterruptedException
@@ -216,13 +229,45 @@ public class ProcessException {
 		assertTrue(heading.isDisplayed());
 		saveBtn.click();
 		Thread.sleep(60000);
-		executor.executeScript("arguments[0].click();", util.getCustomizedWebElement(driver, exceptionContact, fullName));
+		executor.executeScript("arguments[0].click();",
+				util.getCustomizedWebElement(driver, exceptionContact, fullName));
 		util.waitUntilElement(driver, processExceptionTab);
 		processExceptionTab.click();
 		util.waitUntilElement(driver, existingExceptionTable);
 		assertTrue(existingExceptionTable.isDisplayed());
 		util.waitUntilElement(driver, cloneExceptionTable);
 		assertTrue(cloneExceptionTable.isDisplayed());
+	}
+
+	/**
+	 * We upload pdf file in exception
+	 */
+	public void attachFile() {
+		processExceptionId.click();
+		util.waitUntilElement(driver, relatedTab);
+		relatedTab.click();
+		util.waitUntilElement(driver, fileUpload);
+		fileUpload.click();
+		String filePath= System.getProperty("user.dir")+data.testDataProvider().getProperty("uploadPdf");
+		StringSelection strSelection = new StringSelection(filePath);
+        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        clipboard.setContents(strSelection, null);
+        Robot robot;
+		try {
+			robot = new Robot();
+			 robot.delay(300);
+		        robot.keyPress(KeyEvent.VK_CONTROL);
+		        robot.keyPress(KeyEvent.VK_V);
+		        robot.keyRelease(KeyEvent.VK_V);
+		        robot.keyRelease(KeyEvent.VK_CONTROL);
+		        robot.keyPress(KeyEvent.VK_ENTER);
+		        robot.delay(200);
+		        robot.keyRelease(KeyEvent.VK_ENTER);
+		} catch (AWTException e) {
+			e.printStackTrace();
+			System.out.println("File Path is incorrect or file is not in directory");
+		}
+       
 	}
 
 }
