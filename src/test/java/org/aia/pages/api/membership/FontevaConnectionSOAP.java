@@ -12,20 +12,20 @@ public class FontevaConnectionSOAP {
 		String requestBody = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:urn=\"urn:partner.soap.sforce.com\"> \r\n"
 				+ "   <soapenv:Body>\r\n" + "      <urn:login>    \r\n"
 				+ "        <urn:username>sgopisetty@innominds.com.aia.testing</urn:username>\r\n"
-				+ "         <urn:password>Harshi@437R4KwbJDau88qBbyJng5aTTvG</urn:password>\r\n"
+				+ "         <urn:password>Harshi@438gyK1o6agNCnn8R3Eth3xPTXIB</urn:password>\r\n"
 				+ "      </urn:login>    \r\n" + "   </soapenv:Body>    \r\n" + "</soapenv:Envelope>";
 
 		Response paresponse = given().contentType("application/soap+xml; charset=UTF-8;").contentType(ContentType.HTML)
 				.accept(ContentType.JSON).header("Content-type", "text/xml").header("SOAPAction", "Define")
 				.body(requestBody).when().post("https://aia--testing.sandbox.my.salesforce.com/services/Soap/u/35.0")
 				.then().extract().response();
-		System.out.println(paresponse.prettyPrint());
+		//System.out.println(paresponse.prettyPrint());
 
 		// next we get the xmlPath of the response
 		XmlPath xmlPath = paresponse.xmlPath();
 		// and get the value of a node in the xml
 		String nodeValue = xmlPath.get("Envelope.Body.loginResponse.result.sessionId");
-		System.out.println(nodeValue);
+		//System.out.println(nodeValue);
 		return nodeValue;
 	}
 }

@@ -1,8 +1,10 @@
 package org.aia.testcases.membership;
 
+import java.awt.AWTException;
 import java.util.ArrayList;
 
 import org.aia.pages.BaseClass;
+import org.aia.pages.api.membership.FontevaConnectionSOAP;
 import org.aia.pages.fonteva.membership.ContactCreateUser;
 import org.aia.pages.fonteva.membership.ProcessException;
 import org.aia.utility.BrowserSetup;
@@ -28,8 +30,9 @@ public class TestProcessException_Membership extends BaseClass {
 
 	@BeforeMethod
 	public void setUp() throws Exception {
+		sessionID=new FontevaConnectionSOAP();
 		driver = BrowserSetup.startApplication(driver, DataProviderFactory.getConfig().getValue("browser"),
-				DataProviderFactory.getConfig().getValue("fonteva_endpoint"));
+				DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl")+sessionID.getSessionID());
 		util = new Utility(driver, 30);
 		testData = new ConfigDataProvider();
 		fontevaJoin = PageFactory.initElements(driver, ContactCreateUser.class);
@@ -107,7 +110,7 @@ public class TestProcessException_Membership extends BaseClass {
 	 * @throws InterruptedException 
 	 * 
 	 */
-	@Test(priority = 3, description = "Cloning an existing Processing Exception ", enabled = true)
+	@Test(priority = 3, description = "Cloning an existing Processing Exception ", enabled = false)
 	public void cloneProcessException() throws InterruptedException {
 		ArrayList<String> dataList = fontevaJoin.userData();
 		// First we create new user in Fonteva
@@ -134,5 +137,33 @@ public class TestProcessException_Membership extends BaseClass {
 		processException.cloneExistingProcessException(dataList.get(0) + " " + dataList.get(1));
 	}
 	
-
+	/**
+	 * @throws InterruptedException 
+	 * 
+	 */
+	@Test(priority = 4, description = "Saving an attachment to Processing Exception", enabled = true)
+	public void saveAttachmentProcessException() throws InterruptedException {
+		ArrayList<String> dataList = fontevaJoin.userData();
+		// First we create new user in Fonteva
+		fontevaJoin.createUserInFonteva();
+		fontevaJoin.joinCreatedUser(testData.testDataProvider().getProperty("membershipType"),
+				testData.testDataProvider().getProperty("selection"));
+		fontevaJoin.enterLicenseDetail();
+		fontevaJoin.createSalesOrder(testData.testDataProvider().getProperty("paymentMethod"));
+		fontevaJoin.applyPayment();
+		// We set the process exception
+		processException.createNewProcessException(dataList.get(0) + " " + dataList.get(1),
+				testData.testDataProvider().getProperty("activityOption"),
+				testData.testDataProvider().getProperty("enterNote"),
+				testData.testDataProvider().getProperty("reasonOption"),
+				testData.testDataProvider().getProperty("intitialReachOutOption"),
+				testData.testDataProvider().getProperty("statusOption"));
+		// We Validate process exception is created
+		processException.validateProcessException(testData.testDataProvider().getProperty("activityOption"),
+				testData.testDataProvider().getProperty("reasonOption"),
+				testData.testDataProvider().getProperty("intitialReachOutOption"),
+				testData.testDataProvider().getProperty("enterNote"));
+		// Attach the pdf file in exception
+		processException.attachFile();
+	}
 }
