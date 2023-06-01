@@ -1,6 +1,7 @@
 package org.aia.testcases.membership;
 
 import java.awt.AWTException;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import org.aia.pages.BaseClass;
@@ -139,10 +140,11 @@ public class TestProcessException_Membership extends BaseClass {
 	
 	/**
 	 * @throws InterruptedException 
+	 * @throws IOException 
 	 * 
 	 */
 	@Test(priority = 4, description = "Saving an attachment to Processing Exception", enabled = true)
-	public void saveAttachmentProcessException() throws InterruptedException {
+	public void saveAttachmentProcessException() throws InterruptedException, IOException {
 		ArrayList<String> dataList = fontevaJoin.userData();
 		// First we create new user in Fonteva
 		fontevaJoin.createUserInFonteva();

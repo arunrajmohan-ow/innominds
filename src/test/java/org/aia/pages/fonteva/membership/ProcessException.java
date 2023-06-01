@@ -5,23 +5,20 @@ import static org.testng.Assert.*;
 import java.awt.AWTException;
 import java.awt.Robot;
 import java.awt.Toolkit;
-import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
-import java.nio.file.Path;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.Utility;
 import org.apache.log4j.Logger;
-import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
-import org.testng.Assert;
 
 public class ProcessException {
 	WebDriver driver;
@@ -118,7 +115,7 @@ public class ProcessException {
 	@FindBy(xpath = "(//a[text()='Related'])[2]")
 	WebElement relatedTab;
 
-	@FindBy(xpath = "(//span[contains(text(),'Or drop files')])[3]")
+	@FindBy(xpath = "//a[@title='Upload Files']")
 	WebElement fileUpload;
 
 	static ArrayList<String> valueList = new ArrayList<String>();
@@ -241,33 +238,45 @@ public class ProcessException {
 
 	/**
 	 * We upload pdf file in exception
+	 * 
+	 * @throws InterruptedException
+	 * @throws IOException
 	 */
-	public void attachFile() {
+	public void attachFile() throws InterruptedException, IOException {
 		processExceptionId.click();
 		util.waitUntilElement(driver, relatedTab);
 		relatedTab.click();
 		util.waitUntilElement(driver, fileUpload);
 		fileUpload.click();
-		String filePath= System.getProperty("user.dir")+data.testDataProvider().getProperty("uploadPdf");
-		StringSelection strSelection = new StringSelection(filePath);
-        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-        clipboard.setContents(strSelection, null);
-        Robot robot;
 		try {
-			robot = new Robot();
-			 robot.delay(300);
-		        robot.keyPress(KeyEvent.VK_CONTROL);
-		        robot.keyPress(KeyEvent.VK_V);
-		        robot.keyRelease(KeyEvent.VK_V);
-		        robot.keyRelease(KeyEvent.VK_CONTROL);
-		        robot.keyPress(KeyEvent.VK_ENTER);
-		        robot.delay(200);
-		        robot.keyRelease(KeyEvent.VK_ENTER);
-		} catch (AWTException e) {
+			File file = new File(System.getProperty("user.dir") + data.testDataProvider().getProperty("uploadFile"));
+			File[] listOfFiles = file.listFiles();
+			String fileName = null;
+			for (File files : listOfFiles) {
+				if (files.exists()) {
+					fileName = files.getName();
+					System.out.println("My File name is:" + fileName);
+				}
+			}
+
+			Robot robot = new Robot();
+			String filePath = file.toString() + fileName;
+			System.out.println("My path name is:" + filePath);
+			StringSelection strSelection = new StringSelection(filePath);
+			Toolkit.getDefaultToolkit().getSystemClipboard().setContents(strSelection, null);
+			Thread.sleep(3000);
+			robot.keyPress(KeyEvent.VK_CONTROL);
+			robot.keyPress(KeyEvent.VK_V);
+			robot.keyRelease(KeyEvent.VK_V);
+			Thread.sleep(3000);
+			robot.keyRelease(KeyEvent.VK_CONTROL);
+			robot.keyPress(KeyEvent.VK_ENTER);
+			robot.keyRelease(KeyEvent.VK_ENTER);
+		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("File Path is incorrect or file is not in directory");
 		}
-       
+
 	}
 
 }
