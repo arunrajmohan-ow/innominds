@@ -167,5 +167,6 @@ public class TestProcessException_Membership extends BaseClass {
 				testData.testDataProvider().getProperty("enterNote"));
 		// Attach the pdf file in exception
 		processException.attachFile();
+		processException.validateFileUpload();
 	}
 }
