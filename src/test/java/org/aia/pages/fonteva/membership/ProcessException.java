@@ -118,6 +118,21 @@ public class ProcessException {
 	@FindBy(xpath = "//a[@title='Upload Files']")
 	WebElement fileUpload;
 
+	@FindBy(xpath = "//h2[text()='Upload Files']")
+	WebElement uploadPopUp;
+
+	@FindBy(xpath = "(//span[@role='status'])[2]")
+	WebElement isfileUploaded;
+	
+	@FindBy(xpath="//span[text()='Done']//parent::button")
+	WebElement doneBtn;
+	
+	@FindBy(xpath="//ul[@class='uiAbstractList']/li")
+	WebElement fileVisible;
+	
+	@FindBy(xpath="//lightning-icon[@icon-name='utility:success']")
+	WebElement successIcon;
+
 	static ArrayList<String> valueList = new ArrayList<String>();
 
 	/**
@@ -249,18 +264,8 @@ public class ProcessException {
 		util.waitUntilElement(driver, fileUpload);
 		fileUpload.click();
 		try {
-			File file = new File(System.getProperty("user.dir") + data.testDataProvider().getProperty("uploadFile"));
-			File[] listOfFiles = file.listFiles();
-			String fileName = null;
-			for (File files : listOfFiles) {
-				if (files.exists()) {
-					fileName = files.getName();
-					System.out.println("My File name is:" + fileName);
-				}
-			}
-
 			Robot robot = new Robot();
-			String filePath = file.toString() + fileName;
+			String filePath = System.getProperty("user.dir") + data.testDataProvider().getProperty("uploadFile");
 			System.out.println("My path name is:" + filePath);
 			StringSelection strSelection = new StringSelection(filePath);
 			Toolkit.getDefaultToolkit().getSystemClipboard().setContents(strSelection, null);
@@ -276,7 +281,17 @@ public class ProcessException {
 			e.printStackTrace();
 			System.out.println("File Path is incorrect or file is not in directory");
 		}
+	}
 
+	/**
+	 * Validate File is uploaded 
+	 */
+	public void validateFileUpload() {
+		util.waitUntilElement(driver, uploadPopUp);
+		assertTrue(uploadPopUp.isDisplayed());
+		util.waitUntilElement(driver, successIcon);
+		assertEquals(isfileUploaded.getText(), data.testDataProvider().getProperty("fileUpload"));
+		doneBtn.click();
 	}
 
 }
