@@ -2,6 +2,7 @@ package org.aia.pages;
 
 import java.io.IOException;
 
+import org.aia.pages.api.membership.FontevaConnectionSOAP;
 import org.aia.utility.BrowserSetup;
 import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.DataProviderFactory;
@@ -32,6 +33,7 @@ public class BaseClass {
 	ExtentTest logger;
 	protected Utility util;
 	protected ConfigDataProvider testData;
+	protected FontevaConnectionSOAP sessionID;
 	public static ExtentReporter htmlReporter;
 	public static GenerateReports reports;
 	// Configure Log4j to perform error logging
