@@ -71,6 +71,7 @@ public class TestJoinArchitectureFirm_CES extends BaseClass {
 	{
 		driver=BrowserSetup.startApplication(driver, DataProviderFactory.getConfig().getValue("browser"),DataProviderFactory.getConfig().getValue("ces_signin"));
 		util=new Utility(driver, 30);
+		sessionID=new FontevaConnectionSOAP();
 		signUpPage = PageFactory.initElements(driver, SignUpPageCes.class);
 		signInpage = PageFactory.initElements(driver, SignInPage.class);
 		closeButtnPage = PageFactory.initElements(driver, CloseBtnPageCes.class);
