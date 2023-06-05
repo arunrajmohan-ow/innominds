@@ -2,8 +2,8 @@ package org.aia.utility;
 //org - AIA
 
 import java.time.Duration;
-
-
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.WebDriver;
@@ -23,8 +23,12 @@ public class BrowserSetup {
         if(browser.equalsIgnoreCase("Chrome")){
         	//System.setProperty("webdriver.chrome.driver", "./chromedriver.exe");
         	WebDriverManager.chromedriver().setup();
+        	Map<String, Object> pref = new HashMap<String, Object>();
+    		pref.put("profile.default_content_settings.popups", false);
+    		pref.put("autofill.profile_enabled", false);
         	//System.setProperty("webdriver.chrome.driver",System.getProperty("user.dir")+"\\Drivers\\chromedriver.exe");
         	ChromeOptions options = new ChromeOptions();
+        	options.setExperimentalOption("prefs", pref);
             options.addArguments("--ignore-ssl-errors=yes");
             options.addArguments("--ignore-certificate-errors");
             options.addArguments("--disable-notifications");

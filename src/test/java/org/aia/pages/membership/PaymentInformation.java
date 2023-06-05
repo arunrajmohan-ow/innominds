@@ -1,19 +1,23 @@
 package org.aia.pages.membership;
 
+import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.Utility;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 
 public class PaymentInformation {
 
 	WebDriver driver;
+	Actions action;
 	Utility util = new Utility(driver, 10);
-	
+	ConfigDataProvider data = new ConfigDataProvider();
 	public PaymentInformation(WebDriver Idriver) 
 	{
 		this.driver = Idriver;
+		action = new Actions(driver);
 	}
 	
 	String creditCardNum = "4111111111111111";
@@ -49,8 +53,22 @@ public class PaymentInformation {
 	@FindBy(xpath="//a[@id='completePayment']") WebElement completeOrder;
 	
 	@FindBy(xpath="//li[@title=\"Credit card\"]/a") WebElement creditCardLink;
+	
+	@FindBy(xpath="//a[text()='ECheck']") WebElement echeckTab;
+	
+	@FindBy(xpath="//div[@data-label='Account Holder Name']/input") WebElement accountHolderName;
 
+	@FindBy(xpath="//div[@data-label='Bank Name']/input") WebElement bankName;
 
+	@FindBy(xpath="//div[@data-name='bankRoutingNumber']/input") WebElement bankRoutingNumber;
+	
+	@FindBy(xpath="//div[@data-name='bankAccountNumber']/input") WebElement accountNumber;
+	
+	@FindBy(xpath="//select[contains(@name,'Account Type')]") WebElement accountType;
+	
+	@FindBy(xpath="//select[contains(@name,'Account Holder Type')]") WebElement holderType;
+	
+	@FindBy(xpath="//button[text()='Process payment']") WebElement processPaymentBtn;
 	public void clickOnProcesspaymnt() {
 		
 		util.waitUntilElement(driver, processPaymnt);
@@ -107,6 +125,25 @@ public class PaymentInformation {
 		chckBox.click();
 		procssPaymntBtn.click();
 		return aiaNatnl;
+	}
+	
+	/**
+	 * @param accountHolder
+	 * @param accountTypeOpt
+	 * @param holderType
+	 */
+	public void paymentViaEcheck(String accountHolder, String accountTypeOpt, String accountHolderType) {
+		util.waitUntilElement(driver, echeckTab);
+		echeckTab.click();
+		util.waitUntilElement(driver, accountHolderName);
+		util.enterText(driver, accountHolderName, accountHolder);
+		util.enterText(driver, bankName, data.testDataProvider().getProperty("bankName"));
+		util.enterText(driver,bankRoutingNumber,data.testDataProvider().getProperty("bankRoutingNo"));
+		util.enterText(driver, accountNumber, data.testDataProvider().getProperty("bankAccountNo"));
+		action.moveToElement(accountType).build().perform();
+		util.selectDrp(accountType).selectByValue(accountTypeOpt);
+		util.selectDrp(holderType).selectByValue(accountHolderType);
+		processPaymentBtn.click();
 	}
 	
 }
