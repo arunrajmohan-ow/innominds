@@ -69,12 +69,7 @@ public class TestDIPJoin_Membership extends BaseClass {
 
 	@Test(priority=1, description="Validate Membership DIP", enabled=true)
 	public void ValidateDip() throws Exception
-<<<<<<< HEAD
-	{
-		LocalDate localDate = java.time.LocalDate.now();
-=======
 	{   LocalDate localDate = java.time.LocalDate.now();
->>>>>>> d3981a85a4f2523c6446f33524f864e698de91ce
 		if (localDate.getMonthValue() >= 10 || localDate.getMonthValue() <= 04) {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
@@ -107,24 +102,13 @@ public class TestDIPJoin_Membership extends BaseClass {
 				DataProviderFactory.getConfig().getValue("orderStatus"), 
 				data.get(2), DataProviderFactory.getConfig().getValue("postingStatus")); 
 		//Validate Receipt Details 
-<<<<<<< HEAD
-		apiValidation.verifyReciptDetails(data.get(0), data.get(2));
-		}
-		else {
-			System.out.println("Test case is not executed, We are in not Oct-Apr Period");
-		}
-	}
-	
-	
-=======
 		apiValidation.verifyReciptDetails(data.get(0), data.get(2));	
 		}
 		else {
-			System.out.println("We are not DIP period");
+			System.out.println("We are not in DIP period");
 		}
 	}
 
->>>>>>> d3981a85a4f2523c6446f33524f864e698de91ce
 	@AfterMethod
 	public void teardown() {
 		BrowserSetup.closeBrowser(driver);

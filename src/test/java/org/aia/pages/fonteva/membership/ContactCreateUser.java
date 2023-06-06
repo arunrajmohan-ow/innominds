@@ -300,13 +300,8 @@ public class ContactCreateUser {
 		Thread.sleep(10000);
 		// check wait
 		driver.switchTo().frame(drpIframe);
-<<<<<<< HEAD
-		Thread.sleep(7000);
-		// check wait
-=======
 		Thread.sleep(60000);
 		//check wait
->>>>>>> d3981a85a4f2523c6446f33524f864e698de91ce
 		List<WebElement> options = driver.findElements(By.xpath("//select[@aria-label='Payment Type']/option"));
 		for (WebElement drpOption : options) {
 			System.out.println(drpOption.getText());
