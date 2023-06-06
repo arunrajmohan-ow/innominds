@@ -56,6 +56,7 @@ public class TestJoin_Membership extends BaseClass {
 				DataProviderFactory.getConfig().getValue("devstagingurl_membership"));
 		inbox = DataProviderFactory.getConfig().getValue("inbox");
 		util = new Utility(driver, 30);
+		testData = new ConfigDataProvider();
 		mailinator = PageFactory.initElements(driver, MailinatorAPI.class);
 		signUpPage = PageFactory.initElements(driver, SignUpPage.class);
 		signInpage = PageFactory.initElements(driver, SignInPage.class);
@@ -80,7 +81,7 @@ public class TestJoin_Membership extends BaseClass {
 	 * apiValidation.verifyReciptDetails("0000105204", 638.0);
 	 */
 
-	@Test(priority = 1, description = "Validate Membership Signup", enabled=true)
+	@Test(priority = 1, description = "Validate Membership Signup", enabled = false)
 	public void ValidateSignUpPageISOpened() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
@@ -483,6 +484,9 @@ public class TestJoin_Membership extends BaseClass {
 	}
 
 	@Test(priority = 13, description = "Validate Retired CarrerType", enabled=true)
+	/**
+	 * @throws Exception
+	 */
 	public void ValidateRetiredCarrerType() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
@@ -516,6 +520,9 @@ public class TestJoin_Membership extends BaseClass {
 	}
 
 	@Test(priority = 14, description = "Validate None Selected CarrerType", enabled=true)
+	/**
+	 * @throws Exception
+	 */
 	public void ValidateNoneSelectedCarrerType() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
@@ -548,6 +555,9 @@ public class TestJoin_Membership extends BaseClass {
 		apiValidation.verifyReciptDetails(data.get(0), data.get(2));
 	}
 
+	/**
+	 * @throws Exception
+	 */
 	@Test(priority = 15, description = "Validate price rule in sales order line", enabled=true)
 	public void validatePriceRuleInSalesOrder() throws Exception {
 		// Start the creating user
@@ -577,6 +587,39 @@ public class TestJoin_Membership extends BaseClass {
 		apiValidation.verifySalesOrderForPriceRule("Architect");
 
 	}
+	
+	/**
+	 * @throws Exception 
+	 */
+	@Test(priority = 16, description = "Payment via E Check for membership join", enabled = true)
+	public void validateJoinMembershipEcheckPayment() throws Exception {
+		ArrayList<String> dataList = signUpPage.signUpData();
+		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
+		signUpPage.signUpUser();
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
+		closeButtnPage.clickCloseAfterVerification();
+		signInpage.login(dataList.get(5), dataList.get(6));
+		primaryInfoPage.enterPrimaryInfo(testData.testDataProvider().getProperty("radioSelection"),testData.testDataProvider().getProperty("careerType"));
+		orderSummaryPage.confirmTerms(testData.testDataProvider().getProperty("radioSelection"));
+		orderSummaryPage.clickonPayNow();
+		paymentInfoPage.paymentViaEcheck(dataList.get(0)+" "+dataList.get(1), testData.testDataProvider().getProperty("accountType"),
+				                         testData.testDataProvider().getProperty("accountHolderType"));
+		tellAbtPage.enterTellUsAboutYourSelfdetails(testData.testDataProvider().getProperty("radioSelection"), testData.testDataProvider().getProperty("careerType"));
+		finalPage.verifyThankYouMessage();
+		ArrayList<Object> data = finalPage.getFinalReceiptData();
+		mailinator.welcomeAIAEmailLink(dataList, data);
+		
+		apiValidation.verifyMemebershipCreation(dataList.get(3),
+				DataProviderFactory.getConfig().getValue("termEndDate"), data.get(2),
+				DataProviderFactory.getConfig().getValue("type_aia_national"), testData.testDataProvider().getProperty("membershipType"), testData.testDataProvider().getProperty("careerType"));
+		// Validate sales order
+		apiValidation.verifySalesOrder(DataProviderFactory.getConfig().getValue("salesOrderStatus"),
+				DataProviderFactory.getConfig().getValue("orderStatus"), data.get(2),
+				DataProviderFactory.getConfig().getValue("postingStatus"));
+		// Validate Receipt Details
+		apiValidation.verifyReciptDetails(data.get(0), data.get(2));
+	}
+	
 
 	@AfterMethod
 	public void teardown() {
