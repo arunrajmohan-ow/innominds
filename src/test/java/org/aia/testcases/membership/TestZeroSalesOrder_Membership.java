@@ -71,7 +71,7 @@ public class TestZeroSalesOrder_Membership extends BaseClass {
 	/**
 	 * @throws Exception
 	 */
-	@Test
+	@Test (priority=1, description="Validate zero sales order", enabled=true)
 	public void validateZeroSalesOrder() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
