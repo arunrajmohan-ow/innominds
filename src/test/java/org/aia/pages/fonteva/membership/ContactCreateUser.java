@@ -65,9 +65,9 @@ public class ContactCreateUser {
 	@FindBy(xpath = "//input[@name='lastName']")
 	WebElement lastName;
 
-	@FindBy(xpath="//input[@name='OrderApi__Personal_Email__c']")
+	@FindBy(xpath = "//input[@name='OrderApi__Personal_Email__c']")
 	WebElement emailAddress;
-	
+
 	@FindBy(xpath = "//button[text()='Save']")
 	WebElement saveBtn;
 
@@ -143,23 +143,34 @@ public class ContactCreateUser {
 	@FindBy(xpath = "(//iframe[@title='accessibility title'])[3]")
 	WebElement drpIframe;
 
-	@FindBy(xpath="//iframe[@title='Payment Form']")
+	@FindBy(xpath = "//iframe[@title='Payment Form']")
 	WebElement cardNumIframe1;
-	
+
 	@FindBy(xpath = "//iframe[@title='Card number']")
 	WebElement cardNumIframe2;
 
 	@FindBy(xpath = "//span[text()='Process Payment']/parent::button")
 	WebElement processPaymentBtn;
 
-	@FindBy(xpath="//lightning-formatted-text[@slot='primaryField']")
+	@FindBy(xpath = "//lightning-formatted-text[@slot='primaryField']")
 	WebElement receiptNo;
-	
-	@FindBy(xpath="(//a[contains(@href,'OrderApi__Sales_Order__c')])[2]/slot/slot/span")
+
+	@FindBy(xpath = "(//a[contains(@href,'OrderApi__Sales_Order__c')])[2]/slot/slot/span")
 	WebElement aiaNumber;
-	
-	@FindBy(xpath="(//p[text()='Total']/parent::div/p)[2]/slot/lightning-formatted-text")
+
+	@FindBy(xpath = "(//p[text()='Total']/parent::div/p)[2]/slot/lightning-formatted-text")
 	WebElement totalAmmount;
+
+	@FindBy(xpath = "//h1/span[text()='Contacts']/parent::h1/parent::div/parent::div//button")
+	WebElement contactallBtn;
+
+	@FindBy(xpath = "//li[contains(@class,'forceVirtualAutocompleteMenuOption')]//span[text()='All Contacts'][1]")
+	WebElement contactallLink;
+	
+	String contactName ="//a[text()='%s']";
+	
+	@FindBy(xpath="//a[contains(text(),'Show All')]")
+  	WebElement showAll;
 	
 	String fName;
 	String lName;
@@ -203,8 +214,8 @@ public class ContactCreateUser {
 		emailaddressdata = emailPrefix + emailDomain;
 		log.info("Email:" + emailaddressdata);
 		userList.add(4, emailaddressdata);
-	    fullname = fName+" "+lName;
-	    userList.add(5,fullname);
+		fullname = fName + " " + lName;
+		userList.add(5, fullname);
 		return userList;
 	}
 
@@ -228,10 +239,10 @@ public class ContactCreateUser {
 	/**
 	 * @param membership
 	 * @param career
-	 * @throws InterruptedException 
+	 * @throws InterruptedException
 	 */
 	public void joinCreatedUser(String membership, String career) throws InterruptedException {
-	   Thread.sleep(7000);
+		Thread.sleep(7000);
 		util.waitUntilElement(driver, joinBtn);
 		joinBtn.click();
 		util.waitUntilElement(driver, selectMemTypeBtn);
@@ -245,7 +256,7 @@ public class ContactCreateUser {
 		careerTypeDrp.click();
 		WebElement selectCareerType = driver.findElement(By.xpath(String.format(careerType, career)));
 		selectCareerType.click();
-		//action.scrollToElement(nextBtn);
+		// action.scrollToElement(nextBtn);
 		executor.executeScript("arguments[0].scrollIntoView(true);", nextBtn);
 		util.waitUntilElement(driver, nextBtn);
 		nextBtn.click();
@@ -287,10 +298,10 @@ public class ContactCreateUser {
 		util.waitUntilElement(driver, applyPayment);
 		applyPayment.click();
 		Thread.sleep(10000);
-		//check wait
+		// check wait
 		driver.switchTo().frame(drpIframe);
 		Thread.sleep(7000);
-		//check wait
+		// check wait
 		List<WebElement> options = driver.findElements(By.xpath("//select[@aria-label='Payment Type']/option"));
 		for (WebElement drpOption : options) {
 			System.out.println(drpOption.getText());
@@ -304,7 +315,7 @@ public class ContactCreateUser {
 
 	/**
 	 * @param null
-	 * @throws InterruptedException 
+	 * @throws InterruptedException
 	 */
 	public void applyPayment() throws InterruptedException {
 		util.enterText(driver, cardHolderName, (userList.get(0) + " " + userList.get(1)));
@@ -315,7 +326,7 @@ public class ContactCreateUser {
 		action.scrollToElement(cardNum);
 		util.enterText(driver, cardNum, data.testDataProvider().getProperty("CREDIT_CARD_NUMBER"));
 		driver.switchTo().defaultContent();
-		//check wait
+		// check wait
 		Thread.sleep(5000);
 		driver.switchTo().frame(drpIframe);
 		util.waitUntilElement(driver, expMonth);
@@ -325,9 +336,9 @@ public class ContactCreateUser {
 		util.selectDrp(expYear).selectByValue(data.testDataProvider().getProperty("CREDIT_CARD_EXP_YEAR"));
 		processPaymentBtn.click();
 	}
-	
+
 	/**
-	 * @return 
+	 * @return
 	 * 
 	 */
 	public ArrayList<Object> getPaymentReceiptData() {
@@ -338,9 +349,25 @@ public class ContactCreateUser {
 		util.waitUntilElement(driver, aiaNumber);
 		String customerAIANumber = aiaNumber.getText();
 		receiptData.add(1, customerAIANumber);
-		String totalAmmountText = totalAmmount.getText().replaceAll("[$]*","").trim();
+		String totalAmmountText = totalAmmount.getText().replaceAll("[$]*", "").trim();
 		receiptData.add(2, totalAmmountText);
 		return receiptData;
+	}
+
+	/**
+	 * @param Userfullname 
+	 * @throws InterruptedException 
+	 * 
+	 */
+	public void selectContact(String userFullname) throws InterruptedException  {
+		util.waitUntilElement(driver, contactallBtn);
+		contactallBtn.click();
+		util.waitUntilElement(driver, contactallLink);
+		contactallLink.click();
+		Thread.sleep(10000);
+		util.getCustomizedWebElement(driver, contactName, userFullname).click();
+		util.waitUntilElement(driver, showAll);
+		showAll.click();
 	}
 
 }
