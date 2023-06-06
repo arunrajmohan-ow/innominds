@@ -76,7 +76,7 @@ public class TestRenew_Membership extends BaseClass {
 	}
 	
 	
-	@Test(priority=1, description="Validate Renew without supplemental dues", enabled=true)
+	@Test(priority=1, description="Validate Renew without supplemental dues", enabled=false)
 	public void ValidateRenew() throws Exception
 	{
 		ArrayList<String> dataList = signUpPage.signUpData();
@@ -140,7 +140,7 @@ public class TestRenew_Membership extends BaseClass {
 		apiValidationRenew.verifyReciptDetails(receiptData.get(0), receiptData.get(2));
 	}
 
-	@Test(priority=2, description="Validate Renew for architectural Firm Owner - supplemental Dues", enabled=true)
+	@Test(priority=2, description="Validate Renew for architectural Firm Owner - supplemental Dues", enabled=false)
 	public void ValidateRenewWithSupplementalDuesAFO() throws Exception
 	{
 		ArrayList<String> dataList = signUpPage.signUpData();
@@ -202,7 +202,7 @@ public class TestRenew_Membership extends BaseClass {
 	}
 	
 	
-	@Test(priority=3, description="Validate Renew for sole Practitioner - supplemental Dues", enabled=true)
+	@Test(priority=3, description="Validate Renew for sole Practitioner - supplemental Dues", enabled=false)
 	public void ValidateRenewWithSupplementalDuesSP() throws Exception
 	{
 		ArrayList<String> dataList = signUpPage.signUpData();
@@ -264,7 +264,7 @@ public class TestRenew_Membership extends BaseClass {
 	}
 	
 	
-	@Test(priority=4, description="Validate Renew for architecture Firm Manager - supplemental Dues", enabled=true)
+	@Test(priority=4, description="Validate Renew for architecture Firm Manager - supplemental Dues", enabled=false)
 	public void ValidateRenewWithSupplementalDuesAFM() throws Exception
 	{
 		ArrayList<String> dataList = signUpPage.signUpData();

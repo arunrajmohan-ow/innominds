@@ -80,7 +80,11 @@ public class TestJoin_Membership extends BaseClass {
 	 * apiValidation.verifyReciptDetails("0000105204", 638.0);
 	 */
 
+<<<<<<< HEAD
 	@Test(priority = 1, description = "Validate Membership Signup", enabled=true)
+=======
+	@Test(priority = 1, description = "Validate Membership Signup", enabled = true)
+>>>>>>> d3981a85a4f2523c6446f33524f864e698de91ce
 	public void ValidateSignUpPageISOpened() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
@@ -117,7 +121,11 @@ public class TestJoin_Membership extends BaseClass {
 		apiValidation.verifyReciptDetails(data.get(0), data.get(2));
 	}
 
+<<<<<<< HEAD
 	@Test(priority = 2, description = "Validate activeUSLicense", enabled=true)
+=======
+	@Test(priority = 2, description = "Validate activeUSLicense", enabled = true)
+>>>>>>> d3981a85a4f2523c6446f33524f864e698de91ce
 	public void ValidateActiveUSLicense() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
@@ -153,7 +161,11 @@ public class TestJoin_Membership extends BaseClass {
 		apiValidation.verifyReciptDetails(data.get(0), data.get(2));
 	}
 
+<<<<<<< HEAD
 	@Test(priority = 3, description = "Validate activeNonUSLicense", enabled=true)
+=======
+	@Test(priority = 3, description = "Validate activeNonUSLicense", enabled = true)
+>>>>>>> d3981a85a4f2523c6446f33524f864e698de91ce
 	public void ValidateActiveNonUSLicense() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
@@ -186,7 +198,11 @@ public class TestJoin_Membership extends BaseClass {
 		apiValidation.verifyReciptDetails(data.get(0), data.get(2));
 	}
 
+<<<<<<< HEAD
 	@Test(priority = 4, description = "Validate graduate", enabled=true)
+=======
+	@Test(priority = 4, description = "Validate graduate", enabled = true)
+>>>>>>> d3981a85a4f2523c6446f33524f864e698de91ce
 	public void ValidateGraduate() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
@@ -219,7 +235,11 @@ public class TestJoin_Membership extends BaseClass {
 		apiValidation.verifyReciptDetails(data.get(0), data.get(2));
 	}
 
+<<<<<<< HEAD
 	@Test(priority = 5, description = "Validate axp", enabled=true)
+=======
+	@Test(priority = 5, description = "Validate axp", enabled = true)
+>>>>>>> d3981a85a4f2523c6446f33524f864e698de91ce
 	public void ValidateAxp() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
@@ -252,7 +272,11 @@ public class TestJoin_Membership extends BaseClass {
 		apiValidation.verifyReciptDetails(data.get(0), data.get(2));
 	}
 
+<<<<<<< HEAD
 	@Test(priority = 6, description = "Validate noLicense", enabled=true)
+=======
+	@Test(priority = 6, description = "Validate noLicense", enabled = true)
+>>>>>>> d3981a85a4f2523c6446f33524f864e698de91ce
 	public void ValidateNoLicense() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
@@ -285,7 +309,11 @@ public class TestJoin_Membership extends BaseClass {
 		apiValidation.verifyReciptDetails(data.get(0), data.get(2));
 	}
 
+<<<<<<< HEAD
 	@Test(priority = 7, description = "Validate supervision", enabled=true)
+=======
+	@Test(priority = 7, description = "Validate supervision", enabled = true)
+>>>>>>> d3981a85a4f2523c6446f33524f864e698de91ce
 	public void ValidateSupervision() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
@@ -318,7 +346,11 @@ public class TestJoin_Membership extends BaseClass {
 		apiValidation.verifyReciptDetails(data.get(0), data.get(2));
 	}
 
+<<<<<<< HEAD
 	@Test(priority = 8, description = "Validate faculty", enabled=true)
+=======
+	@Test(priority = 8, description = "Validate faculty", enabled = true)
+>>>>>>> d3981a85a4f2523c6446f33524f864e698de91ce
 	public void ValidateFaculty() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
@@ -351,7 +383,11 @@ public class TestJoin_Membership extends BaseClass {
 		apiValidation.verifyReciptDetails(data.get(0), data.get(2));
 	}
 
+<<<<<<< HEAD
 	@Test(priority = 9, description = "Validate allied", enabled=true)
+=======
+	@Test(priority = 9, description = "Validate allied", enabled = true)
+>>>>>>> d3981a85a4f2523c6446f33524f864e698de91ce
 	public void ValidateAllied() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
@@ -384,7 +420,11 @@ public class TestJoin_Membership extends BaseClass {
 		apiValidation.verifyReciptDetails(data.get(0), data.get(2));
 	}
 
+<<<<<<< HEAD
 	@Test(priority = 10, description = "Validate For Profit CarrerType", enabled=true)
+=======
+	@Test(priority = 10, description = "Validate For Profit CarrerType", enabled = true)
+>>>>>>> d3981a85a4f2523c6446f33524f864e698de91ce
 	public void ValidateForProfitCarrerType() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
@@ -417,7 +457,11 @@ public class TestJoin_Membership extends BaseClass {
 		apiValidation.verifyReciptDetails(data.get(0), data.get(2));
 	}
 
+<<<<<<< HEAD
 	@Test(priority = 11, description = "Validate Govt CarrerType", enabled=true)
+=======
+	@Test(priority = 11, description = "Validate Govt CarrerType", enabled = true)
+>>>>>>> d3981a85a4f2523c6446f33524f864e698de91ce
 	public void ValidateGovtCarrerType() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
@@ -449,7 +493,11 @@ public class TestJoin_Membership extends BaseClass {
 		apiValidation.verifyReciptDetails(data.get(0), data.get(2));
 	}
 
+<<<<<<< HEAD
 	@Test(priority = 12, description = "Validate Education CarrerType", enabled=true)
+=======
+	@Test(priority = 12, description = "Validate Education CarrerType", enabled = true)
+>>>>>>> d3981a85a4f2523c6446f33524f864e698de91ce
 	public void ValidateEducationCarrerType() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
@@ -482,7 +530,11 @@ public class TestJoin_Membership extends BaseClass {
 		apiValidation.verifyReciptDetails(data.get(0), data.get(2));
 	}
 
+<<<<<<< HEAD
 	@Test(priority = 13, description = "Validate Retired CarrerType", enabled=true)
+=======
+	@Test(priority = 13, description = "Validate Retired CarrerType", enabled = true)
+>>>>>>> d3981a85a4f2523c6446f33524f864e698de91ce
 	public void ValidateRetiredCarrerType() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
@@ -515,7 +567,11 @@ public class TestJoin_Membership extends BaseClass {
 		apiValidation.verifyReciptDetails(data.get(0), data.get(2));
 	}
 
+<<<<<<< HEAD
 	@Test(priority = 14, description = "Validate None Selected CarrerType", enabled=true)
+=======
+	@Test(priority = 14, description = "Validate None Selected CarrerType", enabled = true)
+>>>>>>> d3981a85a4f2523c6446f33524f864e698de91ce
 	public void ValidateNoneSelectedCarrerType() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));

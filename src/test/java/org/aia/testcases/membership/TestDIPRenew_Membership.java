@@ -137,7 +137,11 @@ public class TestDIPRenew_Membership extends BaseClass {
 		apiValidationRenew.verifyReciptDetails(data.get(0), data.get(2));
 		}
 		else {
+<<<<<<< HEAD
 			System.out.println("Test case is not executed, We are in not Oct-Apr Period");
+=======
+			System.out.println("We are not DIP period");
+>>>>>>> d3981a85a4f2523c6446f33524f864e698de91ce
 		}
 	}
 	

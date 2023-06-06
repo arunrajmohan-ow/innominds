@@ -19,13 +19,13 @@ public class FontevaConnectionSOAP {
 				.accept(ContentType.JSON).header("Content-type", "text/xml").header("SOAPAction", "Define")
 				.body(requestBody).when().post("https://aia--testing.sandbox.my.salesforce.com/services/Soap/u/35.0")
 				.then().extract().response();
-		System.out.println(paresponse.prettyPrint());
+		//System.out.println(paresponse.prettyPrint());
 
 		// next we get the xmlPath of the response
 		XmlPath xmlPath = paresponse.xmlPath();
 		// and get the value of a node in the xml
 		String nodeValue = xmlPath.get("Envelope.Body.loginResponse.result.sessionId");
-		System.out.println(nodeValue);
+		//System.out.println(nodeValue);
 		return nodeValue;
 	}
 }
