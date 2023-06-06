@@ -43,7 +43,7 @@ public class TestProcessException_Membership extends BaseClass {
 	/**
 	 * @throws InterruptedException
 	 */
-	@Test(priority = 1, description = "Saving New Processing Exception", enabled = false)
+	@Test(priority = 1, description = "Saving New Processing Exception", enabled = true)
 	public void newProcessException() throws InterruptedException {
 		ArrayList<String> dataList = fontevaJoin.userData();
 		// First we create new user in Fonteva
@@ -71,7 +71,7 @@ public class TestProcessException_Membership extends BaseClass {
 	/**
 	 * @throws InterruptedException
 	 */
-	@Test(priority = 2, description = "Editing an existing Processing Exception ", enabled = false)
+	@Test(priority = 2, description = "Editing an existing Processing Exception ", enabled = true)
 	public void editProcessException() throws InterruptedException {
 		ArrayList<String> dataList = fontevaJoin.userData();
 		// First we create new user in Fonteva
@@ -111,7 +111,7 @@ public class TestProcessException_Membership extends BaseClass {
 	 * @throws InterruptedException 
 	 * 
 	 */
-	@Test(priority = 3, description = "Cloning an existing Processing Exception ", enabled = false)
+	@Test(priority = 3, description = "Cloning an existing Processing Exception ", enabled = true)
 	public void cloneProcessException() throws InterruptedException {
 		ArrayList<String> dataList = fontevaJoin.userData();
 		// First we create new user in Fonteva
