@@ -188,8 +188,6 @@ public class ContactCreateUser {
 		util.enterText(driver, userName, DataProviderFactory.getConfig().getValue("fontevaUserName"));
 		util.enterText(driver, password, DataProviderFactory.getConfig().getValue("fontevaPassWord"));
 		loginBtn.click();
-		util.waitUntilElement(driver, contacts);
-		contactsDiv.click();
 	}
 
 	/**
@@ -225,6 +223,8 @@ public class ContactCreateUser {
 	 * @throws null
 	 */
 	public void createUserInFonteva() {
+		util.waitUntilElement(driver, contacts);
+		contactsDiv.click();
 		util.waitUntilElement(driver, newBtn);
 		newBtn.click();
 		util.waitUntilElement(driver, firstName);
@@ -300,8 +300,13 @@ public class ContactCreateUser {
 		Thread.sleep(10000);
 		// check wait
 		driver.switchTo().frame(drpIframe);
+<<<<<<< HEAD
 		Thread.sleep(7000);
 		// check wait
+=======
+		Thread.sleep(60000);
+		//check wait
+>>>>>>> d3981a85a4f2523c6446f33524f864e698de91ce
 		List<WebElement> options = driver.findElements(By.xpath("//select[@aria-label='Payment Type']/option"));
 		for (WebElement drpOption : options) {
 			System.out.println(drpOption.getText());
