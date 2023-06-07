@@ -296,12 +296,17 @@ public class TellusAboutYourselfPage {
 	
 	public void enterdetails(WebElement ele) throws InterruptedException 
 	{	
+		Thread.sleep(10000);
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 
 		js.executeScript("window.scrollBy(0,30)", homecountryTellpage);
 		util.waitUntilElement(driver, homecountryTellpage);		
 		Thread.sleep(1000);
-		homecountryTellpage.click();	
+		if(homecountryTellpage.isDisplayed() || homecountryTellpage2.isDisplayed() ) {
+			homecountryTellpage.click();
+		}else {
+			homecountryTellpage2.click();
+		}
 		
 		util.waitUntilElement(driver, ele);			
 		js.executeScript("window.scrollBy(0,30)", ele);
