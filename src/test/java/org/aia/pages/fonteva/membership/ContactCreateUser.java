@@ -184,12 +184,14 @@ public class ContactCreateUser {
 	 * @param null
 	 * @return null
 	 */
-	public void signInFonteva() {
+	/*public void signInFonteva() {
 		util.enterText(driver, userName, DataProviderFactory.getConfig().getValue("fontevaUserName"));
 		util.enterText(driver, password, DataProviderFactory.getConfig().getValue("fontevaPassWord"));
 		loginBtn.click();
-	}
-
+	}*/
+    public void pointOffset() {
+    	action.moveByOffset(1300, 700).build().perform();
+    }
 	/**
 	 * @param null
 	 * @return ArraList<String>

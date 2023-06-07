@@ -35,8 +35,10 @@ public class TellusAboutYourselfPage {
 
 	@FindBy(css="body > div.siteforceStarterBody > div.cCenterPanel.slds-m-top--x-large.slds-p-horizontal--medium > div > div > div > div > div.cb-section_row.slds-grid.slds-wrap.slds-large-nowrap > div > div > div > c-a-i-a-join-additional-info > div.scrollable > div > lightning-record-edit-form > lightning-record-edit-form-edit > form > slot > slot > div:nth-child(4) > div.slds-p-horizontal_x-large > div:nth-child(2) > lightning-input") WebElement workBusinesChckbox1Tellpage;
 	
-	@FindBy(xpath="//label[text()='Home country']/parent::div/following-sibling::div[1]") WebElement homecountryTellpage;
+	@FindBy(xpath="//label[text()='Home country']/parent::div/following-sibling::div[1]//button") WebElement homecountryTellpage;
 
+	@FindBy(xpath="//label[text()='Home country']/parent::div/following-sibling::div[1]") WebElement homecountryTellpage2;
+	
 	@FindBy(xpath="//span[@title='United States']/parent::span") WebElement homecountryUnitedStatesTellpage;
 
 	@FindBy(xpath="//label[text()='Home country']/parent::div/following-sibling::div[1]//lightning-base-combobox/div/div[2]//span[@title='United States']/parent::span") WebElement homecountryUnitedStates2Tellpage;
@@ -296,7 +298,7 @@ public class TellusAboutYourselfPage {
 	{	
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 
-		js.executeScript("window.scrollBy(0,03)", homecountryTellpage);
+		js.executeScript("window.scrollBy(0,30)", homecountryTellpage);
 		util.waitUntilElement(driver, homecountryTellpage);		
 		Thread.sleep(1000);
 		homecountryTellpage.click();	
@@ -350,8 +352,11 @@ public class TellusAboutYourselfPage {
 		js.executeScript("window.scrollBy(0,03)", homecountryTellpage);
 		util.waitUntilElement(driver, homecountryTellpage);		
 		Thread.sleep(1000);
-		homecountryTellpage.click();	
-		
+		if(homecountryTellpage.isDisplayed() || homecountryTellpage2.isDisplayed() ) {
+			homecountryTellpage.click();
+		}else {
+			homecountryTellpage2.click();
+		}
 		util.waitUntilElement(driver, ele);			
 		js.executeScript("window.scrollBy(0,30)", ele);
 		Actions act = new Actions(driver);

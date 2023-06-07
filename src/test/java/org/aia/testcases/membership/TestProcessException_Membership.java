@@ -47,7 +47,8 @@ public class TestProcessException_Membership extends BaseClass {
 	public void newProcessException() throws InterruptedException {
 		ArrayList<String> dataList = fontevaJoin.userData();
 		// First we create new user in Fonteva
-		fontevaJoin.signInFonteva();
+		//fontevaJoin.signInFonteva();
+		fontevaJoin.pointOffset();
 		fontevaJoin.createUserInFonteva();
 		fontevaJoin.joinCreatedUser(testData.testDataProvider().getProperty("membershipType"),
 				testData.testDataProvider().getProperty("selection"));
@@ -75,7 +76,8 @@ public class TestProcessException_Membership extends BaseClass {
 	public void editProcessException() throws InterruptedException {
 		ArrayList<String> dataList = fontevaJoin.userData();
 		// First we create new user in Fonteva
-		fontevaJoin.signInFonteva();
+		//fontevaJoin.signInFonteva();
+		fontevaJoin.pointOffset();
 		fontevaJoin.createUserInFonteva();
 		fontevaJoin.joinCreatedUser(testData.testDataProvider().getProperty("membershipType"),
 				testData.testDataProvider().getProperty("selection"));
@@ -115,7 +117,8 @@ public class TestProcessException_Membership extends BaseClass {
 	public void cloneProcessException() throws InterruptedException {
 		ArrayList<String> dataList = fontevaJoin.userData();
 		// First we create new user in Fonteva
-		fontevaJoin.signInFonteva();
+		//fontevaJoin.signInFonteva();
+		fontevaJoin.pointOffset();
 		fontevaJoin.createUserInFonteva();
 		fontevaJoin.joinCreatedUser(testData.testDataProvider().getProperty("membershipType"),
 				testData.testDataProvider().getProperty("selection"));
@@ -147,6 +150,7 @@ public class TestProcessException_Membership extends BaseClass {
 	public void saveAttachmentProcessException() throws InterruptedException, IOException {
 		ArrayList<String> dataList = fontevaJoin.userData();
 		// First we create new user in Fonteva
+		fontevaJoin.pointOffset();
 		fontevaJoin.createUserInFonteva();
 		fontevaJoin.joinCreatedUser(testData.testDataProvider().getProperty("membershipType"),
 				testData.testDataProvider().getProperty("selection"));

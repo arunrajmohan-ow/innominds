@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.aia.pages.BaseClass;
 import org.aia.pages.api.MailinatorAPI;
+import org.aia.pages.api.membership.FontevaConnectionSOAP;
 import org.aia.pages.api.membership.RenewAPIValidation;
 import org.aia.pages.fonteva.membership.ContactCreateUser;
 import org.aia.pages.fonteva.membership.ReNewUser;
@@ -33,8 +34,9 @@ public class TestOfflineRenew_Membership extends BaseClass {
 
 	@BeforeMethod
 	public void setUp() throws Exception {
+		sessionID=new FontevaConnectionSOAP();
 		driver = BrowserSetup.startApplication(driver, DataProviderFactory.getConfig().getValue("browser"),
-				DataProviderFactory.getConfig().getValue("fonteva_endpoint"));
+				DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl")+sessionID.getSessionID());
 		util = new Utility(driver, 30);
 		testData = new ConfigDataProvider();
 		fontevaJoin = PageFactory.initElements(driver, ContactCreateUser.class);
@@ -49,7 +51,8 @@ public class TestOfflineRenew_Membership extends BaseClass {
 	@Test(priority = 1, description = "verify the offline membership renew in fonteva application", enabled = true)
 	public void offlineRenewProcess() throws InterruptedException {
 		ArrayList<String> dataList = fontevaJoin.userData();
-		fontevaJoin.signInFonteva();
+		//fontevaJoin.signInFonteva();
+		fontevaJoin.pointOffset();
 		fontevaJoin.createUserInFonteva();
 		fontevaJoin.joinCreatedUser(testData.testDataProvider().getProperty("membershipType"),
 				testData.testDataProvider().getProperty("selection"));
