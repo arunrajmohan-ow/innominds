@@ -118,7 +118,9 @@ public class PaymentInformation {
 		util.waitUntilElement(driver, cardNumFrame1);
 		driver.switchTo().frame(cardNumFrame1);
 		Thread.sleep(2000);
+		util.waitUntilElement(driver, cardNumFrame2);
 		driver.switchTo().frame(cardNumFrame2);
+		Thread.sleep(2000);
 		util.enterText(driver, cardNum, creditCardNum);
 		driver.switchTo().defaultContent();
 		Select s1 = new Select(expMonth);

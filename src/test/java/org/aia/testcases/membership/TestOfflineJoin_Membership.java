@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.aia.pages.BaseClass;
 import org.aia.pages.api.MailinatorAPI;
+import org.aia.pages.api.membership.FontevaConnectionSOAP;
 import org.aia.pages.api.membership.JoinAPIValidation;
 import org.aia.pages.fonteva.membership.ContactCreateUser;
 import org.aia.utility.BrowserSetup;
@@ -32,8 +33,9 @@ public class TestOfflineJoin_Membership extends BaseClass {
 
 	@BeforeMethod
 	public void setUp() throws Exception {
+		sessionID=new FontevaConnectionSOAP();
 		driver = BrowserSetup.startApplication(driver, DataProviderFactory.getConfig().getValue("browser"),
-				DataProviderFactory.getConfig().getValue("fonteva_endpoint"));
+				DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl")+sessionID.getSessionID());
 		util = new Utility(driver, 30);
 		testData = new ConfigDataProvider();
 		fontevaJoin = PageFactory.initElements(driver, ContactCreateUser.class);
@@ -51,7 +53,7 @@ public class TestOfflineJoin_Membership extends BaseClass {
 
 		// driver.get(DataProviderFactory.getConfig().getValue("fonteva_endpoint"));
 		ArrayList<String> dataList = fontevaJoin.userData();
-		fontevaJoin.signInFonteva();
+		fontevaJoin.pointOffset();
 		fontevaJoin.createUserInFonteva();
 		fontevaJoin.joinCreatedUser(testData.testDataProvider().getProperty("membershipType"),
 				testData.testDataProvider().getProperty("selection"));

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.aia.pages.BaseClass;
 import org.aia.pages.api.MailinatorAPI;
+import org.aia.pages.api.membership.FontevaConnectionSOAP;
 import org.aia.pages.api.membership.JoinAPIValidation;
 import org.aia.pages.fonteva.membership.ContactCreateUser;
 import org.aia.pages.fonteva.membership.SalesOrder;
@@ -46,6 +47,7 @@ public class TestZeroSalesOrder_Membership extends BaseClass {
 
 	@BeforeMethod
 	public void setUp() throws Exception {
+		sessionID=new FontevaConnectionSOAP();
 		driver = BrowserSetup.startApplication(driver, DataProviderFactory.getConfig().getValue("browser"),
 				DataProviderFactory.getConfig().getValue("devstagingurl_membership"));
 		util = new Utility(driver, 30);
@@ -83,8 +85,9 @@ public class TestZeroSalesOrder_Membership extends BaseClass {
 		orderSummaryPage.confirmTerms("activeUSLicense");
 		orderSummaryPage.clickonPayNow();
 		salesOrder.switchToTab();
-		driver.get(DataProviderFactory.getConfig().getValue("fonteva_endpoint"));
-		joinFonteva.signInFonteva();
+		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl")+sessionID.getSessionID());
+		//joinFonteva.signInFonteva();
+		joinFonteva.pointOffset();
 		joinFonteva.selectContact(dataList.get(0) + " " + dataList.get(1));
 		salesOrder.setDiscount();
 		paymentInfoPage.makeZeroOrderPayment();
