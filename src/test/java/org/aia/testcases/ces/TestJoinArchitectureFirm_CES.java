@@ -128,6 +128,7 @@ public class TestJoinArchitectureFirm_CES extends BaseClass {
 		String subType = organizationPage.enterOrganizationDetails(dataList, 
 				  "Architecture Firm", "No", "United States of America (+1)");
 		subscribePage.SubscriptionType(subType, "Yes", null, "Non-profit");
+		//subscribePage.proratedSubscriptionNext();
 		secPoc.enterSecondaryPocDetails(dataList, prefix, suffix, "No", "United States of America (+1)"); 
 		additionalUsers.doneWithCreatingUsers();
 		providerStatement.providerStatementEnterNameDate2("FNProviderStatement");
@@ -183,11 +184,10 @@ public class TestJoinArchitectureFirm_CES extends BaseClass {
 			
 		//Validate Primary POC 
 		apiValidation.verifyPointOfContact("CES Primary", userAccount.get(5), userAccount.get(0)+" "+userAccount.get(1));
-
 	}
 
 	@AfterMethod
-	public void teardown() 
+	public void teardown()
 	{
 		BrowserSetup.closeBrowser(driver);
 		
