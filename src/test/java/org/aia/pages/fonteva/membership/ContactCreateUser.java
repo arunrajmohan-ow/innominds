@@ -166,12 +166,15 @@ public class ContactCreateUser {
 
 	@FindBy(xpath = "//li[contains(@class,'forceVirtualAutocompleteMenuOption')]//span[text()='All Contacts'][1]")
 	WebElement contactallLink;
-	
-	String contactName ="//a[text()='%s']";
-	
+
+	String contactName = "//a[text()='%s']";
+
 	@FindBy(xpath="//a[contains(text(),'Show All')]")
   	WebElement showAll;
-	
+
+	@FindBy(xpath = "//a/span[@title='Name']")
+	WebElement tableheaderName;
+
 	String fName;
 	String lName;
 	String fullname;
@@ -184,14 +187,17 @@ public class ContactCreateUser {
 	 * @param null
 	 * @return null
 	 */
-	/*public void signInFonteva() {
-		util.enterText(driver, userName, DataProviderFactory.getConfig().getValue("fontevaUserName"));
-		util.enterText(driver, password, DataProviderFactory.getConfig().getValue("fontevaPassWord"));
-		loginBtn.click();
-	}*/
-    public void pointOffset() {
-    	//action.moveByOffset(1300, 700).build().perform();
-    }
+	/*
+	 * public void signInFonteva() { util.enterText(driver, userName,
+	 * DataProviderFactory.getConfig().getValue("fontevaUserName"));
+	 * util.enterText(driver, password,
+	 * DataProviderFactory.getConfig().getValue("fontevaPassWord"));
+	 * loginBtn.click(); }
+	 */
+	public void pointOffset() {
+		// action.moveByOffset(1300, 700).build().perform();
+	}
+
 	/**
 	 * @param null
 	 * @return ArraList<String>
@@ -303,7 +309,7 @@ public class ContactCreateUser {
 		// check wait
 		driver.switchTo().frame(drpIframe);
 		Thread.sleep(60000);
-		//check wait
+		// check wait
 		List<WebElement> options = driver.findElements(By.xpath("//select[@aria-label='Payment Type']/option"));
 		for (WebElement drpOption : options) {
 			System.out.println(drpOption.getText());
@@ -357,11 +363,15 @@ public class ContactCreateUser {
 	}
 
 	/**
-	 * @param Userfullname 
-	 * @throws InterruptedException 
+	 * @param Userfullname
+	 * @throws InterruptedException
 	 * 
 	 */
-	public void selectContact(String userFullname) throws InterruptedException  {
+	public void selectContact(String userFullname) throws InterruptedException {
+		util.waitUntilElement(driver, contacts);
+		contactsDiv.click();
+		util.waitUntilElement(driver, tableheaderName);
+		Thread.sleep(5000);
 		util.waitUntilElement(driver, contactallBtn);
 		contactallBtn.click();
 		util.waitUntilElement(driver, contactallLink);
@@ -369,6 +379,7 @@ public class ContactCreateUser {
 		Thread.sleep(10000);
 		util.getCustomizedWebElement(driver, contactName, userFullname).click();
 		util.waitUntilElement(driver, showAll);
+		action.moveToElement(showAll).build().perform();
 		showAll.click();
 	}
 
