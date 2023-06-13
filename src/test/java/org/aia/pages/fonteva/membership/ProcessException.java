@@ -41,7 +41,7 @@ public class ProcessException {
 	@FindBy(xpath = "//span[contains(text(),'Processing Exceptions')]/ancestor::a")
 	WebElement processExceptionTab;
 
-	@FindBy(xpath = "//a[@title=\"New\"]")
+	@FindBy(xpath = "//button[@name='New']")
 	WebElement newBtn;
 
 	@FindBy(xpath = "//button[contains(@aria-label,'Activity')]")
@@ -176,6 +176,7 @@ public class ProcessException {
 	 * @param status
 	 */
 	public void validateProcessException(String activity, String reason, String initialReach, String note) {
+		util.waitUntilElement(driver, exceptionTable);
 		assertTrue(exceptionTable.isDisplayed());
 		util.waitUntilElement(driver, activityText);
 		assertEquals(activityText.getText(), activity);

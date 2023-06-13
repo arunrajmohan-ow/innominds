@@ -34,7 +34,9 @@ public class FontevaCES {
 	
 	@FindBy(xpath="//table[@aria-label='Recently Viewed']/tbody/tr/th") WebElement tableProviderApp;
 	
-	@FindBy(xpath="//button[@title='Select a List View']") WebElement selectList;
+	@FindBy(xpath="//button[contains(@title,'Select a List View')]") WebElement selectList;
+	
+	//@FindBy(xpath="//button[@title='Select a List View']") WebElement selectList;
 	
 	@FindBy(xpath="//span[@class=' virtualAutocompleteOptionText'and text()='All']") WebElement allBtn;
 	
