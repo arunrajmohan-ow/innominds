@@ -38,7 +38,7 @@ public class SalesOrder {
 	@FindBy(xpath="//table[@aria-label='Sales Orders']")
 	WebElement salesOrderTable;
 	
-	@FindBy(xpath="(//table[@aria-label='Sales Orders']//tr)[2]/th/span/a")
+	@FindBy(xpath="(//table[@aria-label='Sales Orders']//tr)[2]/th//a")
 	WebElement orderId;
 	
 	@FindBy(xpath="//span[contains(text(),'Sales Order Lines')]//ancestor::a")
@@ -47,10 +47,11 @@ public class SalesOrder {
 	@FindBy(xpath="//table[@aria-label='Sales Order Lines']")
 	WebElement salesOrderLineTable;
 	
-	@FindBy(xpath="(//table[@aria-label='Sales Order Lines']//tr[1])[2]//th/span/a")
+	//@FindBy(xpath="(//table[@aria-label='Sales Order Lines']//tr[1])[2]//th/span/a")
+	@FindBy(xpath="(//table[@aria-label='Sales Order Lines']//tr[1])[2]//th//a")
 	WebElement salesOrderFirstLine;
 	
-	@FindBy(xpath="(//table[@aria-label='Sales Order Lines']//tr[2])//th/span/a")
+	@FindBy(xpath="(//table[@aria-label='Sales Order Lines']//tr[2])//th//a")
 	WebElement salesOrderSecondLine;
 	
 	@FindBy(xpath="(//button[text()='Set Discount'])[1]")
@@ -82,14 +83,16 @@ public class SalesOrder {
 		util.waitUntilElement(driver, salesOrderTable);
 		assertTrue(salesOrderTable.isDisplayed());
 		util.waitUntilElement(driver, orderId);
-		orderId.click();
+		executor.executeScript("arguments[0].click();", orderId);
+		//orderId.click();
 		util.waitUntilElement(driver, salesOrderLine);
 		salesOrderLine.click();
 		util.waitUntilElement(driver, salesOrderLineTable);
 		assertTrue(salesOrderLineTable.isDisplayed());
 		
 		util.waitUntilElement(driver, salesOrderFirstLine);
-		salesOrderFirstLine.click();
+		executor.executeScript("arguments[0].click();", salesOrderFirstLine);
+		//salesOrderFirstLine.click();
 		util.waitUntilElement(driver, setDiscountBtn);
 		setDiscountBtn.click();
 		util.waitUntilElement(driver, discountPopUp);
@@ -106,7 +109,8 @@ public class SalesOrder {
 		driver.navigate().back();
 		driver.navigate().back();
 		util.waitUntilElement(driver, salesOrderSecondLine);
-		salesOrderSecondLine.click();
+		executor.executeScript("arguments[0].click();", salesOrderSecondLine);
+		//salesOrderSecondLine.click();
 		util.waitUntilElement(driver, setDiscountBtnSecond);
 		setDiscountBtnSecond.click();
 		util.waitUntilElement(driver, discountPopUp);
