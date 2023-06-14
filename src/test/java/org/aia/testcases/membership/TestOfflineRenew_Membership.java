@@ -48,7 +48,7 @@ public class TestOfflineRenew_Membership extends BaseClass {
 	/**
 	 * @throws InterruptedException
 	 */
-	@Test(priority = 1, description = "verify the offline membership renew in fonteva application", enabled = true)
+	@Test(priority = 1, description = "verify the offline membership renew in fonteva application", enabled = true, groups= {"Smoke"})
 	public void offlineRenewProcess() throws InterruptedException {
 		ArrayList<String> dataList = fontevaJoin.userData();
 		//fontevaJoin.signInFonteva();
