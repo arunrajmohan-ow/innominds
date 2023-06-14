@@ -35,7 +35,7 @@ public class Memberships {
 
 	@FindBy(xpath = "//h2//span[@title='Terms']")
 	WebElement terms;
-	@FindBy(xpath = "//table[@aria-label='Terms']/tbody/tr/th//span/a")
+	@FindBy(xpath = "//table[@aria-label='Terms']/tbody/tr/th//a")
 	WebElement termId;
 
 	@FindBy(xpath = "//button[text()='Save']")
@@ -53,34 +53,29 @@ public class Memberships {
 	@FindBy(xpath = "//button[@title='Edit Term End Date']/span")
 	WebElement editBtn;
 
-	String contactName = "//h2[text()='Tabs']//parent::div//span[text()='%s']//ancestor::a";
+	String contactName = "(//span[text()='%s']//ancestor::a)[2]";
 
 	@FindBy(xpath = "//a[contains(text(),'Show All')]")
 	WebElement showAll;
 
 	/**
-	 * @param userFullname
+	 * @param userFullname 
 	 * @throws InterruptedException
 	 * 
 	 */
 	public void terminateUser(String userFullname) throws InterruptedException {
-		Thread.sleep(7000);
-		WebElement selectContact = driver.findElement(By.xpath(String.format(contactName, userFullname)));
-		executor.executeScript("arguments[0].click();", selectContact);
-		util.waitUntilElement(driver, showAll);
-		showAll.click();
-		util.waitUntilElement(driver, showAll);
-		showAll.click();
 		util.waitUntilElement(driver, membership);
 		action.moveToElement(membership).build().perform();
-		membership.click();
+		executor.executeScript("arguments[0].click();", membership);
 		util.waitUntilElement(driver, membershipSubId);
-		membershipSubId.click();
+		executor.executeScript("arguments[0].click();", membershipSubId);
+		//membershipSubId.click();
 		util.waitUntilElement(driver, terms);
 		action.moveToElement(terms).build().perform();
 		terms.click();
 		util.waitUntilElement(driver, termId);
-		termId.click();
+		executor.executeScript("arguments[0].click();", termId);
+		//termId.click();
 		util.waitUntilElement(driver, editBtn);
 		Thread.sleep(5000);
 		action.scrollToElement(editBtn).build().perform();
@@ -92,5 +87,10 @@ public class Memberships {
 		inputTermGraceDate.clear();
 		inputTermGraceDate.sendKeys(data.testDataProvider().getProperty("termGraceDate"));
 		saveBtn.click();
+		Thread.sleep(3000);
+		executor.executeScript("window.scrollBy(0,-550)", "");
+		Thread.sleep(6000);
+		executor.executeScript("arguments[0].click();", util.getCustomizedWebElement(driver, contactName, userFullname));
+		
 	}
 }

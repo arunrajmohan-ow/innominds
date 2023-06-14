@@ -27,7 +27,7 @@ public class TestOfflineRejoin_Membership extends BaseClass {
 	ContactCreateUser fontevaJoin;
 	MailinatorAPI malinator;
 	JoinAPIValidation offlinApiValidation;
-	DevSandBoxFonteva fontevaPage;
+	Memberships fontevaPage;
 	public ExtentReports extent;
 	public ExtentTest extentTest;
 
@@ -40,7 +40,7 @@ public class TestOfflineRejoin_Membership extends BaseClass {
 		testData = new ConfigDataProvider();
 		fontevaJoin = PageFactory.initElements(driver, ContactCreateUser.class);
 		malinator = PageFactory.initElements(driver, MailinatorAPI.class);
-		fontevaPage = PageFactory.initElements(driver, DevSandBoxFonteva.class);
+		fontevaPage = PageFactory.initElements(driver, Memberships.class);
 		offlinApiValidation = PageFactory.initElements(driver, JoinAPIValidation.class);
 		// Configure Log4j to perform error logging
 		Logging.configure();
@@ -57,7 +57,10 @@ public class TestOfflineRejoin_Membership extends BaseClass {
 		fontevaJoin.createSalesOrder(testData.testDataProvider().getProperty("paymentMethod"));
 		fontevaJoin.applyPayment();
 		// Terminate created user
-		fontevaPage.changeTermDates(dataList.get(0)+" "+dataList.get(1));
+		fontevaJoin.selectContact(dataList.get(5));
+		fontevaPage.terminateUser(dataList.get(5));
+		
+		
 	}
 
 	@AfterMethod
