@@ -41,13 +41,15 @@ public class ReNewUser {
 	@FindBy(xpath = "(//span[contains(text(),'Memberships')])[3]/ancestor::a")
 	WebElement selectMembership;
 
-	@FindBy(xpath = "(//table[@aria-label='Memberships']//tr)[2]/th/span/a")
+	@FindBy(xpath = "(//table[@aria-label='Memberships']//tr)[2]//th//a")
+	//@FindBy(xpath = "(//table[@aria-label='Memberships']//tr)[2]/th/span/a")
 	WebElement subscriptionId;
 
 	@FindBy(xpath = "(//span[contains(text(),'Terms')])[2]/ancestor::a")
 	WebElement termsLink;
 
-	@FindBy(xpath = "(//table[@aria-label='Terms']//tr)[2]/th/span/a")
+	@FindBy(xpath = "(//table[@aria-label='Terms']//tr)[2]/th//a")
+   //@FindBy(xpath = "(//table[@aria-label='Terms']//tr)[2]/th/span/a")
 	WebElement termId;
 
 	@FindBy(xpath = "//button[@title='Edit Term End Date']")
@@ -59,8 +61,9 @@ public class ReNewUser {
 	@FindBy(xpath = "//button[text()='Save']")
 	WebElement saveBtn;
 
-	String contactTerm = "(//span[text()='%s']//ancestor::a)[2]";
-
+	//String contactTerm = "//span[text()='%s']//ancestor::a";
+	String contactTerm ="(//span[text()='%s']//ancestor::a)[2]";
+                        
 	@FindBy(xpath = "(//button[text()='Renew'])[2]")
 	WebElement renewBtn;
 
@@ -101,11 +104,13 @@ public class ReNewUser {
 		Thread.sleep(10000);
 		driver.navigate().refresh();
 		util.waitUntilElement(driver, subscriptionId);
-		subscriptionId.click();
+		executor.executeScript("arguments[0].click();", subscriptionId);
+		//subscriptionId.click();
 		util.waitUntilElement(driver, termsLink);
 		termsLink.click();
 		util.waitUntilElement(driver, termId);
-		termId.click();
+		executor.executeScript("arguments[0].click();", termId);
+		//termId.click();
 		util.waitUntilElement(driver, termEditBtn);
 		action.scrollToElement(termEditBtn);
 		termEditBtn.click();

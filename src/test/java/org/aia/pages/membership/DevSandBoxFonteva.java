@@ -38,7 +38,9 @@ public class DevSandBoxFonteva {
 
 	@FindBy(xpath="//h2//span[@title='Terms']") WebElement Terms;
 
-	@FindBy(xpath="//table[@aria-label='Terms']/tbody/tr/th//span/a") WebElement termId;
+	//@FindBy(xpath="//table[@aria-label='Terms']/tbody/tr/th//span/a") WebElement termId;
+	@FindBy(xpath="//table[@aria-label='Terms']/tbody/tr/th//span//ancestor::a") WebElement termId;
+	
 
 	@FindBy(xpath="//button[text()='Save']") WebElement saveBtn;
 
@@ -62,8 +64,10 @@ public class DevSandBoxFonteva {
 	
 	@FindBy(xpath="//div[text()='Contact']") WebElement contactTitle;
 	
-	String  startLocator = "//div[@class='uiVirtualDataTable indicator']/following-sibling::table/tbody//a[text()='";
-	String  endLocator = "']";
+	/*String  startLocator = "//div[@class='uiVirtualDataTable indicator']/following-sibling::table/tbody//a[text()='";
+	String  endLocator = "']";*/
+	
+	String userContactName="//div[@class='uiVirtualDataTable indicator']/following-sibling::table/tbody//a[text()='%s']";
 	
 	public void changeTermDates(String fullName) throws InterruptedException 
 	{
@@ -76,7 +80,7 @@ public class DevSandBoxFonteva {
 		 * //password.sendKeys("Srk_09122022"); //password.sendKeys("x9VKwVwkS3G#");
 		 * password.sendKeys("Login_1234"); loginBtn.click();
 		 */
-
+		JavascriptExecutor js = (JavascriptExecutor) driver;
 		util.waitUntilElement(driver, contacts);
 		contactsDiv.click();
 		util.waitUntilElement(driver, tableheaderName);
@@ -86,7 +90,8 @@ public class DevSandBoxFonteva {
 		util.waitUntilElement(driver, contactallLink);
 		contactallLink.click();
 		Thread.sleep(10000);
-		driver.findElement(By.xpath(startLocator+fullName+endLocator)).click();
+		//driver.findElement(By.xpath(startLocator+fullName+endLocator)).click();
+		util.getCustomizedWebElement(driver, userContactName, fullName).click();
 		util.waitUntilElement(driver, showallBtn);
 		executor.executeScript("arguments[0].click();", showallBtn);
 		//showallBtn.click();
@@ -105,13 +110,13 @@ public class DevSandBoxFonteva {
 		util.waitUntilElement(driver, Terms);
 		Terms.click();
 		util.waitUntilElement(driver, termId);
-		termId.click();
+		js.executeScript("arguments[0].click();", termId);
+		//termId.click();
 		Thread.sleep(5000);
 		util.waitUntilElement(driver, editBtn);
 		Thread.sleep(5000);
 		Actions act = new Actions(driver);
 		act.scrollToElement(editBtn);
-		JavascriptExecutor js = (JavascriptExecutor) driver;
 		js.executeScript("window.scrollBy(0,200)", editBtn);
 		editBtn.click();
 		util.waitUntilElement(driver, inputTermEndDate);
@@ -120,6 +125,7 @@ public class DevSandBoxFonteva {
 		util.waitUntilElement(driver, inputTermGraceDate);
 		inputTermGraceDate.clear();
 		inputTermGraceDate.sendKeys("4/4/2024");
+		util.waitUntilElement(driver, saveBtn);
 		saveBtn.click();
 		Thread.sleep(1000);
 		act.sendKeys(Keys.F5);
