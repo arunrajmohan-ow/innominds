@@ -169,7 +169,7 @@ public class ContactCreateUser {
 
 	String contactName = "//a[text()='%s']";
 
-	@FindBy(xpath="//a[contains(text(),'Show All')]")
+	@FindBy(xpath="//a[contains(text(),'Show All (2')]")
   	WebElement showAll;
 
 	@FindBy(xpath = "//a/span[@title='Name']")
@@ -379,7 +379,7 @@ public class ContactCreateUser {
 		Thread.sleep(10000);
 		util.getCustomizedWebElement(driver, contactName, userFullname).click();
 		util.waitUntilElement(driver, showAll);
-		action.moveToElement(showAll).build().perform();
+		//executor.executeScript("arguments[0].click();", showAll);
 		showAll.click();
 	}
 }
