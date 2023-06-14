@@ -44,7 +44,7 @@ public class Subscription {
 	
 	@FindBy(xpath="//*[text()='Upload Files']") WebElement profUploadFile;
 	
-	@FindBy(xpath="//span[text()='Done']") WebElement pofessionalFileUplaodDoneButton;
+	@FindBy(xpath="//span[text()='Done']//parent::button") WebElement pofessionalFileUplaodDoneButton;
 	
 	@FindBy(xpath="//button[@title='Delete Document']") WebElement pofessionalDeleteBtn;
 	
@@ -163,6 +163,7 @@ public class Subscription {
 		
 		util.waitUntilElement(driver, pofessionalFileUplaodDoneButton);
 		Thread.sleep(3000);
+		util.waitUntilElement(driver, pofessionalFileUplaodDoneButton);
 		pofessionalFileUplaodDoneButton.click();
 		util.waitUntilElement(driver, pofessionalDeleteBtn);
 		professionalNext.click();

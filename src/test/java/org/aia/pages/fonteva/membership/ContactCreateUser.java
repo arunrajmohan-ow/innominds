@@ -169,8 +169,11 @@ public class ContactCreateUser {
 
 	String contactName = "//a[text()='%s']";
 
-	@FindBy(xpath = "//a[contains(text(),'Show All')]")
-	WebElement showAll;
+	@FindBy(xpath="//a[contains(text(),'Show All')]")
+  	WebElement showAll;
+
+	@FindBy(xpath = "//a/span[@title='Name']")
+	WebElement tableheaderName;
 
 	String fName;
 	String lName;
@@ -365,6 +368,10 @@ public class ContactCreateUser {
 	 * 
 	 */
 	public void selectContact(String userFullname) throws InterruptedException {
+		util.waitUntilElement(driver, contacts);
+		contactsDiv.click();
+		util.waitUntilElement(driver, tableheaderName);
+		Thread.sleep(5000);
 		util.waitUntilElement(driver, contactallBtn);
 		contactallBtn.click();
 		util.waitUntilElement(driver, contactallLink);
@@ -372,6 +379,7 @@ public class ContactCreateUser {
 		Thread.sleep(10000);
 		util.getCustomizedWebElement(driver, contactName, userFullname).click();
 		util.waitUntilElement(driver, showAll);
+		action.moveToElement(showAll).build().perform();
 		showAll.click();
 	}
 }

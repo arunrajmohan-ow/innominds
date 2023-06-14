@@ -48,7 +48,7 @@ public class TestProcessException_Membership extends BaseClass {
 		ArrayList<String> dataList = fontevaJoin.userData();
 		// First we create new user in Fonteva
 		//fontevaJoin.signInFonteva();
-		fontevaJoin.pointOffset();
+	    fontevaJoin.pointOffset();
 		fontevaJoin.createUserInFonteva();
 		fontevaJoin.joinCreatedUser(testData.testDataProvider().getProperty("membershipType"),
 				testData.testDataProvider().getProperty("selection"));
