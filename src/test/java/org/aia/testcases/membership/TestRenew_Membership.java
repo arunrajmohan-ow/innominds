@@ -140,7 +140,7 @@ public class TestRenew_Membership extends BaseClass {
 		apiValidationRenew.verifyReciptDetails(receiptData.get(0), receiptData.get(2));
 	}
 
-	@Test(priority=2, description="Validate Renew for architectural Firm Owner - supplemental Dues", enabled=true)
+	@Test(priority=2, description="Validate Renew for architectural Firm Owner - supplemental Dues", enabled=true, groups= {"Smoke"})
 	public void ValidateRenewWithSupplementalDuesAFO() throws Exception
 	{
 		ArrayList<String> dataList = signUpPage.signUpData();
@@ -322,7 +322,7 @@ public class TestRenew_Membership extends BaseClass {
 	}
 	
 	
-	@Test(priority=5, description="Validate Renew for not Sole Practitioner - supplemental Dues", enabled=true)
+	@Test(priority=5, description="Validate Renew for not Sole Practitioner - supplemental Dues", enabled=true, groups= {"Smoke"})
 	public void ValidateRenewWithSupplementalDuesNSP() throws Exception
 	{
 		ArrayList<String> dataList = signUpPage.signUpData();

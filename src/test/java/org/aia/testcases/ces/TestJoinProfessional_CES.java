@@ -90,7 +90,7 @@ public class TestJoinProfessional_CES extends BaseClass {
 		fontevaPage = PageFactory.initElements(driver, FontevaCES.class);
 	}
 
-	@Test(priority = 1, description = "Validate Online JOIN for Professional E-Check.", enabled = true)
+	@Test(priority = 1, description = "Validate Online JOIN for Professional E-Check.", enabled = true, groups= {"Smoke"})
 	public void ValidateJoinECheckProfessional() throws Exception {
 		String prefix = "Dr.";
 		String suffix = "Sr.";

@@ -67,7 +67,7 @@ public class TestDIPJoin_Membership extends BaseClass {
 		tellAbtPage = PageFactory.initElements(driver, TellusAboutYourselfPage.class);
 	}
 
-	@Test(priority=1, description="Validate Membership DIP", enabled=true)
+	@Test(priority=1, description="Validate Membership DIP", enabled=true, groups= {"Smoke"})
 	public void ValidateDip() throws Exception
 	{   LocalDate localDate = java.time.LocalDate.now();
 		if (localDate.getMonthValue() >= 10 || localDate.getMonthValue() <= 04) {

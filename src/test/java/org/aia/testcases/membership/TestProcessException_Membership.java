@@ -72,7 +72,7 @@ public class TestProcessException_Membership extends BaseClass {
 	/**
 	 * @throws InterruptedException
 	 */
-	@Test(priority = 2, description = "Editing an existing Processing Exception ", enabled = true)
+	@Test(priority = 2, description = "Editing an existing Processing Exception ", enabled = true, groups= {"Smoke"})
 	public void editProcessException() throws InterruptedException {
 		ArrayList<String> dataList = fontevaJoin.userData();
 		// First we create new user in Fonteva

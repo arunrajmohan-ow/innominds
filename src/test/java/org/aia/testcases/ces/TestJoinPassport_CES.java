@@ -85,7 +85,7 @@ public class TestJoinPassport_CES extends BaseClass {
 		apiValidation = PageFactory.initElements(driver, JoinCESAPIValidation.class);
 	}
 	
-	@Test(priority=1, description="Validate creation of CES passport membership and view receipt.", enabled=true)
+	@Test(priority=1, description="Validate creation of CES passport membership and view receipt.", enabled=true, groups= {"Smoke"})
 	public void ValidateReceiptForPassportJoin() throws Exception
 	{
 		String prefix = "Dr.";
@@ -192,7 +192,7 @@ public class TestJoinPassport_CES extends BaseClass {
 
 	}
 	
-	@Test(priority=4, description="Validate Join Passport, with additional users.", enabled=true)
+	@Test(priority=4, description="Validate Join Passport, with additional users.", enabled=true, groups= {"Smoke"})
 	public void ValidatePassportJoinWithAdditionalUser() throws Exception
 	{
 		String prefix = "Dr.";

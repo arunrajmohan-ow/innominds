@@ -76,7 +76,7 @@ public class TestDIPRenew_Membership extends BaseClass {
 		renew = PageFactory.initElements(driver, RenewPage.class);
 	}
 
-	@Test(priority=1, description="Validate DIP Renew", enabled=true)
+	@Test(priority=1, description="Validate DIP Renew", enabled=true, groups= {"Smoke"})
 	public void ValidateDipRenew() throws Exception
 	{
 		LocalDate localDate = java.time.LocalDate.now();

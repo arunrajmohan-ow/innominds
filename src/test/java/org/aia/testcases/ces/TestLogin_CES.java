@@ -62,7 +62,7 @@ public class TestLogin_CES extends BaseClass {
 		closeButtnPage.clickCloseAfterVerification();
 	}
 	
-	@Test(priority=1, description="Verify Login with valid credentials.", enabled=true, groups = "CES Login")
+	@Test(priority=1, description="Verify Login with valid credentials.", enabled=true, groups= {"Smoke"})
 	public void ValidateValidLogin() throws Exception
 	{
 		loginPageCes.loginToCes(dataList.get(5), dataList.get(6));
