@@ -54,7 +54,7 @@ public class TestProcessException_Membership extends BaseClass {
 				testData.testDataProvider().getProperty("selection"));
 		fontevaJoin.enterLicenseDetail();
 		fontevaJoin.createSalesOrder(testData.testDataProvider().getProperty("paymentMethod"));
-		fontevaJoin.applyPayment();
+		fontevaJoin.applyPayment(dataList.get(5));
 		// We set the process exception
 		processException.createNewProcessException(dataList.get(0) + " " + dataList.get(1),
 				testData.testDataProvider().getProperty("activityOption"),
@@ -83,7 +83,7 @@ public class TestProcessException_Membership extends BaseClass {
 				testData.testDataProvider().getProperty("selection"));
 		fontevaJoin.enterLicenseDetail();
 		fontevaJoin.createSalesOrder(testData.testDataProvider().getProperty("paymentMethod"));
-		fontevaJoin.applyPayment();
+		fontevaJoin.applyPayment(dataList.get(5));
 		// We set the process exception
 		processException.createNewProcessException(dataList.get(0) + " " + dataList.get(1),
 				testData.testDataProvider().getProperty("activityOption"),
@@ -124,7 +124,7 @@ public class TestProcessException_Membership extends BaseClass {
 				testData.testDataProvider().getProperty("selection"));
 		fontevaJoin.enterLicenseDetail();
 		fontevaJoin.createSalesOrder(testData.testDataProvider().getProperty("paymentMethod"));
-		fontevaJoin.applyPayment();
+		fontevaJoin.applyPayment(dataList.get(5));
 		// We set the process exception
 		processException.createNewProcessException(dataList.get(0) + " " + dataList.get(1),
 				testData.testDataProvider().getProperty("activityOption"),
@@ -156,7 +156,7 @@ public class TestProcessException_Membership extends BaseClass {
 				testData.testDataProvider().getProperty("selection"));
 		fontevaJoin.enterLicenseDetail();
 		fontevaJoin.createSalesOrder(testData.testDataProvider().getProperty("paymentMethod"));
-		fontevaJoin.applyPayment();
+		fontevaJoin.applyPayment(dataList.get(5));
 		// We set the process exception
 		processException.createNewProcessException(dataList.get(0) + " " + dataList.get(1),
 				testData.testDataProvider().getProperty("activityOption"),

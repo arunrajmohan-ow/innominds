@@ -1,5 +1,7 @@
 package org.aia.pages.fonteva.membership;
 
+import static org.testng.Assert.assertTrue;
+
 import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.Utility;
 import org.apache.log4j.Logger;
@@ -9,12 +11,14 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
 
 public class Memberships {
 	WebDriver driver;
 	Utility util = new Utility(driver, 30);
 	ConfigDataProvider data = new ConfigDataProvider();
 	static Logger log = Logger.getLogger(ContactCreateUser.class);
+	ContactCreateUser createOrder;
 	Actions action;
 	JavascriptExecutor executor;
 
@@ -25,6 +29,8 @@ public class Memberships {
 		this.driver = Idriver;
 		action = new Actions(driver);
 		executor = (JavascriptExecutor) driver;
+		createOrder = new ContactCreateUser(driver);
+
 	}
 
 	@FindBy(xpath = "//a/slot/span[contains(text(),'Memberships')]")
@@ -33,7 +39,7 @@ public class Memberships {
 	@FindBy(xpath = "//table//tbody//tr//th//a")
 	WebElement membershipSubId;
 
-	@FindBy(xpath = "//h2//span[@title='Terms']")
+	@FindBy(xpath = "//h2//span[@title='Terms']/parent::a")
 	WebElement terms;
 	@FindBy(xpath = "//table[@aria-label='Terms']/tbody/tr/th//a")
 	WebElement termId;
@@ -58,8 +64,14 @@ public class Memberships {
 	@FindBy(xpath = "//a[contains(text(),'Show All')]")
 	WebElement showAll;
 
+	@FindBy(xpath = "//button[text()='Join']")
+	WebElement reJoinBtn;
+
+	@FindBy(xpath = "//button[text()='Next']")
+	WebElement nextBtn;
+
 	/**
-	 * @param userFullname 
+	 * @param userFullname
 	 * @throws InterruptedException
 	 * 
 	 */
@@ -69,13 +81,13 @@ public class Memberships {
 		executor.executeScript("arguments[0].click();", membership);
 		util.waitUntilElement(driver, membershipSubId);
 		executor.executeScript("arguments[0].click();", membershipSubId);
-		//membershipSubId.click();
+		// membershipSubId.click();
 		util.waitUntilElement(driver, terms);
 		action.moveToElement(terms).build().perform();
 		terms.click();
 		util.waitUntilElement(driver, termId);
 		executor.executeScript("arguments[0].click();", termId);
-		//termId.click();
+		// termId.click();
 		util.waitUntilElement(driver, editBtn);
 		Thread.sleep(5000);
 		action.scrollToElement(editBtn).build().perform();
@@ -87,10 +99,10 @@ public class Memberships {
 		inputTermGraceDate.clear();
 		inputTermGraceDate.sendKeys(data.testDataProvider().getProperty("termGraceDate"));
 		saveBtn.click();
-		Thread.sleep(3000);
+		Thread.sleep(7000);
 		executor.executeScript("window.scrollBy(0,-550)", "");
 		Thread.sleep(6000);
-		executor.executeScript("arguments[0].click();", util.getCustomizedWebElement(driver, contactName, userFullname));
-		
+		executor.executeScript("arguments[0].click();",
+				util.getCustomizedWebElement(driver, contactName, userFullname));
 	}
 }
