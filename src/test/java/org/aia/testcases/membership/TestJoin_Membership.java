@@ -81,7 +81,7 @@ public class TestJoin_Membership extends BaseClass {
 	 * apiValidation.verifyReciptDetails("0000105204", 638.0);
 	 */
 
-	@Test(priority = 1, description = "Validate Membership Signup", enabled = true, groups = { "Smoke" })
+	@Test(groups={"Smoke"},priority = 1, description = "Validate Membership Signup", enabled = true)
 	public void ValidateSignUpPageISOpened() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
