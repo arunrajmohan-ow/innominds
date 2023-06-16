@@ -53,7 +53,7 @@ public class TestDIPRenew_Membership extends BaseClass {
 	RenewPage renew;
 	public String inbox;
 
-	@BeforeMethod
+	@BeforeMethod(alwaysRun=true)
 	public void setUp() throws Exception {
 		driver = BrowserSetup.startApplication(driver, DataProviderFactory.getConfig().getValue("browser"),
 				DataProviderFactory.getConfig().getValue("devstagingurl_membership"));
@@ -142,7 +142,7 @@ public class TestDIPRenew_Membership extends BaseClass {
 	}
 	
 	
-	@AfterMethod
+	@AfterMethod(alwaysRun=true)
 	public void teardown() {
 		BrowserSetup.closeBrowser(driver);
 	}

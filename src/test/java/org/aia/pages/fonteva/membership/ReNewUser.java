@@ -38,7 +38,7 @@ public class ReNewUser {
   	@FindBy(xpath="//a[contains(text(),'Show All')]")
   	WebElement showAll;
   	
-	@FindBy(xpath = "(//span[contains(text(),'Memberships')])[3]/ancestor::a")
+	@FindBy(xpath = "(//span[contains(text(),'Memberships')])[1]//ancestor::a")
 	WebElement selectMembership;
 
 	@FindBy(xpath = "(//table[@aria-label='Memberships']//tr)[2]//th//a")

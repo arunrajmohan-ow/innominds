@@ -62,7 +62,7 @@ public class TestJoinPassport_CES extends BaseClass {
 	public ExtentTest extentTest;
 	final static Logger logger = Logger.getLogger(TestJoinPassport_CES.class);
 	
-	@BeforeMethod
+	@BeforeMethod(alwaysRun=true)
 	public void setUp() throws Exception
 	{
 		driver=BrowserSetup.startApplication(driver, DataProviderFactory.getConfig().getValue("browser"),DataProviderFactory.getConfig().getValue("ces_signin"));
@@ -242,7 +242,7 @@ public class TestJoinPassport_CES extends BaseClass {
 
 	}
 
-	@AfterMethod
+	@AfterMethod(alwaysRun=true)
 	public void teardown() 
 	{
 		BrowserSetup.closeBrowser(driver);
