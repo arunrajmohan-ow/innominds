@@ -45,7 +45,7 @@ public class TestLogin_CES extends BaseClass {
 	public ExtentTest extentTest;
 	ArrayList<String> dataList;
 	
-	@BeforeMethod
+	@BeforeMethod (alwaysRun=true)
 	public void setUp() throws Exception
 	{
 		driver=BrowserSetup.startApplication(driver, DataProviderFactory.getConfig().getValue("browser"),DataProviderFactory.getConfig().getValue("ces_signin"));
@@ -76,7 +76,7 @@ public class TestLogin_CES extends BaseClass {
 		loginPageCes.checkLoginError();
 	}
 
-	@AfterMethod
+	@AfterMethod (alwaysRun=true)
 	public void teardown() 
 	{
 		BrowserSetup.closeBrowser(driver);

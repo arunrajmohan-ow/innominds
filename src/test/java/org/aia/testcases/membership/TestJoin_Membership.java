@@ -50,7 +50,7 @@ public class TestJoin_Membership extends BaseClass {
 	public ExtentTest extentTest;
 	public String inbox;
 
-	@BeforeMethod
+	@BeforeMethod(alwaysRun=true)
 	public void setUp() throws Exception {
 		driver = BrowserSetup.startApplication(driver, DataProviderFactory.getConfig().getValue("browser"),
 				DataProviderFactory.getConfig().getValue("devstagingurl_membership"));
@@ -625,7 +625,7 @@ public class TestJoin_Membership extends BaseClass {
 		apiValidation.verifyReciptDetails(data.get(0), data.get(2));
 	}
 
-	@AfterMethod
+	@AfterMethod(alwaysRun=true)
 	public void teardown() {
 		BrowserSetup.closeBrowser(driver);
 	}

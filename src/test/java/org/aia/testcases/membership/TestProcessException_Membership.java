@@ -13,6 +13,7 @@ import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.DataProviderFactory;
 import org.aia.utility.Utility;
 import org.openqa.selenium.support.PageFactory;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -29,11 +30,11 @@ public class TestProcessException_Membership extends BaseClass {
 	public ExtentReports extent;
 	public ExtentTest extentTest;
 
-	@BeforeMethod
+	@BeforeMethod(alwaysRun = true)
 	public void setUp() throws Exception {
-		sessionID=new FontevaConnectionSOAP();
+		sessionID = new FontevaConnectionSOAP();
 		driver = BrowserSetup.startApplication(driver, DataProviderFactory.getConfig().getValue("browser"),
-				DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl")+sessionID.getSessionID());
+				DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
 		util = new Utility(driver, 30);
 		testData = new ConfigDataProvider();
 		fontevaJoin = PageFactory.initElements(driver, ContactCreateUser.class);
@@ -47,8 +48,8 @@ public class TestProcessException_Membership extends BaseClass {
 	public void newProcessException() throws InterruptedException {
 		ArrayList<String> dataList = fontevaJoin.userData();
 		// First we create new user in Fonteva
-		//fontevaJoin.signInFonteva();
-	    fontevaJoin.pointOffset();
+		// fontevaJoin.signInFonteva();
+		fontevaJoin.pointOffset();
 		fontevaJoin.createUserInFonteva();
 		fontevaJoin.joinCreatedUser(testData.testDataProvider().getProperty("membershipType"),
 				testData.testDataProvider().getProperty("selection"));
@@ -72,11 +73,11 @@ public class TestProcessException_Membership extends BaseClass {
 	/**
 	 * @throws InterruptedException
 	 */
-	@Test(priority = 2, description = "Editing an existing Processing Exception ", enabled = true, groups= {"Smoke"})
+	@Test(priority = 2, description = "Editing an existing Processing Exception ", enabled = true, groups = { "Smoke" })
 	public void editProcessException() throws InterruptedException {
 		ArrayList<String> dataList = fontevaJoin.userData();
 		// First we create new user in Fonteva
-		//fontevaJoin.signInFonteva();
+		// fontevaJoin.signInFonteva();
 		fontevaJoin.pointOffset();
 		fontevaJoin.createUserInFonteva();
 		fontevaJoin.joinCreatedUser(testData.testDataProvider().getProperty("membershipType"),
@@ -108,16 +109,16 @@ public class TestProcessException_Membership extends BaseClass {
 				testData.testDataProvider().getProperty("editReasonOption"),
 				testData.testDataProvider().getProperty("editIntitialReachOutOption"));
 	}
-	
+
 	/**
-	 * @throws InterruptedException 
+	 * @throws InterruptedException
 	 * 
 	 */
 	@Test(priority = 3, description = "Cloning an existing Processing Exception ", enabled = true)
 	public void cloneProcessException() throws InterruptedException {
 		ArrayList<String> dataList = fontevaJoin.userData();
 		// First we create new user in Fonteva
-		//fontevaJoin.signInFonteva();
+		// fontevaJoin.signInFonteva();
 		fontevaJoin.pointOffset();
 		fontevaJoin.createUserInFonteva();
 		fontevaJoin.joinCreatedUser(testData.testDataProvider().getProperty("membershipType"),
@@ -137,13 +138,13 @@ public class TestProcessException_Membership extends BaseClass {
 				testData.testDataProvider().getProperty("reasonOption"),
 				testData.testDataProvider().getProperty("intitialReachOutOption"),
 				testData.testDataProvider().getProperty("enterNote"));
-		//We Creating clone of existing process exception & validated clone exception
+		// We Creating clone of existing process exception & validated clone exception
 		processException.cloneExistingProcessException(dataList.get(0) + " " + dataList.get(1));
 	}
-	
+
 	/**
-	 * @throws InterruptedException 
-	 * @throws IOException 
+	 * @throws InterruptedException
+	 * @throws IOException
 	 * 
 	 */
 	@Test(priority = 4, description = "Saving an attachment to Processing Exception", enabled = true)
@@ -172,5 +173,10 @@ public class TestProcessException_Membership extends BaseClass {
 		// Attach the pdf file in exception
 		processException.attachFile();
 		processException.validateFileUpload();
+	}
+
+	@AfterMethod(alwaysRun = true)
+	public void teardown() {
+		BrowserSetup.closeBrowser(driver);
 	}
 }

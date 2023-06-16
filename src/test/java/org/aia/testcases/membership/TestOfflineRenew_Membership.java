@@ -32,7 +32,7 @@ public class TestOfflineRenew_Membership extends BaseClass {
 	public ExtentReports extent;
 	public ExtentTest extentTest;
 
-	@BeforeMethod
+	@BeforeMethod(alwaysRun=true)
 	public void setUp() throws Exception {
 		sessionID=new FontevaConnectionSOAP();
 		driver = BrowserSetup.startApplication(driver, DataProviderFactory.getConfig().getValue("browser"),
@@ -82,7 +82,7 @@ public class TestOfflineRenew_Membership extends BaseClass {
 
 	}
 
-	@AfterMethod
+	@AfterMethod(alwaysRun=true)
 	public void teardown() {
 		BrowserSetup.closeBrowser(driver);
 	}

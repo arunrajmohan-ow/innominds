@@ -66,7 +66,7 @@ public class TestJoinArchitectureFirm_CES extends BaseClass {
 	public ExtentReports extent;
 	public ExtentTest extentTest;
 	
-	@BeforeMethod
+	@BeforeMethod(alwaysRun=true)
 	public void setUp() throws Exception
 	{
 		driver=BrowserSetup.startApplication(driver, DataProviderFactory.getConfig().getValue("browser"),DataProviderFactory.getConfig().getValue("ces_signin"));
@@ -186,7 +186,7 @@ public class TestJoinArchitectureFirm_CES extends BaseClass {
 		apiValidation.verifyPointOfContact("CES Primary", userAccount.get(5), userAccount.get(0)+" "+userAccount.get(1));
 	}
 
-	@AfterMethod
+	@AfterMethod(alwaysRun=true)
 	public void teardown()
 	{
 		BrowserSetup.closeBrowser(driver);

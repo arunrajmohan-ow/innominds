@@ -23,6 +23,7 @@ import org.aia.utility.DataProviderFactory;
 import org.aia.utility.Logging;
 import org.aia.utility.Utility;
 import org.openqa.selenium.support.PageFactory;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -45,9 +46,9 @@ public class TestZeroSalesOrder_Membership extends BaseClass {
 	FinalPageThankYou finalPage;
 	JoinAPIValidation apiValidation;
 
-	@BeforeMethod
+	@BeforeMethod(alwaysRun = true)
 	public void setUp() throws Exception {
-		sessionID=new FontevaConnectionSOAP();
+		sessionID = new FontevaConnectionSOAP();
 		driver = BrowserSetup.startApplication(driver, DataProviderFactory.getConfig().getValue("browser"),
 				DataProviderFactory.getConfig().getValue("devstagingurl_membership"));
 		util = new Utility(driver, 30);
@@ -73,7 +74,7 @@ public class TestZeroSalesOrder_Membership extends BaseClass {
 	/**
 	 * @throws Exception
 	 */
-	@Test (priority=1, description="Validate zero sales order", enabled=true, groups= {"Smoke"})
+	@Test(priority = 1, description = "Validate zero sales order", enabled = true, groups = { "Smoke" })
 	public void validateZeroSalesOrder() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
@@ -85,8 +86,8 @@ public class TestZeroSalesOrder_Membership extends BaseClass {
 		orderSummaryPage.confirmTerms("activeUSLicense");
 		orderSummaryPage.clickonPayNow();
 		salesOrder.switchToTab();
-		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl")+sessionID.getSessionID());
-		//joinFonteva.signInFonteva();
+		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
+		// joinFonteva.signInFonteva();
 		joinFonteva.pointOffset();
 		joinFonteva.selectContact(dataList.get(0) + " " + dataList.get(1));
 		salesOrder.setDiscount();
@@ -105,5 +106,10 @@ public class TestZeroSalesOrder_Membership extends BaseClass {
 				DataProviderFactory.getConfig().getValue("postingStatus"));
 		// Validate Receipt Details
 		apiValidation.verifyReciptDetails(data.get(0), data.get(2));
+	}
+
+	@AfterMethod(alwaysRun = true)
+	public void teardown() {
+		BrowserSetup.closeBrowser(driver);
 	}
 }
