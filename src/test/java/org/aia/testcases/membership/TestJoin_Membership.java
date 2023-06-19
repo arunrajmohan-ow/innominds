@@ -187,7 +187,7 @@ public class TestJoin_Membership extends BaseClass {
 		apiValidation.verifyReciptDetails(data.get(0), data.get(2));
 	}
 
-	@Test(priority = 4, description = "Validate graduate", enabled = true, groups = { "Smoke" })
+	@Test(priority = 4, description = "Validate graduate", enabled = true, groups = { "Smoke","reg" })
 	public void ValidateGraduate() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
