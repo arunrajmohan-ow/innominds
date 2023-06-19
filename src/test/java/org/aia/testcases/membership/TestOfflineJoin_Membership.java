@@ -59,7 +59,7 @@ public class TestOfflineJoin_Membership extends BaseClass {
 				testData.testDataProvider().getProperty("selection"));
 		fontevaJoin.enterLicenseDetail();
 		fontevaJoin.createSalesOrder(testData.testDataProvider().getProperty("paymentMethod"));
-		fontevaJoin.applyPayment();
+		fontevaJoin.applyPayment(dataList.get(5));
 		ArrayList<Object> data =fontevaJoin.getPaymentReceiptData();
 		//Validation of Thank you massage in email inbox after register.
 		malinator.thankYouEmailforOfflineJoin(dataList.get(2));

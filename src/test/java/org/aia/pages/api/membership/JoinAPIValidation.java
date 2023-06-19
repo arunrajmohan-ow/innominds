@@ -264,5 +264,9 @@ public class JoinAPIValidation {
 			System.out.println("No Sales order found");
 		}
 	}
+	
+	public void validateMembershipRejoin() {
+		
+	}
 
 }
