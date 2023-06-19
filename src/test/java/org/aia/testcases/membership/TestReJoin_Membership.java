@@ -6,16 +6,21 @@ import org.aia.pages.BaseClass;
 import org.aia.pages.api.MailinatorAPI;
 import org.aia.pages.api.membership.FontevaConnectionSOAP;
 import org.aia.pages.api.membership.JoinAPIValidation;
+import org.aia.pages.api.membership.ReJoinAPIValidation;
+import org.aia.pages.fonteva.membership.ContactCreateUser;
+import org.aia.pages.fonteva.membership.Memberships;
 import org.aia.pages.membership.CheckYourEmailPage;
 import org.aia.pages.membership.FinalPageThankYou;
 import org.aia.pages.membership.OrderSummaryPage;
 import org.aia.pages.membership.PaymentInformation;
 import org.aia.pages.membership.PrimaryInformationPage;
+import org.aia.pages.membership.RejoinPage;
 import org.aia.pages.membership.SignInPage;
 import org.aia.pages.membership.SignUpPage;
 import org.aia.pages.membership.SignUpSuccess;
 import org.aia.pages.membership.TellusAboutYourselfPage;
 import org.aia.utility.BrowserSetup;
+import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.DataProviderFactory;
 import org.aia.utility.Logging;
 import org.aia.utility.Utility;
@@ -31,15 +36,18 @@ public class TestReJoin_Membership extends BaseClass {
 	CheckYourEmailPage closeButtnPage;
 	MailinatorAPI mailinator;
 	SignUpSuccess successPage;
+	Memberships fontevaPage;
 	PrimaryInformationPage primaryInfoPage;
 	OrderSummaryPage orderSummaryPage;
 	PaymentInformation paymentInfoPage;
 	FinalPageThankYou finalPage;
 	JoinAPIValidation apiValidation;
 	TellusAboutYourselfPage tellAbtPage;
-	ReJoinSandBoxFonteva reJoinfontevaPage;
-	RejoinPage reJoinUIPage;
+	ReJoinAPIValidation reJoinValidate;
+	ContactCreateUser fontevaJoin;
 	ReJoinAPIValidation reJoinAPIValidation;
+	JoinAPIValidation offlinApiValidation;
+	RejoinPage rejoinPage;
 	public String inbox;
 	static Logger log = Logger.getLogger(TestReJoin_Membership.class);
 
@@ -49,6 +57,8 @@ public class TestReJoin_Membership extends BaseClass {
 		driver = BrowserSetup.startApplication(driver, DataProviderFactory.getConfig().getValue("browser"),
 				DataProviderFactory.getConfig().getValue("devstagingurl_membership"));
 		util = new Utility(driver, 30);
+		testData = new ConfigDataProvider();
+		fontevaJoin = PageFactory.initElements(driver, ContactCreateUser.class);
 		mailinator = PageFactory.initElements(driver, MailinatorAPI.class);
 		signUpPage = PageFactory.initElements(driver, SignUpPage.class);
 		signInpage = PageFactory.initElements(driver, SignInPage.class);
@@ -60,16 +70,18 @@ public class TestReJoin_Membership extends BaseClass {
 		paymentInfoPage = PageFactory.initElements(driver, PaymentInformation.class);
 		finalPage = PageFactory.initElements(driver, FinalPageThankYou.class);
 		tellAbtPage = PageFactory.initElements(driver, TellusAboutYourselfPage.class);
-		reJoinfontevaPage = PageFactory.initElements(driver, ReJoinSandBoxFonteva.class);
-		reJoinUIPage = PageFactory.initElements(driver, RejoinPage.class);
 		reJoinAPIValidation = PageFactory.initElements(driver, ReJoinAPIValidation.class);
+		reJoinValidate = PageFactory.initElements(driver, ReJoinAPIValidation.class);
+		offlinApiValidation = PageFactory.initElements(driver, JoinAPIValidation.class);
+		fontevaPage = PageFactory.initElements(driver, Memberships.class);
+		rejoinPage = PageFactory.initElements(driver, RejoinPage.class);
 		Logging.configure();
 	}
 
 	/**
 	 * Bug found in this script bug id is FM-336 FM-337
 	 */
-	@Test
+	@Test(priority = 1, description = "verify the offline membership rejoin in UI Application", enabled = true)
 	public void validateReJoin() throws Exception {
 		// User creating is starting
 		ArrayList<String> dataList = signUpPage.signUpData();
@@ -78,7 +90,7 @@ public class TestReJoin_Membership extends BaseClass {
 		mailinator.verifyEmailForAccountSetup(dataList.get(3));
 		closeButtnPage.clickCloseAfterVerification();
 		signInpage.login(dataList.get(5), dataList.get(6));
-		primaryInfoPage.enterPrimaryInfo_pac("activeUSLicense", "None Selected", "Welcome to AIA");
+		primaryInfoPage.enterPrimaryInfo("activeUSLicense", "None Selected");
 		orderSummaryPage.confirmTerms("activeUSLicense");
 		orderSummaryPage.clickonPayNow();
 		String aiaNational = paymentInfoPage.paymentDetails("activeUSLicense");
@@ -90,37 +102,37 @@ public class TestReJoin_Membership extends BaseClass {
 		Logging.logger.info("User get created successfully");
 
 		// Navigate to Fonteva app and make record rejoin eligible.
-		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl")+ sessionID.getSessionID());
-		reJoinfontevaPage.setStatusAsTerminate(dataList.get(0) + " " + dataList.get(1));
+		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
+		fontevaJoin.selectContact(dataList.get(0) + " " + dataList.get(1));
+		fontevaPage.setStatusAsTerminate(dataList.get(0) + " " + dataList.get(1));
 		Logging.logger.info("Set status as Terminated");
 
 		// Navigate membership portal
 		driver.get(DataProviderFactory.getConfig().getValue("membership_app_endpoint"));
-
 		// Enter Email in membership page
-		reJoinUIPage.reJoinMembership(dataList.get(5));
+		rejoinPage.reJoinMembership(dataList.get(5));
 		// Enter detail in primary info page
-		primaryInfoPage.enterPrimaryInfo("activeUSLicense", "Non profit", "Restart your membership");
+		primaryInfoPage.enterPrimaryInfo("activeUSLicense", "None Selected");
 		// Confirm terms and proceed for payment.
 		orderSummaryPage.confirmTerms("activeUSLicense");
 		orderSummaryPage.clickonPayNow();
 		paymentInfoPage.clickOnCreditCard();
 		paymentInfoPage.paymentDetails("activeUSLicense");
-		//tellAbtPage.tellUsForRejoin();
+		// tellAbtPage.tellUsForRejoin();
 		// Fetch the details on receipt & add details in receiptData array list.
 		finalPage.verifyThankYouMessage();
 		finalPage.getFinalReceiptData();
 		ArrayList<Object> receiptData2 = finalPage.getFinalReceiptData();
 		// Validate Membership Rejoin - Fonteva API validations
-		reJoinAPIValidation.verifyReJoinMemebership(dataList.get(3),
+		reJoinValidate.validateReJoinMemebership(dataList.get(3),
 				DataProviderFactory.getConfig().getValue("termEndDate"), receiptData.get(2),
 				DataProviderFactory.getConfig().getValue("type_aia_national"), "Architect", "Non profit");
 		// Validate sales order
-		reJoinAPIValidation.verifySalesOrder(DataProviderFactory.getConfig().getValue("salesOrderStatus"),
+		offlinApiValidation.verifySalesOrder(DataProviderFactory.getConfig().getValue("salesOrderStatus"),
 				DataProviderFactory.getConfig().getValue("orderStatus"), receiptData2.get(2),
 				DataProviderFactory.getConfig().getValue("postingStatus"));
 		// Validate Receipt Details
-		reJoinAPIValidation.verifyReciptDetails(receiptData.get(0), receiptData.get(2));
+		offlinApiValidation.verifyReciptDetails(receiptData.get(0), receiptData.get(2));
 
 	}
 
