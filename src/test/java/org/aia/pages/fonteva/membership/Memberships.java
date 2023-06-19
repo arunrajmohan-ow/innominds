@@ -7,6 +7,7 @@ import org.aia.utility.Utility;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -59,7 +60,7 @@ public class Memberships {
 	@FindBy(xpath = "//button[@title='Edit Term End Date']/span")
 	WebElement editBtn;
 
-	String contactName = "(//span[text()='%s']//ancestor::a)[2]";
+	String contactName = "(//span[text()='%s']//ancestor::a)[3]";
 
 	@FindBy(xpath = "//a[contains(text(),'Show All')]")
 	WebElement showAll;
@@ -69,6 +70,12 @@ public class Memberships {
 
 	@FindBy(xpath = "//button[text()='Next']")
 	WebElement nextBtn;
+	
+	@FindBy(xpath = "//button[@title='Edit Is Cancelled']")
+	WebElement isCancelledEditBtn;
+	
+	@FindBy(xpath = "//input[@name='OrderApi__Is_Cancelled__c' and @type='checkbox']")
+	WebElement isCancelledChkBox;
 
 	/**
 	 * @param userFullname
@@ -103,6 +110,23 @@ public class Memberships {
 		executor.executeScript("window.scrollBy(0,-550)", "");
 		Thread.sleep(6000);
 		executor.executeScript("arguments[0].click();",
-				util.getCustomizedWebElement(driver, contactName, userFullname));
+	           util.getCustomizedWebElement(driver, contactName, userFullname));
+	}
+	
+	public void setStatusAsTerminate(String fullName) throws InterruptedException {
+		util.waitUntilElement(driver, membership);
+		action.moveToElement(membership).build().perform();
+		executor.executeScript("arguments[0].click();", membership);
+		util.waitUntilElement(driver, membershipSubId);
+		executor.executeScript("arguments[0].click();", membershipSubId);
+		executor.executeScript("window.scrollBy(0,1000);","");
+		isCancelledEditBtn.click();
+		Thread.sleep(1000);
+		isCancelledChkBox.click();
+		util.waitUntilElement(driver, saveBtn);
+		saveBtn.click();
+		Thread.sleep(3000);
+		action.keyDown(Keys.F5);
+		Thread.sleep(5000);
 	}
 }
