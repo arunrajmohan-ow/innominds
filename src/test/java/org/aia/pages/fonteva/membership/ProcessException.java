@@ -269,6 +269,7 @@ public class ProcessException {
 		util.waitUntilElement(driver, relatedTab);
 		relatedTab.click();
 		util.waitUntilElement(driver, fileUpload);
+		assertTrue(fileUpload.isDisplayed());
 		fileUpload.click();
 		try {
 			Robot robot = new Robot();
@@ -325,7 +326,7 @@ public class ProcessException {
 			drpList.getText();
 			activityTextList.add(drpList.getText());
 		}
-		assertEquals(activityTextList.toArray(), data.testDataProvider().getProperty("validateActivityDrp"));
+		assertEquals(activityTextList.toString(), data.testDataProvider().getProperty("validateActivityDrp"));
 		util.waitUntilElement(driver, reasonDrp);
 		reasonDrp.click();
 		ArrayList<String> resonTextList = new ArrayList<String>();
@@ -334,7 +335,7 @@ public class ProcessException {
 			drpList.getText();
 			resonTextList.add(drpList.getText());
 		}
-		assertEquals(activityTextList.toArray(), data.testDataProvider().getProperty("validateResonDrp"));
+		assertEquals(resonTextList.toString(), data.testDataProvider().getProperty("validateResonDrp"));
 		util.waitUntilElement(driver, heading);
 		heading.click();
 		util.waitUntilElement(driver, initialReachOutDrp);
@@ -345,7 +346,7 @@ public class ProcessException {
 			drpList.getText();
 			initialReachTextList.add(drpList.getText());
 		}
-		System.out.println("My Array list:" + initialReachTextList);
+		assertEquals(initialReachTextList.toString(), data.testDataProvider().getProperty("validateInitialReachDrp"));
 		util.waitUntilElement(driver, heading);
 		heading.click();
 		util.waitUntilElement(driver, statusDrp);
@@ -356,7 +357,7 @@ public class ProcessException {
 			drpList.getText();
 			statusTextList.add(drpList.getText());
 		}
-		System.out.println("My Array list:" + statusTextList);
+		assertEquals(statusTextList.toString(), data.testDataProvider().getProperty("validateStatusDrp"));
 	}
 
 }
