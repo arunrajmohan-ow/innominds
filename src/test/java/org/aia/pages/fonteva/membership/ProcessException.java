@@ -10,10 +10,13 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.Utility;
 import org.apache.log4j.Logger;
+import org.junit.Assert;
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -41,7 +44,7 @@ public class ProcessException {
 	@FindBy(xpath = "//span[contains(text(),'Processing Exceptions')]/ancestor::a")
 	WebElement processExceptionTab;
 
-	@FindBy(xpath = "//a[@title=\"New\"]")
+	@FindBy(xpath = "//button[@name='New']")
 	WebElement newBtn;
 
 	@FindBy(xpath = "//button[contains(@aria-label,'Activity')]")
@@ -97,6 +100,10 @@ public class ProcessException {
 	@FindBy(xpath = "//h2[text()='New Processing Exception']")
 	WebElement heading;
 
+	String contactField = "//input[@placeholder='%s']";
+
+	String dialogBoxDrpOpt = "//span[contains(@class,'media__body')]/span";
+
 	@FindBy(xpath = "(//table[@aria-label='Processing Exceptions']//tr)[2]/th/span/a")
 	WebElement processExceptionId;
 
@@ -123,14 +130,14 @@ public class ProcessException {
 
 	@FindBy(xpath = "(//span[@role='status'])[2]")
 	WebElement isfileUploaded;
-	
-	@FindBy(xpath="//span[text()='Done']//parent::button")
+
+	@FindBy(xpath = "//span[text()='Done']//parent::button")
 	WebElement doneBtn;
-	
-	@FindBy(xpath="//ul[@class='uiAbstractList']/li")
+
+	@FindBy(xpath = "//ul[@class='uiAbstractList']/li")
 	WebElement fileVisible;
-	
-	@FindBy(xpath="//lightning-icon[@icon-name='utility:success']")
+
+	@FindBy(xpath = "//lightning-icon[@icon-name='utility:success']")
 	WebElement successIcon;
 
 	static ArrayList<String> valueList = new ArrayList<String>();
@@ -284,7 +291,7 @@ public class ProcessException {
 	}
 
 	/**
-	 * Validate File is uploaded 
+	 * Validate File is uploaded
 	 */
 	public void validateFileUpload() {
 		util.waitUntilElement(driver, uploadPopUp);
@@ -292,6 +299,64 @@ public class ProcessException {
 		util.waitUntilElement(driver, successIcon);
 		assertEquals(isfileUploaded.getText(), data.testDataProvider().getProperty("fileUpload"));
 		doneBtn.click();
+	}
+
+	/**
+	 * @param fullName
+	 * @throws InterruptedException
+	 */
+	public void validateProcessExceptionFlow(String fullName) throws InterruptedException {
+		Thread.sleep(60000);
+		WebElement selectContact = util.getCustomizedWebElement(driver, contact, fullName);
+		executor.executeScript("arguments[0].click();", selectContact);
+		util.waitUntilElement(driver, processExceptionTab);
+		processExceptionTab.click();
+		util.waitUntilElement(driver, newBtn);
+		newBtn.click();
+		util.waitUntilElement(driver, heading);
+		assertTrue(heading.isDisplayed());
+		util.waitUntilElement(driver, util.getCustomizedWebElement(driver, contactField, fullName));
+		assertTrue(util.getCustomizedWebElement(driver, contactField, fullName).isDisplayed());
+		util.waitUntilElement(driver, activityDrp);
+		activityDrp.click();
+		ArrayList<String> activityTextList = new ArrayList<String>();
+		List<WebElement> activityList = driver.findElements(By.xpath(dialogBoxDrpOpt));
+		for (WebElement drpList : activityList) {
+			drpList.getText();
+			activityTextList.add(drpList.getText());
+		}
+		assertEquals(activityTextList.toArray(), data.testDataProvider().getProperty("validateActivityDrp"));
+		util.waitUntilElement(driver, reasonDrp);
+		reasonDrp.click();
+		ArrayList<String> resonTextList = new ArrayList<String>();
+		List<WebElement> reasonList = driver.findElements(By.xpath(dialogBoxDrpOpt));
+		for (WebElement drpList : reasonList) {
+			drpList.getText();
+			resonTextList.add(drpList.getText());
+		}
+		assertEquals(activityTextList.toArray(), data.testDataProvider().getProperty("validateResonDrp"));
+		util.waitUntilElement(driver, heading);
+		heading.click();
+		util.waitUntilElement(driver, initialReachOutDrp);
+		initialReachOutDrp.click();
+		ArrayList<String> initialReachTextList = new ArrayList<String>();
+		List<WebElement> initialReachList = driver.findElements(By.xpath(dialogBoxDrpOpt));
+		for (WebElement drpList : initialReachList) {
+			drpList.getText();
+			initialReachTextList.add(drpList.getText());
+		}
+		System.out.println("My Array list:" + initialReachTextList);
+		util.waitUntilElement(driver, heading);
+		heading.click();
+		util.waitUntilElement(driver, statusDrp);
+		statusDrp.click();
+		ArrayList<String> statusTextList = new ArrayList<String>();
+		List<WebElement> statusList = driver.findElements(By.xpath(dialogBoxDrpOpt));
+		for (WebElement drpList : statusList) {
+			drpList.getText();
+			statusTextList.add(drpList.getText());
+		}
+		System.out.println("My Array list:" + statusTextList);
 	}
 
 }
