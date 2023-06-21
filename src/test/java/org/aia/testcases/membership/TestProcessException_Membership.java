@@ -75,7 +75,7 @@ public class TestProcessException_Membership extends BaseClass {
 	public void editProcessException() throws InterruptedException {
 		ArrayList<String> dataList = fontevaJoin.userData();
 		// First we create new user in Fonteva
-		fontevaJoin.signInFonteva();
+		//fontevaJoin.signInFonteva();
 		fontevaJoin.createUserInFonteva();
 		fontevaJoin.joinCreatedUser(testData.testDataProvider().getProperty("membershipType"),
 				testData.testDataProvider().getProperty("selection"));
@@ -115,7 +115,7 @@ public class TestProcessException_Membership extends BaseClass {
 	public void cloneProcessException() throws InterruptedException {
 		ArrayList<String> dataList = fontevaJoin.userData();
 		// First we create new user in Fonteva
-		fontevaJoin.signInFonteva();
+		//fontevaJoin.signInFonteva();
 		fontevaJoin.createUserInFonteva();
 		fontevaJoin.joinCreatedUser(testData.testDataProvider().getProperty("membershipType"),
 				testData.testDataProvider().getProperty("selection"));
@@ -143,7 +143,7 @@ public class TestProcessException_Membership extends BaseClass {
 	 * @throws IOException 
 	 * 
 	 */
-	@Test(priority = 4, description = "Saving an attachment to Processing Exception", enabled = true)
+	@Test(priority = 4, description = "Saving an attachment to Processing Exception", enabled = false)
 	public void saveAttachmentProcessException() throws InterruptedException, IOException {
 		ArrayList<String> dataList = fontevaJoin.userData();
 		// First we create new user in Fonteva
@@ -168,5 +168,24 @@ public class TestProcessException_Membership extends BaseClass {
 		// Attach the pdf file in exception
 		processException.attachFile();
 		processException.validateFileUpload();
+	}
+	
+	/**
+	 * @throws InterruptedException 
+	 * 
+	 */
+	@Test(priority = 5, description = "Saving an attachment to Processing Exception", enabled = true)
+	public void validateProcessException() throws InterruptedException {
+		ArrayList<String> dataList = fontevaJoin.userData();
+		// First we create new user in Fonteva
+		//fontevaJoin.signInFonteva();
+		fontevaJoin.createUserInFonteva();
+		fontevaJoin.joinCreatedUser(testData.testDataProvider().getProperty("membershipType"),
+				testData.testDataProvider().getProperty("selection"));
+		fontevaJoin.enterLicenseDetail();
+		fontevaJoin.createSalesOrder(testData.testDataProvider().getProperty("paymentMethod"));
+		fontevaJoin.applyPayment();
+		// We set the process exception
+		processException.validateProcessExceptionFlow(dataList.get(0) + " " + dataList.get(1));
 	}
 }
