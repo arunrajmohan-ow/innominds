@@ -1,5 +1,7 @@
 package org.aia.pages.fonteva.membership;
 
+import static org.testng.Assert.assertTrue;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -174,6 +176,14 @@ public class ContactCreateUser {
 
 	@FindBy(xpath = "//a/span[@title='Name']")
 	WebElement tableheaderName;
+	
+	@FindBy(xpath="//span[contains(text(),'Member Value')]//ancestor::a")
+	WebElement mvoTab;
+	
+	@FindBy(xpath="//button[text()='New']")
+	WebElement mvoNewBtn;
+	
+	String contact = "//span[text()='%s']//ancestor::a";
 
 	String fName;
 	String lName;
@@ -381,6 +391,22 @@ public class ContactCreateUser {
 		util.waitUntilElement(driver, showAll);
 		action.moveToElement(showAll).build().perform();
 		showAll.click();
+	}
+	
+	/**
+	 * @param fullName 
+	 * @throws InterruptedException 
+	 * 
+	 */
+	public void savingNewMVO(String fullName) throws InterruptedException {
+		Thread.sleep(7000);
+		WebElement selectContact = util.getCustomizedWebElement(driver, contact, fullName);
+		executor.executeScript("arguments[0].click();", selectContact);
+		util.waitUntilElement(driver, mvoTab);
+		mvoTab.click();
+		util.waitUntilElement(driver, mvoNewBtn);
+		assertTrue(mvoNewBtn.isDisplayed());
+		mvoNewBtn.click();
 	}
 
 }
