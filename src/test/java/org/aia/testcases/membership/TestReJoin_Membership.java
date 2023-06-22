@@ -106,7 +106,7 @@ public class TestReJoin_Membership extends BaseClass {
 		fontevaJoin.selectContact(dataList.get(0) + " " + dataList.get(1));
 		fontevaPage.setMembershipStatus(dataList.get(0) + " " + dataList.get(1),
 				testData.testDataProvider().getProperty("membershipStatus"));
-		Logging.logger.info("Set status as Terminated");
+		Logging.logger.info("Set status as Canclled");
 
 		// Navigate membership portal
 		driver.get(DataProviderFactory.getConfig().getValue("membership_app_endpoint"));
@@ -119,7 +119,6 @@ public class TestReJoin_Membership extends BaseClass {
 		orderSummaryPage.clickonPayNow();
 		paymentInfoPage.clickOnCreditCard();
 		paymentInfoPage.paymentDetails("activeUSLicense");
-		// tellAbtPage.tellUsForRejoin();
 		// Fetch the details on receipt & add details in receiptData array list.
 		finalPage.verifyThankYouMessage();
 		finalPage.getFinalReceiptData();

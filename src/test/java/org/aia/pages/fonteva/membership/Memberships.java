@@ -121,15 +121,15 @@ public class Memberships {
 		executor.executeScript("arguments[0].click();", membership);
 		util.waitUntilElement(driver, membershipSubId);
 		executor.executeScript("arguments[0].click();", membershipSubId);
-		executor.executeScript("window.scrollBy(0,350);","");
-		statusEditBtn.click();
+		util.waitUntilElement(driver, statusEditBtn);
+		executor.executeScript("arguments[0].scrollIntoView(true);", statusEditBtn);
+		executor.executeScript("arguments[0].click();", statusEditBtn);
 		Thread.sleep(1000);
-		statusDrpBtn.click();
+		executor.executeScript("arguments[0].click();", statusDrpBtn);
 		util.waitUntilElement(driver, util.getCustomizedWebElement(driver, selectStatus, membershipStatus));
+		util.getCustomizedWebElement(driver, selectStatus, membershipStatus).click();
 		util.waitUntilElement(driver, saveBtn);
 		saveBtn.click();
-		Thread.sleep(3000);
-		action.keyDown(Keys.F5);
-		Thread.sleep(5000);
+		Thread.sleep(12000);
 	}
 }
