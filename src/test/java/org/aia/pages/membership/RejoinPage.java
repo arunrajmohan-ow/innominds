@@ -20,14 +20,10 @@ public class RejoinPage {
 		@FindBy(xpath = "//p[text()='Continue']")
 		WebElement continuebtn;
 
-		@FindBy(xpath = "//p[text()='Join AIA']/parent::span")
+		@FindBy(xpath = "//p[text()='Restart your membership']/ancestor::button")
 		WebElement reJoinBtn;
 
 		public void reJoinMembership(String emaildata) throws InterruptedException {
-			Thread.sleep(5000);
-			driver.navigate().back();
-			Thread.sleep(2000);
-			driver.navigate().forward();
 			util.waitUntilElement(driver, enteremail);
 			enteremail.sendKeys(emaildata);
 			util.waitUntilElement(driver, continuebtn);

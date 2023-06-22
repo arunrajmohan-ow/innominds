@@ -41,6 +41,8 @@ public class PrimaryInformationPage {
 	}
 	
 	@FindBy(xpath="//h1[text()= 'Welcome to AIA']") WebElement welocomeToAIA;
+	
+	@FindBy(xpath="//h1") WebElement AIAHeading;
 		
 	@FindBy(xpath="//div[@id='country']") WebElement licenseCountry;
 	
@@ -78,7 +80,9 @@ public class PrimaryInformationPage {
 	 */
 	public void selfDescribe_selectRadioBtnByValue( String string) throws InterruptedException {
 		Thread.sleep(5000);
-		Utility.waitForWebElement(driver, welocomeToAIA, 20);
+		   
+		Utility.waitForWebElement(driver, AIAHeading, 20);
+		
 		String radioBtnValue = string;
 		String value="";
 		switch(radioBtnValue)
@@ -110,6 +114,7 @@ public class PrimaryInformationPage {
 		}
 		driver.findElement(By.xpath("//span[text()= '"+value+"'] //parent::label")).click();
 	}
+	
 	
 	
 	public void selectCountry() {
