@@ -7,6 +7,7 @@ import org.aia.pages.api.MailinatorAPI;
 import org.aia.pages.api.membership.FontevaConnectionSOAP;
 import org.aia.pages.api.membership.JoinAPIValidation;
 import org.aia.pages.fonteva.membership.ContactCreateUser;
+import org.aia.pages.fonteva.membership.MemberValueOutreach;
 import org.aia.utility.BrowserSetup;
 import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.DataProviderFactory;
@@ -28,6 +29,7 @@ public class TestMVO_Membership extends BaseClass {
 	ContactCreateUser fontevaJoin;
 	MailinatorAPI malinator;
 	JoinAPIValidation offlinApiValidation;
+	MemberValueOutreach memberValueOutreach;
 	public ExtentReports extent;
 	public ExtentTest extentTest;
 
@@ -41,6 +43,7 @@ public class TestMVO_Membership extends BaseClass {
 		fontevaJoin = PageFactory.initElements(driver, ContactCreateUser.class);
 		malinator = PageFactory.initElements(driver, MailinatorAPI.class);
 		offlinApiValidation = PageFactory.initElements(driver, JoinAPIValidation.class);
+		memberValueOutreach = PageFactory.initElements(driver, MemberValueOutreach.class);
 		// Configure Log4j to perform error logging
 		Logging.configure();
 	}
@@ -58,11 +61,15 @@ public class TestMVO_Membership extends BaseClass {
 		fontevaJoin.createSalesOrder(testData.testDataProvider().getProperty("paymentMethod"));
 		fontevaJoin.applyPayment();
 		fontevaJoin.savingNewMVO(dataList.get(5));
-		
-		
+		memberValueOutreach.createNewMVO(testData.testDataProvider().getProperty("membershipYear"),
+				testData.testDataProvider().getProperty("round"),
+				testData.testDataProvider().getProperty("callCategory"),
+				testData.testDataProvider().getProperty("callOutcome"),
+				testData.testDataProvider().getProperty("generalNote"));
+
 	}
 
-	@AfterMethod(alwaysRun=true)
+	@AfterMethod(alwaysRun = true)
 	public void teardown() {
 		BrowserSetup.closeBrowser(driver);
 	}
