@@ -299,8 +299,8 @@ public class ContactCreateUser {
 	public void createSalesOrder(String paymentOpt) throws InterruptedException {
 		util.waitUntilElement(driver, selectDuesDrp);
 		selectDuesDrp.click();
-		//executor.executeScript("arguments[0].click();", selectDeusOpt);
-		 selectDeusOpt.click();
+		// executor.executeScript("arguments[0].click();", selectDeusOpt);
+		selectDeusOpt.click();
 		createSalesOrder.click();
 		util.waitUntilElement(driver, readyForPaymentBtn);
 		readyForPaymentBtn.click();
@@ -323,7 +323,7 @@ public class ContactCreateUser {
 	}
 
 	/**
-	 * @param fullName 
+	 * @param fullName
 	 * @param null
 	 * @throws InterruptedException
 	 */
@@ -379,6 +379,7 @@ public class ContactCreateUser {
 		util.waitUntilElement(driver, contactallLink);
 		contactallLink.click();
 		Thread.sleep(10000);
+		util.waitUntilElement(driver, util.getCustomizedWebElement(driver, contactName, userFullname));
 		executor.executeScript("arguments[0].click();",
 				util.getCustomizedWebElement(driver, contactName, userFullname));
 		util.waitUntilElement(driver, showAll);

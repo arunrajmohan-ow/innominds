@@ -71,11 +71,13 @@ public class Memberships {
 	@FindBy(xpath = "//button[text()='Next']")
 	WebElement nextBtn;
 	
-	@FindBy(xpath = "//button[@title='Edit Is Cancelled']")
-	WebElement isCancelledEditBtn;
+	@FindBy(xpath = "(//span[text()='Edit Status']/ancestor::button)[2]")
+	WebElement statusEditBtn;
 	
-	@FindBy(xpath = "//input[@name='OrderApi__Is_Cancelled__c' and @type='checkbox']")
-	WebElement isCancelledChkBox;
+	@FindBy(xpath = "//button[@data-value='Active']")
+	WebElement statusDrpBtn;
+	
+	String selectStatus="//span[text()='%s']";
 
 	/**
 	 * @param userFullname
@@ -113,16 +115,17 @@ public class Memberships {
 	           util.getCustomizedWebElement(driver, contactName, userFullname));
 	}
 	
-	public void setStatusAsTerminate(String fullName) throws InterruptedException {
+	public void setMembershipStatus(String fullName, String membershipStatus) throws InterruptedException {
 		util.waitUntilElement(driver, membership);
 		action.moveToElement(membership).build().perform();
 		executor.executeScript("arguments[0].click();", membership);
 		util.waitUntilElement(driver, membershipSubId);
 		executor.executeScript("arguments[0].click();", membershipSubId);
-		executor.executeScript("window.scrollBy(0,1000);","");
-		isCancelledEditBtn.click();
+		executor.executeScript("window.scrollBy(0,350);","");
+		statusEditBtn.click();
 		Thread.sleep(1000);
-		isCancelledChkBox.click();
+		statusDrpBtn.click();
+		util.waitUntilElement(driver, util.getCustomizedWebElement(driver, selectStatus, membershipStatus));
 		util.waitUntilElement(driver, saveBtn);
 		saveBtn.click();
 		Thread.sleep(3000);
