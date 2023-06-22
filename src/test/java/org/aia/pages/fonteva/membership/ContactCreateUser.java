@@ -399,7 +399,8 @@ public class ContactCreateUser {
 	 * 
 	 */
 	public void savingNewMVO(String fullName) throws InterruptedException {
-		Thread.sleep(7000);
+		Thread.sleep(30000);
+		executor.executeScript("arguments[0].scrollIntoView(true);", util.getCustomizedWebElement(driver, contact, fullName));
 		WebElement selectContact = util.getCustomizedWebElement(driver, contact, fullName);
 		executor.executeScript("arguments[0].click();", selectContact);
 		util.waitUntilElement(driver, mvoTab);
