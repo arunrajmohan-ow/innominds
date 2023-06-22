@@ -35,4 +35,5 @@ public class RejoinPage {
 			util.waitUntilElement(driver, reJoinBtn);
 			reJoinBtn.click();
 		}
+
 }
