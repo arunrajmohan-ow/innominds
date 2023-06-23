@@ -63,6 +63,9 @@ public class MemberValueOutreach {
 	
 	@FindBy(xpath="//button[text()='Save']")
 	WebElement saveBtn;
+	
+	@FindBy(xpath="//table//tbody//tr//th//a")
+	WebElement mvoId;
 
 	/**
 	 * @param round
@@ -95,6 +98,14 @@ public class MemberValueOutreach {
 		util.getCustomizedWebElement(driver, moveDrpSelection, callOutCome).click();
 		util.enterText(driver, generalNotes, generalNote);
 		saveBtn.click();
+	}
+	
+	/**
+	 * 
+	 */
+	public void editExistingMVO() {
+		util.waitUntilElement(driver, mvoId);
+		mvoId.click();
 	}
 
 }

@@ -48,10 +48,11 @@ public class TestMVO_Membership extends BaseClass {
 		Logging.configure();
 	}
 
-	@Test(priority = 1, description = "Save and validate new member value outreach", enabled = true)
+	/**
+	 * @throws InterruptedException
+	 */
+	@Test(priority = 1, description = "Save and validate new member value outreach", enabled = false)
 	public void savingNewMemberValueOutreach() throws InterruptedException {
-
-		// driver.get(DataProviderFactory.getConfig().getValue("fonteva_endpoint"));
 		ArrayList<String> dataList = fontevaJoin.userData();
 		fontevaJoin.pointOffset();
 		fontevaJoin.createUserInFonteva();
@@ -66,6 +67,31 @@ public class TestMVO_Membership extends BaseClass {
 				testData.testDataProvider().getProperty("callCategory"),
 				testData.testDataProvider().getProperty("callOutcome"),
 				testData.testDataProvider().getProperty("generalNote"));
+	}
+
+	/**
+	 * @throws InterruptedException
+	 */
+	@Test(priority = 2, description = "edit and validate existing member value outreach", enabled = true)
+	public void editExixtingMemberValueOutreach() throws InterruptedException {
+		// Create new MVO
+		ArrayList<String> dataList = fontevaJoin.userData();
+		fontevaJoin.pointOffset();
+		fontevaJoin.createUserInFonteva();
+		fontevaJoin.joinCreatedUser(testData.testDataProvider().getProperty("membershipType"),
+				testData.testDataProvider().getProperty("selection"));
+		fontevaJoin.enterLicenseDetail();
+		fontevaJoin.createSalesOrder(testData.testDataProvider().getProperty("paymentMethod"));
+		fontevaJoin.applyPayment();
+		fontevaJoin.savingNewMVO(dataList.get(5));
+		memberValueOutreach.createNewMVO(testData.testDataProvider().getProperty("membershipYear"),
+				testData.testDataProvider().getProperty("round"),
+				testData.testDataProvider().getProperty("callCategory"),
+				testData.testDataProvider().getProperty("callOutcome"),
+				testData.testDataProvider().getProperty("generalNote"));
+		//Edit existing MVO
+		
+		
 
 	}
 
