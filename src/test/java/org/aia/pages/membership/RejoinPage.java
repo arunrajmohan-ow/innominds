@@ -24,6 +24,7 @@ public class RejoinPage {
 		WebElement reJoinBtn;
 
 		public void reJoinMembership(String emaildata) throws InterruptedException {
+			driver.navigate().refresh();
 			util.waitUntilElement(driver, enteremail);
 			enteremail.sendKeys(emaildata);
 			util.waitUntilElement(driver, continuebtn);
