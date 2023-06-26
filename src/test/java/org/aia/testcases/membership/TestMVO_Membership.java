@@ -72,7 +72,7 @@ public class TestMVO_Membership extends BaseClass {
 	/**
 	 * @throws InterruptedException
 	 */
-	@Test(priority = 2, description = "edit and validate existing member value outreach", enabled = true)
+	@Test(priority = 2, description = "edit and validate existing member value outreach", enabled = false)
 	public void editExixtingMemberValueOutreach() throws InterruptedException {
 		// Create new MVO
 		ArrayList<String> dataList = fontevaJoin.userData();
@@ -89,10 +89,48 @@ public class TestMVO_Membership extends BaseClass {
 				testData.testDataProvider().getProperty("callCategory"),
 				testData.testDataProvider().getProperty("callOutcome"),
 				testData.testDataProvider().getProperty("generalNote"));
-		//Edit existing MVO
-		
-		
+		memberValueOutreach.getNewMVOText();
+		// Edit existing MVO
+		memberValueOutreach.editExistingMVO(testData.testDataProvider().getProperty("editmembershipYear"),
+				testData.testDataProvider().getProperty("editround"),
+				testData.testDataProvider().getProperty("editcallCategory"),
+				testData.testDataProvider().getProperty("editcallOutcome"),
+				testData.testDataProvider().getProperty("editgeneralNote"));
+		memberValueOutreach.getEditMVOText();
+		// Validate edited MVO
+		memberValueOutreach.validateExistingMVO();
+	}
 
+	/**
+	 * @throws InterruptedException
+	 * 
+	 */
+	@Test(priority = 3, description = "clone and validate existing member value outreach", enabled = true)
+	public void cloneExistingMVO() throws InterruptedException {
+		// Create new MVO
+		ArrayList<String> dataList = fontevaJoin.userData();
+		fontevaJoin.pointOffset();
+		fontevaJoin.createUserInFonteva();
+		fontevaJoin.joinCreatedUser(testData.testDataProvider().getProperty("membershipType"),
+				testData.testDataProvider().getProperty("selection"));
+		fontevaJoin.enterLicenseDetail();
+		fontevaJoin.createSalesOrder(testData.testDataProvider().getProperty("paymentMethod"));
+		fontevaJoin.applyPayment();
+		fontevaJoin.savingNewMVO(dataList.get(5));
+		memberValueOutreach.createNewMVO(testData.testDataProvider().getProperty("membershipYear"),
+				testData.testDataProvider().getProperty("round"),
+				testData.testDataProvider().getProperty("callCategory"),
+				testData.testDataProvider().getProperty("callOutcome"),
+				testData.testDataProvider().getProperty("generalNote"));
+		memberValueOutreach.getNewMVOText();
+		// Clone Membership
+		memberValueOutreach.cloneExistingMVO(testData.testDataProvider().getProperty("cloneMembershipYear"),
+				testData.testDataProvider().getProperty("cloneRound"),
+				testData.testDataProvider().getProperty("cloneCallCategory"),
+				testData.testDataProvider().getProperty("cloneCallOutcome"),
+				testData.testDataProvider().getProperty("cloneGeneralNote"));
+		// Validate clone MVO with existing mvo;
+		memberValueOutreach.validateCloneMVO();
 	}
 
 	@AfterMethod(alwaysRun = true)
