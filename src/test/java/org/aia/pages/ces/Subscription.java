@@ -66,6 +66,8 @@ public class Subscription {
 	
 	@FindBy(xpath="//span[text()='What is your employee size?']") WebElement empSizetxt;
 	
+	@FindBy(xpath="//select") WebElement nextPage;
+	
 	
 	/*
 	 * @param : text
@@ -92,13 +94,15 @@ public class Subscription {
 		}
 		
 		Thread.sleep(3000);
-		if(empSizetxt.isDisplayed()) {
+		try{
+			if(empSizetxt.isDisplayed()==true) {
+		
 			confirmNext.click();
 		}
-		else {
-			System.out.println("Proration page is not available.");
+		}	 catch (Exception exp) {
+		System.out.println("Proration page is not available.");
+        exp.printStackTrace();
 		}
-		
 	}
 	
 	public void PassportType() throws InterruptedException {
