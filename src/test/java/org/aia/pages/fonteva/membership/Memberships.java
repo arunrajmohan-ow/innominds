@@ -78,6 +78,12 @@ public class Memberships {
 	WebElement statusDrpBtn;
 	
 	String selectStatus="//span[text()='%s']";
+	
+	@FindBy(xpath="//button[@title='Edit Membership Expire Date']")
+	WebElement expireMembershipEditBtn;
+	
+	@FindBy(xpath="//input[@name='AIA_Membership_Expire_Date__c']")
+	WebElement editexpireMembership;
 
 	/**
 	 * @param userFullname
@@ -115,6 +121,11 @@ public class Memberships {
 	           util.getCustomizedWebElement(driver, contactName, userFullname));
 	}
 	
+	/**
+	 * @param fullName
+	 * @param membershipStatus
+	 * @throws InterruptedException
+	 */
 	public void setMembershipStatus(String fullName, String membershipStatus) throws InterruptedException {
 		util.waitUntilElement(driver, membership);
 		action.moveToElement(membership).build().perform();
@@ -132,4 +143,18 @@ public class Memberships {
 		saveBtn.click();
 		Thread.sleep(12000);
 	}
+	
+	/**
+	 * @throws InterruptedException
+	 */
+	public void expireMembership() throws InterruptedException {
+		executor.executeScript("window.scrollBy(0,550)", "");
+		util.waitUntilElement(driver, expireMembershipEditBtn);
+		expireMembershipEditBtn.click();
+		util.enterText(driver, editexpireMembership, data.testDataProvider().getProperty("expireMembership"));
+		util.waitUntilElement(driver, saveBtn);
+		saveBtn.click();
+		Thread.sleep(12000);
+	}
+	
 }
