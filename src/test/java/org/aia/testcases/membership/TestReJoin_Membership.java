@@ -104,6 +104,7 @@ public class TestReJoin_Membership extends BaseClass {
 		// Navigate to Fonteva app and make record rejoin eligible.
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
 		fontevaJoin.selectContact(dataList.get(0) + " " + dataList.get(1));
+		fontevaPage.expireMembership();
 		fontevaPage.setMembershipStatus(dataList.get(0) + " " + dataList.get(1),
 				testData.testDataProvider().getProperty("membershipStatus"));
 		Logging.logger.info("Set status as Canclled");

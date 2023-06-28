@@ -378,7 +378,7 @@ public class ContactCreateUser {
 		contactallBtn.click();
 		util.waitUntilElement(driver, contactallLink);
 		contactallLink.click();
-		Thread.sleep(10000);
+		Thread.sleep(14000);
 		util.waitUntilElement(driver, util.getCustomizedWebElement(driver, contactName, userFullname));
 		executor.executeScript("arguments[0].click();",
 				util.getCustomizedWebElement(driver, contactName, userFullname));
