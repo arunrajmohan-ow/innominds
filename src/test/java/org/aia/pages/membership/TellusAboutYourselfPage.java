@@ -86,6 +86,7 @@ public class TellusAboutYourselfPage {
 	@FindBy(xpath="//label[@id='careerType']//parent::div") WebElement careerTypedrpdwn;
 	
 	
+	
 	public void enterTellUsAboutYourSelfdetails(String text, String careerType) throws InterruptedException {
 		if(text.contentEquals("noLicense")||text.contentEquals("graduate")
 				||text.contentEquals("axp")||text.contentEquals("faculty")) 
@@ -404,6 +405,28 @@ public class TellusAboutYourselfPage {
 		util.waitUntilElement(driver, nextBtnTellpage);
 		nextBtnTellpage.click();
 		Thread.sleep(7000);
+	}
+	
+	/**
+	 * @throws InterruptedException 
+	 * 
+	 */
+	public void reJoinTellUs() throws InterruptedException {
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		Thread.sleep(8000);
+		//js.executeScript("window.scrollBy(0,350)", workBusinesChckboxTellpage);
+		//js.executeScript("arguments[0].click();", workBusinesChckboxTellpage);
+		//workBusinesChckboxTellpage.click();
+		js.executeScript("window.scrollBy(0,550)", nextBtnTellpage);
+		util.waitUntilElement(driver, nextBtnTellpage);
+		//js.executeScript("arguments[0].click();", nextBtnTellpage);
+		nextBtnTellpage.click();
+		Thread.sleep(7000);
+		
+		js.executeScript("window.scrollBy(0,1500)", nextBtnEquitypage);
+		util.waitUntilElement(driver, nextBtnEquitypage);
+		//js.executeScript("arguments[0].click();", nextBtnEquitypage);
+		nextBtnEquitypage.click();	
 	}
 	
 }
