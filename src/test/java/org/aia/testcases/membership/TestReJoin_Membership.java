@@ -104,9 +104,10 @@ public class TestReJoin_Membership extends BaseClass {
 		// Navigate to Fonteva app and make record rejoin eligible.
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
 		fontevaJoin.selectContact(dataList.get(0) + " " + dataList.get(1));
-		fontevaPage.expireMembership();
 		fontevaPage.setMembershipStatus(dataList.get(0) + " " + dataList.get(1),
 				testData.testDataProvider().getProperty("membershipStatus"));
+		fontevaJoin.selectContact(dataList.get(0) + " " + dataList.get(1));
+		fontevaPage.expireMembership();
 		Logging.logger.info("Set status as Canclled");
 
 		// Navigate membership portal
@@ -120,9 +121,9 @@ public class TestReJoin_Membership extends BaseClass {
 		orderSummaryPage.clickonPayNow();
 		paymentInfoPage.clickOnCreditCard();
 		paymentInfoPage.paymentDetails("activeUSLicense");
+		tellAbtPage.enterTellUsAboutYourSelfdetails("activeUSLicense", "None Selected");
 		// Fetch the details on receipt & add details in receiptData array list.
 		finalPage.verifyThankYouMessage();
-		finalPage.getFinalReceiptData();
 		ArrayList<Object> receiptData2 = finalPage.getFinalReceiptData();
 		// Validate Membership Rejoin - Fonteva API validations
 		reJoinValidate.validateReJoinMemebership(dataList.get(3),
