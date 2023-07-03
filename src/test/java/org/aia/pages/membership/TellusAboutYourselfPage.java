@@ -228,6 +228,7 @@ public class TellusAboutYourselfPage {
 		js.executeScript("window.scrollBy(0,50)", LicenceExpiryDateTellPage);
 		Actions act = new Actions(driver);
 		act.moveToElement(LicenceExpiryDateTellPage).click().build().perform();
+		LicenceExpiryDateTellPage.clear();
 		LicenceExpiryDateTellPage.sendKeys("Dec 31, 2023");	
 		util.waitUntilElement(driver, countryOfLicenseTellpage);
 		
@@ -266,6 +267,7 @@ public class TellusAboutYourselfPage {
 		
 		js.executeScript("window.scrollBy(0,30)", licenseNumTellpage);
 		act.moveToElement(licenseNumTellpage).click().build().perform();
+		licenseNumTellpage.clear();
 		licenseNumTellpage.sendKeys("12345");	
 		
 		
@@ -284,6 +286,7 @@ public class TellusAboutYourselfPage {
 		
 		js.executeScript("window.scrollBy(0,100)", supervisorEmailTellPage);
 		act.moveToElement(supervisorEmailTellPage).click().build().perform();
+		supervisorEmailTellPage.clear();
 		supervisorEmailTellPage.sendKeys("supervisor@gmail.com");
 	}
 	
@@ -325,7 +328,7 @@ public class TellusAboutYourselfPage {
 		
 		util.waitUntilElement(driver, stateTellpage);
 		act.moveToElement(stateTellpage).click().build().perform();
-		
+		Thread.sleep(3000);
 		util.waitUntilElement(driver, californiaStateTellpage);
 
 		Thread.sleep(1000);
