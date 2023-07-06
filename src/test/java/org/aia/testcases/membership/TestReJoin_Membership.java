@@ -121,7 +121,7 @@ public class TestReJoin_Membership extends BaseClass {
 		orderSummaryPage.clickonPayNow();
 		paymentInfoPage.clickOnCreditCard();
 		paymentInfoPage.paymentDetails("activeUSLicense");
-		tellAbtPage.enterTellUsAboutYourSelfdetails("activeUSLicense", "None Selected");
+		tellAbtPage.reJoinTellUs();
 		// Fetch the details on receipt & add details in receiptData array list.
 		finalPage.verifyThankYouMessage();
 		ArrayList<Object> receiptData2 = finalPage.getFinalReceiptData();
