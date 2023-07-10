@@ -59,9 +59,15 @@ public class Organization {
 		@FindBy(xpath="//input[@name='Website']") WebElement orgWebsite;
 		
 		@FindBy(xpath="//button[text()='Previous']") WebElement orgPrevious;
-		
-		@FindBy(xpath="//button[text()='Next']") WebElement orgNext;
 
+		@FindBy(xpath="//button[text()='Next']") WebElement orgNext;
+		
+		@FindBy(xpath="//input[@name='Organization_Tax_ID_number_EIN']") WebElement orgTaxIDTxtbox;
+		
+		@FindBy(xpath="//input[@name='Estimated_annual_organization_revenue']") WebElement orgrevenueTxtbox;
+		
+		@FindBy(xpath="//select[@name='Where_do_you_offer_courses']") WebElement orgCoursesSelect;
+		
 		/*
 		 * Enter Mandatory Organization Details.
 		 */
@@ -78,6 +84,9 @@ public class Organization {
 			//Sample : driver.findElement(By.xpath("//span[@title=\"United States of America (+1)\"]")).click();
 			driver.findElement(By.xpath("//span[@title='"+countryCode+"']")).click();
 			organizationWorkPhoneNum.sendKeys(dataList.get(2));
+			orgTaxIDTxtbox.sendKeys(orgName);
+			orgrevenueTxtbox.sendKeys("1000");
+			util.selectDropDownByText(orgCoursesSelect, "Nationally");
 			orgNext.click();	
 			
 			return orgType;
