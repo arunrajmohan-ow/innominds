@@ -415,12 +415,14 @@ public class TellusAboutYourselfPage {
 	 * 
 	 */
 	public void reJoinTellUs() throws InterruptedException {
-		JavascriptExecutor js = (JavascriptExecutor) driver;
-		Thread.sleep(8000);
+	/*	JavascriptExecutor js = (JavascriptExecutor) driver;
+		Thread.sleep(30000);
+		js.executeScript("window.scrollBy(0,550)","");
+		util.waitUntilElement(driver, workBusinesChckboxTellpage);
 		js.executeScript("window.scrollBy(0,350)", workBusinesChckboxTellpage);
-		//js.executeScript("arguments[0].click();", workBusinesChckboxTellpage);
+	    //js.executeScript("arguments[0].click();", workBusinesChckboxTellpage);
 		workBusinesChckboxTellpage.click();
-		js.executeScript("window.scrollBy(0,100)", nextBtnTellpage);
+		js.executeScript("window.scrollBy(0,750)", nextBtnTellpage);
 		util.waitUntilElement(driver, nextBtnTellpage);
 		//js.executeScript("arguments[0].click();", nextBtnTellpage);
 		nextBtnTellpage.click();
@@ -429,7 +431,9 @@ public class TellusAboutYourselfPage {
 		js.executeScript("window.scrollBy(0,1500)", nextBtnEquitypage);
 		util.waitUntilElement(driver, nextBtnEquitypage);
 		//js.executeScript("arguments[0].click();", nextBtnEquitypage);
-		nextBtnEquitypage.click();	
+		nextBtnEquitypage.click();	*/
+		Thread.sleep(7000);
+		driver.navigate().back();
 	}
 	
 }
