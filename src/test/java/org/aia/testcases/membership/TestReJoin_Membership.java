@@ -81,7 +81,7 @@ public class TestReJoin_Membership extends BaseClass {
 	/**
 	 * Bug found in this script bug id is FM-336 FM-337
 	 */
-	@Test(priority = 1, description = "verify the offline membership rejoin in UI Application", enabled = true)
+	@Test(priority = 1, description = "verify the online membership rejoin in UI Application", enabled = false)
 	public void validateReJoin() throws Exception {
 		// User creating is starting
 		ArrayList<String> dataList = signUpPage.signUpData();
@@ -90,11 +90,13 @@ public class TestReJoin_Membership extends BaseClass {
 		mailinator.verifyEmailForAccountSetup(dataList.get(3));
 		closeButtnPage.clickCloseAfterVerification();
 		signInpage.login(dataList.get(5), dataList.get(6));
-		primaryInfoPage.enterPrimaryInfo("activeUSLicense", "None Selected");
-		orderSummaryPage.confirmTerms("activeUSLicense");
+		primaryInfoPage.enterPrimaryInfo(testData.testDataProvider().getProperty("membershipType"),
+				testData.testDataProvider().getProperty("careerType"));
+		orderSummaryPage.confirmTerms(testData.testDataProvider().getProperty("radioSelection"));
 		orderSummaryPage.clickonPayNow();
-		String aiaNational = paymentInfoPage.paymentDetails("activeUSLicense");
-		tellAbtPage.enterTellUsAboutYourSelfdetails("activeUSLicense", "None Selected");
+		String aiaNational = paymentInfoPage.paymentDetails(testData.testDataProvider().getProperty("radioSelection"));
+		tellAbtPage.enterTellUsAboutYourSelfdetails(testData.testDataProvider().getProperty("radioSelection"),
+				testData.testDataProvider().getProperty("careerType"));
 		finalPage.verifyThankYouMessage();
 		ArrayList<Object> receiptData = finalPage.getFinalReceiptData();
 		receiptData.add(3, aiaNational);
@@ -115,12 +117,13 @@ public class TestReJoin_Membership extends BaseClass {
 		// Enter Email in membership page
 		rejoinPage.reJoinMembership(dataList.get(5));
 		// Enter detail in primary info page
-		primaryInfoPage.enterPrimaryInfo("activeUSLicense", "None Selected");
+		primaryInfoPage.enterPrimaryInfo(testData.testDataProvider().getProperty("membershipType"),
+				testData.testDataProvider().getProperty("careerType"));
 		// Confirm terms and proceed for payment.
-		orderSummaryPage.confirmTerms("activeUSLicense");
+		orderSummaryPage.confirmTerms(testData.testDataProvider().getProperty("radioSelection"));
 		orderSummaryPage.clickonPayNow();
 		paymentInfoPage.clickOnCreditCard();
-		paymentInfoPage.paymentDetails("activeUSLicense");
+		paymentInfoPage.paymentDetails(testData.testDataProvider().getProperty("radioSelection"));
 		tellAbtPage.reJoinTellUs();
 		// Fetch the details on receipt & add details in receiptData array list.
 		finalPage.verifyThankYouMessage();
@@ -128,13 +131,142 @@ public class TestReJoin_Membership extends BaseClass {
 		// Validate Membership Rejoin - Fonteva API validations
 		reJoinValidate.validateReJoinMemebership(dataList.get(3),
 				DataProviderFactory.getConfig().getValue("termEndDate"), receiptData.get(2),
-				DataProviderFactory.getConfig().getValue("type_aia_national"), "Architect", "Non profit");
+				DataProviderFactory.getConfig().getValue("type_aia_national"),
+				testData.testDataProvider().getProperty("membershipType"),
+				testData.testDataProvider().getProperty("careerType"));
 		// Validate sales order
-		offlinApiValidation.verifySalesOrder(DataProviderFactory.getConfig().getValue("salesOrderStatus"),
+		reJoinValidate.verifySalesOrder(DataProviderFactory.getConfig().getValue("salesOrderStatus"),
 				DataProviderFactory.getConfig().getValue("orderStatus"), receiptData2.get(2),
 				DataProviderFactory.getConfig().getValue("postingStatus"));
 		// Validate Receipt Details
-		offlinApiValidation.verifyReciptDetails(receiptData.get(0), receiptData.get(2));
+		reJoinValidate.verifyReciptDetails(receiptData.get(0), receiptData.get(2));
+
+	}
+
+	/**
+	 * @throws Exception
+	 */
+	@Test(priority = 2, description = "verify the online allied membership rejoin in UI Application", enabled = false)
+	public void validateAlliedReJoin() throws Exception {
+		// User creating is starting
+		ArrayList<String> dataList = signUpPage.signUpData();
+		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
+		signUpPage.signUpUser();
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
+		closeButtnPage.clickCloseAfterVerification();
+		signInpage.login(dataList.get(5), dataList.get(6));
+		primaryInfoPage.enterPrimaryInfo(testData.testDataProvider().getProperty("membershipSelection"),
+				testData.testDataProvider().getProperty("careerType"));
+		orderSummaryPage.confirmTerms(testData.testDataProvider().getProperty("membershipSelection"));
+		orderSummaryPage.clickonPayNow();
+		String aiaNational = paymentInfoPage
+				.paymentDetails(testData.testDataProvider().getProperty("membershipSelection"));
+		tellAbtPage.enterTellUsAboutYourSelfdetails(testData.testDataProvider().getProperty("membershipSelection"),
+				testData.testDataProvider().getProperty("careerType"));
+		finalPage.verifyThankYouMessage();
+		ArrayList<Object> receiptData = finalPage.getFinalReceiptData();
+		receiptData.add(3, aiaNational);
+		mailinator.welcomeAIAEmailLink(dataList, receiptData);
+		Logging.logger.info("User get created successfully");
+
+		// Navigate to Fonteva app and make record rejoin eligible.
+		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
+		fontevaJoin.selectContact(dataList.get(0) + " " + dataList.get(1));
+		fontevaPage.setMembershipStatus(dataList.get(0) + " " + dataList.get(1),
+				testData.testDataProvider().getProperty("membershipStatus"));
+		fontevaJoin.selectContact(dataList.get(0) + " " + dataList.get(1));
+		fontevaPage.expireMembership();
+		Logging.logger.info("Set status as Canclled");
+		// Navigate membership portal
+		driver.get(DataProviderFactory.getConfig().getValue("membership_app_endpoint"));
+		// Enter Email in membership page
+		rejoinPage.reJoinMembership(dataList.get(5));
+		// Enter detail in primary info page
+		primaryInfoPage.enterPrimaryInfo(testData.testDataProvider().getProperty("membershipSelection"),
+				testData.testDataProvider().getProperty("careerType"));
+		// Confirm terms and proceed for payment.
+		orderSummaryPage.confirmTerms(testData.testDataProvider().getProperty("membershipSelection"));
+		orderSummaryPage.clickonPayNow();
+		paymentInfoPage.clickOnCreditCard();
+		paymentInfoPage.paymentDetails(testData.testDataProvider().getProperty("membershipSelection"));
+		tellAbtPage.reJoinTellUs();
+		// Fetch the details on receipt & add details in receiptData array list.
+		finalPage.verifyThankYouMessage();
+		ArrayList<Object> receiptData2 = finalPage.getFinalReceiptData();
+		// Validate Membership Rejoin - Fonteva API validations
+		reJoinValidate.validateReJoinMemebership(dataList.get(3),
+				DataProviderFactory.getConfig().getValue("termEndDate"), receiptData.get(2),
+				DataProviderFactory.getConfig().getValue("type_aia_national"),
+				testData.testDataProvider().getProperty("membershipType"),
+				testData.testDataProvider().getProperty("careerType"));
+		// Validate sales order
+		reJoinValidate.verifySalesOrder(DataProviderFactory.getConfig().getValue("salesOrderStatus"),
+				DataProviderFactory.getConfig().getValue("orderStatus"), receiptData2.get(2),
+				DataProviderFactory.getConfig().getValue("postingStatus"));
+		// Validate Receipt Details
+		reJoinValidate.verifyReciptDetails(receiptData.get(0), receiptData.get(2));
+
+	}
+
+	@Test(priority = 3, description = "verify the online Associate membership rejoin in UI Application", enabled = true)
+	public void validateAssociateReJoin() throws Exception {
+		// User creating is starting
+		ArrayList<String> dataList = signUpPage.signUpData();
+		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
+		signUpPage.signUpUser();
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
+		closeButtnPage.clickCloseAfterVerification();
+		signInpage.login(dataList.get(5), dataList.get(6));
+		primaryInfoPage.enterPrimaryInfo(testData.testDataProvider().getProperty("membershipFaculty"),
+				testData.testDataProvider().getProperty("careerType"));
+		orderSummaryPage.confirmTerms(testData.testDataProvider().getProperty("membershipFaculty"));
+		orderSummaryPage.clickonPayNow();
+		String aiaNational = paymentInfoPage
+				.paymentDetails(testData.testDataProvider().getProperty("membershipFaculty"));
+		tellAbtPage.enterTellUsAboutYourSelfdetails(testData.testDataProvider().getProperty("membershipFaculty"),
+				testData.testDataProvider().getProperty("careerType"));
+		finalPage.verifyThankYouMessage();
+		ArrayList<Object> receiptData = finalPage.getFinalReceiptData();
+		receiptData.add(3, aiaNational);
+		mailinator.welcomeAIAEmailLink(dataList, receiptData);
+		Logging.logger.info("User get created successfully");
+
+		// Navigate to Fonteva app and make record rejoin eligible.
+		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
+		fontevaJoin.selectContact(dataList.get(0) + " " + dataList.get(1));
+		fontevaPage.setMembershipStatus(dataList.get(0) + " " + dataList.get(1),
+				testData.testDataProvider().getProperty("membershipStatus"));
+		fontevaJoin.selectContact(dataList.get(0) + " " + dataList.get(1));
+		fontevaPage.expireMembership();
+		Logging.logger.info("Set status as Canclled");
+		// Navigate membership portal
+		driver.get(DataProviderFactory.getConfig().getValue("membership_app_endpoint"));
+		// Enter Email in membership page
+		rejoinPage.reJoinMembership(dataList.get(5));
+		// Enter detail in primary info page
+		primaryInfoPage.enterPrimaryInfo(testData.testDataProvider().getProperty("membershipFaculty"),
+				testData.testDataProvider().getProperty("careerType"));
+		// Confirm terms and proceed for payment.
+		orderSummaryPage.confirmTerms(testData.testDataProvider().getProperty("membershipFaculty"));
+		orderSummaryPage.clickonPayNow();
+		paymentInfoPage.clickOnCreditCard();
+		paymentInfoPage.paymentDetails(testData.testDataProvider().getProperty("membershipFaculty"));
+		tellAbtPage.reJoinTellUs();
+		// Fetch the details on receipt & add details in receiptData array list.
+		finalPage.verifyThankYouMessage();
+		ArrayList<Object> receiptData2 = finalPage.getFinalReceiptData();
+		// Validate Membership Rejoin - Fonteva API validations
+		reJoinValidate.validateReJoinMemebership(dataList.get(3),
+				DataProviderFactory.getConfig().getValue("termEndDate"), receiptData.get(2),
+				DataProviderFactory.getConfig().getValue("type_aia_national"),
+				testData.testDataProvider().getProperty("membershipAssociate"),
+				testData.testDataProvider().getProperty("careerType"));
+		// Validate sales order
+		reJoinValidate.verifySalesOrder(DataProviderFactory.getConfig().getValue("salesOrderStatus"),
+				DataProviderFactory.getConfig().getValue("orderStatus"), receiptData2.get(2),
+				DataProviderFactory.getConfig().getValue("postingStatus"));
+		// Validate Receipt Details
+		reJoinValidate.verifyReciptDetails(receiptData.get(0), receiptData.get(2));
 
 	}
 
