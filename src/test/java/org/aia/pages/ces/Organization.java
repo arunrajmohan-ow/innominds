@@ -86,7 +86,7 @@ public class Organization {
 			organizationWorkPhoneNum.sendKeys(dataList.get(2));
 			orgTaxIDTxtbox.sendKeys(orgName);
 			orgrevenueTxtbox.sendKeys("1000");
-			util.selectDropDownByText(orgCoursesSelect, "Nationally");
+			util.selectDropDownByText(orgCoursesSelect, "National");
 			orgNext.click();	
 			
 			return orgType;
