@@ -86,6 +86,7 @@ public class TellusAboutYourselfPage {
 	@FindBy(xpath="//label[@id='careerType']//parent::div") WebElement careerTypedrpdwn;
 	
 	
+	
 	public void enterTellUsAboutYourSelfdetails(String text, String careerType) throws InterruptedException {
 		if(text.contentEquals("noLicense")||text.contentEquals("graduate")
 				||text.contentEquals("axp")||text.contentEquals("faculty")) 
@@ -227,6 +228,7 @@ public class TellusAboutYourselfPage {
 		js.executeScript("window.scrollBy(0,50)", LicenceExpiryDateTellPage);
 		Actions act = new Actions(driver);
 		act.moveToElement(LicenceExpiryDateTellPage).click().build().perform();
+		LicenceExpiryDateTellPage.clear();
 		LicenceExpiryDateTellPage.sendKeys("Dec 31, 2023");	
 		util.waitUntilElement(driver, countryOfLicenseTellpage);
 		
@@ -265,6 +267,7 @@ public class TellusAboutYourselfPage {
 		
 		js.executeScript("window.scrollBy(0,30)", licenseNumTellpage);
 		act.moveToElement(licenseNumTellpage).click().build().perform();
+		licenseNumTellpage.clear();
 		licenseNumTellpage.sendKeys("12345");	
 		
 		
@@ -283,6 +286,7 @@ public class TellusAboutYourselfPage {
 		
 		js.executeScript("window.scrollBy(0,100)", supervisorEmailTellPage);
 		act.moveToElement(supervisorEmailTellPage).click().build().perform();
+		supervisorEmailTellPage.clear();
 		supervisorEmailTellPage.sendKeys("supervisor@gmail.com");
 	}
 	
@@ -324,7 +328,7 @@ public class TellusAboutYourselfPage {
 		
 		util.waitUntilElement(driver, stateTellpage);
 		act.moveToElement(stateTellpage).click().build().perform();
-		
+		Thread.sleep(3000);
 		util.waitUntilElement(driver, californiaStateTellpage);
 
 		Thread.sleep(1000);
@@ -404,6 +408,32 @@ public class TellusAboutYourselfPage {
 		util.waitUntilElement(driver, nextBtnTellpage);
 		nextBtnTellpage.click();
 		Thread.sleep(7000);
+	}
+	
+	/**
+	 * @throws InterruptedException 
+	 * 
+	 */
+	public void reJoinTellUs() throws InterruptedException {
+	/*	JavascriptExecutor js = (JavascriptExecutor) driver;
+		Thread.sleep(30000);
+		js.executeScript("window.scrollBy(0,550)","");
+		util.waitUntilElement(driver, workBusinesChckboxTellpage);
+		js.executeScript("window.scrollBy(0,350)", workBusinesChckboxTellpage);
+	    //js.executeScript("arguments[0].click();", workBusinesChckboxTellpage);
+		workBusinesChckboxTellpage.click();
+		js.executeScript("window.scrollBy(0,750)", nextBtnTellpage);
+		util.waitUntilElement(driver, nextBtnTellpage);
+		//js.executeScript("arguments[0].click();", nextBtnTellpage);
+		nextBtnTellpage.click();
+		Thread.sleep(7000);
+		
+		js.executeScript("window.scrollBy(0,1500)", nextBtnEquitypage);
+		util.waitUntilElement(driver, nextBtnEquitypage);
+		//js.executeScript("arguments[0].click();", nextBtnEquitypage);
+		nextBtnEquitypage.click();	*/
+		Thread.sleep(7000);
+		driver.navigate().back();
 	}
 	
 }

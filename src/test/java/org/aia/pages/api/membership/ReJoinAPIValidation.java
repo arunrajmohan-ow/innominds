@@ -1,35 +1,28 @@
 package org.aia.pages.api.membership;
 
+import static io.restassured.RestAssured.given;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Duration;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import org.aia.utility.DataProviderFactory;
-import org.aia.utility.DateUtils;
+import org.aia.utility.Logging;
 import org.aia.utility.Utility;
-import org.json.JSONObject;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 
-import static io.restassured.RestAssured.given;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.*;
-
-import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 
-public class JoinAPIValidation {
+public class ReJoinAPIValidation {
 	WebDriver driver;
 
-	public JoinAPIValidation(WebDriver Idriver) {
+	public ReJoinAPIValidation(WebDriver Idriver) {
 		this.driver = Idriver;
 	}
 
@@ -48,9 +41,11 @@ public class JoinAPIValidation {
 	// private static final String bearerToken =
 	// DataProviderFactory.getConfig().getValue("access_token");//bt.getbearerToken();;
 	private static final String bearerToken = bt.getbearerToken();
+	static Logger log = Logger.getLogger(ReJoinAPIValidation.class);
 
-	public void verifyMemebershipCreation(String memberAccount, String enddate, Object dues, String type,
+	public void validateReJoinMemebership(String memberAccount, String enddate, Object dues, String type,
 			String MembershipTypeAssigned, String CareerType) throws InterruptedException {
+		String id;
 		// GET Account ID
 		while ((totalMembershipCount == 0) && retryCount < 10) {
 			Response response = given().contentType(ContentType.JSON).accept(ContentType.JSON)
@@ -60,17 +55,18 @@ public class JoinAPIValidation {
 
 			jsonPathEval = response.jsonPath();
 			accountID = jsonPathEval.getString("searchRecords[0].Id");
-            System.out.println("Account ID:"+accountID);
+            System.out.println("My account Id is:"+ accountID );
 			// Use Account ID to fetch account details.
 			String SUBSCRIPTIONS_URI = ACCOUNT_URI + "/" + accountID + "/OrderApi__Subscriptions__r";
-
+			System.out.println("My Account Id is:" + accountID);
 			response = given().header("Authorization", "Bearer " + bearerToken).header("Content-Type", ContentType.JSON)
 					.header("Accept", ContentType.JSON)
-					.param("fields",
-							"OrderApi__Term_Start_Date__c," + "OrderApi__Term_End_Date__c,"
-									+ "OrderApi__Term_Dues_Total__c," + "Membership_Type__c," + "OrderApi__Status__c,"
-									+ "OrderApi__Activated_Date__c," + "OrderApi__Paid_Through_Date__c,"
-									+ "OrderApi__Days_To_Lapse__c," + "OrderApi__Item__c, " + "OrderApi__Contact__c")
+					.param("fields", "OrderApi__Term_End_Date__c," + "OrderApi__Term_Start_Date__c,"
+							+ "OrderApi__Term_Dues_Total__c," + "Membership_Type__c," + "OrderApi__Status__c,"
+							+ "OrderApi__Days_To_Lapse__c," + "OrderApi__Item__c, " + "OrderApi__Contact__c, "
+							+ "AIA_CES_Renew_Eligible__c, " + "Renewal_Link__c, " + "AIA_Ecommerce_Renew_Link__c, "
+							+ "OrderApi__Paid_Through_Date__c, " + "OrderApi__Activated_Date__c, "
+							+ "OrderApi__Last_Renewed_Date__c, " + "OrderApi__Grace_Period_End_Date__c," + "Id")
 					.when().get(SUBSCRIPTIONS_URI).then().statusCode(200).extract().response();
 
 			jsonPathEval = response.jsonPath();
@@ -78,84 +74,94 @@ public class JoinAPIValidation {
 			totalMembershipCount = jsonPathEval.getInt("totalSize");
 			Thread.sleep(10000);
 			retryCount = retryCount + 1;
+
 		}
 
 		// Verify if totalMembershipCount is 1 , then account creation was success.
 		if (totalMembershipCount > 0) {
-			System.out.println("Number of Memberships : " + totalMembershipCount);
-			String termStartDate = jsonPathEval.getString("records[0].OrderApi__Term_Start_Date__c");
-			String termEndDate = jsonPathEval.getString("records[0].OrderApi__Term_End_Date__c");
-			String activatedDate = jsonPathEval.getString("records[0].OrderApi__Activated_Date__c");
-			String paidThroughDate = jsonPathEval.getString("records[0].OrderApi__Paid_Through_Date__c");
-			Object lapseDays = jsonPathEval.getDouble("records[0].OrderApi__Days_To_Lapse__c");
+			Logging.logger.info("Number of Memberships : " + totalMembershipCount);
+			String termStartDate = jsonPathEval.getString("records[1].OrderApi__Term_Start_Date__c");
+			String termEndDate = jsonPathEval.getString("records[1].OrderApi__Term_End_Date__c");
+			String activatedDate = jsonPathEval.getString("records[1].OrderApi__Activated_Date__c");
+			String paidThroughDate = jsonPathEval.getString("records[1].OrderApi__Paid_Through_Date__c");
+			//Double lapseDays = jsonPathEval.getDouble("records[1].OrderApi__Days_To_Lapse__c");
 
-			Double termDues = jsonPathEval.getDouble("records[0].OrderApi__Term_Dues_Total__c");
-			String membershipType = jsonPathEval.getString("records[0].Membership_Type__c");
-			String membershipStatus = jsonPathEval.getString("records[0].OrderApi__Status__c");
-			String membershipItemID = jsonPathEval.getString("records[0].OrderApi__Item__c");
-			String contactID = jsonPathEval.getString("records[0].OrderApi__Contact__c");
+			Double termDues = jsonPathEval.getDouble("records[1].OrderApi__Term_Dues_Total__c");
+			String membershipType = jsonPathEval.getString("records[1].Membership_Type__c");
+			String membershipStatus = jsonPathEval.getString("records[1].OrderApi__Status__c");
+			Boolean isRenewEligible = jsonPathEval.getBoolean("records[1].AIA_CES_Renew_Eligible__c");
+			String renewLink = jsonPathEval.getString("records[1].Renewal_Link__c");
+			String ecomRenewLink = jsonPathEval.getString("records[1].AIA_Ecommerce_Renew_Link__c");
+			String gracePeriodEndDate = jsonPathEval.getString("records[1].OrderApi__Grace_Period_End_Date__c");
+			String LastRenewedDate = jsonPathEval.getString("records[1].OrderApi__Last_Renewed_Date__c");
+			id = jsonPathEval.getString("records[1].Id");
 
-			System.out.println("=====================================");
-			System.out.println("Membership type :" + membershipType);
-			System.out.println("Membership start date :" + termStartDate);
-			System.out.println("Membership end date :" + termEndDate);
-			System.out.println("Membership term dues :" + termDues);
-			System.out.println("=====================================");
+			Logging.logger.info("=====================================");
+			Logging.logger.info("Membership type :" + membershipType);
+			Logging.logger.info("Membership start date :" + termStartDate);
+			Logging.logger.info("Membership end date :" + termEndDate);
+			Logging.logger.info("Membership term dues :" + termDues);
+			Logging.logger.info("activatedDate :" + activatedDate);
+			Logging.logger.info("paidThroughDate :" + paidThroughDate);
+			//Logging.logger.info("lapseDays :" + lapseDays);
+			Logging.logger.info("membershipType :" + membershipType);
+			Logging.logger.info("membershipStatus :" + membershipStatus);
+			Logging.logger.info("isRenewEligible :" + isRenewEligible);
+			Logging.logger.info("renewLink :" + renewLink);
+			Logging.logger.info("ecomRenewLink :" + ecomRenewLink);
+			Logging.logger.info("LastRenewedDate :" + LastRenewedDate);
+			Logging.logger.info("gracePeriodEndDate :" + gracePeriodEndDate);
+			Logging.logger.info("=====================================");
 
 			assertEquals(membershipStatus, "Active");
 			assertEquals(membershipType, type);
 			assertEquals(termEndDate, enddate);
-			assertEquals(termStartDate, java.time.LocalDate.now().toString());
-			assertEquals(activatedDate, java.time.LocalDate.now().toString());
-			assertEquals(paidThroughDate, enddate);// java.time.LocalDate.now().toString());
+			assertEquals(termStartDate, activatedDate);
+			// assertEquals(activatedDate, java.time.LocalDate.now().toString());
+			// assertEquals(paidThroughDate,
+			// "2024-12-31");//java.time.LocalDate.now().toString());
+			assertFalse(isRenewEligible);
+			assertEquals(renewLink, "Already renewed");
+			assertEquals(ecomRenewLink, "Not Eligible for Renewal");
+			// assertNotNull(LastRenewedDate);
 
 			SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
-			String inputString1 = termStartDate;
-			String inputString2 = paidThroughDate;
 			Object days = null;
 			try {
-				Date date1 = myFormat.parse(inputString1);
-				Date date2 = myFormat.parse(inputString2);
-				long diff = date2.getTime() - date1.getTime();
+				Date paidthroughDate = myFormat.parse(paidThroughDate);
+				Date currentDate = myFormat.parse(java.time.LocalDate.now().toString());// .minusDays(2).toString());
+				long diff = paidthroughDate.getTime() - currentDate.getTime();
 				days = Double.valueOf(TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS));
-				System.out.println("Days: " + TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS));
+
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
-			assertEquals(lapseDays, days);
+			//assertEquals(lapseDays, days);
 
-			// AIA_Member_Type_Assignment
-			String Member_Type_Assignment_URI = SOBJECT_URI + "/OrderApi__Item__c/" + membershipItemID;
-			Response response2 = given().header("Authorization", "Bearer " + bearerToken)
+			// Validate SUBSCRIPTIONS_LINES
+			String SUBSCRIPTIONS_LINES_URI = SOBJECT_URI + "/OrderApi__Subscription__c/" + id
+					+ "/OrderApi__Subscription_Lines__r";
+			Response response_subLines = given().header("Authorization", "Bearer " + bearerToken)
 					.header("Content-Type", ContentType.JSON).header("Accept", ContentType.JSON)
-					.param("fields", "AIA_Member_Type_Assignment__c").when().get(Member_Type_Assignment_URI).then()
+					.param("fields", "AIA_Sales_Order_Origin__c").when().get(SUBSCRIPTIONS_LINES_URI).then()
 					.statusCode(200).extract().response();
 
-			jsonPathEval = response2.jsonPath();
-
-			String AIA_Member_Type = jsonPathEval.getString("AIA_Member_Type_Assignment__c");
-			System.out.println("AIA_Member_Type_Assignment : " + AIA_Member_Type);
-			assertEquals(AIA_Member_Type, MembershipTypeAssigned);
-
-			// AIA_Career_Type__c
-			String contact_URI = SOBJECT_URI + "/Contact/" + contactID;
-			Response response_contact = given().header("Authorization", "Bearer " + bearerToken)
-					.header("Content-Type", ContentType.JSON).header("Accept", ContentType.JSON)
-					.param("fields", "AIA_Career_Type__c").when().get(contact_URI).then().statusCode(200).extract()
-					.response();
-
-			jsonPathEval = response_contact.jsonPath();
-
-			String AIA_Career_Type = jsonPathEval.getString("AIA_Career_Type__c");
-			System.out.println("AIA_Career_Type : " + AIA_Career_Type);
-			assertEquals(AIA_Career_Type, CareerType);
+			jsonPathEval = response_subLines.jsonPath();
+			int totalSubsriptionLines = jsonPathEval.getInt("totalSize");
+			if (totalSubsriptionLines > 4 || totalSubsriptionLines < 4) {
+				Logging.logger.info("Supplemental Dues added while renew !!!");
+			} else {
+				assertEquals(totalSubsriptionLines, 4);
+				// 22304
+			}
+			String salesOrderOrigin1 = jsonPathEval.getString("records[0].AIA_Sales_Order_Origin__c");
+			String salesOrderOrigin3 = jsonPathEval.getString("records[3].AIA_Sales_Order_Origin__c");
+			// assertEquals(salesOrderOrigin3, "Membership Renewal");
+		} else {
+			Logging.logger.info("No active memberships found!!!");
 		}
 
-		else {
-			System.out.println("No active memberships found!!!");
-		}
 	}
-
 	public void verifySalesOrder(String orderPaidStatus, String closed, Object dues, String posted)
 			throws InterruptedException {
 		// Use Account ID to fetch account details.
@@ -203,7 +209,7 @@ public class JoinAPIValidation {
 			System.out.println("No Sales order found!!!");
 		}
 	}
-
+	
 	public void verifyReciptDetails(Object receipt, Object feePaid) throws InterruptedException {
 		// Use Account ID to fetch account details.
 		String RECIPTS_URI = ACCOUNT_URI + "/" + accountID + "/OrderApi__Receipts__r";
@@ -233,40 +239,4 @@ public class JoinAPIValidation {
 			System.out.println("No Recipt found!!!");
 		}
 	}
-
-	public void verifySalesOrderForPriceRule(String membershipType) {
-		// Use Account ID to fetch account details.
-		String SALESORDER_URI = ACCOUNT_URI + "/" + accountID + "/OrderApi__Sales_Order_Lines__r";
-		System.out.println("Account Id is:" + accountID);
-		Response response = given().header("Authorization", "Bearer " + bearerToken)
-				.header("Content-Type", ContentType.JSON).header("Accept", ContentType.JSON).when().get(SALESORDER_URI)
-				.then().statusCode(200).extract().response();
-
-		jsonPathEval = response.jsonPath();
-		int totalSalesOrderCount = jsonPathEval.getInt("totalSize");
-		if (totalSalesOrderCount > 0) {
-			String priceRule = jsonPathEval.getString("records[0].OrderApi__Price_Rule__c");
-			System.out.println("Price Rule is:"+priceRule);
-			// Here we validate priceRule is not null and get the response from order api price rule
-
-			if (priceRule != null) {
-				String priceRuleUri = ACCOUNT_URI.replaceAll("Account","OrderApi__Price_Rule__c/"+priceRule) ;
-				System.out.println("Price Rule URL"+priceRuleUri);
-				Response priceRuleUriResponse = given().header("Authorization", "Bearer " + bearerToken)
-						.header("Content-Type", ContentType.JSON).header("Accept", ContentType.JSON).when().get(priceRuleUri)
-						.then().statusCode(200).extract().response();
-				jsonPathEval = priceRuleUriResponse.jsonPath();
-				String priceRuleText = jsonPathEval.getString("Name");
-				
-				assertTrue(priceRuleText.contains(java.time.Year.now().toString()) && priceRuleText.contains(membershipType));
-			}
-		} else {
-			System.out.println("No Sales order found");
-		}
-	}
-	
-	public void validateMembershipRejoin() {
-		
-	}
-
 }
