@@ -44,7 +44,7 @@ public class Subscription {
 	
 	@FindBy(xpath="//*[text()='Upload Files']") WebElement profUploadFile;
 	
-	@FindBy(xpath="//span[text()='Done']//parent::button") WebElement pofessionalFileUplaodDoneButton;
+	@FindBy(xpath="//span[text()='Done'] | //span[text()='Done']//parent::button") WebElement pofessionalFileUplaodDoneButton;
 	
 	@FindBy(xpath="//button[@title='Delete Document']") WebElement pofessionalDeleteBtn;
 	
@@ -65,8 +65,6 @@ public class Subscription {
 	@FindBy(xpath="//button[text()='Next']") WebElement confirmNext;
 	
 	@FindBy(xpath="//span[text()='What is your employee size?']") WebElement empSizetxt;
-	
-	@FindBy(xpath="//select") WebElement nextPage;
 	
 	
 	/*
@@ -93,16 +91,20 @@ public class Subscription {
 			ProfessionalType(orgType);
 		}
 		
-		Thread.sleep(3000);
-		try{
-			if(empSizetxt.isDisplayed()==true) {
+		Thread.sleep(4000);
+		try {
+			if(empSizetxt.isDisplayed()) {
+				confirmNext.click();
+			}
+			else {
+				System.out.println("Proration page is not available.");
+			}
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("Proration page is not available.");
+		}
 		
-			confirmNext.click();
-		}
-		}	 catch (Exception exp) {
-		System.out.println("Proration page is not available.");
-        exp.printStackTrace();
-		}
 	}
 	
 	public void PassportType() throws InterruptedException {
@@ -167,7 +169,6 @@ public class Subscription {
 		
 		util.waitUntilElement(driver, pofessionalFileUplaodDoneButton);
 		Thread.sleep(3000);
-		util.waitUntilElement(driver, pofessionalFileUplaodDoneButton);
 		pofessionalFileUplaodDoneButton.click();
 		util.waitUntilElement(driver, pofessionalDeleteBtn);
 		professionalNext.click();
