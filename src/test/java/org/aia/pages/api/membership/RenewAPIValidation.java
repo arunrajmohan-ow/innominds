@@ -69,7 +69,8 @@ public class RenewAPIValidation
 			accountID = jsonPathEval.getString("searchRecords[0].Id");
 			
 			// Use Account ID to fetch account details.
-			String SUBSCRIPTIONS_URI = ACCOUNT_URI + "/" + accountID + "/OrderApi__Subscriptions__r";
+			String SUBSCRIPTIONS_URI = "https://aia--testing.sandbox.my.salesforce.com/services/data/v56.0/sobjects/Account/"+accountID+"/OrderApi__Subscriptions__r";
+			System.out.println("My account Id is:"+accountID);
 			response = 
 			    	 given().
 					 header("Authorization", "Bearer " + bearerToken).
@@ -137,7 +138,7 @@ public class RenewAPIValidation
 			System.out.println("LastRenewedDate :" + LastRenewedDate);
 			System.out.println("gracePeriodEndDate :" + gracePeriodEndDate);
 			System.out.println("=====================================");
-	
+	        Thread.sleep(4000);
 			assertEquals(membershipStatus, "Active");
 			assertEquals(membershipType, type);
 			assertEquals(termEndDate, enddate);
