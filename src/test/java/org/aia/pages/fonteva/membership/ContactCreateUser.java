@@ -97,6 +97,8 @@ public class ContactCreateUser {
 	WebElement licenseStateDrp;
 
 	String state = "//span[text()='%s']";
+	
+	String country="//span[text()='%s']";
 
 	@FindBy(xpath = "//input[contains(@name,'License_Date')]")
 	WebElement licenseStartDate;
@@ -174,6 +176,9 @@ public class ContactCreateUser {
 
 	@FindBy(xpath = "//a/span[@title='Name']")
 	WebElement tableheaderName;
+	
+	@FindBy(xpath="//button[contains(@aria-label,'Join License Country')]")
+	WebElement licenseCountryDrp;
 
 	String fName;
 	String lName;
@@ -277,6 +282,9 @@ public class ContactCreateUser {
 	 */
 	public void enterLicenseDetail() {
 		util.enterText(driver, enterLicenseNumber, data.testDataProvider().getProperty("LICENSE_NUMBER"));
+		util.waitUntilElement(driver, licenseCountryDrp);
+		licenseCountryDrp.click();
+		executor.executeScript("arguments[0].click();", util.getCustomizedWebElement(driver, country, data.testDataProvider().getProperty("LICENSE_COUNTRY")));
 		licenseStateDrp.click();
 		WebElement enterState = driver
 				.findElement(By.xpath(String.format(state, data.testDataProvider().getProperty("LICENSE_STATE"))));
