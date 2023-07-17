@@ -79,6 +79,7 @@ public class DevSandBoxFonteva {
 		 * password.sendKeys("Login_1234"); loginBtn.click();
 		 */
 		JavascriptExecutor js = (JavascriptExecutor) driver;
+		Actions actions = new Actions(driver);
 		util.waitUntilElement(driver, contacts);
 		contactsDiv.click();
 		util.waitUntilElement(driver, tableheaderName);
@@ -91,11 +92,11 @@ public class DevSandBoxFonteva {
 		//driver.findElement(By.xpath(startLocator+fullName+endLocator)).click();
 		util.getCustomizedWebElement(driver, userContactName, fullName).click();
 		util.waitUntilElement(driver, showallBtn);
+		actions.moveToElement(showallBtn).build().perform();
 		showallBtn.click();
 		Thread.sleep(2000);
 		util.waitUntilElement(driver, memberShip);
 		//Instantiating Actions class
-		Actions actions = new Actions(driver);
 		//Hovering on main menu
 		actions.moveToElement(contactTitle);
 		actions.sendKeys(Keys.ARROW_DOWN).build().perform();

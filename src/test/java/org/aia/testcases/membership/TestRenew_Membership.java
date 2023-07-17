@@ -9,6 +9,7 @@ import org.aia.pages.BaseClass;
 import org.aia.pages.api.MailinatorAPI;
 import org.aia.pages.api.membership.FontevaConnectionSOAP;
 import org.aia.pages.api.membership.JoinAPIValidation;
+import org.aia.pages.api.membership.NewRenewAPIValidation;
 import org.aia.pages.api.membership.RenewAPIValidation;
 import org.aia.pages.membership.*;
 import org.aia.utility.BrowserSetup;
@@ -46,6 +47,7 @@ public class TestRenew_Membership extends BaseClass {
 	PaymentInformation paymentInfoPage;
 	FinalPageThankYou finalPage;
 	JoinAPIValidation apiValidation;
+	NewRenewAPIValidation newapiValidationRenew;
 	RenewAPIValidation apiValidationRenew;
 	TellusAboutYourselfPage tellAbtPage;
 	DevSandBoxFonteva fontevaPage;
@@ -65,6 +67,7 @@ public class TestRenew_Membership extends BaseClass {
 		mailinator = PageFactory.initElements(driver, MailinatorAPI.class);
 		successPage = PageFactory.initElements(driver, SignUpSuccess.class);
 		apiValidation = PageFactory.initElements(driver, JoinAPIValidation.class);
+		newapiValidationRenew = PageFactory.initElements(driver, NewRenewAPIValidation.class);
 		apiValidationRenew = PageFactory.initElements(driver, RenewAPIValidation.class);
 		primaryInfoPage = PageFactory.initElements(driver, PrimaryInformationPage.class);
 		orderSummaryPage = PageFactory.initElements(driver, OrderSummaryPage.class);
@@ -125,7 +128,7 @@ public class TestRenew_Membership extends BaseClass {
 		// mailinator.thanksForRenewingEmailLink(dataList, receiptData);
 
 		// Validate Membership renew - Fonteva API validations
-		apiValidationRenew.verifyMemebershipRenewal(dataList.get(3),
+		newapiValidationRenew.verifyMemebershipRenewal(dataList.get(3),
 				DataProviderFactory.getConfig().getValue("termEndDate"), receiptData.get(2),
 				DataProviderFactory.getConfig().getValue("type_aia_national"), "Architect", "Non profit");
 		// Validate sales order
