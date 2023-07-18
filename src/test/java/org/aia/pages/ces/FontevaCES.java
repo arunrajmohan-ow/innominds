@@ -137,7 +137,7 @@ public class FontevaCES {
 		Thread.sleep(10000);
 		driver.findElement(By.xpath(startLocator+fullName+endLocator)).click();
 		util.waitUntilElement(driver, showallBtn);
-		Thread.sleep(2000);
+		Thread.sleep(3000);
 		showallBtn.click();
 		Thread.sleep(2000);
 		util.waitUntilElement(driver, memberShip);
