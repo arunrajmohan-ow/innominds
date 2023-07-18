@@ -134,4 +134,20 @@ public class SalesOrder {
 		driver.switchTo().window(tabs.get(1));
 	}
 	
+	/**
+	 * 
+	 */
+	public void checkDuplicateSOLItem() {
+		util.waitUntilElement(driver, salesOrderLink);
+		salesOrderLink.click();
+		assertTrue(salesOrderTable.isDisplayed());
+		util.waitUntilElement(driver, orderId);
+		orderId.click();
+		util.waitUntilElement(driver, salesOrderLine);
+		salesOrderLine.click();
+		assertTrue(salesOrderLineTable.isDisplayed());
+		
+		
+	}
+	
 }
