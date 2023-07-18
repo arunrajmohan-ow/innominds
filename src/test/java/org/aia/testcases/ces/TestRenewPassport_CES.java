@@ -10,6 +10,7 @@ import org.aia.pages.BaseClass;
 import org.aia.pages.api.MailinatorAPI;
 import org.aia.pages.api.MailinatorCESAPI;
 import org.aia.pages.api.ces.JoinCESAPIValidation;
+import org.aia.pages.api.ces.RenewCESAPIValidation;
 import org.aia.pages.api.membership.FontevaConnectionSOAP;
 import org.aia.pages.api.membership.JoinAPIValidation;
 import org.aia.pages.ces.*;
@@ -58,7 +59,7 @@ public class TestRenewPassport_CES extends BaseClass {
 	ProviderStatement providerStatement;
 	CheckOutPageCes checkOutPageCes;
 	PaymentSuccessFullPageCes paymntSuccesFullPageCes;
-	JoinCESAPIValidation apiValidation;
+	RenewCESAPIValidation apiValidation;
 	FontevaCES fontevaPage;
 	RenewCESPage renew;
 	
@@ -86,7 +87,7 @@ public class TestRenewPassport_CES extends BaseClass {
 		providerStatement =PageFactory.initElements(driver, ProviderStatement.class);	
 		checkOutPageCes =PageFactory.initElements(driver, CheckOutPageCes.class);			
 		paymntSuccesFullPageCes =PageFactory.initElements(driver, PaymentSuccessFullPageCes.class);
-		apiValidation = PageFactory.initElements(driver, JoinCESAPIValidation.class);
+		apiValidation = PageFactory.initElements(driver, RenewCESAPIValidation.class);
 		fontevaPage = PageFactory.initElements(driver, FontevaCES.class);
 		renew = PageFactory.initElements(driver, RenewCESPage.class);
 	}
