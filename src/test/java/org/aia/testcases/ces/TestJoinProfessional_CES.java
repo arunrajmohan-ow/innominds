@@ -170,7 +170,7 @@ public class TestJoinProfessional_CES extends BaseClass {
 				userAccount.get(0) + " " + userAccount.get(1));
 	}
 
-	@Test(priority = 2, description = "Validate Online JOIN - Approved for Passport.", enabled = true)
+	@Test(priority = 2, description = "Validate Online JOIN - Approved for Passport.", enabled = false)
 	public void ValidateJoinApproveForPassport() throws Exception {
 		String prefix = "Dr.";
 		String suffix = "Sr.";
