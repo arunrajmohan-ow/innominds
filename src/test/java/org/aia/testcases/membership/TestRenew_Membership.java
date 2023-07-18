@@ -1,6 +1,7 @@
 package org.aia.testcases.membership;
 
 import org.testng.annotations.BeforeMethod;
+
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
@@ -9,31 +10,14 @@ import org.aia.pages.BaseClass;
 import org.aia.pages.api.MailinatorAPI;
 import org.aia.pages.api.membership.FontevaConnectionSOAP;
 import org.aia.pages.api.membership.JoinAPIValidation;
-import org.aia.pages.api.membership.NewRenewAPIValidation;
 import org.aia.pages.api.membership.RenewAPIValidation;
 import org.aia.pages.membership.*;
 import org.aia.utility.BrowserSetup;
-import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.DataProviderFactory;
 import org.aia.utility.Logging;
 import org.aia.utility.Utility;
-import org.junit.Assert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
-import org.testng.Reporter;
 import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterTest;
-
-import com.aventstack.extentreports.ExtentReports;
-import com.aventstack.extentreports.ExtentTest;
-import com.google.inject.Key;
-
-import io.qameta.allure.Description;
-import io.qameta.allure.Severity;
-import io.qameta.allure.SeverityLevel;
-import io.qameta.allure.Story;
 
 public class TestRenew_Membership extends BaseClass {
 
@@ -47,7 +31,6 @@ public class TestRenew_Membership extends BaseClass {
 	PaymentInformation paymentInfoPage;
 	FinalPageThankYou finalPage;
 	JoinAPIValidation apiValidation;
-	NewRenewAPIValidation newapiValidationRenew;
 	RenewAPIValidation apiValidationRenew;
 	TellusAboutYourselfPage tellAbtPage;
 	DevSandBoxFonteva fontevaPage;
@@ -67,7 +50,6 @@ public class TestRenew_Membership extends BaseClass {
 		mailinator = PageFactory.initElements(driver, MailinatorAPI.class);
 		successPage = PageFactory.initElements(driver, SignUpSuccess.class);
 		apiValidation = PageFactory.initElements(driver, JoinAPIValidation.class);
-		newapiValidationRenew = PageFactory.initElements(driver, NewRenewAPIValidation.class);
 		apiValidationRenew = PageFactory.initElements(driver, RenewAPIValidation.class);
 		primaryInfoPage = PageFactory.initElements(driver, PrimaryInformationPage.class);
 		orderSummaryPage = PageFactory.initElements(driver, OrderSummaryPage.class);
@@ -128,7 +110,7 @@ public class TestRenew_Membership extends BaseClass {
 		// mailinator.thanksForRenewingEmailLink(dataList, receiptData);
 
 		// Validate Membership renew - Fonteva API validations
-		newapiValidationRenew.verifyMemebershipRenewal(dataList.get(3),
+		apiValidationRenew.verifyMemebershipRenewal(dataList.get(3),
 				DataProviderFactory.getConfig().getValue("termEndDate"), receiptData.get(2),
 				DataProviderFactory.getConfig().getValue("type_aia_national"), "Architect", "Non profit");
 		// Validate sales order
