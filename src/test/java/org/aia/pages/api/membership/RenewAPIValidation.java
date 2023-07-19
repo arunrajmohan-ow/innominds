@@ -14,6 +14,7 @@ import java.util.concurrent.TimeUnit;
 import org.aia.utility.DataProviderFactory;
 import org.aia.utility.DateUtils;
 import org.aia.utility.Utility;
+import org.codehaus.groovy.control.io.AbstractReaderSource;
 import org.json.JSONObject;
 import org.openqa.selenium.WebDriver;
 
@@ -71,6 +72,7 @@ public class RenewAPIValidation
 			// Use Account ID to fetch account details.
 			String SUBSCRIPTIONS_URI = "https://aia--testing.sandbox.my.salesforce.com/services/data/v56.0/sobjects/Account/"+accountID+"/OrderApi__Subscriptions__r";
 			System.out.println("My account Id is:"+accountID);
+			Thread.sleep(50000);
 			response = 
 			    	 given().
 					 header("Authorization", "Bearer " + bearerToken).
@@ -98,7 +100,7 @@ public class RenewAPIValidation
 			jsonPathEval = response.jsonPath();
 	
 			totalMembershipCount = jsonPathEval.getInt("totalSize");
-			Thread.sleep(10000);
+			Thread.sleep(700000);
 			retryCount = retryCount + 1;
 			
 		}
