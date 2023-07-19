@@ -49,11 +49,11 @@ public class RenewCESPage {
 	
 	@FindBy(xpath="//label[text()='Organization Tax ID number/EIN']/parent::div//input") WebElement orgTaxIDTxtbox;
 	
-	@FindBy(xpath="//label[text()='Estimated annual organization revenue']/parent::div//input") WebElement orgrevenueTxtbox;
+	@FindBy(xpath="//label[text()='Estimated annual organization revenue (in USD)']/parent::div//input") WebElement orgrevenueTxtbox;
 	
 	@FindBy(xpath="//label[text()='Where do you offer courses']/following-sibling::div//button") WebElement orgCoursesSelect;
 	
-	@FindBy(xpath="//span[@title='Nationally']") WebElement orgCoursesNationallyOption;
+	@FindBy(xpath="//span[@title='National']") WebElement orgCoursesNationallyOption;
 	
 	@FindBy(xpath="//button[text()='Next']") WebElement orgNextBtn;
 

@@ -12,9 +12,11 @@ import org.openqa.selenium.support.FindBy;
 public class DevSandBoxFonteva {
 
 	WebDriver driver;
+	JavascriptExecutor executor;
 	public DevSandBoxFonteva(WebDriver Idriver) 
 	{
 		this.driver = Idriver;
+		executor = (JavascriptExecutor) driver;
 	}
 	Utility util = new Utility(driver, 10);
 	
@@ -54,7 +56,7 @@ public class DevSandBoxFonteva {
 	
 	@FindBy(xpath="//button[@title='Edit Term End Date']/span") WebElement editBtn;
 	
-	@FindBy(xpath="//a[contains(text(),'Show')]") WebElement showallBtn;
+	@FindBy(xpath="(//a[contains(text(),'Show All')])[2]") WebElement showallBtn;
 	
 	@FindBy(xpath="//h1/span[text()='Contacts']/parent::h1/parent::div/parent::div//button") WebElement contactallBtn;
 	
@@ -92,8 +94,13 @@ public class DevSandBoxFonteva {
 		//driver.findElement(By.xpath(startLocator+fullName+endLocator)).click();
 		util.getCustomizedWebElement(driver, userContactName, fullName).click();
 		util.waitUntilElement(driver, showallBtn);
+<<<<<<< HEAD
 		actions.moveToElement(showallBtn).build().perform();
 		showallBtn.click();
+=======
+		executor.executeScript("arguments[0].click();", showallBtn);
+		//showallBtn.click();
+>>>>>>> 5f329fb3d4bb1ce158ea597f834ac5a7df440272
 		Thread.sleep(2000);
 		util.waitUntilElement(driver, memberShip);
 		//Instantiating Actions class
