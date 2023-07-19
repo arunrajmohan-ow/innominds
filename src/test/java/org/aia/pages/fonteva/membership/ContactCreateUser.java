@@ -360,6 +360,7 @@ public class ContactCreateUser {
 		String customerAIANumber = aiaNumber.getText();
 		receiptData.add(1, customerAIANumber);
 		String totalAmmountText = totalAmmount.getText().replaceAll("[$]*", "").trim();
+		System.out.println(totalAmmountText);
 		receiptData.add(2, totalAmmountText);
 		return receiptData;
 	}

@@ -81,7 +81,7 @@ public class TestReJoin_Membership extends BaseClass {
 	/**
 	 * Bug found in this script bug id is FM-336 FM-337
 	 */
-	@Test(priority = 1, description = "verify the online membership rejoin in UI Application", enabled = false)
+	@Test(priority = 1, description = "verify the online membership rejoin in UI Application", enabled = true)
 	public void validateReJoin() throws Exception {
 		// User creating is starting
 		ArrayList<String> dataList = signUpPage.signUpData();
@@ -146,7 +146,7 @@ public class TestReJoin_Membership extends BaseClass {
 	/**
 	 * @throws Exception
 	 */
-	@Test(priority = 2, description = "verify the online allied membership rejoin in UI Application", enabled = false)
+	@Test(priority = 2, description = "verify the online allied membership rejoin in UI Application", enabled = true)
 	public void validateAlliedReJoin() throws Exception {
 		// User creating is starting
 		ArrayList<String> dataList = signUpPage.signUpData();

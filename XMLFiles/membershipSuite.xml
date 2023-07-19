@@ -4,7 +4,7 @@
 <listeners>
 	<listener class-name="org.aia.utility.GenerateReportsListener"></listener>
 </listeners>
-  <test thread-count="5" name="Test">
+  <test  name="Membership suite Test">
     <classes>
       
       <class name="org.aia.testcases.membership.TestDIPJoin_Membership"/>
@@ -14,6 +14,7 @@
       <class name="org.aia.testcases.membership.TestOfflineRenew_Membership"/>
       <class name="org.aia.testcases.membership.TestProcessException_Membership"/>
       <class name="org.aia.testcases.membership.TestRenew_Membership"/>
+      <class name="org.aia.testcases.membership.TestReJoin_Membership"/>
       <class name="org.aia.testcases.membership.TestZeroSalesOrder_Membership"/>
       
     <!--<class name="org.aia.testcases.ces.TestJoinArchitectureFirm_CES"/>

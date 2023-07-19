@@ -56,7 +56,7 @@ public class DevSandBoxFonteva {
 	
 	@FindBy(xpath="//button[@title='Edit Term End Date']/span") WebElement editBtn;
 	
-	@FindBy(xpath="(//a[contains(text(),'Show All')])[2]") WebElement showallBtn;
+	@FindBy(xpath="(//a[contains(text(),'Show All')])") WebElement showallBtn;
 	
 	@FindBy(xpath="//h1/span[text()='Contacts']/parent::h1/parent::div/parent::div//button") WebElement contactallBtn;
 	
@@ -94,13 +94,9 @@ public class DevSandBoxFonteva {
 		//driver.findElement(By.xpath(startLocator+fullName+endLocator)).click();
 		util.getCustomizedWebElement(driver, userContactName, fullName).click();
 		util.waitUntilElement(driver, showallBtn);
-<<<<<<< HEAD
-		actions.moveToElement(showallBtn).build().perform();
+		actions.sendKeys(Keys.ARROW_DOWN).build().perform();
+		//actions.moveToElement(showallBtn).build().perform();
 		showallBtn.click();
-=======
-		executor.executeScript("arguments[0].click();", showallBtn);
-		//showallBtn.click();
->>>>>>> 5f329fb3d4bb1ce158ea597f834ac5a7df440272
 		Thread.sleep(2000);
 		util.waitUntilElement(driver, memberShip);
 		//Instantiating Actions class

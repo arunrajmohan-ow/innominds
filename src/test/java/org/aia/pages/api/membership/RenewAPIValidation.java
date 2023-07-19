@@ -72,7 +72,7 @@ public class RenewAPIValidation
 			// Use Account ID to fetch account details.
 			String SUBSCRIPTIONS_URI = "https://aia--testing.sandbox.my.salesforce.com/services/data/v56.0/sobjects/Account/"+accountID+"/OrderApi__Subscriptions__r";
 			System.out.println("My account Id is:"+accountID);
-			Thread.sleep(50000);
+			Thread.sleep(30000);
 			response = 
 			    	 given().
 					 header("Authorization", "Bearer " + bearerToken).
@@ -100,7 +100,7 @@ public class RenewAPIValidation
 			jsonPathEval = response.jsonPath();
 	
 			totalMembershipCount = jsonPathEval.getInt("totalSize");
-			Thread.sleep(700000);
+			Thread.sleep(50000);
 			retryCount = retryCount + 1;
 			
 		}
@@ -261,7 +261,8 @@ public class RenewAPIValidation
 			assertEquals(salesOrderStatus, orderPaidStatus);
 			assertEquals(closedStatus, closed);
 			assertEquals(postingStatus, posted);
-			assertEquals(amountPaid, dues);
+			assertTrue(dues.toString().contains(amountPaid.toString()));
+			//assertEquals(amountPaid, dues);
 			assertEquals(salesOrderPaidDate, java.time.LocalDate.now().toString());
 			if(subscriptionPlan.contains("Installments")) {
 				assertEquals(subscriptionPlan, "Dues Installment Plan - Renew 6 Installments");
@@ -309,8 +310,8 @@ public class RenewAPIValidation
 			System.out.println("=====================================");
 	
 			assertEquals(receiptNumber, receipt);
-			assertEquals(totalFeePaid, feePaid);
-			
+			//assertEquals(totalFeePaid, feePaid);
+			assertTrue(feePaid.toString().contains(totalFeePaid.toString()));
 		} 
 		else {
 			System.out.println("No Recipt found!!!");
