@@ -101,7 +101,8 @@ public class TestCheckDuplicateSO_Membership extends BaseClass{
 		//Navigate to fonteva 
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
 		fontevaJoin.selectContact(dataList.get(0) + " " + dataList.get(1));
-
+		salesOrder.checkDuplicateSOLItem();
+		salesOrder.validateSalesOrderLine();
 	}
 	
 	
