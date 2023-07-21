@@ -1,5 +1,7 @@
 package org.aia.pages.fonteva.membership;
 
+import static org.testng.Assert.assertTrue;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -19,6 +21,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
+
+import groovyjarjarantlr4.v4.runtime.tree.xpath.XPath;
 
 /**
  * @author IM-RT-LP-1483(Suhas)
@@ -114,6 +118,9 @@ public class ContactCreateUser {
 
 	@FindBy(xpath = "//span[contains(@title,'Payment in Full')]")
 	WebElement selectDeusOpt;
+	
+	@FindBy(xpath="//span[contains(@title,'Dues Installment Plan ')]")
+	WebElement selectPayInInsatllmentElement;
 
 	@FindBy(xpath = "//button[contains(text(),'Create sales order')]")
 	WebElement createSalesOrder;
@@ -393,4 +400,21 @@ public class ContactCreateUser {
 		util.waitUntilElement(driver, showAll);
 		showAll.click();
 	}
+	
+	/**
+	 * 
+	 */
+	public void createSaleorderinInstallments() {
+		util.waitUntilElement(driver, selectDuesDrp);
+		selectDuesDrp.click();
+		// executor.executeScript("arguments[0].click();", selectDeusOpt);
+		selectPayInInsatllmentElement.click();
+		createSalesOrder.click();
+		assertTrue(driver.getTitle().contains(data.testDataProvider().getProperty("salesorderPage")));
+	}
+	
+	
+	
+	
+	
 }
