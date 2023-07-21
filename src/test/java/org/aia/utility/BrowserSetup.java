@@ -42,7 +42,7 @@ public class BrowserSetup {
             options.addArguments("--window-size=1920x1080"); //!!!should be enabled for Jenkins*/
             DesiredCapabilities capabilities = new DesiredCapabilities();
             capabilities.setBrowserName("Chrome");
-             driver = new RemoteWebDriver(new URL("https://34.206.29.228/"),capabilities);
+             driver = new RemoteWebDriver(new URL("https://10.50.17.55"),capabilities);
         }
         else if (browser.equalsIgnoreCase("firefox")) {
         	System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir")+"\\Drivers\\geckodriver.exe");
