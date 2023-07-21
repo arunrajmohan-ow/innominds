@@ -1,6 +1,8 @@
 package org.aia.utility;
 //org - AIA
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.time.Duration;
 
 import java.util.HashMap;
@@ -12,18 +14,20 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.safari.SafariDriver;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class BrowserSetup {
 	
-    public static WebDriver startApplication(WebDriver driver, String browser, String url){
+    public static WebDriver startApplication(WebDriver driver, String browser, String url) throws MalformedURLException{
 
         if(browser.equalsIgnoreCase("Chrome")){
         	//System.setProperty("webdriver.chrome.driver", "./chromedriver.exe");
-        	WebDriverManager.chromedriver().setup();
-        	Map<String, Object> pref = new HashMap<String, Object>();
+        //	WebDriverManager.chromedriver().setup();
+        	/*Map<String, Object> pref = new HashMap<String, Object>();
     		pref.put("profile.default_content_settings.popups", false);
     		pref.put("autofill.profile_enabled", false);
         	//System.setProperty("webdriver.chrome.driver",System.getProperty("user.dir")+"\\Drivers\\chromedriver.exe");
@@ -36,7 +40,9 @@ public class BrowserSetup {
             /*options.addArguments("--headless"); //!!!should be enabled for Jenkins
             options.addArguments("--disable-dev-shm-usage"); //!!!should be enabled for Jenkins
             options.addArguments("--window-size=1920x1080"); //!!!should be enabled for Jenkins*/
-             driver = new ChromeDriver(options);
+            DesiredCapabilities capabilities = new DesiredCapabilities();
+            capabilities.setBrowserName("Chrome");
+             driver = new RemoteWebDriver(new URL("34.206.29.228"),capabilities);
         }
         else if (browser.equalsIgnoreCase("firefox")) {
         	System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir")+"\\Drivers\\geckodriver.exe");
