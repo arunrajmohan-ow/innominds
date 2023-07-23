@@ -10,6 +10,7 @@ import org.aia.pages.api.MailinatorAPI;
 import org.aia.pages.api.membership.FontevaConnectionSOAP;
 import org.aia.pages.api.membership.JoinAPIValidation;
 import org.aia.pages.fonteva.membership.ContactCreateUser;
+import org.aia.pages.fonteva.membership.SalesOrder;
 import org.aia.pages.membership.*;
 import org.aia.utility.BrowserSetup;
 import org.aia.utility.ConfigDataProvider;
@@ -48,6 +49,7 @@ public class TestJoin_Membership extends BaseClass {
 	JoinAPIValidation apiValidation;
 	TellusAboutYourselfPage tellAbtPage;
 	ContactCreateUser fontevaJoin;
+	SalesOrder salesOrder;
 
 	public ExtentReports extent;
 	public ExtentTest extentTest;
@@ -74,6 +76,7 @@ public class TestJoin_Membership extends BaseClass {
 		finalPage = PageFactory.initElements(driver, FinalPageThankYou.class);
 		tellAbtPage = PageFactory.initElements(driver, TellusAboutYourselfPage.class);
 		fontevaJoin = PageFactory.initElements(driver, ContactCreateUser.class);
+		salesOrder = PageFactory.initElements(driver, SalesOrder.class);
 		// Configure Log4j to perform error logging
 		Logging.configure();
 	}
@@ -647,7 +650,8 @@ public class TestJoin_Membership extends BaseClass {
 		fontevaJoin.joinCreatedUser(testData.testDataProvider().getProperty("membershipType"),
 				testData.testDataProvider().getProperty("selection"));
 		fontevaJoin.enterLicenseDetail();
-		
+		fontevaJoin.createSaleorderinInstallments();
+		salesOrder.checkSaleorderLine();
 	}
 	
 
