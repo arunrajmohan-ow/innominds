@@ -55,7 +55,7 @@ public class TestJoin_Membership extends BaseClass {
 	public ExtentTest extentTest;
 	public String inbox;
 
-	@BeforeMethod(alwaysRun=true)
+	@BeforeMethod(alwaysRun = true)
 	public void setUp() throws Exception {
 		sessionID = new FontevaConnectionSOAP();
 		driver = BrowserSetup.startApplication(driver, DataProviderFactory.getConfig().getValue("browser"),
@@ -89,7 +89,7 @@ public class TestJoin_Membership extends BaseClass {
 	 * apiValidation.verifyReciptDetails("0000105204", 638.0);
 	 */
 
-	@Test(groups={"Smoke"},priority = 1, description = "Validate Membership Signup", enabled = false)
+	@Test(groups = { "Smoke" }, priority = 1, description = "Validate Membership Signup", enabled = false)
 	public void ValidateSignUpPageISOpened() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
@@ -195,7 +195,7 @@ public class TestJoin_Membership extends BaseClass {
 		apiValidation.verifyReciptDetails(data.get(0), data.get(2));
 	}
 
-	@Test(priority = 4, description = "Validate graduate", enabled = false, groups = { "Smoke","reg" })
+	@Test(priority = 4, description = "Validate graduate", enabled = false, groups = { "Smoke", "reg" })
 	public void ValidateGraduate() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
@@ -566,7 +566,7 @@ public class TestJoin_Membership extends BaseClass {
 	/**
 	 * @throws Exception
 	 */
-	@Test(priority = 15, description = "Validate price rule in sales order line", enabled = false, groups= {"Smoke"})
+	@Test(priority = 15, description = "Validate price rule in sales order line", enabled = false, groups = { "Smoke" })
 	public void validatePriceRuleInSalesOrder() throws Exception {
 		// Start the creating user
 		ArrayList<String> dataList = signUpPage.signUpData();
@@ -599,7 +599,7 @@ public class TestJoin_Membership extends BaseClass {
 	/**
 	 * @throws Exception
 	 */
-	@Test(priority = 16, description = "Payment via E Check for membership join", enabled = false, groups= {"Smoke"})
+	@Test(priority = 16, description = "Payment via E Check for membership join", enabled = false, groups = { "Smoke" })
 	public void validateJoinMembershipEcheckPayment() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
@@ -632,14 +632,13 @@ public class TestJoin_Membership extends BaseClass {
 		// Validate Receipt Details
 		apiValidation.verifyReciptDetails(data.get(0), data.get(2));
 	}
-	
-	
+
 	/**
-	 * @throws Exception 
+	 * @throws Exception
 	 * 
 	 */
 	@Test(priority = 17, description = "price check for order line in join membership", enabled = true)
-	public void priceCheckJoin() throws Exception {
+	public void salesOrderpriceCheckJoin() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
 		signUpPage.signUpUser();
@@ -651,11 +650,29 @@ public class TestJoin_Membership extends BaseClass {
 				testData.testDataProvider().getProperty("selection"));
 		fontevaJoin.enterLicenseDetail();
 		fontevaJoin.createSaleorderinInstallments();
-		salesOrder.checkSaleorderLine();
+		Double salesPrice = salesOrder.checkSaleorderLine();
+		util.switchToTab(driver,2).get( DataProviderFactory.getConfig().getValue("devstagingurl_membership"));
+		signUpPage.joinAIABtn(dataList.get(5));
+		signInpage.login(dataList.get(5), dataList.get(6));
+		primaryInfoPage.enterPrimaryInfo(testData.testDataProvider().getProperty("radioSelection"),
+				testData.testDataProvider().getProperty("careerType"));
+		orderSummaryPage.confirmTerms(testData.testDataProvider().getProperty("radioSelection"));
+		orderSummaryPage.clickonPayNow();
+		String aiaNational = paymentInfoPage.paymentDetails(testData.testDataProvider().getProperty("radioSelection"));
+		tellAbtPage.enterTellUsAboutYourSelfdetails(testData.testDataProvider().getProperty("radioSelection"),
+				testData.testDataProvider().getProperty("selection"));
+		finalPage.verifyThankYouMessage();
+		ArrayList<Object> data = finalPage.getFinalReceiptData();
+		apiValidation.verifyMemebershipCreation(dataList.get(3),
+				DataProviderFactory.getConfig().getValue("termEndDate"), data.get(2),
+				DataProviderFactory.getConfig().getValue("type_aia_national"),
+				testData.testDataProvider().getProperty("membershipType"),
+				testData.testDataProvider().getProperty("selection"));
+		apiValidation.validateSalesOrderLine(salesPrice);
+		
 	}
-	
 
-	@AfterMethod(alwaysRun=true)
+	@AfterMethod(alwaysRun = true)
 	public void teardown() {
 		BrowserSetup.closeBrowser(driver);
 	}
