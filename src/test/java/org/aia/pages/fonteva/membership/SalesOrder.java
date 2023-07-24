@@ -146,24 +146,26 @@ public class SalesOrder {
 	}
 
 	/**
+	 * @return 
 	 * 
 	 */
-	public void checkSaleorderLine() {
+	public Double checkSaleorderLine() {
 		util.waitUntilElement(driver, salesOrderLine);
 		salesOrderLine.click();
 		util.waitUntilElement(driver, salesOrderLineTable);
 		assertTrue(salesOrderLineTable.isDisplayed());
 		String salesOrderListPrice = salesOrderListPriceText.getText().replaceAll("[$]*", "");
-		System.out.println("So Price:" + salesOrderListPrice);
+		//System.out.println("So Price:" + salesOrderListPrice);
 		Double listPrice = Double.parseDouble(salesOrderListPrice);
-		System.out.println("So Price:" + listPrice);
+		//System.out.println("So Price:" + listPrice);
 		Double salesPrice = listPrice / 12;// Here 12 are months
 		LocalDate localDate = java.time.LocalDate.now();
-		System.out.println("Current month:" + localDate.getMonth().getValue());
+		//System.out.println("Current month:" + localDate.getMonth().getValue());
 		// In this equation we are taking left months up to expire membership
 		Double installMentSalePrice = salesPrice * ((12 - localDate.getMonth().getValue() + 1)); 
 		Double finalSalePrice = installMentSalePrice / 6; // Here 6 is how much installment we gone use 
-		System.out.println("Last sale price" + finalSalePrice);
+		return installMentSalePrice;
+		//System.out.println("Last sale price" + finalSalePrice);
 
 	}
 
