@@ -26,8 +26,8 @@ public class BrowserSetup {
 
         if(browser.equalsIgnoreCase("Chrome")){
         	//System.setProperty("webdriver.chrome.driver", "./chromedriver.exe");
-        //	WebDriverManager.chromedriver().setup();
-        	/*Map<String, Object> pref = new HashMap<String, Object>();
+        	WebDriverManager.chromedriver().setup();
+        	Map<String, Object> pref = new HashMap<String, Object>();
     		pref.put("profile.default_content_settings.popups", false);
     		pref.put("autofill.profile_enabled", false);
         	//System.setProperty("webdriver.chrome.driver",System.getProperty("user.dir")+"\\Drivers\\chromedriver.exe");
@@ -40,9 +40,9 @@ public class BrowserSetup {
             /*options.addArguments("--headless"); //!!!should be enabled for Jenkins
             options.addArguments("--disable-dev-shm-usage"); //!!!should be enabled for Jenkins
             options.addArguments("--window-size=1920x1080"); //!!!should be enabled for Jenkins*/
-            DesiredCapabilities capabilities = new DesiredCapabilities();
-            capabilities.setBrowserName("Chrome");
-             driver = new RemoteWebDriver(new URL("https://3.95.113.21:5000"),capabilities);
+           /* DesiredCapabilities capabilities = new DesiredCapabilities();
+            capabilities.setBrowserName("Chrome");*/
+             driver = new ChromeDriver(options);
         }
         else if (browser.equalsIgnoreCase("firefox")) {
         	System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir")+"\\Drivers\\geckodriver.exe");
@@ -74,7 +74,7 @@ public class BrowserSetup {
 		
 		System.out.println("LOG :Info- Browser Session getting terminated");
 
-		//driver.quit();
+		driver.quit();
 		
 		System.out.println("LOG :Info- Browser Session terminated");
 
