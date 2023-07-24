@@ -81,7 +81,7 @@ public class TestJoin_Membership extends BaseClass {
 	 * apiValidation.verifyReciptDetails("0000105204", 638.0);
 	 */
 
-	@Test(groups={"Smoke"},priority = 1, description = "Validate Membership Signup", enabled = false)
+	@Test(groups={"Smoke"},priority = 1, description = "Validate Membership Signup", enabled = true)
 	public void ValidateSignUpPageISOpened() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
@@ -118,7 +118,7 @@ public class TestJoin_Membership extends BaseClass {
 		apiValidation.verifyReciptDetails(data.get(0), data.get(2));
 	}
 
-	@Test(priority = 2, description = "Validate activeUSLicense", enabled = false)
+	@Test(priority = 2, description = "Validate activeUSLicense", enabled = true)
 	public void ValidateActiveUSLicense() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
@@ -154,7 +154,7 @@ public class TestJoin_Membership extends BaseClass {
 		apiValidation.verifyReciptDetails(data.get(0), data.get(2));
 	}
 
-	@Test(priority = 3, description = "Validate activeNonUSLicense", enabled = false)
+	@Test(priority = 3, description = "Validate activeNonUSLicense", enabled = true)
 	public void ValidateActiveNonUSLicense() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
@@ -187,7 +187,7 @@ public class TestJoin_Membership extends BaseClass {
 		apiValidation.verifyReciptDetails(data.get(0), data.get(2));
 	}
 
-	@Test(priority = 4, description = "Validate graduate", enabled = false, groups = { "Smoke","reg" })
+	@Test(priority = 4, description = "Validate graduate", enabled = true, groups = { "Smoke","reg" })
 	public void ValidateGraduate() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
@@ -220,7 +220,7 @@ public class TestJoin_Membership extends BaseClass {
 		apiValidation.verifyReciptDetails(data.get(0), data.get(2));
 	}
 
-	@Test(priority = 5, description = "Validate axp", enabled = false)
+	@Test(priority = 5, description = "Validate axp", enabled = true)
 	public void ValidateAxp() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
@@ -253,7 +253,7 @@ public class TestJoin_Membership extends BaseClass {
 		apiValidation.verifyReciptDetails(data.get(0), data.get(2));
 	}
 
-	@Test(priority = 6, description = "Validate noLicense", enabled = false)
+	@Test(priority = 6, description = "Validate noLicense", enabled = true)
 	public void ValidateNoLicense() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
@@ -286,7 +286,7 @@ public class TestJoin_Membership extends BaseClass {
 		apiValidation.verifyReciptDetails(data.get(0), data.get(2));
 	}
 
-	@Test(priority = 7, description = "Validate supervision", enabled = false)
+	@Test(priority = 7, description = "Validate supervision", enabled = true)
 	public void ValidateSupervision() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
@@ -319,7 +319,7 @@ public class TestJoin_Membership extends BaseClass {
 		apiValidation.verifyReciptDetails(data.get(0), data.get(2));
 	}
 
-	@Test(priority = 8, description = "Validate faculty", enabled = false)
+	@Test(priority = 8, description = "Validate faculty", enabled = true)
 	public void ValidateFaculty() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
@@ -352,7 +352,7 @@ public class TestJoin_Membership extends BaseClass {
 		apiValidation.verifyReciptDetails(data.get(0), data.get(2));
 	}
 
-	@Test(priority = 9, description = "Validate allied", enabled = false)
+	@Test(priority = 9, description = "Validate allied", enabled = true)
 	public void ValidateAllied() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
@@ -385,7 +385,7 @@ public class TestJoin_Membership extends BaseClass {
 		apiValidation.verifyReciptDetails(data.get(0), data.get(2));
 	}
 
-	@Test(priority = 10, description = "Validate For Profit CarrerType", enabled = false)
+	@Test(priority = 10, description = "Validate For Profit CarrerType", enabled = true)
 	public void ValidateForProfitCarrerType() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
@@ -418,7 +418,7 @@ public class TestJoin_Membership extends BaseClass {
 		apiValidation.verifyReciptDetails(data.get(0), data.get(2));
 	}
 
-	@Test(priority = 11, description = "Validate Govt CarrerType", enabled = false)
+	@Test(priority = 11, description = "Validate Govt CarrerType", enabled = true)
 	public void ValidateGovtCarrerType() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
@@ -450,7 +450,7 @@ public class TestJoin_Membership extends BaseClass {
 		apiValidation.verifyReciptDetails(data.get(0), data.get(2));
 	}
 
-	@Test(priority = 12, description = "Validate Education CarrerType", enabled = false)
+	@Test(priority = 12, description = "Validate Education CarrerType", enabled = true)
 	public void ValidateEducationCarrerType() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
@@ -483,7 +483,7 @@ public class TestJoin_Membership extends BaseClass {
 		apiValidation.verifyReciptDetails(data.get(0), data.get(2));
 	}
 
-	@Test(priority = 13, description = "Validate Retired CarrerType", enabled = false)
+	@Test(priority = 13, description = "Validate Retired CarrerType", enabled = true)
 	/**
 	 * @throws Exception
 	 */
@@ -519,7 +519,7 @@ public class TestJoin_Membership extends BaseClass {
 		apiValidation.verifyReciptDetails(data.get(0), data.get(2));
 	}
 
-	@Test(priority = 14, description = "Validate None Selected CarrerType", enabled = false)
+	@Test(priority = 14, description = "Validate None Selected CarrerType", enabled = true)
 	/**
 	 * @throws Exception
 	 */
@@ -558,7 +558,7 @@ public class TestJoin_Membership extends BaseClass {
 	/**
 	 * @throws Exception
 	 */
-	@Test(priority = 15, description = "Validate price rule in sales order line", enabled = false, groups= {"Smoke"})
+	@Test(priority = 15, description = "Validate price rule in sales order line", enabled = true, groups= {"Smoke"})
 	public void validatePriceRuleInSalesOrder() throws Exception {
 		// Start the creating user
 		ArrayList<String> dataList = signUpPage.signUpData();
