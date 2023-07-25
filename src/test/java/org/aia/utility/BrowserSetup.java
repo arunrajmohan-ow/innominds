@@ -44,7 +44,7 @@ public class BrowserSetup {
 			 * DesiredCapabilities capabilities = new DesiredCapabilities();
 			 * capabilities.setBrowserName("Chrome");
 			 */
-             driver = new  RemoteWebDriver(new URL("https://3.95.113.21:5000"),options);
+             driver = new  RemoteWebDriver(new URL("https://10.50.17.45:5000"),options);
         }
         else if (browser.equalsIgnoreCase("firefox")) {
         	System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir")+"\\Drivers\\geckodriver.exe");
