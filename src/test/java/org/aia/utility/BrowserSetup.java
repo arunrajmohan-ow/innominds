@@ -26,7 +26,7 @@ public class BrowserSetup {
 
         if(browser.equalsIgnoreCase("Chrome")){
         	//System.setProperty("webdriver.chrome.driver", "./chromedriver.exe");
-        	WebDriverManager.chromedriver().browserVersion("115.0.5790.102").setup();
+        	WebDriverManager.chromedriver().driverVersion("114.0.5735.90").setup();
         	Map<String, Object> pref = new HashMap<String, Object>();
     		pref.put("profile.default_content_settings.popups", false);
     		pref.put("autofill.profile_enabled", false);
