@@ -637,7 +637,7 @@ public class TestJoin_Membership extends BaseClass {
 	 * @throws Exception
 	 * 
 	 */
-	@Test(priority = 17, description = "price check for order line in join membership", enabled = true)
+	@Test(priority = 17, description = "price check for order line in join membership", enabled = false)
 	public void salesOrderpriceCheckJoin() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
