@@ -363,6 +363,12 @@ public class TestRenew_Membership extends BaseClass {
 		apiValidationRenew.verifyReciptDetails(receiptData.get(0), receiptData.get(2));
 	}
 	
+	@Test(priority = 5, description = "Validate sales price in sales order lines for renew  ", enabled = false)
+	public void validateSalesOrderLineRenew() {
+		
+	}
+	
+	
 
 	@AfterMethod(alwaysRun = true)
 	public void teardown() {
