@@ -2,6 +2,7 @@ package org.aia.utility;
 //org - AIA
 
 import java.net.MalformedURLException;
+
 import java.net.URL;
 import java.time.Duration;
 
@@ -18,7 +19,6 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.safari.SafariDriver;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class BrowserSetup {
 	
@@ -27,8 +27,8 @@ public class BrowserSetup {
         if(browser.equalsIgnoreCase("Chrome")){
         	//System.setProperty("webdriver.chrome.driver", "./chromedriver.exe");
         	//WebDriverManager.chromedriver().browserVersion("115.0.5790.102").setup();
-        	WebDriverManager.chromedriver().clearDriverCache().setup();
-        	System.out.println ("List of Drivers"+WebDriverManager.chromedriver().getDriverVersions());
+        	//WebDriverManager.chromedriver().clearDriverCache().setup();
+        	//System.out.println ("List of Drivers"+WebDriverManager.chromedriver().getDriverVersions());
         	Map<String, Object> pref = new HashMap<String, Object>();
     		pref.put("profile.default_content_settings.popups", false);
     		pref.put("autofill.profile_enabled", false);
@@ -51,7 +51,7 @@ public class BrowserSetup {
 		}
         else if (browser.equalsIgnoreCase("edge")) {
 			//System.setProperty("webdriver.edge.driver", System.getProperty("user.dir")+"\\Drivers\\MicrosoftWebDriver.exe");
-			WebDriverManager.edgedriver().setup();
+			//WebDriverManager.edgedriver().setup();
 			driver = new EdgeDriver();
 		}
 		else if (browser.equalsIgnoreCase("safari")) {
