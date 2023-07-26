@@ -15,6 +15,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.safari.SafariDriver;
@@ -36,6 +37,7 @@ public class BrowserSetup {
     		pref.put("autofill.profile_enabled", false);
         	//System.setProperty("webdriver.chrome.driver",System.getProperty("user.dir")+"\\Drivers\\chromedriver.exe");
         	ChromeOptions options = new ChromeOptions();
+        	options.setBrowserVersion("114.0.5735.134");
         	options.setExperimentalOption("prefs", pref);
         	options.addArguments("--no-sandbox");
             options.addArguments("--ignore-ssl-errors=yes");
@@ -43,14 +45,15 @@ public class BrowserSetup {
             options.addArguments("--disable-notifications");
             options.addArguments("--remote-allow-origins=*");
             options.addArguments("--disable-dev-shm-usage");
-            options.addArguments("--headless"); //!!!should be enabled for Jenkins
+           /* options.addArguments("--headless"); //!!!should be enabled for Jenkins
             options.addArguments("--disable-dev-shm-usage"); //!!!should be enabled for Jenkins
             options.addArguments("--window-size=1920x1080"); //!!!should be enabled for Jenkins*/
              driver = new ChromeDriver(options);
         }
         else if (browser.equalsIgnoreCase("firefox")) {
-        	System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir")+"\\Drivers\\geckodriver.exe");
-            driver = new FirefoxDriver();
+        	WebDriverManager.firefoxdriver().setup();
+        	//System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir")+"\\Drivers\\geckodriver.exe");
+        	driver = new FirefoxDriver();
 			
 		}
         else if (browser.equalsIgnoreCase("edge")) {
