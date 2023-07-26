@@ -41,9 +41,9 @@ public class BrowserSetup {
             options.addArguments("--disable-dev-shm-usage");
             options.addArguments("--start-maximized");
             options.addArguments("--disable-gpu");
-            /*options.addArguments("--headless"); //!!!should be enabled for Jenkins
+            options.addArguments("--headless"); //!!!should be enabled for Jenkins
             options.addArguments("--disable-dev-shm-usage"); //!!!should be enabled for Jenkins
-            options.addArguments("--window-size=1980,1200"); //!!!should be enabled for Jenkins*/
+          //  options.addArguments("--window-size=1980,1200"); //!!!should be enabled for Jenkins*/
             driver = new ChromeDriver(options);
             //driver = new  RemoteWebDriver(new URL("https://10.50.17.45:5000"),options);
         }
