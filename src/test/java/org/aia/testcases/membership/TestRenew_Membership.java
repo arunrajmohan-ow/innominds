@@ -10,6 +10,7 @@ import org.aia.pages.api.MailinatorAPI;
 import org.aia.pages.api.membership.FontevaConnectionSOAP;
 import org.aia.pages.api.membership.JoinAPIValidation;
 import org.aia.pages.api.membership.RenewAPIValidation;
+import org.aia.pages.fonteva.membership.ContactCreateUser;
 import org.aia.pages.membership.*;
 import org.aia.utility.BrowserSetup;
 import org.aia.utility.ConfigDataProvider;
@@ -50,6 +51,7 @@ public class TestRenew_Membership extends BaseClass {
 	TellusAboutYourselfPage tellAbtPage;
 	DevSandBoxFonteva fontevaPage;
 	RenewPage renew;
+	ContactCreateUser fontevaJoin;
 	public String inbox;
 
 	@BeforeMethod(alwaysRun = true)
@@ -73,6 +75,7 @@ public class TestRenew_Membership extends BaseClass {
 		tellAbtPage = PageFactory.initElements(driver, TellusAboutYourselfPage.class);
 		fontevaPage = PageFactory.initElements(driver, DevSandBoxFonteva.class);
 		renew = PageFactory.initElements(driver, RenewPage.class);
+		fontevaJoin = PageFactory.initElements(driver, ContactCreateUser.class);
 	}
 
 	@Test(priority = 1, description = "Validate Renew without supplemental dues", enabled = true)
@@ -364,8 +367,14 @@ public class TestRenew_Membership extends BaseClass {
 	}
 	
 	@Test(priority = 5, description = "Validate sales price in sales order lines for renew  ", enabled = false)
-	public void validateSalesOrderLineRenew() {
-		
+	public void validateSalesOrderLineRenew() throws Exception {
+		ArrayList<String> dataList = signUpPage.signUpData();
+		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
+		signUpPage.signUpUser();
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
+		closeButtnPage.clickCloseAfterVerification();
+		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
+		fontevaJoin.selectContact(dataList.get(0) + " " + dataList.get(1));
 	}
 	
 	
