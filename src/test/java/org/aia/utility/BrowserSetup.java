@@ -25,7 +25,7 @@ public class BrowserSetup {
     public static WebDriver startApplication(WebDriver driver, String browser, String url) throws MalformedURLException{
 
         if(browser.equalsIgnoreCase("Chrome")){
-        	//System.setProperty("webdriver.chrome.driver", "./chromedriver.exe");
+        	System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir")+"\\Drivers\\chromedriver.exe");
         	//WebDriverManager.chromedriver().browserVersion("115.0.5790.102").setup();
         	//WebDriverManager.chromedriver().clearDriverCache().setup();
         	//System.out.println ("List of Drivers"+WebDriverManager.chromedriver().getDriverVersions());
