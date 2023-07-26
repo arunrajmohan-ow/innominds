@@ -25,7 +25,7 @@ public class BrowserSetup {
     public static WebDriver startApplication(WebDriver driver, String browser, String url) throws MalformedURLException{
 
         if(browser.equalsIgnoreCase("Chrome")){
-        	System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir")+"\\Drivers\\chromedriver.exe");
+        	//System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir")+"\\Drivers\\chromedriver.exe");
         	//WebDriverManager.chromedriver().browserVersion("115.0.5790.102").setup();
         	//WebDriverManager.chromedriver().clearDriverCache().setup();
         	//System.out.println ("List of Drivers"+WebDriverManager.chromedriver().getDriverVersions());
@@ -35,10 +35,12 @@ public class BrowserSetup {
         	//System.setProperty("webdriver.chrome.driver",System.getProperty("user.dir")+"\\Drivers\\chromedriver.exe");
         	ChromeOptions options = new ChromeOptions();
         	options.setExperimentalOption("prefs", pref);
+        	options.addArguments("--no-sandbox");
             options.addArguments("--ignore-ssl-errors=yes");
             options.addArguments("--ignore-certificate-errors");
             options.addArguments("--disable-notifications");
             options.addArguments("--remote-allow-origins=*");
+            options.addArguments("--disable-dev-shm-usage");
             /*options.addArguments("--headless"); //!!!should be enabled for Jenkins
             options.addArguments("--disable-dev-shm-usage"); //!!!should be enabled for Jenkins
             options.addArguments("--window-size=1920x1080"); //!!!should be enabled for Jenkins*/
