@@ -43,9 +43,11 @@ public class BrowserSetup {
             options.addArguments("--disable-notifications");
             options.addArguments("--remote-allow-origins=*");
             options.addArguments("--disable-dev-shm-usage");
+            options.addArguments("--start-maximized");
+            options.addArguments("--no-sandbox");
             options.addArguments("--headless"); //!!!should be enabled for Jenkins
             options.addArguments("--disable-dev-shm-usage"); //!!!should be enabled for Jenkins
-            options.addArguments("--window-size=1920x1080"); //!!!should be enabled for Jenkins*/
+            options.addArguments("--window-size=1920,1080"); //!!!should be enabled for Jenkins*/
              driver = new ChromeDriver(options);
         }
         else if (browser.equalsIgnoreCase("firefox")) {
