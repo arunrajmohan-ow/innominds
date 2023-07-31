@@ -58,7 +58,7 @@ public class RenewCESPage {
 	@FindBy(xpath="//button[text()='Next']") WebElement orgNextBtn;
 
 	public void renewMembership(String emaildata) throws InterruptedException {
-		Thread.sleep(50000);
+		Thread.sleep(70000);
 		util.waitUntilElement(driver, renewBtn);
 		renewBtn.click();
 
