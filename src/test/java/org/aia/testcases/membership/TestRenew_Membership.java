@@ -388,19 +388,26 @@ public class TestRenew_Membership extends BaseClass {
 				testData.testDataProvider().getProperty("selection"));
 		fontevaJoin.enterLicenseDetail();
 		fontevaJoin.createSalesOrder(testData.testDataProvider().getProperty("paymentMethod"));
-		fontevaJoin.applyPayment(dataList.get(5));
+		fontevaJoin.applyPayment(dataList.get(0)+" "+dataList.get(1));
 		ArrayList<Object> data = fontevaJoin.getPaymentReceiptData();
-		fontevaRenew.changeTermDate(dataList.get(5));
-		fontevaRenew.renewUserForSOLine(dataList.get(5));
+		fontevaRenew.changeTermDate(dataList.get(0)+" "+dataList.get(1));
+		fontevaRenew.renewUserForSOLine(dataList.get(0)+" "+dataList.get(1));
 		fontevaRenew.createSaleorderinInstallments();
 		Double salesPrice = salesOrder.checkSaleorderLine();
 		util.switchToTab(driver,1).get( DataProviderFactory.getConfig().getValue("devstagingurl_membership"));
-		renew.renewMembership(dataList.get(4));
-		signInpage.login(dataList.get(4), testData.testDataProvider().getProperty("password"));
-		primaryInfoPage.enterPrimaryInfo(testData.testDataProvider().getProperty("radioSelection"),
-				testData.testDataProvider().getProperty("careerType"));
+		renew.renewMembership(dataList.get(5));
+		signInpage.login(dataList.get(5), testData.testDataProvider().getProperty("password"));
 		orderSummaryPage.confirmTerms(testData.testDataProvider().getProperty("radioSelection"));
 		orderSummaryPage.clickonPayNow();
+		paymentInfoPage.clickOnCreditCard();
+		String aiaNational=paymentInfoPage.paymentDetails(testData.testDataProvider().getProperty("radioSelection"));
+		finalPage.verifyThankYouMessage();
+		ArrayList<Object> receiptData = finalPage.getFinalReceiptData();
+		//Verify Membership renewal 
+		apiValidationRenew.verifyMemebershipRenewal(dataList.get(3),
+				DataProviderFactory.getConfig().getValue("termEndDate"), receiptData.get(2),
+				DataProviderFactory.getConfig().getValue("type_aia_national"), testData.testDataProvider().getProperty("membershipType"), testData.testDataProvider().getProperty("selection"));
+		apiValidationRenew.validateSalesOrderLine(salesPrice);
 	}
 	
 	
