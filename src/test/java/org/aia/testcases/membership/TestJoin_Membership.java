@@ -1,6 +1,7 @@
 package org.aia.testcases.membership;
 
 import org.testng.annotations.BeforeMethod;
+
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
@@ -16,24 +17,13 @@ import org.aia.utility.BrowserSetup;
 import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.DataProviderFactory;
 import org.aia.utility.Utility;
-import org.junit.Assert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Reporter;
 import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterTest;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
-import com.google.inject.Key;
 import org.aia.utility.Logging;
-
-import io.qameta.allure.Description;
-import io.qameta.allure.Severity;
-import io.qameta.allure.SeverityLevel;
-import io.qameta.allure.Story;
 
 public class TestJoin_Membership extends BaseClass {
 
