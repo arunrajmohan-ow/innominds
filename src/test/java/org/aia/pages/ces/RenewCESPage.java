@@ -89,6 +89,7 @@ public class RenewCESPage {
 		} catch (Exception n) {
 			System.out.println("Element is invisible");
 		}
+		Thread.sleep(30000);
 		util.waitUntilElement(driver, agreeBtn);
 		agreeBtn.click();
 		renewFormContinueBtn.click();
