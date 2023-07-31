@@ -64,7 +64,8 @@ public class RenewCESPage {
 		JavascriptExecutor executor = (JavascriptExecutor) driver;
 		executor.executeScript("arguments[0].scrollIntoView(true);", renewBtn);
 		util.waitUntilElement(driver, renewBtn);
-		renewBtn.click();
+		executor.executeScript("arguments[0].click();",renewBtn);
+		//renewBtn.click();
 		Thread.sleep(3000);
 		try {
 		if (empSizetxt.isDisplayed()) {
