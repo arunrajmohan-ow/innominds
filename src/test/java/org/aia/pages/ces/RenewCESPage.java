@@ -8,6 +8,7 @@ import java.util.Random;
 
 import org.aia.utility.Utility;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -59,9 +60,10 @@ public class RenewCESPage {
 
 	public void renewMembership(String emaildata) throws InterruptedException {
 		Thread.sleep(70000);
+		JavascriptExecutor executor = (JavascriptExecutor) driver;
+		executor.executeScript("arguments[0].scrollIntoView(true);", renewBtn);
 		util.waitUntilElement(driver, renewBtn);
 		renewBtn.click();
-
 		Thread.sleep(3000);
 		try {
 		if (empSizetxt.isDisplayed()) {
