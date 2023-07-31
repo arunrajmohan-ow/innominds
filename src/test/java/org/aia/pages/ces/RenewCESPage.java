@@ -89,7 +89,7 @@ public class RenewCESPage {
 		} catch (Exception n) {
 			System.out.println("Element is invisible");
 		}
-		Thread.sleep(30000);
+		Thread.sleep(70000);
 		//util.waitUntilElement(driver, agreeBtn);
 		executor.executeScript("arguments[0].scrollIntoView(true);", agreeBtn);
 		util.waitUntilElement(driver, agreeBtn);
