@@ -24,7 +24,8 @@ public class RenewCESPage {
 		this.driver = Idriver;
 	}
 
-	@FindBy(xpath = "//button[text()='Renew (Click Me)']")
+	//@FindBy(xpath = "//button[text()='Renew (Click Me)']")
+	@FindBy(xpath="//table//tbody//tr//td[2]//button")
 	WebElement renewBtn;
 
 	@FindBy(xpath = "//button[text()='Next']")
