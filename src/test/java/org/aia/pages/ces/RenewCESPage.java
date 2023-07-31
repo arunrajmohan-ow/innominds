@@ -34,7 +34,8 @@ public class RenewCESPage {
 	@FindBy(xpath = "//*[text()='What is your employee size?']")
 	WebElement empSizetxt;
 
-	@FindBy(xpath = "//span[@class='slds-checkbox--faux']")
+	//@FindBy(xpath = "//span[@class='slds-checkbox--faux']")
+	@FindBy(xpath = "//div//label//span[@class='slds-checkbox--faux']")
 	WebElement agreeBtn;
 
 	@FindBy(xpath = "//button[@data-name='renewFormContinueBtn']")
@@ -60,7 +61,7 @@ public class RenewCESPage {
 	@FindBy(xpath="//button[text()='Next']") WebElement orgNextBtn;
 
 	public void renewMembership(String emaildata) throws InterruptedException {
-		Thread.sleep(70000);
+		Thread.sleep(7000);
 		JavascriptExecutor executor = (JavascriptExecutor) driver;
 		executor.executeScript("arguments[0].scrollIntoView(true);", renewBtn);
 		util.waitUntilElement(driver, renewBtn);
