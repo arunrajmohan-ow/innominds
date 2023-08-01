@@ -20,6 +20,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.safari.SafariDriver;
 
+import groovyjarjarantlr4.v4.parse.ANTLRParser.optionsSpec_return;
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 
@@ -53,7 +54,11 @@ public class BrowserSetup {
         else if (browser.equalsIgnoreCase("firefox")) {
         	WebDriverManager.firefoxdriver().setup();
         	//System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir")+"\\Drivers\\geckodriver.exe");
-        	driver = new FirefoxDriver();
+        	FirefoxOptions options = new FirefoxOptions();
+        	//options.setHeadless(true);
+        	options.addArguments("--headless");
+        	options.addArguments("--window-size=1920,1080");
+        	driver = new FirefoxDriver(options);
 			
 		}
         else if (browser.equalsIgnoreCase("edge")) {
