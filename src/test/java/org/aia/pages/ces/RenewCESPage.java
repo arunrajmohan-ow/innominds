@@ -34,8 +34,9 @@ public class RenewCESPage {
 	@FindBy(xpath = "//*[text()='What is your employee size?']")
 	WebElement empSizetxt;
 
-	@FindBy(xpath = "//span[@class='slds-checkbox--faux']")
+	//@FindBy(xpath = "//span[@class='slds-checkbox--faux']")
 	//@FindBy(xpath = "//div//label//span[@class='slds-checkbox--faux']")
+	@FindBy(xpath="/html[1]/body[1]/div[3]/div[2]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[3]/div[1]/div[2]/div[1]/label[1]/span[1]")
 	WebElement agreeBtn;
 
 	@FindBy(xpath = "//button[@data-name='renewFormContinueBtn']")
