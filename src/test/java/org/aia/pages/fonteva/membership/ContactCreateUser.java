@@ -380,6 +380,7 @@ public class ContactCreateUser {
 		util.waitUntilElement(driver, contactallLink);
 		contactallLink.click();
 		Thread.sleep(14000);
+		executor.executeScript("arguments[0].scrollIntoView(true);", util.getCustomizedWebElement(driver, contactName, userFullname));
 		util.waitUntilElement(driver, util.getCustomizedWebElement(driver, contactName, userFullname));
 		executor.executeScript("arguments[0].click();",
 				util.getCustomizedWebElement(driver, contactName, userFullname));
