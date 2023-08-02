@@ -126,6 +126,7 @@ public class FontevaCES {
 	public void changeTermDates(String fullName) throws InterruptedException 
 	{
 		JavascriptExecutor js = (JavascriptExecutor) driver;
+		Actions actions = new Actions(driver);
 		util.waitUntilElement(driver, contacts);
 		contactsDiv.click();
 		util.waitUntilElement(driver, tableheaderName);
@@ -136,13 +137,15 @@ public class FontevaCES {
 		contactallLink.click();
 		Thread.sleep(15000);
 		driver.findElement(By.xpath(startLocator+fullName+endLocator)).click();
+		actions.sendKeys(Keys.ARROW_DOWN).build().perform();
+		actions.sendKeys(Keys.ARROW_DOWN).build().perform();
+		js.executeScript("arguments[0].scrollIntoView(true);", showallBtn);
 		util.waitUntilElement(driver, showallBtn);
 		Thread.sleep(5000);
 		showallBtn.click();
 		Thread.sleep(2000);
 		util.waitUntilElement(driver, memberShip);
 		//Instantiating Actions class
-		Actions actions = new Actions(driver);
 		//Hovering on main menu
 		actions.moveToElement(contactTitle);
 		actions.sendKeys(Keys.ARROW_DOWN).build().perform();
