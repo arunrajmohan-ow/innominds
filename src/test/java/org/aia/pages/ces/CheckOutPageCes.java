@@ -131,6 +131,7 @@ WebDriver driver;
 		JavascriptExecutor executor = (JavascriptExecutor) driver;
 		executor.executeScript("arguments[0].scrollIntoView(true);", eCheckCes);
 		util.waitUntilElement(driver, eCheckCes);
+		Thread.sleep(20000);
 		executor.executeScript("arguments[0].click();",eCheckCes);
 		//eCheckCes.click();
 		Thread.sleep(2000);
