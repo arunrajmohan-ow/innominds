@@ -98,5 +98,20 @@ public class LoginPageCes {
 		System.out.println("Email Text field displayed");
 		signUplink.click();
 	}
+	
+	/**
+	 * @param uname
+	 * @param pwd
+	 * @throws Exception
+	 * Try to login in ces using invalid credentials 
+	 */
+	public void loginToCesWithInvalidCred(String uname, String pwd) throws Exception {
+		util.waitUntilElement(driver, emailAddress);
+		Logging.logger.info("Waiting for the email text field to appear.");
+		System.out.println("Email Text field displayed");
+		emailAddress.sendKeys(uname);
+		password.sendKeys(pwd);
+		submitbtn.click();
+	}
 
 }
