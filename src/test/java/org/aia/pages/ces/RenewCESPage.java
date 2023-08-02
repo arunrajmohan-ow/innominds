@@ -34,7 +34,7 @@ public class RenewCESPage {
 	@FindBy(xpath = "//*[text()='What is your employee size?']")
 	WebElement empSizetxt;
 
-	//@FindBy(xpath = "//span[@class='slds-checkbox--faux']")
+	@FindBy(xpath = "//span[@class='slds-checkbox--faux']")
 	//@FindBy(xpath = "//div//label//span[@class='slds-checkbox--faux']")
 	WebElement agreeBtn;
 
@@ -90,7 +90,6 @@ public class RenewCESPage {
 			System.out.println("Element is invisible");
 		}
 		Thread.sleep(70000);
-		util.waitUntilElement(driver, agreeBtn);
 		executor.executeScript("arguments[0].scrollIntoView(true);", agreeBtn);
 		//util.waitUntilElement(driver, agreeBtn);
 		executor.executeScript("arguments[0].click();",agreeBtn);
