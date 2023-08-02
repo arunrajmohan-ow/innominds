@@ -34,14 +34,14 @@ public class BrowserSetup {
         	//System.setProperty("webdriver.chrome.driver",System.getProperty("user.dir")+"\\Drivers\\chromedriver.exe");
         	ChromeOptions options = new ChromeOptions();
         	options.setExperimentalOption("prefs", pref);
-        	options.addArguments("--no-sandbox");
+        	options.addArguments("--no-sandbox","--disable-dev-shm-usage");
             options.addArguments("--ignore-ssl-errors=yes");
             options.addArguments("--ignore-certificate-errors");
             options.addArguments("--disable-notifications");
             options.addArguments("--remote-allow-origins=*");
-            options.addArguments("--disable-dev-shm-usage");
+          //  options.addArguments("--disable-dev-shm-usage");
             options.addArguments("--window-size=1920x1080");
-            /*options.addArguments("--headless"); //!!!should be enabled for Jenkins
+            options.addArguments("--headless"); //!!!should be enabled for Jenkins
             options.addArguments("--disable-dev-shm-usage"); //!!!should be enabled for Jenkins
             options.addArguments("--window-size=1920x1080"); //!!!should be enabled for Jenkins*/
              driver = new ChromeDriver(options);
