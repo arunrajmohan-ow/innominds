@@ -24,7 +24,7 @@ public class BrowserSetup {
 
         if(browser.equalsIgnoreCase("Chrome")){
         	//System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir")+"\\Drivers\\chromedriver.exe");
-        	WebDriverManager.chromedriver().setup();
+        	//WebDriverManager.chromedriver().setup();
         	System.out.println(WebDriverManager.chromedriver().getWebDriverList());
         	//WebDriverManager.chromedriver().clearDriverCache().setup();
         	//System.out.println ("List of Drivers"+WebDriverManager.chromedriver().getDriverVersions());
@@ -41,7 +41,7 @@ public class BrowserSetup {
             options.addArguments("--remote-allow-origins=*");
           //  options.addArguments("--disable-dev-shm-usage");
             options.addArguments("--window-size=1920x1080");
-            options.addArguments("--headless"); //!!!should be enabled for Jenkins
+           /* options.addArguments("--headless"); //!!!should be enabled for Jenkins
             options.addArguments("--disable-dev-shm-usage"); //!!!should be enabled for Jenkins
             options.addArguments("--window-size=1920x1080"); //!!!should be enabled for Jenkins*/
              driver = new ChromeDriver(options);
