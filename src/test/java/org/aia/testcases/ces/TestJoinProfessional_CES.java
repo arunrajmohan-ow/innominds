@@ -139,6 +139,7 @@ public class TestJoinProfessional_CES extends BaseClass {
 		// checkOutPageCes.enterCardDetailsCes();
 		checkOutPageCes.enterECheckDetailsCes(userAccount.get(1), "Automation Bank", "021000021", "9876543210");
 		Object amount = paymntSuccesFullPageCes.amountPaid();
+		Thread.sleep(5000);
 		Logging.logger.info("Total Amount is : " + amount);
 		String reciptData = paymntSuccesFullPageCes.ClickonViewReceipt();
 		// Get Receipt number

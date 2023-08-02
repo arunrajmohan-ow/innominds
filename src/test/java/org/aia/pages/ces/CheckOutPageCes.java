@@ -129,6 +129,7 @@ WebDriver driver;
 	public void enterECheckDetailsCes(String accountHolderName ,String bankName, String bankRoutingNumber, String bankAccountNumber) throws InterruptedException {
 		//util.waitUntilElement(driver, eCheckCes);
 		JavascriptExecutor executor = (JavascriptExecutor) driver;
+		Thread.sleep(50000);
 		executor.executeScript("arguments[0].scrollIntoView(true);", eCheckCes);
 		util.waitUntilElement(driver, eCheckCes);
 		Thread.sleep(20000);
