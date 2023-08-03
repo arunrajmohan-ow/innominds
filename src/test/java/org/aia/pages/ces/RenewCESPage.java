@@ -37,7 +37,7 @@ public class RenewCESPage {
 	//@FindBy(xpath = "//span[@class='slds-checkbox--faux']")
 	//@FindBy(xpath = "//div//label//span[@class='slds-checkbox--faux']")
 	//@FindBy(xpath="/html[1]/body[1]/div[3]/div[2]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[3]/div[1]/div[2]/div[1]/label[1]/span[1]")
-	@FindBy(xpath = "(//span[@class='slds-checkbox--faux'])[1]")
+	@FindBy(className = "slds-checkbox--faux")
 	WebElement agreeBtn;
 
 	@FindBy(xpath = "//button[@data-name='renewFormContinueBtn']")
@@ -91,7 +91,7 @@ public class RenewCESPage {
 		} catch (Exception n) {
 			System.out.println("Element is invisible");
 		}
-		Thread.sleep(70000);
+		Thread.sleep(90000);
 		executor.executeScript("arguments[0].scrollIntoView(true);", agreeBtn);
 		//util.waitUntilElement(driver, agreeBtn);
 		executor.executeScript("arguments[0].click();",agreeBtn);
