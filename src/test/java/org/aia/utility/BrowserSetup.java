@@ -29,7 +29,7 @@ public class BrowserSetup {
 
         if(browser.equalsIgnoreCase("Chrome")){
         	//System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir")+"\\Drivers\\chromedriver.exe");
-        	WebDriverManager.chromedriver().forceDownload().setup();
+        	WebDriverManager.chromedriver().setup();
         	//WebDriverManager.chromedriver().clearDriverCache().setup();
         	//System.out.println ("List of Drivers"+WebDriverManager.chromedriver().getDriverVersions());
         	Map<String, Object> pref = new HashMap<String, Object>();
