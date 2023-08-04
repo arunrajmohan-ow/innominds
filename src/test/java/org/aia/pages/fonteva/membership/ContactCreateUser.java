@@ -184,6 +184,13 @@ public class ContactCreateUser {
 	@FindBy(xpath = "//a/span[@title='Name']")
 	WebElement tableheaderName;
 	
+	@FindBy(xpath="//span[contains(text(),'Member Value')]//ancestor::a")
+	WebElement mvoTab;
+	
+	@FindBy(xpath="//button[text()='New']")
+	WebElement mvoNewBtn;
+	
+	String contact = "//span[text()='%s']//ancestor::a";
 	@FindBy(xpath="//button[contains(@aria-label,'Join License Country')]")
 	WebElement licenseCountryDrp;
 
@@ -403,7 +410,24 @@ public class ContactCreateUser {
 	}
 	
 	/**
+<<<<<<< HEAD
+	 * @param fullName 
+	 * @throws InterruptedException 
 	 * 
+	 */
+	public void savingNewMVO(String fullName) throws InterruptedException {
+		Thread.sleep(30000);
+		executor.executeScript("arguments[0].scrollIntoView(true);", util.getCustomizedWebElement(driver, contact, fullName));
+		WebElement selectContact = util.getCustomizedWebElement(driver, contact, fullName);
+		executor.executeScript("arguments[0].click();", selectContact);
+		util.waitUntilElement(driver, mvoTab);
+		mvoTab.click();
+		util.waitUntilElement(driver, mvoNewBtn);
+		assertTrue(mvoNewBtn.isDisplayed());
+		mvoNewBtn.click();
+	}
+
+	 /* 
 	 */
 	public void createSaleorderinInstallments() {
 		util.waitUntilElement(driver, selectDuesDrp);
@@ -413,9 +437,5 @@ public class ContactCreateUser {
 		createSalesOrder.click();
 		assertTrue(driver.getTitle().contains(data.testDataProvider().getProperty("salesorderPage")));
 	}
-	
-	
-	
-	 
 	
 }
