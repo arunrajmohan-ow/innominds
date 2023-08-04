@@ -28,6 +28,8 @@ public class SignUpPage {
 	
 	@FindBy(xpath="//p[text()='Continue']")WebElement continuebtn;
 	
+	@FindBy(xpath = "//p[text()='Join AIA']//parent::span//parent::button") WebElement joinAIABtn;
+	
 	@FindBy(xpath="//p[text()='Create an account']")WebElement createaccount;
 	
 	@FindBy(xpath="//input[@formcontrolname='firstName']")	WebElement firstName;
@@ -127,6 +129,18 @@ public class SignUpPage {
 		  
 		  Thread.sleep(10000); driver.switchTo().defaultContent();*/
 		signUpSubmitbtn.click();
+	}
+	
+	/**
+	 * @param emaildata
+	 */
+	public void joinAIABtn(String emaildata) {
+		util.waitUntilElement(driver, enteremail);
+		enteremail.sendKeys(emaildata);
+		util.waitUntilElement(driver, continuebtn);
+		continuebtn.click();
+		util.waitUntilElement(driver, joinAIABtn);
+		joinAIABtn.click();
 	}
 	
 }
