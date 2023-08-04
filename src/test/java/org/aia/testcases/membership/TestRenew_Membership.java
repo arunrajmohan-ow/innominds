@@ -11,8 +11,12 @@ import org.aia.pages.api.MailinatorAPI;
 import org.aia.pages.api.membership.FontevaConnectionSOAP;
 import org.aia.pages.api.membership.JoinAPIValidation;
 import org.aia.pages.api.membership.RenewAPIValidation;
+import org.aia.pages.fonteva.membership.ContactCreateUser;
+import org.aia.pages.fonteva.membership.ReNewUser;
+import org.aia.pages.fonteva.membership.SalesOrder;
 import org.aia.pages.membership.*;
 import org.aia.utility.BrowserSetup;
+import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.DataProviderFactory;
 import org.aia.utility.Logging;
 import org.aia.utility.Utility;
@@ -35,10 +39,14 @@ public class TestRenew_Membership extends BaseClass {
 	TellusAboutYourselfPage tellAbtPage;
 	DevSandBoxFonteva fontevaPage;
 	RenewPage renew;
+	ReNewUser fontevaRenew;
+	ContactCreateUser fontevaJoin;
+	SalesOrder salesOrder;
 	public String inbox;
 
 	@BeforeMethod(alwaysRun = true)
 	public void setUp() throws Exception {
+		sessionID=new FontevaConnectionSOAP();
 		driver = BrowserSetup.startApplication(driver, DataProviderFactory.getConfig().getValue("browser"),
 				DataProviderFactory.getConfig().getValue("devstagingurl_membership"));
 		inbox = DataProviderFactory.getConfig().getValue("inbox");
@@ -58,6 +66,10 @@ public class TestRenew_Membership extends BaseClass {
 		tellAbtPage = PageFactory.initElements(driver, TellusAboutYourselfPage.class);
 		fontevaPage = PageFactory.initElements(driver, DevSandBoxFonteva.class);
 		renew = PageFactory.initElements(driver, RenewPage.class);
+		fontevaJoin = PageFactory.initElements(driver, ContactCreateUser.class);
+		testData = new ConfigDataProvider();
+		fontevaRenew = PageFactory.initElements(driver, ReNewUser.class);
+		salesOrder = PageFactory.initElements(driver, SalesOrder.class);
 	}
 
 	@Test(priority = 1, description = "Validate Renew without supplemental dues", enabled = true)
@@ -347,6 +359,44 @@ public class TestRenew_Membership extends BaseClass {
 		// Validate Receipt Details
 		apiValidationRenew.verifyReciptDetails(receiptData.get(0), receiptData.get(2));
 	}
+	
+	@Test(priority = 6, description = "Validate sales price in sales order lines for renew  ", enabled = true)
+	public void validateSalesOrderLineRenew() throws Exception {
+		ArrayList<String> dataList = signUpPage.signUpData();
+		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
+		signUpPage.signUpUser();
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
+		closeButtnPage.clickCloseAfterVerification();
+		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
+		fontevaJoin.pointOffset();
+		fontevaJoin.selectContact(dataList.get(0) + " " + dataList.get(1));
+		fontevaJoin.joinCreatedUser(testData.testDataProvider().getProperty("membershipType"),
+				testData.testDataProvider().getProperty("selection"));
+		fontevaJoin.enterLicenseDetail();
+		fontevaJoin.createSalesOrder(testData.testDataProvider().getProperty("paymentMethod"));
+		fontevaJoin.applyPayment(dataList.get(0)+" "+dataList.get(1));
+		ArrayList<Object> data = fontevaJoin.getPaymentReceiptData();
+		fontevaRenew.changeTermDate(dataList.get(0)+" "+dataList.get(1));
+		fontevaRenew.renewUserForSOLine(dataList.get(0)+" "+dataList.get(1));
+		fontevaRenew.createSaleorderinInstallments();
+		Double salesPrice = salesOrder.checkSaleorderLine();
+		util.switchToTab(driver,1).get( DataProviderFactory.getConfig().getValue("devstagingurl_membership"));
+		renew.renewMembership(dataList.get(5));
+		signInpage.login(dataList.get(5), testData.testDataProvider().getProperty("password"));
+		orderSummaryPage.confirmTerms(testData.testDataProvider().getProperty("radioSelection"));
+		orderSummaryPage.clickonPayNow();
+		paymentInfoPage.clickOnCreditCard();
+		String aiaNational=paymentInfoPage.paymentDetails(testData.testDataProvider().getProperty("radioSelection"));
+		finalPage.verifyThankYouMessage();
+		ArrayList<Object> receiptData = finalPage.getFinalReceiptData();
+		//Verify Membership renewal 
+		apiValidationRenew.verifyMemebershipRenewal(dataList.get(3),
+				DataProviderFactory.getConfig().getValue("termEndDate"), receiptData.get(2),
+				DataProviderFactory.getConfig().getValue("type_aia_national"), testData.testDataProvider().getProperty("membershipType"), testData.testDataProvider().getProperty("selection"));
+		apiValidationRenew.validateSalesOrderLine(salesPrice);
+	}
+	
+	
 
 	@AfterMethod(alwaysRun = true)
 	public void teardown() {
