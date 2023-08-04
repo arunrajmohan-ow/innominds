@@ -151,7 +151,7 @@ public class PaymentInformation {
 	 * @param holderType
 	 */
 	public void paymentViaEcheck(String accountHolder, String accountTypeOpt, String accountHolderType) {
-		driver.navigate().refresh();
+		//driver.navigate().refresh();
 		util.waitUntilElement(driver, echeckTab);
 		echeckTab.click();
 		util.waitUntilElement(driver, accountHolderName);

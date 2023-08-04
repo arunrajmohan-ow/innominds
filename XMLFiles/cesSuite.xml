@@ -16,7 +16,4 @@
       <class name="org.aia.testcases.ces.TestLogin_CES"/>
     </classes>
   </test> <!-- Test -->
-  <suite-files>
-        <suite-file path="test-output/Suite/testng-failed.xml"/>
-     </suite-files>
 </suite> <!-- All Test cases -->
