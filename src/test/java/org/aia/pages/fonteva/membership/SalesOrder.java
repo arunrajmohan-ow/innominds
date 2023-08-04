@@ -2,10 +2,7 @@ package org.aia.pages.fonteva.membership;
 
 import static org.testng.Assert.*;
 
-<<<<<<< HEAD
-=======
 import java.time.LocalDate;
->>>>>>> 82f18072f832070119f0e942bf98b78331429bf1
 import java.util.ArrayList;
 
 import org.aia.utility.ConfigDataProvider;
@@ -78,22 +75,18 @@ public class SalesOrder {
 
 	@FindBy(xpath = "//p[@title='Total']/parent::div/p[2]/slot/lightning-formatted-text")
 	WebElement afterDiscountAmt;
-<<<<<<< HEAD
-	
-	@FindBy(xpath ="//table[@aria-label='Sales Order Lines']//tbody//tr[1]//td[3]//a")
+
+	@FindBy(xpath = "//table[@aria-label='Sales Order Lines']//tbody//tr[1]//td[3]//a")
 	WebElement firstSalesorderLineText;
 
-	@FindBy(xpath ="//table[@aria-label='Sales Order Lines']//tbody//tr[2]//td[3]//a")
+	@FindBy(xpath = "//table[@aria-label='Sales Order Lines']//tbody//tr[2]//td[3]//a")
 	WebElement secondSalesorderLineText;
-	
-=======
 
 	@FindBy(xpath = "//table[@aria-label='Sales Order Lines']//tbody//tr[1]//td[6]//lst-formatted-text")
 	WebElement salesOrderListPriceText;
 
 	@FindBy(xpath = "//table[@aria-label='Sales Order Lines']//tbody//tr[1]//td[5]//lst-formatted-text")
 	WebElement salesPriceText;
->>>>>>> 82f18072f832070119f0e942bf98b78331429bf1
 
 	/**
 	 * @throws InterruptedException
@@ -151,12 +144,9 @@ public class SalesOrder {
 		driver.navigate().refresh();
 	}
 
-<<<<<<< HEAD
-=======
 	/**
 	 * 
 	 */
->>>>>>> 82f18072f832070119f0e942bf98b78331429bf1
 	public void switchToTab() {
 		((JavascriptExecutor) driver).executeScript("window.open()");
 		ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
@@ -164,7 +154,6 @@ public class SalesOrder {
 	}
 
 	/**
-<<<<<<< HEAD
 	 * 
 	 */
 	public void checkDuplicateSOLItem() {
@@ -176,29 +165,16 @@ public class SalesOrder {
 		util.waitUntilElement(driver, orderId);
 		executor.executeScript("arguments[0].click();", orderId);
 		//orderId.click();
-=======
-	 * @return 
-	 * 
+	}
+
+	/**
+	 * @return
 	 */
 	public Double checkSaleorderLine() {
->>>>>>> 82f18072f832070119f0e942bf98b78331429bf1
 		util.waitUntilElement(driver, salesOrderLine);
 		salesOrderLine.click();
 		util.waitUntilElement(driver, salesOrderLineTable);
 		assertTrue(salesOrderLineTable.isDisplayed());
-<<<<<<< HEAD
-	}
-	
-	/**
-	 * Here I am validate the both sales order line using the assertions.
-	 */
-	public void validateSalesOrderLine() {
-		util.waitUntilElement(driver,firstSalesorderLineText);
-		String firstSOLineText= firstSalesorderLineText.getAttribute("title");
-		util.waitUntilElement(driver, secondSalesorderLineText);
-		String secondSOLineText= secondSalesorderLineText.getAttribute("title");
-		assertNotEquals(firstSOLineText, secondSOLineText);
-=======
 		String salesOrderListPrice = salesOrderListPriceText.getText().replaceAll("[$]*", "");
 		//System.out.println("So Price:" + salesOrderListPrice);
 		Double listPrice = Double.parseDouble(salesOrderListPrice);
@@ -211,8 +187,16 @@ public class SalesOrder {
 		Double finalSalePrice = installMentSalePrice / 6; // Here 6 is how much installment we gone use 
 		return installMentSalePrice;
 		//System.out.println("Last sale price" + finalSalePrice);
-
->>>>>>> 82f18072f832070119f0e942bf98b78331429bf1
 	}
-
+	
+	/**
+	 * Here I am validate the both sales order line using the assertions.
+	 */
+	public void validateSalesOrderLine() {
+		util.waitUntilElement(driver,firstSalesorderLineText);
+		String firstSOLineText= firstSalesorderLineText.getAttribute("title");
+		util.waitUntilElement(driver, secondSalesorderLineText);
+		String secondSOLineText= secondSalesorderLineText.getAttribute("title");
+		assertNotEquals(firstSOLineText, secondSOLineText);
+	}
 }
