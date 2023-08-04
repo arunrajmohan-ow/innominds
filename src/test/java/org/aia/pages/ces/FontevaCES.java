@@ -137,6 +137,9 @@ public class FontevaCES {
 		contactallLink.click();
 		Thread.sleep(15000);
 		driver.findElement(By.xpath(startLocator+fullName+endLocator)).click();
+		actions.sendKeys(Keys.ARROW_DOWN).build().perform();
+		actions.sendKeys(Keys.ARROW_DOWN).build().perform();
+		js.executeScript("arguments[0].scrollIntoView(true);", showallBtn);
 		util.waitUntilElement(driver, showallBtn);
 		Thread.sleep(5000);
 		actions.sendKeys(Keys.ARROW_DOWN).build().perform();
