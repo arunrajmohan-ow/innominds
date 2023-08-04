@@ -44,12 +44,7 @@ public class BrowserSetup {
             options.addArguments("--ignore-certificate-errors");
             options.addArguments("--disable-notifications");
             options.addArguments("--remote-allow-origins=*");
-<<<<<<< HEAD
-            /*options.addArguments("--headless"); //!!!should be enabled for Jenkins
-=======
-            options.addArguments("--disable-dev-shm-usage");
            /* options.addArguments("--headless"); //!!!should be enabled for Jenkins
->>>>>>> 710c754a763c4aeb7d3772534c3315a22fba0209
             options.addArguments("--disable-dev-shm-usage"); //!!!should be enabled for Jenkins
             options.addArguments("--window-size=1920x1080"); //!!!should be enabled for Jenkins*/
              driver = new ChromeDriver(options);
@@ -85,7 +80,7 @@ public class BrowserSetup {
 		
 		System.out.println("LOG :Info- Browser Session getting terminated");
 
-		//driver.quit();
+		driver.quit();
 		
 		System.out.println("LOG :Info- Browser Session terminated");
 

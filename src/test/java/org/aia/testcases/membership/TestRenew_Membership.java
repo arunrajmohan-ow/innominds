@@ -16,6 +16,7 @@ import org.aia.pages.fonteva.membership.ReNewUser;
 import org.aia.pages.fonteva.membership.SalesOrder;
 import org.aia.pages.membership.*;
 import org.aia.utility.BrowserSetup;
+import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.DataProviderFactory;
 import org.aia.utility.Logging;
 import org.aia.utility.Utility;
