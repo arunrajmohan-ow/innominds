@@ -373,6 +373,8 @@ public class ContactCreateUser {
 	public void selectContact(String userFullname) throws InterruptedException {
 		util.waitUntilElement(driver, contacts);
 		contactsDiv.click();
+		Thread.sleep(5000);
+		driver.navigate().refresh();
 		util.waitUntilElement(driver, tableheaderName);
 		Thread.sleep(5000);
 		util.waitUntilElement(driver, contactallBtn);
