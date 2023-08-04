@@ -81,7 +81,7 @@ public class TestReJoin_Membership extends BaseClass {
 	/**
 	 * Bug found in this script bug id is FM-336 FM-337
 	 */
-	@Test(priority = 1, description = "verify the online membership rejoin in UI Application", enabled = false)
+	@Test(priority = 1, description = "verify the online membership rejoin in UI Application", enabled = true)
 	public void validateReJoin() throws Exception {
 		// User creating is starting
 		ArrayList<String> dataList = signUpPage.signUpData();
@@ -90,7 +90,7 @@ public class TestReJoin_Membership extends BaseClass {
 		mailinator.verifyEmailForAccountSetup(dataList.get(3));
 		closeButtnPage.clickCloseAfterVerification();
 		signInpage.login(dataList.get(5), dataList.get(6));
-		primaryInfoPage.enterPrimaryInfo(testData.testDataProvider().getProperty("membershipType"),
+		primaryInfoPage.enterPrimaryInfo(testData.testDataProvider().getProperty("radioSelection"),
 				testData.testDataProvider().getProperty("careerType"));
 		orderSummaryPage.confirmTerms(testData.testDataProvider().getProperty("radioSelection"));
 		orderSummaryPage.clickonPayNow();
@@ -208,7 +208,7 @@ public class TestReJoin_Membership extends BaseClass {
 
 	}
 
-	@Test(priority = 3, description = "verify the online Associate membership rejoin in UI Application", enabled = true)
+	@Test(priority = 3, description = "verify the online Associate membership rejoin in UI Application", enabled = false)
 	public void validateAssociateReJoin() throws Exception {
 		// User creating is starting
 		ArrayList<String> dataList = signUpPage.signUpData();

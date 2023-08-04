@@ -2,12 +2,17 @@ package org.aia.pages.fonteva.membership;
 
 import static org.testng.Assert.*;
 
+<<<<<<< HEAD
+=======
+import java.time.LocalDate;
+>>>>>>> 82f18072f832070119f0e942bf98b78331429bf1
 import java.util.ArrayList;
 
 import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.Utility;
 import org.apache.commons.lang3.Validate;
 import org.apache.log4j.Logger;
+import org.apache.xmlbeans.soap.SOAPArrayType;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -73,6 +78,7 @@ public class SalesOrder {
 
 	@FindBy(xpath = "//p[@title='Total']/parent::div/p[2]/slot/lightning-formatted-text")
 	WebElement afterDiscountAmt;
+<<<<<<< HEAD
 	
 	@FindBy(xpath ="//table[@aria-label='Sales Order Lines']//tbody//tr[1]//td[3]//a")
 	WebElement firstSalesorderLineText;
@@ -80,6 +86,14 @@ public class SalesOrder {
 	@FindBy(xpath ="//table[@aria-label='Sales Order Lines']//tbody//tr[2]//td[3]//a")
 	WebElement secondSalesorderLineText;
 	
+=======
+
+	@FindBy(xpath = "//table[@aria-label='Sales Order Lines']//tbody//tr[1]//td[6]//lst-formatted-text")
+	WebElement salesOrderListPriceText;
+
+	@FindBy(xpath = "//table[@aria-label='Sales Order Lines']//tbody//tr[1]//td[5]//lst-formatted-text")
+	WebElement salesPriceText;
+>>>>>>> 82f18072f832070119f0e942bf98b78331429bf1
 
 	/**
 	 * @throws InterruptedException
@@ -137,6 +151,12 @@ public class SalesOrder {
 		driver.navigate().refresh();
 	}
 
+<<<<<<< HEAD
+=======
+	/**
+	 * 
+	 */
+>>>>>>> 82f18072f832070119f0e942bf98b78331429bf1
 	public void switchToTab() {
 		((JavascriptExecutor) driver).executeScript("window.open()");
 		ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
@@ -144,6 +164,7 @@ public class SalesOrder {
 	}
 
 	/**
+<<<<<<< HEAD
 	 * 
 	 */
 	public void checkDuplicateSOLItem() {
@@ -155,10 +176,17 @@ public class SalesOrder {
 		util.waitUntilElement(driver, orderId);
 		executor.executeScript("arguments[0].click();", orderId);
 		//orderId.click();
+=======
+	 * @return 
+	 * 
+	 */
+	public Double checkSaleorderLine() {
+>>>>>>> 82f18072f832070119f0e942bf98b78331429bf1
 		util.waitUntilElement(driver, salesOrderLine);
 		salesOrderLine.click();
 		util.waitUntilElement(driver, salesOrderLineTable);
 		assertTrue(salesOrderLineTable.isDisplayed());
+<<<<<<< HEAD
 	}
 	
 	/**
@@ -170,6 +198,21 @@ public class SalesOrder {
 		util.waitUntilElement(driver, secondSalesorderLineText);
 		String secondSOLineText= secondSalesorderLineText.getAttribute("title");
 		assertNotEquals(firstSOLineText, secondSOLineText);
+=======
+		String salesOrderListPrice = salesOrderListPriceText.getText().replaceAll("[$]*", "");
+		//System.out.println("So Price:" + salesOrderListPrice);
+		Double listPrice = Double.parseDouble(salesOrderListPrice);
+		//System.out.println("So Price:" + listPrice);
+		Double salesPrice = listPrice / 12;// Here 12 are months
+		LocalDate localDate = java.time.LocalDate.now();
+		//System.out.println("Current month:" + localDate.getMonth().getValue());
+		// In this equation we are taking left months up to expire membership
+		Double installMentSalePrice = salesPrice * ((12 - localDate.getMonth().getValue() + 1)); 
+		Double finalSalePrice = installMentSalePrice / 6; // Here 6 is how much installment we gone use 
+		return installMentSalePrice;
+		//System.out.println("Last sale price" + finalSalePrice);
+
+>>>>>>> 82f18072f832070119f0e942bf98b78331429bf1
 	}
 
 }

@@ -56,7 +56,7 @@ public class DevSandBoxFonteva {
 	
 	@FindBy(xpath="//button[@title='Edit Term End Date']/span") WebElement editBtn;
 	
-	@FindBy(xpath="(//a[contains(text(),'Show All')])[2]") WebElement showallBtn;
+	@FindBy(xpath="(//a[contains(text(),'Show All')])") WebElement showallBtn;
 	
 	@FindBy(xpath="//h1/span[text()='Contacts']/parent::h1/parent::div/parent::div//button") WebElement contactallBtn;
 	
@@ -81,6 +81,7 @@ public class DevSandBoxFonteva {
 		 * password.sendKeys("Login_1234"); loginBtn.click();
 		 */
 		JavascriptExecutor js = (JavascriptExecutor) driver;
+		Actions actions = new Actions(driver);
 		util.waitUntilElement(driver, contacts);
 		contactsDiv.click();
 		util.waitUntilElement(driver, tableheaderName);
@@ -93,12 +94,12 @@ public class DevSandBoxFonteva {
 		//driver.findElement(By.xpath(startLocator+fullName+endLocator)).click();
 		util.getCustomizedWebElement(driver, userContactName, fullName).click();
 		util.waitUntilElement(driver, showallBtn);
-		executor.executeScript("arguments[0].click();", showallBtn);
-		//showallBtn.click();
+		actions.sendKeys(Keys.ARROW_DOWN).build().perform();
+		//actions.moveToElement(showallBtn).build().perform();
+		showallBtn.click();
 		Thread.sleep(2000);
 		util.waitUntilElement(driver, memberShip);
 		//Instantiating Actions class
-		Actions actions = new Actions(driver);
 		//Hovering on main menu
 		actions.moveToElement(contactTitle);
 		actions.sendKeys(Keys.ARROW_DOWN).build().perform();
