@@ -78,7 +78,7 @@ public class TestOfflineRenew_Membership extends BaseClass {
 				DataProviderFactory.getConfig().getValue("orderStatus"), renewReciept.get(2),
 				DataProviderFactory.getConfig().getValue("postingStatus"));
 		// Validate Receipt Details
-		offlinApiValidation.verifyReciptDetails(data.get(0), data.get(2));
+		offlinApiValidation.verifyReciptDetails(renewReciept.get(0), renewReciept.get(2));
 
 	}
 

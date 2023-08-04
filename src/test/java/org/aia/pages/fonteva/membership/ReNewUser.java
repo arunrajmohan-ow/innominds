@@ -124,7 +124,7 @@ public class ReNewUser {
 		util.waitUntilElement(driver, termEditBtn);
 		action.scrollToElement(termEditBtn);
 		termEditBtn.click();
-		util.enterText(driver, termDate, data.testDataProvider().getProperty("termEndDate"));
+		util.enterText(driver, termDate, data.testDataProvider().getProperty("tremendDate"));
 		Thread.sleep(5000);
 		saveBtn.click();
 	}
