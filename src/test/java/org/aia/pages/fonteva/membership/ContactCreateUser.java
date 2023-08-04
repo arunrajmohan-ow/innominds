@@ -1,5 +1,7 @@
 package org.aia.pages.fonteva.membership;
 
+import static org.testng.Assert.assertTrue;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -19,6 +21,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
+
+import groovyjarjarantlr4.v4.runtime.tree.xpath.XPath;
 
 /**
  * @author IM-RT-LP-1483(Suhas)
@@ -97,6 +101,8 @@ public class ContactCreateUser {
 	WebElement licenseStateDrp;
 
 	String state = "//span[text()='%s']";
+	
+	String country="//span[text()='%s']";
 
 	@FindBy(xpath = "//input[contains(@name,'License_Date')]")
 	WebElement licenseStartDate;
@@ -112,6 +118,9 @@ public class ContactCreateUser {
 
 	@FindBy(xpath = "//span[contains(@title,'Payment in Full')]")
 	WebElement selectDeusOpt;
+	
+	@FindBy(xpath="//span[contains(@title,'Dues Installment Plan ')]")
+	WebElement selectPayInInsatllmentElement;
 
 	@FindBy(xpath = "//button[contains(text(),'Create sales order')]")
 	WebElement createSalesOrder;
@@ -174,6 +183,16 @@ public class ContactCreateUser {
 
 	@FindBy(xpath = "//a/span[@title='Name']")
 	WebElement tableheaderName;
+	
+	@FindBy(xpath="//span[contains(text(),'Member Value')]//ancestor::a")
+	WebElement mvoTab;
+	
+	@FindBy(xpath="//button[text()='New']")
+	WebElement mvoNewBtn;
+	
+	String contact = "//span[text()='%s']//ancestor::a";
+	@FindBy(xpath="//button[contains(@aria-label,'Join License Country')]")
+	WebElement licenseCountryDrp;
 
 	String fName;
 	String lName;
@@ -277,6 +296,9 @@ public class ContactCreateUser {
 	 */
 	public void enterLicenseDetail() {
 		util.enterText(driver, enterLicenseNumber, data.testDataProvider().getProperty("LICENSE_NUMBER"));
+		util.waitUntilElement(driver, licenseCountryDrp);
+		licenseCountryDrp.click();
+		executor.executeScript("arguments[0].click();", util.getCustomizedWebElement(driver, country, data.testDataProvider().getProperty("LICENSE_COUNTRY")));
 		licenseStateDrp.click();
 		WebElement enterState = driver
 				.findElement(By.xpath(String.format(state, data.testDataProvider().getProperty("LICENSE_STATE"))));
@@ -389,4 +411,34 @@ public class ContactCreateUser {
 		util.waitUntilElement(driver, showAll);
 		showAll.click();
 	}
+	
+	/**
+<<<<<<< HEAD
+	 * @param fullName 
+	 * @throws InterruptedException 
+	 * 
+	 */
+	public void savingNewMVO(String fullName) throws InterruptedException {
+		Thread.sleep(30000);
+		executor.executeScript("arguments[0].scrollIntoView(true);", util.getCustomizedWebElement(driver, contact, fullName));
+		WebElement selectContact = util.getCustomizedWebElement(driver, contact, fullName);
+		executor.executeScript("arguments[0].click();", selectContact);
+		util.waitUntilElement(driver, mvoTab);
+		mvoTab.click();
+		util.waitUntilElement(driver, mvoNewBtn);
+		assertTrue(mvoNewBtn.isDisplayed());
+		mvoNewBtn.click();
+	}
+
+	 /* 
+	 */
+	public void createSaleorderinInstallments() {
+		util.waitUntilElement(driver, selectDuesDrp);
+		selectDuesDrp.click();
+		// executor.executeScript("arguments[0].click();", selectDeusOpt);
+		selectPayInInsatllmentElement.click();
+		createSalesOrder.click();
+		assertTrue(driver.getTitle().contains(data.testDataProvider().getProperty("salesorderPage")));
+	}
+	
 }

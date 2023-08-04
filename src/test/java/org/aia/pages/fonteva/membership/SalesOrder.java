@@ -2,13 +2,16 @@ package org.aia.pages.fonteva.membership;
 
 import static org.testng.Assert.*;
 
-
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.Utility;
+import org.apache.commons.lang3.Validate;
 import org.apache.log4j.Logger;
+import org.apache.xmlbeans.soap.SOAPArrayType;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -25,56 +28,74 @@ public class SalesOrder {
 	static Logger log = Logger.getLogger(ContactCreateUser.class);
 	Actions action;
 	JavascriptExecutor executor;
-	
+
 	public SalesOrder(WebDriver Idriver) {
 		this.driver = Idriver;
 		action = new Actions(driver);
 		executor = (JavascriptExecutor) driver;
 	}
-	
-	@FindBy(xpath="(//ul//span[contains(text(),'Sales Order')]/ancestor::a)[1]")
+
+	@FindBy(xpath = "(//ul//span[contains(text(),'Sales Order')]/ancestor::a)[1]")
 	WebElement salesOrderLink;
-	
-	@FindBy(xpath="//table[@aria-label='Sales Orders']")
+
+	@FindBy(xpath = "//table[@aria-label='Sales Orders']")
 	WebElement salesOrderTable;
-	
-	@FindBy(xpath="(//table[@aria-label='Sales Orders']//tr)[2]/th//a")
+
+	@FindBy(xpath = "(//table[@aria-label='Sales Orders']//tr)[2]/th//a")
 	WebElement orderId;
-	
-	@FindBy(xpath="//span[contains(text(),'Sales Order Lines')]//ancestor::a")
+
+	@FindBy(xpath = "//span[contains(text(),'Sales Order Lines')]//ancestor::a")
 	WebElement salesOrderLine;
-	
-	@FindBy(xpath="//table[@aria-label='Sales Order Lines']")
+
+	@FindBy(xpath = "//table[@aria-label='Sales Order Lines']")
 	WebElement salesOrderLineTable;
-	
-	//@FindBy(xpath="(//table[@aria-label='Sales Order Lines']//tr[1])[2]//th/span/a")
-	@FindBy(xpath="(//table[@aria-label='Sales Order Lines']//tr[1])[2]//th//a")
+
+	// @FindBy(xpath="(//table[@aria-label='Sales Order
+	// Lines']//tr[1])[2]//th/span/a")
+	@FindBy(xpath = "(//table[@aria-label='Sales Order Lines']//tr[1])[2]//th//a")
 	WebElement salesOrderFirstLine;
-	
-	@FindBy(xpath="(//table[@aria-label='Sales Order Lines']//tr[2])//th//a")
+
+	@FindBy(xpath = "(//table[@aria-label='Sales Order Lines']//tr[2])//th//a")
 	WebElement salesOrderSecondLine;
-	
-	@FindBy(xpath="(//button[text()='Set Discount'])[1]")
+
+	@FindBy(xpath = "(//button[text()='Set Discount'])[1]")
 	WebElement setDiscountBtn;
+<<<<<<< HEAD
 	
 	//@FindBy(xpath="(//button[text()='Set Discount'])[2]")
 	@FindBy(xpath="(//button[text()='Set Discount'])[2]")
+=======
+
+	@FindBy(xpath = "(//button[text()='Set Discount'])[2]")
+>>>>>>> 1c4a8e0ffadbad318378f75fe8446ed598c7c7ef
 	WebElement setDiscountBtnSecond;
-	
-	@FindBy(xpath="//h2[text()='Set Discount']")
+
+	@FindBy(xpath = "//h2[text()='Set Discount']")
 	WebElement discountPopUp;
-	
-	@FindBy(xpath="//input[@name='Discount_Ammount_Input']")
+
+	@FindBy(xpath = "//input[@name='Discount_Ammount_Input']")
 	WebElement discountInput;
-	
-	@FindBy(xpath="//button[text()='Next']")
+
+	@FindBy(xpath = "//button[text()='Next']")
 	WebElement nextBtn;
-	
-	@FindBy(xpath="//p[@title='Total']/parent::div/p[2]/slot/lightning-formatted-text")
-    WebElement afterDiscountAmt;
-	
+
+	@FindBy(xpath = "//p[@title='Total']/parent::div/p[2]/slot/lightning-formatted-text")
+	WebElement afterDiscountAmt;
+
+	@FindBy(xpath = "//table[@aria-label='Sales Order Lines']//tbody//tr[1]//td[3]//a")
+	WebElement firstSalesorderLineText;
+
+	@FindBy(xpath = "//table[@aria-label='Sales Order Lines']//tbody//tr[2]//td[3]//a")
+	WebElement secondSalesorderLineText;
+
+	@FindBy(xpath = "//table[@aria-label='Sales Order Lines']//tbody//tr[1]//td[6]//lst-formatted-text")
+	WebElement salesOrderListPriceText;
+
+	@FindBy(xpath = "//table[@aria-label='Sales Order Lines']//tbody//tr[1]//td[5]//lst-formatted-text")
+	WebElement salesPriceText;
+
 	/**
-	 * @throws InterruptedException 
+	 * @throws InterruptedException
 	 * 
 	 */
 	public void setDiscount() throws InterruptedException {
@@ -85,15 +106,15 @@ public class SalesOrder {
 		assertTrue(salesOrderTable.isDisplayed());
 		util.waitUntilElement(driver, orderId);
 		executor.executeScript("arguments[0].click();", orderId);
-		//orderId.click();
+		// orderId.click();
 		util.waitUntilElement(driver, salesOrderLine);
 		salesOrderLine.click();
 		util.waitUntilElement(driver, salesOrderLineTable);
 		assertTrue(salesOrderLineTable.isDisplayed());
-		
+
 		util.waitUntilElement(driver, salesOrderFirstLine);
 		executor.executeScript("arguments[0].click();", salesOrderFirstLine);
-		//salesOrderFirstLine.click();
+		// salesOrderFirstLine.click();
 		util.waitUntilElement(driver, setDiscountBtn);
 		setDiscountBtn.click();
 		util.waitUntilElement(driver, discountPopUp);
@@ -103,15 +124,21 @@ public class SalesOrder {
 		util.waitUntilElement(driver, nextBtn);
 		nextBtn.click();
 		util.waitUntilElement(driver, afterDiscountAmt);
-		//Validate discount is set as $0 for first line
+		// Validate discount is set as $0 for first line
 		driver.navigate().refresh();
 		util.waitUntilElement(driver, afterDiscountAmt);
-		assertEquals(afterDiscountAmt.getText(),data.testDataProvider().getProperty("replacatedAmt"));
+		assertEquals(afterDiscountAmt.getText(), data.testDataProvider().getProperty("replacatedAmt"));
 		driver.navigate().back();
 		driver.navigate().back();
+<<<<<<< HEAD
 		util.waitUntilElement(driver, salesOrderFirstLine);
 		executor.executeScript("arguments[0].click();", salesOrderFirstLine);
 		//salesOrderSecondLine.click();
+=======
+		util.waitUntilElement(driver, salesOrderSecondLine);
+		executor.executeScript("arguments[0].click();", salesOrderSecondLine);
+		// salesOrderSecondLine.click();
+>>>>>>> 1c4a8e0ffadbad318378f75fe8446ed598c7c7ef
 		util.waitUntilElement(driver, setDiscountBtnSecond);
 		setDiscountBtnSecond.click();
 		util.waitUntilElement(driver, discountPopUp);
@@ -121,18 +148,67 @@ public class SalesOrder {
 		nextBtn.click();
 		driver.navigate().refresh();
 		util.waitUntilElement(driver, afterDiscountAmt);
-		//Validate discount is set as $0 for second Line
-		assertEquals(afterDiscountAmt.getText(),data.testDataProvider().getProperty("replacatedAmt"));
+		// Validate discount is set as $0 for second Line
+		assertEquals(afterDiscountAmt.getText(), data.testDataProvider().getProperty("replacatedAmt"));
 		ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
 		driver.switchTo().window(tabs.get(0));
 		Thread.sleep(10000);
-        driver.navigate().refresh();
+		driver.navigate().refresh();
 	}
-	
+
+	/**
+	 * 
+	 */
 	public void switchToTab() {
-		((JavascriptExecutor)driver).executeScript("window.open()");
+		((JavascriptExecutor) driver).executeScript("window.open()");
 		ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
 		driver.switchTo().window(tabs.get(1));
 	}
+
+	/**
+	 * 
+	 */
+	public void checkDuplicateSOLItem() {
+		action.sendKeys(Keys.ARROW_DOWN).build().perform();
+		util.waitUntilElement(driver, salesOrderLink);
+		salesOrderLink.click();
+		util.waitUntilElement(driver, salesOrderTable);
+		assertTrue(salesOrderTable.isDisplayed());
+		util.waitUntilElement(driver, orderId);
+		executor.executeScript("arguments[0].click();", orderId);
+		//orderId.click();
+	}
+
+	/**
+	 * @return
+	 */
+	public Double checkSaleorderLine() {
+		util.waitUntilElement(driver, salesOrderLine);
+		salesOrderLine.click();
+		util.waitUntilElement(driver, salesOrderLineTable);
+		assertTrue(salesOrderLineTable.isDisplayed());
+		String salesOrderListPrice = salesOrderListPriceText.getText().replaceAll("[$]*", "");
+		//System.out.println("So Price:" + salesOrderListPrice);
+		Double listPrice = Double.parseDouble(salesOrderListPrice);
+		//System.out.println("So Price:" + listPrice);
+		Double salesPrice = listPrice / 12;// Here 12 are months
+		LocalDate localDate = java.time.LocalDate.now();
+		//System.out.println("Current month:" + localDate.getMonth().getValue());
+		// In this equation we are taking left months up to expire membership
+		Double installMentSalePrice = salesPrice * ((12 - localDate.getMonth().getValue() + 1)); 
+		Double finalSalePrice = installMentSalePrice / 6; // Here 6 is how much installment we gone use 
+		return installMentSalePrice;
+		//System.out.println("Last sale price" + finalSalePrice);
+	}
 	
+	/**
+	 * Here I am validate the both sales order line using the assertions.
+	 */
+	public void validateSalesOrderLine() {
+		util.waitUntilElement(driver,firstSalesorderLineText);
+		String firstSOLineText= firstSalesorderLineText.getAttribute("title");
+		util.waitUntilElement(driver, secondSalesorderLineText);
+		String secondSOLineText= secondSalesorderLineText.getAttribute("title");
+		assertNotEquals(firstSOLineText, secondSOLineText);
+	}
 }

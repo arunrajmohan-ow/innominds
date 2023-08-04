@@ -6,6 +6,7 @@ import java.sql.Driver;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -287,6 +288,19 @@ public class Utility {
 		WebElement finalElement= driver.findElement(By.xpath(String.format(element, replacement)));
 		waitUntilElement(driver, finalElement);
 		return finalElement;
+	}
+	
+	/**
+	 * @param driver
+	 * @param url
+	 * @param tab
+	 * @return 
+	 */
+	public WebDriver switchToTab(WebDriver driver,int tab) {
+		((JavascriptExecutor) driver).executeScript("window.open()");
+		ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
+		driver.switchTo().window(tabs.get(tab));
+		return driver;
 	}
 	
 }
