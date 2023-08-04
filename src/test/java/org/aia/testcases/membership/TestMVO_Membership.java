@@ -60,7 +60,7 @@ public class TestMVO_Membership extends BaseClass {
 				testData.testDataProvider().getProperty("selection"));
 		fontevaJoin.enterLicenseDetail();
 		fontevaJoin.createSalesOrder(testData.testDataProvider().getProperty("paymentMethod"));
-		fontevaJoin.applyPayment();
+		fontevaJoin.applyPayment(dataList.get(5));
 		fontevaJoin.savingNewMVO(dataList.get(5));
 		memberValueOutreach.createNewMVO(testData.testDataProvider().getProperty("membershipYear"),
 				testData.testDataProvider().getProperty("round"),
@@ -82,7 +82,7 @@ public class TestMVO_Membership extends BaseClass {
 				testData.testDataProvider().getProperty("selection"));
 		fontevaJoin.enterLicenseDetail();
 		fontevaJoin.createSalesOrder(testData.testDataProvider().getProperty("paymentMethod"));
-		fontevaJoin.applyPayment();
+		fontevaJoin.applyPayment(dataList.get(5));
 		fontevaJoin.savingNewMVO(dataList.get(5));
 		memberValueOutreach.createNewMVO(testData.testDataProvider().getProperty("membershipYear"),
 				testData.testDataProvider().getProperty("round"),
@@ -115,7 +115,7 @@ public class TestMVO_Membership extends BaseClass {
 				testData.testDataProvider().getProperty("selection"));
 		fontevaJoin.enterLicenseDetail();
 		fontevaJoin.createSalesOrder(testData.testDataProvider().getProperty("paymentMethod"));
-		fontevaJoin.applyPayment();
+		fontevaJoin.applyPayment(dataList.get(5));
 		fontevaJoin.savingNewMVO(dataList.get(5));
 		memberValueOutreach.createNewMVO(testData.testDataProvider().getProperty("membershipYear"),
 				testData.testDataProvider().getProperty("round"),
