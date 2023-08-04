@@ -60,14 +60,8 @@ public class SalesOrder {
 
 	@FindBy(xpath = "(//button[text()='Set Discount'])[1]")
 	WebElement setDiscountBtn;
-<<<<<<< HEAD
-	
-	//@FindBy(xpath="(//button[text()='Set Discount'])[2]")
-	@FindBy(xpath="(//button[text()='Set Discount'])[2]")
-=======
 
 	@FindBy(xpath = "(//button[text()='Set Discount'])[2]")
->>>>>>> 1c4a8e0ffadbad318378f75fe8446ed598c7c7ef
 	WebElement setDiscountBtnSecond;
 
 	@FindBy(xpath = "//h2[text()='Set Discount']")
@@ -130,15 +124,9 @@ public class SalesOrder {
 		assertEquals(afterDiscountAmt.getText(), data.testDataProvider().getProperty("replacatedAmt"));
 		driver.navigate().back();
 		driver.navigate().back();
-<<<<<<< HEAD
-		util.waitUntilElement(driver, salesOrderFirstLine);
-		executor.executeScript("arguments[0].click();", salesOrderFirstLine);
-		//salesOrderSecondLine.click();
-=======
 		util.waitUntilElement(driver, salesOrderSecondLine);
 		executor.executeScript("arguments[0].click();", salesOrderSecondLine);
 		// salesOrderSecondLine.click();
->>>>>>> 1c4a8e0ffadbad318378f75fe8446ed598c7c7ef
 		util.waitUntilElement(driver, setDiscountBtnSecond);
 		setDiscountBtnSecond.click();
 		util.waitUntilElement(driver, discountPopUp);
