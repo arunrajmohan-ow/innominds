@@ -1,5 +1,7 @@
 package org.aia.pages.fonteva.membership;
 
+import static org.testng.Assert.assertTrue;
+
 import java.util.List;
 
 import org.aia.utility.ConfigDataProvider;
@@ -7,6 +9,7 @@ import org.aia.utility.Utility;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -38,16 +41,18 @@ public class ReNewUser {
   	@FindBy(xpath="//a[contains(text(),'Show All')]")
   	WebElement showAll;
   	
-	@FindBy(xpath = "(//span[contains(text(),'Memberships')])[3]/ancestor::a")
+	@FindBy(xpath = "//a/slot/span[contains(text(),'Memberships')]")
 	WebElement selectMembership;
 
-	@FindBy(xpath = "(//table[@aria-label='Memberships']//tr)[2]/th/span/a")
+	@FindBy(xpath = "(//table[@aria-label='Memberships']//tr)[2]//th//a")
+	//@FindBy(xpath = "(//table[@aria-label='Memberships']//tr)[2]/th/span/a")
 	WebElement subscriptionId;
 
 	@FindBy(xpath = "(//span[contains(text(),'Terms')])[2]/ancestor::a")
 	WebElement termsLink;
 
-	@FindBy(xpath = "(//table[@aria-label='Terms']//tr)[2]/th/span/a")
+	@FindBy(xpath = "(//table[@aria-label='Terms']//tr)[2]/th//a")
+   //@FindBy(xpath = "(//table[@aria-label='Terms']//tr)[2]/th/span/a")
 	WebElement termId;
 
 	@FindBy(xpath = "//button[@title='Edit Term End Date']")
@@ -59,13 +64,17 @@ public class ReNewUser {
 	@FindBy(xpath = "//button[text()='Save']")
 	WebElement saveBtn;
 
-	String contactTerm = "(//span[text()='%s']//ancestor::a)[2]";
-
+	//String contactTerm = "//span[text()='%s']//ancestor::a";
+	String contactTerm ="(//span[text()='%s']//ancestor::a)[2]";
+                        
 	@FindBy(xpath = "(//button[text()='Renew'])[2]")
 	WebElement renewBtn;
 
 	@FindBy(xpath = "//button[contains(@aria-label,'Subscription ')]")
 	WebElement subPlanDrp;
+	
+	@FindBy(xpath="//span[contains(@title,'Dues Installment Plan ')]")
+	WebElement selectPayInInsatllmentElement;
 
 	@FindBy(xpath = "//span[text()='Dues - Renew Payment in Full']")
 	WebElement selectDeusPlan;
@@ -84,6 +93,9 @@ public class ReNewUser {
 	
 	@FindBy(xpath = "//span[text()='Apply Payment']/parent::button")
 	WebElement applyLastPayment;
+	
+	@FindBy(xpath="//button[contains(text(),'Update Sales Order')]")
+	WebElement updateSalesOrder;
 
 	/**
 	 * @param fullName
@@ -95,21 +107,24 @@ public class ReNewUser {
 		executor.executeScript("arguments[0].click();", selectContact);
 		util.waitUntilElement(driver, showAll);
 		showAll.click();
-		action.moveByOffset(200, 200).build().perform();
+		action.sendKeys(Keys.ARROW_DOWN).build().perform();
+		action.sendKeys(Keys.ARROW_DOWN).build().perform();
 		util.waitUntilElement(driver, selectMembership);
 		selectMembership.click();
 		Thread.sleep(10000);
 		driver.navigate().refresh();
 		util.waitUntilElement(driver, subscriptionId);
-		subscriptionId.click();
+		executor.executeScript("arguments[0].click();", subscriptionId);
+		//subscriptionId.click();
 		util.waitUntilElement(driver, termsLink);
 		termsLink.click();
 		util.waitUntilElement(driver, termId);
-		termId.click();
+		executor.executeScript("arguments[0].click();", termId);
+		//termId.click();
 		util.waitUntilElement(driver, termEditBtn);
 		action.scrollToElement(termEditBtn);
 		termEditBtn.click();
-		util.enterText(driver, termDate, data.testDataProvider().getProperty("termEndDate"));
+		util.enterText(driver, termDate, data.testDataProvider().getProperty("tremendDate"));
 		Thread.sleep(5000);
 		saveBtn.click();
 	}
@@ -154,6 +169,29 @@ public class ReNewUser {
 		}
 		util.waitUntilElement(driver, applyLastPayment);
 		applyLastPayment.click();
+	}
+	
+	/**
+	 * @param fullName 
+	 * @throws InterruptedException 
+	 * 
+	 */
+	public void renewUserForSOLine(String fullName) throws InterruptedException {
+		Thread.sleep(10000);
+		executor.executeScript("window.scrollBy(0,-500)", "");
+		WebElement contactInTermLink = driver.findElement(By.xpath(String.format(contactTerm, fullName)));
+		executor.executeScript("arguments[0].click();", contactInTermLink);
+		util.waitUntilElement(driver, renewBtn);
+		renewBtn.click();
+	}
+	
+	public void createSaleorderinInstallments() {
+		util.waitUntilElement(driver, subPlanDrp);
+		subPlanDrp.click();
+		// executor.executeScript("arguments[0].click();", selectDeusOpt);
+		selectPayInInsatllmentElement.click();
+		updateSalesOrder.click();
+		assertTrue(driver.getTitle().contains(data.testDataProvider().getProperty("salesorderPage")));
 	}
 
 }

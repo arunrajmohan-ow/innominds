@@ -19,8 +19,8 @@ public class ConfigDataProvider {
 		
 		try 
 		{
-			pro.load(new FileInputStream(new File(System.getProperty("user.dir")+"\\Config\\config.properties")));
-			
+			//pro.load(new FileInputStream(new File(System.getProperty("user.dir")+"\\Config\\config.properties")));
+			pro.load(new FileInputStream(new File("./Config/config.properties")));
 			Reporter.log("LOG : INFO -Config File loaded", true);
 
 		} catch (IOException e) {

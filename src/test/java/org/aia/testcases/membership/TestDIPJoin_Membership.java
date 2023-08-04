@@ -47,7 +47,7 @@ public class TestDIPJoin_Membership extends BaseClass {
 	TellusAboutYourselfPage tellAbtPage;
 	public String inbox;
 
-	@BeforeMethod
+	@BeforeMethod(alwaysRun=true)
 	public void setUp() throws Exception {
 		driver = BrowserSetup.startApplication(driver, DataProviderFactory.getConfig().getValue("browser"),
 				DataProviderFactory.getConfig().getValue("devstagingurl_membership"));
@@ -67,7 +67,7 @@ public class TestDIPJoin_Membership extends BaseClass {
 		tellAbtPage = PageFactory.initElements(driver, TellusAboutYourselfPage.class);
 	}
 
-	@Test(priority=1, description="Validate Membership DIP", enabled=true)
+	@Test(priority=1, description="Validate Membership DIP", enabled=true, groups= {"Smoke"})
 	public void ValidateDip() throws Exception
 	{   LocalDate localDate = java.time.LocalDate.now();
 		if (localDate.getMonthValue() >= 10 || localDate.getMonthValue() <= 04) {
@@ -105,11 +105,11 @@ public class TestDIPJoin_Membership extends BaseClass {
 		apiValidation.verifyReciptDetails(data.get(0), data.get(2));	
 		}
 		else {
-			System.out.println("We are not DIP period");
+			System.out.println("We are not in DIP period");
 		}
 	}
 
-	@AfterMethod
+	@AfterMethod(alwaysRun=true)
 	public void teardown() {
 		BrowserSetup.closeBrowser(driver);
 	}

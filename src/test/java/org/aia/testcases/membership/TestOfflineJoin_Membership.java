@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.aia.pages.BaseClass;
 import org.aia.pages.api.MailinatorAPI;
+import org.aia.pages.api.membership.FontevaConnectionSOAP;
 import org.aia.pages.api.membership.JoinAPIValidation;
 import org.aia.pages.fonteva.membership.ContactCreateUser;
 import org.aia.utility.BrowserSetup;
@@ -30,10 +31,11 @@ public class TestOfflineJoin_Membership extends BaseClass {
 	public ExtentReports extent;
 	public ExtentTest extentTest;
 
-	@BeforeMethod
+	@BeforeMethod(alwaysRun=true)
 	public void setUp() throws Exception {
+		sessionID=new FontevaConnectionSOAP();
 		driver = BrowserSetup.startApplication(driver, DataProviderFactory.getConfig().getValue("browser"),
-				DataProviderFactory.getConfig().getValue("fonteva_endpoint"));
+				DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl")+sessionID.getSessionID());
 		util = new Utility(driver, 30);
 		testData = new ConfigDataProvider();
 		fontevaJoin = PageFactory.initElements(driver, ContactCreateUser.class);
@@ -51,13 +53,13 @@ public class TestOfflineJoin_Membership extends BaseClass {
 
 		// driver.get(DataProviderFactory.getConfig().getValue("fonteva_endpoint"));
 		ArrayList<String> dataList = fontevaJoin.userData();
-		fontevaJoin.signInFonteva();
+		fontevaJoin.pointOffset();
 		fontevaJoin.createUserInFonteva();
 		fontevaJoin.joinCreatedUser(testData.testDataProvider().getProperty("membershipType"),
 				testData.testDataProvider().getProperty("selection"));
 		fontevaJoin.enterLicenseDetail();
 		fontevaJoin.createSalesOrder(testData.testDataProvider().getProperty("paymentMethod"));
-		fontevaJoin.applyPayment();
+		fontevaJoin.applyPayment(dataList.get(5));
 		ArrayList<Object> data =fontevaJoin.getPaymentReceiptData();
 		//Validation of Thank you massage in email inbox after register.
 		malinator.thankYouEmailforOfflineJoin(dataList.get(2));
@@ -71,7 +73,7 @@ public class TestOfflineJoin_Membership extends BaseClass {
 		
 	}
 
-	@AfterMethod
+	@AfterMethod(alwaysRun=true)
 	public void teardown() {
 		BrowserSetup.closeBrowser(driver);
 	}

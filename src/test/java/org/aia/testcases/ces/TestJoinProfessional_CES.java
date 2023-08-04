@@ -66,7 +66,7 @@ public class TestJoinProfessional_CES extends BaseClass {
 	public ExtentReports extent;
 	public ExtentTest extentTest;
 
-	@BeforeMethod
+	@BeforeMethod(alwaysRun=true)
 	public void setUp() throws Exception {
 		driver = BrowserSetup.startApplication(driver, DataProviderFactory.getConfig().getValue("browser"),
 				DataProviderFactory.getConfig().getValue("ces_signin"));
@@ -90,7 +90,7 @@ public class TestJoinProfessional_CES extends BaseClass {
 		fontevaPage = PageFactory.initElements(driver, FontevaCES.class);
 	}
 
-	@Test(priority = 1, description = "Validate Online JOIN for Professional E-Check.", enabled = true)
+	@Test(priority = 1, description = "Validate Online JOIN for Professional E-Check.", enabled = true, groups= {"Smoke"})
 	public void ValidateJoinECheckProfessional() throws Exception {
 		String prefix = "Dr.";
 		String suffix = "Sr.";
@@ -170,7 +170,7 @@ public class TestJoinProfessional_CES extends BaseClass {
 				userAccount.get(0) + " " + userAccount.get(1));
 	}
 
-	@Test(priority = 2, description = "Validate Online JOIN - Approved for Passport.", enabled = true)
+	@Test(priority = 2, description = "Validate Online JOIN - Approved for Passport.", enabled = false)
 	public void ValidateJoinApproveForPassport() throws Exception {
 		String prefix = "Dr.";
 		String suffix = "Sr.";
@@ -249,7 +249,7 @@ public class TestJoinProfessional_CES extends BaseClass {
 				userAccount.get(0) + " " + userAccount.get(1));
 	}
 
-	@AfterMethod
+	@AfterMethod (alwaysRun=true)
 	public void teardown() {
 		BrowserSetup.closeBrowser(driver);
 

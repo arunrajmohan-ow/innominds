@@ -19,7 +19,7 @@ public class Logging {
 	public static void configure() throws FileNotFoundException {
 
 		// PropertiesConfigurator is used to configure Logger from a .properties file
-		FileInputStream inputProp = new FileInputStream(".\\properties\\log4j.properties");
+		FileInputStream inputProp = new FileInputStream("./properties/log4j.properties");
 		PropertyConfigurator.configure(inputProp);
 
 	}

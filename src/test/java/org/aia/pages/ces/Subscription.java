@@ -44,7 +44,7 @@ public class Subscription {
 	
 	@FindBy(xpath="//*[text()='Upload Files']") WebElement profUploadFile;
 	
-	@FindBy(xpath="//span[text()='Done']") WebElement pofessionalFileUplaodDoneButton;
+	@FindBy(xpath="//span[text()='Done'] | //span[text()='Done']//parent::button") WebElement pofessionalFileUplaodDoneButton;
 	
 	@FindBy(xpath="//button[@title='Delete Document']") WebElement pofessionalDeleteBtn;
 	
@@ -64,6 +64,7 @@ public class Subscription {
 	
 	@FindBy(xpath="//button[text()='Next']") WebElement confirmNext;
 	
+	@FindBy(xpath="//span[text()='What is your employee size?']") WebElement empSizetxt;
 	
 	
 	/*
@@ -88,6 +89,20 @@ public class Subscription {
 		else if(text.contentEquals("Institutional")||text.contentEquals("Government/public")||text.contentEquals("Non-profit/trade association")||text.contentEquals("Licensing Board"))
 		{
 			ProfessionalType(orgType);
+		}
+		
+		Thread.sleep(4000);
+		try {
+			if(empSizetxt.isDisplayed()) {
+				confirmNext.click();
+			}
+			else {
+				System.out.println("Proration page is not available.");
+			}
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("Proration page is not available.");
 		}
 		
 	}
@@ -159,6 +174,16 @@ public class Subscription {
 		professionalNext.click();
 		util.waitUntilElement(driver, confirmNext);
 		confirmNext.click();
+	}
+	
+	public void proratedSubscriptionNext() throws InterruptedException {
+		Thread.sleep(3000);
+		if(empSizetxt.isDisplayed()) {
+			confirmNext.click();
+		}
+		else {
+			System.out.println("Proration page is not available.");
+		}
 	}
 	
 }

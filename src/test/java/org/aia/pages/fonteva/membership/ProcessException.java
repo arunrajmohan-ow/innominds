@@ -85,26 +85,31 @@ public class ProcessException {
 	@FindBy(xpath = "//table[@aria-label]//tr[2]")
 	WebElement cloneExceptionTable;
 
-	@FindBy(xpath = "//td[2]/span/span")
+	@FindBy(xpath = "//table[@aria-label]//tbody//td[3]//lst-formatted-text")
 	WebElement activityText;
 
-	@FindBy(xpath = "//td[3]/span/span")
+	@FindBy(xpath = "//table[@aria-label]//tbody//td[4]//lst-formatted-text")
 	WebElement initialReachOutText;
 
-	@FindBy(xpath = "//td[4]/span/span")
+	@FindBy(xpath = "//table[@aria-label]//tbody//td[5]//lst-formatted-text")
 	WebElement reasonText;
 
-	@FindBy(xpath = "//td[5]/span/span")
+	@FindBy(xpath = "//table[@aria-label]//tbody//td[6]//lightning-base-formatted-text")
 	WebElement noteText;
 
 	@FindBy(xpath = "//h2[text()='New Processing Exception']")
 	WebElement heading;
 
+<<<<<<< HEAD
 	String contactField = "//input[@placeholder='%s']";
 
 	String dialogBoxDrpOpt = "//span[contains(@class,'media__body')]/span";
 
 	@FindBy(xpath = "(//table[@aria-label='Processing Exceptions']//tr)[2]/th/span/a")
+=======
+	@FindBy(xpath = "(//table[@aria-label='Processing Exceptions']//tr)[2]/th//a")
+	//@FindBy(xpath = "(//table[@aria-label='Processing Exceptions']//tr)[2]/th/span/a")
+>>>>>>> 7bf886d8f5e6b19312c68936c79dd7d45c7120bf
 	WebElement processExceptionId;
 
 	@FindBy(xpath = "(//button[text()='Edit'])[2]")
@@ -151,7 +156,7 @@ public class ProcessException {
 	 */
 	public void createNewProcessException(String fullName, String activityOption, String enterNote, String reasonOption,
 			String intitialReachOutOption, String statusOption) throws InterruptedException {
-		Thread.sleep(60000);
+		Thread.sleep(70000);
 		WebElement selectContact = util.getCustomizedWebElement(driver, contact, fullName);
 		executor.executeScript("arguments[0].click();", selectContact);
 		util.waitUntilElement(driver, processExceptionTab);
@@ -183,6 +188,7 @@ public class ProcessException {
 	 * @param status
 	 */
 	public void validateProcessException(String activity, String reason, String initialReach, String note) {
+		util.waitUntilElement(driver, exceptionTable);
 		assertTrue(exceptionTable.isDisplayed());
 		util.waitUntilElement(driver, activityText);
 		assertEquals(activityText.getText(), activity);
@@ -206,7 +212,8 @@ public class ProcessException {
 	public void editProcessException(String activityOption, String enterNote, String reasonOption,
 			String intitialReachOutOption, String statusOption) {
 		util.waitUntilElement(driver, processExceptionId);
-		processExceptionId.click();
+		executor.executeScript("arguments[0].click();", processExceptionId);
+		//processExceptionId.click();
 		util.waitUntilElement(driver, editBtn);
 		editBtn.click();
 		util.waitUntilElement(driver, PopUpheading);
@@ -241,7 +248,8 @@ public class ProcessException {
 	 */
 	public void cloneExistingProcessException(String fullName) throws InterruptedException {
 		util.waitUntilElement(driver, processExceptionId);
-		processExceptionId.click();
+		executor.executeScript("arguments[0].click();", processExceptionId);
+		//processExceptionId.click();
 		util.waitUntilElement(driver, cloneBtn);
 		cloneBtn.click();
 		util.waitUntilElement(driver, heading);
@@ -265,7 +273,8 @@ public class ProcessException {
 	 * @throws IOException
 	 */
 	public void attachFile() throws InterruptedException, IOException {
-		processExceptionId.click();
+		//processExceptionId.click();
+		executor.executeScript("arguments[0].click();", processExceptionId);
 		util.waitUntilElement(driver, relatedTab);
 		relatedTab.click();
 		util.waitUntilElement(driver, fileUpload);
