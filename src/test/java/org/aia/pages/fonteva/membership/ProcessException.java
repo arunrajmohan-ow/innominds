@@ -100,16 +100,13 @@ public class ProcessException {
 	@FindBy(xpath = "//h2[text()='New Processing Exception']")
 	WebElement heading;
 
-<<<<<<< HEAD
 	String contactField = "//input[@placeholder='%s']";
 
 	String dialogBoxDrpOpt = "//span[contains(@class,'media__body')]/span";
 
-	@FindBy(xpath = "(//table[@aria-label='Processing Exceptions']//tr)[2]/th/span/a")
-=======
+	//@FindBy(xpath = "(//table[@aria-label='Processing Exceptions']//tr)[2]/th/span/a")
 	@FindBy(xpath = "(//table[@aria-label='Processing Exceptions']//tr)[2]/th//a")
 	//@FindBy(xpath = "(//table[@aria-label='Processing Exceptions']//tr)[2]/th/span/a")
->>>>>>> 7bf886d8f5e6b19312c68936c79dd7d45c7120bf
 	WebElement processExceptionId;
 
 	@FindBy(xpath = "(//button[text()='Edit'])[2]")
