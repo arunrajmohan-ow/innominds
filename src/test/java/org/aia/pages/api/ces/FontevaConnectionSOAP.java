@@ -26,7 +26,7 @@ import io.restassured.path.xml.XmlPath;
 
 public class FontevaConnectionSOAP {
 
-	public String getSessionID()
+	public static String getSessionID()
     {
 		String requestBody = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:urn=\"urn:partner.soap.sforce.com\"> \r\n"
 				+ "   <soapenv:Body>\r\n"

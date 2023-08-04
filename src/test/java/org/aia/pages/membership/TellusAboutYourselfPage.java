@@ -35,8 +35,10 @@ public class TellusAboutYourselfPage {
 
 	@FindBy(css="body > div.siteforceStarterBody > div.cCenterPanel.slds-m-top--x-large.slds-p-horizontal--medium > div > div > div > div > div.cb-section_row.slds-grid.slds-wrap.slds-large-nowrap > div > div > div > c-a-i-a-join-additional-info > div.scrollable > div > lightning-record-edit-form > lightning-record-edit-form-edit > form > slot > slot > div:nth-child(4) > div.slds-p-horizontal_x-large > div:nth-child(2) > lightning-input") WebElement workBusinesChckbox1Tellpage;
 	
-	@FindBy(xpath="//label[text()='Home country']/parent::div/following-sibling::div[1]") WebElement homecountryTellpage;
+	@FindBy(xpath="//label[text()='Home country']/parent::div/following-sibling::div[1]//button") WebElement homecountryTellpage;
 
+	@FindBy(xpath="//label[text()='Home country']/parent::div/following-sibling::div[1]") WebElement homecountryTellpage2;
+	
 	@FindBy(xpath="//span[@title='United States']/parent::span") WebElement homecountryUnitedStatesTellpage;
 
 	@FindBy(xpath="//label[text()='Home country']/parent::div/following-sibling::div[1]//lightning-base-combobox/div/div[2]//span[@title='United States']/parent::span") WebElement homecountryUnitedStates2Tellpage;
@@ -84,6 +86,7 @@ public class TellusAboutYourselfPage {
 	@FindBy(xpath="//label[@id='careerType']//parent::div") WebElement careerTypedrpdwn;
 	
 	
+	
 	public void enterTellUsAboutYourSelfdetails(String text, String careerType) throws InterruptedException {
 		if(text.contentEquals("noLicense")||text.contentEquals("graduate")
 				||text.contentEquals("axp")||text.contentEquals("faculty")) 
@@ -93,6 +96,7 @@ public class TellusAboutYourselfPage {
 			JavascriptExecutor js = (JavascriptExecutor) driver;
 			js.executeScript("window.scrollBy(0,900)", workBusinesChckboxTellpage);
 			clickonChckBox();
+			Thread.sleep(7000);
 			enterdetails(homecountryUnitedStatesTellpage);
 			
 		}
@@ -103,6 +107,7 @@ public class TellusAboutYourselfPage {
 			entercareerType(careerType);
 			enterLicenseDetails();			
 			clickonChckBox();
+			Thread.sleep(7000);
 			enterdetails(homecountryUnitedStates2Tellpage);
 		}
 		else if(text.contentEquals("activeNonUSLicense"))
@@ -111,6 +116,7 @@ public class TellusAboutYourselfPage {
 			entercareerType(careerType);
 			enterLicenseDetailsNonUS();		
 			clickonChckBox();
+			Thread.sleep(7000);
 			enterdetails(homecountryUnitedStates2Tellpage);
 		}
 		
@@ -122,6 +128,7 @@ public class TellusAboutYourselfPage {
 			JavascriptExecutor js = (JavascriptExecutor) driver;
 			js.executeScript("window.scrollBy(0,500)", workBusinesChckboxTellpage);
 			clickonChckBox();
+			Thread.sleep(7000);
 			enterdetails(homecountryUnitedStatesTellpage);
 		}
 		
@@ -132,6 +139,7 @@ public class TellusAboutYourselfPage {
 			JavascriptExecutor js = (JavascriptExecutor) driver;
 			js.executeScript("window.scrollBy(0,500)", workBusinesChckboxTellpage);
 			clickonChckBox();
+			Thread.sleep(7000);
 			enterdetails(homecountryUnitedStatesTellpage);
 		}
 		
@@ -147,6 +155,7 @@ public class TellusAboutYourselfPage {
 			JavascriptExecutor js = (JavascriptExecutor) driver;
 			js.executeScript("window.scrollBy(0,900)", workBusinesChckboxTellpage);
 			clickonChckBox();
+			Thread.sleep(7000);
 			enterdetails(homecountryUnitedStatesTellpage);
 			
 		}
@@ -157,6 +166,7 @@ public class TellusAboutYourselfPage {
 			entercareerType(careerType);
 			enterLicenseDetails();			
 			clickonChckBox();
+			Thread.sleep(7000);
 			enterFullDetails(homecountryUnitedStates2Tellpage);
 		}
 		else if(text.contentEquals("activeNonUSLicense"))
@@ -165,6 +175,7 @@ public class TellusAboutYourselfPage {
 			entercareerType(careerType);
 			enterLicenseDetailsNonUS();		
 			clickonChckBox();
+			Thread.sleep(7000);
 			enterdetails(homecountryUnitedStates2Tellpage);
 		}
 		
@@ -176,6 +187,7 @@ public class TellusAboutYourselfPage {
 			JavascriptExecutor js = (JavascriptExecutor) driver;
 			js.executeScript("window.scrollBy(0,500)", workBusinesChckboxTellpage);
 			clickonChckBox();
+			Thread.sleep(7000);
 			enterdetails(homecountryUnitedStatesTellpage);
 		}
 		
@@ -216,13 +228,14 @@ public class TellusAboutYourselfPage {
 		js.executeScript("window.scrollBy(0,50)", LicenceExpiryDateTellPage);
 		Actions act = new Actions(driver);
 		act.moveToElement(LicenceExpiryDateTellPage).click().build().perform();
+		LicenceExpiryDateTellPage.clear();
 		LicenceExpiryDateTellPage.sendKeys("Dec 31, 2023");	
 		util.waitUntilElement(driver, countryOfLicenseTellpage);
 		
 		js.executeScript("window.scrollBy(0,300)", countryOfLicenseTellpage);
 		countryOfLicenseTellpage.click();
 		js.executeScript("window.scrollBy(0,50)", homecountryUnitedStatesTellpage);
-		
+		Thread.sleep(7000);
 		act.moveToElement(homecountryUnitedStatesTellpage).click().build().perform();
 		
 		js.executeScript("window.scrollBy(0,30)", stateOfLicenceTellpage);
@@ -249,11 +262,12 @@ public class TellusAboutYourselfPage {
 		js.executeScript("window.scrollBy(0,200)", countryOfLicenseTellpage);
 		countryOfLicenseTellpage.click();
 		js.executeScript("window.scrollBy(0,50)", homecountryUnitedStatesTellpage);
-		
+		Thread.sleep(7000);
 		act.moveToElement(homecountryUnitedStatesTellpage).click().build().perform();
 		
 		js.executeScript("window.scrollBy(0,30)", licenseNumTellpage);
 		act.moveToElement(licenseNumTellpage).click().build().perform();
+		licenseNumTellpage.clear();
 		licenseNumTellpage.sendKeys("12345");	
 		
 		
@@ -272,6 +286,7 @@ public class TellusAboutYourselfPage {
 		
 		js.executeScript("window.scrollBy(0,100)", supervisorEmailTellPage);
 		act.moveToElement(supervisorEmailTellPage).click().build().perform();
+		supervisorEmailTellPage.clear();
 		supervisorEmailTellPage.sendKeys("supervisor@gmail.com");
 	}
 	
@@ -285,12 +300,17 @@ public class TellusAboutYourselfPage {
 	
 	public void enterdetails(WebElement ele) throws InterruptedException 
 	{	
+		Thread.sleep(10000);
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 
-		js.executeScript("window.scrollBy(0,03)", homecountryTellpage);
+		js.executeScript("window.scrollBy(0,30)", homecountryTellpage);
 		util.waitUntilElement(driver, homecountryTellpage);		
 		Thread.sleep(1000);
-		homecountryTellpage.click();	
+		if(homecountryTellpage.isDisplayed() || homecountryTellpage2.isDisplayed() ) {
+			homecountryTellpage.click();
+		}else {
+			homecountryTellpage2.click();
+		}
 		
 		util.waitUntilElement(driver, ele);			
 		js.executeScript("window.scrollBy(0,30)", ele);
@@ -308,7 +328,7 @@ public class TellusAboutYourselfPage {
 		
 		util.waitUntilElement(driver, stateTellpage);
 		act.moveToElement(stateTellpage).click().build().perform();
-		
+		Thread.sleep(3000);
 		util.waitUntilElement(driver, californiaStateTellpage);
 
 		Thread.sleep(1000);
@@ -341,8 +361,11 @@ public class TellusAboutYourselfPage {
 		js.executeScript("window.scrollBy(0,03)", homecountryTellpage);
 		util.waitUntilElement(driver, homecountryTellpage);		
 		Thread.sleep(1000);
-		homecountryTellpage.click();	
-		
+		if(homecountryTellpage.isDisplayed() || homecountryTellpage2.isDisplayed() ) {
+			homecountryTellpage.click();
+		}else {
+			homecountryTellpage2.click();
+		}
 		util.waitUntilElement(driver, ele);			
 		js.executeScript("window.scrollBy(0,30)", ele);
 		Actions act = new Actions(driver);
@@ -385,6 +408,32 @@ public class TellusAboutYourselfPage {
 		util.waitUntilElement(driver, nextBtnTellpage);
 		nextBtnTellpage.click();
 		Thread.sleep(7000);
+	}
+	
+	/**
+	 * @throws InterruptedException 
+	 * 
+	 */
+	public void reJoinTellUs() throws InterruptedException {
+	/*	JavascriptExecutor js = (JavascriptExecutor) driver;
+		Thread.sleep(30000);
+		js.executeScript("window.scrollBy(0,550)","");
+		util.waitUntilElement(driver, workBusinesChckboxTellpage);
+		js.executeScript("window.scrollBy(0,350)", workBusinesChckboxTellpage);
+	    //js.executeScript("arguments[0].click();", workBusinesChckboxTellpage);
+		workBusinesChckboxTellpage.click();
+		js.executeScript("window.scrollBy(0,750)", nextBtnTellpage);
+		util.waitUntilElement(driver, nextBtnTellpage);
+		//js.executeScript("arguments[0].click();", nextBtnTellpage);
+		nextBtnTellpage.click();
+		Thread.sleep(7000);
+		
+		js.executeScript("window.scrollBy(0,1500)", nextBtnEquitypage);
+		util.waitUntilElement(driver, nextBtnEquitypage);
+		//js.executeScript("arguments[0].click();", nextBtnEquitypage);
+		nextBtnEquitypage.click();	*/
+		Thread.sleep(7000);
+		driver.navigate().back();
 	}
 	
 }

@@ -6,6 +6,7 @@ import java.sql.Driver;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -85,15 +86,15 @@ public class Utility {
 	}
 	
 	public static String captureScreenshotFromBase64(WebDriver driver)
-	{
-		String newBase=null;
+	{  
+		String newBase = null;
 		TakesScreenshot ts=(TakesScreenshot)driver;
 		try 
 		{
 
 			String mybase=	ts.getScreenshotAs(OutputType.BASE64);
 				
-			newBase="data:image/png;base64,"+mybase;
+			 newBase="data:image/png;base64,"+mybase;
 			
 			System.out.println(mybase);
 	
@@ -185,7 +186,7 @@ public class Utility {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(70));
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(80));
 		wait.until(ExpectedConditions.visibilityOf(element));
 
 	}
@@ -287,6 +288,19 @@ public class Utility {
 		WebElement finalElement= driver.findElement(By.xpath(String.format(element, replacement)));
 		waitUntilElement(driver, finalElement);
 		return finalElement;
+	}
+	
+	/**
+	 * @param driver
+	 * @param url
+	 * @param tab
+	 * @return 
+	 */
+	public WebDriver switchToTab(WebDriver driver,int tab) {
+		((JavascriptExecutor) driver).executeScript("window.open()");
+		ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
+		driver.switchTo().window(tabs.get(tab));
+		return driver;
 	}
 	
 }

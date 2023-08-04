@@ -98,7 +98,7 @@ public class EmailAttachmentsSender {
 					//message1.setRecipients(Message.RecipientType.TO,InternetAddress.parse(toAddress[0]));
 		            
                     // Add the subject link
-					message1.setSubject("Automation Results!"+DataProviderFactory.getConfig().getValue("app_undertest"));
+					message1.setSubject("Automation Execution Results!"+DataProviderFactory.getConfig().getValue("app_undertest"));
 				    
 					// Create object to add multimedia type content
 					MimeMessage messageBodyPart1 = new MimeMessage( session );

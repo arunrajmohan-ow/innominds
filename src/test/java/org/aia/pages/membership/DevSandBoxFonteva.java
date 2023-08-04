@@ -12,9 +12,11 @@ import org.openqa.selenium.support.FindBy;
 public class DevSandBoxFonteva {
 
 	WebDriver driver;
+	JavascriptExecutor executor;
 	public DevSandBoxFonteva(WebDriver Idriver) 
 	{
 		this.driver = Idriver;
+		executor = (JavascriptExecutor) driver;
 	}
 	Utility util = new Utility(driver, 10);
 	
@@ -36,7 +38,9 @@ public class DevSandBoxFonteva {
 
 	@FindBy(xpath="//h2//span[@title='Terms']") WebElement Terms;
 
-	@FindBy(xpath="//table[@aria-label='Terms']/tbody/tr/th//span/a") WebElement termId;
+	//@FindBy(xpath="//table[@aria-label='Terms']/tbody/tr/th//span/a") WebElement termId;
+	@FindBy(xpath="//table[@aria-label='Terms']/tbody/tr/th//span//ancestor::a") WebElement termId;
+	
 
 	@FindBy(xpath="//button[text()='Save']") WebElement saveBtn;
 
@@ -52,7 +56,7 @@ public class DevSandBoxFonteva {
 	
 	@FindBy(xpath="//button[@title='Edit Term End Date']/span") WebElement editBtn;
 	
-	@FindBy(xpath="//a[contains(text(),'Show')]") WebElement showallBtn;
+	@FindBy(xpath="(//a[contains(text(),'Show All')])") WebElement showallBtn;
 	
 	@FindBy(xpath="//h1/span[text()='Contacts']/parent::h1/parent::div/parent::div//button") WebElement contactallBtn;
 	
@@ -60,20 +64,24 @@ public class DevSandBoxFonteva {
 	
 	@FindBy(xpath="//div[text()='Contact']") WebElement contactTitle;
 	
-	String  startLocator = "//div[@class='uiVirtualDataTable indicator']/following-sibling::table/tbody//a[text()='";
-	String  endLocator = "']";
+	/*String  startLocator = "//div[@class='uiVirtualDataTable indicator']/following-sibling::table/tbody//a[text()='";
+	String  endLocator = "']";*/
+	
+	String userContactName="//div[@class='uiVirtualDataTable indicator']/following-sibling::table/tbody//a[text()='%s']";
 	
 	public void changeTermDates(String fullName) throws InterruptedException 
 	{
-		//util.waitUntilElement(driver, userName);
-		//userName.sendKeys("smurala@innominds.com.aia.prod.testing");
-		//userName.sendKeys("integration@aia.org.testing");
-		//userName.sendKeys("paggrawal@innominds.com.aia.testing");
-		//userName.sendKeys("sgopisetty@innominds.com.aia.testing");
-		//password.sendKeys("Srk_09122022");
-		//password.sendKeys("x9VKwVwkS3G#");
-		//password.sendKeys("Harshi@437");
-		//loginBtn.click();
+		/*
+		 * util.waitUntilElement(driver, userName);
+		 * //userName.sendKeys("smurala@innominds.com.aia.prod.testing");
+		 * //userName.sendKeys("integration@aia.org.testing");
+		 * //userName.sendKeys("paggrawal@innominds.com.aia.testing");
+		 * userName.sendKeys("paggrawal@innominds.com.aia.testing.platform");
+		 * //password.sendKeys("Srk_09122022"); //password.sendKeys("x9VKwVwkS3G#");
+		 * password.sendKeys("Login_1234"); loginBtn.click();
+		 */
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		Actions actions = new Actions(driver);
 		util.waitUntilElement(driver, contacts);
 		contactsDiv.click();
 		util.waitUntilElement(driver, tableheaderName);
@@ -83,13 +91,15 @@ public class DevSandBoxFonteva {
 		util.waitUntilElement(driver, contactallLink);
 		contactallLink.click();
 		Thread.sleep(10000);
-		driver.findElement(By.xpath(startLocator+fullName+endLocator)).click();
+		//driver.findElement(By.xpath(startLocator+fullName+endLocator)).click();
+		util.getCustomizedWebElement(driver, userContactName, fullName).click();
 		util.waitUntilElement(driver, showallBtn);
+		actions.sendKeys(Keys.ARROW_DOWN).build().perform();
+		//actions.moveToElement(showallBtn).build().perform();
 		showallBtn.click();
 		Thread.sleep(2000);
 		util.waitUntilElement(driver, memberShip);
 		//Instantiating Actions class
-		Actions actions = new Actions(driver);
 		//Hovering on main menu
 		actions.moveToElement(contactTitle);
 		actions.sendKeys(Keys.ARROW_DOWN).build().perform();
@@ -101,23 +111,24 @@ public class DevSandBoxFonteva {
 		util.waitUntilElement(driver, Terms);
 		Terms.click();
 		util.waitUntilElement(driver, termId);
-		termId.click();
+		js.executeScript("arguments[0].click();", termId);
+		//termId.click();
 		Thread.sleep(5000);
 		util.waitUntilElement(driver, editBtn);
 		Thread.sleep(5000);
 		Actions act = new Actions(driver);
 		act.scrollToElement(editBtn);
-		JavascriptExecutor js = (JavascriptExecutor) driver;
 		js.executeScript("window.scrollBy(0,200)", editBtn);
 		editBtn.click();
 		util.waitUntilElement(driver, inputTermEndDate);
 		inputTermEndDate.clear();
-		inputTermEndDate.sendKeys("12/31/2023");
+		inputTermEndDate.sendKeys("12/31/2022");
 		util.waitUntilElement(driver, inputTermGraceDate);
 		inputTermGraceDate.clear();
-		inputTermGraceDate.sendKeys("4/4/2024");
+		inputTermGraceDate.sendKeys("4/4/2023");
+		util.waitUntilElement(driver, saveBtn);
 		saveBtn.click();
-		Thread.sleep(1000);
+		Thread.sleep(30000);
 		act.sendKeys(Keys.F5);
 		Thread.sleep(5000);
 	}

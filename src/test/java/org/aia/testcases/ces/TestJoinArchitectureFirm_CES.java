@@ -66,11 +66,12 @@ public class TestJoinArchitectureFirm_CES extends BaseClass {
 	public ExtentReports extent;
 	public ExtentTest extentTest;
 	
-	@BeforeMethod
+	@BeforeMethod(alwaysRun=true)
 	public void setUp() throws Exception
 	{
 		driver=BrowserSetup.startApplication(driver, DataProviderFactory.getConfig().getValue("browser"),DataProviderFactory.getConfig().getValue("ces_signin"));
 		util=new Utility(driver, 30);
+		sessionID=new FontevaConnectionSOAP();
 		signUpPage = PageFactory.initElements(driver, SignUpPageCes.class);
 		signInpage = PageFactory.initElements(driver, SignInPage.class);
 		closeButtnPage = PageFactory.initElements(driver, CloseBtnPageCes.class);
@@ -90,8 +91,27 @@ public class TestJoinArchitectureFirm_CES extends BaseClass {
 		fontevaPage = PageFactory.initElements(driver, FontevaCES.class);
 	}
 	
+
+
+	@Test(priority=1, description="Validate Online JOIN for Architecture Firm using credit card.", enabled=false)
+	public void ValidateArchitectureJoin() throws Exception
+	{
+		String prefix = "Dr.";
+		String suffix = "Sr.";
+		signUpPage.clickSignUplink(); 
+		ArrayList<String> dataList = signUpPage.signUpData(); 
+		//ArrayList<String> userAccount = dataList;
+		//Verify welcome email details.
+		//mailinator.cesProviderApprovedEmailLink(userAccount);
+		
+		// Navigate to Fonteva app and make record renew eligible.
+		driver.get(DataProviderFactory.getConfig().getValue("fonteva_endpoint"));
+		fontevaPage.changeProviderApplicationStatus(dataList.get(0)+" "+dataList.get(1), "PA-0002153", "Approved");
+	}
+
+
 	
-	@Test(priority=1, description="Validate Online JOIN for Architecture Firm using credit card.", enabled=true)
+	@Test(priority=1, description="Validate Online JOIN for Architecture Firm using credit card.", enabled=true, groups= {"Smoke"})
 	public void ValidateJoinArchitectureFirm() throws Exception
 	{
 		String prefix = "Dr.";
@@ -108,6 +128,7 @@ public class TestJoinArchitectureFirm_CES extends BaseClass {
 		String subType = organizationPage.enterOrganizationDetails(dataList, 
 				  "Architecture Firm", "No", "United States of America (+1)");
 		subscribePage.SubscriptionType(subType, "Yes", null, "Non-profit");
+		//subscribePage.proratedSubscriptionNext();
 		secPoc.enterSecondaryPocDetails(dataList, prefix, suffix, "No", "United States of America (+1)"); 
 		additionalUsers.doneWithCreatingUsers();
 		providerStatement.providerStatementEnterNameDate2("FNProviderStatement");
@@ -163,11 +184,10 @@ public class TestJoinArchitectureFirm_CES extends BaseClass {
 			
 		//Validate Primary POC 
 		apiValidation.verifyPointOfContact("CES Primary", userAccount.get(5), userAccount.get(0)+" "+userAccount.get(1));
-
 	}
 
-	@AfterMethod
-	public void teardown() 
+	@AfterMethod(alwaysRun=true)
+	public void teardown()
 	{
 		BrowserSetup.closeBrowser(driver);
 		

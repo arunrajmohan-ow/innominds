@@ -27,6 +27,7 @@ import org.testng.annotations.AfterTest;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.model.Log;
 import com.google.inject.Key;
 
 import io.qameta.allure.Description;
@@ -52,7 +53,7 @@ public class TestDIPRenew_Membership extends BaseClass {
 	RenewPage renew;
 	public String inbox;
 
-	@BeforeMethod
+	@BeforeMethod(alwaysRun=true)
 	public void setUp() throws Exception {
 		driver = BrowserSetup.startApplication(driver, DataProviderFactory.getConfig().getValue("browser"),
 				DataProviderFactory.getConfig().getValue("devstagingurl_membership"));
@@ -75,7 +76,7 @@ public class TestDIPRenew_Membership extends BaseClass {
 		renew = PageFactory.initElements(driver, RenewPage.class);
 	}
 
-	@Test(priority=1, description="Validate DIP Renew", enabled=true)
+	@Test(priority=1, description="Validate DIP Renew", enabled=true, groups= {"smoke"})
 	public void ValidateDipRenew() throws Exception
 	{
 		LocalDate localDate = java.time.LocalDate.now();
@@ -136,12 +137,12 @@ public class TestDIPRenew_Membership extends BaseClass {
 		apiValidationRenew.verifyReciptDetails(data.get(0), data.get(2));
 		}
 		else {
-			System.out.println("We are not DIP period");
+			System.out.println("We are not in DIP period");
 		}
 	}
 	
 	
-	@AfterMethod
+	@AfterMethod(alwaysRun=true)
 	public void teardown() {
 		BrowserSetup.closeBrowser(driver);
 	}
