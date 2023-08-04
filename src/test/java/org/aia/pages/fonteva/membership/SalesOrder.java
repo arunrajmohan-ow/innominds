@@ -7,9 +7,11 @@ import java.util.ArrayList;
 
 import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.Utility;
+import org.apache.commons.lang3.Validate;
 import org.apache.log4j.Logger;
 import org.apache.xmlbeans.soap.SOAPArrayType;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -73,6 +75,12 @@ public class SalesOrder {
 
 	@FindBy(xpath = "//p[@title='Total']/parent::div/p[2]/slot/lightning-formatted-text")
 	WebElement afterDiscountAmt;
+
+	@FindBy(xpath = "//table[@aria-label='Sales Order Lines']//tbody//tr[1]//td[3]//a")
+	WebElement firstSalesorderLineText;
+
+	@FindBy(xpath = "//table[@aria-label='Sales Order Lines']//tbody//tr[2]//td[3]//a")
+	WebElement secondSalesorderLineText;
 
 	@FindBy(xpath = "//table[@aria-label='Sales Order Lines']//tbody//tr[1]//td[6]//lst-formatted-text")
 	WebElement salesOrderListPriceText;
@@ -146,8 +154,21 @@ public class SalesOrder {
 	}
 
 	/**
-	 * @return 
 	 * 
+	 */
+	public void checkDuplicateSOLItem() {
+		action.sendKeys(Keys.ARROW_DOWN).build().perform();
+		util.waitUntilElement(driver, salesOrderLink);
+		salesOrderLink.click();
+		util.waitUntilElement(driver, salesOrderTable);
+		assertTrue(salesOrderTable.isDisplayed());
+		util.waitUntilElement(driver, orderId);
+		executor.executeScript("arguments[0].click();", orderId);
+		//orderId.click();
+	}
+
+	/**
+	 * @return
 	 */
 	public Double checkSaleorderLine() {
 		util.waitUntilElement(driver, salesOrderLine);
@@ -166,7 +187,16 @@ public class SalesOrder {
 		Double finalSalePrice = installMentSalePrice / 6; // Here 6 is how much installment we gone use 
 		return installMentSalePrice;
 		//System.out.println("Last sale price" + finalSalePrice);
-
 	}
-
+	
+	/**
+	 * Here I am validate the both sales order line using the assertions.
+	 */
+	public void validateSalesOrderLine() {
+		util.waitUntilElement(driver,firstSalesorderLineText);
+		String firstSOLineText= firstSalesorderLineText.getAttribute("title");
+		util.waitUntilElement(driver, secondSalesorderLineText);
+		String secondSOLineText= secondSalesorderLineText.getAttribute("title");
+		assertNotEquals(firstSOLineText, secondSOLineText);
+	}
 }
