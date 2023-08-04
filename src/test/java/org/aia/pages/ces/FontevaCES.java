@@ -34,9 +34,7 @@ public class FontevaCES {
 	
 	@FindBy(xpath="//table[@aria-label='Recently Viewed']/tbody/tr/th") WebElement tableProviderApp;
 	
-	@FindBy(xpath="//button[contains(@title,'Select a List View')]") WebElement selectList;
-	
-	//@FindBy(xpath="//button[@title='Select a List View']") WebElement selectList;
+	@FindBy(xpath="//button[@title='Select a List View'] | //button[contains(@title,'Select a List View')]") WebElement selectList;
 	
 	@FindBy(xpath="//span[@class=' virtualAutocompleteOptionText'and text()='All']") WebElement allBtn;
 	
@@ -60,10 +58,10 @@ public class FontevaCES {
 
 	@FindBy(xpath="//h2//span[@title='Terms']") WebElement Terms;
 
-	@FindBy(xpath="//table[@aria-label='Terms']/tbody/tr/th//span/a") WebElement termId;
-
-
-	@FindBy(xpath="//table[@aria-label='Memberships']/tbody/tr/th") WebElement tableSubscriptionId;
+	//@FindBy(xpath="//table[@aria-label='Terms']/tbody/tr/th//span/a | //table[@aria-label='Terms']/tbody/tr/th//span//ancestor::a") WebElement termId;
+	@FindBy(xpath="//table[@aria-label='Terms']/tbody/tr/th//span//ancestor::a") WebElement termId;
+	
+	@FindBy(xpath="//table[@aria-label='Memberships']/tbody/tr/th//div") WebElement tableSubscriptionId;
 
 	@FindBy(xpath="//input[@name='OrderApi__Term_End_Date__c']") WebElement inputTermEndDate;
 
@@ -89,11 +87,11 @@ public class FontevaCES {
 	
 	public void changeProviderApplicationStatus(String fullName, String providerID, String providerStatus) throws InterruptedException 
 	{
-		
-		 // util.waitUntilElement(driver, userName);
-		  //userName.sendKeys("sgopisetty@innominds.com.aia.testing");
-		  //password.sendKeys("Harshi@438"); loginBtn.click();
-		 
+		/*
+		 * util.waitUntilElement(driver, userName);
+		 * userName.sendKeys("sgopisetty@innominds.com.aia.testing");
+		 * password.sendKeys("Harshi@437"); loginBtn.click();
+		 */
 		util.waitUntilElement(driver, appLauncherIcn);
 		Thread.sleep(10000);
 		appLauncherIcn.click();
@@ -123,5 +121,60 @@ public class FontevaCES {
 		Thread.sleep(1000);
 		act.sendKeys(Keys.F5);
 		Thread.sleep(5000);
+	}
+	
+	public void changeTermDates(String fullName) throws InterruptedException 
+	{
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		util.waitUntilElement(driver, contacts);
+		contactsDiv.click();
+		util.waitUntilElement(driver, tableheaderName);
+		Thread.sleep(5000);
+		util.waitUntilElement(driver, contactallBtn);
+		contactallBtn.click();
+		util.waitUntilElement(driver, contactallLink);
+		contactallLink.click();
+		Thread.sleep(15000);
+		driver.findElement(By.xpath(startLocator+fullName+endLocator)).click();
+		util.waitUntilElement(driver, showallBtn);
+		Thread.sleep(5000);
+		showallBtn.click();
+		Thread.sleep(2000);
+		util.waitUntilElement(driver, memberShip);
+		//Instantiating Actions class
+		Actions actions = new Actions(driver);
+		//Hovering on main menu
+		actions.moveToElement(contactTitle);
+		actions.sendKeys(Keys.ARROW_DOWN).build().perform();
+		actions.sendKeys(Keys.ARROW_DOWN).build().perform();
+		Thread.sleep(5000);
+		util.waitUntilElement(driver, memberShip);
+		memberShip.click();
+		util.waitUntilElement(driver, tableSubscriptionId);
+		Thread.sleep(1000);
+		tableSubscriptionId.click();
+		util.waitUntilElement(driver, Terms);
+		Terms.click();
+		util.waitUntilElement(driver, termId);
+		js.executeScript("arguments[0].click();", termId);
+		//termId.click();
+		Thread.sleep(5000);
+		util.waitUntilElement(driver, editBtn);
+		Thread.sleep(5000);
+		Actions act = new Actions(driver);
+		act.scrollToElement(editBtn);
+		//JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("window.scrollBy(0,200)", editBtn);
+		editBtn.click();
+		util.waitUntilElement(driver, inputTermEndDate);
+		inputTermEndDate.clear();
+		inputTermEndDate.sendKeys("12/31/2022");
+		util.waitUntilElement(driver, inputTermGraceDate);
+		inputTermGraceDate.clear();
+		inputTermGraceDate.sendKeys("4/4/2024");
+		saveBtn.click();
+		Thread.sleep(1000);
+		act.sendKeys(Keys.F5);
+		Thread.sleep(2000);
 	}
 }

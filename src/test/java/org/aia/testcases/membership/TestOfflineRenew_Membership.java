@@ -58,17 +58,17 @@ public class TestOfflineRenew_Membership extends BaseClass {
 				testData.testDataProvider().getProperty("selection"));
 		fontevaJoin.enterLicenseDetail();
 		fontevaJoin.createSalesOrder(testData.testDataProvider().getProperty("paymentMethod"));
-		fontevaJoin.applyPayment();
+		fontevaJoin.applyPayment(dataList.get(5));
 		ArrayList<Object> data = fontevaJoin.getPaymentReceiptData();
 		reNew.changeTermDate(dataList.get(5));
 		reNew.renewMembership(dataList.get(5));
 		reNew.applyForPayment(testData.testDataProvider().getProperty("paymentMethod"));
-		fontevaJoin.applyPayment();
+		fontevaJoin.applyPayment(dataList.get(5));
 		ArrayList<Object> renewReciept = fontevaJoin.getPaymentReceiptData();
 		// Validation of Thank you massage in email inbox after renew
 		malinator.thankYouEmailforOfflineRenew(dataList.get(2));
 		// Validate Membership & Term is got created
-		offlinApiValidation.verifyMemebershipRenewal(dataList.get(3),
+		offlinApiValidation.verifyMemebershipRenewal(dataList.get(2),
 				testData.testDataProvider().getProperty("termEndDate"), renewReciept.get(2),
 				DataProviderFactory.getConfig().getValue("type_aia_national"),
 				testData.testDataProvider().getProperty("membershipType"),
@@ -78,7 +78,7 @@ public class TestOfflineRenew_Membership extends BaseClass {
 				DataProviderFactory.getConfig().getValue("orderStatus"), renewReciept.get(2),
 				DataProviderFactory.getConfig().getValue("postingStatus"));
 		// Validate Receipt Details
-		offlinApiValidation.verifyReciptDetails(data.get(0), data.get(2));
+		offlinApiValidation.verifyReciptDetails(renewReciept.get(0), renewReciept.get(2));
 
 	}
 

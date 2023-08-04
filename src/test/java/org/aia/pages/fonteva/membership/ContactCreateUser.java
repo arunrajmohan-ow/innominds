@@ -22,6 +22,8 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 
+import groovyjarjarantlr4.v4.runtime.tree.xpath.XPath;
+
 /**
  * @author IM-RT-LP-1483(Suhas)
  *
@@ -76,7 +78,7 @@ public class ContactCreateUser {
 	@FindBy(xpath = "//button[text()='Join']")
 	WebElement joinBtn;
 
-	String memType = "//span[text()='%s']";
+	String memType = "//span[@title='%s']";
 
 	@FindBy(xpath = "//button[@name='AIA_Membership_Type__c']")
 	WebElement selectMemTypeBtn;
@@ -99,6 +101,8 @@ public class ContactCreateUser {
 	WebElement licenseStateDrp;
 
 	String state = "//span[text()='%s']";
+	
+	String country="//span[text()='%s']";
 
 	@FindBy(xpath = "//input[contains(@name,'License_Date')]")
 	WebElement licenseStartDate;
@@ -112,8 +116,11 @@ public class ContactCreateUser {
 	@FindBy(xpath = "//button[contains(@aria-label,'Subscription Plans')]")
 	WebElement selectDuesDrp;
 
-	@FindBy(xpath = "//span[contains(text(),'Payment in Full')]")
+	@FindBy(xpath = "//span[contains(@title,'Payment in Full')]")
 	WebElement selectDeusOpt;
+	
+	@FindBy(xpath="//span[contains(@title,'Dues Installment Plan ')]")
+	WebElement selectPayInInsatllmentElement;
 
 	@FindBy(xpath = "//button[contains(text(),'Create sales order')]")
 	WebElement createSalesOrder;
@@ -171,12 +178,13 @@ public class ContactCreateUser {
 
 	String contactName = "//a[text()='%s']";
 
-	@FindBy(xpath="//a[contains(text(),'Show All')]")
-  	WebElement showAll;
+	@FindBy(xpath = "//a[contains(text(),'Show All (2')]")
+	WebElement showAll;
 
 	@FindBy(xpath = "//a/span[@title='Name']")
 	WebElement tableheaderName;
 	
+<<<<<<< HEAD
 	@FindBy(xpath="//span[contains(text(),'Member Value')]//ancestor::a")
 	WebElement mvoTab;
 	
@@ -184,6 +192,10 @@ public class ContactCreateUser {
 	WebElement mvoNewBtn;
 	
 	String contact = "//span[text()='%s']//ancestor::a";
+=======
+	@FindBy(xpath="//button[contains(@aria-label,'Join License Country')]")
+	WebElement licenseCountryDrp;
+>>>>>>> 213e8fd60c3aaa9f53f1b8df95c85beada8b854c
 
 	String fName;
 	String lName;
@@ -260,7 +272,7 @@ public class ContactCreateUser {
 	 * @throws InterruptedException
 	 */
 	public void joinCreatedUser(String membership, String career) throws InterruptedException {
-		Thread.sleep(7000);
+		Thread.sleep(8000);
 		util.waitUntilElement(driver, joinBtn);
 		joinBtn.click();
 		util.waitUntilElement(driver, selectMemTypeBtn);
@@ -269,7 +281,7 @@ public class ContactCreateUser {
 		util.waitUntilElement(driver, membershipType);
 		membershipType.click();
 		action.moveToElement(enterZipCode);
-		enterZipCode.sendKeys(data.testDataProvider().getProperty("zipCode"));
+		util.enterText(driver, enterZipCode, data.testDataProvider().getProperty("zipCode"));
 		util.waitUntilElement(driver, careerTypeDrp);
 		careerTypeDrp.click();
 		WebElement selectCareerType = driver.findElement(By.xpath(String.format(careerType, career)));
@@ -287,6 +299,9 @@ public class ContactCreateUser {
 	 */
 	public void enterLicenseDetail() {
 		util.enterText(driver, enterLicenseNumber, data.testDataProvider().getProperty("LICENSE_NUMBER"));
+		util.waitUntilElement(driver, licenseCountryDrp);
+		licenseCountryDrp.click();
+		executor.executeScript("arguments[0].click();", util.getCustomizedWebElement(driver, country, data.testDataProvider().getProperty("LICENSE_COUNTRY")));
 		licenseStateDrp.click();
 		WebElement enterState = driver
 				.findElement(By.xpath(String.format(state, data.testDataProvider().getProperty("LICENSE_STATE"))));
@@ -309,6 +324,7 @@ public class ContactCreateUser {
 	public void createSalesOrder(String paymentOpt) throws InterruptedException {
 		util.waitUntilElement(driver, selectDuesDrp);
 		selectDuesDrp.click();
+		// executor.executeScript("arguments[0].click();", selectDeusOpt);
 		selectDeusOpt.click();
 		createSalesOrder.click();
 		util.waitUntilElement(driver, readyForPaymentBtn);
@@ -332,11 +348,12 @@ public class ContactCreateUser {
 	}
 
 	/**
+	 * @param fullName
 	 * @param null
 	 * @throws InterruptedException
 	 */
-	public void applyPayment() throws InterruptedException {
-		util.enterText(driver, cardHolderName, (userList.get(0) + " " + userList.get(1)));
+	public void applyPayment(String fullName) throws InterruptedException {
+		util.enterText(driver, cardHolderName, fullName);
 		util.waitUntilElement(driver, cardNumIframe1);
 		driver.switchTo().frame(cardNumIframe1);
 		util.waitUntilElement(driver, cardNumIframe2);
@@ -368,6 +385,7 @@ public class ContactCreateUser {
 		String customerAIANumber = aiaNumber.getText();
 		receiptData.add(1, customerAIANumber);
 		String totalAmmountText = totalAmmount.getText().replaceAll("[$]*", "").trim();
+		System.out.println(totalAmmountText);
 		receiptData.add(2, totalAmmountText);
 		return receiptData;
 	}
@@ -386,14 +404,16 @@ public class ContactCreateUser {
 		contactallBtn.click();
 		util.waitUntilElement(driver, contactallLink);
 		contactallLink.click();
-		Thread.sleep(10000);
-		util.getCustomizedWebElement(driver, contactName, userFullname).click();
+		Thread.sleep(14000);
+		util.waitUntilElement(driver, util.getCustomizedWebElement(driver, contactName, userFullname));
+		executor.executeScript("arguments[0].click();",
+				util.getCustomizedWebElement(driver, contactName, userFullname));
 		util.waitUntilElement(driver, showAll);
-		action.moveToElement(showAll).build().perform();
 		showAll.click();
 	}
 	
 	/**
+<<<<<<< HEAD
 	 * @param fullName 
 	 * @throws InterruptedException 
 	 * 
@@ -410,4 +430,21 @@ public class ContactCreateUser {
 		mvoNewBtn.click();
 	}
 
+=======
+	 * 
+	 */
+	public void createSaleorderinInstallments() {
+		util.waitUntilElement(driver, selectDuesDrp);
+		selectDuesDrp.click();
+		// executor.executeScript("arguments[0].click();", selectDeusOpt);
+		selectPayInInsatllmentElement.click();
+		createSalesOrder.click();
+		assertTrue(driver.getTitle().contains(data.testDataProvider().getProperty("salesorderPage")));
+	}
+	
+	
+	
+	 
+	
+>>>>>>> 213e8fd60c3aaa9f53f1b8df95c85beada8b854c
 }
