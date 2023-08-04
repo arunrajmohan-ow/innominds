@@ -39,11 +39,8 @@ public class BrowserSetup {
             options.addArguments("--ignore-certificate-errors");
             options.addArguments("--disable-notifications");
             options.addArguments("--remote-allow-origins=*");
-<<<<<<< HEAD
           //  options.addArguments("--disable-dev-shm-usage");
             options.addArguments("--window-size=1920x1080");
-=======
->>>>>>> 1c4a8e0ffadbad318378f75fe8446ed598c7c7ef
            /* options.addArguments("--headless"); //!!!should be enabled for Jenkins
             options.addArguments("--disable-dev-shm-usage"); //!!!should be enabled for Jenkins
             options.addArguments("--window-size=1920x1080"); //!!!should be enabled for Jenkins*/
@@ -80,11 +77,7 @@ public class BrowserSetup {
 		
 		System.out.println("LOG :Info- Browser Session getting terminated");
 
-<<<<<<< HEAD
 		driver.quit();
-=======
-		 driver.quit();
->>>>>>> 1c4a8e0ffadbad318378f75fe8446ed598c7c7ef
 		
 		System.out.println("LOG :Info- Browser Session terminated");
 
