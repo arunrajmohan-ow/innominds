@@ -184,7 +184,6 @@ public class ContactCreateUser {
 	@FindBy(xpath = "//a/span[@title='Name']")
 	WebElement tableheaderName;
 	
-<<<<<<< HEAD
 	@FindBy(xpath="//span[contains(text(),'Member Value')]//ancestor::a")
 	WebElement mvoTab;
 	
@@ -192,10 +191,8 @@ public class ContactCreateUser {
 	WebElement mvoNewBtn;
 	
 	String contact = "//span[text()='%s']//ancestor::a";
-=======
 	@FindBy(xpath="//button[contains(@aria-label,'Join License Country')]")
 	WebElement licenseCountryDrp;
->>>>>>> 213e8fd60c3aaa9f53f1b8df95c85beada8b854c
 
 	String fName;
 	String lName;
@@ -430,8 +427,7 @@ public class ContactCreateUser {
 		mvoNewBtn.click();
 	}
 
-=======
-	 * 
+	 /* 
 	 */
 	public void createSaleorderinInstallments() {
 		util.waitUntilElement(driver, selectDuesDrp);
@@ -442,9 +438,4 @@ public class ContactCreateUser {
 		assertTrue(driver.getTitle().contains(data.testDataProvider().getProperty("salesorderPage")));
 	}
 	
-	
-	
-	 
-	
->>>>>>> 213e8fd60c3aaa9f53f1b8df95c85beada8b854c
 }
