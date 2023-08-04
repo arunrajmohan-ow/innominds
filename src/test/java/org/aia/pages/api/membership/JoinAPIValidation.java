@@ -265,8 +265,24 @@ public class JoinAPIValidation {
 		}
 	}
 	
-	public void validateMembershipRejoin() {
-		
-	}
+	/**
+	 * @param salesPrice
+	 */
+	public void validateSalesOrderLine(Double salesPrice) {
+		String SALESORDER_URI = ACCOUNT_URI + "/" + accountID + "/OrderApi__Sales_Order_Lines__r";
+		System.out.println("Account Id is:" + accountID);
+		Response response = given().header("Authorization", "Bearer " + bearerToken)
+				.header("Content-Type", ContentType.JSON).header("Accept", ContentType.JSON).when().get(SALESORDER_URI)
+				.then().statusCode(200).extract().response();
 
+		jsonPathEval = response.jsonPath();
+		int totalSalesOrderCount = jsonPathEval.getInt("totalSize");
+		if (totalSalesOrderCount > 0) {
+			Double priceRule = jsonPathEval.getDouble("records[0].OrderApi__Sale_Price__c");
+			Boolean isInstallmentCal=jsonPathEval.getBoolean("records[0].OrderApi__Is_Installment_Calculated__c");
+
+			assertEquals(priceRule, salesPrice);
+			assertFalse(isInstallmentCal);
+		}
+	}
 }
