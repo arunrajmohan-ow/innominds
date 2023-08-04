@@ -77,12 +77,8 @@ public class TestProcessException_Membership extends BaseClass {
 	public void editProcessException() throws InterruptedException {
 		ArrayList<String> dataList = fontevaJoin.userData();
 		// First we create new user in Fonteva
-<<<<<<< HEAD
-		//fontevaJoin.signInFonteva();
-=======
 		// fontevaJoin.signInFonteva();
 		fontevaJoin.pointOffset();
->>>>>>> 7bf886d8f5e6b19312c68936c79dd7d45c7120bf
 		fontevaJoin.createUserInFonteva();
 		fontevaJoin.joinCreatedUser(testData.testDataProvider().getProperty("membershipType"),
 				testData.testDataProvider().getProperty("selection"));
@@ -122,12 +118,8 @@ public class TestProcessException_Membership extends BaseClass {
 	public void cloneProcessException() throws InterruptedException {
 		ArrayList<String> dataList = fontevaJoin.userData();
 		// First we create new user in Fonteva
-<<<<<<< HEAD
-		//fontevaJoin.signInFonteva();
-=======
 		// fontevaJoin.signInFonteva();
 		fontevaJoin.pointOffset();
->>>>>>> 7bf886d8f5e6b19312c68936c79dd7d45c7120bf
 		fontevaJoin.createUserInFonteva();
 		fontevaJoin.joinCreatedUser(testData.testDataProvider().getProperty("membershipType"),
 				testData.testDataProvider().getProperty("selection"));
@@ -182,7 +174,6 @@ public class TestProcessException_Membership extends BaseClass {
 		processException.attachFile();
 		processException.validateFileUpload();
 	}
-<<<<<<< HEAD
 	
 	/**
 	 * @throws InterruptedException 
@@ -198,14 +189,13 @@ public class TestProcessException_Membership extends BaseClass {
 				testData.testDataProvider().getProperty("selection"));
 		fontevaJoin.enterLicenseDetail();
 		fontevaJoin.createSalesOrder(testData.testDataProvider().getProperty("paymentMethod"));
-		fontevaJoin.applyPayment();
+		fontevaJoin.applyPayment(dataList.get(5));
 		// We set the process exception
 		processException.validateProcessExceptionFlow(dataList.get(0) + " " + dataList.get(1));
-=======
+	}
 
 	@AfterMethod(alwaysRun = true)
 	public void teardown() {
 		BrowserSetup.closeBrowser(driver);
->>>>>>> 7bf886d8f5e6b19312c68936c79dd7d45c7120bf
 	}
 }
