@@ -305,7 +305,7 @@ public class TellusAboutYourselfPage {
         
 		js.executeScript("window.scrollBy(0,30)", homecountryTellpage);
 		util.waitUntilElement(driver, homecountryTellpage);		
-		Thread.sleep(1000);
+		Thread.sleep(10000);
 		if(homecountryTellpage.isDisplayed() || homecountryTellpage2.isDisplayed() ) {
 			homecountryTellpage.click();
 		}else {
