@@ -300,9 +300,9 @@ public class TellusAboutYourselfPage {
 	
 	public void enterdetails(WebElement ele) throws InterruptedException 
 	{	
-		Thread.sleep(10000);
+		Thread.sleep(30000);
 		JavascriptExecutor js = (JavascriptExecutor) driver;
-
+        
 		js.executeScript("window.scrollBy(0,30)", homecountryTellpage);
 		util.waitUntilElement(driver, homecountryTellpage);		
 		Thread.sleep(1000);
