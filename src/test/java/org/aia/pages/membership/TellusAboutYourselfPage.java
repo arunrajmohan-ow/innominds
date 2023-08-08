@@ -110,7 +110,7 @@ public class TellusAboutYourselfPage {
 			enterLicenseDetails();			
 			clickonChckBox();
 			Thread.sleep(7000);
-			//enterdetails(homecountryUnitedStates2Tellpage);
+			enterdetails(homecountryUnitedStates2Tellpage);
 		}
 		else if(text.contentEquals("activeNonUSLicense"))
 		{
