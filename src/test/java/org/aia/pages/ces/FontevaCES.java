@@ -140,8 +140,9 @@ public class FontevaCES {
 		actions.sendKeys(Keys.ARROW_DOWN).build().perform();
 		actions.sendKeys(Keys.ARROW_DOWN).build().perform();
 		js.executeScript("arguments[0].scrollIntoView(true);", showallBtn);
+		Thread.sleep(50000);
 		util.waitUntilElement(driver, showallBtn);
-		Thread.sleep(5000);
+		Thread.sleep(50000);
 		actions.sendKeys(Keys.ARROW_DOWN).build().perform();
 		showallBtn.click();
 		Thread.sleep(2000);
