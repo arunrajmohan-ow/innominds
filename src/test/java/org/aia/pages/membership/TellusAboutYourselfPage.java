@@ -31,8 +31,10 @@ public class TellusAboutYourselfPage {
 	
 	@FindBy(xpath="//span[@title='None Selected']/parent::span") WebElement noneSelectedCarTypTellpage;
 	
-	@FindBy(xpath="//label[contains(text(),'I currently do not')]/preceding-sibling::lightning-input/div/span") WebElement workBusinesChckboxTellpage;
+	//@FindBy(xpath="//label[contains(text(),'I currently do not')]/preceding-sibling::lightning-input/div/span") WebElement workBusinesChckboxTellpage;
 
+	@FindBy(xpath="//label[contains(text(),'I currently do not')]/preceding-sibling::lightning-input/div/span/input") WebElement workBusinesChckboxTellpage;
+	
 	@FindBy(css="body > div.siteforceStarterBody > div.cCenterPanel.slds-m-top--x-large.slds-p-horizontal--medium > div > div > div > div > div.cb-section_row.slds-grid.slds-wrap.slds-large-nowrap > div > div > div > c-a-i-a-join-additional-info > div.scrollable > div > lightning-record-edit-form > lightning-record-edit-form-edit > form > slot > slot > div:nth-child(4) > div.slds-p-horizontal_x-large > div:nth-child(2) > lightning-input") WebElement workBusinesChckbox1Tellpage;
 	
 	@FindBy(xpath="//label[text()='Home country']/parent::div/following-sibling::div[1]//button") WebElement homecountryTellpage;
@@ -306,7 +308,7 @@ public class TellusAboutYourselfPage {
 		JavascriptExecutor js = (JavascriptExecutor) driver;
         
 		js.executeScript("window.scrollBy(0,30)", homecountryTellpage2);
-		util.waitUntilElement(driver, homecountryTellpage);		
+		util.waitUntilElement(driver, homecountryTellpage2);		
 		Thread.sleep(10000);
 		if(homecountryTellpage2.isDisplayed() ) {
 			js.executeScript("arguments[0].click();",homecountryTellpage2);
