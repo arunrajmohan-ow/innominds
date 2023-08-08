@@ -31,10 +31,8 @@ public class TellusAboutYourselfPage {
 	
 	@FindBy(xpath="//span[@title='None Selected']/parent::span") WebElement noneSelectedCarTypTellpage;
 	
-	//@FindBy(xpath="//label[contains(text(),'I currently do not')]/preceding-sibling::lightning-input/div/span") WebElement workBusinesChckboxTellpage;
+	@FindBy(xpath="//label[contains(text(),'I currently do not')]/preceding-sibling::lightning-input/div/span") WebElement workBusinesChckboxTellpage;
 
-	@FindBy(xpath="//label[contains(text(),'I currently do not')]/preceding-sibling::lightning-input/div/span/input") WebElement workBusinesChckboxTellpage;
-	
 	@FindBy(css="body > div.siteforceStarterBody > div.cCenterPanel.slds-m-top--x-large.slds-p-horizontal--medium > div > div > div > div > div.cb-section_row.slds-grid.slds-wrap.slds-large-nowrap > div > div > div > c-a-i-a-join-additional-info > div.scrollable > div > lightning-record-edit-form > lightning-record-edit-form-edit > form > slot > slot > div:nth-child(4) > div.slds-p-horizontal_x-large > div:nth-child(2) > lightning-input") WebElement workBusinesChckbox1Tellpage;
 	
 	@FindBy(xpath="//label[text()='Home country']/parent::div/following-sibling::div[1]//button") WebElement homecountryTellpage;
@@ -112,7 +110,7 @@ public class TellusAboutYourselfPage {
 			enterLicenseDetails();			
 			clickonChckBox();
 			Thread.sleep(7000);
-			enterdetails(homecountryUnitedStates2Tellpage);
+			//enterdetails(homecountryUnitedStates2Tellpage);
 		}
 		else if(text.contentEquals("activeNonUSLicense"))
 		{
