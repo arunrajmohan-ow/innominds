@@ -37,7 +37,9 @@ public class TellusAboutYourselfPage {
 	
 	@FindBy(xpath="//label[text()='Home country']/parent::div/following-sibling::div[1]//button") WebElement homecountryTellpage;
 
-	@FindBy(xpath="//label[text()='Home country']/parent::div/following-sibling::div[1]") WebElement homecountryTellpage2;
+	//@FindBy(xpath="//label[text()='Home country']/parent::div/following-sibling::div[1]") WebElement homecountryTellpage2;
+	
+	@FindBy(xpath="//label[text()='Home country']/parent::div/following-sibling::div[1]//button") WebElement homecountryTellpage2;
 	
 	@FindBy(xpath="//span[@title='United States']/parent::span") WebElement homecountryUnitedStatesTellpage;
 
