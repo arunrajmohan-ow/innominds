@@ -305,11 +305,12 @@ public class TellusAboutYourselfPage {
 		Thread.sleep(30000);
 		JavascriptExecutor js = (JavascriptExecutor) driver;
         
-		js.executeScript("window.scrollBy(0,30)", homecountryTellpage);
+		js.executeScript("window.scrollBy(0,30)", homecountryTellpage2);
 		util.waitUntilElement(driver, homecountryTellpage);		
 		Thread.sleep(10000);
 		if(homecountryTellpage2.isDisplayed() ) {
-			homecountryTellpage2.click();
+			js.executeScript("arguments[0].click();",homecountryTellpage2);
+			//homecountryTellpage2.click();
 		}else {
 			homecountryTellpage2.click();
 		}
