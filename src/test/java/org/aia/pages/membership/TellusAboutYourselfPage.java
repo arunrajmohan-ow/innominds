@@ -68,7 +68,8 @@ public class TellusAboutYourselfPage {
 	@FindBy(xpath = "//label[text()='Home street']/parent::div/following-sibling::div[2]/div/lightning-input")
 	WebElement homeCityTellpage;
 
-	@FindBy(xpath = "//label[text()='State']/parent::div/following-sibling::lightning-combobox")
+	//@FindBy(xpath = "//label[text()='State']/parent::div/following-sibling::lightning-combobox")
+	@FindBy(xpath="//label[text()='State']/parent::div/following-sibling::lightning-combobox//button")
 	WebElement stateTellpage;
 
 	@FindBy(xpath = "//label[text()='State of license']/following-sibling::lightning-input-field")
@@ -344,7 +345,7 @@ public class TellusAboutYourselfPage {
 
 		util.waitUntilElement(driver, stateTellpage);
 		act.moveToElement(stateTellpage).click().build().perform();
-		Thread.sleep(3000);
+		Thread.sleep(7000);
 		util.waitUntilElement(driver, californiaStateTellpage);
 
 		Thread.sleep(1000);
