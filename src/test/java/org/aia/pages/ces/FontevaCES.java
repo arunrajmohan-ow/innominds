@@ -143,16 +143,12 @@ public class FontevaCES {
 		util.waitUntilElement(driver, showallBtn);
 		js.executeScript("arguments[0].scrollIntoView(true);", showallBtn);
 		Thread.sleep(50000);
-		util.waitUntilElement(driver, showallBtn);
-<<<<<<< HEAD
-		Thread.sleep(50000);
 		actions.sendKeys(Keys.ARROW_DOWN).build().perform();
-		showallBtn.click();
-=======
+		util.waitUntilElement(driver, showallBtn);
+		//showallBtn.click();
 		Thread.sleep(5000);
 		js.executeScript("arguments[0].click();", showallBtn);
 		//showallBtn.click();
->>>>>>> 5de6230c575250affad0199a9bfd62e259e13bf5
 		Thread.sleep(2000);
 		util.waitUntilElement(driver, memberShip);
 		//Instantiating Actions class
