@@ -105,7 +105,7 @@ public class Memberships {
 		// termId.click();
 		util.waitUntilElement(driver, editBtn);
 		Thread.sleep(5000);
-		//action.scrollToElement(editBtn).build().perform();
+		action.scrollToElement(editBtn).build().perform();
 		editBtn.click();
 		util.waitUntilElement(driver, inputTermEndDate);
 		inputTermEndDate.clear();

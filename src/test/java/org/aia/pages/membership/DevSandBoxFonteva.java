@@ -117,7 +117,7 @@ public class DevSandBoxFonteva {
 		util.waitUntilElement(driver, editBtn);
 		Thread.sleep(5000);
 		Actions act = new Actions(driver);
-	//	act.scrollToElement(editBtn);
+		act.scrollToElement(editBtn);
 		js.executeScript("window.scrollBy(0,200)", editBtn);
 		editBtn.click();
 		util.waitUntilElement(driver, inputTermEndDate);
