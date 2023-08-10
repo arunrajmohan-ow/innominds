@@ -26,7 +26,7 @@ public class BrowserSetup {
 
         if(browser.equalsIgnoreCase("Chrome")){
         	//System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir")+"\\Drivers\\chromedriver.exe");
-        	//WebDriverManager.chromedriver().setup();
+        	WebDriverManager.chromedriver().setup();
         	//WebDriverManager.chromedriver().setup();
         ///	System.out.println(WebDriverManager.chromedriver().getWebDriverList());
         	//WebDriverManager.chromedriver().clearDriverCache().setup();
@@ -70,7 +70,7 @@ public class BrowserSetup {
         else  {
 			System.out.println("Browser version is not supported.");
 		}
-        driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(130));
+       // driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(130));
         driver.manage().deleteAllCookies();
         driver.manage().window().maximize();
         driver.get(url);
