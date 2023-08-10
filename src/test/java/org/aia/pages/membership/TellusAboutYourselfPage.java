@@ -345,7 +345,9 @@ public class TellusAboutYourselfPage {
 		act.moveToElement(homeCityTellpage).sendKeys("La Mesa");
 
 		util.waitUntilElement(driver, stateTellpage);
-		act.moveToElement(stateTellpage).click().build().perform();
+		act.moveToElement(stateTellpage).build().perform();
+		js.executeScript("arguments[0].click();", stateTellpage);
+		//act.moveToElement(stateTellpage).click().build().perform();
 		Thread.sleep(7000);
 		util.waitUntilElement(driver, californiaStateTellpage);
 

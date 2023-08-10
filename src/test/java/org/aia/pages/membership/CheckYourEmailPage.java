@@ -22,6 +22,6 @@ public class CheckYourEmailPage {
 	public void clickCloseAfterVerification() throws InterruptedException
 	{
 		closebtn.click();
-		Thread.sleep(1200000);
+		Thread.sleep(1000);
 	}
 }
