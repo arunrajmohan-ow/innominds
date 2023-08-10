@@ -303,7 +303,7 @@ public class ContactCreateUser {
 		WebElement enterState = driver
 				.findElement(By.xpath(String.format(state, data.testDataProvider().getProperty("LICENSE_STATE"))));
 		enterState.click();
-		action.scrollToElement(licenseStartDate);
+		//action.scrollToElement(licenseStartDate);
 		licenseStartDate.click();
 		util.waitUntilElement(driver, selectTodayDate);
 		selectTodayDate.click();
@@ -355,14 +355,14 @@ public class ContactCreateUser {
 		driver.switchTo().frame(cardNumIframe1);
 		util.waitUntilElement(driver, cardNumIframe2);
 		driver.switchTo().frame(cardNumIframe2);
-		action.scrollToElement(cardNum);
+		//action.scrollToElement(cardNum);
 		util.enterText(driver, cardNum, data.testDataProvider().getProperty("CREDIT_CARD_NUMBER"));
 		driver.switchTo().defaultContent();
 		// check wait
 		Thread.sleep(5000);
 		driver.switchTo().frame(drpIframe);
 		util.waitUntilElement(driver, expMonth);
-		action.scrollToElement(expMonth);
+		//action.scrollToElement(expMonth);
 		util.selectDrp(expMonth).selectByValue(data.testDataProvider().getProperty("CREDIT_CARD_EXP_MONTH"));
 		util.waitUntilElement(driver, expYear);
 		util.selectDrp(expYear).selectByValue(data.testDataProvider().getProperty("CREDIT_CARD_EXP_YEAR"));

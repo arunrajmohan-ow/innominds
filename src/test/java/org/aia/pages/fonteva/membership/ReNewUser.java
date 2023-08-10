@@ -122,7 +122,7 @@ public class ReNewUser {
 		executor.executeScript("arguments[0].click();", termId);
 		//termId.click();
 		util.waitUntilElement(driver, termEditBtn);
-		action.scrollToElement(termEditBtn);
+		//action.scrollToElement(termEditBtn);
 		termEditBtn.click();
 		util.enterText(driver, termDate, data.testDataProvider().getProperty("tremendDate"));
 		Thread.sleep(5000);
