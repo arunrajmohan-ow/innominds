@@ -314,11 +314,14 @@ public class TellusAboutYourselfPage {
 	}
 
 	public void clickonChckBox() throws InterruptedException {
+		JavascriptExecutor js = (JavascriptExecutor) driver;
 		util.waitUntilElement(driver, workBusinesChckboxTellpage);
-
 		Thread.sleep(1000);
 		Actions act = new Actions(driver);
-		act.moveToElement(workBusinesChckboxTellpage).click().build().perform();
+		act.moveToElement(workBusinesChckboxTellpage).build().perform();
+		js.executeScript("arguments[0].click();", workBusinesChckboxTellpage);
+		
+		
 	}
 
 	public void enterdetails(WebElement ele) throws InterruptedException {
