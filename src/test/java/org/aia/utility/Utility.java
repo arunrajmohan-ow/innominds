@@ -27,7 +27,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class Utility {
 	
-	private static WebElement ele;
 	WebDriverWait wait;
 	
 	public Utility(WebDriver driver,int time) 
@@ -157,13 +156,13 @@ public class Utility {
 	
 	public static WebElement waitForWebElement(WebDriver driver,String xpath,int time)
 	{
-		/*WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(70));
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(70));
 		wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(xpath)));
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xpath)));
 		wait.until(ExpectedConditions.elementToBeClickable(By.xpath(xpath)));
 		WebElement ele=driver.findElement(By.xpath(xpath));
 		
-		highLightElement(driver, ele);*/
+		highLightElement(driver, ele);
 		
 		return ele;
 		
@@ -171,11 +170,11 @@ public class Utility {
 	
 	public static WebElement waitForWebElement(WebDriver driver,WebElement element,int time)
 	{
-		/*WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(70));
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(70));
 		wait.until(ExpectedConditions.visibilityOf(element));
 		WebElement ele=wait.until(ExpectedConditions.elementToBeClickable(element));
 	
-		highLightElement(driver, ele);*/
+		highLightElement(driver, ele);
 		
 		return ele;
 	}
@@ -187,7 +186,7 @@ public class Utility {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		//WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(80));
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(80));
 		wait.until(ExpectedConditions.visibilityOf(element));
 
 	}
