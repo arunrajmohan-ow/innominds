@@ -111,7 +111,7 @@ public class FontevaCES {
 		provAppIDElement.click();
 		Thread.sleep(2000);
 		Actions act = new Actions(driver);
-		act.scrollToElement(editAppStatusIon);
+	//	act.scrollToElement(editAppStatusIon);
 		util.waitUntilElement(driver, editAppStatusIon);
 		editAppStatusIon.click();
 		util.waitUntilElement(driver, appStatusBtnDrpdwn);
@@ -171,7 +171,7 @@ public class FontevaCES {
 		util.waitUntilElement(driver, editBtn);
 		Thread.sleep(5000);
 		Actions act = new Actions(driver);
-		act.scrollToElement(editBtn);
+	//	act.scrollToElement(editBtn);
 		//JavascriptExecutor js = (JavascriptExecutor) driver;
 		js.executeScript("window.scrollBy(0,200)", editBtn);
 		editBtn.click();
