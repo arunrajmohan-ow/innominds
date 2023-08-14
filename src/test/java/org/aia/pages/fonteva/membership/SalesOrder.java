@@ -199,4 +199,16 @@ public class SalesOrder {
 		String secondSOLineText= secondSalesorderLineText.getAttribute("title");
 		assertNotEquals(firstSOLineText, secondSOLineText);
 	}
+	
+	/**
+	 * 
+	 */
+	public void selectSalesOrder() {
+		action.sendKeys(Keys.ARROW_DOWN).build().perform();
+		util.waitUntilElement(driver, salesOrderLink);
+		salesOrderLink.click();
+		util.waitUntilElement(driver, salesOrderTable);
+		assertTrue(salesOrderTable.isDisplayed());
+		
+	}
 }
