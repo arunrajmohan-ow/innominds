@@ -425,8 +425,9 @@ public class TestRenew_Membership extends BaseClass {
 		orderSummaryPage.clickonPayNow();
 		paymentInfoPage.clickOnCreditCard();
 		paymentInfoPage.paymentDetails("activeUSLicense");
-		
-
+		util.switchToTab(driver, 1).get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl")+sessionID.getSessionID());
+		fontevaJoin.selectContact(dataList.get(0)+dataList.get(1));
+		salesOrder.selectSalesOrder();
 	}
 
 	@AfterMethod(alwaysRun = true)
