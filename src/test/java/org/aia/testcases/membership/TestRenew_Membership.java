@@ -46,7 +46,7 @@ public class TestRenew_Membership extends BaseClass {
 
 	@BeforeMethod(alwaysRun = true)
 	public void setUp() throws Exception {
-		sessionID=new FontevaConnectionSOAP();
+		sessionID = new FontevaConnectionSOAP();
 		driver = BrowserSetup.startApplication(driver, DataProviderFactory.getConfig().getValue("browser"),
 				DataProviderFactory.getConfig().getValue("devstagingurl_membership"));
 		inbox = DataProviderFactory.getConfig().getValue("inbox");
@@ -359,7 +359,7 @@ public class TestRenew_Membership extends BaseClass {
 		// Validate Receipt Details
 		apiValidationRenew.verifyReciptDetails(receiptData.get(0), receiptData.get(2));
 	}
-	
+
 	@Test(priority = 6, description = "Validate sales price in sales order lines for renew  ", enabled = true)
 	public void validateSalesOrderLineRenew() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
@@ -374,29 +374,67 @@ public class TestRenew_Membership extends BaseClass {
 				testData.testDataProvider().getProperty("selection"));
 		fontevaJoin.enterLicenseDetail();
 		fontevaJoin.createSalesOrder(testData.testDataProvider().getProperty("paymentMethod"));
-		fontevaJoin.applyPayment(dataList.get(0)+" "+dataList.get(1));
+		fontevaJoin.applyPayment(dataList.get(0) + " " + dataList.get(1));
 		ArrayList<Object> data = fontevaJoin.getPaymentReceiptData();
-		fontevaRenew.changeTermDate(dataList.get(0)+" "+dataList.get(1));
-		fontevaRenew.renewUserForSOLine(dataList.get(0)+" "+dataList.get(1));
+		fontevaRenew.changeTermDate(dataList.get(0) + " " + dataList.get(1));
+		fontevaRenew.renewUserForSOLine(dataList.get(0) + " " + dataList.get(1));
 		fontevaRenew.createSaleorderinInstallments();
 		Double salesPrice = salesOrder.checkSaleorderLine();
-		util.switchToTab(driver,1).get( DataProviderFactory.getConfig().getValue("devstagingurl_membership"));
+		util.switchToTab(driver, 1).get(DataProviderFactory.getConfig().getValue("devstagingurl_membership"));
 		renew.renewMembership(dataList.get(5));
 		signInpage.login(dataList.get(5), testData.testDataProvider().getProperty("password"));
 		orderSummaryPage.confirmTerms(testData.testDataProvider().getProperty("radioSelection"));
 		orderSummaryPage.clickonPayNow();
 		paymentInfoPage.clickOnCreditCard();
-		String aiaNational=paymentInfoPage.paymentDetails(testData.testDataProvider().getProperty("radioSelection"));
+		String aiaNational = paymentInfoPage.paymentDetails(testData.testDataProvider().getProperty("radioSelection"));
 		finalPage.verifyThankYouMessage();
 		ArrayList<Object> receiptData = finalPage.getFinalReceiptData();
-		//Verify Membership renewal 
+		// Verify Membership renewal
 		apiValidationRenew.verifyMemebershipRenewal(dataList.get(3),
 				DataProviderFactory.getConfig().getValue("termEndDate"), receiptData.get(2),
-				DataProviderFactory.getConfig().getValue("type_aia_national"), testData.testDataProvider().getProperty("membershipType"), testData.testDataProvider().getProperty("selection"));
+				DataProviderFactory.getConfig().getValue("type_aia_national"),
+				testData.testDataProvider().getProperty("membershipType"),
+				testData.testDataProvider().getProperty("selection"));
 		apiValidationRenew.validateSalesOrderLine(salesPrice);
 	}
-	
-	
+
+	/**
+	 * Suhas
+	 * 
+	 * @throws Exception
+	 */
+	@Test(priority = 7, description = "Validate visibility of download pdf button in renew  ", enabled = true)
+	public void validJateVisibilityDownloadPdfBtn() throws Exception {
+		ArrayList<String> dataList = signUpPage.signUpData();
+		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
+		signUpPage.signUpUser();
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
+		closeButtnPage.clickCloseAfterVerification();
+		signInpage.login(dataList.get(5), dataList.get(6));
+		primaryInfoPage.enterPrimaryInfo(testData.testDataProvider().getProperty("radioSelection"),
+				testData.testDataProvider().getProperty("careerType"));
+		orderSummaryPage.confirmTerms(testData.testDataProvider().getProperty("radioSelection"));
+		orderSummaryPage.clickonPayNow();
+		String aiaNational = paymentInfoPage.paymentDetails(testData.testDataProvider().getProperty("radioSelection"));
+		tellAbtPage.enterTellUsAboutYourSelfdetails(testData.testDataProvider().getProperty("radioSelection"),
+				testData.testDataProvider().getProperty("careerType"));
+		util.switchToTab(driver, 1)
+				.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
+		fontevaPage.changeTermDates(dataList.get(0) + " " + dataList.get(1));
+		// Navigate back to membership portal
+		driver.get(DataProviderFactory.getConfig().getValue("membership_app_endpoint"));
+		// Renew user
+		renew.renewMembership(dataList.get(5));
+		orderSummaryPage.confirmTerms(testData.testDataProvider().getProperty("radioSelection"));
+		orderSummaryPage.clickonPayNow();
+		paymentInfoPage.clickOnCreditCard();
+		paymentInfoPage.paymentDetails(testData.testDataProvider().getProperty("radioSelection"));
+		util.switchToTab(driver, 1)
+				.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
+		fontevaJoin.selectContact(dataList.get(0) + " " + dataList.get(1));
+		salesOrder.selectSalesOrder();
+		salesOrder.renewReceipt();
+	}
 
 	@AfterMethod(alwaysRun = true)
 	public void teardown() {

@@ -83,6 +83,7 @@ public class DevSandBoxFonteva {
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		Actions actions = new Actions(driver);
 		util.waitUntilElement(driver, contacts);
+		util.waitUntilElement(driver, contactsDiv);
 		contactsDiv.click();
 		util.waitUntilElement(driver, tableheaderName);
 		Thread.sleep(5000);
