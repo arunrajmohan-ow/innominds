@@ -72,7 +72,7 @@ public class TestRenew_Membership extends BaseClass {
 		salesOrder = PageFactory.initElements(driver, SalesOrder.class);
 	}
 
-	@Test(priority = 1, description = "Validate Renew without supplemental dues", enabled = false)
+	@Test(priority = 1, description = "Validate Renew without supplemental dues", enabled = true)
 	public void ValidateRenew() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
@@ -133,7 +133,7 @@ public class TestRenew_Membership extends BaseClass {
 		apiValidationRenew.verifyReciptDetails(receiptData.get(0), receiptData.get(2));
 	}
 
-	@Test(priority = 2, description = "Validate Renew for architectural Firm Owner - supplemental Dues", enabled = false, groups = {
+	@Test(priority = 2, description = "Validate Renew for architectural Firm Owner - supplemental Dues", enabled = true, groups = {
 			"Smoke" })
 	public void ValidateRenewWithSupplementalDuesAFO() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
@@ -191,7 +191,7 @@ public class TestRenew_Membership extends BaseClass {
 		apiValidationRenew.verifyReciptDetails(receiptData.get(0), receiptData.get(2));
 	}
 
-	@Test(priority = 3, description = "Validate Renew for sole Practitioner - supplemental Dues", enabled = false)
+	@Test(priority = 3, description = "Validate Renew for sole Practitioner - supplemental Dues", enabled = true)
 	public void ValidateRenewWithSupplementalDuesSP() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
@@ -248,7 +248,7 @@ public class TestRenew_Membership extends BaseClass {
 		apiValidationRenew.verifyReciptDetails(receiptData.get(0), receiptData.get(2));
 	}
 
-	@Test(priority = 4, description = "Validate Renew for architecture Firm Manager - supplemental Dues", enabled = false)
+	@Test(priority = 4, description = "Validate Renew for architecture Firm Manager - supplemental Dues", enabled = true)
 	public void ValidateRenewWithSupplementalDuesAFM() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
@@ -301,7 +301,7 @@ public class TestRenew_Membership extends BaseClass {
 		apiValidationRenew.verifyReciptDetails(receiptData.get(0), receiptData.get(2));
 	}
 
-	@Test(priority = 5, description = "Validate Renew for not Sole Practitioner - supplemental Dues", enabled = false, groups = {
+	@Test(priority = 5, description = "Validate Renew for not Sole Practitioner - supplemental Dues", enabled = true, groups = {
 			"Smoke" })
 	public void ValidateRenewWithSupplementalDuesNSP() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
@@ -360,7 +360,7 @@ public class TestRenew_Membership extends BaseClass {
 		apiValidationRenew.verifyReciptDetails(receiptData.get(0), receiptData.get(2));
 	}
 
-	@Test(priority = 6, description = "Validate sales price in sales order lines for renew  ", enabled = false)
+	@Test(priority = 6, description = "Validate sales price in sales order lines for renew  ", enabled = true)
 	public void validateSalesOrderLineRenew() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
@@ -400,6 +400,7 @@ public class TestRenew_Membership extends BaseClass {
 
 	/**
 	 * Suhas
+	 * 
 	 * @throws Exception
 	 */
 	@Test(priority = 7, description = "Validate visibility of download pdf button in renew  ", enabled = true)
@@ -410,24 +411,29 @@ public class TestRenew_Membership extends BaseClass {
 		mailinator.verifyEmailForAccountSetup(dataList.get(3));
 		closeButtnPage.clickCloseAfterVerification();
 		signInpage.login(dataList.get(5), dataList.get(6));
-		primaryInfoPage.enterPrimaryInfo("activeUSLicense", "None Selected");
-		orderSummaryPage.confirmTerms("activeUSLicense");
+		primaryInfoPage.enterPrimaryInfo(testData.testDataProvider().getProperty("radioSelection"),
+				testData.testDataProvider().getProperty("careerType"));
+		orderSummaryPage.confirmTerms(testData.testDataProvider().getProperty("radioSelection"));
 		orderSummaryPage.clickonPayNow();
-		String aiaNational = paymentInfoPage.paymentDetails("activeUSLicense");
-		tellAbtPage.enterTellUsAboutYourSelfdetails("activeUSLicense", "None Selected");
-		util.switchToTab(driver, 1).get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl")+sessionID.getSessionID());
+		String aiaNational = paymentInfoPage.paymentDetails(testData.testDataProvider().getProperty("radioSelection"));
+		tellAbtPage.enterTellUsAboutYourSelfdetails(testData.testDataProvider().getProperty("radioSelection"),
+				testData.testDataProvider().getProperty("careerType"));
+		util.switchToTab(driver, 1)
+				.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
 		fontevaPage.changeTermDates(dataList.get(0) + " " + dataList.get(1));
 		// Navigate back to membership portal
 		driver.get(DataProviderFactory.getConfig().getValue("membership_app_endpoint"));
 		// Renew user
 		renew.renewMembership(dataList.get(5));
-		orderSummaryPage.confirmTerms("activeUSLicense");
+		orderSummaryPage.confirmTerms(testData.testDataProvider().getProperty("radioSelection"));
 		orderSummaryPage.clickonPayNow();
 		paymentInfoPage.clickOnCreditCard();
-		paymentInfoPage.paymentDetails("activeUSLicense");
-		util.switchToTab(driver, 1).get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl")+sessionID.getSessionID());
-		fontevaJoin.selectContact(dataList.get(0)+dataList.get(1));
+		paymentInfoPage.paymentDetails(testData.testDataProvider().getProperty("radioSelection"));
+		util.switchToTab(driver, 1)
+				.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
+		fontevaJoin.selectContact(dataList.get(0) + " " + dataList.get(1));
 		salesOrder.selectSalesOrder();
+		salesOrder.renewReceipt();
 	}
 
 	@AfterMethod(alwaysRun = true)
