@@ -99,6 +99,9 @@ public class SalesOrder {
 
 	@FindBy(xpath = "//table[@aria-label='Sales Orders']//tbody//tr[2]//th//a")
 	WebElement renewSalesOrder;
+	
+	@FindBy(xpath = "//table[@aria-label='Sales Orders']//tbody//tr//th//a")
+	WebElement JoinSalesOrder;
 
 	@FindBy(xpath = "(//a[contains(text(),'Show All')])")
 	WebElement showallBtn;
@@ -219,17 +222,8 @@ public class SalesOrder {
 	 * Here I am validate the both sales order line using the assertions.
 	 */
 	public void validateSalesOrderLine() {
-<<<<<<< HEAD
-		util.waitUntilElement(driver, salesOrderLine);
-		salesOrderLine.click();
-		util.waitUntilElement(driver, salesOrderLineTable);
-		assertTrue(salesOrderLineTable.isDisplayed());
-		util.waitUntilElement(driver,firstSalesorderLineText);
-		String firstSOLineText= firstSalesorderLineText.getAttribute("title");
-=======
 		util.waitUntilElement(driver, firstSalesorderLineText);
 		String firstSOLineText = firstSalesorderLineText.getAttribute("title");
->>>>>>> 34911debd5354a31e164c66651fb3c96badd4f41
 		util.waitUntilElement(driver, secondSalesorderLineText);
 		String secondSOLineText = secondSalesorderLineText.getAttribute("title");
 		assertNotEquals(firstSOLineText, secondSOLineText);
@@ -301,6 +295,63 @@ public class SalesOrder {
 		}
 		// Here we validate pdf is downloaded;
 		assertTrue(downloadPdf.isDisplayed());
-
 	}
+	
+	/**
+	 * @throws InvalidPasswordException
+	 * @throws IOException
+	 * @throws InterruptedException
+	 */
+	public void joinReceipt() throws InvalidPasswordException, IOException, InterruptedException {
+		util.waitUntilElement(driver, JoinSalesOrder);
+		//renewSalesOrder.click();
+		executor.executeScript("arguments[0].click();", JoinSalesOrder);
+		util.waitUntilElement(driver, showallBtn);
+		showallBtn.click();
+		action.sendKeys(Keys.ARROW_DOWN).build().perform();
+		action.sendKeys(Keys.ARROW_DOWN).build().perform();
+		util.waitUntilElement(driver, receiptListBtn);
+		receiptListBtn.click();
+		util.waitUntilElement(driver, receiptNumber);
+		executor.executeScript("arguments[0].click();", receiptNumber);
+		//receiptNumber.click();
+		util.waitUntilElement(driver, downloadPdfBtn);
+		downloadPdfBtn.click();
+		Set<String>links = driver.getWindowHandles();
+		String currWin = driver.getWindowHandle();
+		Thread.sleep(1000);
+		for(String s1: links)
+		if(!s1.contentEquals(currWin))	
+		{
+			driver.switchTo().window(s1);
+			String currentUrl = driver.getCurrentUrl();
+			if(currentUrl.contains("signupSuccess")) {
+				continue;
+			}else if (currentUrl.contains("generateMultiplePDF")) {
+				URL url=new URL(currentUrl); 
+				
+				//Open stream method is used to open the pdf file
+				InputStream is=url.openStream();
+				
+				//using the Buffered input class(creating the object file parse)
+				BufferedInputStream fileParse=new BufferedInputStream(is);
+				
+				//PD document is coming from PDF box
+				PDDocument document=null;
+				
+				//Initialize the document from load method(load buffered input class)
+				document=PDDocument.load(fileParse);
+				
+				//creating object he he & returning the content
+				PDFTextStripper strip=new PDFTextStripper();
+				
+				strip.setStartPage(1);
+				pdfContent=strip.getText(document);		
+			}
+		}
+		// Here we validate pdf is downloaded;
+		util.waitUntilElement(driver, downloadPdf);
+		assertTrue(downloadPdf.isDisplayed());
+	}
+
 }

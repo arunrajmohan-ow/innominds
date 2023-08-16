@@ -404,7 +404,7 @@ public class TestRenew_Membership extends BaseClass {
 	 * @throws Exception
 	 */
 	@Test(priority = 7, description = "Validate visibility of download pdf button in renew  ", enabled = true)
-	public void validJateVisibilityDownloadPdfBtn() throws Exception {
+	public void validateVisibilityDownloadPdfBtn() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
 		signUpPage.signUpUser();
