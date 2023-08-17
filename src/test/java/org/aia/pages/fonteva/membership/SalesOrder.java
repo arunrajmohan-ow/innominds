@@ -350,6 +350,7 @@ public class SalesOrder {
 			}
 		}
 		// Here we validate pdf is downloaded;
+		util.switchToTab(driver, 2);
 		util.waitUntilElement(driver, downloadPdf);
 		assertTrue(downloadPdf.isDisplayed());
 	}
