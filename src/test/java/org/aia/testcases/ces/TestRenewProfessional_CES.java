@@ -41,7 +41,7 @@ import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.Story;
 
-public class TestRejoinArchitectureEcheck_CES extends BaseClass {
+public class TestRenewProfessional_CES extends BaseClass {
 
 	SignUpPageCes signUpPage;
 	SignInPage signInpage;
@@ -93,12 +93,12 @@ public class TestRejoinArchitectureEcheck_CES extends BaseClass {
 		renew = PageFactory.initElements(driver, RenewCESPage.class);
 	}
 
-	@Test(priority = 1, description = "Renew Online Architecture Firm (E-check).", enabled = true, groups= {"Smoke"})
-	public void ValidateRenewECheckArchitecture() throws Exception {
+	@Test(priority = 1, description = "Renew Online Professional Credit card.", enabled = true, groups= {"Smoke"})
+	public void ValidateRenewProfessional() throws Exception {
 		String prefix = "Dr.";
 		String suffix = "Sr.";
-		signUpPage.clickSignUplink(); 
-		ArrayList<String> dataList = signUpPage.signUpData(); 
+		signUpPage.clickSignUplink();
+		ArrayList<String> dataList = signUpPage.signUpData();
 		ArrayList<String> userAccount = dataList;
 		signUpPage.signUpUser();
 		mailinator.verifyEmailForAccountSetup(dataList.get(3));
@@ -106,49 +106,51 @@ public class TestRejoinArchitectureEcheck_CES extends BaseClass {
 		loginPageCes.loginToCes(dataList.get(5), dataList.get(6));
 		loginPageCes.checkLoginSuccess();
 		primarypocPage.enterPrimaryPocDetails(prefix, suffix, dataList.get(2));
-		String subType = organizationPage.enterOrganizationDetails(dataList, 
-				  "Architecture Firm", "No", "United States of America (+1)");
+		String subType = organizationPage.enterOrganizationDetails(dataList, "Institutional", "No",
+				"United States of America (+1)");
 		subscribePage.SubscriptionType(subType, "Yes", null, "Non-profit");
-		//subscribePage.proratedSubscriptionNext();
-		secPoc.enterSecondaryPocDetails(dataList, prefix, suffix, "No", "United States of America (+1)"); 
+		secPoc.enterSecondaryPocDetails(dataList, prefix, suffix, "Yes", "United States of America (+1)");
+		additionalUsers.verifyCesPrimDetails(dataList);
+		additionalUsers.addAdditionalUsers(dataList);
+		additionalProviderUser.enterAdditionalProviderUserPocDetails(dataList, prefix, suffix,
+				"United States of America (+1)");
 		additionalUsers.doneWithCreatingUsers();
 		providerStatement.providerStatementEnterNameDate2("FNProviderStatement");
 		checkOutPageCes.SubscriptionType(subType);
 		mailinator.ProviderApplicationReviewEmailLink(userAccount);
 
 		// Get Provider application ID
-		String paId = apiValidation.getProviderApplicationID(userAccount.get(0)+" "+userAccount.get(1)); 
-		
-		// Navigate to Fonteva app and make record renew eligible.
+		String paId = apiValidation.getProviderApplicationID(userAccount.get(0) + " " + userAccount.get(1));
+
+		// Navigate to Fonteva app.
 		FontevaConnectionSOAP sessionID = new FontevaConnectionSOAP(); 
 		final String sID = sessionID.getSessionID();
 		driver.get("https://aia--testing.sandbox.my.salesforce.com/secur/frontdoor.jsp?sid=" + sID);
-		fontevaPage.changeProviderApplicationStatus(userAccount.get(0)+" "+userAccount.get(1), paId, "Approved");
-		
+		//driver.get(DataProviderFactory.getConfig().getValue("fonteva_endpoint"));
+		fontevaPage.changeProviderApplicationStatus(userAccount.get(0) + " " + userAccount.get(1), paId, "Approved");
+
 		String checkoutpagelink = mailinator.cesProviderApprovedEmailLink(userAccount);
-		((JavascriptExecutor)driver).executeScript("window.open()");
+		((JavascriptExecutor) driver).executeScript("window.open()");
 		ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
 		driver.switchTo().window(tabs.get(1));
-		
-		//Navigate to CES toolkit link and validate link is working.
+
+		// Navigate to CES toolkit link and validate link is working.
 		driver.get(checkoutpagelink);
 		Thread.sleep(1000);
-		String pageTitle = driver.getTitle();
 		checkOutPageCes.enterCardDetailsCes();
-		Object amount = paymntSuccesFullPageCes.amountPaid(); 
+		//checkOutPageCes.enterECheckDetailsCes(userAccount.get(1), "Automation Bank", "021000021", "9876543210");
+		Object amount = paymntSuccesFullPageCes.amountPaid();
 		Logging.logger.info("Total Amount is : " + amount);
-		String reciptData = paymntSuccesFullPageCes.ClickonViewReceipt(); 
-		//Get Receipt number 
-		String reciptNumber = util.getSubString(reciptData, "" );
-		Reporter.log("LOG : INFO -Receipt Number is"+ reciptNumber);
-		Reporter.log("LOG : INFO -Customer AIA Number is : "+userAccount.get(1));
-		
-		//Verify welcome email details.
+		String reciptData = paymntSuccesFullPageCes.ClickonViewReceipt();
+		// Get Receipt number
+		String reciptNumber = util.getSubString(reciptData, "");
+		Reporter.log("LOG : INFO -Receipt Number is" + reciptNumber);
+		Reporter.log("LOG : INFO -Customer AIA Number is : " + userAccount.get(1));
+		// Verify welcome email details.
 		mailinator.welcomeAIAEmailLink(userAccount);
 		
 		// Navigate to Fonteva app and make record renew eligible.
 		driver.get("https://aia--testing.sandbox.my.salesforce.com/secur/frontdoor.jsp?sid=" + sID);
-		//driver.get(DataProviderFactory.getConfig().getValue("fonteva_endpoint"));
 		fontevaPage.changeTermDates(dataList.get(0)+" "+dataList.get(1));
 		
 		// Navigate back to renew CES portal
@@ -157,33 +159,35 @@ public class TestRejoinArchitectureEcheck_CES extends BaseClass {
 		
 		//Renew user
 		renew.renewMembership(dataList.get(5));
-		checkOutPageCes.enterECheckDetailsCes(userAccount.get(1), "Automation Bank", "021000021", "9876543210");
-		Object echeckamount = paymntSuccesFullPageCes.amountPaid();
-		Logging.logger.info("Total Amount is : " + echeckamount);
+		checkOutPageCes.enterCardDetailsCes();
+		Object renewkamount = paymntSuccesFullPageCes.amountPaid();
+		Logging.logger.info("Total renew Amount is : " + renewkamount);
 		String renewreciptData = paymntSuccesFullPageCes.ClickonViewReceipt();
 		// Get Receipt number
 		String renewreciptNumber = util.getSubString(renewreciptData, "");
 		Reporter.log("LOG : INFO -Receipt Number is" + renewreciptNumber);
 		Reporter.log("LOG : INFO -Customer AIA Number is : " + userAccount.get(1));
-		
-		// Validate Provider Application & CES Provider account details - Fonteva API validations
-		apiValidation.verifyProviderApplicationDetails("Approved", dataList, "Architecture Firm", userAccount.get(0)+" "+userAccount.get(1), 
-				true, java.time.LocalDate.now().toString(), "AutomationOrg", "Architecture Firm", "No"); 
-		  
+
+		// Validate Provider Application & CES Provider account details - Fonteva API
+		// validations
+		apiValidation.verifyProviderApplicationDetails("Approved", dataList, "Professional",
+				userAccount.get(0) + " " + userAccount.get(1), true, java.time.LocalDate.now().toString(),
+				"AutomationOrg", "Institutional", "No");
+
 		// Validate CES Provider account details - Fonteva API validations
-		apiValidation.verifyProviderApplicationAccountDetails("Active", "CES Architecture Firm", "2023-12-31",
-				false);
-		 
+		apiValidation.verifyProviderApplicationAccountDetails("Active", "CES Professional", "2023-12-31", false);
+
 		// Validate sales order
-		apiValidation.verifySalesOrder(DataProviderFactory.getConfig().getValue("salesOrderStatus"), 
-				DataProviderFactory.getConfig().getValue("orderStatus"), 
-				amount, DataProviderFactory.getConfig().getValue("postingStatus"));
-		  
-		//Validate Receipt Details 
-		apiValidation.verifyReciptDetails(renewreciptData, amount, "CES Architecture Firm");
-			
-		//Validate Primary POC 
-		apiValidation.verifyPointOfContact("CES Primary", userAccount.get(5), userAccount.get(0)+" "+userAccount.get(1));
+		apiValidation.verifySalesOrder(DataProviderFactory.getConfig().getValue("salesOrderStatus"),
+				DataProviderFactory.getConfig().getValue("orderStatus"), amount,
+				DataProviderFactory.getConfig().getValue("postingStatus"));
+
+		// Validate Receipt Details
+		apiValidation.verifyReciptDetails(reciptData, amount, "CES Professional");
+
+		// Validate Primary POC
+		apiValidation.verifyPointOfContact("CES Primary", userAccount.get(5),
+				userAccount.get(0) + " " + userAccount.get(1));
 	}
 
 	@AfterMethod (alwaysRun=true)
