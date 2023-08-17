@@ -58,14 +58,14 @@ public class LoginPageCes {
 			String title = driver.getTitle();
 			assertTrue(title.equalsIgnoreCase("Provider Application"), "Provider Application page is loaded.");
 	    } catch (Exception ex) {
-	    	//driver.navigate().refresh();
-	    	//util.waitUntilElement(driver, emailAddress);
-			//Logging.logger.info("Waiting for the email text field to appear.");
-			//System.out.println("Email Text field displayed");
-			//emailAddress.sendKeys(uname);
-			//password.sendKeys(pwd);
-			//submitbtn.click();
-			//Thread.sleep(1000);
+	    	driver.navigate().refresh();
+	    	util.waitUntilElement(driver, emailAddress);
+			Logging.logger.info("Waiting for the email text field to appear.");
+			System.out.println("Email Text field displayed");
+			emailAddress.sendKeys(uname);
+			password.sendKeys(pwd);
+			submitbtn.click();
+			Thread.sleep(1000);
 	    }
 	}
 
