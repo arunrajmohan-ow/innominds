@@ -54,7 +54,7 @@ public class BrowserSetup {
 		}
         else if (browser.equalsIgnoreCase("edge")) {
 			//System.setProperty("webdriver.edge.driver", System.getProperty("user.dir")+"\\Drivers\\MicrosoftWebDriver.exe");
-			//WebDriverManager.edgedriver().setup();
+			WebDriverManager.edgedriver().setup();
 			driver = new EdgeDriver();
 		}
 		else if (browser.equalsIgnoreCase("safari")) {
