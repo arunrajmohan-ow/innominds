@@ -99,24 +99,25 @@ public class SalesOrder {
 
 	@FindBy(xpath = "//table[@aria-label='Sales Orders']//tbody//tr[2]//th//a")
 	WebElement renewSalesOrder;
-	
+
 	@FindBy(xpath = "//table[@aria-label='Sales Orders']//tbody//tr//th//a")
 	WebElement JoinSalesOrder;
 
 	@FindBy(xpath = "(//a[contains(text(),'Show All')])")
 	WebElement showallBtn;
-	
+
 	@FindBy(xpath = "(//span[contains(text(),'Receipts')]//ancestor::a)[2]")
 	WebElement receiptListBtn;
-	
-	@FindBy(xpath="//table[@aria-label='Receipts']//tbody//tr//th//a")
+
+	@FindBy(xpath = "//table[@aria-label='Receipts']//tbody//tr//th//a")
 	WebElement receiptNumber;
-	
-	@FindBy(xpath="//button[text()='Download PDF']")
+
+	@FindBy(xpath = "//button[text()='Download PDF']")
 	WebElement downloadPdfBtn;
-	
+
 	@FindBy(xpath = "//embed")
 	WebElement downloadPdf;
+
 	/**
 	 * @throws InterruptedException
 	 * 
@@ -156,7 +157,7 @@ public class SalesOrder {
 		util.waitUntilElement(driver, salesOrderFirstLine);
 		executor.executeScript("arguments[0].click();", salesOrderFirstLine);
 		// salesOrderSecondLine.click();
-		//util.waitUntilElement(driver, salesOrderFirstLine);
+		// util.waitUntilElement(driver, salesOrderFirstLine);
 		setDiscountBtnSecond.click();
 		util.waitUntilElement(driver, discountPopUp);
 		assertTrue(discountPopUp.isDisplayed());
@@ -241,14 +242,14 @@ public class SalesOrder {
 	}
 
 	/**
-	 * @throws IOException 
-	 * @throws InvalidPasswordException 
-	 * @throws InterruptedException 
+	 * @throws IOException
+	 * @throws InvalidPasswordException
+	 * @throws InterruptedException
 	 * 
 	 */
 	public void renewReceipt() throws InvalidPasswordException, IOException, InterruptedException {
 		util.waitUntilElement(driver, renewSalesOrder);
-		//renewSalesOrder.click();
+		// renewSalesOrder.click();
 		executor.executeScript("arguments[0].click();", renewSalesOrder);
 		util.waitUntilElement(driver, showallBtn);
 		showallBtn.click();
@@ -258,53 +259,56 @@ public class SalesOrder {
 		receiptListBtn.click();
 		util.waitUntilElement(driver, receiptNumber);
 		executor.executeScript("arguments[0].click();", receiptNumber);
-		//receiptNumber.click();
+		// receiptNumber.click();
 		util.waitUntilElement(driver, downloadPdfBtn);
 		downloadPdfBtn.click();
-		Set<String>links = driver.getWindowHandles();
+		Set<String> links = driver.getWindowHandles();
 		String currWin = driver.getWindowHandle();
 		Thread.sleep(1000);
-		for(String s1: links)
-		if(!s1.contentEquals(currWin))	
-		{
-			driver.switchTo().window(s1);
-			String currentUrl = driver.getCurrentUrl();
-			if(currentUrl.contains("signupSuccess")) {
-				continue;
-			}else if (currentUrl.contains("generateMultiplePDF")) {
-				URL url=new URL(currentUrl); 
-				
-				//Open stream method is used to open the pdf file
-				InputStream is=url.openStream();
-				
-				//using the Buffered input class(creating the object file parse)
-				BufferedInputStream fileParse=new BufferedInputStream(is);
-				
-				//PD document is coming from PDF box
-				PDDocument document=null;
-				
-				//Initialize the document from load method(load buffered input class)
-				document=PDDocument.load(fileParse);
-				
-				//creating object he he & returning the content
-				PDFTextStripper strip=new PDFTextStripper();
-				
-				strip.setStartPage(1);
-				pdfContent=strip.getText(document);		
+		for (String s1 : links)
+			if (!s1.contentEquals(currWin)) {
+				driver.switchTo().window(s1);
+				String currentUrl = driver.getCurrentUrl();
+				if (currentUrl.contains("signupSuccess")) {
+					continue;
+				} else if (currentUrl.contains("generateMultiplePDF")) {
+					URL url = new URL(currentUrl);
+
+					// Open stream method is used to open the pdf file
+					InputStream is = url.openStream();
+
+					// using the Buffered input class(creating the object file parse)
+					BufferedInputStream fileParse = new BufferedInputStream(is);
+
+					// PD document is coming from PDF box
+					PDDocument document = null;
+
+					// Initialize the document from load method(load buffered input class)
+					document = PDDocument.load(fileParse);
+
+					// creating object he he & returning the content
+					PDFTextStripper strip = new PDFTextStripper();
+
+					strip.setStartPage(1);
+					pdfContent = strip.getText(document);
+					if (pdfContent.contains(data.testDataProvider().getProperty("pdfContentRenew"))) {
+						assertTrue(pdfContent.contains(data.testDataProvider().getProperty("pdfContent")),
+								"Pdf is downloaded.");
+					}
+					break;
+
+				}
 			}
-		}
-		// Here we validate pdf is downloaded;
-		assertTrue(downloadPdf.isDisplayed());
 	}
-	
+
 	/**
 	 * @throws InvalidPasswordException
 	 * @throws IOException
 	 * @throws InterruptedException
 	 */
-	public void joinReceipt() throws InvalidPasswordException, IOException, InterruptedException {
+	public void reJoinReceipt() throws InvalidPasswordException, IOException, InterruptedException {
 		util.waitUntilElement(driver, JoinSalesOrder);
-		//renewSalesOrder.click();
+		// renewSalesOrder.click();
 		executor.executeScript("arguments[0].click();", JoinSalesOrder);
 		util.waitUntilElement(driver, showallBtn);
 		showallBtn.click();
@@ -314,46 +318,110 @@ public class SalesOrder {
 		receiptListBtn.click();
 		util.waitUntilElement(driver, receiptNumber);
 		executor.executeScript("arguments[0].click();", receiptNumber);
-		//receiptNumber.click();
+		// receiptNumber.click();
 		util.waitUntilElement(driver, downloadPdfBtn);
 		downloadPdfBtn.click();
-		Set<String>links = driver.getWindowHandles();
+		Set<String> links = driver.getWindowHandles();
 		String currWin = driver.getWindowHandle();
 		Thread.sleep(1000);
-		for(String s1: links)
-		if(!s1.contentEquals(currWin))	
-		{
-			driver.switchTo().window(s1);
-			String currentUrl = driver.getCurrentUrl();
-			if(currentUrl.contains("signupSuccess")) {
-				continue;
-			}else if (currentUrl.contains("generateMultiplePDF")) {
-				URL url=new URL(currentUrl); 
-				
-				//Open stream method is used to open the pdf file
-				InputStream is=url.openStream();
-				
-				//using the Buffered input class(creating the object file parse)
-				BufferedInputStream fileParse=new BufferedInputStream(is);
-				
-				//PD document is coming from PDF box
-				PDDocument document=null;
-				
-				//Initialize the document from load method(load buffered input class)
-				document=PDDocument.load(fileParse);
-				
-				//creating object he he & returning the content
-				PDFTextStripper strip=new PDFTextStripper();
-				
-				strip.setStartPage(1);
-				pdfContent=strip.getText(document);		
+		for (String s1 : links)
+			if (!s1.contentEquals(currWin)) {
+				driver.switchTo().window(s1);
+				String currentUrl = driver.getCurrentUrl();
+				if (currentUrl.contains("signupSuccess")) {
+					continue;
+				} else if (currentUrl.contains("generateMultiplePDF")) {
+					URL url = new URL(currentUrl);
+
+					// Open stream method is used to open the pdf file
+					InputStream is = url.openStream();
+
+					// using the Buffered input class(creating the object file parse)
+					BufferedInputStream fileParse = new BufferedInputStream(is);
+
+					// PD document is coming from PDF box
+					PDDocument document = null;
+
+					// Initialize the document from load method(load buffered input class)
+					document = PDDocument.load(fileParse);
+
+					// creating object he he & returning the content
+					PDFTextStripper strip = new PDFTextStripper();
+
+					strip.setStartPage(1);
+					pdfContent = strip.getText(document);
+
+					// Here we validate pdf is downloaded;
+					if (pdfContent.contains(data.testDataProvider().getProperty("pdfContentRejoin"))) {
+						assertTrue(pdfContent.contains(data.testDataProvider().getProperty("pdfContent")),
+								"Pdf is downloaded.");
+					}
+					break;
+				}
 			}
-		}
-		// Here we validate pdf is downloaded;
-		util.switchToTab(driver, 2);
-		System.out.println("PDF tab title"+driver.getTitle());
-		util.waitUntilElement(driver, downloadPdf);
-		assertTrue(downloadPdf.isDisplayed());
+
 	}
+	
+	/**
+	 * @throws InvalidPasswordException
+	 * @throws IOException
+	 * @throws InterruptedException
+	 */
+	public void joinReceipt() throws InvalidPasswordException, IOException, InterruptedException {
+		util.waitUntilElement(driver, JoinSalesOrder);
+		// renewSalesOrder.click();
+		executor.executeScript("arguments[0].click();", JoinSalesOrder);
+		util.waitUntilElement(driver, showallBtn);
+		showallBtn.click();
+		action.sendKeys(Keys.ARROW_DOWN).build().perform();
+		action.sendKeys(Keys.ARROW_DOWN).build().perform();
+		util.waitUntilElement(driver, receiptListBtn);
+		receiptListBtn.click();
+		util.waitUntilElement(driver, receiptNumber);
+		executor.executeScript("arguments[0].click();", receiptNumber);
+		// receiptNumber.click();
+		util.waitUntilElement(driver, downloadPdfBtn);
+		downloadPdfBtn.click();
+		Set<String> links = driver.getWindowHandles();
+		String currWin = driver.getWindowHandle();
+		Thread.sleep(1000);
+		for (String s1 : links)
+			if (!s1.contentEquals(currWin)) {
+				driver.switchTo().window(s1);
+				String currentUrl = driver.getCurrentUrl();
+				if (currentUrl.contains("signupSuccess")) {
+					continue;
+				} else if (currentUrl.contains("generateMultiplePDF")) {
+					URL url = new URL(currentUrl);
+
+					// Open stream method is used to open the pdf file
+					InputStream is = url.openStream();
+
+					// using the Buffered input class(creating the object file parse)
+					BufferedInputStream fileParse = new BufferedInputStream(is);
+
+					// PD document is coming from PDF box
+					PDDocument document = null;
+
+					// Initialize the document from load method(load buffered input class)
+					document = PDDocument.load(fileParse);
+
+					// creating object he he & returning the content
+					PDFTextStripper strip = new PDFTextStripper();
+
+					strip.setStartPage(1);
+					pdfContent = strip.getText(document);
+
+					// Here we validate pdf is downloaded;
+					if (pdfContent.contains(data.testDataProvider().getProperty("pdfContent"))) {
+						assertTrue(pdfContent.contains(data.testDataProvider().getProperty("pdfContent")),
+								"Pdf is downloaded.");
+					}
+					break;
+				}
+			}
+
+	}
+	
 
 }
