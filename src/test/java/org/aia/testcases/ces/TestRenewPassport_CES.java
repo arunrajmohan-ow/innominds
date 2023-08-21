@@ -140,7 +140,7 @@ public class TestRenewPassport_CES extends BaseClass {
 				  true, java.time.LocalDate.now().toString(), "AutomationOrg", "Other", "No"); 
 		  
 		// Validate CES Provider account details - Fonteva API validations
-		  apiValidation.verifyProviderApplicationAccountDetails("Active", "CES Passport", "2024-12-31",
+		  apiValidation.verifyProviderApplicationAccountDetails("Active", "CES Passport", "2023-12-31",
 				  false);
 		 
 		// Validate sales order

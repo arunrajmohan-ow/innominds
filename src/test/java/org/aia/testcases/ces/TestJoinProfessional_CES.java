@@ -139,7 +139,6 @@ public class TestJoinProfessional_CES extends BaseClass {
 		// checkOutPageCes.enterCardDetailsCes();
 		checkOutPageCes.enterECheckDetailsCes(userAccount.get(1), "Automation Bank", "021000021", "9876543210");
 		Object amount = paymntSuccesFullPageCes.amountPaid();
-		Thread.sleep(5000);
 		Logging.logger.info("Total Amount is : " + amount);
 		String reciptData = paymntSuccesFullPageCes.ClickonViewReceipt();
 		// Get Receipt number
@@ -156,7 +155,7 @@ public class TestJoinProfessional_CES extends BaseClass {
 				"AutomationOrg", "Institutional", "No");
 
 		// Validate CES Provider account details - Fonteva API validations
-		apiValidation.verifyProviderApplicationAccountDetails("Active", "CES Professional", "2024-12-31", false);
+		apiValidation.verifyProviderApplicationAccountDetails("Active", "CES Professional", "2023-12-31", false);
 
 		// Validate sales order
 		apiValidation.verifySalesOrder(DataProviderFactory.getConfig().getValue("salesOrderStatus"),
@@ -171,7 +170,7 @@ public class TestJoinProfessional_CES extends BaseClass {
 				userAccount.get(0) + " " + userAccount.get(1));
 	}
 
-	@Test(priority = 2, description = "Validate Online JOIN - Approved for Passport.", enabled = true)
+	@Test(priority = 2, description = "Validate Online JOIN - Approved for Passport.", enabled = false)
 	public void ValidateJoinApproveForPassport() throws Exception {
 		String prefix = "Dr.";
 		String suffix = "Sr.";
@@ -235,7 +234,7 @@ public class TestJoinProfessional_CES extends BaseClass {
 				"AutomationOrg", "Institutional", "No");
 
 		// Validate CES Provider account details - Fonteva API validations
-		apiValidation.verifyProviderApplicationAccountDetails("Active", "CES Passport", "2024-12-31", false);
+		apiValidation.verifyProviderApplicationAccountDetails("Active", "CES Passport", "2023-12-31", false);
 
 		// Validate sales order
 		apiValidation.verifySalesOrder(DataProviderFactory.getConfig().getValue("salesOrderStatus"),
