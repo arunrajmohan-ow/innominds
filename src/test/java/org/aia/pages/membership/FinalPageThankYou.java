@@ -27,7 +27,9 @@ WebDriver driver;
 	
 	@FindBy(xpath="//body[@id='document']/span/table/tbody/tr[3]/td/table/tbody/tr/td[1]/table/tbody/tr[3]/td/table/tbody/tr[5]/td[2]") WebElement custAIANum;
 
-	@FindBy(xpath="//body[@id='document']/span/table/tbody/tr[3]/td/table/tbody/tr/td[1]/table/tbody/tr[3]/td/table/tbody/tr[6]/td[2]") WebElement totalAmount;
+	//@FindBy(xpath="//body[@id='document']/span/table/tbody/tr[3]/td/table/tbody/tr/td[1]/table/tbody/tr[3]/td/table/tbody/tr[6]/td[2]") WebElement totalAmount;
+
+	@FindBy(xpath="//body[@id='document']//table//tbody//tr[7]//td[2]//span//span//span") WebElement totalAmount;
 	
 	String totalAmnt= null;
 	String finalPagetotal = null;
@@ -94,4 +96,3 @@ WebDriver driver;
 	}
 
 }
-	
