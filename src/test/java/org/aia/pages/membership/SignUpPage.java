@@ -149,6 +149,7 @@ public class SignUpPage {
 		emailAddress.sendKeys(emailaddressdata);
 		util.waitUntilElement(driver, mobileCountry);
 		mobileCountry.click();
+		Thread.sleep(7000);
 		util.waitUntilElement(driver, mobileCountryoption);
 		mobileCountryoption.click();
 		mobilePhoneNum.sendKeys(mobNumb);
