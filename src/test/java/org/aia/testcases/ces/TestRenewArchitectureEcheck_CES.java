@@ -171,7 +171,7 @@ public class TestRenewArchitectureEcheck_CES extends BaseClass {
 				true, java.time.LocalDate.now().toString(), "AutomationOrg", "Architecture Firm", "No"); 
 		  
 		// Validate CES Provider account details - Fonteva API validations
-		apiValidation.verifyProviderApplicationAccountDetails("Active", "CES Architecture Firm", "2024-12-31",
+		apiValidation.verifyProviderApplicationAccountDetails("Active", "CES Architecture Firm", "2023-12-31",
 				false);
 		 
 		// Validate sales order
