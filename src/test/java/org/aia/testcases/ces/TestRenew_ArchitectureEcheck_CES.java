@@ -41,7 +41,7 @@ import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.Story;
 
-public class TestRenewArchitectureEcheck_CES extends BaseClass {
+public class TestRenew_ArchitectureEcheck_CES extends BaseClass {
 
 	SignUpPageCes signUpPage;
 	SignInPage signInpage;
