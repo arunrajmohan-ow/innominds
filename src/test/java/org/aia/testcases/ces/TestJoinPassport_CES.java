@@ -176,7 +176,7 @@ public class TestJoinPassport_CES extends BaseClass {
 				  true, java.time.LocalDate.now().toString(), "AutomationOrg", "Other", "No"); 
 		  
 		// Validate CES Provider account details - Fonteva API validations
-		  apiValidation.verifyProviderApplicationAccountDetails("Active", "CES Passport", "2024-12-31",
+		  apiValidation.verifyProviderApplicationAccountDetails("Active", "CES Passport", "2023-12-31",
 				  false);
 		 
 		// Validate sales order
@@ -206,8 +206,8 @@ public class TestJoinPassport_CES extends BaseClass {
 		loginPageCes.loginToCes(dataList.get(5), dataList.get(6));
 		loginPageCes.checkLoginSuccess();
 		primarypocPage.enterPrimaryPocDetails(prefix, suffix, dataList.get(2));
-		String text = organizationPage.enterOrganizationDetails(dataList, 
-				  "Other", "No", "United States of America (+1)");
+		String text = organizationPage.enterAllOrgDetails(dataList, 
+				  "Other", "No", "United States", "United States of America (+1)");
 		subscribePage.SubscriptionType(text, "Yes", null, "Non-profit");
 		secPoc.enterSecondaryPocDetails(dataList, prefix, suffix, "Yes", "United States of America (+1)"); 
 		additionalUsers.verifyCesPrimDetails(dataList);
@@ -226,7 +226,7 @@ public class TestJoinPassport_CES extends BaseClass {
 				  true, java.time.LocalDate.now().toString(), "AutomationOrg", "Other", "No"); 
 		  
 		// Validate CES Provider account details - Fonteva API validations
-		  apiValidation.verifyProviderApplicationAccountDetails("Active", "CES Passport", "2024-12-31",
+		  apiValidation.verifyProviderApplicationAccountDetails("Active", "CES Passport", "2023-12-31",
 				  false);
 		 
 		// Validate sales order
