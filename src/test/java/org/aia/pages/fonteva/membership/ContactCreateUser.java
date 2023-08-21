@@ -395,8 +395,6 @@ public class ContactCreateUser {
 	public void selectContact(String userFullname) throws InterruptedException {
 		util.waitUntilElement(driver, contacts);
 		contactsDiv.click();
-		Thread.sleep(5000);
-		driver.navigate().refresh();
 		util.waitUntilElement(driver, tableheaderName);
 		Thread.sleep(5000);
 		util.waitUntilElement(driver, contactallBtn);
@@ -404,7 +402,6 @@ public class ContactCreateUser {
 		util.waitUntilElement(driver, contactallLink);
 		contactallLink.click();
 		Thread.sleep(14000);
-		executor.executeScript("arguments[0].scrollIntoView(true);", util.getCustomizedWebElement(driver, contactName, userFullname));
 		util.waitUntilElement(driver, util.getCustomizedWebElement(driver, contactName, userFullname));
 		executor.executeScript("arguments[0].click();",
 				util.getCustomizedWebElement(driver, contactName, userFullname));

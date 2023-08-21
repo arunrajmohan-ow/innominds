@@ -8,7 +8,6 @@ import java.util.Random;
 
 import org.aia.utility.Utility;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -24,8 +23,7 @@ public class RenewCESPage {
 		this.driver = Idriver;
 	}
 
-	//@FindBy(xpath = "//button[text()='Renew (Click Me)']")
-	@FindBy(xpath="//table//tbody//tr//td[2]//button")
+	@FindBy(xpath = "//button[text()='Renew (Click Me)']")
 	WebElement renewBtn;
 
 	@FindBy(xpath = "//button[text()='Next']")
@@ -34,10 +32,7 @@ public class RenewCESPage {
 	@FindBy(xpath = "//*[text()='What is your employee size?']")
 	WebElement empSizetxt;
 
-	//@FindBy(xpath = "//span[@class='slds-checkbox--faux']")
-	//@FindBy(xpath = "//div//label//span[@class='slds-checkbox--faux']")
-	//@FindBy(xpath="/html[1]/body[1]/div[3]/div[2]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[3]/div[1]/div[2]/div[1]/label[1]/span[1]")
-	@FindBy(className = "slds-checkbox--faux")
+	@FindBy(xpath = "//span[@class='slds-checkbox--faux']")
 	WebElement agreeBtn;
 
 	@FindBy(xpath = "//button[@data-name='renewFormContinueBtn']")
@@ -63,12 +58,10 @@ public class RenewCESPage {
 	@FindBy(xpath="//button[text()='Next']") WebElement orgNextBtn;
 
 	public void renewMembership(String emaildata) throws InterruptedException {
-		Thread.sleep(70000);
-		JavascriptExecutor executor = (JavascriptExecutor) driver;
-		executor.executeScript("arguments[0].scrollIntoView(true);", renewBtn);
+		Thread.sleep(20000);
 		util.waitUntilElement(driver, renewBtn);
-		executor.executeScript("arguments[0].click();",renewBtn);
-		//renewBtn.click();
+		renewBtn.click();
+
 		Thread.sleep(3000);
 		try {
 		if (empSizetxt.isDisplayed()) {
@@ -91,11 +84,8 @@ public class RenewCESPage {
 		} catch (Exception n) {
 			System.out.println("Element is invisible");
 		}
-		Thread.sleep(90000);
-		executor.executeScript("arguments[0].scrollIntoView(true);", agreeBtn);
-		//util.waitUntilElement(driver, agreeBtn);
-		executor.executeScript("arguments[0].click();",agreeBtn);
-		//agreeBtn.click();
+		util.waitUntilElement(driver, agreeBtn);
+		agreeBtn.click();
 		renewFormContinueBtn.click();
 		Thread.sleep(2000);
 		util.waitUntilElement(driver, Checkoutbtn);

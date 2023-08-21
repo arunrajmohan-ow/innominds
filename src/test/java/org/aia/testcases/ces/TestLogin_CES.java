@@ -72,7 +72,7 @@ public class TestLogin_CES extends BaseClass {
 	@Test(priority=2, description="Verify Login with valid username and incorrect password.", enabled=true, groups = "CES Invalid Login")
 	public void ValidateInValidLogin() throws Exception
 	{
-		loginPageCes.loginToCesWithInvalidCred(dataList.get(5), "InvalidPWD");
+		loginPageCes.loginToCes(dataList.get(5), "InvalidPWD");
 		loginPageCes.checkLoginError();
 	}
 
