@@ -60,7 +60,7 @@ public class Memberships {
 	@FindBy(xpath = "//button[@title='Edit Term End Date']/span")
 	WebElement editBtn;
 
-	String contactName = "(//span[text()='%s']//ancestor::a)[3]";
+	String contactName = "(//span[text()='%s']//ancestor::a)[2]";
 
 	@FindBy(xpath = "//a[contains(text(),'Show All')]")
 	WebElement showAll;
@@ -109,7 +109,7 @@ public class Memberships {
 		editBtn.click();
 		util.waitUntilElement(driver, inputTermEndDate);
 		inputTermEndDate.clear();
-		inputTermEndDate.sendKeys(data.testDataProvider().getProperty("termEndDate"));
+		inputTermEndDate.sendKeys(data.testDataProvider().getProperty("tremendDate"));
 		util.waitUntilElement(driver, inputTermGraceDate);
 		inputTermGraceDate.clear();
 		inputTermGraceDate.sendKeys(data.testDataProvider().getProperty("termGraceDate"));
@@ -150,7 +150,8 @@ public class Memberships {
 	public void expireMembership() throws InterruptedException {
 		executor.executeScript("window.scrollBy(0,550)", "");
 		util.waitUntilElement(driver, expireMembershipEditBtn);
-		expireMembershipEditBtn.click();
+		executor.executeScript("arguments[0].click();", expireMembershipEditBtn);
+		//expireMembershipEditBtn.click();
 		util.enterText(driver, editexpireMembership, data.testDataProvider().getProperty("expireMembership"));
 		util.waitUntilElement(driver, saveBtn);
 		saveBtn.click();
