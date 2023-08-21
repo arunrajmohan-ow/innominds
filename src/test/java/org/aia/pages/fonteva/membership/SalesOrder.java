@@ -124,10 +124,10 @@ public class SalesOrder {
 		assertEquals(afterDiscountAmt.getText(), data.testDataProvider().getProperty("replacatedAmt"));
 		driver.navigate().back();
 		driver.navigate().back();
-		util.waitUntilElement(driver, salesOrderSecondLine);
-		executor.executeScript("arguments[0].click();", salesOrderSecondLine);
+		util.waitUntilElement(driver, salesOrderFirstLine);
+		executor.executeScript("arguments[0].click();", salesOrderFirstLine);
 		// salesOrderSecondLine.click();
-		util.waitUntilElement(driver, setDiscountBtnSecond);
+		//util.waitUntilElement(driver, salesOrderFirstLine);
 		setDiscountBtnSecond.click();
 		util.waitUntilElement(driver, discountPopUp);
 		assertTrue(discountPopUp.isDisplayed());
@@ -193,6 +193,10 @@ public class SalesOrder {
 	 * Here I am validate the both sales order line using the assertions.
 	 */
 	public void validateSalesOrderLine() {
+		util.waitUntilElement(driver, salesOrderLine);
+		salesOrderLine.click();
+		util.waitUntilElement(driver, salesOrderLineTable);
+		assertTrue(salesOrderLineTable.isDisplayed());
 		util.waitUntilElement(driver,firstSalesorderLineText);
 		String firstSOLineText= firstSalesorderLineText.getAttribute("title");
 		util.waitUntilElement(driver, secondSalesorderLineText);
