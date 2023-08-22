@@ -116,7 +116,7 @@ public class TestJoin_Membership extends BaseClass {
 		apiValidation.verifyReciptDetails(data.get(0), data.get(2));
 	}
 
-	@Test(priority = 2, description = "Validate activeUSLicense", enabled = false)
+	@Test(priority = 2, description = "Validate activeUSLicense", enabled = true)
 	public void ValidateActiveUSLicense() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
