@@ -367,7 +367,8 @@ public class TellusAboutYourselfPage {
 		js.executeScript("window.scrollBy(0,700)", nextBtnTellpage);
 
 		// act.moveToElement(nextBtnTellpage).click().build().perform();
-		nextBtnTellpage.click();
+		//nextBtnTellpage.click();
+		js.executeScript("arguments[0].click();", nextBtnTellpage);
 		Thread.sleep(15000);
 		util.waitUntilElement(driver, EquityLabelEquityPage);
 
