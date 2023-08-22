@@ -61,20 +61,19 @@ public class LoginPageCes {
 			String title = driver.getTitle();
 			assertTrue(title.equalsIgnoreCase("Provider Application"), "Provider Application page is loaded.");
 		} catch (Exception ex) {
-			 driver.navigate().refresh();
-			 util.waitUntilElement(driver, emailAddress);
-			 Logging.logger.info("Waiting for the email text field to appear.");
-			 System.out.println("Email Text field displayed");
-			 emailAddress.sendKeys(uname);
-			 password.sendKeys(pwd);
-			 submitbtn.click();
-			 Thread.sleep(1000);
+			driver.navigate().refresh();
+			util.waitUntilElement(driver, emailAddress);
+			Logging.logger.info("Waiting for the email text field to appear.");
+			System.out.println("Email Text field displayed");
+			emailAddress.sendKeys(uname);
+			password.sendKeys(pwd);
+			submitbtn.click();
+			Thread.sleep(1000);
 		}
 	}
 
 	@Step("Check login success.")
 	public void checkLoginSuccess() throws Exception {
-
 		util.waitUntilElement(driver, pageTitleProviderApp);
 		Logging.logger.info("Waiting for provider application page to appear.");
 		Thread.sleep(1000);
@@ -83,9 +82,8 @@ public class LoginPageCes {
 	}
 
 	@Step("Check login fail.")
-	public void checkLoginError() throws Exception
-	{
-		Thread.sleep(10000);
+	public void checkLoginError() throws Exception {
+		Thread.sleep(1000);
 		util.waitUntilElement(driver, loginError);
 		String error = loginError.getText();
 		assertTrue(error.contains("Your password is incorrect."),
@@ -99,7 +97,8 @@ public class LoginPageCes {
 		System.out.println("Email Text field displayed");
 		signUplink.click();
 	}
-	
+
+
 	/**
 	 * @param uname
 	 * @param pwd
@@ -114,5 +113,4 @@ public class LoginPageCes {
 		password.sendKeys(pwd);
 		submitbtn.click();
 	}
-
 }
