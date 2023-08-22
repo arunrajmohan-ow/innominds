@@ -214,7 +214,7 @@ public class ContactCreateUser {
 	 * loginBtn.click(); }
 	 */
 	public void pointOffset() {
-		// action.moveByOffset(1300, 700).build().perform();
+		action.moveByOffset(1300, 700).build().perform();
 	}
 
 	/**
