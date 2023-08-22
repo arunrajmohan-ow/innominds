@@ -288,6 +288,7 @@ public class TestReJoin_Membership extends BaseClass {
 		String aiaNational = paymentInfoPage.paymentDetails(testData.testDataProvider().getProperty("radioSelection"));
 		tellAbtPage.enterTellUsAboutYourSelfdetails(testData.testDataProvider().getProperty("radioSelection"),
 				testData.testDataProvider().getProperty("careerType"));
+		finalPage.verifyThankYouMessage();
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
 		fontevaJoin.selectContact(dataList.get(0) + " " + dataList.get(1));
 		fontevaPage.setMembershipStatus(dataList.get(0) + " " + dataList.get(1),
