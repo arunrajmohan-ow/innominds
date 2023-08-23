@@ -5,6 +5,7 @@ import static org.testng.Assert.assertTrue;
 import java.util.Set;
 
 import org.aia.utility.Utility;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -113,6 +114,7 @@ WebDriver driver;
 		util.waitUntilElement(driver, creditCardNumFrame1Ces);
 		Thread.sleep(5000);
 		driver.switchTo().frame(creditCardNumFrame1Ces);
+		Thread.sleep(10000);
 		driver.switchTo().frame(creditCardNumFrame2Ces);
 		cardNumInputCes.sendKeys(creditCardNum);
 		driver.switchTo().defaultContent();
@@ -126,8 +128,14 @@ WebDriver driver;
 	
 	
 	public void enterECheckDetailsCes(String accountHolderName ,String bankName, String bankRoutingNumber, String bankAccountNumber) throws InterruptedException {
+		//util.waitUntilElement(driver, eCheckCes);
+		JavascriptExecutor executor = (JavascriptExecutor) driver;
+		Thread.sleep(50000);
+		executor.executeScript("arguments[0].scrollIntoView(true);", eCheckCes);
 		util.waitUntilElement(driver, eCheckCes);
-		eCheckCes.click();
+		Thread.sleep(20000);
+		executor.executeScript("arguments[0].click();",eCheckCes);
+		//eCheckCes.click();
 		Thread.sleep(2000);
 		util.waitUntilElement(driver, fullNameECheckoutCes);
 		fullNameECheckoutCes.sendKeys(accountHolderName);
