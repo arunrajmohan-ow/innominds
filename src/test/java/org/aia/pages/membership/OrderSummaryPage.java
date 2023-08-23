@@ -1,5 +1,7 @@
 package org.aia.pages.membership;
 
+import static org.testng.Assert.assertTrue;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -97,6 +99,12 @@ public class OrderSummaryPage {
 
 	@FindBy(xpath = "//*[@id=\"otherStaffCount\"]")
 	WebElement otherStaffCount;
+	
+	@FindBy(xpath="//span[text()='ArchiPAC donation']")
+    WebElement archipacText;
+	
+	@FindBy(xpath="//input[contains(@name,'additionalPackages')]//parent::span")
+	WebElement archipacCheckBox;
 
 	public void confirmTerms(String text) throws InterruptedException {
 		if (text.contentEquals("activeNonUSLicense") || text.contentEquals("supervision")
@@ -252,4 +260,14 @@ public class OrderSummaryPage {
 		}
 	}
 
+
+	/**
+	 * 
+	 */
+	public void checkAdditionalProduct() {
+		util.waitUntilElement(driver, archipacText);
+		assertTrue(archipacText.isDisplayed());
+		util.waitUntilElement(driver, archipacCheckBox);
+		archipacCheckBox.click();
+	}
 }
