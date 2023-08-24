@@ -28,17 +28,19 @@ public class TestLoginAsExperienceUser extends BaseClass {
 	public void setUp() throws Exception {
 		sessionID = new FontevaConnectionSOAP();
 		driver = BrowserSetup.startApplication(driver, DataProviderFactory.getConfig().getValue("browser"),
-				DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl")+sessionID.getSessionID());
+				DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
 		util = new Utility(driver, 30);
 		testData = new ConfigDataProvider();
 		fontevaPage = PageFactory.initElements(driver, FontevaCES.class);
-		ces_ContactPage= PageFactory.initElements(driver, CES_ContactPage.class);
+		ces_ContactPage = PageFactory.initElements(driver, CES_ContactPage.class);
 	}
-	
+
 	@Test(priority = 1, description = "Validate Login experience user in multiple module.", enabled = true)
 	public void verifyLoginAsExpUser() throws InterruptedException {
 		ces_ContactPage.userData();
 		ces_ContactPage.createNewContactInFonteva();
+		ces_ContactPage.joinCreatedUser(testData.testDataProvider().getProperty("membershipType"),
+				testData.testDataProvider().getProperty("selection"));
 	}
 
 	@AfterMethod(alwaysRun = true)

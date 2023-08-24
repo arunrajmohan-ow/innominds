@@ -11,6 +11,7 @@ import org.aia.utility.Utility;
 import org.apache.commons.io.serialization.ValidatingObjectInputStream;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.log4j.Logger;
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -87,6 +88,26 @@ public class CES_ContactPage {
 
 	@FindBy(xpath = "//button[text()='Save']")
 	WebElement saveBtn;
+	
+	@FindBy(xpath = "//button[text()='Join']")
+	WebElement joinBtn;
+	
+	String memType = "//span[@title='%s']";
+
+	@FindBy(xpath = "//button[@name='AIA_Membership_Type__c']")
+	WebElement selectMemTypeBtn;
+
+	@FindBy(xpath = "//input[contains(@name,'Zip_Code')]")
+	WebElement enterZipCode;
+
+	@FindBy(xpath = "//button[contains(@name,'Career_Type')]")
+	WebElement careerTypeDrp;
+
+	String careerType = "//span[text()='%s']";
+
+	@FindBy(xpath = "//button[text()='Next']")
+	WebElement nextBtn;
+
 
 
 	String fName;
@@ -137,6 +158,9 @@ public class CES_ContactPage {
 		contactallLink.click();
 	}
 
+	/**
+	 * 
+	 */
 	public void createNewContactInFonteva() {
 		util.waitUntilElement(driver, contacts);
 		contactsDiv.click();
@@ -149,6 +173,27 @@ public class CES_ContactPage {
 		executor.executeScript("arguments[0].scrollIntoView(true);", emailAddress);
 		emailAddress.sendKeys(emailaddressdata);
 		saveBtn.click();
+	}
+	
+	public void joinCreatedUser(String membership, String career) throws InterruptedException {
+		Thread.sleep(8000);
+		util.waitUntilElement(driver, joinBtn);
+		joinBtn.click();
+		util.waitUntilElement(driver, selectMemTypeBtn);
+		selectMemTypeBtn.click();
+		WebElement membershipType = driver.findElement(By.xpath(String.format(memType, membership)));
+		util.waitUntilElement(driver, membershipType);
+		membershipType.click();
+		action.moveToElement(enterZipCode);
+		util.enterText(driver, enterZipCode, data.testDataProvider().getProperty("zipCode"));
+		util.waitUntilElement(driver, careerTypeDrp);
+		careerTypeDrp.click();
+		WebElement selectCareerType = driver.findElement(By.xpath(String.format(careerType, career)));
+		selectCareerType.click();
+		// action.scrollToElement(nextBtn);
+		executor.executeScript("arguments[0].scrollIntoView(true);", nextBtn);
+		util.waitUntilElement(driver, nextBtn);
+		nextBtn.click();
 	}
 
 }
