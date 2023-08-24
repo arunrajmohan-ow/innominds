@@ -410,7 +410,6 @@ public class ContactCreateUser {
 	}
 	
 	/**
-<<<<<<< HEAD
 	 * @param fullName 
 	 * @throws InterruptedException 
 	 * 
