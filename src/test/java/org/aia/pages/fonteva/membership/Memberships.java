@@ -148,9 +148,10 @@ public class Memberships {
 	 * @throws InterruptedException
 	 */
 	public void expireMembership() throws InterruptedException {
-		executor.executeScript("window.scrollBy(0,550)", "");
+		executor.executeScript("window.scrollBy(0,500)", "");
 		util.waitUntilElement(driver, expireMembershipEditBtn);
-		expireMembershipEditBtn.click();
+		executor.executeScript("arguments[0].click();", expireMembershipEditBtn);
+		//expireMembershipEditBtn.click();
 		util.enterText(driver, editexpireMembership, data.testDataProvider().getProperty("expireMembership"));
 		util.waitUntilElement(driver, saveBtn);
 		saveBtn.click();
