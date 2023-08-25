@@ -1,5 +1,7 @@
 package org.aia.testcases.ces;
 
+import java.util.ArrayList;
+
 import org.aia.pages.BaseClass;
 import org.aia.pages.api.membership.FontevaConnectionSOAP;
 import org.aia.pages.ces.FontevaCES;
@@ -37,10 +39,14 @@ public class TestLoginAsExperienceUser extends BaseClass {
 
 	@Test(priority = 1, description = "Validate Login experience user in multiple module.", enabled = true)
 	public void verifyLoginAsExpUser() throws InterruptedException {
-		ces_ContactPage.userData();
+		ArrayList<String> dataList= ces_ContactPage.userData();
 		ces_ContactPage.createNewContactInFonteva();
 		ces_ContactPage.joinCreatedUser(testData.testDataProvider().getProperty("membershipType"),
 				testData.testDataProvider().getProperty("selection"));
+		ces_ContactPage.enterLicenseDetail();
+		ces_ContactPage.createSalesOrder(testData.testDataProvider().getProperty("paymentMethod"));
+		ces_ContactPage.applyPayment(dataList.get(5));
+		
 	}
 
 	@AfterMethod(alwaysRun = true)
