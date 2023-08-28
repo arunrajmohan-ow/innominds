@@ -124,15 +124,7 @@ public class RenewCESPage {
 		renewUserBtn.click();
 		util.waitUntilElement(driver, renewClickMeBtn);
 		renewClickMeBtn.click();
-		try {
-			if (empSizetxt.isDisplayed()) {
-				confirmNext.click();
-			} else {
-				System.out.println("Proration page is not available.");
-			}
-			} catch (Exception n) {
-				System.out.println("Proration page is not available.");
-			}
+		
 			try {
 				if (orgTaxIDTxtbox.isDisplayed()) {
 					orgTaxIDTxtbox.sendKeys("Auto01Tax");
