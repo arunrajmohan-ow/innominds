@@ -14,7 +14,12 @@
       <class name="org.aia.testcases.membership.TestOfflineJoin_Membership"/> 
       <class name="org.aia.testcases.membership.TestOfflineRejoin_Membership"/>
       <class name="org.aia.testcases.membership.TestOfflineRenew_Membership"/>
+<<<<<<< HEAD
       <class name="org.aia.testcases.membership.TestProcessException_Membership"/>
+=======
+      <class name="org.aia.testcases.membership.TestProcessException_Membership"/>-->
+      <class name="org.aia.testcases.membership.TestRenew_Membership"/>
+>>>>>>> 7ace37377f01be85619d78c0bd25ea20e5bc209c
       <class name="org.aia.testcases.membership.TestReJoin_Membership"/>
       <class name="org.aia.testcases.membership.TestRenew_Membership"/>--> 
       <class name="org.aia.testcases.membership.TestZeroSalesOrder_Membership"/>
