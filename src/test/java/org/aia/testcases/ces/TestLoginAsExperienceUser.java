@@ -128,7 +128,7 @@ public class TestLoginAsExperienceUser extends BaseClass {
 		fontevaPage.changeTermDates(dataList.get(0) + " " + dataList.get(1));
 		reNewUser.selectContactInTerm(dataList.get(0) + " " + dataList.get(1));
 		ces_ContactPage.selectExpAsUserOpt();
-		renew.renewMembership(dataList.get(5));
+		renew.clickOnRenewBtn();
 	}
 
 	@AfterMethod(alwaysRun = true)
