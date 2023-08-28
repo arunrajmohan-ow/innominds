@@ -133,7 +133,14 @@ public class TestLoginAsExperienceUser extends BaseClass {
 		Logging.logger.info("Total Amount is : " + paymntSuccesFullPageCes.amountPaid());
 		Object renewamount = paymntSuccesFullPageCes.amountPaid(); 
 		String renewreciptData = paymntSuccesFullPageCes.ClickonViewReceipt(); 
-		
+		// Validate Provider Application & CES Provider account details - Fonteva API validations
+		  apiValidation.verifyProviderApplicationDetails("Approved", userAccount, "Passport", userAccount.get(0)+" "+userAccount.get(1), 
+				  true, java.time.LocalDate.now().toString(), "AutomationOrg", "Other", "No"); 
+		  
+		// Validate CES Provider account details - Fonteva API validations
+		  apiValidation.verifyProviderApplicationAccountDetails("Active", "CES Passport", "2023-12-31",
+				  false);
+		 
 		// Validate sales order
 		  apiValidation.verifySalesOrder(DataProviderFactory.getConfig().getValue("salesOrderStatus"), 
 					DataProviderFactory.getConfig().getValue("orderStatus"), 
