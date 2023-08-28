@@ -58,6 +58,12 @@ public class RenewCESPage {
 	@FindBy(xpath="//span[@title='National']") WebElement orgCoursesNationallyOption;
 	
 	@FindBy(xpath="//button[text()='Next']") WebElement orgNextBtn;
+	
+	@FindBy(xpath = "//div[@role='tablist']//a[text()='CES Provider Renew']")
+	WebElement renewUserBtn;
+	
+	@FindBy(xpath="//button[text()='Renew (Click Me)']")
+	WebElement renewClickMeBtn;
 
 	public void renewMembership(String emaildata) throws InterruptedException {
 		Thread.sleep(70000);
@@ -107,4 +113,15 @@ public class RenewCESPage {
 		}
 	}
 
+	/**
+	 * Author-Suhas
+	 */
+	public void clickOnRenewBtn() {
+		System.out.println("CES page title"+driver.getTitle());
+		util.waitUntilElement(driver, renewUserBtn);
+		renewUserBtn.click();
+		util.waitUntilElement(driver, renewClickMeBtn);
+		renewClickMeBtn.click();
+	}
+		
 }

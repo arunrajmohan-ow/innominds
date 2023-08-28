@@ -1,5 +1,7 @@
 package org.aia.pages.fonteva.ces;
 
+import static org.testng.Assert.assertTrue;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -191,10 +193,18 @@ public class CES_ContactPage {
 	@FindBy(xpath = "//a[contains(text(),'Show All (2')]")
 	WebElement showAll;
 
-
-
-
-
+    @FindBy(xpath="//span[text()='Show more actions']//ancestor::button")
+    WebElement moreActionBtn;
+    
+    @FindBy(xpath = "//span[text()='Log in to Experience as User']//ancestor::a")
+    WebElement loginAsExpUserOpt;
+    
+    @FindBy(xpath = "//h2[text()='Log in as Site User']")
+    WebElement siteUserOpt;
+    
+    @FindBy(xpath = "//span[text()='Providers']//ancestor::a")
+    WebElement providerAppLink;
+    
 
 	String fName;
 	String lName;
@@ -388,7 +398,7 @@ public class CES_ContactPage {
 	 * @throws InterruptedException
 	 * 
 	 */
-	public void selectContact(String userFullname) throws InterruptedException {
+	public void selectCreatedContact(String userFullname) throws InterruptedException {
 		util.waitUntilElement(driver, contacts);
 		contactsDiv.click();
 		Thread.sleep(5000);
@@ -406,6 +416,22 @@ public class CES_ContactPage {
 				util.getCustomizedWebElement(driver, contactName, userFullname));
 		util.waitUntilElement(driver, showAll);
 		showAll.click();
+	}
+	
+	/**
+	 * @throws InterruptedException 
+	 * 
+	 */
+	public void selectExpAsUserOpt() throws InterruptedException {
+		util.waitUntilElement(driver, moreActionBtn);
+		moreActionBtn.click();
+		util.waitUntilElement(driver, loginAsExpUserOpt);
+		loginAsExpUserOpt.click();
+		util.waitUntilElement(driver, siteUserOpt);
+		assertTrue(siteUserOpt.isDisplayed());
+		util.waitUntilElement(driver, providerAppLink);
+		providerAppLink.click();
+		Thread.sleep(5000);
 	}
 
 }
