@@ -88,8 +88,9 @@ public class Organization {
 			orgrevenueTxtbox.sendKeys("1000");
 			util.selectDropDownByText(orgCoursesSelect, "National");
 			orgNext.click();	
-			
+			System.out.println("MY ORG type:"+orgType);
 			return orgType;
+			
 		}
 
 		/*
