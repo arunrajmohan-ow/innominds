@@ -129,6 +129,21 @@ public class TestLoginAsExperienceUser extends BaseClass {
 		reNewUser.selectContactInTerm(dataList.get(0) + " " + dataList.get(1));
 		ces_ContactPage.selectExpAsUserOpt();
 		renew.clickOnRenewBtn();
+		checkOutPageCes.enterCardDetailsCes();
+		Logging.logger.info("Total Amount is : " + paymntSuccesFullPageCes.amountPaid());
+		Object renewamount = paymntSuccesFullPageCes.amountPaid(); 
+		String renewreciptData = paymntSuccesFullPageCes.ClickonViewReceipt(); 
+		
+		// Validate sales order
+		  apiValidation.verifySalesOrder(DataProviderFactory.getConfig().getValue("salesOrderStatus"), 
+					DataProviderFactory.getConfig().getValue("orderStatus"), 
+					renewamount, DataProviderFactory.getConfig().getValue("postingStatus"));
+		  
+		//Validate Receipt Details 
+			apiValidation.verifyReciptDetails(reciptData, amount, "CES Passport");
+			
+		//Validate Primary POC 
+		apiValidation.verifyPointOfContact("CES Primary", userAccount.get(5), userAccount.get(0)+" "+userAccount.get(1));
 	}
 
 	@AfterMethod(alwaysRun = true)

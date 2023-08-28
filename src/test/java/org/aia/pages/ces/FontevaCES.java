@@ -141,7 +141,8 @@ public class FontevaCES {
 		Thread.sleep(5000);
 		actions.sendKeys(Keys.ARROW_DOWN).build().perform();
 		actions.sendKeys(Keys.ARROW_DOWN).build().perform();
-		showallBtn.click();
+		js.executeScript("arguments[0].click();", showallBtn);
+		//showallBtn.click();
 		Thread.sleep(2000);
 		util.waitUntilElement(driver, memberShip);
 		//Instantiating Actions class
