@@ -65,7 +65,7 @@ public class CES_ReNewUser {
 	WebElement saveBtn;
 
 	//String contactTerm = "//span[text()='%s']//ancestor::a";
-	String contactTerm ="(//span[text()='%s']//ancestor::a)[2]";
+	String contactTerm ="(//span[text()='%s']//ancestor::a)[3]";
                         
 	@FindBy(xpath = "(//button[text()='Renew'])[2]")
 	WebElement renewBtn;
