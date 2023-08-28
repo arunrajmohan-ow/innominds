@@ -15,6 +15,7 @@
       <class name="org.aia.testcases.membership.TestProcessException_Membership"/>-->
      <!--  <class name="org.aia.testcases.membership.TestRenew_Membership"/>--> 
       <class name="org.aia.testcases.membership.TestReJoin_Membership"/>
+       <class name="org.aia.testcases.membership.TestJoin_Membership"/>
      <!-- <class name="org.aia.testcases.membership.TestZeroSalesOrder_Membership"/> --> 
       
     <!--<class name="org.aia.testcases.ces.TestJoinArchitectureFirm_CES"/>
