@@ -80,15 +80,9 @@ public class BrowserSetup {
 	public static void closeBrowser(WebDriver driver) {
 
 		System.out.println("LOG :Info- Browser Session getting terminated");
-<<<<<<< HEAD
-
-		driver.quit();
-
-=======
 		
 		driver.quit();
 		
->>>>>>> bb13c41faf10bf5da07041c21d2ae24169a18d95
 		System.out.println("LOG :Info- Browser Session terminated");
 
 	}
