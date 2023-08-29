@@ -113,6 +113,7 @@ WebDriver driver;
 		util.waitUntilElement(driver, creditCardNumFrame1Ces);
 		Thread.sleep(5000);
 		driver.switchTo().frame(creditCardNumFrame1Ces);
+		Thread.sleep(10000);
 		driver.switchTo().frame(creditCardNumFrame2Ces);
 		cardNumInputCes.sendKeys(creditCardNum);
 		driver.switchTo().defaultContent();
