@@ -109,6 +109,7 @@ public class ReNewUser {
 		showAll.click();
 		action.sendKeys(Keys.ARROW_DOWN).build().perform();
 		action.sendKeys(Keys.ARROW_DOWN).build().perform();
+		action.sendKeys(Keys.ARROW_DOWN).build().perform();
 		util.waitUntilElement(driver, selectMembership);
 		selectMembership.click();
 		Thread.sleep(10000);
