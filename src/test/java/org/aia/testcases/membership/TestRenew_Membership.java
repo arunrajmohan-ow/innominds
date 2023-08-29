@@ -397,7 +397,6 @@ public class TestRenew_Membership extends BaseClass {
 				testData.testDataProvider().getProperty("selection"));
 		apiValidationRenew.validateSalesOrderLine(salesPrice);
 	}
-<<<<<<< HEAD
 
 	/**
 	 * Suhas
@@ -406,19 +405,12 @@ public class TestRenew_Membership extends BaseClass {
 	 */
 	@Test(priority = 7, description = "Validate visibility of download pdf button in renew  ", enabled = true)
 	public void validateVisibilityDownloadPdfBtn() throws Exception {
-=======
-	
-	@Test(priority=7, description="Membership Renew Archipac Donation(Architect)", enabled=true)
-	public void validateArchipacDonation() throws Exception {
-		//Create a renew eligible member with any on from this South Carolina,Oregon,Oklahoma
->>>>>>> f890ee0f403bbe453dece53d71344939660fa2f2
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
 		signUpPage.signUpUser();
 		mailinator.verifyEmailForAccountSetup(dataList.get(3));
 		closeButtnPage.clickCloseAfterVerification();
 		signInpage.login(dataList.get(5), dataList.get(6));
-<<<<<<< HEAD
 		primaryInfoPage.enterPrimaryInfo(testData.testDataProvider().getProperty("radioSelection"),
 				testData.testDataProvider().getProperty("careerType"));
 		orderSummaryPage.confirmTerms(testData.testDataProvider().getProperty("radioSelection"));
@@ -443,16 +435,29 @@ public class TestRenew_Membership extends BaseClass {
 		salesOrder.selectSalesOrder();
 		salesOrder.renewReceipt();
 	}
-=======
+
+	/**
+	 * @throws Exception
+	 */
+	@Test(priority = 7, description = "Membership Renew Archipac Donation(Architect)", enabled = true)
+	public void validateArchipacDonation() throws Exception {
+		// Create a renew eligible member with any on from this South
+		// Carolina,Oregon,Oklahoma
+		ArrayList<String> dataList = signUpPage.signUpData();
+		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
+		signUpPage.signUpUser();
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
+		closeButtnPage.clickCloseAfterVerification();
+		signInpage.login(dataList.get(5), dataList.get(6));
 		primaryInfoPage.enterPrimaryInfo_pacDonation("activeUSLicense", "None Selected", "Donation");
 		orderSummaryPage.confirmTerms("activeUSLicense");
 		orderSummaryPage.clickonPayNow();
 		String aiaNational = paymentInfoPage.paymentDetails("activeUSLicense");
-		tellAbtPage.enterTellUsAboutYourSelfdetails("activeUSLicense", "None Selected");	
+		tellAbtPage.enterTellUsAboutYourSelfdetails("activeUSLicense", "None Selected");
 		finalPage.verifyThankYouMessage();
 		//
-		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl")+sessionID.getSessionID());
-		fontevaPage.changeTermDates(dataList.get(0)+" "+dataList.get(1));
+		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
+		fontevaPage.changeTermDates(dataList.get(0) + " " + dataList.get(1));
 		// Navigate back to membership portal
 		driver.get(DataProviderFactory.getConfig().getValue("membership_app_endpoint"));
 		renew.renewMembership(dataList.get(5));
@@ -464,11 +469,9 @@ public class TestRenew_Membership extends BaseClass {
 		finalPage.verifyThankYouMessage();
 		finalPage.getFinalReceiptData();
 		ArrayList<Object> receiptData1 = finalPage.getFinalReceiptData();
-		//Validate Receipt Details 
+		// Validate Receipt Details
 		apiValidationRenew.verifyReciptDetails(receiptData1.get(0), receiptData1.get(2));
 	}
-	
->>>>>>> f890ee0f403bbe453dece53d71344939660fa2f2
 
 	@AfterMethod(alwaysRun = true)
 	public void teardown() {
