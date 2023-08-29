@@ -117,7 +117,7 @@ public class TestReJoin_Membership extends BaseClass {
 		// Enter Email in membership page
 		rejoinPage.reJoinMembership(dataList.get(5));
 		// Enter detail in primary info page
-		primaryInfoPage.enterPrimaryInfo(testData.testDataProvider().getProperty("membershipType"),
+		primaryInfoPage.enterPrimaryInfo(testData.testDataProvider().getProperty("radioSelection"),
 				testData.testDataProvider().getProperty("careerType"));
 		// Confirm terms and proceed for payment.
 		orderSummaryPage.confirmTerms(testData.testDataProvider().getProperty("radioSelection"));
