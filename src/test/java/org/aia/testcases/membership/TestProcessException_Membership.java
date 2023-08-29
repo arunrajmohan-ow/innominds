@@ -147,7 +147,7 @@ public class TestProcessException_Membership extends BaseClass {
 	 * @throws IOException
 	 * 
 	 */
-	@Test(priority = 4, description = "Saving an attachment to Processing Exception", enabled = false)
+	@Test(priority = 4, description = "Saving an attachment to Processing Exception", enabled = true)
 	public void saveAttachmentProcessException() throws InterruptedException, IOException {
 		ArrayList<String> dataList = fontevaJoin.userData();
 		// First we create new user in Fonteva
