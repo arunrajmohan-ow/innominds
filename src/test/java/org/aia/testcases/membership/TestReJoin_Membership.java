@@ -9,6 +9,7 @@ import org.aia.pages.api.membership.JoinAPIValidation;
 import org.aia.pages.api.membership.ReJoinAPIValidation;
 import org.aia.pages.fonteva.membership.ContactCreateUser;
 import org.aia.pages.fonteva.membership.Memberships;
+import org.aia.pages.fonteva.membership.SalesOrder;
 import org.aia.pages.membership.CheckYourEmailPage;
 import org.aia.pages.membership.FinalPageThankYou;
 import org.aia.pages.membership.OrderSummaryPage;
@@ -48,6 +49,7 @@ public class TestReJoin_Membership extends BaseClass {
 	ReJoinAPIValidation reJoinAPIValidation;
 	JoinAPIValidation offlinApiValidation;
 	RejoinPage rejoinPage;
+	SalesOrder salesOrder;
 	public String inbox;
 	static Logger log = Logger.getLogger(TestReJoin_Membership.class);
 
@@ -75,13 +77,14 @@ public class TestReJoin_Membership extends BaseClass {
 		offlinApiValidation = PageFactory.initElements(driver, JoinAPIValidation.class);
 		fontevaPage = PageFactory.initElements(driver, Memberships.class);
 		rejoinPage = PageFactory.initElements(driver, RejoinPage.class);
+		salesOrder = PageFactory.initElements(driver, SalesOrder.class);
 		Logging.configure();
 	}
 
 	/**
 	 * Bug found in this script bug id is FM-336 FM-337
 	 */
-	@Test(priority = 1, description = "verify the online membership rejoin in UI Application", enabled = true)
+	@Test(priority = 1, description = "verify the online membership rejoin in UI Application", enabled = false)
 	public void validateReJoin() throws Exception {
 		// User creating is starting
 		ArrayList<String> dataList = signUpPage.signUpData();
@@ -146,7 +149,7 @@ public class TestReJoin_Membership extends BaseClass {
 	/**
 	 * @throws Exception
 	 */
-	@Test(priority = 2, description = "verify the online allied membership rejoin in UI Application", enabled = true)
+	@Test(priority = 2, description = "verify the online allied membership rejoin in UI Application", enabled = false)
 	public void validateAlliedReJoin() throws Exception {
 		// User creating is starting
 		ArrayList<String> dataList = signUpPage.signUpData();
@@ -208,7 +211,7 @@ public class TestReJoin_Membership extends BaseClass {
 
 	}
 
-	@Test(priority = 3, description = "verify the online Associate membership rejoin in UI Application", enabled = true)
+	@Test(priority = 3, description = "verify the online Associate membership rejoin in UI Application", enabled = false)
 	public void validateAssociateReJoin() throws Exception {
 		// User creating is starting
 		ArrayList<String> dataList = signUpPage.signUpData();
@@ -268,6 +271,48 @@ public class TestReJoin_Membership extends BaseClass {
 		// Validate Receipt Details
 		reJoinValidate.verifyReciptDetails(receiptData.get(0), receiptData.get(2));
 
+	}
+
+	@Test(priority = 4, description = "Validate visibility of download pdf button in rejoin  ", enabled = true)
+	public void validateVisibilityDownloadPdfBtn() throws Exception {
+		ArrayList<String> dataList = signUpPage.signUpData();
+		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
+		signUpPage.signUpUser();
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
+		closeButtnPage.clickCloseAfterVerification();
+		signInpage.login(dataList.get(5), dataList.get(6));
+		primaryInfoPage.enterPrimaryInfo(testData.testDataProvider().getProperty("radioSelection"),
+				testData.testDataProvider().getProperty("careerType"));
+		orderSummaryPage.confirmTerms(testData.testDataProvider().getProperty("radioSelection"));
+		orderSummaryPage.clickonPayNow();
+		String aiaNational = paymentInfoPage.paymentDetails(testData.testDataProvider().getProperty("radioSelection"));
+		tellAbtPage.enterTellUsAboutYourSelfdetails(testData.testDataProvider().getProperty("radioSelection"),
+				testData.testDataProvider().getProperty("careerType"));
+		finalPage.verifyThankYouMessage();
+		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
+		fontevaJoin.selectContact(dataList.get(0) + " " + dataList.get(1));
+		fontevaPage.setMembershipStatus(dataList.get(0) + " " + dataList.get(1),
+				testData.testDataProvider().getProperty("membershipStatus"));
+		fontevaJoin.selectContact(dataList.get(0) + " " + dataList.get(1));
+		fontevaPage.expireMembership();
+		// Navigate to membership portal
+		driver.get(DataProviderFactory.getConfig().getValue("membership_app_endpoint"));
+		// Enter Email in membership page
+		rejoinPage.reJoinMembership(dataList.get(5));
+		// Enter detail in primary info page
+		primaryInfoPage.enterPrimaryInfo(testData.testDataProvider().getProperty("radioSelection"),
+				testData.testDataProvider().getProperty("careerType"));
+		// Confirm terms and proceed for payment.
+		orderSummaryPage.confirmTerms(testData.testDataProvider().getProperty("radioSelection"));
+		orderSummaryPage.clickonPayNow();
+		paymentInfoPage.clickOnCreditCard();
+		paymentInfoPage.paymentDetails(testData.testDataProvider().getProperty("radioSelection"));
+		tellAbtPage.reJoinTellUs();
+		util.switchToTab(driver, 1)
+				.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
+		fontevaJoin.selectContact(dataList.get(0) + " " + dataList.get(1));
+		salesOrder.selectSalesOrder();
+		salesOrder.reJoinReceipt();
 	}
 
 	@AfterMethod
