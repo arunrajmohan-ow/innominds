@@ -33,7 +33,7 @@ WebDriver driver;
 	
 	String totalAmnt= null;
 	String finalPagetotal = null;
-	
+	ArrayList<Object> receiptData = new ArrayList<Object>();
 	public void verifyThankYouMessage() throws InterruptedException {
 		Thread.sleep(5000);
 		util.waitUntilElement(driver, frame);
@@ -44,7 +44,6 @@ WebDriver driver;
 	}
 	
 	public ArrayList<Object> getFinalReceiptData() {	
-		ArrayList<Object> receiptData = new ArrayList<Object>();
 		String receiptNumber = receiptNum.getText();
 		receiptData.add(0, receiptNumber);
 		String customerAIANumber = custAIANum.getText();

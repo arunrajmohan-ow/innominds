@@ -164,7 +164,7 @@ public class OrderSummaryPage {
 	public String payInInstallmentsClick(String text) throws InterruptedException {
 		LocalDate localDate = java.time.LocalDate.now();
 		String totalMembership = null;
-		if (localDate.getMonthValue() >= 10 || localDate.getMonthValue() <= 04) {
+		if (localDate.getMonthValue() >= 8 || localDate.getMonthValue() <= 04) {
 			if (text.contentEquals("activeUSLicense") || text.contentEquals("allied")) {
 				util.waitUntilElement(driver, Installments);
 				totalMembership = totalMembershipDues.getText();
@@ -173,6 +173,7 @@ public class OrderSummaryPage {
 				sixInstallments.click();
 				util.waitUntilElement(driver, confirmInstallments);
 				confirmInstallments.click();
+				payNowBtn.click();
 			}
 
 			if (text.contentEquals("graduate") || text.contentEquals("axp") || text.contentEquals("noLicense")
@@ -188,6 +189,7 @@ public class OrderSummaryPage {
 				sixInstallments.click();
 				util.waitUntilElement(driver, confirmInstallments);
 				confirmInstallments.click();
+				payNowBtn.click();
 			}
 		} else {
 			payNowBtn.click();
