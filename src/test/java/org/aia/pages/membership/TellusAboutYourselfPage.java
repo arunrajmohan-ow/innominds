@@ -415,7 +415,8 @@ public class TellusAboutYourselfPage {
 	 * 
 	 */
 	public void reJoinTellUs() throws InterruptedException {
-	/*	JavascriptExecutor js = (JavascriptExecutor) driver;
+	// Below code is required for please do not remove
+		/*	JavascriptExecutor js = (JavascriptExecutor) driver;
 		Thread.sleep(30000);
 		js.executeScript("window.scrollBy(0,550)","");
 		util.waitUntilElement(driver, workBusinesChckboxTellpage);

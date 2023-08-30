@@ -33,7 +33,6 @@ WebDriver driver;
 	
 	String totalAmnt= null;
 	String finalPagetotal = null;
-	ArrayList<Object> receiptData = new ArrayList<Object>();
 	public void verifyThankYouMessage() throws InterruptedException {
 		Thread.sleep(5000);
 		util.waitUntilElement(driver, frame);
@@ -43,7 +42,8 @@ WebDriver driver;
 		Thread.sleep(12000);
 	}
 	
-	public ArrayList<Object> getFinalReceiptData() {	
+	public ArrayList<Object> getFinalReceiptData() {
+		ArrayList<Object> receiptData = new ArrayList<Object>();
 		String receiptNumber = receiptNum.getText();
 		receiptData.add(0, receiptNumber);
 		String customerAIANumber = custAIANum.getText();
@@ -92,6 +92,25 @@ WebDriver driver;
 		{
 			System.out.println("Total amount with PAC is same");
 		}
+	}
+	
+	/**
+	 * @return
+	 */
+	public ArrayList<Object> getFinalReceiptDataOFDip() {
+		ArrayList<Object> receiptDataDip = new ArrayList<Object>();
+		String receiptNumber = receiptNum.getText();
+		receiptDataDip.add(0, receiptNumber);
+		String customerAIANumber = custAIANum.getText();
+		receiptDataDip.add(1, customerAIANumber);
+		totalAmnt = totalAmount.getText();	
+		int i  = totalAmnt.indexOf(".");
+		finalPagetotal = totalAmnt.substring(1, i);
+		String totalAmnt = totalAmount.getText().replaceAll("[$]*","").trim();
+		Object totalAmnt1 = Double.valueOf(((String) totalAmnt).replaceAll(",","").trim()); 
+		receiptDataDip.add(2, totalAmnt1);
+		receiptDataDip.add(3, finalPagetotal);
+		return receiptDataDip;
 	}
 
 }

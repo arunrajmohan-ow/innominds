@@ -97,7 +97,6 @@ public class TestDIPRejoin_Membership extends BaseClass {
 			receiptData.add(3, aiaNational);
 			mailinator.welcomeAIAEmailLink(dataList, receiptData);
 			Logging.logger.info("User get created successfully");
-
 			// Navigate to Fonteva app and make record rejoin eligible.
 			driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
 			fontevaJoin.selectContact(dataList.get(0) + " " + dataList.get(1));
@@ -106,7 +105,6 @@ public class TestDIPRejoin_Membership extends BaseClass {
 			fontevaJoin.selectContact(dataList.get(0) + " " + dataList.get(1));
 			fontevaPage.expireMembership();
 			Logging.logger.info("Set status as Canclled");
-
 			// Navigate membership portal
 			driver.get(DataProviderFactory.getConfig().getValue("membership_app_endpoint"));
 			// Enter Email in membership page
@@ -122,19 +120,19 @@ public class TestDIPRejoin_Membership extends BaseClass {
 			tellAbtPage.reJoinTellUs();
 			finalPage.verifyThankYouMessage();
 			finalPage.ValidateTotalAmount(totalMembership);
-			ArrayList<Object> receiptData2 = finalPage.getFinalReceiptData();
+			ArrayList<Object> receiptDataDIP = finalPage.getFinalReceiptDataOFDip();
 			// Validate Membership Rejoin - Fonteva API validations
 			reJoinValidate.validateReJoinMemebership(dataList.get(3),
-					DataProviderFactory.getConfig().getValue("termEndDate"), receiptData.get(2),
+					DataProviderFactory.getConfig().getValue("termEndDate"), receiptDataDIP.get(2),
 					DataProviderFactory.getConfig().getValue("type_aia_national"),
 					testData.testDataProvider().getProperty("membershipType"),
 					testData.testDataProvider().getProperty("careerType"));
 			// Validate sales order
 			reJoinValidate.verifySalesOrder(DataProviderFactory.getConfig().getValue("salesOrderStatus"),
-					DataProviderFactory.getConfig().getValue("orderStatus"), receiptData2.get(2),
+					DataProviderFactory.getConfig().getValue("orderStatus"), receiptDataDIP.get(2),
 					DataProviderFactory.getConfig().getValue("postingStatus"));
 			// Validate Receipt Details
-			reJoinValidate.verifyReciptDetails(receiptData.get(0), receiptData.get(2));
+			reJoinValidate.verifyReciptDetails(receiptDataDIP.get(0), receiptDataDIP.get(2));
 		}
 	}
 
