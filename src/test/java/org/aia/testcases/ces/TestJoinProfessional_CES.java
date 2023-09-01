@@ -155,7 +155,7 @@ public class TestJoinProfessional_CES extends BaseClass {
 				"AutomationOrg", "Institutional", "No");
 
 		// Validate CES Provider account details - Fonteva API validations
-		apiValidation.verifyProviderApplicationAccountDetails("Active", "CES Professional", "2023-12-31", false);
+		apiValidation.verifyProviderApplicationAccountDetails("Active", "CES Professional", "2024-12-31", false);
 
 		// Validate sales order
 		apiValidation.verifySalesOrder(DataProviderFactory.getConfig().getValue("salesOrderStatus"),
@@ -170,7 +170,7 @@ public class TestJoinProfessional_CES extends BaseClass {
 				userAccount.get(0) + " " + userAccount.get(1));
 	}
 
-	@Test(priority = 2, description = "Validate Online JOIN - Approved for Passport.", enabled = false)
+	@Test(priority = 2, description = "Validate Online JOIN - Approved for Passport.", enabled = true)
 	public void ValidateJoinApproveForPassport() throws Exception {
 		String prefix = "Dr.";
 		String suffix = "Sr.";
