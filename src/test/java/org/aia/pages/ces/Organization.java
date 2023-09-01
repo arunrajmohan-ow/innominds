@@ -75,7 +75,7 @@ public class Organization {
 			util.waitUntilElement(driver, organizationName);
 			organizationName.sendKeys(orgName);
 			util.selectDropDownByText(organizationType, orgType);
-			util.selectDropDownByText(organizationPriorProvider, provider);	
+			util.selectDropDownByText(organizationPriorProvider, provider);
 			if(provider.equalsIgnoreCase("Yes")) {
 				util.waitUntilElement(driver, orgFormerCesProviderNumber);
 				orgFormerCesProviderNumber.sendKeys(cesProviderNumber);
