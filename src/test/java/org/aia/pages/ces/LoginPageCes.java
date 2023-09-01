@@ -52,6 +52,7 @@ public class LoginPageCes {
 		System.out.println("Email Text field displayed");
 		emailAddress.sendKeys(uname);
 		password.sendKeys(pwd);
+		Thread.sleep(50000);
 		submitbtn.click();
 		// Workaround for defect # FM-321.
 		try {
@@ -67,6 +68,7 @@ public class LoginPageCes {
 			System.out.println("Email Text field displayed");
 			emailAddress.sendKeys(uname);
 			password.sendKeys(pwd);
+			Thread.sleep(120000);
 			submitbtn.click();
 			Thread.sleep(1000);
 		}
