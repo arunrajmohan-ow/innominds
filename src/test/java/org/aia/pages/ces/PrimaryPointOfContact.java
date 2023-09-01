@@ -1,12 +1,19 @@
 package org.aia.pages.ces;
 
+import static org.junit.Assert.*;
+
+import java.util.ArrayList;
+
 import org.aia.utility.Utility;
+import org.apache.tools.ant.taskdefs.Sync.MyCopy;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
+
+import groovy.transform.Final;
 
 public class PrimaryPointOfContact {
 
@@ -48,6 +55,18 @@ public class PrimaryPointOfContact {
 		@FindBy(xpath="//*[@name='Middle_Initial") WebElement middleIntialPrimary;
 		
 		@FindBy(xpath="//*[text() = 'Subscription Descriptions']") WebElement subscriptionDescText;
+		
+		@FindBy(xpath = "(//span[text()='Please select a choice.'])[1]") WebElement prefixError;
+		
+		@FindBy(xpath = "(//span[text()='Please select a choice.'])[2]") WebElement sufixError;
+		
+		@FindBy(xpath = "(//span[@class='error'])") WebElement workPhoneError;
+		
+		@FindBy(xpath = "//button[@name='AIA_Mobile_Phone_Country__c']//span") WebElement mobPhoneCountry;
+		
+		@FindBy(xpath = "//label[text()='Mobile']//parent::div//input[@type='text']") WebElement mobileNum;
+		
+		@FindBy(xpath = "//button[@name='AIA_Work_Phone_Country__c']//span") WebElement workPhoneCountry;
 		
 		/*
 		 * Enter primary POC info with 10 digit numbers in work phone field.
@@ -107,4 +126,41 @@ public class PrimaryPointOfContact {
 			e2.click();
 		}
 		
+		/**
+		 * 
+		 */
+		public void verifyPOCTab() {
+			util.waitUntilElement(driver, tabTitlePrimarypoc);
+			assertTrue(tabTitlePrimarypoc.isDisplayed());
+			util.waitUntilElement(driver, nextBtnPrimary);
+			nextBtnPrimary.click();
+		}
+		
+		/**
+		 * 
+		 */
+		public void validateErrorOnPOCTab() {
+			util.waitUntilElement(driver, prefixError);
+            assertTrue(prefixError.isDisplayed());
+            assertTrue(sufixError.isDisplayed());
+            assertTrue(workPhoneError.isDisplayed());
+		}
+		
+		/**
+		 * @param prefix
+		 * @param suffix
+		 * @param workPhoneNumber
+		 */
+		public void enterPOCdetail(String prefix, String suffix, String workPhoneNumber,ArrayList<String> userData) {
+		    ArrayList<String> pocDetails= new ArrayList<String>();
+			util.waitUntilElement(driver, prefixPrimary);
+			util.selectDropDownByText(prefixPrimary, prefix);
+			util.selectDropDownByText(SuffixPicklistPrimary, suffix);
+			pocDetails.add(mobPhoneCountry.getText());
+			pocDetails.add(mobileNum.getText());
+			pocDetails.add(workPhoneCountry.getText());
+			workPhoneNumPrimary.sendKeys(workPhoneNumber);
+			System.out.println("My arrayList:"+pocDetails.toString());
+			assertTrue( pocDetails.toString().contains(userData.toString()));
+		}
 }
