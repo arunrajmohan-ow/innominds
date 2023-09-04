@@ -73,7 +73,8 @@ public class FontevaCES {
 	
 	@FindBy(xpath="//button[@title='Edit Term End Date']/span") WebElement editBtn;
 	
-	@FindBy(xpath="//a[contains(text(),'Show')]") WebElement showallBtn;
+	//@FindBy(xpath="//a[contains(text(),'Show')]") WebElement showallBtn;
+	@FindBy(xpath="//a[contains(text(),'Show All')]//span") WebElement showallBtn;
 	
 	@FindBy(xpath="//h1/span[text()='Contacts']/parent::h1/parent::div/parent::div//button") WebElement contactallBtn;
 	
@@ -141,7 +142,8 @@ public class FontevaCES {
 		Thread.sleep(5000);
 		actions.sendKeys(Keys.ARROW_DOWN).build().perform();
 		actions.sendKeys(Keys.ARROW_DOWN).build().perform();
-		showallBtn.click();
+		js.executeScript("arguments[0].click();", showallBtn);
+		//showallBtn.click();
 		Thread.sleep(2000);
 		util.waitUntilElement(driver, memberShip);
 		//Instantiating Actions class
