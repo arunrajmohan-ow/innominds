@@ -108,8 +108,9 @@ public class DevSandBoxFonteva {
 		Thread.sleep(5000);
 		memberShip.click();
 		util.waitUntilElement(driver, tableSubscriptionId);
-		tableSubscriptionId.click();
-		Thread.sleep(7000);
+		js.executeScript("arguments[0].click();", tableSubscriptionId);
+		//tableSubscriptionId.click();
+		Thread.sleep(10000);
 		util.waitUntilElement(driver, Terms);
 		Terms.click();
 		util.waitUntilElement(driver, termId);
