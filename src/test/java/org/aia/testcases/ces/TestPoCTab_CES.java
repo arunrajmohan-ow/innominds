@@ -11,6 +11,7 @@ import org.aia.pages.ces.AdditionalProviderUser;
 import org.aia.pages.ces.AdditionalUsers;
 import org.aia.pages.ces.CheckOutPageCes;
 import org.aia.pages.ces.CloseBtnPageCes;
+import org.aia.pages.ces.FontevaCES;
 import org.aia.pages.ces.LoginPageCes;
 import org.aia.pages.ces.Organization;
 import org.aia.pages.ces.PaymentSuccessFullPageCes;
@@ -55,6 +56,7 @@ public class TestPoCTab_CES extends BaseClass {
 	CheckOutPageCes checkOutPageCes;
 	PaymentSuccessFullPageCes paymntSuccesFullPageCes;
 	JoinCESAPIValidation apiValidation;
+	FontevaCES fontevaPage;
 	public ExtentReports extent;
 	public ExtentTest extentTest;
 	final static Logger logger = Logger.getLogger(TestJoinPassport_CES.class);
@@ -80,12 +82,13 @@ public class TestPoCTab_CES extends BaseClass {
 		checkOutPageCes = PageFactory.initElements(driver, CheckOutPageCes.class);
 		paymntSuccesFullPageCes = PageFactory.initElements(driver, PaymentSuccessFullPageCes.class);
 		apiValidation = PageFactory.initElements(driver, JoinCESAPIValidation.class);
+		fontevaPage = PageFactory.initElements(driver, FontevaCES.class);
 	}
 
 	/**
 	 * @throws Exception
 	 */
-	@Test(priority = 1, description = "Validate Primary point of contact tab", enabled = false)
+	@Test(priority = 1, description = "Validate Primary point of contact tab", enabled = true)
 	public void validatePrimaryPOCTab() throws Exception {
 		String prefix = "Dr.";
 		String suffix = "Sr.";
@@ -104,7 +107,7 @@ public class TestPoCTab_CES extends BaseClass {
 	/**
 	 * @throws Exception
 	 */
-	@Test(priority = 2, description = "Validate work fon number in Primary point of contact tab", enabled = false)
+	@Test(priority = 2, description = "Validate work fon number in Primary point of contact tab", enabled = true)
 	public void validateWorkPhoneCountryInPoc() throws Exception {
 		String prefix = "Dr.";
 		String suffix = "Sr.";
@@ -133,6 +136,8 @@ public class TestPoCTab_CES extends BaseClass {
 			loginPageCes.checkLoginSuccess();
 			primarypocPage.refreshFunction();
 			driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + FontevaConnectionSOAP.getSessionID());
+			fontevaPage.checkUserInProviderApplication(dataList.get(0));
+			
 		}
 
 }
