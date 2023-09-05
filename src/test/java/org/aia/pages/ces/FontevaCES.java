@@ -126,6 +126,7 @@ public class FontevaCES {
 	
 	public void changeTermDates(String fullName) throws InterruptedException 
 	{
+		Actions actions = new Actions(driver);
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		Actions actions = new Actions(driver);
 		util.waitUntilElement(driver, contacts);
@@ -144,8 +145,14 @@ public class FontevaCES {
 		js.executeScript("arguments[0].scrollIntoView(true);", showallBtn);
 		util.waitUntilElement(driver, showallBtn);
 		Thread.sleep(5000);
+<<<<<<< HEAD
 		js.executeScript("arguments[0].click();", showallBtn);
 		//showallBtn.click();
+=======
+		actions.sendKeys(Keys.ARROW_DOWN).build().perform();
+		actions.sendKeys(Keys.ARROW_DOWN).build().perform();
+		showallBtn.click();
+>>>>>>> d18f92fa62e38edb780849cac72c1a0cb274c58e
 		Thread.sleep(2000);
 		util.waitUntilElement(driver, memberShip);
 		//Instantiating Actions class

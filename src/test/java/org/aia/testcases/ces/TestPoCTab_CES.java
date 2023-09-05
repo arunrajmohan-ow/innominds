@@ -2,9 +2,11 @@ package org.aia.testcases.ces;
 
 import java.util.ArrayList;
 
+
 import org.aia.pages.BaseClass;
 import org.aia.pages.api.MailinatorCESAPI;
 import org.aia.pages.api.ces.JoinCESAPIValidation;
+import org.aia.pages.api.ces.FontevaConnectionSOAP;
 import org.aia.pages.ces.AdditionalProviderUser;
 import org.aia.pages.ces.AdditionalUsers;
 import org.aia.pages.ces.CheckOutPageCes;
@@ -80,21 +82,57 @@ public class TestPoCTab_CES extends BaseClass {
 		apiValidation = PageFactory.initElements(driver, JoinCESAPIValidation.class);
 	}
 
-	@Test(priority = 1, description = "Validate Primary point of contact tab", enabled = true)
+	/**
+	 * @throws Exception
+	 */
+	@Test(priority = 1, description = "Validate Primary point of contact tab", enabled = false)
 	public void validatePrimaryPOCTab() throws Exception {
 		String prefix = "Dr.";
 		String suffix = "Sr.";
-		signUpPage.clickSignUplink(); 
-		ArrayList<String> dataList = signUpPage.signUpData(); 
-		signUpPage.signUpUser();
+		signUpPage.clickSignUplink();
+		ArrayList<String> dataList = signUpPage.signUpData();
+		String mobileCountry = signUpPage.signUpUserDetail();
 		mailinator.verifyEmailForAccountSetup(dataList.get(3));
 		closeButtnPage.clickCloseAfterVerification();
 		loginPageCes.loginToCes(dataList.get(5), dataList.get(6));
 		loginPageCes.checkLoginSuccess();
 		primarypocPage.verifyPOCTab();
 		primarypocPage.validateErrorOnPOCTab();
-		primarypocPage.enterPOCdetail(prefix,suffix,dataList.get(2),dataList);
-		
-		
+		primarypocPage.enterPOCdetail(prefix, suffix, dataList.get(2), dataList, mobileCountry);
 	}
+
+	/**
+	 * @throws Exception
+	 */
+	@Test(priority = 2, description = "Validate work fon number in Primary point of contact tab", enabled = false)
+	public void validateWorkPhoneCountryInPoc() throws Exception {
+		String prefix = "Dr.";
+		String suffix = "Sr.";
+		signUpPage.clickSignUplink();
+		ArrayList<String> dataList = signUpPage.signUpData();
+		signUpPage.signUpUserDetail();
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
+		closeButtnPage.clickCloseAfterVerification();
+		loginPageCes.loginToCes(dataList.get(5), dataList.get(6));
+		loginPageCes.checkLoginSuccess();
+		primarypocPage.verifyPOCTab();
+		primarypocPage.validateErrorOnPOCTab();
+		primarypocPage.enterInvalidWorkNumber();
+	}
+	
+		@Test(priority = 3, description = "Validate refresh functionality Primary point of contact tab", enabled = true)
+		public void validateRefreshFuntionInPoc() throws Exception {
+			String prefix = "Dr.";
+			String suffix = "Sr.";
+			signUpPage.clickSignUplink();
+			ArrayList<String> dataList = signUpPage.signUpData();
+			signUpPage.signUpUserDetail();
+			mailinator.verifyEmailForAccountSetup(dataList.get(3));
+			closeButtnPage.clickCloseAfterVerification();
+			loginPageCes.loginToCes(dataList.get(5), dataList.get(6));
+			loginPageCes.checkLoginSuccess();
+			primarypocPage.refreshFunction();
+			driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + FontevaConnectionSOAP.getSessionID());
+		}
+
 }
