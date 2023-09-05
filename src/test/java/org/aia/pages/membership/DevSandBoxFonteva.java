@@ -44,7 +44,9 @@ public class DevSandBoxFonteva {
 
 	@FindBy(xpath="//button[text()='Save']") WebElement saveBtn;
 
-	@FindBy(xpath="//table[@aria-label='Memberships']/tbody/tr/th") WebElement tableSubscriptionId;
+	//@FindBy(xpath="//table[@aria-label='Memberships']/tbody/tr/th") WebElement tableSubscriptionId;
+	
+	@FindBy(xpath="//table[@aria-label='Memberships']/tbody/tr/th//a") WebElement tableSubscriptionId;
 
 	@FindBy(xpath="//input[@name='OrderApi__Term_End_Date__c']") WebElement inputTermEndDate;
 
