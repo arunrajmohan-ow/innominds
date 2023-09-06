@@ -1,5 +1,7 @@
 package org.aia.pages.ces;
 
+import static org.testng.Assert.assertTrue;
+
 import org.aia.utility.Utility;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -81,6 +83,10 @@ public class FontevaCES {
 	@FindBy(xpath="//li[contains(@class,'forceVirtualAutocompleteMenuOption')]//span[text()='All Contacts'][1]") WebElement contactallLink;
 	
 	@FindBy(xpath="//div[text()='Contact']") WebElement contactTitle;
+	
+	@FindBy(xpath = "//input[@placeholder='Search this list...']") WebElement searchBox;
+	
+	@FindBy(xpath = "//span[text()='No items to display.']") WebElement noItemHeading;
 	
 	String  startLocator = "//div[@class='uiVirtualDataTable indicator']/following-sibling::table/tbody//a[text()='";
 	String  endLocator = "']";
@@ -183,5 +189,32 @@ public class FontevaCES {
 		Thread.sleep(1000);
 		act.sendKeys(Keys.F5);
 		Thread.sleep(2000);
+	}
+	
+	/**
+	 * @throws InterruptedException
+	 */
+	public void checkUserInProviderApplication(String user) throws InterruptedException {
+		Actions actions = new Actions(driver);
+		util.waitUntilElement(driver, appLauncherIcn);
+		Thread.sleep(10000);
+		appLauncherIcn.click();
+		util.waitUntilElement(driver, appSearchtxtbx);
+		util.enterText(driver, appSearchtxtbx, appName);
+		util.waitUntilElement(driver, searchedAppPA);
+		WebElement provAppElement = Utility.waitForWebElement(driver, "//b[text()='"+appName+"']", 10);
+		provAppElement.click();
+		Thread.sleep(2000);
+		util.waitUntilElement(driver, tableProviderApp);
+		util.waitUntilElement(driver, selectList);
+		selectList.click();
+		util.waitUntilElement(driver, allBtn);
+		allBtn.click();
+		util.waitUntilElement(driver, searchBox);
+		searchBox.click();
+		searchBox.sendKeys(user);
+		actions.sendKeys(Keys.ENTER).build().perform();
+		util.waitUntilElement(driver, noItemHeading);
+		assertTrue(noItemHeading.isDisplayed());
 	}
 }

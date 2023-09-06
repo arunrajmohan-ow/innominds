@@ -60,7 +60,7 @@ public class Memberships {
 	@FindBy(xpath = "//button[@title='Edit Term End Date']/span")
 	WebElement editBtn;
 
-	String contactName = "(//span[text()='%s']//ancestor::a)[3]";
+	String contactName = "(//span[text()='%s']//ancestor::a)[2]";
 
 	@FindBy(xpath = "//a[contains(text(),'Show All')]")
 	WebElement showAll;
@@ -109,7 +109,7 @@ public class Memberships {
 		editBtn.click();
 		util.waitUntilElement(driver, inputTermEndDate);
 		inputTermEndDate.clear();
-		inputTermEndDate.sendKeys(data.testDataProvider().getProperty("termEndDate"));
+		inputTermEndDate.sendKeys(data.testDataProvider().getProperty("tremendDate"));
 		util.waitUntilElement(driver, inputTermGraceDate);
 		inputTermGraceDate.clear();
 		inputTermGraceDate.sendKeys(data.testDataProvider().getProperty("termGraceDate"));
