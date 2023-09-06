@@ -96,14 +96,8 @@ public class PrimaryPointOfContact {
 
 	@FindBy(xpath = "//b[text()='Organization']")
 	WebElement orgTabHeading;
-
-	@FindBy(xpath = "//span[@class='error']")
-	WebElement invalidWorkPhoneError;
-
-	@FindBy(xpath = "//button[@name='AIA_Work_Phone_Country__c']")
-	WebElement pocWorkPhoneCountryDrp;
-
-	String newWorkPhoneCountry = "//span[text()='%s']";
+	
+	@FindBy(xpath = "//span[@class='error']") WebElement invalidWorkPhoneError;
 
 	/*
 	 * Enter primary POC info with 10 digit numbers in work phone field.
@@ -209,7 +203,7 @@ public class PrimaryPointOfContact {
 		util.waitUntilElement(driver, orgTabHeading);
 		assertTrue(orgTabHeading.isDisplayed());
 	}
-
+	
 	/**
 	 * 
 	 */
@@ -219,7 +213,7 @@ public class PrimaryPointOfContact {
 		util.waitUntilElement(driver, invalidWorkPhoneError);
 		assertEquals(data.testDataProvider().getProperty("invalidWorkNumberError"), invalidWorkPhoneError.getText());
 	}
-
+	
 	/**
 	 * Validating user still on POC tab after refresh the page
 	 */
@@ -228,18 +222,6 @@ public class PrimaryPointOfContact {
 		util.waitUntilElement(driver, tabTitlePrimarypoc);
 		assertTrue(tabTitlePrimarypoc.isDisplayed());
 	}
-
-	/**
-	 * Here we validate the provided country is select in work phone country
-	 * drop-down box Using assertions
-	 * 
-	 * @param newCountry
-	 */
-	public void changeWorkPhoneCountryInPOC(String newCountry) {
-		util.waitUntilElement(driver, pocWorkPhoneCountryDrp);
-		pocWorkPhoneCountryDrp.click();
-		util.getCustomizedWebElement(driver, newWorkPhoneCountry, newCountry).click();
-		assertEquals(pocWorkPhoneCountryDrp.getAttribute("data-value"), newCountry);
-	}
-
+		
+	
 }
