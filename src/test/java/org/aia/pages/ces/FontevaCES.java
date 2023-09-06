@@ -76,7 +76,6 @@ public class FontevaCES {
 	@FindBy(xpath="//button[@title='Edit Term End Date']/span") WebElement editBtn;
 	
 	@FindBy(xpath="//a[contains(text(),'Show')]") WebElement showallBtn;
-	//@FindBy(xpath="//div[contains(@class,'slds-card__body')]//a[contains(text(),'Show')]") WebElement showallBtn;
 	
 	@FindBy(xpath="//h1/span[text()='Contacts']/parent::h1/parent::div/parent::div//button") WebElement contactallBtn;
 	
@@ -144,18 +143,19 @@ public class FontevaCES {
 		contactallLink.click();
 		Thread.sleep(15000);
 		driver.findElement(By.xpath(startLocator+fullName+endLocator)).click();
-		actions.sendKeys(Keys.ARROW_DOWN).build().perform();
-		actions.sendKeys(Keys.ARROW_DOWN).build().perform();
-		util.waitUntilElement(driver, showallBtn);
-		js.executeScript("arguments[0].scrollIntoView(true);", showallBtn);
 		util.waitUntilElement(driver, showallBtn);
 		Thread.sleep(5000);
 		actions.sendKeys(Keys.ARROW_DOWN).build().perform();
 		actions.sendKeys(Keys.ARROW_DOWN).build().perform();
+<<<<<<< HEAD
+=======
+		actions.moveToElement(showallBtn).build().perform();
+>>>>>>> 25330088478f6fc2ea9ef205ae3bf858659fc73f
 		showallBtn.click();
 		Thread.sleep(2000);
 		util.waitUntilElement(driver, memberShip);
 		//Instantiating Actions class
+		//Actions actions = new Actions(driver);
 		//Hovering on main menu
 		actions.moveToElement(contactTitle);
 		actions.sendKeys(Keys.ARROW_DOWN).build().perform();
@@ -184,7 +184,7 @@ public class FontevaCES {
 		inputTermEndDate.sendKeys("12/31/2023");
 		util.waitUntilElement(driver, inputTermGraceDate);
 		inputTermGraceDate.clear();
-		inputTermGraceDate.sendKeys("1/31/2024");
+		inputTermGraceDate.sendKeys("4/4/2024");
 		saveBtn.click();
 		Thread.sleep(1000);
 		act.sendKeys(Keys.F5);

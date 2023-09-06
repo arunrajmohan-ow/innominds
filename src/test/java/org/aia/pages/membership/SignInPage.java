@@ -39,8 +39,6 @@ public class SignInPage {
 	@FindBy(xpath = "//span[text()='Primary information']") WebElement pageTitel;
 
 	
-	
-	
 	@Test(priority= 1, description="Enter credentials with username {0} and password {1} and click on submit button")
 	public void login(String uname,String pwd) throws InterruptedException
 	{
