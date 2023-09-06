@@ -85,7 +85,7 @@ public class TestJoinPassport_CES extends BaseClass {
 		apiValidation = PageFactory.initElements(driver, JoinCESAPIValidation.class);
 	}
 	
-	@Test(priority=1, description="Validate creation of CES passport membership and view receipt.", enabled=true, groups= {"Smoke"})
+	@Test(priority=1, description="Validate creation of CES passport membership and view receipt.", enabled = true, groups= {"Smoke"})
 	public void ValidateReceiptForPassportJoin() throws Exception
 	{
 		String prefix = "Dr.";
@@ -113,7 +113,7 @@ public class TestJoinPassport_CES extends BaseClass {
 		Logging.logger.info("Account Name is : " + dataList.get(0));
 	}
 	
-	@Test(priority=2, description="Validate email after making the payment.", enabled=true)
+	@Test(priority=2, description="Validate email after making the payment.", enabled = true)
 	public void ValidateEmailPassportJoin() throws Exception
 	{
 		String prefix = "Dr.";
@@ -144,7 +144,7 @@ public class TestJoinPassport_CES extends BaseClass {
 		mailinator.welcomeAIAEmailLink(userAccount);
 	}
 	
-	@Test(priority=3, description="Validate Join Passport.", enabled=true)
+	@Test(priority=3, description="Validate Join Passport.", enabled = true)
 	public void ValidatePassportJoin() throws Exception
 	{
 		String prefix = "Dr.";
@@ -192,7 +192,7 @@ public class TestJoinPassport_CES extends BaseClass {
 
 	}
 	
-	@Test(priority=4, description="Validate Join Passport, with additional users.", enabled=true, groups= {"Smoke"})
+	@Test(priority=4, description="Validate Join Passport, with additional users.", enabled = true, groups= {"Smoke"})
 	public void ValidatePassportJoinWithAdditionalUser() throws Exception
 	{
 		String prefix = "Dr.";
@@ -206,8 +206,8 @@ public class TestJoinPassport_CES extends BaseClass {
 		loginPageCes.loginToCes(dataList.get(5), dataList.get(6));
 		loginPageCes.checkLoginSuccess();
 		primarypocPage.enterPrimaryPocDetails(prefix, suffix, dataList.get(2));
-		String text = organizationPage.enterOrganizationDetails(dataList, 
-				  "Other", "No", "United States of America (+1)");
+		String text = organizationPage.enterOrganizationDetails(dataList,
+				  "Other", "No","United States of America (+1)");
 		subscribePage.SubscriptionType(text, "Yes", null, "Non-profit");
 		secPoc.enterSecondaryPocDetails(dataList, prefix, suffix, "Yes", "United States of America (+1)"); 
 		additionalUsers.verifyCesPrimDetails(dataList);
