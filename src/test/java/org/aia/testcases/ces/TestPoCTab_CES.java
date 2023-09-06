@@ -2,7 +2,6 @@ package org.aia.testcases.ces;
 
 import java.util.ArrayList;
 
-
 import org.aia.pages.BaseClass;
 import org.aia.pages.api.MailinatorCESAPI;
 import org.aia.pages.api.ces.JoinCESAPIValidation;
@@ -11,6 +10,7 @@ import org.aia.pages.ces.AdditionalProviderUser;
 import org.aia.pages.ces.AdditionalUsers;
 import org.aia.pages.ces.CheckOutPageCes;
 import org.aia.pages.ces.CloseBtnPageCes;
+import org.aia.pages.ces.FontevaCES;
 import org.aia.pages.ces.LoginPageCes;
 import org.aia.pages.ces.Organization;
 import org.aia.pages.ces.PaymentSuccessFullPageCes;
@@ -25,6 +25,7 @@ import org.aia.pages.membership.PrimaryInformationPage;
 import org.aia.pages.membership.SignInPage;
 import org.aia.pages.membership.SignUpSuccess;
 import org.aia.utility.BrowserSetup;
+import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.DataProviderFactory;
 import org.aia.utility.Utility;
 import org.apache.log4j.Logger;
@@ -55,6 +56,7 @@ public class TestPoCTab_CES extends BaseClass {
 	CheckOutPageCes checkOutPageCes;
 	PaymentSuccessFullPageCes paymntSuccesFullPageCes;
 	JoinCESAPIValidation apiValidation;
+	FontevaCES fontevaPage;
 	public ExtentReports extent;
 	public ExtentTest extentTest;
 	final static Logger logger = Logger.getLogger(TestJoinPassport_CES.class);
@@ -64,6 +66,7 @@ public class TestPoCTab_CES extends BaseClass {
 		driver = BrowserSetup.startApplication(driver, DataProviderFactory.getConfig().getValue("browser"),
 				DataProviderFactory.getConfig().getValue("ces_signin"));
 		util = new Utility(driver, 30);
+		testData = new ConfigDataProvider();
 		signUpPage = PageFactory.initElements(driver, SignUpPageCes.class);
 		signInpage = PageFactory.initElements(driver, SignInPage.class);
 		closeButtnPage = PageFactory.initElements(driver, CloseBtnPageCes.class);
@@ -80,12 +83,13 @@ public class TestPoCTab_CES extends BaseClass {
 		checkOutPageCes = PageFactory.initElements(driver, CheckOutPageCes.class);
 		paymntSuccesFullPageCes = PageFactory.initElements(driver, PaymentSuccessFullPageCes.class);
 		apiValidation = PageFactory.initElements(driver, JoinCESAPIValidation.class);
+		fontevaPage = PageFactory.initElements(driver, FontevaCES.class);
 	}
 
 	/**
 	 * @throws Exception
 	 */
-	@Test(priority = 1, description = "Validate Primary point of contact tab", enabled = false)
+	@Test(priority = 1, description = "Validate Primary point of contact tab", enabled = true)
 	public void validatePrimaryPOCTab() throws Exception {
 		String prefix = "Dr.";
 		String suffix = "Sr.";
@@ -104,7 +108,7 @@ public class TestPoCTab_CES extends BaseClass {
 	/**
 	 * @throws Exception
 	 */
-	@Test(priority = 2, description = "Validate work fon number in Primary point of contact tab", enabled = false)
+	@Test(priority = 2, description = "Validate work fon number in Primary point of contact tab", enabled = true)
 	public void validateWorkPhoneCountryInPoc() throws Exception {
 		String prefix = "Dr.";
 		String suffix = "Sr.";
@@ -119,8 +123,6 @@ public class TestPoCTab_CES extends BaseClass {
 		primarypocPage.validateErrorOnPOCTab();
 		primarypocPage.enterInvalidWorkNumber();
 	}
-<<<<<<< HEAD
-<<<<<<< HEAD
 
 	@Test(priority = 3, description = "Validate refresh functionality Primary point of contact tab", enabled = true)
 	public void validateRefreshFuntionInPoc() throws Exception {
@@ -154,30 +156,5 @@ public class TestPoCTab_CES extends BaseClass {
 		primarypocPage.changeWorkPhoneCountryInPOC(testData.testDataProvider().getProperty("newCountry"));
 		primarypocPage.enterPOCdetail(prefix, suffix, dataList.get(2), dataList, mobileCountry);
 	}
-=======
-=======
->>>>>>> parent of 61ad585 (Automation development is done for)
-	
-		@Test(priority = 3, description = "Validate refresh functionality Primary point of contact tab", enabled = true)
-		public void validateRefreshFuntionInPoc() throws Exception {
-			String prefix = "Dr.";
-			String suffix = "Sr.";
-			signUpPage.clickSignUplink();
-			ArrayList<String> dataList = signUpPage.signUpData();
-			signUpPage.signUpUserDetail();
-			mailinator.verifyEmailForAccountSetup(dataList.get(3));
-			closeButtnPage.clickCloseAfterVerification();
-			loginPageCes.loginToCes(dataList.get(5), dataList.get(6));
-			loginPageCes.checkLoginSuccess();
-			primarypocPage.refreshFunction();
-			driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + FontevaConnectionSOAP.getSessionID());
-<<<<<<< HEAD
-		}
->>>>>>> parent of 5437153 (FM-244,45,48 done)
-=======
-			fontevaPage.checkUserInProviderApplication(dataList.get(0));
-			
-		}
->>>>>>> parent of 61ad585 (Automation development is done for)
 
 }
