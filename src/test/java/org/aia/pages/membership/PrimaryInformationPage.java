@@ -191,6 +191,7 @@ public class PrimaryInformationPage {
 
 	public void enterAddressDetails_pac() throws InterruptedException {
 		util.enterText(driver, searchAddress, addresspac);
+		Thread.sleep(3000);
 		util.enterText(driver, streetAddress, addressStreetpac);
 		util.enterText(driver, city, addressCitypac);
 		util.enterText(driver, state, addressStatepac);
