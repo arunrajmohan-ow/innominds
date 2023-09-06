@@ -162,9 +162,9 @@ public class PrimaryInformationPage {
 
 	public void enterAdressDetailforDonation() {
 		util.enterText(driver, searchAddress, data.testDataProvider().getProperty("address"));
-		util.enterText(driver, streetAddress, data.testDataProvider().getProperty("street"));
-		util.enterText(driver, city, data.testDataProvider().getProperty("city"));
-		util.enterText(driver, state, data.testDataProvider().getProperty("state"));
+		util.enterText(driver, streetAddress, data.testDataProvider().getProperty("addressStreet"));
+		util.enterText(driver, city, data.testDataProvider().getProperty("addressCity"));
+		util.enterText(driver, state, data.testDataProvider().getProperty("addressState"));
 		util.enterText(driver, country2, data.testDataProvider().getProperty("addressCountry"));
 		util.enterText(driver, zipCode2, data.testDataProvider().getProperty("addressZip"));
 	}
@@ -215,7 +215,7 @@ public class PrimaryInformationPage {
 		} else if (radbtnString.contentEquals("faculty")) {
 			selectCareerType(careerType);
 		}
-		enterAddressDetails_pac();
+		enterAddressDetails();
 		nextButn.click();
 	}
 
