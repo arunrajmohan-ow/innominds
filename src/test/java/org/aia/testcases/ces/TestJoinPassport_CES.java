@@ -206,8 +206,13 @@ public class TestJoinPassport_CES extends BaseClass {
 		loginPageCes.loginToCes(dataList.get(5), dataList.get(6));
 		loginPageCes.checkLoginSuccess();
 		primarypocPage.enterPrimaryPocDetails(prefix, suffix, dataList.get(2));
+<<<<<<< HEAD
+		String text = organizationPage.enterOrganizationDetails(dataList, 
+				  "Other", "No", "United States of America (+1)");
+=======
 		String text = organizationPage.enterOrganizationDetails(dataList,
 				  "Other", "No","United States of America (+1)");
+>>>>>>> d18f92fa62e38edb780849cac72c1a0cb274c58e
 		subscribePage.SubscriptionType(text, "Yes", null, "Non-profit");
 		secPoc.enterSecondaryPocDetails(dataList, prefix, suffix, "Yes", "United States of America (+1)"); 
 		additionalUsers.verifyCesPrimDetails(dataList);
