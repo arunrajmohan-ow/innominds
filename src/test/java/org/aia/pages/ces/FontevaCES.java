@@ -147,10 +147,7 @@ public class FontevaCES {
 		Thread.sleep(5000);
 		actions.sendKeys(Keys.ARROW_DOWN).build().perform();
 		actions.sendKeys(Keys.ARROW_DOWN).build().perform();
-<<<<<<< HEAD
-=======
 		actions.moveToElement(showallBtn).build().perform();
->>>>>>> 25330088478f6fc2ea9ef205ae3bf858659fc73f
 		showallBtn.click();
 		Thread.sleep(2000);
 		util.waitUntilElement(driver, memberShip);
