@@ -127,10 +127,10 @@ public class DevSandBoxFonteva {
 		editBtn.click();
 		util.waitUntilElement(driver, inputTermEndDate);
 		inputTermEndDate.clear();
-		inputTermEndDate.sendKeys("12/31/2023");
+		inputTermEndDate.sendKeys("12/31/2022");
 		util.waitUntilElement(driver, inputTermGraceDate);
 		inputTermGraceDate.clear();
-		inputTermGraceDate.sendKeys("4/4/2024");
+		inputTermGraceDate.sendKeys("4/4/2023");
 		util.waitUntilElement(driver, saveBtn);
 		saveBtn.click();
 		Thread.sleep(30000);
