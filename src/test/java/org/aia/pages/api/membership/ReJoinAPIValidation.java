@@ -224,8 +224,8 @@ public class ReJoinAPIValidation {
 
 		if (totalReciptCount > 0) {
 			System.out.println("Number of Recipt : " + totalReciptCount);
-			String receiptNumber = jsonPathEval.getString("records[0].Name");
-			Object totalFeePaid = jsonPathEval.getDouble("records[0].OrderApi__Total__c");
+			String receiptNumber = jsonPathEval.getString("records[1].Name");
+			Object totalFeePaid = jsonPathEval.getDouble("records[1].OrderApi__Total__c");
 
 			System.out.println("=====================================");
 			System.out.println("Receipt number :" + receiptNumber);

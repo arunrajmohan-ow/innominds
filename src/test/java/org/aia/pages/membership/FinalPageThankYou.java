@@ -12,7 +12,6 @@ import org.openqa.selenium.support.FindBy;
 public class FinalPageThankYou {
 
 	WebDriver driver;
-	ArrayList<Object> receiptData = new ArrayList<Object>();
 
 	public FinalPageThankYou(WebDriver Idriver) {
 		this.driver = Idriver;
@@ -48,6 +47,7 @@ public class FinalPageThankYou {
 	}
 
 	public ArrayList<Object> getFinalReceiptData() {
+		ArrayList<Object> receiptData = new ArrayList<Object>();
 		String receiptNumber = receiptNum.getText();
 		receiptData.add(0, receiptNumber);
 		String customerAIANumber = custAIANum.getText();
