@@ -359,13 +359,8 @@ public class TestRenew_Membership extends BaseClass {
 		// Validate Receipt Details
 		apiValidationRenew.verifyReciptDetails(receiptData.get(0), receiptData.get(2));
 	}
-<<<<<<< HEAD
 
 	@Test(priority = 6, description = "Validate sales price in sales order lines for renew  ", enabled = true)
-=======
-	
-	@Test(priority = 6, description = "Validate sales price in sales order lines for renew  ", enabled = false)
->>>>>>> b4bf3ee89c2967f6157852c932209bc7aad3c8cd
 	public void validateSalesOrderLineRenew() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
@@ -400,7 +395,6 @@ public class TestRenew_Membership extends BaseClass {
 				DataProviderFactory.getConfig().getValue("type_aia_national"), testData.testDataProvider().getProperty("membershipType"), testData.testDataProvider().getProperty("selection"));
 		apiValidationRenew.validateSalesOrderLine(salesPrice);
 	}
-<<<<<<< HEAD
 
 	/**
 	 * Suhas
@@ -444,10 +438,6 @@ public class TestRenew_Membership extends BaseClass {
 	 * @throws Exception
 	 */
 	@Test(priority = 8, description = "Membership Renew Archipac Donation(Architect)", enabled = true)
-=======
-	
-	@Test(priority=7, description="Membership Renew Archipac Donation(Architect)", enabled = false)
->>>>>>> b4bf3ee89c2967f6157852c932209bc7aad3c8cd
 	public void validateArchipacDonation() throws Exception {
 		//Create a renew eligible member with any on from this South Carolina,Oregon,Oklahoma
 		ArrayList<String> dataList = signUpPage.signUpData();
