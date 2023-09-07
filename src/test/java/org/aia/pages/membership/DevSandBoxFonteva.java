@@ -44,7 +44,9 @@ public class DevSandBoxFonteva {
 
 	@FindBy(xpath="//button[text()='Save']") WebElement saveBtn;
 
-	@FindBy(xpath="//table[@aria-label='Memberships']/tbody/tr/th") WebElement tableSubscriptionId;
+	//@FindBy(xpath="//table[@aria-label='Memberships']/tbody/tr/th") WebElement tableSubscriptionId;
+	
+	@FindBy(xpath="//table[@aria-label='Memberships']/tbody/tr/th//a") WebElement tableSubscriptionId;
 
 	@FindBy(xpath="//input[@name='OrderApi__Term_End_Date__c']") WebElement inputTermEndDate;
 
@@ -108,7 +110,9 @@ public class DevSandBoxFonteva {
 		Thread.sleep(5000);
 		memberShip.click();
 		util.waitUntilElement(driver, tableSubscriptionId);
-		tableSubscriptionId.click();
+		js.executeScript("arguments[0].click();", tableSubscriptionId);
+		//tableSubscriptionId.click();
+		Thread.sleep(10000);
 		util.waitUntilElement(driver, Terms);
 		Terms.click();
 		util.waitUntilElement(driver, termId);

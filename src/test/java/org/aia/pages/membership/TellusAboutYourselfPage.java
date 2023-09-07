@@ -40,7 +40,8 @@ public class TellusAboutYourselfPage {
 	@FindBy(xpath = "//span[@title='None Selected']/parent::span")
 	WebElement noneSelectedCarTypTellpage;
 
-	@FindBy(xpath = "//label[contains(text(),'I currently do not')]/preceding-sibling::lightning-input/div/span")
+	//@FindBy(xpath = "//label[contains(text(),'I currently do not')]/preceding-sibling::lightning-input/div/span")
+	@FindBy(xpath = "//label[contains(text(),'I currently do not')]/preceding-sibling::lightning-input/div/span//input")
 	WebElement workBusinesChckboxTellpage;
 
 	@FindBy(css = "body > div.siteforceStarterBody > div.cCenterPanel.slds-m-top--x-large.slds-p-horizontal--medium > div > div > div > div > div.cb-section_row.slds-grid.slds-wrap.slds-large-nowrap > div > div > div > c-a-i-a-join-additional-info > div.scrollable > div > lightning-record-edit-form > lightning-record-edit-form-edit > form > slot > slot > div:nth-child(4) > div.slds-p-horizontal_x-large > div:nth-child(2) > lightning-input")
@@ -367,7 +368,8 @@ public class TellusAboutYourselfPage {
 		js.executeScript("window.scrollBy(0,700)", nextBtnTellpage);
 
 		// act.moveToElement(nextBtnTellpage).click().build().perform();
-		nextBtnTellpage.click();
+		//nextBtnTellpage.click();
+		js.executeScript("arguments[0].click();", nextBtnTellpage);
 		Thread.sleep(15000);
 		util.waitUntilElement(driver, EquityLabelEquityPage);
 

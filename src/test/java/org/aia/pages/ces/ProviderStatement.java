@@ -70,7 +70,7 @@ public void providerStatementEnterNameDate2(String firstname) throws Interrupted
 		util.waitUntilElement(driver, nameProviderStatement);
 		nameProviderStatement.sendKeys(firstname);
 		Date d = new Date();
-		SimpleDateFormat formatter = new SimpleDateFormat("MMM d, yyyy");
+		SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
 		String date = formatter.format(d);
 		Thread.sleep(3000);
 		datePrvdrStmntInput.sendKeys(date);
