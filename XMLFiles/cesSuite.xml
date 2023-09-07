@@ -14,6 +14,7 @@
       <class name="org.aia.testcases.ces.TestJoinPassport_CES"/>
       <class name="org.aia.testcases.ces.TestJoinProfessional_CES"/> 
       <class name="org.aia.testcases.ces.TestLogin_CES"/>
+      <class name="org.aia.testcases.ces.TestPoCTab_CES"/>
       <class name="org.aia.testcases.ces.TestRenewPassport_CES"/>
       <class name="org.aia.testcases.ces.TestRenewArchitectureEcheck_CES"/>
     </classes>
