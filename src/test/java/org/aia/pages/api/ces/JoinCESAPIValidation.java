@@ -98,7 +98,7 @@ public class JoinCESAPIValidation
 				 when().get(PA_CREATEDBY_URI).
 				 then().statusCode(200).extract().response();
 
-		jsonPathEval = paresponse.jsonPath();
+		jsonPathEval = paresponse.jsonPath(); 
 		providerID = jsonPathEval.getString("records[0].Id");
 		String providerName = jsonPathEval.getString("records[0].Name");
 		//Validate Provider application number is visible

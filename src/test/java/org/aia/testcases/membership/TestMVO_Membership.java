@@ -51,7 +51,7 @@ public class TestMVO_Membership extends BaseClass {
 	/**
 	 * @throws InterruptedException
 	 */
-	@Test(priority = 1, description = "Save and validate new member value outreach", enabled = false)
+	@Test(priority = 1, description = "Save and validate new member value outreach", enabled = true)
 	public void savingNewMemberValueOutreach() throws InterruptedException {
 		ArrayList<String> dataList = fontevaJoin.userData();
 		fontevaJoin.pointOffset();
@@ -73,7 +73,7 @@ public class TestMVO_Membership extends BaseClass {
 	 * @throws InterruptedException
 	 */
 	@Test(priority = 2, description = "edit and validate existing member value outreach", enabled = true)
-	public void editExistingMemberValueOutreach() throws InterruptedException {
+	public void editExixtingMemberValueOutreach() throws InterruptedException {
 		// Create new MVO
 		ArrayList<String> dataList = fontevaJoin.userData();
 		fontevaJoin.pointOffset();
