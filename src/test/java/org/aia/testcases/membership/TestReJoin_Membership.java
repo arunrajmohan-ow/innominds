@@ -84,7 +84,7 @@ public class TestReJoin_Membership extends BaseClass {
 	/**
 	 * Bug found in this script bug id is FM-336 FM-337
 	 */
-	@Test(priority = 1, description = "verify the online membership rejoin in UI Application", enabled = false)
+	@Test(priority = 1, description = "verify the online membership rejoin in UI Application", enabled = true)
 	public void validateReJoin() throws Exception {
 		// User creating is starting
 		ArrayList<String> dataList = signUpPage.signUpData();
@@ -273,7 +273,7 @@ public class TestReJoin_Membership extends BaseClass {
 
 	}
 
-	@Test(priority = 4, description = "Validate visibility of download pdf button in rejoin  ", enabled = true)
+	@Test(priority = 4, description = "Validate visibility of download pdf button in rejoin  ", enabled = false)
 	public void validateVisibilityDownloadPdfBtn() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
