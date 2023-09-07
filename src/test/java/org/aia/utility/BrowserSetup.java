@@ -29,6 +29,7 @@ public class BrowserSetup {
 			// System.setProperty("webdriver.chrome.driver",
 			// System.getProperty("user.dir")+"\\Drivers\\chromedriver.exe");
 			WebDriverManager.chromedriver().setup();
+			System.out.println(WebDriverManager.chromedriver().getWebDriverList());
 			// WebDriverManager.chromedriver().clearDriverCache().setup();
 			// System.out.println ("List of
 			// Drivers"+WebDriverManager.chromedriver().getDriverVersions());
@@ -53,7 +54,11 @@ public class BrowserSetup {
 			WebDriverManager.firefoxdriver().setup();
 			// System.setProperty("webdriver.gecko.driver",
 			// System.getProperty("user.dir")+"\\Drivers\\geckodriver.exe");
-			driver = new FirefoxDriver();
+			FirefoxOptions options = new FirefoxOptions();
+			// options.setHeadless(true);
+			options.addArguments("--headless");
+			options.addArguments("--window-size=1920,1080");
+			driver = new FirefoxDriver(options);
 
 		} else if (browser.equalsIgnoreCase("edge")) {
 			// System.setProperty("webdriver.edge.driver",
@@ -76,8 +81,13 @@ public class BrowserSetup {
 	public static void closeBrowser(WebDriver driver) {
 
 		System.out.println("LOG :Info- Browser Session getting terminated");
+<<<<<<< HEAD
 		
 		driver.quit();
+=======
+
+	    driver.quit();
+>>>>>>> b4bf3ee89c2967f6157852c932209bc7aad3c8cd
 		
 		System.out.println("LOG :Info- Browser Session terminated");
 
