@@ -58,6 +58,12 @@ public class RenewCESPage {
 	@FindBy(xpath="//span[@title='National']") WebElement orgCoursesNationallyOption;
 	
 	@FindBy(xpath="//button[text()='Next']") WebElement orgNextBtn;
+	
+	@FindBy(xpath = "//div[@role='tablist']//a[text()='CES Provider Renew']")
+	WebElement renewUserBtn;
+	
+	@FindBy(xpath="//button[text()='Renew (Click Me)']")
+	WebElement renewClickMeBtn;
 
 	public void renewMembership(String emaildata) throws InterruptedException {
 		Thread.sleep(70000);
@@ -107,4 +113,47 @@ public class RenewCESPage {
 		}
 	}
 
+	/**
+	 * Author-Suhas
+	 * @throws InterruptedException 
+	 */
+	public void clickOnRenewBtn() throws InterruptedException {
+		JavascriptExecutor executor = (JavascriptExecutor) driver;
+		System.out.println("CES page title"+driver.getTitle());
+		util.waitUntilElement(driver, renewUserBtn);
+		renewUserBtn.click();
+		util.waitUntilElement(driver, renewClickMeBtn);
+		renewClickMeBtn.click();
+		
+			try {
+				if (orgTaxIDTxtbox.isDisplayed()) {
+					orgTaxIDTxtbox.sendKeys("Auto01Tax");
+					orgrevenueTxtbox.sendKeys("1000");
+					orgCoursesSelect.click();
+					util.waitUntilElement(driver, orgCoursesNationallyOption);
+					orgCoursesNationallyOption.click();
+					orgNextBtn.click();
+				}
+			} catch (Exception n) {
+				System.out.println("Element is invisible");
+			}
+			Thread.sleep(90000);
+			executor.executeScript("arguments[0].scrollIntoView(true);", agreeBtn);
+			//util.waitUntilElement(driver, agreeBtn);
+			executor.executeScript("arguments[0].click();",agreeBtn);
+			//agreeBtn.click();
+			renewFormContinueBtn.click();
+			Thread.sleep(2000);
+			util.waitUntilElement(driver, Checkoutbtn);
+			Checkoutbtn.click();
+			Thread.sleep(2000);
+			try {
+				if (Checkoutbtn.isDisplayed()) {
+					Checkoutbtn.click();
+				}
+			} catch (Exception n) {
+				System.out.println("Element is invisible");
+			}
+	}
+		
 }
