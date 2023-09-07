@@ -641,7 +641,7 @@ public class TestJoin_Membership extends BaseClass {
 		fontevaJoin.enterLicenseDetail();
 		fontevaJoin.createSaleorderinInstallments();
 		Double salesPrice = salesOrder.checkSaleorderLine();
-		util.switchToTab(driver,2).get( DataProviderFactory.getConfig().getValue("devstagingurl_membership"));
+		util.switchToTab(driver, 2).get(DataProviderFactory.getConfig().getValue("devstagingurl_membership"));
 		signUpPage.joinAIABtn(dataList.get(5));
 		signInpage.login(dataList.get(5), dataList.get(6));
 		primaryInfoPage.enterPrimaryInfo(testData.testDataProvider().getProperty("radioSelection"),
@@ -659,7 +659,31 @@ public class TestJoin_Membership extends BaseClass {
 				testData.testDataProvider().getProperty("membershipType"),
 				testData.testDataProvider().getProperty("selection"));
 		apiValidation.validateSalesOrderLine(salesPrice);
-		
+
+	}
+
+	@Test(priority = 18, description = "Validate visibility of download pdf button in Join  ", enabled = true)
+	public void validateVisibilityDownloadPdfInJoin() throws Exception {
+		ArrayList<String> dataList = signUpPage.signUpData();
+		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
+		signUpPage.signUpUser();
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
+		closeButtnPage.clickCloseAfterVerification();
+		signInpage.login(dataList.get(5), dataList.get(6));
+		primaryInfoPage.enterPrimaryInfo(testData.testDataProvider().getProperty("radioSelection"),
+				testData.testDataProvider().getProperty("careerType"));
+		orderSummaryPage.confirmTerms(testData.testDataProvider().getProperty("radioSelection"));
+		orderSummaryPage.clickonPayNow();
+		String aiaNational = paymentInfoPage.paymentDetails(testData.testDataProvider().getProperty("radioSelection"));
+		tellAbtPage.enterTellUsAboutYourSelfdetails(testData.testDataProvider().getProperty("radioSelection"),
+				testData.testDataProvider().getProperty("careerType"));
+		//Navigate to fonteva for checking pdf 
+		util.switchToTab(driver, 1)
+				.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
+		fontevaJoin.selectContact(dataList.get(0) + " " + dataList.get(1));
+		salesOrder.selectSalesOrder();
+		salesOrder.joinReceipt();
+
 	}
 
 	@AfterMethod(alwaysRun = true)

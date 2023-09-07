@@ -6,6 +6,7 @@
 </listeners>
   <test  name="Membership suite Test">
     <classes>
+<<<<<<< HEAD
       <!--  <class name="org.aia.testcases.membership.TestCheckDuplicateSO_Membership"/>
       <class name="org.aia.testcases.membership.TestDIPJoin_Membership"/>
       <class name="org.aia.testcases.membership.TestDIPRenew_Membership"/>
@@ -16,6 +17,17 @@
       <class name="org.aia.testcases.membership.TestOfflineRejoin_Membership"/>
       <class name="org.aia.testcases.membership.TestProcessException_Membership"/>-->
       <class name="org.aia.testcases.membership.TestJoin_Membership"/>
+=======
+      <class name="org.aia.testcases.membership.TestCheckDuplicateSO_Membership"/>
+      <class name="org.aia.testcases.membership.TestDIPJoin_Membership"/>
+      <class name="org.aia.testcases.membership.TestDIPRenew_Membership"/>
+      <class name="org.aia.testcases.membership.TestJoin_Membership"/>
+      <class name="org.aia.testcases.membership.TestMVO_Membership"/> 
+      <class name="org.aia.testcases.membership.TestOfflineJoin_Membership"/>
+      <class name="org.aia.testcases.membership.TestOfflineRejoin_Membership"/> 
+      <class name="org.aia.testcases.membership.TestOfflineRenew_Membership"/>
+      <class name="org.aia.testcases.membership.TestProcessException_Membership"/>
+>>>>>>> 36b80fc9b607d636634e0a04e4b58e877852c5ab
       <class name="org.aia.testcases.membership.TestRenew_Membership"/>
       <class name="org.aia.testcases.membership.TestReJoin_Membership"/>
       <!--<class name="org.aia.testcases.membership.TestSignUpFlows_Membership"/>

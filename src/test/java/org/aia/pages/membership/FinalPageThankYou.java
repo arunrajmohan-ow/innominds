@@ -20,6 +20,7 @@ public class FinalPageThankYou {
 
 	Utility util = new Utility(driver, 10);
 
+<<<<<<< HEAD
 	@FindBy(xpath = "//strong[text()='THANK YOU!']")
 	WebElement thankYou;
 
@@ -36,6 +37,13 @@ public class FinalPageThankYou {
 	WebElement totalAmount;
 
 	String totalAmnt = null;
+=======
+	//@FindBy(xpath="//body[@id='document']/span/table/tbody/tr[3]/td/table/tbody/tr/td[1]/table/tbody/tr[3]/td/table/tbody/tr[6]/td[2]") WebElement totalAmount;
+
+	@FindBy(xpath="//body[@id='document']//table//tbody//tr[7]//td[2]//span//span//span") WebElement totalAmount;
+	
+	String totalAmnt= null;
+>>>>>>> 36b80fc9b607d636634e0a04e4b58e877852c5ab
 	String finalPagetotal = null;
 
 	public void verifyThankYouMessage() throws InterruptedException {

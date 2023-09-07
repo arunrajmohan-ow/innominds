@@ -23,13 +23,16 @@ import org.openqa.selenium.safari.SafariDriver;
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class BrowserSetup {
+<<<<<<< HEAD
+=======
+
+>>>>>>> 36b80fc9b607d636634e0a04e4b58e877852c5ab
 	public static WebDriver startApplication(WebDriver driver, String browser, String url)
 			throws MalformedURLException {
 		if (browser.equalsIgnoreCase("Chrome")) {
 			// System.setProperty("webdriver.chrome.driver",
 			// System.getProperty("user.dir")+"\\Drivers\\chromedriver.exe");
 			WebDriverManager.chromedriver().setup();
-			System.out.println(WebDriverManager.chromedriver().getWebDriverList());
 			// WebDriverManager.chromedriver().clearDriverCache().setup();
 			// System.out.println ("List of
 			// Drivers"+WebDriverManager.chromedriver().getDriverVersions());
@@ -39,26 +42,34 @@ public class BrowserSetup {
 			// System.setProperty("webdriver.chrome.driver",System.getProperty("user.dir")+"\\Drivers\\chromedriver.exe");
 			ChromeOptions options = new ChromeOptions();
 			options.setExperimentalOption("prefs", pref);
+			options.addArguments("--no-sandbox", "--disable-dev-shm-usage");
 			options.addArguments("--ignore-ssl-errors=yes");
 			options.addArguments("--ignore-certificate-errors");
 			options.addArguments("--disable-notifications");
 			options.addArguments("--remote-allow-origins=*");
+<<<<<<< HEAD
 			options.addArguments("--disable-dev-shm-usage");
 			options.addArguments("--start-maximized");
 			options.addArguments("--no-sandbox");
 			options.addArguments("--headless"); // !!!should be enabled for Jenkins
 			options.addArguments("--disable-dev-shm-usage"); // !!!should be enabled for Jenkins
 			options.addArguments("--window-size=1920,1080"); // !!!should be enabled for Jenkins*/
+=======
+			// options.addArguments("--disable-dev-shm-usage");
+			options.addArguments("--window-size=1920x1080");
+			/*
+			 * options.addArguments("--headless"); //!!!should be enabled for Jenkins
+			 * options.addArguments("--disable-dev-shm-usage"); //!!!should be enabled for
+			 * Jenkins options.addArguments("--window-size=1920x1080"); //!!!should be
+			 * enabled for Jenkins
+			 */
+>>>>>>> 36b80fc9b607d636634e0a04e4b58e877852c5ab
 			driver = new ChromeDriver(options);
 		} else if (browser.equalsIgnoreCase("firefox")) {
 			WebDriverManager.firefoxdriver().setup();
 			// System.setProperty("webdriver.gecko.driver",
 			// System.getProperty("user.dir")+"\\Drivers\\geckodriver.exe");
-			FirefoxOptions options = new FirefoxOptions();
-			// options.setHeadless(true);
-			options.addArguments("--headless");
-			options.addArguments("--window-size=1920,1080");
-			driver = new FirefoxDriver(options);
+			driver = new FirefoxDriver();
 
 		} else if (browser.equalsIgnoreCase("edge")) {
 			// System.setProperty("webdriver.edge.driver",
@@ -81,9 +92,15 @@ public class BrowserSetup {
 	public static void closeBrowser(WebDriver driver) {
 
 		System.out.println("LOG :Info- Browser Session getting terminated");
+<<<<<<< HEAD
 
 	    driver.quit();
 		
+=======
+		
+		driver.quit();
+		
+>>>>>>> 36b80fc9b607d636634e0a04e4b58e877852c5ab
 		System.out.println("LOG :Info- Browser Session terminated");
 
 	}
