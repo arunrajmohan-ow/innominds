@@ -131,4 +131,38 @@ public class SignUpPageCes {
 		closebtn.click();
 		Thread.sleep(1000);
 	}
+	
+	/**
+	 * @return 
+	 * @throws Exception
+	 * This mehtod use for only get the entered info on signUp page 
+	 */
+	public String signUpUserDetail( ) throws Exception
+	{
+		util.waitUntilElement(driver, firstName);
+		System.out.println("FirstName is displayed"); 
+		firstName.sendKeys(fName);
+		lastName.sendKeys(lName);
+		emailAddress.sendKeys(emailaddressdata);
+		util.waitUntilElement(driver, mobileCountry);
+		mobileCountry.click();
+		util.waitUntilElement(driver, mobileCountryoption);
+		String  mobilePhoneCountry=mobileCountryoption.getText();
+		mobileCountryoption.click();
+		mobilePhoneNum.sendKeys(mobNumb);
+		desirdPwd.sendKeys(password);
+		confrmPwd.sendKeys(password); 
+
+		//Add this code if you encounter captcha
+		 /* WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+		  wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(captchaFrame));
+		  wait.until(ExpectedConditions.elementToBeClickable(captchaChckbx)).click();
+		  Thread.sleep(10000); driver.switchTo().defaultContent();*/
+
+		signUpSubmitbtn.click();
+		return mobilePhoneCountry;
+	}
+	
+	
+	
 }
