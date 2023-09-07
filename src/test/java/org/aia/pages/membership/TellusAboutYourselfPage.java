@@ -267,7 +267,7 @@ public class TellusAboutYourselfPage {
 		
 		js.executeScript("window.scrollBy(0,30)", licenseNumTellpage);
 		act.moveToElement(licenseNumTellpage).click().build().perform();
-		licenseNumTellpage.clear();
+		//licenseNumTellpage.clear();
 		licenseNumTellpage.sendKeys("12345");	
 		
 		

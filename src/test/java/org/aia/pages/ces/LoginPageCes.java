@@ -84,7 +84,7 @@ public class LoginPageCes {
 	@Step("Check login fail.")
 	public void checkLoginError() throws Exception
 	{
-		Thread.sleep(1000);
+		Thread.sleep(10000);
 		util.waitUntilElement(driver, loginError);
 		String error = loginError.getText();
 		assertTrue(error.contains("Your password is incorrect."), "ERROR : Your password is incorrect. "
