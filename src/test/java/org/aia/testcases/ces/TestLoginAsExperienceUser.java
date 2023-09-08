@@ -152,6 +152,12 @@ public class TestLoginAsExperienceUser extends BaseClass {
 		//Validate Primary POC 
 		apiValidation.verifyPointOfContact("CES Primary", userAccount.get(5), userAccount.get(0)+" "+userAccount.get(1));
 	}
+	
+	@Test(priority = 2, description = "Validate Login experience user as CES AIA Component.", enabled = false)
+	public void verifyLoginAsExpUserCESAIAComponent() throws Exception {
+		
+	}
+	
 
 	@AfterMethod(alwaysRun = true)
 	public void teardown() {
