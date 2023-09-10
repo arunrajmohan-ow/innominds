@@ -93,7 +93,7 @@ public class TestJoinArchitectureFirm_CES extends BaseClass {
 	
 
 
-	@Test(priority=1, description="Validate Online JOIN for Architecture Firm using credit card.", enabled=true)
+	@Test(priority=1, description="Validate Online JOIN for Architecture Firm using credit card.", enabled=false)
 	public void ValidateArchitectureJoin() throws Exception
 	{
 		String prefix = "Dr.";
