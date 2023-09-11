@@ -54,7 +54,8 @@ public class FontevaCES {
 
 	@FindBy(xpath="//div[@class='uiVirtualDataTable indicator']") WebElement tableDiv;
 
-	@FindBy(xpath="//a/slot/span[contains(text(),'Memberships')]") WebElement memberShip;
+	//@FindBy(xpath="//a/slot/span[contains(text(),'Memberships')]") WebElement memberShip;
+	@FindBy(xpath="//a/slot/span[contains(text(),'Memberships')]//ancestor::a") WebElement memberShip;
 
 	@FindBy(xpath="//a/span[@title='Name']") WebElement tableheaderName;
 
@@ -75,7 +76,9 @@ public class FontevaCES {
 	
 	@FindBy(xpath="//button[@title='Edit Term End Date']/span") WebElement editBtn;
 	
-	@FindBy(xpath="//a[contains(text(),'Show')]") WebElement showallBtn;
+	//@FindBy(xpath="//a[contains(text(),'Show')]") WebElement showallBtn;
+	
+	@FindBy(xpath="(//a[contains(text(),'Show')])[2]") WebElement showallBtn;
 	
 	@FindBy(xpath="//h1/span[text()='Contacts']/parent::h1/parent::div/parent::div//button") WebElement contactallBtn;
 	
@@ -86,6 +89,8 @@ public class FontevaCES {
 	@FindBy(xpath = "//input[@placeholder='Search this list...']") WebElement searchBox;
 	
 	@FindBy(xpath = "//span[text()='No items to display.']") WebElement noItemHeading;
+	
+	@FindBy(xpath = "//p[text()='Account Name']//parent::div//div//a") WebElement accountName;
 	
 	String  startLocator = "//div[@class='uiVirtualDataTable indicator']/following-sibling::table/tbody//a[text()='";
 	String  endLocator = "']";
@@ -143,6 +148,9 @@ public class FontevaCES {
 		contactallLink.click();
 		Thread.sleep(15000);
 		driver.findElement(By.xpath(startLocator+fullName+endLocator)).click();
+		util.waitUntilElement(driver, accountName);
+		js.executeScript("arguments[0].click();", accountName);
+		//accountName.click();
 		util.waitUntilElement(driver, showallBtn);
 		Thread.sleep(5000);
 		actions.sendKeys(Keys.ARROW_DOWN).build().perform();
@@ -154,7 +162,7 @@ public class FontevaCES {
 		//Instantiating Actions class
 		//Actions actions = new Actions(driver);
 		//Hovering on main menu
-		actions.moveToElement(contactTitle);
+		//actions.moveToElement(contactTitle);
 		actions.sendKeys(Keys.ARROW_DOWN).build().perform();
 		actions.sendKeys(Keys.ARROW_DOWN).build().perform();
 		Thread.sleep(5000);
