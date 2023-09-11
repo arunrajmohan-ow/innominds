@@ -14,6 +14,7 @@ import org.aia.utility.Utility;
 import org.apache.commons.io.serialization.ValidatingObjectInputStream;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.log4j.Logger;
+import org.bouncycastle.asn1.eac.PublicKeyDataObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
@@ -77,7 +78,7 @@ public class CES_ContactPage {
 
 	@FindBy(xpath = "//table[@aria-label='All']/tbody/tr")
 	WebElement tableAllProviders;
-	
+
 	@FindBy(xpath = "//div[text()='New']/parent::a")
 	WebElement newBtn;
 
@@ -92,10 +93,10 @@ public class CES_ContactPage {
 
 	@FindBy(xpath = "//button[text()='Save']")
 	WebElement saveBtn;
-	
+
 	@FindBy(xpath = "//button[text()='Join']")
 	WebElement joinBtn;
-	
+
 	String memType = "//span[@title='%s']";
 
 	@FindBy(xpath = "//button[@name='AIA_Membership_Type__c']")
@@ -111,7 +112,7 @@ public class CES_ContactPage {
 
 	@FindBy(xpath = "//button[text()='Next']")
 	WebElement nextBtn;
-	
+
 	@FindBy(xpath = "//input[contains(@name,'License_Number')]")
 	WebElement enterLicenseNumber;
 
@@ -119,8 +120,8 @@ public class CES_ContactPage {
 	WebElement licenseStateDrp;
 
 	String state = "//span[text()='%s']";
-	
-	String country="//span[text()='%s']";
+
+	String country = "//span[text()='%s']";
 
 	@FindBy(xpath = "//input[contains(@name,'License_Date')]")
 	WebElement licenseStartDate;
@@ -130,17 +131,17 @@ public class CES_ContactPage {
 
 	@FindBy(xpath = "//input[contains(@name,'License_Expire_Date__c')]")
 	WebElement licenseExpireDate;
-	
-	@FindBy(xpath="//button[contains(@aria-label,'Join License Country')]")
+
+	@FindBy(xpath = "//button[contains(@aria-label,'Join License Country')]")
 	WebElement licenseCountryDrp;
-	
+
 	@FindBy(xpath = "//button[contains(@aria-label,'Subscription Plans')]")
 	WebElement selectDuesDrp;
 
 	@FindBy(xpath = "//span[contains(@title,'Payment in Full')]")
 	WebElement selectDeusOpt;
-	
-	@FindBy(xpath="//span[contains(@title,'Dues Installment Plan ')]")
+
+	@FindBy(xpath = "//span[contains(@title,'Dues Installment Plan ')]")
 	WebElement selectPayInInsatllmentElement;
 
 	@FindBy(xpath = "//button[contains(text(),'Create sales order')]")
@@ -151,7 +152,7 @@ public class CES_ContactPage {
 
 	@FindBy(xpath = "//button[text()='Apply Payment']")
 	WebElement applyPayment;
-	
+
 	@FindBy(xpath = "//span[text()='Apply Payment']/parent::button")
 	WebElement applyLastPayment;
 
@@ -178,7 +179,7 @@ public class CES_ContactPage {
 
 	@FindBy(xpath = "//span[text()='Process Payment']/parent::button")
 	WebElement processPaymentBtn;
-	
+
 	@FindBy(xpath = "//lightning-formatted-text[@slot='primaryField']")
 	WebElement receiptNo;
 
@@ -187,24 +188,47 @@ public class CES_ContactPage {
 
 	@FindBy(xpath = "(//p[text()='Total']/parent::div/p)[2]/slot/lightning-formatted-text")
 	WebElement totalAmmount;
-	
+
 	String contactName = "//a[text()='%s']";
 
 	@FindBy(xpath = "//a[contains(text(),'Show All (2')]")
 	WebElement showAll;
 
-    @FindBy(xpath="//span[text()='Show more actions']//ancestor::button")
-    WebElement moreActionBtn;
-    
-    @FindBy(xpath = "//span[text()='Log in to Experience as User']//ancestor::a")
-    WebElement loginAsExpUserOpt;
-    
-    @FindBy(xpath = "//h2[text()='Log in as Site User']")
-    WebElement siteUserOpt;
-    
-    @FindBy(xpath = "//span[text()='Providers']//ancestor::a")
-    WebElement providerAppLink;
-    
+	@FindBy(xpath = "//span[text()='Show more actions']//ancestor::button")
+	WebElement moreActionBtn;
+
+	@FindBy(xpath = "//span[text()='Log in to Experience as User']//ancestor::a")
+	WebElement loginAsExpUserOpt;
+
+	@FindBy(xpath = "//h2[text()='Log in as Site User']")
+	WebElement siteUserOpt;
+
+	@FindBy(xpath = "//span[text()='Providers']//ancestor::a")
+	WebElement providerAppLink;
+
+	@FindBy(xpath = "//p[text()='Account Name']//parent::div//div//a")
+	WebElement accountName;
+	
+	@FindBy(xpath = "//button[text()='Rapid Order Entry']")
+	WebElement rapidOrderEnteryBtn;
+	
+	@FindBy(xpath = "//button[text()='Advanced Settings']")
+	WebElement advanceSetting;
+	
+	@FindBy(xpath = "//h2[text()='Advanced Settings']")
+	WebElement advancSettingPopUp;
+	
+	@FindBy(xpath = "//select[@name='Business Group']")
+	WebElement businessGroupDrp;
+	
+	@FindBy(xpath = "//button[@title='Save']")
+	WebElement advanceSettingsaveBtn;
+	
+	@FindBy(xpath = "//strong[text()='Item Quick Add']//parent::span//following-sibling::span//div//input")
+	WebElement quickItemSelect;
+	
+	@FindBy(xpath = "//button[text()='Add to Order']")
+	WebElement addOrderBtn;
 
 	String fName;
 	String lName;
@@ -270,7 +294,7 @@ public class CES_ContactPage {
 		emailAddress.sendKeys(emailaddressdata);
 		saveBtn.click();
 	}
-	
+
 	/**
 	 * @param membership
 	 * @param career
@@ -296,7 +320,7 @@ public class CES_ContactPage {
 		util.waitUntilElement(driver, nextBtn);
 		nextBtn.click();
 	}
-	
+
 	/**
 	 * 
 	 */
@@ -304,7 +328,8 @@ public class CES_ContactPage {
 		util.enterText(driver, enterLicenseNumber, data.testDataProvider().getProperty("LICENSE_NUMBER"));
 		util.waitUntilElement(driver, licenseCountryDrp);
 		licenseCountryDrp.click();
-		executor.executeScript("arguments[0].click();", util.getCustomizedWebElement(driver, country, data.testDataProvider().getProperty("LICENSE_COUNTRY")));
+		executor.executeScript("arguments[0].click();",
+				util.getCustomizedWebElement(driver, country, data.testDataProvider().getProperty("LICENSE_COUNTRY")));
 		licenseStateDrp.click();
 		WebElement enterState = driver
 				.findElement(By.xpath(String.format(state, data.testDataProvider().getProperty("LICENSE_STATE"))));
@@ -318,7 +343,7 @@ public class CES_ContactPage {
 		executor.executeScript("arguments[0].scrollIntoView(true);", nextBtn);
 		nextBtn.click();
 	}
-	
+
 	/**
 	 * @param null Use for loop to getting all drop-down elements select payment
 	 *             option from dropdown
@@ -392,7 +417,7 @@ public class CES_ContactPage {
 		receiptData.add(2, totalAmmountText);
 		return receiptData;
 	}
-	
+
 	/**
 	 * @param Userfullname
 	 * @throws InterruptedException
@@ -410,16 +435,17 @@ public class CES_ContactPage {
 		util.waitUntilElement(driver, contactallLink);
 		contactallLink.click();
 		Thread.sleep(14000);
-		executor.executeScript("arguments[0].scrollIntoView(true);", util.getCustomizedWebElement(driver, contactName, userFullname));
+		executor.executeScript("arguments[0].scrollIntoView(true);",
+				util.getCustomizedWebElement(driver, contactName, userFullname));
 		util.waitUntilElement(driver, util.getCustomizedWebElement(driver, contactName, userFullname));
 		executor.executeScript("arguments[0].click();",
 				util.getCustomizedWebElement(driver, contactName, userFullname));
 		util.waitUntilElement(driver, showAll);
 		showAll.click();
 	}
-	
+
 	/**
-	 * @throws InterruptedException 
+	 * @throws InterruptedException
 	 * 
 	 */
 	public void selectExpAsUserOpt() throws InterruptedException {
@@ -432,6 +458,26 @@ public class CES_ContactPage {
 		util.waitUntilElement(driver, providerAppLink);
 		providerAppLink.click();
 		Thread.sleep(5000);
+	}
+
+	public void selectRapidOrderEntry(String userFullname, String businessGrp, String itemQuick) throws InterruptedException {
+		selectCreatedContact(userFullname);
+		util.waitUntilElement(driver, accountName);
+		executor.executeScript("arguments[0].click();", accountName);
+		util.waitUntilElement(driver, rapidOrderEnteryBtn);
+		rapidOrderEnteryBtn.click();
+		util.waitUntilElement(driver, advanceSetting);
+		advanceSetting.click();
+		util.waitUntilElement(driver, advancSettingPopUp);
+		assertTrue(advancSettingPopUp.isDisplayed());
+		util.waitUntilElement(driver, businessGroupDrp);
+		util.selectDropDownByText(businessGroupDrp, businessGrp);
+		util.waitUntilElement(driver, advanceSettingsaveBtn);
+		advanceSettingsaveBtn.click();
+		util.waitUntilElement(driver, quickItemSelect);
+		quickItemSelect.sendKeys(itemQuick);
+		addOrderBtn.click();
+		
 	}
 
 }
