@@ -273,7 +273,6 @@ public class JoinCESAPIValidation
 		String providerSubscriptionID = jsonPathEval.getString("records[0].Id");
 		String providerSubscriptionName = jsonPathEval.getString("records[0].Name");
 		System.out.println("providerSubscriptionID:"+providerSubscriptionID);
-		Thread.sleep(30000);
 		String MEMBERSHIP_URL = SOBJECT_URI + "/OrderApi__Subscription__c" + "/" + providerSubscriptionID ;
 		Response responseMembership = 
 		    	 given().
