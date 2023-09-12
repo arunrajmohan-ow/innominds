@@ -275,7 +275,7 @@ public class JoinCESAPIValidation
 		System.out.println("providerSubscriptionID:"+providerSubscriptionID);
 		
 		String MEMBERSHIP_URL = SOBJECT_URI + "/OrderApi__Subscription__c" + "/" + providerSubscriptionID ;
-	    Thread.sleep(7000);
+	    Thread.sleep(15000);
 		Response responseMembership = 
 		    	 given().
 				 header("Authorization", "Bearer " + bearerToken).
