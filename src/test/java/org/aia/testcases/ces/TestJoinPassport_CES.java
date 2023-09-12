@@ -144,7 +144,7 @@ public class TestJoinPassport_CES extends BaseClass {
 		mailinator.welcomeAIAEmailLink(userAccount);
 	}
 	
-	@Test(priority=3, description="Validate Join Passport.", enabled = true)
+	@Test(priority=3, description="Validate Join Passport.", enabled = false)
 	public void ValidatePassportJoin() throws Exception
 	{
 		String prefix = "Dr.";
@@ -192,7 +192,7 @@ public class TestJoinPassport_CES extends BaseClass {
 
 	}
 	
-	@Test(priority=4, description="Validate Join Passport, with additional users.", enabled = false, groups= {"Smoke"})
+	@Test(priority=4, description="Validate Join Passport, with additional users.", enabled = true, groups= {"Smoke"})
 	public void ValidatePassportJoinWithAdditionalUser() throws Exception
 	{
 		String prefix = "Dr.";
