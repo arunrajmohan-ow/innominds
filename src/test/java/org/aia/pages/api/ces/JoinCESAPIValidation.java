@@ -293,7 +293,7 @@ public class JoinCESAPIValidation
 				 		+ "OrderApi__Days_To_Lapse__c").
 				 when().get(MEMBERSHIP_URL).
 				 then().statusCode(200).extract().response();
-        Thread.sleep(20000);
+        Thread.sleep(30000);
 		jsonPathEval = responseMembership.jsonPath();
 		String memSubscriptionID = jsonPathEval.getString("Id");
 		String memSubscriptionName = jsonPathEval.getString("Name");
