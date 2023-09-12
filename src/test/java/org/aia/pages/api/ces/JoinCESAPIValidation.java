@@ -270,6 +270,7 @@ public class JoinCESAPIValidation
 				 then().statusCode(200).extract().response();
 
 		jsonPathEval = responseAccSub.jsonPath();
+		Thread.sleep(30000);
 		String providerSubscriptionID = jsonPathEval.getString("records[0].Id");
 		String providerSubscriptionName = jsonPathEval.getString("records[0].Name");
 		System.out.println("providerSubscriptionID:"+providerSubscriptionID);
