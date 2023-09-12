@@ -275,7 +275,6 @@ public class JoinCESAPIValidation
 		System.out.println("providerSubscriptionID:"+providerSubscriptionID);
 		
 		String MEMBERSHIP_URL = SOBJECT_URI + "/OrderApi__Subscription__c" + "/" + providerSubscriptionID ;
-	    Thread.sleep(15000);
 		Response responseMembership = 
 		    	 given().
 				 header("Authorization", "Bearer " + bearerToken).
@@ -294,7 +293,7 @@ public class JoinCESAPIValidation
 				 		+ "OrderApi__Days_To_Lapse__c").
 				 when().get(MEMBERSHIP_URL).
 				 then().statusCode(200).extract().response();
-
+        Thread.sleep(20000);
 		jsonPathEval = responseMembership.jsonPath();
 		String memSubscriptionID = jsonPathEval.getString("Id");
 		String memSubscriptionName = jsonPathEval.getString("Name");
