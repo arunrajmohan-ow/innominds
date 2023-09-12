@@ -295,6 +295,7 @@ public class JoinCESAPIValidation
 				 then().statusCode(200).extract().response();
         Thread.sleep(30000);
 		jsonPathEval = responseMembership.jsonPath();
+		System.out.println("Member url:"+jsonPathEval.toString());
 		String memSubscriptionID = jsonPathEval.getString("Id");
 		String memSubscriptionName = jsonPathEval.getString("Name");
 		String ecommerce_Renew_Link = jsonPathEval.getString("AIA_Ecommerce_Renew_Link__c");
