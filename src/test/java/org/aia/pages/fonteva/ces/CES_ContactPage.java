@@ -229,6 +229,8 @@ public class CES_ContactPage {
 	
 	@FindBy(xpath = "//button[text()='Add to Order']")
 	WebElement addOrderBtn;
+	
+	String allItem="(//div[@class='selectize-dropdown-content'])[5]//div//div//div";
 
 	String fName;
 	String lName;
@@ -460,22 +462,23 @@ public class CES_ContactPage {
 		Thread.sleep(5000);
 	}
 
-	public void selectRapidOrderEntry(String userFullname, String businessGrp, String itemQuick) throws InterruptedException {
+	public void selectRapidOrderEntry(String userFullname, String itemQuick) throws InterruptedException {
 		selectCreatedContact(userFullname);
 		util.waitUntilElement(driver, accountName);
 		executor.executeScript("arguments[0].click();", accountName);
 		util.waitUntilElement(driver, rapidOrderEnteryBtn);
 		rapidOrderEnteryBtn.click();
-		util.waitUntilElement(driver, advanceSetting);
-		advanceSetting.click();
-		util.waitUntilElement(driver, advancSettingPopUp);
-		assertTrue(advancSettingPopUp.isDisplayed());
-		util.waitUntilElement(driver, businessGroupDrp);
-		util.selectDropDownByText(businessGroupDrp, businessGrp);
-		util.waitUntilElement(driver, advanceSettingsaveBtn);
-		advanceSettingsaveBtn.click();
 		util.waitUntilElement(driver, quickItemSelect);
-		quickItemSelect.sendKeys(itemQuick);
+		executor.executeScript("arguments[0].click();", quickItemSelect);
+		executor.executeScript("arguments[0].value='"+itemQuick+"';", quickItemSelect);
+		//quickItemSelect.sendKeys(itemQuick);
+		List<WebElement> allQuickItem= driver.findElements(By.xpath(allItem));
+		for(WebElement allOptions:allQuickItem) {
+			if(allOptions.getText().contains(itemQuick)) {
+				executor.executeScript("arguments[0].click();", allOptions);
+			}
+		}
+        util.waitUntilElement(driver, addOrderBtn);		
 		addOrderBtn.click();
 		
 	}
