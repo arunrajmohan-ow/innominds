@@ -2,6 +2,10 @@ package org.aia.pages.fonteva.ces;
 
 import static org.testng.Assert.assertTrue;
 
+import java.awt.AWTException;
+import java.awt.Robot;
+import java.awt.event.KeyEvent;
+import java.security.Key;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -230,7 +234,7 @@ public class CES_ContactPage {
 	@FindBy(xpath = "//button[text()='Add to Order']")
 	WebElement addOrderBtn;
 	
-	@FindBy (xpath = "//span[text()='National']")
+	@FindBy (xpath = "(//span[text()='National'])[1]")
     WebElement quickItemNatinal;
     
 	String allItem="(//div[@class='selectize-dropdown-content'])[5]//div//div//div//span";
@@ -465,7 +469,13 @@ public class CES_ContactPage {
 		Thread.sleep(5000);
 	}
 
-	public void selectRapidOrderEntry(String userFullname, String itemQuick) throws InterruptedException {
+	/**
+	 * @param userFullname
+	 * @param itemQuick
+	 * @throws InterruptedException
+	 * @throws AWTException 
+	 */
+	public void selectRapidOrderEntry(String userFullname, String itemQuick) throws InterruptedException, AWTException {
 		selectCreatedContact(userFullname);
 		util.waitUntilElement(driver, accountName);
 		executor.executeScript("arguments[0].click();", accountName);
@@ -473,11 +483,14 @@ public class CES_ContactPage {
 		rapidOrderEnteryBtn.click();
 		util.waitUntilElement(driver, quickItemSelect);
 		executor.executeScript("arguments[0].click();", quickItemSelect);
+		Thread.sleep(10000);
 		executor.executeScript("arguments[0].value='"+itemQuick+"';", quickItemSelect);
-		executor.executeScript("arguments[0].click();", quickItemSelect);
-		action.moveToElement(quickItemSelect).build().perform();
-		quickItemSelect.sendKeys(Keys.ENTER);
 		//quickItemSelect.sendKeys(itemQuick);
+		Thread.sleep(20000);
+		executor.executeScript("arguments[0].focus();", quickItemSelect);
+	    //executor.executeScript("arguments[0].dispatchEvent(new Event('keydown',{ key:'Enter' }));", quickItemSelect);
+		//Thread.sleep(20000);
+		action.keyDown(Keys.SPACE).build().perform();
 		util.waitUntilElement(driver, quickItemNatinal);
 		quickItemNatinal.click();
         util.waitUntilElement(driver, addOrderBtn);		
