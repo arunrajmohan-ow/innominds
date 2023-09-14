@@ -179,7 +179,7 @@ public class TestLoginAsExperienceUser extends BaseClass {
 		Object amount = paymntSuccesFullPageCes.amountPaid();
 		// Navigate to Fonteva app and make record renew eligible.
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
-		ces_ContactPage.selectRapidOrderEntry(dataList.get(0)+" "+dataList.get(1),"CES AIA National");
+		ces_ContactPage.selectRapidOrderEntry("autofncUdg"+" "+" autolnlHiI","CES AIA National");
 	}
 
 	@AfterMethod(alwaysRun = true)
