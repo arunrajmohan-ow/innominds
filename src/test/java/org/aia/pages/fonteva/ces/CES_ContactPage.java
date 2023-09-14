@@ -230,7 +230,10 @@ public class CES_ContactPage {
 	@FindBy(xpath = "//button[text()='Add to Order']")
 	WebElement addOrderBtn;
 	
-	String allItem="(//div[@class='selectize-dropdown-content'])[5]//div//div//div";
+	@FindBy (xpath = "//span[text()='National']")
+    WebElement quickItemNatinal;
+    
+	String allItem="(//div[@class='selectize-dropdown-content'])[5]//div//div//div//span";
 
 	String fName;
 	String lName;
@@ -471,16 +474,14 @@ public class CES_ContactPage {
 		util.waitUntilElement(driver, quickItemSelect);
 		executor.executeScript("arguments[0].click();", quickItemSelect);
 		executor.executeScript("arguments[0].value='"+itemQuick+"';", quickItemSelect);
+		executor.executeScript("arguments[0].click();", quickItemSelect);
+		action.moveToElement(quickItemSelect).build().perform();
+		quickItemSelect.sendKeys(Keys.ENTER);
 		//quickItemSelect.sendKeys(itemQuick);
-		List<WebElement> allQuickItem= driver.findElements(By.xpath(allItem));
-		for(WebElement allOptions:allQuickItem) {
-			if(allOptions.getText().contains(itemQuick)) {
-				executor.executeScript("arguments[0].click();", allOptions);
-			}
-		}
+		util.waitUntilElement(driver, quickItemNatinal);
+		quickItemNatinal.click();
         util.waitUntilElement(driver, addOrderBtn);		
 		addOrderBtn.click();
-		
 	}
 
 }
