@@ -228,16 +228,18 @@ public class CES_ContactPage {
 	@FindBy(xpath = "//button[@title='Save']")
 	WebElement advanceSettingsaveBtn;
 	
-	@FindBy(xpath = "//strong[text()='Item Quick Add']//parent::span//following-sibling::span//div//input")
+	//@FindBy(xpath = "//strong[text()='Item Quick Add']//parent::span//following-sibling::span//div//input")
+	@FindBy(xpath = "(//*[contains(@class,'selectize-control')]//div[@class='selectize-input items not-full']//input)[3]")
 	WebElement quickItemSelect;
 	
 	@FindBy(xpath = "//button[text()='Add to Order']")
 	WebElement addOrderBtn;
 	
-	@FindBy (xpath = "(//span[text()='National'])[1]")
-    WebElement quickItemNatinal;
+	String quickItemNatinal = "(//span[text()='%s'])[1]";
     
-	String allItem="(//div[@class='selectize-dropdown-content'])[5]//div//div//div//span";
+   @FindBy(xpath = "//button[text()='Go']")
+   WebElement goBtn;
+	
 
 	String fName;
 	String lName;
@@ -475,7 +477,7 @@ public class CES_ContactPage {
 	 * @throws InterruptedException
 	 * @throws AWTException 
 	 */
-	public void selectRapidOrderEntry(String userFullname, String itemQuick) throws InterruptedException, AWTException {
+	public void selectRapidOrderEntry(String userFullname, String itemQuick, String quickElement) throws InterruptedException, AWTException {
 		selectCreatedContact(userFullname);
 		util.waitUntilElement(driver, accountName);
 		executor.executeScript("arguments[0].click();", accountName);
@@ -484,17 +486,16 @@ public class CES_ContactPage {
 		util.waitUntilElement(driver, quickItemSelect);
 		executor.executeScript("arguments[0].click();", quickItemSelect);
 		Thread.sleep(10000);
-		executor.executeScript("arguments[0].value='"+itemQuick+"';", quickItemSelect);
-		//quickItemSelect.sendKeys(itemQuick);
+		//executor.executeScript("arguments[0].value='"+itemQuick+"';", quickItemSelect);
+		quickItemSelect.sendKeys(itemQuick);
 		Thread.sleep(20000);
-		executor.executeScript("arguments[0].focus();", quickItemSelect);
-	    //executor.executeScript("arguments[0].dispatchEvent(new Event('keydown',{ key:'Enter' }));", quickItemSelect);
-		//Thread.sleep(20000);
-		action.keyDown(Keys.SPACE).build().perform();
-		util.waitUntilElement(driver, quickItemNatinal);
-		quickItemNatinal.click();
+		util.waitUntilElement(driver, util.getCustomizedWebElement(driver, quickItemNatinal, quickElement));
+		util.getCustomizedWebElement(driver, quickItemNatinal, quickElement).click();
         util.waitUntilElement(driver, addOrderBtn);		
 		addOrderBtn.click();
+		util.waitUntilElement(driver, goBtn);
+		goBtn.click();
+		
 	}
 
 }
