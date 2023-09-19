@@ -180,6 +180,14 @@ public class TestLoginAsExperienceUser extends BaseClass {
 		// Navigate to Fonteva app and make record renew eligible.
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
 		ces_ContactPage.selectRapidOrderEntry(dataList.get(0)+" "+dataList.get(1),"CES AIA National","National");
+		fontevaPage.changeTermDates(dataList.get(0)+" "+dataList.get(1));
+		reNewUser.selectContactInTerm(dataList.get(0)+" "+dataList.get(1));
+		ces_ContactPage.selectExpAsUserOpt();
+		renew.clickOnRenewBtn();
+		checkOutPageCes.enterCardDetailsCes();
+		Logging.logger.info("Total Amount is : " + paymntSuccesFullPageCes.amountPaid());
+		Object renewamount = paymntSuccesFullPageCes.amountPaid();
+		String renewreciptData = paymntSuccesFullPageCes.ClickonViewReceipt();
 	}
 
 	@AfterMethod(alwaysRun = true)
