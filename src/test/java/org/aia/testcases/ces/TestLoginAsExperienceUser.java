@@ -21,6 +21,7 @@ import org.aia.pages.ces.SecondaryPointOfContact;
 import org.aia.pages.ces.SignUpPageCes;
 import org.aia.pages.ces.Subscription;
 import org.aia.pages.fonteva.ces.CES_ContactPage;
+import org.aia.pages.fonteva.ces.CES_Memberships;
 import org.aia.pages.fonteva.ces.CES_ReNewUser;
 import org.aia.pages.membership.OrderSummaryPage;
 import org.aia.pages.membership.PaymentInformation;
@@ -66,6 +67,7 @@ public class TestLoginAsExperienceUser extends BaseClass {
 	RenewCESPage renew;
 	CES_ReNewUser reNewUser;
 	CES_ContactPage ces_ContactPage;
+	CES_Memberships ces_membership;
 	public ExtentReports extent;
 	public ExtentTest extentTest;
 	final static Logger logger = Logger.getLogger(TestRenewPassport_CES.class);
@@ -97,6 +99,7 @@ public class TestLoginAsExperienceUser extends BaseClass {
 		renew = PageFactory.initElements(driver, RenewCESPage.class);
 		reNewUser = PageFactory.initElements(driver, CES_ReNewUser.class);
 		ces_ContactPage = PageFactory.initElements(driver, CES_ContactPage.class);
+		ces_membership=PageFactory.initElements(driver, CES_Memberships.class);
 	}
 
 	@Test(priority = 1, description = "Validate Login experience user in multiple module.", enabled = false)
@@ -179,15 +182,35 @@ public class TestLoginAsExperienceUser extends BaseClass {
 		Object amount = paymntSuccesFullPageCes.amountPaid();
 		// Navigate to Fonteva app and make record renew eligible.
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
-		ces_ContactPage.selectRapidOrderEntry(dataList.get(0)+" "+dataList.get(1),"CES AIA National","National");
-		fontevaPage.changeTermDates(dataList.get(0)+" "+dataList.get(1));
-		reNewUser.selectContactInTerm(dataList.get(0)+" "+dataList.get(1));
+		ces_ContactPage.selectRapidOrderEntry(dataList.get(0) + " " + dataList.get(1), "CES AIA National", "National");
+		ces_membership.changeTermInTwoMembership(dataList.get(0) + " " + dataList.get(1));
+		reNewUser.selectContactInTerm(dataList.get(0) + " " + dataList.get(1));
 		ces_ContactPage.selectExpAsUserOpt();
 		renew.clickOnRenewBtn();
-		checkOutPageCes.enterCardDetailsCes();
-		Logging.logger.info("Total Amount is : " + paymntSuccesFullPageCes.amountPaid());
-		Object renewamount = paymntSuccesFullPageCes.amountPaid();
-		String renewreciptData = paymntSuccesFullPageCes.ClickonViewReceipt();
+		checkOutPageCes.confirmOrderWithNoAmt();
+		Logging.logger.info("Total Amount is : " + paymntSuccesFullPageCes.freeDuesamountPaid());
+		Object renewamount = paymntSuccesFullPageCes.freeDuesamountPaid();
+		String renewreciptData = paymntSuccesFullPageCes.clickonViewReceiptNoDues();
+		// Validate Provider Application & CES Provider account details - Fonteva API
+		// validations
+		apiValidation.verifyProviderApplicationDetails("Approved", userAccount, "Passport",
+				userAccount.get(0) + " " + userAccount.get(1), true, java.time.LocalDate.now().toString(),
+				"AutomationOrg", "Other", "No");
+
+		// Validate CES Provider account details - Fonteva API validations
+		apiValidation.verifyProviderApplicationAccountDetails("Active", "CES AIA National", "2023-12-31", false);
+
+		// Validate sales order
+		apiValidation.verifySalesOrder(DataProviderFactory.getConfig().getValue("salesOrderStatus"),
+				DataProviderFactory.getConfig().getValue("orderStatus"), renewamount,
+				DataProviderFactory.getConfig().getValue("postingStatus"));
+
+		// Validate Receipt Details
+		apiValidation.verifyReciptDetailsForNoDues(renewreciptData, amount, "CES AIA National");
+
+		// Validate Primary POC
+		apiValidation.verifyPointOfContact("CES Primary", userAccount.get(5),
+				userAccount.get(0) + " " + userAccount.get(1));
 	}
 
 	@AfterMethod(alwaysRun = true)
