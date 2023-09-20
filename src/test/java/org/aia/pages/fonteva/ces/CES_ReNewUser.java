@@ -65,7 +65,7 @@ public class CES_ReNewUser {
 	WebElement saveBtn;
 
 	//String contactTerm = "//span[text()='%s']//ancestor::a";
-	String contactTerm ="(//span[text()='%s']//ancestor::a)[7]";
+	String contactTerm ="//div[@data-target-selection-name='sfdc:RecordField.OrderApi__Renewal__c.OrderApi__Contact__c']//div[@class='slds-grid']//div[@class='slds-grid']//a";
                         
 	@FindBy(xpath = "(//button[text()='Renew'])[2]")
 	WebElement renewBtn;
@@ -203,7 +203,7 @@ public class CES_ReNewUser {
 	 */
 	public void selectContactInTerm(String fullName) throws InterruptedException {
 		Thread.sleep(10000);
-		executor.executeScript("window.scrollBy(0,-500)", "");
+		executor.executeScript("window.scrollBy(0,-540)", "");
 		util.waitUntilElement(driver, util.getCustomizedWebElement(driver, contactTerm, fullName));
 		executor.executeScript("arguments[0].click();",util.getCustomizedWebElement(driver, contactTerm, fullName));
 	}

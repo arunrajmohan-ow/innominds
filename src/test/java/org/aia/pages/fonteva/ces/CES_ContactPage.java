@@ -198,7 +198,8 @@ public class CES_ContactPage {
 	@FindBy(xpath = "//a[contains(text(),'Show All (2')]")
 	WebElement showAll;
 
-	@FindBy(xpath = "//span[text()='Show more actions']//ancestor::button")
+	//@FindBy(xpath = "//span[text()='Show more actions']//ancestor::button")
+	@FindBy(xpath = "//lightning-button-menu[contains(@data-target-reveals,'Disable_Auto_Renew')]//button")
 	WebElement moreActionBtn;
 
 	@FindBy(xpath = "//span[text()='Log in to Experience as User']//ancestor::a")
@@ -237,7 +238,7 @@ public class CES_ContactPage {
 	
 	String quickItemNatinal = "(//span[text()='%s'])[1]";
     
-   @FindBy(xpath = "//button[text()='Go']")
+   @FindBy(xpath = "(//button[normalize-space()='Go'])")
    WebElement goBtn;
 	
 
@@ -494,6 +495,7 @@ public class CES_ContactPage {
         util.waitUntilElement(driver, addOrderBtn);		
 		addOrderBtn.click();
 		util.waitUntilElement(driver, goBtn);
+		Thread.sleep(20000);
 		goBtn.click();
 		
 	}
