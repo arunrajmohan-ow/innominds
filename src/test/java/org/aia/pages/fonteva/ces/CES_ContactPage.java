@@ -1,18 +1,24 @@
-package org.aia.pages.fonteva.membership;
+package org.aia.pages.fonteva.ces;
 
 import static org.testng.Assert.assertTrue;
 
+import java.awt.AWTException;
+import java.awt.Robot;
+import java.awt.event.KeyEvent;
+import java.security.Key;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.aia.pages.fonteva.membership.ContactCreateUser;
 import org.aia.utility.ConfigDataProvider;
-import org.aia.utility.DataProviderFactory;
 import org.aia.utility.Utility;
+import org.apache.commons.io.serialization.ValidatingObjectInputStream;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.log4j.Logger;
+import org.bouncycastle.asn1.eac.PublicKeyDataObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
@@ -20,15 +26,12 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.Select;
-
-import groovyjarjarantlr4.v4.runtime.tree.xpath.XPath;
 
 /**
- * @author IM-RT-LP-1483(Suhas)
+ * @author IM-RT-LP-1483 (Suhas)
  *
  */
-public class ContactCreateUser {
+public class CES_ContactPage {
 	WebDriver driver;
 	Utility util = new Utility(driver, 30);
 	ConfigDataProvider data = new ConfigDataProvider();
@@ -36,29 +39,49 @@ public class ContactCreateUser {
 	Actions action;
 	JavascriptExecutor executor;
 
-	/**
-	 * @param Idriver
-	 */
-	public ContactCreateUser(WebDriver Idriver) {
+	public CES_ContactPage(WebDriver Idriver) {
 		this.driver = Idriver;
 		action = new Actions(driver);
 		executor = (JavascriptExecutor) driver;
 	}
-
-	@FindBy(xpath = "//input[@id='username']")
-	WebElement userName;
-
-	@FindBy(xpath = "//input[@id='password']")
-	WebElement password;
-
-	@FindBy(xpath = "//input[@id='Login']")
-	WebElement loginBtn;
 
 	@FindBy(xpath = "//*[@title='Contacts']/span")
 	WebElement contacts;
 
 	@FindBy(xpath = "//a[@title='Contacts']/parent::one-app-nav-bar-item-root")
 	WebElement contactsDiv;
+
+	@FindBy(xpath = "//a/span[@title='Name']")
+	WebElement tableheaderName;
+
+	@FindBy(xpath = "//h1/span[text()='Contacts']/parent::h1/parent::div/parent::div//button")
+	WebElement contactallBtn;
+
+	@FindBy(xpath = "//li[contains(@class,'forceVirtualAutocompleteMenuOption')]//span[text()='All Contacts'][1]")
+	WebElement contactallLink;
+
+	@FindBy(xpath = "//span[text()='App Launcher']/parent::div//parent::button")
+	WebElement appLauncherIcn;
+
+	@FindBy(xpath = "//label[text()='Search apps and items...']/parent::div/div/input")
+	WebElement appSearchtxtbx;
+
+	@FindBy(xpath = "//b[text()='Provider Application']")
+	WebElement searchedAppPA;
+
+	String providerApp = "//b[text()='%s']";
+
+	@FindBy(xpath = "//table[@aria-label='Recently Viewed']/tbody/tr/th")
+	WebElement tableProviderApp;
+
+	@FindBy(xpath = "//button[@title='Select a List View'] | //button[contains(@title,'Select a List View')]")
+	WebElement selectList;
+
+	@FindBy(xpath = "//span[@class=' virtualAutocompleteOptionText'and text()='All']")
+	WebElement allBtn;
+
+	@FindBy(xpath = "//table[@aria-label='All']/tbody/tr")
+	WebElement tableAllProviders;
 
 	@FindBy(xpath = "//div[text()='New']/parent::a")
 	WebElement newBtn;
@@ -101,8 +124,8 @@ public class ContactCreateUser {
 	WebElement licenseStateDrp;
 
 	String state = "//span[text()='%s']";
-	
-	String country="//span[text()='%s']";
+
+	String country = "//span[text()='%s']";
 
 	@FindBy(xpath = "//input[contains(@name,'License_Date')]")
 	WebElement licenseStartDate;
@@ -113,13 +136,16 @@ public class ContactCreateUser {
 	@FindBy(xpath = "//input[contains(@name,'License_Expire_Date__c')]")
 	WebElement licenseExpireDate;
 
+	@FindBy(xpath = "//button[contains(@aria-label,'Join License Country')]")
+	WebElement licenseCountryDrp;
+
 	@FindBy(xpath = "//button[contains(@aria-label,'Subscription Plans')]")
 	WebElement selectDuesDrp;
 
 	@FindBy(xpath = "//span[contains(@title,'Payment in Full')]")
 	WebElement selectDeusOpt;
-	
-	@FindBy(xpath="//span[contains(@title,'Dues Installment Plan ')]")
+
+	@FindBy(xpath = "//span[contains(@title,'Dues Installment Plan ')]")
 	WebElement selectPayInInsatllmentElement;
 
 	@FindBy(xpath = "//button[contains(text(),'Create sales order')]")
@@ -130,9 +156,6 @@ public class ContactCreateUser {
 
 	@FindBy(xpath = "//button[text()='Apply Payment']")
 	WebElement applyPayment;
-
-	@FindBy(xpath = "//select[@aria-label='Payment Type']")
-	WebElement paymentType;
 
 	@FindBy(xpath = "//span[text()='Apply Payment']/parent::button")
 	WebElement applyLastPayment;
@@ -170,29 +193,54 @@ public class ContactCreateUser {
 	@FindBy(xpath = "(//p[text()='Total']/parent::div/p)[2]/slot/lightning-formatted-text")
 	WebElement totalAmmount;
 
-	@FindBy(xpath = "//h1/span[text()='Contacts']/parent::h1/parent::div/parent::div//button")
-	WebElement contactallBtn;
-
-	@FindBy(xpath = "//li[contains(@class,'forceVirtualAutocompleteMenuOption')]//span[text()='All Contacts'][1]")
-	WebElement contactallLink;
-
 	String contactName = "//a[text()='%s']";
 
 	@FindBy(xpath = "//a[contains(text(),'Show All (2')]")
 	WebElement showAll;
 
-	@FindBy(xpath = "//a/span[@title='Name']")
-	WebElement tableheaderName;
+	//@FindBy(xpath = "//span[text()='Show more actions']//ancestor::button")
+	@FindBy(xpath = "//lightning-button-menu[contains(@data-target-reveals,'Disable_Auto_Renew')]//button")
+	WebElement moreActionBtn;
+
+	@FindBy(xpath = "//span[text()='Log in to Experience as User']//ancestor::a")
+	WebElement loginAsExpUserOpt;
+
+	@FindBy(xpath = "//h2[text()='Log in as Site User']")
+	WebElement siteUserOpt;
+
+	@FindBy(xpath = "//span[text()='Providers']//ancestor::a")
+	WebElement providerAppLink;
+
+	@FindBy(xpath = "//p[text()='Account Name']//parent::div//div//a")
+	WebElement accountName;
 	
-	@FindBy(xpath="//span[contains(text(),'Member Value')]//ancestor::a")
-	WebElement mvoTab;
+	@FindBy(xpath = "//button[text()='Rapid Order Entry']")
+	WebElement rapidOrderEnteryBtn;
 	
-	@FindBy(xpath="//button[text()='New']")
-	WebElement mvoNewBtn;
+	@FindBy(xpath = "//button[text()='Advanced Settings']")
+	WebElement advanceSetting;
 	
-	String contact = "//span[text()='%s']//ancestor::a";
-	@FindBy(xpath="//button[contains(@aria-label,'Join License Country')]")
-	WebElement licenseCountryDrp;
+	@FindBy(xpath = "//h2[text()='Advanced Settings']")
+	WebElement advancSettingPopUp;
+	
+	@FindBy(xpath = "//select[@name='Business Group']")
+	WebElement businessGroupDrp;
+	
+	@FindBy(xpath = "//button[@title='Save']")
+	WebElement advanceSettingsaveBtn;
+	
+	//@FindBy(xpath = "//strong[text()='Item Quick Add']//parent::span//following-sibling::span//div//input")
+	@FindBy(xpath = "(//*[contains(@class,'selectize-control')]//div[@class='selectize-input items not-full']//input)[3]")
+	WebElement quickItemSelect;
+	
+	@FindBy(xpath = "//button[text()='Add to Order']")
+	WebElement addOrderBtn;
+	
+	String quickItemNatinal = "(//span[text()='%s'])[1]";
+    
+   @FindBy(xpath = "(//button[normalize-space()='Go'])")
+   WebElement goBtn;
+	
 
 	String fName;
 	String lName;
@@ -203,24 +251,7 @@ public class ContactCreateUser {
 	ArrayList<String> userList = new ArrayList<String>();
 
 	/**
-	 * @param null
-	 * @return null
-	 */
-	/*
-	 * public void signInFonteva() { util.enterText(driver, userName,
-	 * DataProviderFactory.getConfig().getValue("fontevaUserName"));
-	 * util.enterText(driver, password,
-	 * DataProviderFactory.getConfig().getValue("fontevaPassWord"));
-	 * loginBtn.click(); }
-	 */
-	public void pointOffset() {
-		action.moveByOffset(1300, 700).build().perform();
-	}
-
-	/**
-	 * @param null
-	 * @return ArraList<String>
-	 * @throws null
+	 * @return
 	 */
 	public ArrayList<String> userData() {
 		fName = "autofn" + RandomStringUtils.randomAlphabetic(4);
@@ -245,11 +276,24 @@ public class ContactCreateUser {
 	}
 
 	/**
-	 * @param null
-	 * @return null
-	 * @throws null
+	 * @throws InterruptedException
+	 * 
 	 */
-	public void createUserInFonteva() {
+	public void selectContact() throws InterruptedException {
+		util.waitUntilElement(driver, contacts);
+		contactsDiv.click();
+		util.waitUntilElement(driver, tableheaderName);
+		Thread.sleep(5000);
+		util.waitUntilElement(driver, contactallBtn);
+		contactallBtn.click();
+		util.waitUntilElement(driver, contactallLink);
+		contactallLink.click();
+	}
+
+	/**
+	 * 
+	 */
+	public void createNewContactInFonteva() {
 		util.waitUntilElement(driver, contacts);
 		contactsDiv.click();
 		util.waitUntilElement(driver, newBtn);
@@ -290,15 +334,14 @@ public class ContactCreateUser {
 	}
 
 	/**
-	 * @param null
-	 * @return null
-	 * @throws null
+	 * 
 	 */
 	public void enterLicenseDetail() {
 		util.enterText(driver, enterLicenseNumber, data.testDataProvider().getProperty("LICENSE_NUMBER"));
 		util.waitUntilElement(driver, licenseCountryDrp);
 		licenseCountryDrp.click();
-		executor.executeScript("arguments[0].click();", util.getCustomizedWebElement(driver, country, data.testDataProvider().getProperty("LICENSE_COUNTRY")));
+		executor.executeScript("arguments[0].click();",
+				util.getCustomizedWebElement(driver, country, data.testDataProvider().getProperty("LICENSE_COUNTRY")));
 		licenseStateDrp.click();
 		WebElement enterState = driver
 				.findElement(By.xpath(String.format(state, data.testDataProvider().getProperty("LICENSE_STATE"))));
@@ -392,7 +435,7 @@ public class ContactCreateUser {
 	 * @throws InterruptedException
 	 * 
 	 */
-	public void selectContact(String userFullname) throws InterruptedException {
+	public void selectCreatedContact(String userFullname) throws InterruptedException {
 		util.waitUntilElement(driver, contacts);
 		contactsDiv.click();
 		Thread.sleep(5000);
@@ -404,41 +447,57 @@ public class ContactCreateUser {
 		util.waitUntilElement(driver, contactallLink);
 		contactallLink.click();
 		Thread.sleep(14000);
-		util.waitUntilElement(driver, util.getCustomizedWebElement(driver, contactName, userFullname));
-		executor.executeScript("arguments[0].scrollIntoView(true);", util.getCustomizedWebElement(driver, contactName, userFullname));
+		executor.executeScript("arguments[0].scrollIntoView(true);",
+				util.getCustomizedWebElement(driver, contactName, userFullname));
 		util.waitUntilElement(driver, util.getCustomizedWebElement(driver, contactName, userFullname));
 		executor.executeScript("arguments[0].click();",
 				util.getCustomizedWebElement(driver, contactName, userFullname));
 		util.waitUntilElement(driver, showAll);
 		showAll.click();
 	}
-	
+
 	/**
-	 * @param fullName 
-	 * @throws InterruptedException 
+	 * @throws InterruptedException
 	 * 
 	 */
-	public void savingNewMVO(String fullName) throws InterruptedException {
-		Thread.sleep(30000);
-		executor.executeScript("arguments[0].scrollIntoView(true);", util.getCustomizedWebElement(driver, contact, fullName));
-		WebElement selectContact = util.getCustomizedWebElement(driver, contact, fullName);
-		executor.executeScript("arguments[0].click();", selectContact);
-		util.waitUntilElement(driver, mvoTab);
-		mvoTab.click();
-		util.waitUntilElement(driver, mvoNewBtn);
-		assertTrue(mvoNewBtn.isDisplayed());
-		mvoNewBtn.click();
+	public void selectExpAsUserOpt() throws InterruptedException {
+		util.waitUntilElement(driver, moreActionBtn);
+		moreActionBtn.click();
+		util.waitUntilElement(driver, loginAsExpUserOpt);
+		loginAsExpUserOpt.click();
+		util.waitUntilElement(driver, siteUserOpt);
+		assertTrue(siteUserOpt.isDisplayed());
+		util.waitUntilElement(driver, providerAppLink);
+		providerAppLink.click();
+		Thread.sleep(5000);
 	}
 
-	 /* 
+	/**
+	 * @param userFullname
+	 * @param itemQuick
+	 * @throws InterruptedException
+	 * @throws AWTException 
 	 */
-	public void createSaleorderinInstallments() {
-		util.waitUntilElement(driver, selectDuesDrp);
-		selectDuesDrp.click();
-		// executor.executeScript("arguments[0].click();", selectDeusOpt);
-		selectPayInInsatllmentElement.click();
-		createSalesOrder.click();
-		assertTrue(driver.getTitle().contains(data.testDataProvider().getProperty("salesorderPage")));
+	public void selectRapidOrderEntry(String userFullname, String itemQuick, String quickElement) throws InterruptedException, AWTException {
+		selectCreatedContact(userFullname);
+		util.waitUntilElement(driver, accountName);
+		executor.executeScript("arguments[0].click();", accountName);
+		util.waitUntilElement(driver, rapidOrderEnteryBtn);
+		rapidOrderEnteryBtn.click();
+		util.waitUntilElement(driver, quickItemSelect);
+		executor.executeScript("arguments[0].click();", quickItemSelect);
+		Thread.sleep(10000);
+		//executor.executeScript("arguments[0].value='"+itemQuick+"';", quickItemSelect);
+		quickItemSelect.sendKeys(itemQuick);
+		Thread.sleep(20000);
+		util.waitUntilElement(driver, util.getCustomizedWebElement(driver, quickItemNatinal, quickElement));
+		util.getCustomizedWebElement(driver, quickItemNatinal, quickElement).click();
+        util.waitUntilElement(driver, addOrderBtn);		
+		addOrderBtn.click();
+		util.waitUntilElement(driver, goBtn);
+		Thread.sleep(20000);
+		goBtn.click();
+		
 	}
-	
+
 }
