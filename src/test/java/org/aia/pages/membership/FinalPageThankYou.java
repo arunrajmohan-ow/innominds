@@ -37,10 +37,6 @@ public class FinalPageThankYou {
 
 	String totalAmnt = null;
 	String finalPagetotal = null;
-<<<<<<< HEAD
-=======
-
->>>>>>> b560b061bcf2e1ba4e675d8e1c0f138959783315
 	public void verifyThankYouMessage() throws InterruptedException {
 		Thread.sleep(5000);
 		util.waitUntilElement(driver, frame);
@@ -49,14 +45,8 @@ public class FinalPageThankYou {
 		System.out.println("Thank you !  Message is Displayed");
 		Thread.sleep(12000);
 	}
-<<<<<<< HEAD
-	
-	public ArrayList<Object> getFinalReceiptData() {
-		ArrayList<Object> receiptData = new ArrayList<Object>();
-=======
 
 	public ArrayList<Object> getFinalReceiptData() {
->>>>>>> b560b061bcf2e1ba4e675d8e1c0f138959783315
 		String receiptNumber = receiptNum.getText();
 		receiptData.add(0, receiptNumber);
 		String customerAIANumber = custAIANum.getText();

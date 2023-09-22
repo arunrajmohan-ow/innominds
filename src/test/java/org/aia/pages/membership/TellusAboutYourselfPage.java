@@ -438,26 +438,6 @@ public class TellusAboutYourselfPage {
 	 * 
 	 */
 	public void reJoinTellUs() throws InterruptedException {
-<<<<<<< HEAD
-	// Below code is required for please do not remove
-		/*	JavascriptExecutor js = (JavascriptExecutor) driver;
-		Thread.sleep(30000);
-		js.executeScript("window.scrollBy(0,550)","");
-		util.waitUntilElement(driver, workBusinesChckboxTellpage);
-		js.executeScript("window.scrollBy(0,350)", workBusinesChckboxTellpage);
-	    //js.executeScript("arguments[0].click();", workBusinesChckboxTellpage);
-		workBusinesChckboxTellpage.click();
-		js.executeScript("window.scrollBy(0,750)", nextBtnTellpage);
-		util.waitUntilElement(driver, nextBtnTellpage);
-		//js.executeScript("arguments[0].click();", nextBtnTellpage);
-		nextBtnTellpage.click();
-		Thread.sleep(7000);
-		
-		js.executeScript("window.scrollBy(0,1500)", nextBtnEquitypage);
-		util.waitUntilElement(driver, nextBtnEquitypage);
-		//js.executeScript("arguments[0].click();", nextBtnEquitypage);
-		nextBtnEquitypage.click();	*/
-=======
 		/*
 		 * JavascriptExecutor js = (JavascriptExecutor) driver; Thread.sleep(30000);
 		 * js.executeScript("window.scrollBy(0,550)",""); util.waitUntilElement(driver,
@@ -474,7 +454,6 @@ public class TellusAboutYourselfPage {
 		 * //js.executeScript("arguments[0].click();", nextBtnEquitypage);
 		 * nextBtnEquitypage.click();
 		 */
->>>>>>> b560b061bcf2e1ba4e675d8e1c0f138959783315
 		Thread.sleep(7000);
 		driver.navigate().back();
 	}
