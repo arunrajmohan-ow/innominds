@@ -49,7 +49,7 @@ public class GenerateReports {
 		extentreport.attachReporter(sparkReport);
 		extentreport.setSystemInfo("Host Name", "AIA");
 		extentreport.setSystemInfo("Environment", "Testing-Sandbox");
-		extentreport.setSystemInfo("User Name", "Pallavi");
+		extentreport.setSystemInfo("User Name", System.getProperty("user.dir"));
 
 		sparkReport.config().setDocumentTitle("Test Execution Report");
 		sparkReport.config().setReportName("Fonteva Ops Automation Test results");
