@@ -225,7 +225,7 @@ public class RenewCESAPIValidation
 
 		jsonPathEval = response2.jsonPath();
 		accountID = jsonPathEval.getString("Account__c");
-
+        System.out.println("My account Id is:"+accountID);
 		// Use Account ID to fetch account details.
 		if(accountID.isBlank()) {
 			System.out.println("No active account found!!!");
@@ -267,7 +267,7 @@ public class RenewCESAPIValidation
 			throws InterruptedException	{
 		// Use Account ID to fetch account details.
 		String SALESORDER_URI = ACCOUNT_URI + "/" + accountID + "/OrderApi__Sales_Orders__r";
-		
+		System.out.println("My account ID:"+accountID);
 		Response response = 
 		    	 given().
 				 header("Authorization", "Bearer " + bearerToken).
@@ -366,6 +366,113 @@ public class RenewCESAPIValidation
 			String receiptNumber = jsonPathEval.getString("records[0].Name");
 			Object totalFeePaid = jsonPathEval.getDouble("records[0].OrderApi__Total__c");
 			receiptid = jsonPathEval.getString("records[0].Id");
+			String postedDate = jsonPathEval.getString("records[0].OrderApi__Posted_Date__c");
+			String paymentType = jsonPathEval.getString("records[0].OrderApi__Payment_Type__c");
+			String paymentMethod = jsonPathEval.getString("records[0].OrderApi__Payment_Method_Description__c");
+	
+			System.out.println("=====================================");
+			System.out.println("Receipt number :" + receiptNumber);
+			System.out.println("Total fee paid :" + totalFeePaid);
+			System.out.println("Posted Date :" + postedDate);
+			System.out.println("Payment Type :" + paymentType);
+			System.out.println("Payment Method :" + paymentMethod);
+			System.out.println("=====================================");
+	
+			//assertTrue(receipt.contains(receiptNumber));
+			assertEquals(totalFeePaid, feePaid);
+			assertEquals(postedDate, java.time.LocalDate.now().toString());
+			if(paymentType.contains("Credit")) {
+				assertTrue(paymentMethod.contains("1111"));
+				assertEquals(paymentType, "Credit Card");
+			} else if(paymentType.contains("eCheck")) {
+				assertTrue(paymentMethod.contains("3210"));
+				assertEquals(paymentType, "eCheck");
+			}
+		}
+		else {
+			System.out.println("No Recipt found!!!");
+		}
+		
+		// Use Account ID to fetch Receipts details.
+		String TRANSACTION_LINES_URI = SOBJECT_URI + "/OrderApi__Receipt__c/" + receiptid + "/OrderApi__Transaction_Lines__r";
+		Response transactionResponse = 
+		    	 given().
+				 header("Authorization", "Bearer " + bearerToken).
+				 header("Content-Type",ContentType.JSON).
+				 header("Accept",ContentType.JSON).
+				 param("fields", "Id, "
+				 		+ "Name, "
+				 		+ "OrderApi__Credit__c, "
+				 		+ "OrderApi__Date__c, "
+				 		+ "OrderApi__Debit__c, "
+				 		+ "OrderApi__GL_Account__c, "
+				 		+ "OrderApi__Memo__c").
+				 when().get(TRANSACTION_LINES_URI).
+				 then().statusCode(200).extract().response();
+
+		jsonPathEval = transactionResponse.jsonPath();
+		int totalTransactionCount = jsonPathEval.getInt("totalSize");
+		if (totalTransactionCount > 3) {
+			System.out.println("Number of Transaction : " + totalTransactionCount);
+			String transactionID = jsonPathEval.getString("records[0].Id");
+			String transactionNumber = jsonPathEval.getString("records[0].Name");
+			String transactionCredit = jsonPathEval.getString("records[0].OrderApi__Credit__c");
+			Object totalFeePaid = jsonPathEval.getDouble("records[0].OrderApi__Debit__c");
+			String datePaid = jsonPathEval.getString("records[0].OrderApi__Date__c");
+			String transactionGL_Account = jsonPathEval.getString("records[0].OrderApi__GL_Account__c");
+			String transactionItemMemo = jsonPathEval.getString("records[0].OrderApi__Memo__c");
+			
+			System.out.println("=====================================");
+			System.out.println("Transaction ID:" + transactionID);
+			System.out.println("Transaction number:" + transactionNumber);
+			System.out.println("Transaction Credit:" + transactionCredit);
+			System.out.println("Transaction FeePaid :" + totalFeePaid);
+			System.out.println("Transaction GL Account :" + transactionGL_Account);
+			System.out.println("=====================================");
+			
+			assertNotNull(transactionCredit);
+			assertEquals(datePaid, java.time.LocalDate.now().toString());
+			assertEquals(totalFeePaid, feePaid);
+			assertNotNull(transactionGL_Account);
+			assertEquals(transactionItemMemo, cesmembershipType);
+			
+		}
+	}
+	
+	/**
+	 * @param receipt
+	 * @param feePaid
+	 * @param cesmembershipType
+	 * @throws InterruptedException
+	 * This method is repeated for no dues payment 
+	 */
+	public void verifyReciptDetailsForNoDues(String receipt, Object feePaid, String cesmembershipType) throws InterruptedException
+	{
+		// Use Account ID to fetch Receipts details.
+		String RECEIPTS_URI = ACCOUNT_URI + "/" + accountID + "/OrderApi__Receipts__r";
+		
+		Response response = 
+		    	 given().
+				 header("Authorization", "Bearer " + bearerToken).
+				 header("Content-Type",ContentType.JSON).
+				 header("Accept",ContentType.JSON).
+				 param("fields", "Name,"
+				 		+ "OrderApi__Total__c, "
+				 		+ "Id, "
+				 		+ "OrderApi__Posted_Date__c, "
+				 		+ "OrderApi__Payment_Type__c, "
+				 		+ "OrderApi__Payment_Method_Description__c").
+				 when().get(RECEIPTS_URI).
+				 then().statusCode(200).extract().response();
+
+		jsonPathEval = response.jsonPath();
+		int totalReciptCount = jsonPathEval.getInt("totalSize");
+		
+		if (totalReciptCount > 0) {
+			System.out.println("Number of Recipt : " + totalReciptCount);
+			String receiptNumber = jsonPathEval.getString("records[0].Name");
+			Object totalFeePaid = jsonPathEval.getDouble("records[0].OrderApi__Total__c");
+			receiptid = jsonPathEval.getString("records[1].Id");
 			String postedDate = jsonPathEval.getString("records[0].OrderApi__Posted_Date__c");
 			String paymentType = jsonPathEval.getString("records[0].OrderApi__Payment_Type__c");
 			String paymentMethod = jsonPathEval.getString("records[0].OrderApi__Payment_Method_Description__c");

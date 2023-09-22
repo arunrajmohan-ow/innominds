@@ -1,5 +1,7 @@
 package org.aia.pages.ces;
 
+import static org.testng.Assert.assertTrue;
+
 import org.aia.utility.Utility;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -52,7 +54,8 @@ public class FontevaCES {
 
 	@FindBy(xpath="//div[@class='uiVirtualDataTable indicator']") WebElement tableDiv;
 
-	@FindBy(xpath="//a/slot/span[contains(text(),'Memberships')]") WebElement memberShip;
+	//@FindBy(xpath="//a/slot/span[contains(text(),'Memberships')]") WebElement memberShip;
+	@FindBy(xpath="//a/slot/span[contains(text(),'Memberships')]//ancestor::a") WebElement memberShip;
 
 	@FindBy(xpath="//a/span[@title='Name']") WebElement tableheaderName;
 
@@ -73,14 +76,21 @@ public class FontevaCES {
 	
 	@FindBy(xpath="//button[@title='Edit Term End Date']/span") WebElement editBtn;
 	
-	@FindBy(xpath="//a[contains(text(),'Show')]") WebElement showallBtn;
-	//@FindBy(xpath="//div[contains(@class,'slds-card__body')]//a[contains(text(),'Show')]") WebElement showallBtn;
+	//@FindBy(xpath="//a[contains(text(),'Show')]") WebElement showallBtn;
+	
+	@FindBy(xpath =  "//a[normalize-space()='Show All (10)']") WebElement showallBtn;
 	
 	@FindBy(xpath="//h1/span[text()='Contacts']/parent::h1/parent::div/parent::div//button") WebElement contactallBtn;
 	
 	@FindBy(xpath="//li[contains(@class,'forceVirtualAutocompleteMenuOption')]//span[text()='All Contacts'][1]") WebElement contactallLink;
 	
 	@FindBy(xpath="//div[text()='Contact']") WebElement contactTitle;
+	
+	@FindBy(xpath = "//input[@placeholder='Search this list...']") WebElement searchBox;
+	
+	@FindBy(xpath = "//span[text()='No items to display.']") WebElement noItemHeading;
+	
+	@FindBy(xpath = "//p[text()='Account Name']//parent::div//div//a") WebElement accountName;
 	
 	String  startLocator = "//div[@class='uiVirtualDataTable indicator']/following-sibling::table/tbody//a[text()='";
 	String  endLocator = "']";
@@ -126,10 +136,11 @@ public class FontevaCES {
 	
 	public void changeTermDates(String fullName) throws InterruptedException 
 	{
-		JavascriptExecutor js = (JavascriptExecutor) driver;
 		Actions actions = new Actions(driver);
+		JavascriptExecutor js = (JavascriptExecutor) driver;
 		util.waitUntilElement(driver, contacts);
 		contactsDiv.click();
+		//driver.navigate().refresh();
 		util.waitUntilElement(driver, tableheaderName);
 		Thread.sleep(5000);
 		util.waitUntilElement(driver, contactallBtn);
@@ -138,19 +149,21 @@ public class FontevaCES {
 		contactallLink.click();
 		Thread.sleep(15000);
 		driver.findElement(By.xpath(startLocator+fullName+endLocator)).click();
-		actions.sendKeys(Keys.ARROW_DOWN).build().perform();
-		actions.sendKeys(Keys.ARROW_DOWN).build().perform();
-		util.waitUntilElement(driver, showallBtn);
-		js.executeScript("arguments[0].scrollIntoView(true);", showallBtn);
+		util.waitUntilElement(driver, accountName);
+		js.executeScript("arguments[0].click();", accountName);
+		//accountName.click();
 		util.waitUntilElement(driver, showallBtn);
 		Thread.sleep(5000);
-		js.executeScript("arguments[0].click();", showallBtn);
-		//showallBtn.click();
+		actions.sendKeys(Keys.ARROW_DOWN).build().perform();
+		actions.sendKeys(Keys.ARROW_DOWN).build().perform();
+		actions.moveToElement(showallBtn).build().perform();
+		showallBtn.click();
 		Thread.sleep(2000);
 		util.waitUntilElement(driver, memberShip);
 		//Instantiating Actions class
+		//Actions actions = new Actions(driver);
 		//Hovering on main menu
-		actions.moveToElement(contactTitle);
+		//actions.moveToElement(contactTitle);
 		actions.sendKeys(Keys.ARROW_DOWN).build().perform();
 		actions.sendKeys(Keys.ARROW_DOWN).build().perform();
 		Thread.sleep(5000);
@@ -177,10 +190,37 @@ public class FontevaCES {
 		inputTermEndDate.sendKeys("12/31/2023");
 		util.waitUntilElement(driver, inputTermGraceDate);
 		inputTermGraceDate.clear();
-		inputTermGraceDate.sendKeys("1/31/2024");
+		inputTermGraceDate.sendKeys("4/4/2024");
 		saveBtn.click();
 		Thread.sleep(1000);
 		act.sendKeys(Keys.F5);
 		Thread.sleep(2000);
+	}
+	
+	/**
+	 * @throws InterruptedException
+	 */
+	public void checkUserInProviderApplication(String user) throws InterruptedException {
+		Actions actions = new Actions(driver);
+		util.waitUntilElement(driver, appLauncherIcn);
+		Thread.sleep(10000);
+		appLauncherIcn.click();
+		util.waitUntilElement(driver, appSearchtxtbx);
+		util.enterText(driver, appSearchtxtbx, appName);
+		util.waitUntilElement(driver, searchedAppPA);
+		WebElement provAppElement = Utility.waitForWebElement(driver, "//b[text()='"+appName+"']", 10);
+		provAppElement.click();
+		Thread.sleep(2000);
+		util.waitUntilElement(driver, tableProviderApp);
+		util.waitUntilElement(driver, selectList);
+		selectList.click();
+		util.waitUntilElement(driver, allBtn);
+		allBtn.click();
+		util.waitUntilElement(driver, searchBox);
+		searchBox.click();
+		searchBox.sendKeys(user);
+		actions.sendKeys(Keys.ENTER).build().perform();
+		util.waitUntilElement(driver, noItemHeading);
+		assertTrue(noItemHeading.isDisplayed());
 	}
 }
