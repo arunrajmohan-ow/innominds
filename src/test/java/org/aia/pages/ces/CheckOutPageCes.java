@@ -83,6 +83,8 @@ WebDriver driver;
 	
 	@FindBy(xpath="//p[contains(text(), 'Thank you for submitting your application')]") WebElement passportConfirmtxtCes;
 	
+	@FindBy(xpath = "//button[text()='Confirm Order']") WebElement confirmOrderBtn;
+	
 	/*
 	 * @param : text
 	 * @param : aiaMemberNumber
@@ -179,5 +181,10 @@ WebDriver driver;
 		Thread.sleep(1000);
 		util.waitUntilElement(driver, passportConfirmtxtCes);
 		assertTrue(passportConfirmtxtCes.isDisplayed(), "Submission Confirmation text is visible.");
+	}
+	
+	public void confirmOrderWithNoAmt() {
+     util.waitUntilElement(driver, confirmOrderBtn);
+     confirmOrderBtn.click();
 	}
 }
