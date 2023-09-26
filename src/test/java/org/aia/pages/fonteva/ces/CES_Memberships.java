@@ -45,10 +45,13 @@ public class CES_Memberships {
 	@FindBy(xpath = "//table[@aria-label='Terms']/tbody/tr/th//a")
 	WebElement termId;
 
+	@FindBy(xpath = "//h2//span[@title='Terms']")
+	WebElement Terms;
+
 	@FindBy(xpath = "//button[text()='Save']")
 	WebElement saveBtn;
 
-	@FindBy(xpath = "//table[@aria-label='Memberships']/tbody/tr/th")
+	@FindBy(xpath = "//table[@aria-label='Memberships']//tbody//tr[2]//th//lightning-primitive-cell-factory//span//div//lightning-primitive-custom-cell//force-lookup//div//records-hoverable-link//div//a")
 	WebElement tableSubscriptionId;
 
 	@FindBy(xpath = "//input[@name='OrderApi__Term_End_Date__c']")
@@ -70,20 +73,56 @@ public class CES_Memberships {
 
 	@FindBy(xpath = "//button[text()='Next']")
 	WebElement nextBtn;
-	
+
 	@FindBy(xpath = "(//span[text()='Edit Status']/ancestor::button)[2]")
 	WebElement statusEditBtn;
-	
+
 	@FindBy(xpath = "//button[@data-value='Active']")
 	WebElement statusDrpBtn;
-	
-	String selectStatus="//span[text()='%s']";
-	
-	@FindBy(xpath="//button[@title='Edit Membership Expire Date']")
+
+	String selectStatus = "//span[text()='%s']";
+
+	@FindBy(xpath = "//button[@title='Edit Membership Expire Date']")
 	WebElement expireMembershipEditBtn;
-	
-	@FindBy(xpath="//input[@name='AIA_Membership_Expire_Date__c']")
+
+	@FindBy(xpath = "//input[@name='AIA_Membership_Expire_Date__c']")
 	WebElement editexpireMembership;
+
+	@FindBy(xpath = "//a[@title='Contacts']/parent::one-app-nav-bar-item-root")
+	WebElement contactsDiv;
+
+	@FindBy(xpath = "//div[@class='uiVirtualDataTable indicator']")
+	WebElement tableDiv;
+
+	// @FindBy(xpath="//a/slot/span[contains(text(),'Memberships')]") WebElement
+	// memberShip;
+	@FindBy(xpath = "//a/slot/span[contains(text(),'Memberships')]//ancestor::a")
+	WebElement memberShip;
+
+	@FindBy(xpath = "//a/span[@title='Name']")
+	WebElement tableheaderName;
+
+	@FindBy(xpath = "//*[@title='Contacts']/span")
+	WebElement contacts;
+
+	@FindBy(xpath = "//h1/span[text()='Contacts']/parent::h1/parent::div/parent::div//button")
+	WebElement contactallBtn;
+
+	@FindBy(xpath = "//li[contains(@class,'forceVirtualAutocompleteMenuOption')]//span[text()='All Contacts'][1]")
+	WebElement contactallLink;
+
+	@FindBy(xpath = "//div[text()='Contact']")
+	WebElement contactTitle;
+
+	@FindBy(xpath = "//p[text()='Account Name']//parent::div//div//a")
+	WebElement accountName;
+
+	@FindBy(xpath = "//a[normalize-space()='Show All (10)']")
+	WebElement showallBtn;
+
+	String startLocator = "//div[@class='uiVirtualDataTable indicator']/following-sibling::table/tbody//a[text()='";
+	String endLocator = "']";
+	String appName = "Provider Application";
 
 	/**
 	 * @param userFullname
@@ -118,9 +157,9 @@ public class CES_Memberships {
 		executor.executeScript("window.scrollBy(0,-550)", "");
 		Thread.sleep(6000);
 		executor.executeScript("arguments[0].click();",
-	           util.getCustomizedWebElement(driver, contactName, userFullname));
+				util.getCustomizedWebElement(driver, contactName, userFullname));
 	}
-	
+
 	/**
 	 * @param fullName
 	 * @param membershipStatus
@@ -143,7 +182,7 @@ public class CES_Memberships {
 		saveBtn.click();
 		Thread.sleep(12000);
 	}
-	
+
 	/**
 	 * @throws InterruptedException
 	 */
@@ -151,11 +190,78 @@ public class CES_Memberships {
 		executor.executeScript("window.scrollBy(0,550)", "");
 		util.waitUntilElement(driver, expireMembershipEditBtn);
 		executor.executeScript("arguments[0].click();", expireMembershipEditBtn);
-		//expireMembershipEditBtn.click();
+		// expireMembershipEditBtn.click();
 		util.enterText(driver, editexpireMembership, data.testDataProvider().getProperty("expireMembership"));
 		util.waitUntilElement(driver, saveBtn);
 		saveBtn.click();
 		Thread.sleep(12000);
 	}
-	
+
+	/**
+	 * @param fullName
+	 * @throws InterruptedException
+	 * 
+	 */
+	public void changeTermInTwoMembership(String fullName) throws InterruptedException {
+		util.waitUntilElement(driver, contacts);
+		contactsDiv.click();
+		driver.navigate().refresh();
+		util.waitUntilElement(driver, tableheaderName);
+		Thread.sleep(5000);
+		util.waitUntilElement(driver, contactallBtn);
+		contactallBtn.click();
+		util.waitUntilElement(driver, contactallLink);
+		contactallLink.click();
+		Thread.sleep(15000);
+		driver.findElement(By.xpath(startLocator + fullName + endLocator)).click();
+		util.waitUntilElement(driver, accountName);
+		executor.executeScript("arguments[0].click();", accountName);
+		// accountName.click();
+		util.waitUntilElement(driver, showallBtn);
+		Thread.sleep(5000);
+		action.sendKeys(Keys.ARROW_DOWN).build().perform();
+		action.sendKeys(Keys.ARROW_DOWN).build().perform();
+		action.moveToElement(showallBtn).build().perform();
+		showallBtn.click();
+		Thread.sleep(2000);
+		util.waitUntilElement(driver, memberShip);
+		// Instantiating Actions class
+		// Actions actions = new Actions(driver);
+		// Hovering on main menu
+		// actions.moveToElement(contactTitle);
+		action.sendKeys(Keys.ARROW_DOWN).build().perform();
+		action.sendKeys(Keys.ARROW_DOWN).build().perform();
+		Thread.sleep(5000);
+		util.waitUntilElement(driver, memberShip);
+		memberShip.click();
+		util.waitUntilElement(driver, tableSubscriptionId);
+		Thread.sleep(1000);
+		executor.executeScript("arguments[0].click();", tableSubscriptionId);
+		//tableSubscriptionId.click();
+		util.waitUntilElement(driver, Terms);
+		Terms.click();
+		util.waitUntilElement(driver, termId);
+		executor.executeScript("arguments[0].click();", termId);
+		// termId.click();
+		Thread.sleep(5000);
+		util.waitUntilElement(driver, editBtn);
+		Thread.sleep(5000);
+		Actions act = new Actions(driver);
+		act.scrollToElement(editBtn);
+		// JavascriptExecutor js = (JavascriptExecutor) driver;
+		executor.executeScript("window.scrollBy(0,200)", editBtn);
+		editBtn.click();
+		util.waitUntilElement(driver, inputTermEndDate);
+		inputTermEndDate.clear();
+		inputTermEndDate.sendKeys("12/31/2023");
+		util.waitUntilElement(driver, inputTermGraceDate);
+		inputTermGraceDate.clear();
+		inputTermGraceDate.sendKeys("4/4/2024");
+		saveBtn.click();
+		Thread.sleep(1000);
+		act.sendKeys(Keys.F5);
+		Thread.sleep(2000);
+
+	}
+
 }

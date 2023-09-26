@@ -78,7 +78,11 @@ public class FontevaCES {
 	
 	//@FindBy(xpath="//a[contains(text(),'Show')]") WebElement showallBtn;
 	
+<<<<<<< HEAD
 	@FindBy(xpath="(//a[contains(text(),'Show')])") WebElement showallBtn;
+=======
+	@FindBy(xpath =  "//a[normalize-space()='Show All (10)']") WebElement showallBtn;
+>>>>>>> 8c531c81d41bce372985ce2fe41d7e4d3ff4c038
 	
 	@FindBy(xpath="//h1/span[text()='Contacts']/parent::h1/parent::div/parent::div//button") WebElement contactallBtn;
 	
@@ -140,6 +144,7 @@ public class FontevaCES {
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		util.waitUntilElement(driver, contacts);
 		contactsDiv.click();
+		//driver.navigate().refresh();
 		util.waitUntilElement(driver, tableheaderName);
 		Thread.sleep(5000);
 		util.waitUntilElement(driver, contactallBtn);
