@@ -78,7 +78,9 @@ public class FontevaCES {
 	
 	//@FindBy(xpath="//a[contains(text(),'Show')]") WebElement showallBtn;
 	
-	@FindBy(xpath="//a[contains(text(),'Show All (1')]") WebElement showallBtn;
+	//@FindBy(xpath="//a[contains(text(),'Show All (1')]") WebElement showallBtn;
+	
+	@FindBy(xpath="//lst-related-list-quick-links-grid//div//div[@class='slds-card__body slds-card__body--inner']//div[@class='rlql-toggle slds-text-align_center']//a[contains(text(),'Show All')]") WebElement showallBtn;
 	
 	@FindBy(xpath="//h1/span[text()='Contacts']/parent::h1/parent::div/parent::div//button") WebElement contactallBtn;
 	
