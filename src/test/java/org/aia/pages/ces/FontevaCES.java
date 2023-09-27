@@ -78,7 +78,7 @@ public class FontevaCES {
 	
 	//@FindBy(xpath="//a[contains(text(),'Show')]") WebElement showallBtn;
 	
-	@FindBy(xpath="(//a[contains(text(),'Show')])") WebElement showallBtn;
+	@FindBy(xpath="//a[contains(text(),'Show All (1')]") WebElement showallBtn;
 	
 	@FindBy(xpath="//h1/span[text()='Contacts']/parent::h1/parent::div/parent::div//button") WebElement contactallBtn;
 	
