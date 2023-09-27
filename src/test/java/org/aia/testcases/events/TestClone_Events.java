@@ -14,6 +14,7 @@ import org.aia.pages.membership.SignUpPage;
 import org.aia.utility.BrowserSetup;
 import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.DataProviderFactory;
+import org.aia.utility.Logging;
 import org.aia.utility.Utility;
 import org.junit.BeforeClass;
 import org.openqa.selenium.support.PageFactory;
@@ -47,6 +48,7 @@ public class TestClone_Events extends BaseClass {
 		mailinator = PageFactory.initElements(driver, MailinatorAPI.class);
 		closeButtnPage = PageFactory.initElements(driver, CheckYourEmailPage.class);
 		eventRegistration = PageFactory.initElements(driver, EventRegistration.class);
+		Logging.configure();
 	}
 	
 	
@@ -59,6 +61,10 @@ public class TestClone_Events extends BaseClass {
 	
 	@Test(priority= 2, description="Edit cloneEven info, tickets,", enabled = false)
 	public void test_EditCloneEvent() throws InterruptedException, Throwable {
+		String cardNumber = testData.testDataProvider().getProperty("CREDIT_CARD_NUMBER");
+		String cardExpMonth = testData.testDataProvider().getProperty("CREDIT_CARD_EXP_MONTH");
+		String cardExpYear = testData.testDataProvider().getProperty("CREDIT_CARD_EXP_YEAR");
+		
 		cloneEventpage.newCloneEvent(testData.testDataProvider().getProperty("eventCategory"));
 		cloneEventpage.verifyCloneEventSegmentCheckBoxs();
 		String eventName = cloneEventpage.newEvent;
@@ -88,10 +94,8 @@ public class TestClone_Events extends BaseClass {
 		eventRegistration.clickRegisterButton();
 		eventRegistration.rigisterRequiredInfo();
 		eventRegistration.clickRegistrationButton();
+		eventRegistration.clickRegistrationButton();
 		eventRegistration.agendaModule();
-		String cardNumber = testData.testDataProvider().getProperty("CREDIT_CARD_NUMBER");
-		String cardExpMonth = testData.testDataProvider().getProperty("CREDIT_CARD_EXP_MONTH");
-		String cardExpYear = testData.testDataProvider().getProperty("CREDIT_CARD_EXP_YEAR");
 		eventRegistration.checkoutModule(cardNumber, cardExpMonth, cardExpYear);
 	}
 

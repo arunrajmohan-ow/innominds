@@ -41,7 +41,7 @@ public class NewCloneEvents {
 	
 	}
 	
-	@FindBy(xpath  = "//a[contains(@class,'label-action dndItem')]/span[text()='Events']'") WebElement eventsLink;
+	@FindBy(xpath  = "//a[contains(@class,'label-action dndItem')]/span[text()='Events']") WebElement eventsLink;
 	
 	@FindBy(xpath = "//a[@class='forceActionLink' and @title='New']") WebElement eventNewButton;
 	

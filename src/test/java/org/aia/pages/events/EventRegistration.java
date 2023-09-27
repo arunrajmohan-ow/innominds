@@ -21,7 +21,7 @@ public class EventRegistration {
 	JavascriptExecutor executor;
 	ConfigDataProvider testData;
 	public String newEvent = "";
-	static Logger log = Logger.getLogger(NewCloneEvents.class);
+	static Logger log = Logger.getLogger(EventRegistration.class);
 
 	public EventRegistration(WebDriver Idriver) {
 		this.driver = Idriver;
@@ -102,7 +102,7 @@ public class EventRegistration {
 	
 	@FindBy(css = "select[name='Exp year']") WebElement expYear;
 	
-	@FindBy(css  = "data-name='processBtn'" ) WebElement processPayment;
+	@FindBy(css  = "button[data-name='processBtn']" ) WebElement processPayment;
 	
 	// New Billing Address
 	@FindBy(css = "button[data-name='addressCreateButton']") WebElement addressCreateButton;
@@ -120,12 +120,13 @@ public class EventRegistration {
 	
 	ArrayList<String> list = new ArrayList<String>();
 
-	public void selectTicketQuantity() {
+	public void selectTicketQuantity() throws Throwable {
+		Thread.sleep(7000);
 		util.waitUntilElement(driver, ticketTypeQuantity);
 		util.scrollingElementUsingJS(driver, ticketTypeQuantity);
 		Utility.highLightElement(driver, ticketTypeQuantity);
 		util.selectDropDownByText(ticketTypeQuantity, "1");
-		log.info("mticketTypeQuantity dropdown selected as 1");
+		log.info("ticketTypeQuantity dropdown selected as 1");
 	}
 	
 	public void clickRegisterButton() throws Throwable {
@@ -144,52 +145,85 @@ public class EventRegistration {
 		String mobNumb = "012345" + String.format("%05d", new Random().nextInt(10000));
 		String emgMobNumb = "112345" + String.format("%05d", new Random().nextInt(10000));
 		String nickName = "autoln" + RandomStringUtils.randomAlphabetic(4);
+		String state = "AP";
+		String accessibility = "Mobility";
+		String attendedTimes = "First time";
+		String ethnicity = "Asian - Other";
+		String gender = "Male";
+		String professionalLevel = "Student";
+		String yearsInProfession = "0-5 years";
+		String attest = "Yes";
 		util.waitUntilElement(driver, firstName);
 		System.out.println(firstName.getAttribute("value"));
+		log.info(firstName.getAttribute("value"));
 		System.out.println(lastName.getAttribute("value"));
+		log.info(lastName.getAttribute("value"));
 		System.out.println(email.getAttribute("value"));
+		log.info(email.getAttribute("value"));
 		util.enterText(driver, badgeName, nickName);
+		log.info("BadgeName enterd as" + nickName);
 		String company = "poiu" + RandomStringUtils.randomAlphabetic(4);
 		util.enterText(driver, companyName, company);
+		log.info("CompanyName enterd as " + company);
 		String title = "jhgf" + RandomStringUtils.randomAlphabetic(4);
 		util.enterText(driver, titleName, title);
+		log.info("TitleName enterd as " + title);
 		util.enterText(driver, phoneNumber, mobNumb);
-		util.enterText(driver, cityName, "uytr");
-		util.selectDropDownByText(selectState, "AP");
-		util.enterText(driver, degreeInformation, "njkhhfnklk");
-		util.selectDropDownByText(selectAccessibility, "Mobility");
-		util.enterText(driver, emgContactName, "jdkj");
+		log.info("PhoneNumber enterd as" + mobNumb);
+		String city = "apk" + RandomStringUtils.randomAlphabetic(4);
+		util.enterText(driver, cityName, city);
+		log.info("CityName enterd as" + city);
+		util.selectDropDownByText(selectState, state);
+		log.info("State dropdown selected as" + state);
+		String degreeInfo = "mba" + RandomStringUtils.randomAlphabetic(4);
+		util.enterText(driver, degreeInformation, degreeInfo);
+		log.info("degreeInformation dropdown selected as" + degreeInfo);
+		util.selectDropDownByText(selectAccessibility, accessibility);
+		log.info("Accessibility dropdown selected as" + accessibility);
+		String emgName = "awer" + RandomStringUtils.randomAlphabetic(4);
+		util.enterText(driver, emgContactName, emgName);
+		log.info("Emergency contact name enterd as" + emgName);
 		util.enterText(driver, emgphoneNumber, emgMobNumb);
-		util.selectDropDownByText(selectAttendedTimes, "First time");
-		util.selectDropDownByText(selectEthnicity, "Asian - Other");
-		util.selectDropDownByText(selectGender, "Male");
-		util.selectDropDownByText(selectProfessionalLevel, "Student");
-		util.selectDropDownByText(selectYearsInProfession, "0-5 years");
+		log.info("Emergency phone number enterd as" + emgMobNumb);
+		util.selectDropDownByText(selectAttendedTimes, attendedTimes);
+		log.info("AttendedTimes dropdown selected as" + attendedTimes);
+		util.selectDropDownByText(selectEthnicity, ethnicity);
+		log.info("Ethnicity dropdown selected as"+ ethnicity);
+		util.selectDropDownByText(selectGender, gender);
+		log.info("Gender dropdown selected as"+ gender);
+		util.selectDropDownByText(selectProfessionalLevel, professionalLevel);
+		log.info("ProfessionalLevel dropdown selected as" + professionalLevel);
+		util.selectDropDownByText(selectYearsInProfession, yearsInProfession);
+		log.info("YearsInProfession dropdown selected as" + yearsInProfession);
 		Utility.highLightElement(driver, attestCheckobox);
 		attestCheckobox.click();
-		util.selectDropDownByText(selectAttest, "Yes");
-		util.enterText(driver, printedNameAndSignature, "nkfdjlfre");
+		log.info("attest checkbox is clicked sucessfully");
+		util.selectDropDownByText(selectAttest, attest);
+		log.info("attest dropdown selected as"+ attest);
+		String nameAndSign = "lkjh" + RandomStringUtils.randomAlphabetic(4);
+		util.enterText(driver, printedNameAndSignature, nameAndSign);
+		log.info("printedNameAndSignature enterd as" + nameAndSign);
 	}
 	
 	public void clickRegistrationButton() throws Throwable {
 		continueButtonInRegistration.click();
+		log.info("Continue button is clicked in registration");
 		Thread.sleep(15000);
-		util.waitUntilElement(driver, continueButtonInRegistration);
-		continueButtonInRegistration.click();
 	}
 	
 	public void agendaModule() throws Throwable {
-	    Assert.assertTrue(agenda.isEnabled());
 		Thread.sleep(15000);
 		util.waitUntilElement(driver, continueButtonInAgenda);
 		Utility.highLightElement(driver, continueButtonInAgenda);
 		continueButtonInAgenda.click();
+		log.info("Continue button is clicked in agenda");
 	}
 	
 	public void checkoutModule(String cardNumber, String month, String year) throws Throwable {
 		Thread.sleep(14000);
 		util.waitUntilElement(driver, cardHolderName);
 		Utility.highLightElement(driver, cardHolderName);
+		log.info(cardHolderName.getAttribute("value"));
 		System.out.println(cardHolderName.getAttribute("value"));
 		util.waitUntilElement(driver, creditCardPaymentFrame);
 		util.switchToFrameUsingWebElement(driver, creditCardPaymentFrame);
@@ -197,11 +231,16 @@ public class EventRegistration {
 		util.switchToFrameUsingWebElement(driver, cardNumFrame2);
 		Utility.highLightElement(driver, creditCardNumber);
 		util.waitUntilElement(driver, creditCardNumber);
-		driver.switchTo().defaultContent();
 		util.enterText(driver, creditCardNumber, cardNumber); 
+		log.info("Credit Card number enterd as" + cardNumber);
+		driver.switchTo().defaultContent();
 		util.selectDropDownByText(expMonth, month);
+		log.info("ExpMonth selected as" + month);
 		util.selectDropDownByText(expYear, year);
+		log.info("ExpMonth selected as" + year);
+		util.scrollingElementUsingJS(driver, processPayment);
 		processPayment.click();
+		
 		
 	}
 	

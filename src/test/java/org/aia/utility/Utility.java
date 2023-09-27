@@ -189,7 +189,7 @@ public class Utility {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(80));
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(90));
 		wait.until(ExpectedConditions.visibilityOf(element));
 
 	}

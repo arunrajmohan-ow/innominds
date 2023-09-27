@@ -16,6 +16,7 @@ import org.testng.ITestResult;
 import org.testng.Reporter;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeSuite;
@@ -27,15 +28,20 @@ import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.MediaEntityBuilder;
 //import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
 import com.aventstack.extentreports.reporter.ExtentReporter;
+import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 
 public class BaseClass {
 
 	public static WebDriver driver;
+	
+	public static ExtentReports extent;
+	public static ExtentSparkReporter spark;
+	public static ExtentTest test;
+	
 	ExtentReports report;
 	ExtentTest logger;
 	protected Utility util;
@@ -45,24 +51,25 @@ public class BaseClass {
 	public static GenerateReports reports;
 	// Configure Log4j to perform error logging
 	
-	@BeforeSuite
+	@BeforeSuite(alwaysRun = true)
 	public void setup()
 	{
 		System.out.println("Extent report is getting started");
 		
-		//report=new ExtentReports();
 		
-		//ExtentHtmlReporter html=new ExtentHtmlReporter(System.getProperty("user.dir")+"\\Reports\\aia+"+Utility.getCurrentDateTime()+".html");
-		
-		//report.attachReporter(html);
-	
+		extent = new ExtentReports();
+		spark = new ExtentSparkReporter(System.getProperty("user.dir")+"\\Reports\\AIA+"+Utility.getCurrentDateTime()+".html");
+		extent.attachReporter(spark);
+		spark.config().setDocumentTitle("Myreport");
+		extent.attachReporter(spark);
+//	
 		System.out.println("Extent report is ready to use ");
 		
 	}
 	
 	
 	//@Parameters({"browser","url"})
-	@BeforeClass
+	@BeforeClass(alwaysRun = true)
 	//public void setup(String browser, String url)
 	public void setupBrowser()
 	{
@@ -79,7 +86,7 @@ public class BaseClass {
 
 	}
 	
-	@AfterClass
+	@AfterClass(alwaysRun = true)
 	public void tearDown()
 	{
 		
@@ -92,18 +99,18 @@ public class BaseClass {
 	}
 	
 	
-	@BeforeTest
+	@BeforeTest(alwaysRun = true)
 	 public void initialTestSetup() {
 		 System.out.println("inside @BeforeTest initialTestSetup method");
 		 reports = GenerateReports.getInstance();
 	 }
 	
-	@AfterTest
+	@AfterTest(alwaysRun = true)
 	 public void finalTestTearDown() {
 		 System.out.println("@afterTest started");
 	 }
 	
-	@AfterMethod
+	@AfterMethod(alwaysRun = true)
 	public void tearDown(ITestResult result)
 	{
 		
@@ -125,7 +132,7 @@ public class BaseClass {
             
             try {
                 // Define the destination path for the screenshot
-                String screenshotPath = "./ScreenShots" + result.getName() + ".png";
+                String screenshotPath = "./ScreenShots/" + result.getName() + ".png";
                 Files.copy(screenshot.toPath(), new File(screenshotPath).toPath(), StandardCopyOption.REPLACE_EXISTING);
                 System.out.println("Screenshot saved at: " + screenshotPath);
             } catch (IOException e) {
@@ -137,9 +144,11 @@ public class BaseClass {
 			System.out.println("LOG : SKIP Test did not executed");
 		}
 		
-		//report.flush();
+		extent.flush();
 	
 	}
+	
+	
 	
 	public static WebDriver getDriverInstance(){
 		return driver;

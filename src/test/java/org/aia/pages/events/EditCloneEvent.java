@@ -107,7 +107,7 @@ public class EditCloneEvent {
 	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//div[@data-menu='EventApi:EventBuilderAccessPermissions']")
 	WebElement eventBuilderAccessPermissions;
 	
-	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//div[contains(text(),'Restrict who has access to this event')]") WebElement AcessPermissionTab;
+	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//th[contains(text(),'Access to this Item')]") WebElement AcessPermissionTab;
 
 	// Event Speakers
 	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//div[@data-menu='EventApi:EventBuilderSpeakers']")
