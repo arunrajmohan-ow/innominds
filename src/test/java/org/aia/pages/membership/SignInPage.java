@@ -48,7 +48,7 @@ public class SignInPage {
 		System.out.println("Email Text field displayed");
 		emailAddress.sendKeys(uname);
 		password.sendKeys(pwd);
-		Thread.sleep(1200000);
+		//Thread.sleep(1200000);
 		submitbtn.click();
 		Thread.sleep(5000);
 	}
