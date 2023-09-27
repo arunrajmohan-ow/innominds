@@ -34,6 +34,9 @@ public class Utility {
 		
 	}
 	
+	public void navigateToURl(WebDriver driver, String url) {
+		driver.navigate().to(url);
+	}
 	
 	public  void acceptAlert()
 	{
@@ -301,6 +304,21 @@ public class Utility {
 		ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
 		driver.switchTo().window(tabs.get(tab));
 		return driver;
+	}
+	
+	public void scrollingElementUsingJS(WebDriver driver, WebElement element) {
+		JavascriptExecutor js=(JavascriptExecutor)driver; 
+		js.executeScript("arguments[0].scrollIntoView();", element);
+	}
+	
+	public void clickUsingJS(WebDriver driver, WebElement element) {
+		JavascriptExecutor js=(JavascriptExecutor)driver; 
+		js.executeScript("arguments[0].click();", element);
+	}
+	
+	public void switchToFrameUsingWebElement(WebDriver driver, WebElement element) {
+		driver.switchTo().frame(element);
+
 	}
 	
 }

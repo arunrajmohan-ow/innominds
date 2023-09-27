@@ -9,6 +9,8 @@ import org.aia.utility.DataProviderFactory;
 import org.aia.utility.GenerateReports;
 import org.aia.utility.Utility;
 import org.aia.utility.Logging;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestResult;
 import org.testng.Reporter;
@@ -25,6 +27,11 @@ import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.MediaEntityBuilder;
 //import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
 import com.aventstack.extentreports.reporter.ExtentReporter;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 
 public class BaseClass {
 
@@ -113,6 +120,17 @@ public class BaseClass {
 		else if(result.getStatus()==ITestResult.FAILURE)
 		{
 			System.out.println("LOG : FAIL Test failed to executed");
+			TakesScreenshot ts = (TakesScreenshot) driver;
+            File screenshot = ts.getScreenshotAs(OutputType.FILE);
+            
+            try {
+                // Define the destination path for the screenshot
+                String screenshotPath = "./ScreenShots" + result.getName() + ".png";
+                Files.copy(screenshot.toPath(), new File(screenshotPath).toPath(), StandardCopyOption.REPLACE_EXISTING);
+                System.out.println("Screenshot saved at: " + screenshotPath);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 		}
 		else if(result.getStatus()==ITestResult.SKIP)
 		{

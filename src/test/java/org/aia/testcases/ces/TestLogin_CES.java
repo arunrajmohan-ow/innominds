@@ -58,7 +58,7 @@ public class TestLogin_CES extends BaseClass {
 		signUpPage.clickSignUplink();
 		dataList = signUpPage.signUpData();
 		signUpPage.signUpUser();
-		mailinator.verifyEmailForAccountSetup(dataList.get(3));
+		mailinator.verifyEmailForAccountSetup(dataList.get(3), 0);
 		closeButtnPage.clickCloseAfterVerification();
 	}
 	

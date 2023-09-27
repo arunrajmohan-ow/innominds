@@ -38,7 +38,7 @@ public class MailinatorAPI {
 	
 	@FindBy(xpath="//span[text()='SUCCESS']") WebElement successMessage;
 	
-	public void verifyEmailForAccountSetup(String emailPrefix) throws InterruptedException {
+	public void verifyEmailForAccountSetup(String emailPrefix, int specTab) throws InterruptedException {
 		String inbox = emailPrefix;
 
 		JsonPath jsonPathEval = null;
@@ -67,7 +67,7 @@ public class MailinatorAPI {
 		driver.switchTo().window(tabs.get(1));
 		driver.get(link);
 		util.waitUntilElement(driver, successMessage);		
-		driver.switchTo().window(tabs.get(0));
+		driver.switchTo().window(tabs.get(specTab));
 
 	}
 	
