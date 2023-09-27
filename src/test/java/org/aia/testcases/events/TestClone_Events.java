@@ -50,14 +50,14 @@ public class TestClone_Events extends BaseClass {
 	}
 	
 	
-	@Test(priority= 1, description="Create New CloneEvent enter event name, enter date, select event category and event search click clone button", enabled = false)
+	@Test(priority= 1, description="Create New CloneEvent enter event name, enter date, select event category and event search click clone button", enabled = true)
 
 	public void test_CreateCloneEvent() throws Throwable {
 		cloneEventpage.newCloneEvent(testData.testDataProvider().getProperty("eventCategory"));
 		cloneEventpage.verifyCloneEventSegmentCheckBoxs();
 	}
 	
-	@Test(priority= 2, description="Edit cloneEven info, tickets,", enabled = true)
+	@Test(priority= 2, description="Edit cloneEven info, tickets,", enabled = false)
 	public void test_EditCloneEvent() throws InterruptedException, Throwable {
 		cloneEventpage.newCloneEvent(testData.testDataProvider().getProperty("eventCategory"));
 		cloneEventpage.verifyCloneEventSegmentCheckBoxs();
