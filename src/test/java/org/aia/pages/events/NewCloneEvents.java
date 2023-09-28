@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.aia.utility.ConfigDataProvider;
+import org.aia.utility.Logging;
 import org.aia.utility.Utility;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.JavascriptExecutor;
@@ -88,6 +89,7 @@ public class NewCloneEvents {
 		util.waitUntilElement(driver, eventsLink);
 		util.clickUsingJS(driver, eventsLink);
 		log.info("Events clickd successfully");
+		Logging.logger.info("Events clickd successfully");
 		util.waitUntilElement(driver, eventNewButton);
 		eventNewButton.click();
 		log.info("Even New button is clicked");

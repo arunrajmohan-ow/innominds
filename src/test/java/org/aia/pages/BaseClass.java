@@ -57,12 +57,12 @@ public class BaseClass {
 		System.out.println("Extent report is getting started");
 		
 		
-		extent = new ExtentReports();
-		spark = new ExtentSparkReporter(System.getProperty("user.dir")+"\\Reports\\AIA+"+Utility.getCurrentDateTime()+".html");
-		extent.attachReporter(spark);
-		spark.config().setDocumentTitle("Myreport");
-		extent.attachReporter(spark);
-//	
+//		extent = new ExtentReports();
+//		spark = new ExtentSparkReporter(System.getProperty("user.dir")+"\\Reports\\AIA+"+Utility.getCurrentDateTime()+".html");
+//		extent.attachReporter(spark);
+//		spark.config().setDocumentTitle("Myreport");
+//		extent.attachReporter(spark);
+////	
 		System.out.println("Extent report is ready to use ");
 		
 	}
@@ -144,7 +144,7 @@ public class BaseClass {
 			System.out.println("LOG : SKIP Test did not executed");
 		}
 		
-		extent.flush();
+		reports.endReport();
 	
 	}
 	
