@@ -22,23 +22,36 @@ public class FontevaCESTermDateChangeAPI {
 
 	String PARAMETERIZED_SEARCH_URI = DataProviderFactory.getConfig().getValue("parameterizedSearch_uri");
 	String ACCOUNT_URI = DataProviderFactory.getConfig().getValue("account_uri");
-	String sObjectURI = DataProviderFactory.getConfig().getValue("sObjectURI");
+	String sObjectURI = DataProviderFactory.getConfig().getValue("sobject_uri");
+	String sObjectCompositeURI = DataProviderFactory.getConfig().getValue("sObjectURI");
 	static FontevaConnection bt = new FontevaConnection();
 	private static final String bearerToken = bt.getbearerToken();
 	JsonPath jsonPathEval = null;
 	private static String accountID = null;
+	private static String providerId = null;
 	private static String membershipId = null;
 
 	public void changeTermDateAPI(String memberAccount, String termDate) {
+		//From this api we get the provider id 
 		Response response = given().contentType(ContentType.JSON).accept(ContentType.JSON)
 				.header("Authorization", "Bearer " + bearerToken).header("Content-Type", ContentType.JSON)
-				.header("Accept", ContentType.JSON).param("q", memberAccount).param("sobject", "Account").when()
+				.header("Accept", ContentType.JSON).param("q", memberAccount).param("sobject", "Provider_Application__c").when()
 				.get(PARAMETERIZED_SEARCH_URI).then().statusCode(200).extract().response();
 
 		jsonPathEval = response.jsonPath();
-		accountID = jsonPathEval.getString("searchRecords[0].Id");
+		providerId = jsonPathEval.getString("searchRecords[0].Id");
+		System.out.println("ProviderId  ID:" + providerId);
+		
+		//From this api call we get account id using provider id
+		String providerUri = sObjectURI + "/Provider_Application__c/" + providerId;
+		System.out.println("ProviderUrl:"+providerUri);
+		response = given().header("Authorization", "Bearer " + bearerToken).header("Content-Type", ContentType.JSON)
+				.header("Accept", ContentType.JSON).when().get(providerUri).then().statusCode(200).extract()
+				.response();
+		jsonPathEval = response.jsonPath();
+		accountID = jsonPathEval.getString("Account__c");
 		System.out.println("Account ID:" + accountID);
-
+		
 		// From this API we try to get membership ID
 		String SUBSCRIPTIONS_URI = ACCOUNT_URI + "/" + accountID + "/OrderApi__Subscriptions__r";
 		response = given().header("Authorization", "Bearer " + bearerToken).header("Content-Type", ContentType.JSON)
@@ -64,7 +77,7 @@ public class FontevaCESTermDateChangeAPI {
 						+ "            },\r\n" + "             \"id\": \"" + termId + "\",\r\n"
 						+ "            \"OrderApi__Term_End_Date__c\": \"" + termDate + "\"\r\n" + "        }\r\n"
 						+ "    ]\r\n" + "}")
-				.patch(sObjectURI).then().statusCode(200).extract().response();
+				.patch(sObjectCompositeURI).then().statusCode(200).extract().response();
 
 	}
 }
