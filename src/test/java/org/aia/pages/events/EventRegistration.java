@@ -117,6 +117,8 @@ public class EventRegistration {
 	//view recipt
 	@FindBy(css = "button[data-name='view-receipt']") WebElement viewRecieptInCheckout;
 	
+	@FindBy(css = "div[class*='slds-text-heading--medium slds']") WebElement paymentSuccessMessage;
+	
 	
 	ArrayList<String> list = new ArrayList<String>();
 
@@ -208,7 +210,15 @@ public class EventRegistration {
 	public void clickRegistrationButton() throws Throwable {
 		continueButtonInRegistration.click();
 		log.info("Continue button is clicked in registration");
-		Thread.sleep(15000);
+		Thread.sleep(18000);
+	}
+	
+	public void validateRegisterReq() {
+		util.waitUntilElement(driver, firstName);
+		log.info(firstName.getAttribute("value"));
+		util.waitUntilElement(driver, continueButtonInRegistration);
+		Utility.highLightElement(driver, continueButtonInRegistration);
+		continueButtonInRegistration.click();
 	}
 	
 	public void agendaModule() throws Throwable {
@@ -239,9 +249,16 @@ public class EventRegistration {
 		util.selectDropDownByText(expYear, year);
 		log.info("ExpMonth selected as" + year);
 		util.scrollingElementUsingJS(driver, processPayment);
-		processPayment.click();
-		
-		
+		try {
+		util.clickUsingJS(driver, processPayment);
+		}catch (Exception e) {
+			processPayment.click();	
+			System.out.println("normal click method");
+		}
+		log.info("processPayment is clicked successfully");
+		Thread.sleep(7000);
+		util.waitUntilElement(driver, paymentSuccessMessage);
+		log.info("After Payment success message" + paymentSuccessMessage.getText());
 	}
 	
 }

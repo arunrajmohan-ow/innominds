@@ -145,7 +145,7 @@ public class Utility {
 		{
 			x=elements.get(0).getLocation().getX();
 		}
-	
+		
 		while(x>0)
 		{
 			element=driver.findElements(By.xpath(xpath)).get(0);

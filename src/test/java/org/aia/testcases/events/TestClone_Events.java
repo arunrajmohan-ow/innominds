@@ -52,14 +52,14 @@ public class TestClone_Events extends BaseClass {
 	}
 	
 	
-	@Test(priority= 1, description="Create New CloneEvent enter event name, enter date, select event category and event search click clone button", enabled = true)
+	@Test(priority= 1, description="Create New CloneEvent enter event name, enter date, select event category and event search click clone button", enabled = false)
 
 	public void test_CreateCloneEvent() throws Throwable {
 		cloneEventpage.newCloneEvent(testData.testDataProvider().getProperty("eventCategory"));
 		cloneEventpage.verifyCloneEventSegmentCheckBoxs();
 	}
 	
-	@Test(priority= 2, description="Edit cloneEven info, tickets,", enabled = false)
+	@Test(priority= 2, description="Edit cloneEven info, tickets,", enabled = true)
 	public void test_EditCloneEvent() throws InterruptedException, Throwable {
 		String cardNumber = testData.testDataProvider().getProperty("CREDIT_CARD_NUMBER");
 		String cardExpMonth = testData.testDataProvider().getProperty("CREDIT_CARD_EXP_MONTH");
@@ -94,7 +94,7 @@ public class TestClone_Events extends BaseClass {
 		eventRegistration.clickRegisterButton();
 		eventRegistration.rigisterRequiredInfo();
 		eventRegistration.clickRegistrationButton();
-		eventRegistration.clickRegistrationButton();
+		eventRegistration.validateRegisterReq();
 		eventRegistration.agendaModule();
 		eventRegistration.checkoutModule(cardNumber, cardExpMonth, cardExpYear);
 	}

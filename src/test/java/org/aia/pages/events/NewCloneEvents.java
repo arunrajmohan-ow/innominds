@@ -96,6 +96,7 @@ public class NewCloneEvents {
 		Assert.assertTrue(cloneEventPopup);
 		log.info("Clone Event pop is displayed");
 		util.waitUntilElement(driver, existingCloneEvent);
+		Thread.sleep(5000);
 		boolean cloneEventRadioButton = existingCloneEvent.isSelected();
 		Assert.assertTrue(cloneEventRadioButton);
 		log.info("Existing clone event radio button is selected");
@@ -112,7 +113,6 @@ public class NewCloneEvents {
 		Thread.sleep(2000);
 		util.waitUntilElement(driver, eventSearch);
 		util.enterText(driver, eventSearch, "Testing Event");
-		util.waitUntilElement(driver, eventSearch);
 		log.info("event list size"+ eventOptions.size());
 		for (int i = 0; i < eventOptions.size(); i++) {
 			String event = eventOptions.get(i).getText();
