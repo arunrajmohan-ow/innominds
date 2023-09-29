@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.aia.pages.BaseClass;
 import org.aia.pages.api.MailinatorAPI;
+import org.aia.pages.api.events.EventAPIValidations;
 import org.aia.pages.api.membership.FontevaConnectionSOAP;
 import org.aia.pages.events.EditCloneEvent;
 import org.aia.pages.events.EventRegistration;
@@ -17,9 +18,11 @@ import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.DataProviderFactory;
 import org.aia.utility.Logging;
 import org.openqa.selenium.support.PageFactory;
+import org.testng.ITestContext;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
-
+@Listeners(org.aia.utility.GenerateReportsListener.class)
 public class TestClone_Events extends BaseClass {
 	
 	NewCloneEvents cloneEventpage;
@@ -31,12 +34,10 @@ public class TestClone_Events extends BaseClass {
 	CheckYourEmailPage closeButtnPage;
 	EventRegistration eventRegistration;
 	ViewRecipts viewReceipts;
+	EventAPIValidations eventApivalidation;
 	 
-	
-	
 	@BeforeMethod(alwaysRun = true)
 	public void setUp() throws Exception {
-		
 		testData = new ConfigDataProvider();
 		sessionID = new FontevaConnectionSOAP();
 		driver = BrowserSetup.startApplication(driver, DataProviderFactory.getConfig().getValue("browser"),
@@ -49,6 +50,7 @@ public class TestClone_Events extends BaseClass {
 		closeButtnPage = PageFactory.initElements(driver, CheckYourEmailPage.class);
 		eventRegistration = PageFactory.initElements(driver, EventRegistration.class);
 		viewReceipts = PageFactory.initElements(driver, ViewRecipts.class);
+		eventApivalidation = PageFactory.initElements(driver, EventAPIValidations.class);
 		Logging.configure();
 	}
 	
@@ -56,19 +58,24 @@ public class TestClone_Events extends BaseClass {
 	@Test(priority= 1, description="Create New CloneEvent enter event name, enter date, select event category and event search click clone button", enabled = false
 			)
 
-	public void test_CreateCloneEvent() throws Throwable {
+	public void test_CreateCloneEvent(ITestContext context) throws Throwable {
 		cloneEventpage.newCloneEvent(testData.testDataProvider().getProperty("eventCategory"));
 		cloneEventpage.verifyCloneEventSegmentCheckBoxs();	
+		context.setAttribute("eventId", cloneEventpage.eventId);
+		context.setAttribute("eventName", cloneEventpage.eName);
+		context.setAttribute("startDate", cloneEventpage.startDate);
+		context.setAttribute("eventCategory", testData.testDataProvider().getProperty("eventCategory"));
+		eventApivalidation.verifyEvent(context);
 	}
 	
 	@Test(priority= 2, description="Edit cloneEven info, tickets,", enabled = true)
-	public void test_EditCloneEvent() throws InterruptedException, Throwable {
+	public void test_EditCloneEvent(ITestContext context) throws InterruptedException, Throwable {
+		
+		test_CreateCloneEvent(context);
+		
 		String cardNumber = testData.testDataProvider().getProperty("CREDIT_CARD_NUMBER");
 		String cardExpMonth = testData.testDataProvider().getProperty("CREDIT_CARD_EXP_MONTH");
 		String cardExpYear = testData.testDataProvider().getProperty("CREDIT_CARD_EXP_YEAR");
-		
-		cloneEventpage.newCloneEvent(testData.testDataProvider().getProperty("eventCategory"));
-		cloneEventpage.verifyCloneEventSegmentCheckBoxs();
 		String eventName = cloneEventpage.newEvent;
 		editCloneEvent.clickEditButton();
 		editCloneEvent.editEventInfo(eventName);
@@ -87,7 +94,7 @@ public class TestClone_Events extends BaseClass {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.signUpUser();
 		mailinator.verifyEmailForAccountSetup(dataList.get(3), 1);
-		util.navigateToURl(driver, "https://account-dev.aia.org/signin");
+		util.navigateToURl(driver, DataProviderFactory.getConfig().getValue("fonteva_sign_in"));
 		signInpage.login(dataList.get(5), dataList.get(6));
 		ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
 		driver.switchTo().window(tabs.get(0));
@@ -99,7 +106,8 @@ public class TestClone_Events extends BaseClass {
 		eventRegistration.validateRegisterReq();
 		eventRegistration.agendaModule();
 		eventRegistration.checkoutModule(cardNumber, cardExpMonth, cardExpYear);
-		viewReceipts.getReceiptBody(eventRegistration.receiptNum);	
+//	    viewReceipts.getReceiptBody(eventRegistration.receiptNum, 4);
+		
 	}
-
+	
 }

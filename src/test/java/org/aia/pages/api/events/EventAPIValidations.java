@@ -3,28 +3,30 @@ package org.aia.pages.api.events;
 import static io.restassured.RestAssured.given;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
+import org.aia.pages.events.NewCloneEvents;
 import org.aia.utility.DataProviderFactory;
 import org.aia.utility.DateUtils;
-import org.aia.utility.FailedTestRun;
-import org.asynchttpclient.util.Assertions;
+import org.apache.log4j.Logger;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.testng.Assert;
 import org.testng.ITestContext;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Listeners;
-import org.testng.annotations.Test;
+
+
+import com.google.gson.JsonObject;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
-import io.restassured.specification.RequestSpecification;
 
 
-public class EventAPIValidation {
 
+
+public class EventAPIValidations {
+    
+	static Logger log = Logger.getLogger(NewCloneEvents.class);
 	static String EVENT_URI = DataProviderFactory.getConfig().getValue("event_uri_qa");
 	static FontevaConnection bt = new FontevaConnection();
 	private static final String bearerToken = bt.getbearerToken();
@@ -66,23 +68,33 @@ public class EventAPIValidation {
 		String eventID = jsonPath.getString("id");
 		context.setAttribute("eventId", eventID);
 		Thread.sleep(1000);
-		//Assertions.assertEquals(201, response.statusCode());
 
 	}
 	
-	public void verifyEvent(ITestContext context) throws InterruptedException {
-		String Id=(String) context.getAttribute("eventId");
+	public void verifyEvent(ITestContext context) throws Throwable {
+		String Id=context.getAttribute("eventId").toString();
 		System.out.println("EVENTID: "+Id);
-		Response response = given().contentType(ContentType.JSON)
-				.accept(ContentType.JSON)
-				.header("Authorization", "Bearer " + bearerToken)
-				.header("Content-Type", ContentType.JSON)
-				.header("Accept", ContentType.JSON)
-		.when().get(EVENT_URI+"/"+Id)
-				.then().log().all()
-				.statusCode(200)
-				.extract()
-				.response();
+		Response response = 
+				given()
+					.contentType(ContentType.JSON)
+					.accept(ContentType.JSON)
+					.header("Authorization", "Bearer " + bearerToken)
+					.header("Content-Type", ContentType.JSON)
+					.header("Accept", ContentType.JSON)
+				.when().
+					get(EVENT_URI+"/"+Id)
+				.then().
+					log().all()
+					.statusCode(200)
+					.extract()
+					.response();
+		JSONObject obj = new JSONObject(response.asString());
+		Assert.assertEquals(obj.get("Name").toString(), context.getAttribute("eventName").toString());
+		System.out.println("VERIFIED: Event Name - "+obj.get("Name").toString());
+		log.info("VERIFIED: Event Name - "+obj.get("Name").toString());
+
+		
+//		Assert.assertEquals(, )
 
 	}
 	

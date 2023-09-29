@@ -176,8 +176,8 @@ public class EventRegistration
 	WebElement saveButtonInBiilingaddress;
 
 	// view recipt
-	@FindBy(css = "lte-pfm-button[data-name='view-receipt'] button[data-name='view-receipt']")
-	WebElement viewRecieptInCheckout;
+	@FindBy(xpath  = "//span[text()='View Receipt']")
+	WebElement viewRecieptInCheckout; //View Receipt
 
 	@FindBy(css = "div[class*='slds-text-heading--medium slds']")
 	WebElement paymentSuccessMessage;
@@ -352,8 +352,7 @@ public class EventRegistration
 		String cityy = "hgjay" + RandomStringUtils.randomAlphabetic(4);
 		util.enterText(driver, city, cityy); 
 		Utility.highLightElement(driver, country);
-		String countryNmae = "hgjay" + RandomStringUtils.randomAlphabetic(4);
-		util.enterText(driver, country, countryNmae);
+		util.selectDropDownByText(country, "African Republic");
 		Utility.highLightElement(driver, zipCode);
 		util.enterText(driver, zipCode, "435623");
 		util.waitUntilElement(driver, saveButtonInBiilingaddress);
@@ -370,7 +369,13 @@ public class EventRegistration
 		postedDate = postdDate.getText();
 		log.info(" Event start poseted date " + postedDate);
 		util.waitUntilElement(driver, viewRecieptInCheckout);
-		viewRecieptInCheckout.click();		
+		Utility.highLightElement(driver, viewRecieptInCheckout);
+		try {
+		util.clickUsingJS(driver, viewRecieptInCheckout); 
+		}catch (Exception e) {
+			viewRecieptInCheckout.click();
+		}
+		
 	}
 	
 }

@@ -2,9 +2,12 @@ package org.aia.pages.events;
 
 
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.Logging;
@@ -29,7 +32,10 @@ public class NewCloneEvents {
 	Utility util = new Utility(driver, 30);
 	JavascriptExecutor executor;
 	ConfigDataProvider testData;
+	public String eName = "";
 	public String newEvent = "";
+	public String startDate = "";
+	public String eventId = "";
 	static Logger log = Logger.getLogger(NewCloneEvents.class);
 
 	
@@ -82,6 +88,9 @@ public class NewCloneEvents {
 	
 	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//slot[contains(@class,\"slds-page-header__title slds-m-right--small slds\")]//lightning-formatted-text") WebElement eventNameHeader;
 	
+	@FindBy(xpath = "//a[contains(text(),'https://aia--testing.sandbox.my.site.com/NationalE')]")
+	WebElement eventUrl;
+	
 	
 	
 	public void newCloneEvent(String eventCategory) throws InterruptedException, Throwable {
@@ -103,11 +112,12 @@ public class NewCloneEvents {
 		Assert.assertTrue(cloneEventRadioButton);
 		log.info("Existing clone event radio button is selected");
 		
-		String eName = "TestQA" + new SimpleDateFormat("MMddyyyyHHmmss").format(new Date());
+		 eName = "TestQA" + new SimpleDateFormat("MMddyyyyHHmmss").format(new Date());
 		
 		util.enterText(driver, eventName, eName);
 		log.info("Entered Event name as" + eName);
-		util.enterText(driver, eventStartDate, new SimpleDateFormat("MM/dd/yyyy").format(new Date()));
+		startDate = new SimpleDateFormat("MM/dd/yyyy").format(new Date());
+		util.enterText(driver, eventStartDate, startDate);
 		log.info("Event Date is Entered");
 		util.waitUntilElement(driver, selectCategory);
 		util.selectDropDownByText(selectCategory, eventCategory);
@@ -160,5 +170,44 @@ public class NewCloneEvents {
 		System.out.println(eventNameHeader);
 		Assert.assertTrue(eventNameHeader.isDisplayed());
 		log.info("eventName header is displayed");
+			
+		Thread.sleep(5000);
+		String url = eventUrl.getAttribute("href");
+		try {
+            // Parse the URL to extract the value of the "id" parameter
+            URI uri = new URI(url);
+        
+            Map<String, String> params = getQueryParams(uri);
+
+            // Get the ID parameter
+            eventId = params.get("id");
+
+            // Print the ID
+            System.out.println("EVENTID: " + eventId);
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
 	}
+	
+	private static Map<String, String> getQueryParams(URI uri) {
+        Map<String, String> params = new java.util.HashMap<>();
+        String query = uri.getQuery();
+
+        
+        if (query != null && !query.isEmpty()) {
+            // Split the query string into individual parameters
+            String[] pairs = query.split("&");
+            for (String pair : pairs) {
+                String[] keyValue = pair.split("=");
+                if (keyValue.length == 2) {
+                    // Add the parameter to the map
+                    String key = keyValue[0];
+                    String value = keyValue[1];
+                    params.put(key, value);
+                }
+            }
+        }
+
+        return params;
+    }
 }
