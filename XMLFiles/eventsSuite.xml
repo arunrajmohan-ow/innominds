@@ -3,7 +3,7 @@
 <suite thread-count="2" parallel="classes" name="Suite">
   <test thread-count="2" parallel="classes" name="Test">
     <classes>
-	  <class name="org.aia.testcases.events.EventAPIValidation"/>
+	  <class name="org.aia.testcases.events.TestEventCreation"/>
     </classes>
   </test> <!-- Test -->
 </suite> <!-- Suite -->
