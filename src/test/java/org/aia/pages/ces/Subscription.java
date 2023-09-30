@@ -47,9 +47,9 @@ public class Subscription {
 	
 	@FindBy(xpath = "//input[@name='uploadFile']") WebElement pdfUploadElement;
 	
-	//@FindBy(xpath="//span[text()='Done'] | //span[text()='Done']//parent::button") WebElement pofessionalFileUplaodDoneButton;
+	@FindBy(xpath="//span[text()='Done'] | //span[text()='Done']//parent::button") WebElement pofessionalFileUplaodDoneButton;
 	
-	@FindBy(xpath="//span[text()='Done']//parent::button") WebElement pofessionalFileUplaodDoneButton;
+	//@FindBy(xpath="//span[text()='Done']//parent::button") WebElement pofessionalFileUplaodDoneButton;
 	
 	@FindBy(xpath="//button[@title='Delete Document']") WebElement pofessionalDeleteBtn;
 	
