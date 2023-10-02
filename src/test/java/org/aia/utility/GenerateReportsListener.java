@@ -3,6 +3,7 @@ package org.aia.utility;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashMap;
 
 import org.aia.pages.BaseClass;
 import org.openqa.selenium.OutputType;
@@ -31,15 +32,13 @@ public class GenerateReportsListener implements ITestListener{
 	public void onTestStart(ITestResult result) {
 		count_totalTCs = count_totalTCs + 1;
 		System.out.println("Inside GenerateReportsListener onTestStart() method creating test report");
-		report.startTestReport(result.getTestClass().getName() + "@TestCase :" + result.getMethod().getMethodName());
+		report.startTestReport(result.getTestClass().getRealClass().getSimpleName());
 		System.out.println("onTestStart completed");
 	}
 
 	public void onTestSuccess(ITestResult result) {
 		count_passedTCs = count_passedTCs + 1;
-		String logText = "<b>" + "TEST CASE:- " + result.getMethod().getMethodName().toUpperCase() + " PASSED" + "</b>";
-		System.out.println(" Inside onTestSuccess Listener method");
-		report.logTestpassed(logText);
+		report.logTestpassed((String)result.getMethod().getMethodName());
 	}
 
 	/*
