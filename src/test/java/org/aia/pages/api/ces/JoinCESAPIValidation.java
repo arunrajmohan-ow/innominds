@@ -270,11 +270,11 @@ public class JoinCESAPIValidation
 				 then().statusCode(200).extract().response();
 
 		jsonPathEval = responseAccSub.jsonPath();
+		Thread.sleep(30000);
 		String providerSubscriptionID = jsonPathEval.getString("records[0].Id");
 		String providerSubscriptionName = jsonPathEval.getString("records[0].Name");
-		
+		System.out.println("providerSubscriptionID:"+providerSubscriptionID);
 		String MEMBERSHIP_URL = SOBJECT_URI + "/OrderApi__Subscription__c" + "/" + providerSubscriptionID ;
-		
 		Response responseMembership = 
 		    	 given().
 				 header("Authorization", "Bearer " + bearerToken).
@@ -293,8 +293,9 @@ public class JoinCESAPIValidation
 				 		+ "OrderApi__Days_To_Lapse__c").
 				 when().get(MEMBERSHIP_URL).
 				 then().statusCode(200).extract().response();
-
+        Thread.sleep(30000);
 		jsonPathEval = responseMembership.jsonPath();
+		System.out.println("Member url:"+jsonPathEval.toString());
 		String memSubscriptionID = jsonPathEval.getString("Id");
 		String memSubscriptionName = jsonPathEval.getString("Name");
 		String ecommerce_Renew_Link = jsonPathEval.getString("AIA_Ecommerce_Renew_Link__c");
