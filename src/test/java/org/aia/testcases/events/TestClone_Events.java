@@ -55,7 +55,7 @@ public class TestClone_Events extends BaseClass {
 	}
 	
 	
-	@Test(priority= 1, description="Create New CloneEvent enter event name, enter date, select event category and event search click clone button", enabled = false
+	@Test(priority= 1, description="Create New CloneEvent enter event name, enter date, select event category and event search click clone button", enabled = true
 			)
 
 	public void test_CreateCloneEvent(ITestContext context) throws Throwable {
@@ -106,8 +106,7 @@ public class TestClone_Events extends BaseClass {
 		eventRegistration.validateRegisterReq();
 		eventRegistration.agendaModule();
 		eventRegistration.checkoutModule(cardNumber, cardExpMonth, cardExpYear);
-//	    viewReceipts.getReceiptBody(eventRegistration.receiptNum, 4);
-		
+        viewReceipts.getReceiptBody(eventRegistration.receiptNum, 4);	
 	}
 	
 }

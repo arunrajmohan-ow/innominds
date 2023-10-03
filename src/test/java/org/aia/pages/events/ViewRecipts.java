@@ -41,10 +41,8 @@ public class ViewRecipts {
 		BufferedInputStream fileParse = new BufferedInputStream(is);
 		PDDocument document = PDDocument.load(fileParse);
 		String pdfContent = new PDFTextStripper().getText(document);
+		Assert.assertTrue(pdfContent.contains("Total: $400.00"));;
 		Assert.assertTrue(pdfContent.contains(receiptNo));
-//	  util.waitUntilElement(driver, getReceiptText);
-//	  String receiptText =	getReceiptText.getText();
-//	  System.out.println(receiptText);  
-//	  receiptText.contains(receiptNo);
+
 	}
 }

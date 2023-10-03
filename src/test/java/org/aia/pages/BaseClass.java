@@ -144,7 +144,7 @@ public class BaseClass {
 			System.out.println("LOG : SKIP Test did not executed");
 		}
 		
-		reports.endReport();
+//		reports.endReport();
 	
 	}
 	
