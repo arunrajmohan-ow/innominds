@@ -12,7 +12,6 @@ import org.openqa.selenium.support.FindBy;
 public class FinalPageThankYou {
 
 	WebDriver driver;
-	ArrayList<Object> receiptData = new ArrayList<Object>();
 
 	public FinalPageThankYou(WebDriver Idriver) {
 		this.driver = Idriver;
@@ -37,7 +36,6 @@ public class FinalPageThankYou {
 
 	String totalAmnt = null;
 	String finalPagetotal = null;
-
 	public void verifyThankYouMessage() throws InterruptedException {
 		Thread.sleep(5000);
 		util.waitUntilElement(driver, frame);
@@ -48,6 +46,7 @@ public class FinalPageThankYou {
 	}
 
 	public ArrayList<Object> getFinalReceiptData() {
+		ArrayList<Object> receiptData = new ArrayList<Object>();
 		String receiptNumber = receiptNum.getText();
 		receiptData.add(0, receiptNumber);
 		String customerAIANumber = custAIANum.getText();
@@ -92,6 +91,25 @@ public class FinalPageThankYou {
 		if (finalPagetotal == pac) {
 			System.out.println("Total amount with PAC is same");
 		}
+	}
+	
+	/**
+	 * @return
+	 */
+	public ArrayList<Object> getFinalReceiptDataOFDip() {
+		ArrayList<Object> receiptDataDip = new ArrayList<Object>();
+		String receiptNumber = receiptNum.getText();
+		receiptDataDip.add(0, receiptNumber);
+		String customerAIANumber = custAIANum.getText();
+		receiptDataDip.add(1, customerAIANumber);
+		totalAmnt = totalAmount.getText();	
+		int i  = totalAmnt.indexOf(".");
+		finalPagetotal = totalAmnt.substring(1, i);
+		String totalAmnt = totalAmount.getText().replaceAll("[$]*","").trim();
+		Object totalAmnt1 = Double.valueOf(((String) totalAmnt).replaceAll(",","").trim()); 
+		receiptDataDip.add(2, totalAmnt1);
+		receiptDataDip.add(3, finalPagetotal);
+		return receiptDataDip;
 	}
 
 }
