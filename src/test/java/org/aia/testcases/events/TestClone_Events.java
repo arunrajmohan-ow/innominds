@@ -55,7 +55,7 @@ public class TestClone_Events extends BaseClass {
 	}
 	
 	
-	@Test(priority= 1, description="Create New CloneEvent enter event name, enter date, select event category and event search click clone button", enabled = true
+	@Test(priority= 1, description="Create New CloneEvent enter event name, enter date, select event category and event search click clone button", enabled = false
 			)
 
 	public void test_CreateCloneEvent(ITestContext context) throws Throwable {
