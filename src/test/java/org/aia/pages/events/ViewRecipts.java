@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Set;
 
 import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.Utility;
@@ -22,7 +23,7 @@ public class ViewRecipts {
 	JavascriptExecutor executor;
 	ConfigDataProvider testData;
 	static Logger log = Logger.getLogger(EventRegistration.class);
-	String pdfContent= "";
+	String pdfContent = "";
 
 	public ViewRecipts(WebDriver IDriver) {
 		this.driver = IDriver;
@@ -32,15 +33,18 @@ public class ViewRecipts {
 
 	@FindBy(xpath = "//body//embed")
 	WebElement getReceiptText;
-	
 
 	public void getReceiptBody(String receiptNo, String aiaNumber, int specTab) throws Throwable {
-		ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
-		driver.switchTo().window(tabs.get(specTab));
-		Thread.sleep(10000);
 		
-		String currentUrl = driver.getCurrentUrl();
-		if (currentUrl.contains("generateMultiplePDF")) {
+		Set<String> links = driver.getWindowHandles();
+		String currWin = driver.getWindowHandle();
+		Thread.sleep(20000);
+		for (String s1 : links)
+			if (!s1.contentEquals(currWin)) {
+				driver.switchTo().window(s1);
+			    String currentUrl = driver.getCurrentUrl();
+		        System.out.println(currentUrl);
+		    if (currentUrl.contains("generateMultiplePDF")) {
 			URL url = new URL(currentUrl);
 
 			// Open stream method is used to open the pdf file
@@ -64,11 +68,10 @@ public class ViewRecipts {
 			// Printing the content on console
 			System.out.println(pdfContent);
 		}
+	}
 		
 		Assert.assertTrue(pdfContent.contains("Total: $400.00"));;
 		log.info("verified total amount in receipt documnet");
-		
-		
 		
 	   Assert.assertTrue(pdfContent.contains(receiptNo.replace("Receipt: #", "")));
 	   log.info("verified Receipt number in receipt document" + receiptNo);

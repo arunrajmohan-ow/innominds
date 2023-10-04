@@ -23,20 +23,21 @@ import org.testng.ITestContext;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
+
 @Listeners(org.aia.utility.GenerateReportsListener.class)
 public class TestClone_Events extends BaseClass {
-	
+
 	NewCloneEvents cloneEventpage;
 	ConfigDataProvider testData;
 	EditCloneEvent editCloneEvent;
 	SignUpPage signUpPage;
-	MailinatorAPI  mailinator;
+	MailinatorAPI mailinator;
 	SignInPage signInpage;
 	CheckYourEmailPage closeButtnPage;
 	EventRegistration eventRegistration;
 	ViewRecipts viewReceipts;
 	EventAPIValidations eventApivalidation;
-	 
+
 	@BeforeMethod(alwaysRun = true)
 	public void setUp() throws Exception {
 		testData = new ConfigDataProvider();
@@ -54,26 +55,24 @@ public class TestClone_Events extends BaseClass {
 		eventApivalidation = PageFactory.initElements(driver, EventAPIValidations.class);
 		Logging.configure();
 	}
-	
-	
-	@Test(priority= 1, description="Create New CloneEvent enter event name, enter date, select event category and event search click clone button", 
-			enabled = true, retryAnalyzer=FailedTestRun.class)
+
+	@Test(priority = 1, description = "Create New CloneEvent enter event name, enter date, select event category and event search click clone button", enabled = false)
 
 	public void test_CreateCloneEvent(ITestContext context) throws Throwable {
 		cloneEventpage.newCloneEvent(testData.testDataProvider().getProperty("eventCategory"));
-		cloneEventpage.verifyCloneEventSegmentCheckBoxs();	
+		cloneEventpage.verifyCloneEventSegmentCheckBoxs();
 		context.setAttribute("eventId", cloneEventpage.eventId);
 		context.setAttribute("eventName", cloneEventpage.eName);
 		context.setAttribute("startDate", cloneEventpage.startDate);
 		context.setAttribute("eventCategory", testData.testDataProvider().getProperty("eventCategory"));
 		eventApivalidation.verifyEvent(context);
 	}
-	
-	@Test(priority= 2, description="Edit cloneEven info, tickets,", enabled = true, retryAnalyzer=FailedTestRun.class)
+
+	@Test(priority = 2, description = "Edit cloneEven info, tickets,", enabled = true)
 	public void test_EditCloneEvent(ITestContext context) throws InterruptedException, Throwable {
-		
+
 		test_CreateCloneEvent(context);
-		
+
 		String cardNumber = testData.testDataProvider().getProperty("CREDIT_CARD_NUMBER");
 		String cardExpMonth = testData.testDataProvider().getProperty("CREDIT_CARD_EXP_MONTH");
 		String cardExpYear = testData.testDataProvider().getProperty("CREDIT_CARD_EXP_YEAR");
@@ -100,9 +99,9 @@ public class TestClone_Events extends BaseClass {
 		util.navigateToURl(driver, DataProviderFactory.getConfig().getValue("fonteva_sign_in"));
 		signInpage.login(dataList.get(5), dataList.get(6));
 		util.switchToTabs(driver, 0);
-    	editCloneEvent.globalSearch(signUpPage.emailaddressdata); 
-    	editCloneEvent.getAIAData();
-    	editCloneEvent.eventsSearch(eventName);
+		editCloneEvent.globalSearch(signUpPage.emailaddressdata);
+		editCloneEvent.getAIAData();
+		editCloneEvent.eventsSearch(eventName);
 		editCloneEvent.clickEventUrl(3);
 		eventRegistration.selectTicketQuantity();
 		eventRegistration.clickRegisterButton();
@@ -111,7 +110,7 @@ public class TestClone_Events extends BaseClass {
 		eventRegistration.validateRegisterReq();
 		eventRegistration.agendaModule();
 		eventRegistration.checkoutModule(cardNumber, cardExpMonth, cardExpYear);
-        viewReceipts.getReceiptBody(eventRegistration.receiptNum, editCloneEvent.aiaNumber,  4);
+		viewReceipts.getReceiptBody(eventRegistration.receiptNum, editCloneEvent.aiaNumber, 4);
 	}
-	
+
 }
