@@ -257,19 +257,27 @@ public class CES_ContactPage {
 	@FindBy(xpath = "((//*[@role = 'table']//tbody//tr)[2]//td)[10]")
 	WebElement Chevronbtn;
 
-	@FindBy(xpath = "//*[contains(text(), \"Are you sure you want to delete this Membership?\")]")
+	@FindBy(xpath = "//*[contains(text(), 'Are you sure you want to delete this Membership?')]")
 	WebElement DeleteMsg;
 
 	@FindBy(xpath = "//span[text()='Delete']")
 	WebElement Delete_membership;
 
-	@FindBy(xpath = "(//*[@role = 'table']//tbody//tr//td)[4]")
-	WebElement AvailableMemType;
+	//@FindBy(xpath = "(//*[@role = 'table']//tbody//tr//td)[4]//span//div//a")
 	
-	@FindBy(xpath="//span[text()='Refresh']")
+	//WebElement availableMemType;
+//	@FindBy(xpath = "(//*[@role = 'table']//tbody//tr//td)[4]//span/div")
+//	WebElement availableMemType;
+	
+	@FindBy(xpath = "//div/a[@title='CES Passport']")
+    WebElement availableMemType;
+	
+	
+
+	@FindBy(xpath = "//span[text()='Refresh']")
 	WebElement RefreshBtn;
-	
-	@FindBy(xpath="//div[text()='Delete']")
+
+	@FindBy(xpath = "//div[text()='Delete']")
 	WebElement DeleteBtn_chevrontype;
 
 	String fName;
@@ -561,76 +569,95 @@ public class CES_ContactPage {
 		Actions action = new Actions(driver);
 		action.moveToElement(SelectAccount).click().perform();
 		System.out.println("Account selected");
-		//util.waitUntilElement(driver, accountName);
-		//executor.executeScript("arguments[0].click();", accountName);
+		// util.waitUntilElement(driver, accountName);
+		// executor.executeScript("arguments[0].click();", accountName);
 	}
-	public void validateCESMembership() throws InterruptedException {		
+
+	public void validateCESMembership() throws InterruptedException {
 		util.waitUntilElement(driver, Membershipslnk);
 		Actions action = new Actions(driver);
 		action.moveToElement(Membershipslnk).click().perform();
 		System.out.println("Memberships selected");
 		Thread.sleep(30000);
-		//RefreshBtn.click();
+		// RefreshBtn.click();
+		driver.navigate().refresh();
 		List<WebElement> rows = driver.findElements(By.xpath("//*[@role ='table']//tbody//tr"));
-		System.out.println("Number of records:"+rows.size());
+		System.out.println("Number of records:" + rows.size());
 		Thread.sleep(30000);
 		util.waitUntilElement(driver, Chevronbtn);
 		Chevronbtn.click();
 		System.out.println("Chevron button clicked");
+		Actions action2 = new Actions(driver);
 		util.waitUntilElement(driver, DeleteBtn_chevrontype);
-		DeleteBtn_chevrontype.click();
-		System.out.println("Delete button clicked");
+		action.moveToElement(DeleteBtn_chevrontype).click().perform();
+		// DeleteBtn_chevrontype.click();
+		System.out.println("Delete option clicked");
+//		util.waitUntilElement(driver, DeleteMsg);
+//		System.out.println("MyError:" + DeleteMsg.getText());
+//		assertTrue(DeleteMsg.getText().equalsIgnoreCase(data.testDataProvider().getProperty("DeleteMessage")));
+//		util.waitUntilElement(driver, Delete_membership);
+//		Delete_membership.click();
+//		System.out.println("Record deleted");
+		// Actions action2 = new Actions(driver);
+		// action.moveToElement(Delete_membership).click().perform();
+		// Delete_membership.click();
+		// Thread.sleep(30000);
+		// Alert alert = driver.switchTo().alert();
+		// String alertMessage = driver.switchTo().alert().getText();
+		// System.out.println(alertMessage);
+		// Thread.sleep(5000);
+
+	}
+
+	public void DeleteMembership() {
+		Actions action2 = new Actions(driver);
+		util.waitUntilElement(driver, Delete_membership);
+		action.moveToElement(Delete_membership).click().perform();
+		// util.waitUntilElement(driver, Delete_membership);
+		// Delete_membership.click();
+		System.out.println("Record deleted");
+
+	}
+
+	public void validateDeleteMembershipMsg() {
 		util.waitUntilElement(driver, DeleteMsg);
 		System.out.println("MyError:" + DeleteMsg.getText());
-		assertTrue(DeleteMsg.getText().equalsIgnoreCase(data.testDataProvider().getProperty("DeleteMsg")));
-		util.waitUntilElement(driver, Delete_membership);
-		Delete_membership.click();
-		//Thread.sleep(30000);
-		Alert alert = driver.switchTo().alert(); 
-		String alertMessage = driver.switchTo().alert().getText(); 
-		System.out.println(alertMessage);
-		Thread.sleep(5000);
-		
+		assertTrue(DeleteMsg.getText().equalsIgnoreCase(data.testDataProvider().getProperty("deleteMsg")));
 	}
+
 	public void validateAvailableMemType() {
-		util.waitUntilElement(driver, AvailableMemType);
-		assertTrue(AvailableMemType.getText().equalsIgnoreCase(data.testDataProvider().getProperty("availableMemType")));
+		util.waitUntilElement(driver, availableMemType);
+		System.out.println("availableMemType is:" + availableMemType.getText());
+		assertTrue(availableMemType.getText().equalsIgnoreCase(data.testDataProvider().getProperty("availableMemType")));
 
 	}
 
 }
 
 //Select drpOptn=new Select(driver.findElement(By.xpath("//ul[@class='scrollable']/li")));
-		//drpOptn.selectByVisibleText("Delete");
-		/*List<WebElement> ChevronTypes = driver.findElements(By.xpath("//ul[@class='scrollable']/li"));
-		System.out.println(ChevronTypes);
-		//Thread.sleep(10000);
-		for (WebElement ChevronType:ChevronTypes) {
-			System.out.println(ChevronType.getText());
-			if (ChevronType.getText().contains("Delete"));
-			{
-				util.waitUntilElement(driver, ChevronType);
-				Actions action1 = new Actions(driver);
-				action1.moveToElement(ChevronType).click().perform();
-				Thread.sleep(30000);
-				//ChevronType.click();
-				System.out.println("Delete button clicked");
-				break;
-			}
-			
-		}
-		Thread.sleep(10000);*/
+// drpOptn.selectByVisibleText("Delete");
+/*
+ * List<WebElement> ChevronTypes =
+ * driver.findElements(By.xpath("//ul[@class='scrollable']/li"));
+ * System.out.println(ChevronTypes); //Thread.sleep(10000); for (WebElement
+ * ChevronType:ChevronTypes) { System.out.println(ChevronType.getText()); if
+ * (ChevronType.getText().contains("Delete")); { util.waitUntilElement(driver,
+ * ChevronType); Actions action1 = new Actions(driver);
+ * action1.moveToElement(ChevronType).click().perform(); Thread.sleep(30000);
+ * //ChevronType.click(); System.out.println("Delete button clicked"); break; }
+ * 
+ * } Thread.sleep(10000);
+ */
 
-
-/*public void validateDelete() throws InterruptedException {
-util.waitUntilElement(driver, DeleteMsg);
-System.out.println("MyError:" + DeleteMsg.getText());
-assertTrue(DeleteMsg.getText().equalsIgnoreCase(data.testDataProvider().getProperty("DeleteMsg")));
-util.waitUntilElement(driver, DeleteBtn);
-DeleteBtn.click();
-Thread.sleep(5000);
-Alert alert = driver.switchTo().alert(); // switch to alert
-String alertMessage = driver.switchTo().alert().getText(); // capture alert message
-System.out.println(alertMessage); // Print Alert Message
-Thread.sleep(5000);
-}*/
+/*
+ * public void validateDelete() throws InterruptedException {
+ * util.waitUntilElement(driver, DeleteMsg); System.out.println("MyError:" +
+ * DeleteMsg.getText());
+ * assertTrue(DeleteMsg.getText().equalsIgnoreCase(data.testDataProvider().
+ * getProperty("DeleteMsg"))); util.waitUntilElement(driver, DeleteBtn);
+ * DeleteBtn.click(); Thread.sleep(5000); Alert alert =
+ * driver.switchTo().alert(); // switch to alert String alertMessage =
+ * driver.switchTo().alert().getText(); // capture alert message
+ * System.out.println(alertMessage); // Print Alert Message Thread.sleep(5000);
+ * }
+ */
