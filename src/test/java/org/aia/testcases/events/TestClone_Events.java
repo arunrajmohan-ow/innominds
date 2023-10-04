@@ -1,7 +1,6 @@
 package org.aia.testcases.events;
 
 import java.util.ArrayList;
-
 import org.aia.pages.BaseClass;
 import org.aia.pages.api.MailinatorAPI;
 import org.aia.pages.api.events.EventAPIValidations;
@@ -16,7 +15,9 @@ import org.aia.pages.membership.SignUpPage;
 import org.aia.utility.BrowserSetup;
 import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.DataProviderFactory;
+import org.aia.utility.FailedTestRun;
 import org.aia.utility.Logging;
+import org.aia.utility.RetryListenerClass;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.ITestContext;
 import org.testng.annotations.BeforeMethod;
@@ -55,8 +56,8 @@ public class TestClone_Events extends BaseClass {
 	}
 	
 	
-	@Test(priority= 1, description="Create New CloneEvent enter event name, enter date, select event category and event search click clone button", enabled = false
-			)
+	@Test(priority= 1, description="Create New CloneEvent enter event name, enter date, select event category and event search click clone button", 
+			enabled = true, retryAnalyzer=FailedTestRun.class)
 
 	public void test_CreateCloneEvent(ITestContext context) throws Throwable {
 		cloneEventpage.newCloneEvent(testData.testDataProvider().getProperty("eventCategory"));
@@ -68,7 +69,7 @@ public class TestClone_Events extends BaseClass {
 		eventApivalidation.verifyEvent(context);
 	}
 	
-	@Test(priority= 2, description="Edit cloneEven info, tickets,", enabled = true)
+	@Test(priority= 2, description="Edit cloneEven info, tickets,", enabled = true, retryAnalyzer=FailedTestRun.class)
 	public void test_EditCloneEvent(ITestContext context) throws InterruptedException, Throwable {
 		
 		test_CreateCloneEvent(context);
@@ -77,6 +78,8 @@ public class TestClone_Events extends BaseClass {
 		String cardExpMonth = testData.testDataProvider().getProperty("CREDIT_CARD_EXP_MONTH");
 		String cardExpYear = testData.testDataProvider().getProperty("CREDIT_CARD_EXP_YEAR");
 		String eventName = cloneEventpage.newEvent;
+		editCloneEvent.eventsTab();
+		editCloneEvent.eventsSearch(eventName);
 		editCloneEvent.clickEditButton();
 		editCloneEvent.editEventInfo(eventName);
 		editCloneEvent.editEventTicket(true);
@@ -96,8 +99,10 @@ public class TestClone_Events extends BaseClass {
 		mailinator.verifyEmailForAccountSetup(dataList.get(3), 1);
 		util.navigateToURl(driver, DataProviderFactory.getConfig().getValue("fonteva_sign_in"));
 		signInpage.login(dataList.get(5), dataList.get(6));
-		ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
-		driver.switchTo().window(tabs.get(0));
+		util.switchToTabs(driver, 0);
+    	editCloneEvent.globalSearch(signUpPage.emailaddressdata); 
+    	editCloneEvent.getAIAData();
+    	editCloneEvent.eventsSearch(eventName);
 		editCloneEvent.clickEventUrl(3);
 		eventRegistration.selectTicketQuantity();
 		eventRegistration.clickRegisterButton();
@@ -106,7 +111,7 @@ public class TestClone_Events extends BaseClass {
 		eventRegistration.validateRegisterReq();
 		eventRegistration.agendaModule();
 		eventRegistration.checkoutModule(cardNumber, cardExpMonth, cardExpYear);
-        viewReceipts.getReceiptBody(eventRegistration.receiptNum, 4);	
+        viewReceipts.getReceiptBody(eventRegistration.receiptNum, editCloneEvent.aiaNumber,  4);
 	}
 	
 }

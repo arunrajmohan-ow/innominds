@@ -1,7 +1,9 @@
 package org.aia.pages.events;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import org.aia.utility.ConfigDataProvider;
@@ -17,8 +19,7 @@ import org.openqa.selenium.support.FindBy;
 
 import groovy.transform.Final;
 
-public class EventRegistration 
-{
+public class EventRegistration {
 	WebDriver driver;
 	Utility util = new Utility(driver, 30);
 	JavascriptExecutor executor;
@@ -29,7 +30,7 @@ public class EventRegistration
 	static Logger log = Logger.getLogger(EventRegistration.class);
 
 	public EventRegistration(WebDriver Idriver)
-	
+
 	{
 		this.driver = Idriver;
 		executor = (JavascriptExecutor) driver;
@@ -100,7 +101,7 @@ public class EventRegistration
 	WebElement attestCheckobox;
 
 	@FindBy(css = "select[name='I attest to the above']")
-	WebElement selectAttest; // Yes No
+	WebElement selectAttest; 
 
 	@FindBy(css = "div[data-name='Printed Name and Signature:-input'] input")
 	WebElement printedNameAndSignature;
@@ -129,7 +130,7 @@ public class EventRegistration
 
 	@FindBy(xpath = "//div[@data-name='full_name']/input")
 	WebElement cardHolderName;
-	
+
 	@FindBy(xpath = "//input[@name='card_number']")
 	WebElement creditCardNumber;
 
@@ -154,8 +155,9 @@ public class EventRegistration
 
 	@FindBy(css = "input[placeholder='Enter your address']")
 	WebElement addressSearch;// India
-	
-	@FindAll(value = { @FindBy(xpath = "//div[@class='selectize-dropdown-content']//div/span[2]")}) List<WebElement> addressSearchOptions;
+
+	@FindAll(value = { @FindBy(xpath = "//div[@class='selectize-dropdown-content']//div/span[2]") })
+	List<WebElement> addressSearchOptions;
 
 	@FindBy(xpath = "//label[@data-name='manualAddress']")
 	WebElement manualAddressCheckbox;
@@ -176,8 +178,8 @@ public class EventRegistration
 	WebElement saveButtonInBiilingaddress;
 
 	// view recipt
-	@FindBy(xpath  = "//span[text()='View Receipt']")
-	WebElement viewRecieptInCheckout; //View Receipt
+	@FindBy(xpath = "//span[text()='View Receipt']")
+	WebElement viewRecieptInCheckout; 
 
 	@FindBy(css = "div[class*='slds-text-heading--medium slds']")
 	WebElement paymentSuccessMessage;
@@ -189,7 +191,7 @@ public class EventRegistration
 	WebElement postdDate;
 
 	public void selectTicketQuantity() throws Throwable
-	
+
 	{
 		Thread.sleep(7000);
 		util.waitUntilElement(driver, ticketTypeQuantity);
@@ -199,13 +201,47 @@ public class EventRegistration
 		log.info("ticketTypeQuantity dropdown selected as 1");
 	}
 
-	public void clickRegisterButton() throws Throwable
-	{
+	public void clickRegisterButton() throws Throwable {
 		util.waitUntilElement(driver, registerButton);
 		Utility.highLightElement(driver, registerButton);
 		registerButton.click();
 		log.info("Register button is cliked sucessfully");
 		Thread.sleep(14000);
+	}
+
+	public Map<String, String> attendeeInfo() {
+		Map<String, String> information = new HashMap<String, String>();
+		String mobNumb = "012345" + String.format("%05d", new Random().nextInt(10000));
+		information.put("phoneNumber", mobNumb);
+		String emgMobNumb = "112345" + String.format("%05d", new Random().nextInt(10000));
+		information.put("EmgPhoneNumber", emgMobNumb);
+		String nickName = "autoln" + RandomStringUtils.randomAlphabetic(4);
+		information.put("nickName", nickName);
+		String company = "poiu" + RandomStringUtils.randomAlphabetic(4);
+		information.put("company", company);
+		String title = "jhgf" + RandomStringUtils.randomAlphabetic(4);
+		information.put("title", title);
+		String city = "apk" + RandomStringUtils.randomAlphabetic(4);
+		information.put("city", city);
+		String degreeInfo = "mba" + RandomStringUtils.randomAlphabetic(4);
+		information.put("degree", degreeInfo);
+		String state = "AP";
+		information.put("state", state);
+		String accessibility = "Mobility";
+		information.put("accessbility", accessibility);
+		String attendedTimes = "First time";
+		information.put("attendeeTimes", attendedTimes);
+		String ethnicity = "Asian - Other";
+		information.put("ethnicity", ethnicity);
+		String gender = "Male";
+		information.put("gender", gender);
+		String professionalLevel = "Student";
+		information.put("profLevel", professionalLevel);
+		String yearsInProfession = "0-5 years";
+		information.put("yearsProf", yearsInProfession);
+		String attest = "Yes";
+		information.put("attest", attest);
+		return information;
 	}
 
 	/**
@@ -214,19 +250,7 @@ public class EventRegistration
 	 * AttendenceTimes, ethnicity, professional level, years in professional,
 	 * attest.
 	 */
-	public void rigisterRequiredInfo() 
-	{
-		String mobNumb = "012345" + String.format("%05d", new Random().nextInt(10000));
-		String emgMobNumb = "112345" + String.format("%05d", new Random().nextInt(10000));
-		String nickName = "autoln" + RandomStringUtils.randomAlphabetic(4);
-		String state = "AP";
-		String accessibility = "Mobility";
-		String attendedTimes = "First time";
-		String ethnicity = "Asian - Other";
-		String gender = "Male";
-		String professionalLevel = "Student";
-		String yearsInProfession = "0-5 years";
-		String attest = "Yes";
+	public void rigisterRequiredInfo() {
 		util.waitUntilElement(driver, firstName);
 		System.out.println(firstName.getAttribute("value"));
 		log.info(firstName.getAttribute("value"));
@@ -234,60 +258,60 @@ public class EventRegistration
 		log.info(lastName.getAttribute("value"));
 		System.out.println(email.getAttribute("value"));
 		log.info(email.getAttribute("value"));
-		util.enterText(driver, badgeName, nickName);
-		log.info("BadgeName enterd as" + nickName);
-		String company = "poiu" + RandomStringUtils.randomAlphabetic(4);
-		util.enterText(driver, companyName, company);
-		log.info("CompanyName enterd as " + company);
-		String title = "jhgf" + RandomStringUtils.randomAlphabetic(4);
-		util.enterText(driver, titleName, title);
-		log.info("TitleName enterd as " + title);
-		util.enterText(driver, phoneNumber, mobNumb);
-		log.info("PhoneNumber enterd as" + mobNumb);
-		String city = "apk" + RandomStringUtils.randomAlphabetic(4);
-		util.enterText(driver, cityName, city);
-		log.info("CityName enterd as" + city);
-		util.selectDropDownByText(selectState, state);
-		log.info("State dropdown selected as" + state);
-		String degreeInfo = "mba" + RandomStringUtils.randomAlphabetic(4);
-		util.enterText(driver, degreeInformation, degreeInfo);
-		log.info("degreeInformation dropdown selected as" + degreeInfo);
-		util.selectDropDownByText(selectAccessibility, accessibility);
-		log.info("Accessibility dropdown selected as" + accessibility);
+
+		// Attendee information
+		Map<String, String> attendeInfo = attendeeInfo();
+
+		util.enterText(driver, badgeName, attendeInfo.get("nickName"));
+
+		log.info("BadgeName enterd as" + attendeInfo.get("nickName"));
+		util.enterText(driver, companyName, attendeInfo.get("company"));
+		log.info("CompanyName enterd as " + attendeInfo.get("company"));
+
+		util.enterText(driver, titleName, attendeInfo.get("title"));
+		log.info("TitleName enterd as " + attendeInfo.get("title"));
+		util.enterText(driver, phoneNumber, attendeInfo.get("EmgPhoneNumber"));
+		log.info("PhoneNumber enterd as" + attendeInfo.get("EmgPhoneNumber"));
+		util.enterText(driver, cityName, attendeInfo.get("city"));
+		log.info("CityName enterd as" + attendeInfo.get("city"));
+		util.selectDropDownByText(selectState, attendeInfo.get("state"));
+		log.info("State dropdown selected as" + attendeInfo.get("state"));
+		util.enterText(driver, degreeInformation, attendeInfo.get("degree"));
+		log.info("degreeInformation dropdown selected as" + attendeInfo.get("degree"));
+		util.selectDropDownByText(selectAccessibility, attendeInfo.get("accessbility"));
+		log.info("Accessibility dropdown selected as" + attendeInfo.get("accessbility"));
 		String emgName = "awer" + RandomStringUtils.randomAlphabetic(4);
 		util.enterText(driver, emgContactName, emgName);
 		log.info("Emergency contact name enterd as" + emgName);
-		util.enterText(driver, emgphoneNumber, emgMobNumb);
-		log.info("Emergency phone number enterd as" + emgMobNumb);
-		util.selectDropDownByText(selectAttendedTimes, attendedTimes);
-		log.info("AttendedTimes dropdown selected as" + attendedTimes);
-		util.selectDropDownByText(selectEthnicity, ethnicity);
-		log.info("Ethnicity dropdown selected as" + ethnicity);
-		util.selectDropDownByText(selectGender, gender);
-		log.info("Gender dropdown selected as" + gender);
-		util.selectDropDownByText(selectProfessionalLevel, professionalLevel);
-		log.info("ProfessionalLevel dropdown selected as" + professionalLevel);
-		util.selectDropDownByText(selectYearsInProfession, yearsInProfession);
-		log.info("YearsInProfession dropdown selected as" + yearsInProfession);
+		util.enterText(driver, emgphoneNumber, attendeInfo.get("phoneNumber"));
+		log.info("Emergency phone number enterd as" + attendeInfo.get("phoneNumber"));
+		util.selectDropDownByText(selectAttendedTimes, attendeInfo.get("attendeeTimes"));
+		log.info("AttendedTimes dropdown selected as" + attendeInfo.get("attendeeTimes"));
+		util.selectDropDownByText(selectEthnicity, attendeInfo.get("ethnicity"));
+		log.info("Ethnicity dropdown selected as" + attendeInfo.get("ethnicity"));
+		util.selectDropDownByText(selectGender, attendeInfo.get("gender"));
+		log.info("Gender dropdown selected as" + attendeInfo.get("gender"));
+		util.selectDropDownByText(selectProfessionalLevel, attendeInfo.get("profLevel"));
+		log.info("ProfessionalLevel dropdown selected as" + attendeInfo.get("profLevel"));
+		util.selectDropDownByText(selectYearsInProfession, attendeInfo.get("yearsProf"));
+		log.info("YearsInProfession dropdown selected as" + attendeInfo.get("yearsProf"));
 		Utility.highLightElement(driver, attestCheckobox);
 		attestCheckobox.click();
 		log.info("attest checkbox is clicked sucessfully");
-		util.selectDropDownByText(selectAttest, attest);
-		log.info("attest dropdown selected as" + attest);
+		util.selectDropDownByText(selectAttest, attendeInfo.get("attest"));
+		log.info("attest dropdown selected as" + attendeInfo.get("attest"));
 		String nameAndSign = "lkjh" + RandomStringUtils.randomAlphabetic(4);
 		util.enterText(driver, printedNameAndSignature, nameAndSign);
 		log.info("printedNameAndSignature enterd as" + nameAndSign);
 	}
 
-	public void clickRegistrationButton() throws Throwable 
-	{
+	public void clickRegistrationButton() throws Throwable {
 		continueButtonInRegistration.click();
 		log.info("Continue button is clicked in registration");
 		Thread.sleep(18000);
 	}
 
-	public void validateRegisterReq()
-	{
+	public void validateRegisterReq() {
 		util.waitUntilElement(driver, firstName);
 		log.info(firstName.getAttribute("value"));
 		util.waitUntilElement(driver, continueButtonInRegistration);
@@ -295,8 +319,7 @@ public class EventRegistration
 		continueButtonInRegistration.click();
 	}
 
-	public void agendaModule() throws Throwable 
-	{
+	public void agendaModule() throws Throwable {
 		Thread.sleep(15000);
 		util.waitUntilElement(driver, continueButtonInAgenda);
 		Utility.highLightElement(driver, continueButtonInAgenda);
@@ -304,8 +327,7 @@ public class EventRegistration
 		log.info("Continue button is clicked in agenda");
 	}
 
-	public void checkoutModule(String cardNumber, String month, String year) throws Throwable 
-	{ 
+	public void checkoutModule(String cardNumber, String month, String year) throws Throwable {
 		String type = "Home";
 		Thread.sleep(14000);
 		util.waitUntilElement(driver, cardHolderName);
@@ -318,7 +340,7 @@ public class EventRegistration
 		util.switchToFrameUsingWebElement(driver, cardNumFrame2);
 		Utility.highLightElement(driver, creditCardNumber);
 		util.waitUntilElement(driver, creditCardNumber);
-		util.enterText(driver, creditCardNumber, cardNumber); 
+		util.enterText(driver, creditCardNumber, cardNumber);
 		log.info("Credit Card number enterd as" + cardNumber);
 		driver.switchTo().defaultContent();
 		util.selectDropDownByText(expMonth, month);
@@ -333,24 +355,24 @@ public class EventRegistration
 		util.waitUntilElement(driver, addressSearch);
 		util.enterText(driver, addressSearch, "In");
 		Thread.sleep(4000);
-		log.info("event list size"+ addressSearchOptions.size());
-		
+		log.info("event list size" + addressSearchOptions.size());
+
 		for (int i = 0; i < addressSearchOptions.size(); i++) {
 			String event = addressSearchOptions.get(i).getText();
-			if(event.contains("Indonesia")) {
+			if (event.contains("Indonesia")) {
 				addressSearchOptions.get(i).click();
 				System.out.println("matched");
 				break;
-			}else {
+			} else {
 				System.out.println("not matched");
 			}
 		}
 		manualAddressCheckbox.click();
 		log.info("Manual adress checkbox is selected");
 		String street = "hgjay" + RandomStringUtils.randomAlphabetic(4);
-		util.enterText(driver, streetName, street); 
+		util.enterText(driver, streetName, street);
 		String cityy = "hgjay" + RandomStringUtils.randomAlphabetic(4);
-		util.enterText(driver, city, cityy); 
+		util.enterText(driver, city, cityy);
 		Utility.highLightElement(driver, country);
 		util.selectDropDownByText(country, "African Republic");
 		Utility.highLightElement(driver, zipCode);
@@ -365,17 +387,17 @@ public class EventRegistration
 		util.waitUntilElement(driver, paymentSuccessMessage);
 		log.info("After Payment success message" + paymentSuccessMessage.getText());
 		receiptNum = receiptNumber.getText();
-		log.info("Receipt Number" +  receiptNum);
+		log.info("Receipt Number" + receiptNum);
 		postedDate = postdDate.getText();
 		log.info(" Event start poseted date " + postedDate);
 		util.waitUntilElement(driver, viewRecieptInCheckout);
 		Utility.highLightElement(driver, viewRecieptInCheckout);
 		try {
-		util.clickUsingJS(driver, viewRecieptInCheckout); 
-		}catch (Exception e) {
+			util.clickUsingJS(driver, viewRecieptInCheckout);
+		} catch (Exception e) {
 			viewRecieptInCheckout.click();
 		}
-		
+
 	}
-	
+
 }

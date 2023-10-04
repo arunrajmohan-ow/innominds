@@ -10,6 +10,7 @@ import java.util.List;
 import org.aia.utility.Utility;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -25,6 +26,8 @@ public class EditCloneEvent {
 	JavascriptExecutor executor;
 	Actions act;
 	static Logger log = Logger.getLogger(EditCloneEvent.class);
+	public String salesOrder ="";
+	public String aiaNumber = "";
 
 	public EditCloneEvent(WebDriver IDriver) {
 		this.driver = IDriver;
@@ -149,6 +152,22 @@ public class EditCloneEvent {
 
 	@FindBy(xpath = "//a[contains(@class,'label-action dndItem')]/span[text()='Events']")
 	WebElement eventsLink;
+	
+	@FindBy(xpath = "(//lightning-formatted-text[@title='AIA Contact Number']/following::div/lightning-formatted-text)[1]") WebElement getAIANumber;
+	
+	@FindBy(xpath = "//lightning-formatted-text[text()='Account Name']/following-sibling::div/a") WebElement accountName;
+	
+	@FindBy(xpath = "//a//slot/span[contains(text(),'Sales Orders')]") WebElement salesOrderLink;
+	
+	@FindBy(xpath = "//th[@data-label='Sales Order #']//a/slot/slot/span") WebElement salesOrderText;
+	
+	@FindBy(css = "button[class*='_neutral search-button slds-truncate']") WebElement globSearch;
+	
+	@FindBy(xpath = "//label[text()='Search...']/following-sibling::div/input") WebElement globSearchInput;
+	
+	@FindBy(xpath = "//input[@placeholder='Search this list...']") WebElement searchEvents;
+	
+	@FindBy(xpath = "//a[@data-refid='recordId']") WebElement eventName;
 
 	/**
 	 * @return Event name This method click already exist event in the top of the
@@ -163,6 +182,37 @@ public class EditCloneEvent {
 //		createdEvent.click();
 //		return eventName;
 //	}
+	
+	public void eventsTab() {
+		util.waitUntilElement(driver, eventsLink);
+		util.clickUsingJS(driver, eventsLink);
+	}
+	
+	public void globalSearch(String email) throws Throwable {
+		Utility.highLightElement(driver, globSearch);
+		globSearch.click();
+		globSearchInput.sendKeys(email);
+		Thread.sleep(4000);
+		globSearchInput.sendKeys(Keys.ENTER);
+	}
+	
+	public void eventsSearch(String event) {
+		util.waitUntilElement(driver, searchEvents);
+		Utility.highLightElement(driver, searchEvents);
+		searchEvents.sendKeys(event);
+		eventName.click();
+	}
+	
+	public void getAIAData() throws Throwable {
+		util.waitUntilElement(driver, getAIANumber);
+		Utility.highLightElement(driver, getAIANumber);
+		aiaNumber = getAIANumber.getText();
+		log.info(getAIANumber.getText());
+		Utility.highLightElement(driver, accountName);
+		accountName.click();
+		eventsTab();
+		Thread.sleep(4000);
+	}
 	
 	public void clickEditButton() {
 		util.waitUntilElement(driver, EditButton);
@@ -352,8 +402,10 @@ public class EditCloneEvent {
 		log.info("Scrolled event url");
 		util.clickUsingJS(driver, eventUrl);
 		log.info("event url is clicked sucessfully");
-		ArrayList<String> tabs = new ArrayList<String>(this.driver.getWindowHandles());
-		driver.switchTo().window(tabs.get(tabIdx));
+		util.switchToTabs(driver, tabIdx);
+//		ArrayList<String> tabs = new ArrayList<String>(this.driver.getWindowHandles());
+//		driver.switchTo().window(tabs.get(tabIdx));
+		
 		util.waitUntilElement(driver, eventRegister);
 		eventRegister.click();
 		log.info("Event Register button is clicked sucessfully");

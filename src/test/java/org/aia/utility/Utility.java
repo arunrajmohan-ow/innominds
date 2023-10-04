@@ -306,6 +306,12 @@ public class Utility {
 		return driver;
 	}
 	
+	public WebDriver switchToTabs(WebDriver driver, int tab) {
+		ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
+		driver.switchTo().window(tabs.get(tab));
+		return driver;
+	}
+	
 	public void scrollingElementUsingJS(WebDriver driver, WebElement element) {
 		JavascriptExecutor js=(JavascriptExecutor)driver; 
 		js.executeScript("arguments[0].scrollIntoView();", element);

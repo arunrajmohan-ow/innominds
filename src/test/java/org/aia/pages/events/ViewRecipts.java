@@ -32,8 +32,9 @@ public class ViewRecipts {
 
 	@FindBy(xpath = "//body//embed")
 	WebElement getReceiptText;
+	
 
-	public void getReceiptBody(String receiptNo, int specTab) throws Throwable {
+	public void getReceiptBody(String receiptNo, String aiaNumber, int specTab) throws Throwable {
 		ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
 		driver.switchTo().window(tabs.get(specTab));
 		Thread.sleep(10000);
@@ -63,11 +64,16 @@ public class ViewRecipts {
 			// Printing the content on console
 			System.out.println(pdfContent);
 		}
-		Assert.assertTrue(pdfContent.contains("Total: $400.00"));;
-		log.info("verified total amount in receipts");
 		
-		//pending validations
-//	  Assert.assertTrue(pdfContent.contains(receiptNo.replace("#", "")));
-
+		Assert.assertTrue(pdfContent.contains("Total: $400.00"));;
+		log.info("verified total amount in receipt documnet");
+		
+		
+		
+	   Assert.assertTrue(pdfContent.contains(receiptNo.replace("Receipt: #", "")));
+	   log.info("verified Receipt number in receipt document" + receiptNo);
+	   
+	   Assert.assertTrue(pdfContent.contains(aiaNumber));
+	   log.info("verified customer AIA number in receipt documnet" + aiaNumber);
 	}
 }
