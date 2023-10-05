@@ -2,6 +2,7 @@ package org.aia.pages.api.ces;
 
 import static io.restassured.RestAssured.given;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 import org.aia.utility.DataProviderFactory;
 import org.aia.utility.Utility;
@@ -85,15 +86,14 @@ public class FontevaCESTermDateChangeAPI {
 	/**
 	 * Here we validate actual membership status.
 	 */
-	public void validateCESMembershipCreated(String membershipStatus) {
+	public void validateCESMembershipCreated(String membershipStatus, String membershipData) {
 		String selectTermURI = sObjectURI + "/OrderApi__Subscription__c/" + membershipId + "/OrderApi__Renewals__r";
 		Response response = given().header("Authorization", "Bearer " + bearerToken).header("Content-Type", ContentType.JSON)
 				.header("Accept", ContentType.JSON).when().get(selectTermURI).then().statusCode(200).extract()
 				.response();
 		jsonPathEval = response.jsonPath();
-		String actualmembershipStatus= jsonPathEval.getString("records[0].OrderApi__Status__c");
+		String actualmembershipStatus= jsonPathEval.getString("records[0]."+membershipData+"");
 		assertEquals(membershipStatus, actualmembershipStatus);
-		
 		
 	}
 }
