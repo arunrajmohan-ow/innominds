@@ -1,5 +1,6 @@
 package org.aia.testcases.ces;
 
+<<<<<<< HEAD
 <<<<<<< HEAD:src/test/java/org/aia/testcases/ces/TestCESMembershipStatus_CES.java
 <<<<<<< HEAD
 import java.time.LocalDate;
@@ -7,6 +8,8 @@ import java.time.LocalDate;
 >>>>>>> be256a089f29a3721057e4525f593005ed9e5d45
 =======
 >>>>>>> parent of 20ef632 (End of FC-172):src/test/java/org/aia/testcases/ces/TestTermCreation_CES.java
+=======
+>>>>>>> parent of 20ef632 (End of FC-172)
 import java.util.ArrayList;
 
 import org.aia.pages.BaseClass;
@@ -142,6 +145,7 @@ public class TestTermCreation_CES extends BaseClass {
 		termDateChangeApi = PageFactory.initElements(driver, FontevaCESTermDateChangeAPI.class);
 	}
 
+<<<<<<< HEAD
 <<<<<<< HEAD:src/test/java/org/aia/testcases/ces/TestCESMembershipStatus_CES.java
 	@Test(priority = 1, description = "Verify Term creation for $0 CES Membership type", enabled = true)
 	public void verifyTermCreationFor$0CESMembershipType() throws Exception {
@@ -162,6 +166,10 @@ public class TestTermCreation_CES extends BaseClass {
 	@Test(priority = 1, description = "Validate Login experience user as CES AIA Component.", enabled = true)
 	public void verifyLoginAsExpUserCESAIAComponent() throws Exception {
 >>>>>>> parent of 20ef632 (End of FC-172):src/test/java/org/aia/testcases/ces/TestTermCreation_CES.java
+=======
+	@Test(priority = 1, description = "Validate Login experience user as CES AIA Component.", enabled = true)
+	public void verifyLoginAsExpUserCESAIAComponent() throws Exception {
+>>>>>>> parent of 20ef632 (End of FC-172)
 		String prefix = "Dr.";
 		String suffix = "Sr.";
 		signUpPage.clickSignUplink();
