@@ -1,10 +1,8 @@
 package org.aia.testcases.ces;
-
 import java.util.ArrayList;
 
 import org.aia.pages.BaseClass;
 import org.aia.pages.api.MailinatorCESAPI;
-import org.aia.pages.api.ces.FontevaCESTermDateChangeAPI;
 import org.aia.pages.api.ces.RenewCESAPIValidation;
 import org.aia.pages.api.membership.FontevaConnectionSOAP;
 import org.aia.pages.ces.AdditionalProviderUser;
@@ -44,7 +42,7 @@ import org.testng.annotations.Test;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 
-public class TestCSEMembershipStatus_CES extends BaseClass {
+public class TestTermCreation_CES extends BaseClass {
 	SignUpPageCes signUpPage;
 	SignInPage signInpage;
 	CloseBtnPageCes closeButtnPage;
@@ -69,7 +67,6 @@ public class TestCSEMembershipStatus_CES extends BaseClass {
 	CES_ReNewUser reNewUser;
 	CES_ContactPage ces_ContactPage;
 	CES_Memberships ces_membership;
-	FontevaCESTermDateChangeAPI cesTermDateApi;
 	public ExtentReports extent;
 	public ExtentTest extentTest;
 	final static Logger logger = Logger.getLogger(TestRenewPassport_CES.class);
@@ -101,12 +98,11 @@ public class TestCSEMembershipStatus_CES extends BaseClass {
 		renew = PageFactory.initElements(driver, RenewCESPage.class);
 		reNewUser = PageFactory.initElements(driver, CES_ReNewUser.class);
 		ces_ContactPage = PageFactory.initElements(driver, CES_ContactPage.class);
-		ces_membership = PageFactory.initElements(driver, CES_Memberships.class);
-		cesTermDateApi = PageFactory.initElements(driver, FontevaCESTermDateChangeAPI.class);
+		ces_membership=PageFactory.initElements(driver, CES_Memberships.class);
 	}
 
-	@Test(priority = 1, description = "Validate Term creation for $0 CES Membership type", enabled = true)
-	public void verifyTermCreationCESMembershipType() throws Exception {
+	@Test(priority = 1, description = "Validate Login experience user as CES AIA Component.", enabled = true)
+	public void verifyLoginAsExpUserCESAIAComponent() throws Exception {
 		String prefix = "Dr.";
 		String suffix = "Sr.";
 		signUpPage.clickSignUplink();
@@ -129,49 +125,12 @@ public class TestCSEMembershipStatus_CES extends BaseClass {
 		Object amount = paymntSuccesFullPageCes.amountPaid();
 		// Navigate to Fonteva app and make record renew eligible.
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
-		ces_ContactPage.selectRapidOrderEntry(dataList.get(0) + " " + dataList.get(1), "CES AIA National", "National");
+		ces_ContactPage.selectRapidOrderEntry1(dataList.get(0) + " " + dataList.get(1), "CES AIA National", "National");
 		ces_ContactPage.validateDeleteCESMembership();
+		//ces_ContactPage.validateDelete();
 		ces_ContactPage.validateAvailableMemType();
-		cesTermDateApi.changeTermDateAPI(dataList.get(3), "2023-12-31");
-		// Validate Provider Application & CES Provider account details - Fonteva API
-		// validations
-		apiValidation.verifyProviderApplicationDetails("Approved", userAccount, "Passport",
-				userAccount.get(0) + " " + userAccount.get(1), true, java.time.LocalDate.now().toString(),
-				"AutomationOrg", "Other", "No");
-
-		// Validate CES Provider account details - Fonteva API validations
-		apiValidation.verifyProviderApplicationAccountDetails("Active", "CES Passport", "2023-12-31", false);
-		// Validate Primary POC
-		apiValidation.verifyPointOfContact("CES Primary", userAccount.get(5),
-				userAccount.get(0) + " " + userAccount.get(1));
-	}
-
-	@Test(priority = 2, description = "Validate Membership Type when term date for CES Membership is updated", enabled = false)
-	public void verifyTermDateCESMembershipType() throws Exception {
-		String prefix = "Dr.";
-		String suffix = "Sr.";
-		signUpPage.clickSignUplink();
-		ArrayList<String> dataList = signUpPage.signUpData();
-		ArrayList<String> userAccount = dataList;
-		signUpPage.signUpUser();
-		mailinator.verifyEmailForAccountSetup(dataList.get(3));
-		closeButtnPage.clickCloseAfterVerification();
-		loginPageCes.loginToCes(dataList.get(5), dataList.get(6));
-		loginPageCes.checkLoginSuccess();
-		primarypocPage.enterPrimaryPocDetails(prefix, suffix, dataList.get(2));
-		String text = organizationPage.enterOrganizationDetails(dataList, "Other", "No",
-				"United States of America (+1)");
-		subscribePage.SubscriptionType(text, "Yes", null, "Non-profit");
-		secPoc.enterSecondaryPocDetails(dataList, prefix, suffix, "No", "United States of America (+1)");
-		additionalUsers.doneWithCreatingUsers();
-		providerStatement.providerStatementEnterNameDate2("FNProviderStatement");
-		checkOutPageCes.SubscriptionType(text);
-		Logging.logger.info("Total Amount is : " + paymntSuccesFullPageCes.amountPaid());
-		Object amount = paymntSuccesFullPageCes.amountPaid();
-		// Navigate to Fonteva app and make record renew eligible.
-		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
-		ces_ContactPage.selectRapidOrderEntry(dataList.get(0) + " " + dataList.get(1), "CES AIA National", "National");
-		//ces_ContactPage.validateCESMembershipTermDate();
-	
-	}
+		
+			
+		
+}
 }
