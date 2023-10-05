@@ -564,12 +564,21 @@ public class CES_ContactPage {
 		//util.waitUntilElement(driver, accountName);
 		//executor.executeScript("arguments[0].click();", accountName);
 	}
+<<<<<<< HEAD
 	public void validateDeleteCESMembership() throws InterruptedException {		
 		util.waitUntilElement(driver, Membershipslnk);
 		Actions action1 = new Actions(driver);
 		action1.moveToElement(Membershipslnk).click().perform();
 		System.out.println("Memberships clicked");
 		driver.navigate().refresh();
+=======
+	public void validateCESMembership() throws InterruptedException {		
+		util.waitUntilElement(driver, Membershipslnk);
+		Actions action = new Actions(driver);
+		action.moveToElement(Membershipslnk).click().perform();
+		System.out.println("Memberships selected");
+		Thread.sleep(30000);
+>>>>>>> parent of 74dec48 (FC-449)
 		//RefreshBtn.click();
 		List<WebElement> rows = driver.findElements(By.xpath("//*[@role ='table']//tbody//tr"));
 		System.out.println("Number of records:"+rows.size());
@@ -579,6 +588,7 @@ public class CES_ContactPage {
 		action2.moveToElement(Chevronbtn).click().perform();
 		//Chevronbtn.click();
 		System.out.println("Chevron button clicked");
+<<<<<<< HEAD
 		Actions action3 = new Actions(driver);
 		util.waitUntilElement(driver, DeleteBtn_chevrontype);
 		action3.moveToElement(DeleteBtn_chevrontype).click().perform();
@@ -594,6 +604,21 @@ public class CES_ContactPage {
 //		String alertMessage = driver.switchTo().alert().getText(); 
 //		System.out.println(alertMessage);
 //		Thread.sleep(5000);
+=======
+		util.waitUntilElement(driver, DeleteBtn_chevrontype);
+		DeleteBtn_chevrontype.click();
+		System.out.println("Delete button clicked");
+		util.waitUntilElement(driver, DeleteMsg);
+		System.out.println("MyError:" + DeleteMsg.getText());
+		assertTrue(DeleteMsg.getText().equalsIgnoreCase(data.testDataProvider().getProperty("DeleteMsg")));
+		util.waitUntilElement(driver, Delete_membership);
+		Delete_membership.click();
+		//Thread.sleep(30000);
+		Alert alert = driver.switchTo().alert(); 
+		String alertMessage = driver.switchTo().alert().getText(); 
+		System.out.println(alertMessage);
+		Thread.sleep(5000);
+>>>>>>> parent of 74dec48 (FC-449)
 		
 	}
 	public void validateAvailableMemType() {
