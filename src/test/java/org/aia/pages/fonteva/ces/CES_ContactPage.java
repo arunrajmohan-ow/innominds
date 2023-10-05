@@ -263,9 +263,11 @@ public class CES_ContactPage {
 	@FindBy(xpath = "//span[text()='Delete']")
 	WebElement Delete_membership;
 
-	@FindBy(xpath = "(//*[@role = 'table']//tbody//tr//td)[4]//a")
+	@FindBy(xpath = "(//*[@role = 'table']//tbody//tr//td)[4]")
 	WebElement AvailableMemType;
-	
+
+	@FindBy(xpath = "//span[text()='Refresh']")
+	WebElement RefreshBtn;
 
 	@FindBy(xpath = "//div[text()='Delete']")
 	WebElement DeleteBtn_chevrontype;
@@ -531,7 +533,7 @@ public class CES_ContactPage {
 
 	}
 
-	public void selectRapidOrderEntryAccount(String userFullname, String itemQuick, String quickElement)
+	public void selectRapidOrderEntry1(String userFullname, String itemQuick, String quickElement)
 			throws InterruptedException, AWTException {
 		Thread.sleep(30000);
 		selectCreatedContact(userFullname);
@@ -588,34 +590,60 @@ public class CES_ContactPage {
 		Actions action4 = new Actions(driver);
 		util.waitUntilElement(driver, Delete_membership);
 		action4.moveToElement(Delete_membership).click().perform();
-//		// Thread.sleep(30000);
-////		Alert alert = driver.switchTo().alert(); 
-////		String alertMessage = driver.switchTo().alert().getText(); 
-////		System.out.println(alertMessage);
-////		Thread.sleep(5000);
-//		util.waitUntilElement(driver, DeleteBtn_chevrontype);
-//		DeleteBtn_chevrontype.click();
-//		System.out.println("Delete button clicked");
-//		util.waitUntilElement(driver, DeleteMsg);
-//		System.out.println("MyError:" + DeleteMsg.getText());
-//		assertTrue(DeleteMsg.getText().equalsIgnoreCase(data.testDataProvider().getProperty("DeleteMsg")));
-//		util.waitUntilElement(driver, Delete_membership);
-//		Delete_membership.click();
-//		// Thread.sleep(30000);
-//		Alert alert = driver.switchTo().alert();
-//		String alertMessage = driver.switchTo().alert().getText();
+		// Thread.sleep(30000);
+//		Alert alert = driver.switchTo().alert(); 
+//		String alertMessage = driver.switchTo().alert().getText(); 
 //		System.out.println(alertMessage);
 //		Thread.sleep(5000);
+		util.waitUntilElement(driver, DeleteBtn_chevrontype);
+		DeleteBtn_chevrontype.click();
+		System.out.println("Delete button clicked");
+		util.waitUntilElement(driver, DeleteMsg);
+		System.out.println("MyError:" + DeleteMsg.getText());
+		assertTrue(DeleteMsg.getText().equalsIgnoreCase(data.testDataProvider().getProperty("DeleteMsg")));
+		util.waitUntilElement(driver, Delete_membership);
+		Delete_membership.click();
+		// Thread.sleep(30000);
+		Alert alert = driver.switchTo().alert();
+		String alertMessage = driver.switchTo().alert().getText();
+		System.out.println(alertMessage);
+		Thread.sleep(5000);
 
 	}
 
 	public void validateAvailableMemType() {
 		util.waitUntilElement(driver, AvailableMemType);
 		assertTrue(
-				AvailableMemType.getCssValue("title").toString().equalsIgnoreCase(data.testDataProvider().getProperty("availableMemType")));
-				//AvailableMemType.getText().equalsIgnoreCase(data.testDataProvider().getProperty("availableMemType")));
+				AvailableMemType.getText().equalsIgnoreCase(data.testDataProvider().getProperty("availableMemType")));
 
 	}
 
 }
 
+//Select drpOptn=new Select(driver.findElement(By.xpath("//ul[@class='scrollable']/li")));
+// drpOptn.selectByVisibleText("Delete");
+/*
+ * List<WebElement> ChevronTypes =
+ * driver.findElements(By.xpath("//ul[@class='scrollable']/li"));
+ * System.out.println(ChevronTypes); //Thread.sleep(10000); for (WebElement
+ * ChevronType:ChevronTypes) { System.out.println(ChevronType.getText()); if
+ * (ChevronType.getText().contains("Delete")); { util.waitUntilElement(driver,
+ * ChevronType); Actions action1 = new Actions(driver);
+ * action1.moveToElement(ChevronType).click().perform(); Thread.sleep(30000);
+ * //ChevronType.click(); System.out.println("Delete button clicked"); break; }
+ * 
+ * } Thread.sleep(10000);
+ */
+
+/*
+ * public void validateDelete() throws InterruptedException {
+ * util.waitUntilElement(driver, DeleteMsg); System.out.println("MyError:" +
+ * DeleteMsg.getText());
+ * assertTrue(DeleteMsg.getText().equalsIgnoreCase(data.testDataProvider().
+ * getProperty("DeleteMsg"))); util.waitUntilElement(driver, DeleteBtn);
+ * DeleteBtn.click(); Thread.sleep(5000); Alert alert =
+ * driver.switchTo().alert(); // switch to alert String alertMessage =
+ * driver.switchTo().alert().getText(); // capture alert message
+ * System.out.println(alertMessage); // Print Alert Message Thread.sleep(5000);
+ * }
+ */

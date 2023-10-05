@@ -17,7 +17,6 @@ public class FontevaCESTermDateChangeAPI {
 
 	public FontevaCESTermDateChangeAPI(WebDriver driver) {
 		this.driver = driver;
-		
 	}
 
 	Utility util = new Utility(driver, 10);
