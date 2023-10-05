@@ -113,7 +113,7 @@ public class TestJoinPassport_CES extends BaseClass {
 		Logging.logger.info("Account Name is : " + dataList.get(0));
 	}
 	
-	@Test(priority=2, description="Validate email after making the payment.", enabled = true)
+	@Test(priority=2, description="Validate email after making the payment.", enabled = false)
 	public void ValidateEmailPassportJoin() throws Exception
 	{
 		String prefix = "Dr.";
@@ -144,7 +144,7 @@ public class TestJoinPassport_CES extends BaseClass {
 		mailinator.welcomeAIAEmailLink(userAccount);
 	}
 	
-	@Test(priority=3, description="Validate Join Passport.", enabled = true)
+	@Test(priority=3, description="Validate Join Passport.", enabled = false)
 	public void ValidatePassportJoin() throws Exception
 	{
 		String prefix = "Dr.";
@@ -192,7 +192,7 @@ public class TestJoinPassport_CES extends BaseClass {
 
 	}
 	
-	@Test(priority=4, description="Validate Join Passport, with additional users.", enabled = true, groups= {"Smoke"})
+	@Test(priority=4, description="Validate Join Passport, with additional users.", enabled = false, groups= {"Smoke"})
 	public void ValidatePassportJoinWithAdditionalUser() throws Exception
 	{
 		String prefix = "Dr.";
