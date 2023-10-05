@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.aia.pages.BaseClass;
 import org.aia.pages.api.MailinatorCESAPI;
+import org.aia.pages.api.ces.FontevaCESTermDateChangeAPI;
 import org.aia.pages.api.ces.JoinCESAPIValidation;
 import org.aia.pages.api.membership.FontevaConnectionSOAP;
 import org.aia.pages.ces.AdditionalProviderUser;
@@ -19,6 +20,8 @@ import org.aia.pages.ces.ProviderStatement;
 import org.aia.pages.ces.SecondaryPointOfContact;
 import org.aia.pages.ces.SignUpPageCes;
 import org.aia.pages.ces.Subscription;
+import org.aia.pages.fonteva.ces.CES_ContactPage;
+import org.aia.pages.fonteva.ces.CES_SalesOrder;
 import org.aia.pages.membership.OrderSummaryPage;
 import org.aia.pages.membership.PaymentInformation;
 import org.aia.pages.membership.PrimaryInformationPage;
@@ -58,6 +61,9 @@ public class TestCESMembershipStatus_CES extends BaseClass {
 	PaymentSuccessFullPageCes paymntSuccesFullPageCes;
 	JoinCESAPIValidation apiValidation;
 	FontevaCES fontevaPage;
+	FontevaCESTermDateChangeAPI cesTermDateChangeAPI;
+	CES_ContactPage ces_ContactPage;
+	CES_SalesOrder salesorder;
 
 	public ExtentReports extent;
 	public ExtentTest extentTest;
@@ -87,6 +93,9 @@ public class TestCESMembershipStatus_CES extends BaseClass {
 		paymntSuccesFullPageCes = PageFactory.initElements(driver, PaymentSuccessFullPageCes.class);
 		apiValidation = PageFactory.initElements(driver, JoinCESAPIValidation.class);
 		fontevaPage = PageFactory.initElements(driver, FontevaCES.class);
+		cesTermDateChangeAPI=PageFactory.initElements(driver, FontevaCESTermDateChangeAPI.class);
+		ces_ContactPage = PageFactory.initElements(driver, CES_ContactPage.class);
+		salesorder=PageFactory.initElements(driver, CES_SalesOrder.class);
 	}
 
 	@Test(priority = 1, description = "Verify Membership status when term date for CES Membership is updated", enabled = true, groups = {
@@ -114,7 +123,12 @@ public class TestCESMembershipStatus_CES extends BaseClass {
 		String reciptData = paymntSuccesFullPageCes.ClickonViewReceipt();
 		//Navigate to Fonteva side
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
-		fontevaPage.changeTermDates(dataList.get(0) + " " + dataList.get(1));
+		//fontevaPage.changeTermDates(dataList.get(0) + " " + dataList.get(1));
+		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
+		ces_ContactPage.selectRapidOrderEntry(dataList.get(0) + " " + dataList.get(1), "CES AIA National", "National");
+		cesTermDateChangeAPI.changeTermDateAPI(dataList.get(3), util.todaysDate().toString());
+		cesTermDateChangeAPI.validateCESMembershipCreated("Active");
+		
 
 	}
 }
