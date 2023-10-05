@@ -6,6 +6,7 @@ import java.sql.Driver;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -338,5 +339,14 @@ public class Utility {
 	        list.add(value);
 	    }
 	    return list;
+	}
+	
+	/**
+	 * Here we get todays date using Localdate class from java.
+	 * @return 
+	 */
+	public LocalDate todaysDate() {
+		 LocalDate localDate = java.time.LocalDate.now();
+		 return localDate;
 	}
 }
