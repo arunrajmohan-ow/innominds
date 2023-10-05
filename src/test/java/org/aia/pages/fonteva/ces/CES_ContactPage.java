@@ -561,16 +561,21 @@ public class CES_ContactPage {
 		Actions action = new Actions(driver);
 		action.moveToElement(SelectAccount).click().perform();
 		System.out.println("Account selected");
-		// util.waitUntilElement(driver, accountName);
-		// executor.executeScript("arguments[0].click();", accountName);
-	}
-
-	public void validateDeleteCESMembership() throws InterruptedException {
 		util.waitUntilElement(driver, Membershipslnk);
 		Actions action1 = new Actions(driver);
 		action1.moveToElement(Membershipslnk).click().perform();
 		System.out.println("Memberships clicked");
 		driver.navigate().refresh();
+		// util.waitUntilElement(driver, accountName);
+		// executor.executeScript("arguments[0].click();", accountName);
+	}
+
+	public void validateDeleteCESMembership() throws InterruptedException {
+//		util.waitUntilElement(driver, Membershipslnk);
+//		Actions action1 = new Actions(driver);
+//		action1.moveToElement(Membershipslnk).click().perform();
+//		System.out.println("Memberships clicked");
+//		driver.navigate().refresh();
 		// RefreshBtn.click();
 		List<WebElement> rows = driver.findElements(By.xpath("//*[@role ='table']//tbody//tr"));
 		System.out.println("Number of records:" + rows.size());
