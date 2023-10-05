@@ -1,12 +1,19 @@
 package org.aia.testcases.ces;
 
+<<<<<<< HEAD
 import java.time.LocalDate;
+=======
+>>>>>>> be256a089f29a3721057e4525f593005ed9e5d45
 import java.util.ArrayList;
 
 import org.aia.pages.BaseClass;
 import org.aia.pages.api.MailinatorCESAPI;
 import org.aia.pages.api.ces.FontevaCESTermDateChangeAPI;
+<<<<<<< HEAD
 import org.aia.pages.api.ces.RenewCESAPIValidation;
+=======
+import org.aia.pages.api.ces.JoinCESAPIValidation;
+>>>>>>> be256a089f29a3721057e4525f593005ed9e5d45
 import org.aia.pages.api.membership.FontevaConnectionSOAP;
 import org.aia.pages.ces.AdditionalProviderUser;
 import org.aia.pages.ces.AdditionalUsers;
@@ -18,13 +25,20 @@ import org.aia.pages.ces.Organization;
 import org.aia.pages.ces.PaymentSuccessFullPageCes;
 import org.aia.pages.ces.PrimaryPointOfContact;
 import org.aia.pages.ces.ProviderStatement;
+<<<<<<< HEAD
 import org.aia.pages.ces.RenewCESPage;
+=======
+>>>>>>> be256a089f29a3721057e4525f593005ed9e5d45
 import org.aia.pages.ces.SecondaryPointOfContact;
 import org.aia.pages.ces.SignUpPageCes;
 import org.aia.pages.ces.Subscription;
 import org.aia.pages.fonteva.ces.CES_ContactPage;
+<<<<<<< HEAD
 import org.aia.pages.fonteva.ces.CES_Memberships;
 import org.aia.pages.fonteva.ces.CES_ReNewUser;
+=======
+import org.aia.pages.fonteva.ces.CES_SalesOrder;
+>>>>>>> be256a089f29a3721057e4525f593005ed9e5d45
 import org.aia.pages.membership.OrderSummaryPage;
 import org.aia.pages.membership.PaymentInformation;
 import org.aia.pages.membership.PrimaryInformationPage;
@@ -36,9 +50,13 @@ import org.aia.utility.DataProviderFactory;
 import org.aia.utility.Logging;
 import org.aia.utility.Utility;
 import org.apache.log4j.Logger;
+<<<<<<< HEAD
 import org.apache.poi.util.PackageHelper;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.annotations.AfterMethod;
+=======
+import org.openqa.selenium.support.PageFactory;
+>>>>>>> be256a089f29a3721057e4525f593005ed9e5d45
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -64,6 +82,7 @@ public class TestCESMembershipStatus_CES extends BaseClass {
 	ProviderStatement providerStatement;
 	CheckOutPageCes checkOutPageCes;
 	PaymentSuccessFullPageCes paymntSuccesFullPageCes;
+<<<<<<< HEAD
 	RenewCESAPIValidation apiValidation;
 	FontevaCES fontevaPage;
 	RenewCESPage renew;
@@ -77,6 +96,19 @@ public class TestCESMembershipStatus_CES extends BaseClass {
 	final static Logger logger = Logger.getLogger(TestRenewPassport_CES.class);
 
 	@BeforeMethod
+=======
+	JoinCESAPIValidation apiValidation;
+	FontevaCES fontevaPage;
+	FontevaCESTermDateChangeAPI cesTermDateChangeAPI;
+	CES_ContactPage ces_ContactPage;
+	CES_SalesOrder salesorder;
+
+	public ExtentReports extent;
+	public ExtentTest extentTest;
+	final static Logger logger = Logger.getLogger(TestCESMembershipStatus_CES.class);
+
+	@BeforeMethod(alwaysRun = true)
+>>>>>>> be256a089f29a3721057e4525f593005ed9e5d45
 	public void setUp() throws Exception {
 		sessionID = new FontevaConnectionSOAP();
 		driver = BrowserSetup.startApplication(driver, DataProviderFactory.getConfig().getValue("browser"),
@@ -98,6 +130,7 @@ public class TestCESMembershipStatus_CES extends BaseClass {
 		providerStatement = PageFactory.initElements(driver, ProviderStatement.class);
 		checkOutPageCes = PageFactory.initElements(driver, CheckOutPageCes.class);
 		paymntSuccesFullPageCes = PageFactory.initElements(driver, PaymentSuccessFullPageCes.class);
+<<<<<<< HEAD
 		apiValidation = PageFactory.initElements(driver, RenewCESAPIValidation.class);
 		fontevaPage = PageFactory.initElements(driver, FontevaCES.class);
 		renew = PageFactory.initElements(driver, RenewCESPage.class);
@@ -109,11 +142,27 @@ public class TestCESMembershipStatus_CES extends BaseClass {
 
 	@Test(priority = 1, description = "Verify Term creation for $0 CES Membership type", enabled = true)
 	public void verifyTermCreationFor$0CESMembershipType() throws Exception {
+=======
+		apiValidation = PageFactory.initElements(driver, JoinCESAPIValidation.class);
+		fontevaPage = PageFactory.initElements(driver, FontevaCES.class);
+		cesTermDateChangeAPI=PageFactory.initElements(driver, FontevaCESTermDateChangeAPI.class);
+		ces_ContactPage = PageFactory.initElements(driver, CES_ContactPage.class);
+		salesorder=PageFactory.initElements(driver, CES_SalesOrder.class);
+	}
+
+	@Test(priority = 1, description = "Verify Membership status when term date for CES Membership is updated", enabled = true, groups = {
+			"Smoke" })
+	public void validateCESMembershipStatus() throws Exception {
+		//Here we create the user
+>>>>>>> be256a089f29a3721057e4525f593005ed9e5d45
 		String prefix = "Dr.";
 		String suffix = "Sr.";
 		signUpPage.clickSignUplink();
 		ArrayList<String> dataList = signUpPage.signUpData();
+<<<<<<< HEAD
 		ArrayList<String> userAccount = dataList;
+=======
+>>>>>>> be256a089f29a3721057e4525f593005ed9e5d45
 		signUpPage.signUpUser();
 		mailinator.verifyEmailForAccountSetup(dataList.get(3));
 		closeButtnPage.clickCloseAfterVerification();
@@ -128,6 +177,7 @@ public class TestCESMembershipStatus_CES extends BaseClass {
 		providerStatement.providerStatementEnterNameDate2("FNProviderStatement");
 		checkOutPageCes.SubscriptionType(text);
 		Logging.logger.info("Total Amount is : " + paymntSuccesFullPageCes.amountPaid());
+<<<<<<< HEAD
 		Object amount = paymntSuccesFullPageCes.amountPaid();
 		// Navigate to Fonteva app and make record renew eligible.
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
@@ -181,3 +231,17 @@ public class TestCESMembershipStatus_CES extends BaseClass {
 	}
 
 }
+=======
+		String reciptData = paymntSuccesFullPageCes.ClickonViewReceipt();
+		//Navigate to Fonteva side
+		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
+		//fontevaPage.changeTermDates(dataList.get(0) + " " + dataList.get(1));
+		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
+		ces_ContactPage.selectRapidOrderEntry(dataList.get(0) + " " + dataList.get(1), "CES AIA National", "National");
+		cesTermDateChangeAPI.changeTermDateAPI(dataList.get(3), util.todaysDate().toString());
+		cesTermDateChangeAPI.validateCESMembershipCreated("Active");
+		
+
+	}
+}
+>>>>>>> be256a089f29a3721057e4525f593005ed9e5d45
