@@ -1,9 +1,12 @@
 package org.aia.testcases.ces;
 
+<<<<<<< HEAD:src/test/java/org/aia/testcases/ces/TestCESMembershipStatus_CES.java
 <<<<<<< HEAD
 import java.time.LocalDate;
 =======
 >>>>>>> be256a089f29a3721057e4525f593005ed9e5d45
+=======
+>>>>>>> parent of 20ef632 (End of FC-172):src/test/java/org/aia/testcases/ces/TestTermCreation_CES.java
 import java.util.ArrayList;
 
 import org.aia.pages.BaseClass;
@@ -63,7 +66,7 @@ import org.testng.annotations.Test;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 
-public class TestCESMembershipStatus_CES extends BaseClass {
+public class TestTermCreation_CES extends BaseClass {
 	SignUpPageCes signUpPage;
 	SignInPage signInpage;
 	CloseBtnPageCes closeButtnPage;
@@ -92,7 +95,6 @@ public class TestCESMembershipStatus_CES extends BaseClass {
 	FontevaCESTermDateChangeAPI termDateChangeApi;
 	public ExtentReports extent;
 	public ExtentTest extentTest;
-	LocalDate localDate = java.time.LocalDate.now();
 	final static Logger logger = Logger.getLogger(TestRenewPassport_CES.class);
 
 	@BeforeMethod
@@ -140,6 +142,7 @@ public class TestCESMembershipStatus_CES extends BaseClass {
 		termDateChangeApi = PageFactory.initElements(driver, FontevaCESTermDateChangeAPI.class);
 	}
 
+<<<<<<< HEAD:src/test/java/org/aia/testcases/ces/TestCESMembershipStatus_CES.java
 	@Test(priority = 1, description = "Verify Term creation for $0 CES Membership type", enabled = true)
 	public void verifyTermCreationFor$0CESMembershipType() throws Exception {
 =======
@@ -155,6 +158,10 @@ public class TestCESMembershipStatus_CES extends BaseClass {
 	public void validateCESMembershipStatus() throws Exception {
 		//Here we create the user
 >>>>>>> be256a089f29a3721057e4525f593005ed9e5d45
+=======
+	@Test(priority = 1, description = "Validate Login experience user as CES AIA Component.", enabled = true)
+	public void verifyLoginAsExpUserCESAIAComponent() throws Exception {
+>>>>>>> parent of 20ef632 (End of FC-172):src/test/java/org/aia/testcases/ces/TestTermCreation_CES.java
 		String prefix = "Dr.";
 		String suffix = "Sr.";
 		signUpPage.clickSignUplink();
@@ -181,8 +188,7 @@ public class TestCESMembershipStatus_CES extends BaseClass {
 		Object amount = paymntSuccesFullPageCes.amountPaid();
 		// Navigate to Fonteva app and make record renew eligible.
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
-		ces_ContactPage.selectRapidOrderEntryAccount(dataList.get(0) + " " + dataList.get(1), "CES AIA National",
-				"National");
+		ces_ContactPage.selectRapidOrderEntry(dataList.get(0) + " " + dataList.get(1), "CES AIA National", "National");
 		ces_ContactPage.validateDeleteCESMembership();
 		ces_ContactPage.validateAvailableMemType();
 		termDateChangeApi.changeTermDateAPI(dataList.get(3), "2023-12-31");
@@ -223,10 +229,8 @@ public class TestCESMembershipStatus_CES extends BaseClass {
 		Object amount = paymntSuccesFullPageCes.amountPaid();
 		// Navigate to Fonteva app and make record renew eligible.
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
-		ces_ContactPage.selectRapidOrderEntryAccount(dataList.get(0) + " " + dataList.get(1), "CES AIA National",
-				"National");
+		ces_ContactPage.selectRapidOrderEntry(dataList.get(0) + " " + dataList.get(1), "CES AIA National", "National");
 		// ces_ContactPage.validateCESMembershipTermDate();
-		termDateChangeApi.changeTermDateAPI(dataList.get(3), localDate.toString());
 
 	}
 
