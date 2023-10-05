@@ -265,11 +265,11 @@ public class CES_ContactPage {
 
 	@FindBy(xpath = "(//*[@role = 'table']//tbody//tr//td)[4]")
 	WebElement AvailableMemType;
-	
-	@FindBy(xpath="//span[text()='Refresh']")
+
+	@FindBy(xpath = "//span[text()='Refresh']")
 	WebElement RefreshBtn;
-	
-	@FindBy(xpath="//div[text()='Delete']")
+
+	@FindBy(xpath = "//div[text()='Delete']")
 	WebElement DeleteBtn_chevrontype;
 
 	String fName;
@@ -561,34 +561,25 @@ public class CES_ContactPage {
 		Actions action = new Actions(driver);
 		action.moveToElement(SelectAccount).click().perform();
 		System.out.println("Account selected");
-		//util.waitUntilElement(driver, accountName);
-		//executor.executeScript("arguments[0].click();", accountName);
+		// util.waitUntilElement(driver, accountName);
+		// executor.executeScript("arguments[0].click();", accountName);
 	}
-<<<<<<< HEAD
-	public void validateDeleteCESMembership() throws InterruptedException {		
+
+	public void validateDeleteCESMembership() throws InterruptedException {
 		util.waitUntilElement(driver, Membershipslnk);
 		Actions action1 = new Actions(driver);
 		action1.moveToElement(Membershipslnk).click().perform();
 		System.out.println("Memberships clicked");
 		driver.navigate().refresh();
-=======
-	public void validateCESMembership() throws InterruptedException {		
-		util.waitUntilElement(driver, Membershipslnk);
-		Actions action = new Actions(driver);
-		action.moveToElement(Membershipslnk).click().perform();
-		System.out.println("Memberships selected");
-		Thread.sleep(30000);
->>>>>>> parent of 74dec48 (FC-449)
-		//RefreshBtn.click();
+		// RefreshBtn.click();
 		List<WebElement> rows = driver.findElements(By.xpath("//*[@role ='table']//tbody//tr"));
-		System.out.println("Number of records:"+rows.size());
+		System.out.println("Number of records:" + rows.size());
 		Thread.sleep(30000);
 		Actions action2 = new Actions(driver);
 		util.waitUntilElement(driver, Chevronbtn);
 		action2.moveToElement(Chevronbtn).click().perform();
-		//Chevronbtn.click();
+		// Chevronbtn.click();
 		System.out.println("Chevron button clicked");
-<<<<<<< HEAD
 		Actions action3 = new Actions(driver);
 		util.waitUntilElement(driver, DeleteBtn_chevrontype);
 		action3.moveToElement(DeleteBtn_chevrontype).click().perform();
@@ -599,12 +590,11 @@ public class CES_ContactPage {
 		Actions action4 = new Actions(driver);
 		util.waitUntilElement(driver, Delete_membership);
 		action4.moveToElement(Delete_membership).click().perform();
-		//Thread.sleep(30000);
+		// Thread.sleep(30000);
 //		Alert alert = driver.switchTo().alert(); 
 //		String alertMessage = driver.switchTo().alert().getText(); 
 //		System.out.println(alertMessage);
 //		Thread.sleep(5000);
-=======
 		util.waitUntilElement(driver, DeleteBtn_chevrontype);
 		DeleteBtn_chevrontype.click();
 		System.out.println("Delete button clicked");
@@ -613,53 +603,47 @@ public class CES_ContactPage {
 		assertTrue(DeleteMsg.getText().equalsIgnoreCase(data.testDataProvider().getProperty("DeleteMsg")));
 		util.waitUntilElement(driver, Delete_membership);
 		Delete_membership.click();
-		//Thread.sleep(30000);
-		Alert alert = driver.switchTo().alert(); 
-		String alertMessage = driver.switchTo().alert().getText(); 
+		// Thread.sleep(30000);
+		Alert alert = driver.switchTo().alert();
+		String alertMessage = driver.switchTo().alert().getText();
 		System.out.println(alertMessage);
 		Thread.sleep(5000);
->>>>>>> parent of 74dec48 (FC-449)
-		
+
 	}
+
 	public void validateAvailableMemType() {
 		util.waitUntilElement(driver, AvailableMemType);
-		assertTrue(AvailableMemType.getText().equalsIgnoreCase(data.testDataProvider().getProperty("availableMemType")));
+		assertTrue(
+				AvailableMemType.getText().equalsIgnoreCase(data.testDataProvider().getProperty("availableMemType")));
 
 	}
 
 }
 
 //Select drpOptn=new Select(driver.findElement(By.xpath("//ul[@class='scrollable']/li")));
-		//drpOptn.selectByVisibleText("Delete");
-		/*List<WebElement> ChevronTypes = driver.findElements(By.xpath("//ul[@class='scrollable']/li"));
-		System.out.println(ChevronTypes);
-		//Thread.sleep(10000);
-		for (WebElement ChevronType:ChevronTypes) {
-			System.out.println(ChevronType.getText());
-			if (ChevronType.getText().contains("Delete"));
-			{
-				util.waitUntilElement(driver, ChevronType);
-				Actions action1 = new Actions(driver);
-				action1.moveToElement(ChevronType).click().perform();
-				Thread.sleep(30000);
-				//ChevronType.click();
-				System.out.println("Delete button clicked");
-				break;
-			}
-			
-		}
-		Thread.sleep(10000);*/
+// drpOptn.selectByVisibleText("Delete");
+/*
+ * List<WebElement> ChevronTypes =
+ * driver.findElements(By.xpath("//ul[@class='scrollable']/li"));
+ * System.out.println(ChevronTypes); //Thread.sleep(10000); for (WebElement
+ * ChevronType:ChevronTypes) { System.out.println(ChevronType.getText()); if
+ * (ChevronType.getText().contains("Delete")); { util.waitUntilElement(driver,
+ * ChevronType); Actions action1 = new Actions(driver);
+ * action1.moveToElement(ChevronType).click().perform(); Thread.sleep(30000);
+ * //ChevronType.click(); System.out.println("Delete button clicked"); break; }
+ * 
+ * } Thread.sleep(10000);
+ */
 
-
-/*public void validateDelete() throws InterruptedException {
-util.waitUntilElement(driver, DeleteMsg);
-System.out.println("MyError:" + DeleteMsg.getText());
-assertTrue(DeleteMsg.getText().equalsIgnoreCase(data.testDataProvider().getProperty("DeleteMsg")));
-util.waitUntilElement(driver, DeleteBtn);
-DeleteBtn.click();
-Thread.sleep(5000);
-Alert alert = driver.switchTo().alert(); // switch to alert
-String alertMessage = driver.switchTo().alert().getText(); // capture alert message
-System.out.println(alertMessage); // Print Alert Message
-Thread.sleep(5000);
-}*/
+/*
+ * public void validateDelete() throws InterruptedException {
+ * util.waitUntilElement(driver, DeleteMsg); System.out.println("MyError:" +
+ * DeleteMsg.getText());
+ * assertTrue(DeleteMsg.getText().equalsIgnoreCase(data.testDataProvider().
+ * getProperty("DeleteMsg"))); util.waitUntilElement(driver, DeleteBtn);
+ * DeleteBtn.click(); Thread.sleep(5000); Alert alert =
+ * driver.switchTo().alert(); // switch to alert String alertMessage =
+ * driver.switchTo().alert().getText(); // capture alert message
+ * System.out.println(alertMessage); // Print Alert Message Thread.sleep(5000);
+ * }
+ */

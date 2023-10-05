@@ -1,8 +1,10 @@
 package org.aia.testcases.ces;
+
 import java.util.ArrayList;
 
 import org.aia.pages.BaseClass;
 import org.aia.pages.api.MailinatorCESAPI;
+import org.aia.pages.api.ces.FontevaCESTermDateChangeAPI;
 import org.aia.pages.api.ces.RenewCESAPIValidation;
 import org.aia.pages.api.membership.FontevaConnectionSOAP;
 import org.aia.pages.ces.AdditionalProviderUser;
@@ -67,6 +69,7 @@ public class TestTermCreation_CES extends BaseClass {
 	CES_ReNewUser reNewUser;
 	CES_ContactPage ces_ContactPage;
 	CES_Memberships ces_membership;
+	FontevaCESTermDateChangeAPI termDateChangeApi;
 	public ExtentReports extent;
 	public ExtentTest extentTest;
 	final static Logger logger = Logger.getLogger(TestRenewPassport_CES.class);
@@ -98,7 +101,8 @@ public class TestTermCreation_CES extends BaseClass {
 		renew = PageFactory.initElements(driver, RenewCESPage.class);
 		reNewUser = PageFactory.initElements(driver, CES_ReNewUser.class);
 		ces_ContactPage = PageFactory.initElements(driver, CES_ContactPage.class);
-		ces_membership=PageFactory.initElements(driver, CES_Memberships.class);
+		ces_membership = PageFactory.initElements(driver, CES_Memberships.class);
+		termDateChangeApi = PageFactory.initElements(driver, FontevaCESTermDateChangeAPI.class);
 	}
 
 	@Test(priority = 1, description = "Validate Login experience user as CES AIA Component.", enabled = true)
@@ -125,20 +129,10 @@ public class TestTermCreation_CES extends BaseClass {
 		Object amount = paymntSuccesFullPageCes.amountPaid();
 		// Navigate to Fonteva app and make record renew eligible.
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
-<<<<<<< HEAD
-		ces_ContactPage.selectRapidOrderEntry1(dataList.get(0) + " " + dataList.get(1), "CES AIA National", "National");
-		ces_ContactPage.validateDeleteCESMembership();
-		//ces_ContactPage.validateDelete();
-		ces_ContactPage.validateAvailableMemType();
-		
-			
-		
-=======
-<<<<<<<< HEAD:src/test/java/org/aia/testcases/ces/TestCSEMembershipStatus_CES.java
 		ces_ContactPage.selectRapidOrderEntry(dataList.get(0) + " " + dataList.get(1), "CES AIA National", "National");
 		ces_ContactPage.validateDeleteCESMembership();
 		ces_ContactPage.validateAvailableMemType();
-		cesTermDateApi.changeTermDateAPI(dataList.get(3), "2023-12-31");
+		termDateChangeApi.changeTermDateAPI(dataList.get(3), "2023-12-31");
 		// Validate Provider Application & CES Provider account details - Fonteva API
 		// validations
 		apiValidation.verifyProviderApplicationDetails("Approved", userAccount, "Passport",
@@ -177,17 +171,8 @@ public class TestTermCreation_CES extends BaseClass {
 		// Navigate to Fonteva app and make record renew eligible.
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
 		ces_ContactPage.selectRapidOrderEntry(dataList.get(0) + " " + dataList.get(1), "CES AIA National", "National");
-		//ces_ContactPage.validateCESMembershipTermDate();
-	
+		// ces_ContactPage.validateCESMembershipTermDate();
+
 	}
-========
-		ces_ContactPage.selectRapidOrderEntry1(dataList.get(0) + " " + dataList.get(1), "CES AIA National", "National");
-		ces_ContactPage.validateCESMembership();
-		//ces_ContactPage.validateDelete();
-		ces_ContactPage.validateAvailableMemType();
-			
-		
->>>>>>>> parent of 74dec48 (FC-449):src/test/java/org/aia/testcases/ces/TestTermCreation_CES.java
->>>>>>> parent of 74dec48 (FC-449)
-}
+
 }
