@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.aia.utility.ConfigDataProvider;
+import org.aia.utility.Logging;
 import org.aia.utility.Utility;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -18,6 +19,7 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
+import jdk.internal.org.jline.utils.Log;
 
 public class MailinatorAPI {
 
@@ -56,7 +58,8 @@ public class MailinatorAPI {
 		String message_uri = MAILINATOR_INBOS_ENDPOINT + inbox
 				+ "/messages/" + messageId + "/links";
 		 response =  RestAssured.given().headers("Content-Type", ContentType.JSON, "Accept", ContentType.JSON,"Authorization",bearerToken).when().get(message_uri).then().extract().response();
-
+        
+		Logging.logger.info(response.asString());
 		jsonPathEval = response.jsonPath();
 		Thread.sleep(15000);
 		

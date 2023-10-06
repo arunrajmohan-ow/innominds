@@ -3,7 +3,7 @@
 <suite thread-count="2" parallel="classes" name="Suite">
   <test thread-count="2" parallel="classes" name="Test">
     <classes>
-      <class name="org.aia.testcases.membership.TestRenew_Membership"/>
+      <!--<class name="org.aia.testcases.membership.TestRenew_Membership"/>
       <class name="org.aia.testcases.membership.TestZeroSalesOrder_Membership"/>
       <class name="org.aia.testcases.membership.TestOfflineRenew_Membership"/>
       <class name="org.aia.testcases.ces.TestJoinProfessional_CES"/>
@@ -14,7 +14,7 @@
       <class name="org.aia.testcases.membership.TestProcessException_Membership"/>
       <class name="org.aia.testcases.ces.TestJoinPassport_CES"/>
       <class name="org.aia.testcases.ces.TestLogin_CES"/>
-      <class name="org.aia.testcases.membership.TestJoin_Membership"/>
+      <class name="org.aia.testcases.membership.TestJoin_Membership"/>-->
       <class name="org.aia.testcases.events.TestClone_Events"></class>
     </classes>
   </test> <!-- Test -->

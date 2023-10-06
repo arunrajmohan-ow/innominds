@@ -128,8 +128,8 @@ public class NewCloneEvents {
 		log.info("event list size"+ eventOptions.size());
 		for (int i = 0; i < eventOptions.size(); i++) {
 			String event = eventOptions.get(i).getText();
-			
-			if(event.contains("Testing Event")) {
+			String exitEvent = testData.testDataProvider().getProperty("cloneEvent");
+			if(event.equals(exitEvent)) {
 				eventOptions.get(i).click();
 				System.out.println("matched");
 				break;
@@ -166,7 +166,6 @@ public class NewCloneEvents {
 		util.waitUntilElement(driver, eventNameHeader);
 		newEvent = eventNameHeader.getText();
 		log.info(newEvent);
-		testData.testDataProvider().setProperty("eventName", newEvent);
 		System.out.println(eventNameHeader);
 		Assert.assertTrue(eventNameHeader.isDisplayed());
 		log.info("eventName header is displayed");

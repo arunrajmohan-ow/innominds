@@ -16,6 +16,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
 import groovy.transform.Final;
 
@@ -24,9 +25,12 @@ public class EventRegistration {
 	Utility util = new Utility(driver, 30);
 	JavascriptExecutor executor;
 	ConfigDataProvider testData;
+	
 	public String newEvent = "";
 	public String receiptNum = "";
 	public String postedDate = "";
+	public String totalAmount= "";
+	public String userName="";
 	static Logger log = Logger.getLogger(EventRegistration.class);
 
 	public EventRegistration(WebDriver Idriver)
@@ -34,7 +38,7 @@ public class EventRegistration {
 	{
 		this.driver = Idriver;
 		executor = (JavascriptExecutor) driver;
-		testData = new ConfigDataProvider();
+		testData = new ConfigDataProvider();	
 	}
 
 	@FindBy(xpath = "(//select[@name='Quantity'])[1]")
@@ -113,6 +117,8 @@ public class EventRegistration {
 
 	@FindBy(css = "a[data-name='agenda']")
 	WebElement agenda;
+	
+	@FindBy(xpath = "//div[@data-name='subTotalPrice']/strong/span") WebElement subTotalAmount;
 
 	@FindBy(xpath = "//button[text()='Continue']")
 	WebElement continueButtonInAgenda;
@@ -121,6 +127,8 @@ public class EventRegistration {
 
 	@FindBy(xpath = "//iframe[@title='Credit Card Input Frame']")
 	WebElement creditCardPaymentFrame;
+	
+	@FindBy(css = "[data-name='totalPrice'] span[data-aura-class='FrameworkCurrencyField']") WebElement totalAmountInCheckout;
 
 	@FindBy(xpath = "//iframe[@title='Card number']")
 	WebElement cardNumFrame2;
@@ -205,7 +213,7 @@ public class EventRegistration {
 		util.waitUntilElement(driver, registerButton);
 		Utility.highLightElement(driver, registerButton);
 		registerButton.click();
-		log.info("Register button is cliked sucessfully");
+		log.info("Register Now button is cliked sucessfully");
 		Thread.sleep(14000);
 	}
 
@@ -327,11 +335,19 @@ public class EventRegistration {
 		log.info("Continue button is clicked in agenda");
 	}
 
-	public void checkoutModule(String cardNumber, String month, String year) throws Throwable {
+	public ArrayList<Object> checkoutModule() throws Throwable {
+		ArrayList<Object> receiptData = new ArrayList<Object>();
+		
+		util.waitUntilElement(driver, totalAmountInCheckout);
+		Utility.highLightElement(driver, totalAmountInCheckout);
+		totalAmount = totalAmountInCheckout.getText();
+		receiptData.add(0, totalAmount);
+		log.info("Total Amount in checkout" + totalAmount);
 		String type = "Home";
 		Thread.sleep(14000);
 		util.waitUntilElement(driver, cardHolderName);
 		Utility.highLightElement(driver, cardHolderName);
+		userName = cardHolderName.getAttribute("value");
 		log.info(cardHolderName.getAttribute("value"));
 		System.out.println(cardHolderName.getAttribute("value"));
 		util.waitUntilElement(driver, creditCardPaymentFrame);
@@ -340,13 +356,13 @@ public class EventRegistration {
 		util.switchToFrameUsingWebElement(driver, cardNumFrame2);
 		Utility.highLightElement(driver, creditCardNumber);
 		util.waitUntilElement(driver, creditCardNumber);
-		util.enterText(driver, creditCardNumber, cardNumber);
-		log.info("Credit Card number enterd as" + cardNumber);
+		util.enterText(driver, creditCardNumber, testData.testDataProvider().getProperty("CREDIT_CARD_NUMBER"));
+		log.info("Credit Card number enterd as" + testData.testDataProvider().getProperty("CREDIT_CARD_NUMBER"));
 		driver.switchTo().defaultContent();
-		util.selectDropDownByText(expMonth, month);
-		log.info("ExpMonth selected as" + month);
-		util.selectDropDownByText(expYear, year);
-		log.info("ExpMonth selected as" + year);
+		util.selectDropDownByText(expMonth, testData.testDataProvider().getProperty("CREDIT_CARD_EXP_MONTH"));
+		log.info("ExpMonth selected as" + testData.testDataProvider().getProperty("CREDIT_CARD_EXP_MONTH"));
+		util.selectDropDownByText(expYear, testData.testDataProvider().getProperty("CREDIT_CARD_EXP_YEAR"));
+		log.info("ExpMonth selected as" + testData.testDataProvider().getProperty("CREDIT_CARD_EXP_YEAR"));
 		util.waitUntilElement(driver, addressCreateButton);
 		addressCreateButton.click();
 		String addressName = "apk" + RandomStringUtils.randomAlphabetic(4);
@@ -387,6 +403,7 @@ public class EventRegistration {
 		util.waitUntilElement(driver, paymentSuccessMessage);
 		log.info("After Payment success message" + paymentSuccessMessage.getText());
 		receiptNum = receiptNumber.getText();
+		receiptData.add(1, receiptNum);
 		log.info("Receipt Number" + receiptNum);
 		postedDate = postdDate.getText();
 		log.info(" Event start poseted date " + postedDate);
@@ -397,6 +414,7 @@ public class EventRegistration {
 		} catch (Exception e) {
 			viewRecieptInCheckout.click();
 		}
+		return receiptData;
 
 	}
 

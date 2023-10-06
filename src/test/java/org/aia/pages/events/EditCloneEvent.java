@@ -44,7 +44,7 @@ public class EditCloneEvent {
 	@FindBy(css = "div[class='windowViewMode-normal oneContent active lafPageHost'] ul[data-name='Save_Exit_Event_Builder'] li a")
 	WebElement saveExitButton;
 
-	@FindBy(xpath = "//a[contains(text(),'https://aia--testing.sandbox.my.site.com/NationalE')]")
+	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//a[contains(text(),'https://aia--testing.sandbox.my.site.com/NationalE')]")
 	WebElement eventUrl;
 
 	// EventInfo locators
@@ -167,7 +167,7 @@ public class EditCloneEvent {
 	
 	@FindBy(xpath = "//input[@placeholder='Search this list...']") WebElement searchEvents;
 	
-	@FindBy(xpath = "//a[@data-refid='recordId']") WebElement eventName;
+	@FindBy(xpath = "//span[@class='slds-grid slds-grid--align-spread forceInlineEditCell']//a[@data-refid='recordId']") WebElement eventName;
 
 	/**
 	 * @return Event name This method click already exist event in the top of the
@@ -200,6 +200,7 @@ public class EditCloneEvent {
 		util.waitUntilElement(driver, searchEvents);
 		Utility.highLightElement(driver, searchEvents);
 		searchEvents.sendKeys(event);
+		
 		eventName.click();
 	}
 	
@@ -403,11 +404,8 @@ public class EditCloneEvent {
 		util.clickUsingJS(driver, eventUrl);
 		log.info("event url is clicked sucessfully");
 		util.switchToTabs(driver, tabIdx);
-//		ArrayList<String> tabs = new ArrayList<String>(this.driver.getWindowHandles());
-//		driver.switchTo().window(tabs.get(tabIdx));
-		
 		util.waitUntilElement(driver, eventRegister);
-		eventRegister.click();
+		util.clickUsingJS(driver, eventRegister);
 		log.info("Event Register button is clicked sucessfully");
 		Thread.sleep(8000);
 	}

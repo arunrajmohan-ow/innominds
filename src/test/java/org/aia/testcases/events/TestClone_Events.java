@@ -73,9 +73,6 @@ public class TestClone_Events extends BaseClass {
 
 		test_CreateCloneEvent(context);
 
-		String cardNumber = testData.testDataProvider().getProperty("CREDIT_CARD_NUMBER");
-		String cardExpMonth = testData.testDataProvider().getProperty("CREDIT_CARD_EXP_MONTH");
-		String cardExpYear = testData.testDataProvider().getProperty("CREDIT_CARD_EXP_YEAR");
 		String eventName = cloneEventpage.newEvent;
 		editCloneEvent.eventsTab();
 		editCloneEvent.eventsSearch(eventName);
@@ -109,8 +106,24 @@ public class TestClone_Events extends BaseClass {
 		eventRegistration.clickRegistrationButton();
 		eventRegistration.validateRegisterReq();
 		eventRegistration.agendaModule();
-		eventRegistration.checkoutModule(cardNumber, cardExpMonth, cardExpYear);
-		viewReceipts.getReceiptBody(eventRegistration.receiptNum, editCloneEvent.aiaNumber, 4);
+		
+		//Here we getting receipt data from UI and storing in ArrayList
+		ArrayList<Object> receiptData= eventRegistration.checkoutModule();
+		
+		//Here we validate pdf data to fonteva date
+		viewReceipts.getReceiptBody(receiptData.get(1), receiptData.get(0));
+		
+		//Here we validate the receipt using api call
+		eventApivalidation.verifyReciptDetails(dataList.get(3), receiptData.get(1), receiptData.get(0));
+		
+		//Salse order using api call
+		eventApivalidation.verifySalesOrder(dataList.get(3), DataProviderFactory.getConfig().getValue("salesOrderStatus"), 
+				DataProviderFactory.getConfig().getValue("orderStatus"), 
+				DataProviderFactory.getConfig().getValue("postingStatus"));
+		
+		//Email validations
+		mailinator.welcomeAIAEmailLink(dataList, receiptData);
+		
 	}
 
 }
