@@ -100,9 +100,7 @@ public class EventAPIValidations {
 	 * @throws Throwable
 	 */
 	public void verifySalesOrderRegistration(ITestContext context) throws Throwable {
-	   String Id = context.getAttribute("eventId").toString();
-		
-		context.setAttribute("eventName", "TestQA10102023124133");
+	    String Id = context.getAttribute("eventId").toString();
 		String attendeeQuan = context.getAttribute("attendees").toString();
 		String soldTickets = context.getAttribute("soldtickets").toString();
 		String remainEventCapacity = context.getAttribute("remainEvents").toString();

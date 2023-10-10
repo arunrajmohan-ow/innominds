@@ -43,7 +43,7 @@ public class ViewRecipts {
 
 	
 	public String viewReceiptValidationsForEvents(Object receiptNo, Object total) throws InterruptedException, IOException {
-		Thread.sleep(10000);
+		Thread.sleep(15000);
 		Set<String> links = driver.getWindowHandles();
 		String currWin = driver.getWindowHandle();
 		Thread.sleep(1000);
@@ -106,9 +106,12 @@ public class ViewRecipts {
 					Assert.assertTrue(pdfContent.contains(testData.testDataProvider().getProperty("fromAddress")));
 					log.info("verified From address in receipt documnet" + testData.testDataProvider().getProperty("fromAddress"));
 					System.out.println("Link is identified");
+					Thread.sleep(5000);
+					log.info("Receipt validations are done");
 					break;
 				}
 			}
 		return pdfContent;
+		
 	}
 }

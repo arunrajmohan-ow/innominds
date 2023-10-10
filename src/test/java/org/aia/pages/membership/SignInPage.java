@@ -32,32 +32,32 @@ public class SignInPage {
 	
 	@FindBy(xpath="//a[text()= 'Forgot password?']")WebElement forgotpwd;
 	
-	@FindBy(xpath="//a[text()='Sign up']")WebElement signUplink;
+	@FindBy(xpath="//a[text()='Sign up' or @class='sign-up-link']")WebElement signUplink;
 	
 	@FindBy(xpath = "//span[contains(text(),'We are')]") WebElement errorMsg;
 	
 	@FindBy(xpath = "//span[text()='Primary information']") WebElement pageTitel;
-	
-	@FindBy(xpath = "//a[@class='sign-up-link']") WebElement signUpInSignInPage;
 
 	
 	@Test(priority= 1, description="Enter credentials with username {0} and password {1} and click on submit button")
 	public void login(String uname,String pwd) throws InterruptedException
 	{
-		Thread.sleep(5000);
+		Thread.sleep(40000);
 		util.waitUntilElement(driver, emailAddress);
 		System.out.println("Waiting for the email text field to appear");
 		System.out.println("Email Text field displayed");
 		emailAddress.sendKeys(uname);
 		password.sendKeys(pwd);
 		Thread.sleep(5000);
+		//Thread.sleep(1200000);
 		submitbtn.click();
 		Thread.sleep(5000);
 	}
 	
 	public void signUp() throws Throwable {
 		Thread.sleep(5000);
-		signUpInSignInPage.click();
+		util.waitUntilElement(driver, signUplink);
+		signUplink.click();
 		Thread.sleep(7000);
 	}
 

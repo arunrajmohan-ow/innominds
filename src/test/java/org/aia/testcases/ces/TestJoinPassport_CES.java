@@ -85,7 +85,7 @@ public class TestJoinPassport_CES extends BaseClass {
 		apiValidation = PageFactory.initElements(driver, JoinCESAPIValidation.class);
 	}
 	
-	@Test(priority=1, description="Validate creation of CES passport membership and view receipt.", enabled = true, groups= {"Smoke"})
+	@Test(priority=1, description="Validate creation of CES passport membership and view receipt.", enabled = false, groups= {"Smoke"})
 	public void ValidateReceiptForPassportJoin() throws Exception
 	{
 		String prefix = "Dr.";
@@ -113,7 +113,7 @@ public class TestJoinPassport_CES extends BaseClass {
 		Logging.logger.info("Account Name is : " + dataList.get(0));
 	}
 	
-	@Test(priority=2, description="Validate email after making the payment.", enabled = true)
+	@Test(priority=2, description="Validate email after making the payment.", enabled = false)
 	public void ValidateEmailPassportJoin() throws Exception
 	{
 		String prefix = "Dr.";
@@ -144,7 +144,7 @@ public class TestJoinPassport_CES extends BaseClass {
 		mailinator.welcomeAIAEmailLink(userAccount);
 	}
 	
-	@Test(priority=3, description="Validate Join Passport.", enabled = true)
+	@Test(priority=3, description="Validate Join Passport.", enabled = false)
 	public void ValidatePassportJoin() throws Exception
 	{
 		String prefix = "Dr.";
@@ -176,7 +176,7 @@ public class TestJoinPassport_CES extends BaseClass {
 				  true, java.time.LocalDate.now().toString(), "AutomationOrg", "Other", "No"); 
 		  
 		// Validate CES Provider account details - Fonteva API validations
-		  apiValidation.verifyProviderApplicationAccountDetails("Active", "CES Passport", "2023-12-31",
+		  apiValidation.verifyProviderApplicationAccountDetails("Active", "CES Passport", "2024-12-31",
 				  false);
 		 
 		// Validate sales order

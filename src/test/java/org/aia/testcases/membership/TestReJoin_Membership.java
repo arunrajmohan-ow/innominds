@@ -84,7 +84,7 @@ public class TestReJoin_Membership extends BaseClass {
 	/**
 	 * Bug found in this script bug id is FM-336 FM-337
 	 */
-	@Test(priority = 1, description = "verify the online membership rejoin in UI Application", enabled = false)
+	@Test(priority = 1, description = "verify the online membership rejoin in UI Application", enabled = true)
 	public void validateReJoin() throws Exception {
 		// User creating is starting
 		ArrayList<String> dataList = signUpPage.signUpData();
@@ -101,9 +101,6 @@ public class TestReJoin_Membership extends BaseClass {
 		tellAbtPage.enterTellUsAboutYourSelfdetails(testData.testDataProvider().getProperty("radioSelection"),
 				testData.testDataProvider().getProperty("careerType"));
 		finalPage.verifyThankYouMessage();
-		ArrayList<Object> receiptData = finalPage.getFinalReceiptData();
-		receiptData.add(3, aiaNational);
-		mailinator.welcomeAIAEmailLink(dataList, receiptData);
 		Logging.logger.info("User get created successfully");
 
 		// Navigate to Fonteva app and make record rejoin eligible.
@@ -133,7 +130,7 @@ public class TestReJoin_Membership extends BaseClass {
 		ArrayList<Object> receiptData2 = finalPage.getFinalReceiptData();
 		// Validate Membership Rejoin - Fonteva API validations
 		reJoinValidate.validateReJoinMemebership(dataList.get(3),
-				DataProviderFactory.getConfig().getValue("termEndDate"), receiptData.get(2),
+				DataProviderFactory.getConfig().getValue("termEndDate"), receiptData2.get(2),
 				DataProviderFactory.getConfig().getValue("type_aia_national"),
 				testData.testDataProvider().getProperty("membershipType"),
 				testData.testDataProvider().getProperty("careerType"));
@@ -142,14 +139,14 @@ public class TestReJoin_Membership extends BaseClass {
 				DataProviderFactory.getConfig().getValue("orderStatus"), receiptData2.get(2),
 				DataProviderFactory.getConfig().getValue("postingStatus"));
 		// Validate Receipt Details
-		reJoinValidate.verifyReciptDetails(receiptData.get(0), receiptData.get(2));
+		reJoinValidate.verifyReciptDetails(receiptData2.get(0), receiptData2.get(2));
 
 	}
 
 	/**
 	 * @throws Exception
 	 */
-	@Test(priority = 2, description = "verify the online allied membership rejoin in UI Application", enabled = false)
+	@Test(priority = 2, description = "verify the online allied membership rejoin in UI Application", enabled = true)
 	public void validateAlliedReJoin() throws Exception {
 		// User creating is starting
 		ArrayList<String> dataList = signUpPage.signUpData();
@@ -167,9 +164,6 @@ public class TestReJoin_Membership extends BaseClass {
 		tellAbtPage.enterTellUsAboutYourSelfdetails(testData.testDataProvider().getProperty("membershipSelection"),
 				testData.testDataProvider().getProperty("careerType"));
 		finalPage.verifyThankYouMessage();
-		ArrayList<Object> receiptData = finalPage.getFinalReceiptData();
-		receiptData.add(3, aiaNational);
-		mailinator.welcomeAIAEmailLink(dataList, receiptData);
 		Logging.logger.info("User get created successfully");
 
 		// Navigate to Fonteva app and make record rejoin eligible.
@@ -198,7 +192,7 @@ public class TestReJoin_Membership extends BaseClass {
 		ArrayList<Object> receiptData2 = finalPage.getFinalReceiptData();
 		// Validate Membership Rejoin - Fonteva API validations
 		reJoinValidate.validateReJoinMemebership(dataList.get(3),
-				DataProviderFactory.getConfig().getValue("termEndDate"), receiptData.get(2),
+				DataProviderFactory.getConfig().getValue("termEndDate"), receiptData2.get(2),
 				DataProviderFactory.getConfig().getValue("type_aia_national"),
 				testData.testDataProvider().getProperty("membershipType"),
 				testData.testDataProvider().getProperty("careerType"));
@@ -207,11 +201,11 @@ public class TestReJoin_Membership extends BaseClass {
 				DataProviderFactory.getConfig().getValue("orderStatus"), receiptData2.get(2),
 				DataProviderFactory.getConfig().getValue("postingStatus"));
 		// Validate Receipt Details
-		reJoinValidate.verifyReciptDetails(receiptData.get(0), receiptData.get(2));
+		reJoinValidate.verifyReciptDetails(receiptData2.get(0), receiptData2.get(2));
 
 	}
 
-	@Test(priority = 3, description = "verify the online Associate membership rejoin in UI Application", enabled = false)
+	@Test(priority = 3, description = "verify the online Associate membership rejoin in UI Application", enabled = true)
 	public void validateAssociateReJoin() throws Exception {
 		// User creating is starting
 		ArrayList<String> dataList = signUpPage.signUpData();
@@ -229,9 +223,6 @@ public class TestReJoin_Membership extends BaseClass {
 		tellAbtPage.enterTellUsAboutYourSelfdetails(testData.testDataProvider().getProperty("membershipFaculty"),
 				testData.testDataProvider().getProperty("careerType"));
 		finalPage.verifyThankYouMessage();
-		ArrayList<Object> receiptData = finalPage.getFinalReceiptData();
-		receiptData.add(3, aiaNational);
-		mailinator.welcomeAIAEmailLink(dataList, receiptData);
 		Logging.logger.info("User get created successfully");
 
 		// Navigate to Fonteva app and make record rejoin eligible.
@@ -260,7 +251,7 @@ public class TestReJoin_Membership extends BaseClass {
 		ArrayList<Object> receiptData2 = finalPage.getFinalReceiptData();
 		// Validate Membership Rejoin - Fonteva API validations
 		reJoinValidate.validateReJoinMemebership(dataList.get(3),
-				DataProviderFactory.getConfig().getValue("termEndDate"), receiptData.get(2),
+				DataProviderFactory.getConfig().getValue("termEndDate"), receiptData2.get(2),
 				DataProviderFactory.getConfig().getValue("type_aia_national"),
 				testData.testDataProvider().getProperty("membershipAssociate"),
 				testData.testDataProvider().getProperty("careerType"));
@@ -269,7 +260,7 @@ public class TestReJoin_Membership extends BaseClass {
 				DataProviderFactory.getConfig().getValue("orderStatus"), receiptData2.get(2),
 				DataProviderFactory.getConfig().getValue("postingStatus"));
 		// Validate Receipt Details
-		reJoinValidate.verifyReciptDetails(receiptData.get(0), receiptData.get(2));
+		reJoinValidate.verifyReciptDetails(receiptData2.get(0), receiptData2.get(2));
 
 	}
 

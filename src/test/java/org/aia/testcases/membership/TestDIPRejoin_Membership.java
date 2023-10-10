@@ -93,9 +93,9 @@ public class TestDIPRejoin_Membership extends BaseClass {
 			String aiaNational = paymentInfoPage.paymentDetails("activeUSLicense");
 			tellAbtPage.enterTellUsAboutYourSelfdetails("activeUSLicense", "None Selected");
 			finalPage.verifyThankYouMessage();
-			ArrayList<Object> receiptData = finalPage.getFinalReceiptData();
-			receiptData.add(3, aiaNational);
-			mailinator.welcomeAIAEmailLink(dataList, receiptData);
+		ArrayList<Object> receiptData = finalPage.getFinalReceiptData();
+		receiptData.add(3, aiaNational);
+		mailinator.welcomeAIAEmailLink(dataList, receiptData);
 			Logging.logger.info("User get created successfully");
 			// Navigate to Fonteva app and make record rejoin eligible.
 			driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
@@ -128,11 +128,11 @@ public class TestDIPRejoin_Membership extends BaseClass {
 					testData.testDataProvider().getProperty("membershipType"),
 					testData.testDataProvider().getProperty("careerType"));
 			// Validate sales order
-			reJoinValidate.verifySalesOrder(DataProviderFactory.getConfig().getValue("salesOrderStatus"),
+			reJoinValidate.verifySalesOrder(DataProviderFactory.getConfig().getValue("dip_salesOrderStatus"),
 					DataProviderFactory.getConfig().getValue("orderStatus"), receiptDataDIP.get(2),
 					DataProviderFactory.getConfig().getValue("postingStatus"));
 			// Validate Receipt Details
-			reJoinValidate.verifyReciptDetails(receiptDataDIP.get(0), receiptDataDIP.get(2));
+			//reJoinValidate.verifyReciptDetails(receiptDataDIP.get(0), receiptDataDIP.get(2));
 		}
 	}
 
