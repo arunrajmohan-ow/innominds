@@ -48,6 +48,9 @@ public class QuickLinksInEvents {
 	attendeesLink.click();
 	}
 	
+	/**
+	 * @throws Throwable
+	 */
 	public void getAttendeesSize() throws Throwable {
 		Thread.sleep(5000);
 		System.out.println(attendeesInfo.size());

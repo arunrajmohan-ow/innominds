@@ -331,10 +331,9 @@ public class MailinatorAPI {
 				 headers("Content-Type", ContentType.JSON, "Accept", ContentType.JSON,"Authorization",bearerToken).when().get(message_uri).then().extract().response();
 
 		jsonPathEval = response.jsonPath();
-		Thread.sleep(7000);
+		Thread.sleep(10000);
 		
 		System.out.println(response.getBody().asPrettyString());
-		Thread.sleep(4000);
 		String value = jsonPathEval.getString("parts[1].body");
 		System.out.println("body is " + value);
 		Assert.assertTrue(value.contains(eventName));
@@ -369,7 +368,7 @@ public class MailinatorAPI {
 				 headers("Content-Type", ContentType.JSON, "Accept", ContentType.JSON,"Authorization",bearerToken).when().get(message_uri).then().extract().response();
 
 		jsonPathEval = response.jsonPath();
-		Thread.sleep(7000);
+		Thread.sleep(10000);
 		System.out.println(response.getBody().asPrettyString());
 		String value = jsonPathEval.getString("parts[1].body");
 		System.out.println("body is " + value);

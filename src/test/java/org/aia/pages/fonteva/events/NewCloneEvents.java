@@ -84,6 +84,11 @@ public class NewCloneEvents {
 	WebElement eventUrl;
 	
 	
+	/**
+	 * @param eventCategory
+	 * @throws InterruptedException
+	 * @throws Throwable
+	 */
 	public void newCloneOnExistingEvent(String eventCategory) throws InterruptedException, Throwable {
 		util.waitUntilElement(driver, existingCloneEvent);
 		Thread.sleep(5000);
@@ -167,6 +172,10 @@ public class NewCloneEvents {
         }
 	}
 	
+	/**
+	 * @param uri
+	 * @return
+	 */
 	private static Map<String, String> getQueryParams(URI uri) {
         Map<String, String> params = new java.util.HashMap<>();
         String query = uri.getQuery();

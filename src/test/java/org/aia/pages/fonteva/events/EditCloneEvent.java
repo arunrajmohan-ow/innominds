@@ -202,9 +202,10 @@ public class EditCloneEvent {
 	}
 
 	/**
-	 * @param ExpectedEventName Here We can get the values Event name, Event Start
-	 *                          date, Event end date, Event start time, Event end
-	 *                          time,Event TimeZone, Registration timer.
+	 * @param ExpectedEventName 
+	 * Here We can get the values Event name, Event Start
+	 * date, Event end date, Event start time, Event end
+	 * time,Event TimeZone, Registration timer.
 	 */
 	public void editEventInfo(String ExpectedEventName) {
 		util.waitUntilElement(driver, eventInfoName);
@@ -257,10 +258,11 @@ public class EditCloneEvent {
 	}
 
 	/**
-	 * @param editTicket Here editTicket = true Then it click on the
-	 *                   actionsColumnTicketType in that i validate options and
-	 *                   click Edit Ticket Type I validate editTicket type header
-	 *                   and edit price amount, click and continue button
+	 * @param editTicket 
+	 * Here editTicket = true Then it click on the            
+	 * actionsColumnTicketType in that i validate options and
+	 * click Edit Ticket Type I validate editTicket type header
+	 * and edit price amount, click and continue button
 	 * @throws Throwable
 	 */
 	public void editEventTicket(Boolean editTicket) throws Throwable {

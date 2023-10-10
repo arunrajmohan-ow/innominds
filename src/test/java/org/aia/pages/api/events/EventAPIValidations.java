@@ -143,11 +143,11 @@ public class EventAPIValidations {
 		JSONObject obj = new JSONObject(response.asString());
 		Assert.assertEquals(obj.get("Name").toString(), context.getAttribute("eventName").toString());
 		// attendees
-		Assert.assertEquals(obj.get("EventApi__Attendees__c").toString(), attndessQun);
+		Assert.assertEquals(Double.parseDouble(obj.get("EventApi__Attendees__c").toString()), Double.parseDouble(attndessQun));
 	}
 
 	/**
-	 * @param context
+	 * @param context 
 	 * @param memberAccount
 	 * @param receiptNumberExpected
 	 * @param ammount

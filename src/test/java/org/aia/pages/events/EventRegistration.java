@@ -212,6 +212,10 @@ public class EventRegistration {
 	
 	
 	
+	/**
+	 * @param tabIdx
+	 * @throws Throwable
+	 */
 	public void RegisterLink(int tabIdx) throws Throwable {
 		util.switchToTabs(driver, tabIdx);
 		util.waitUntilElement(driver, eventRegister);
@@ -239,6 +243,9 @@ public class EventRegistration {
 		Thread.sleep(14000);
 	}
 
+	/**
+	 * @return
+	 */
 	public Map<String, String> attendeeInfo() {
 		Map<String, String> information = new HashMap<String, String>();
 		String mobNumb = "012345" + String.format("%05d", new Random().nextInt(10000));
@@ -358,6 +365,10 @@ public class EventRegistration {
 		log.info("Continue button is clicked in agenda");
 	}
 
+	/**
+	 * @return
+	 * @throws Throwable
+	 */
 	public ArrayList<Object> checkoutModule() throws Throwable {
 		ArrayList<Object> receiptData = new ArrayList<Object>();
 

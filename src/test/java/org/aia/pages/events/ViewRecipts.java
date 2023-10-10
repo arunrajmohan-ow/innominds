@@ -38,10 +38,14 @@ public class ViewRecipts {
 		editCloneEvent = PageFactory.initElements(driver,  EditCloneEvent.class);
 	}
 
-	@FindBy(xpath = "//body//embed")
-	WebElement getReceiptText;
-
 	
+	/**
+	 * @param receiptNo
+	 * @param total
+	 * @return
+	 * @throws InterruptedException
+	 * @throws IOException
+	 */
 	public String viewReceiptValidationsForEvents(Object receiptNo, Object total) throws InterruptedException, IOException {
 		Thread.sleep(15000);
 		Set<String> links = driver.getWindowHandles();

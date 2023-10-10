@@ -74,6 +74,10 @@ public class Events {
 		log.info("Clone Event pop is displayed");
 	}
 	
+	/**
+	 * @param email
+	 * @throws Throwable
+	 */
 	public void globalSearch(String email) throws Throwable {
 		Utility.highLightElement(driver, globSearch);
 		globSearch.click();
@@ -82,6 +86,10 @@ public class Events {
 		globSearchInput.sendKeys(Keys.ENTER);
 	}
 	
+	/**
+	 * @param event
+	 * @throws InterruptedException
+	 */
 	public void eventsSearch(String event) throws InterruptedException {
 		util.waitUntilElement(driver, searchEvents);
 		Utility.highLightElement(driver, searchEvents);
@@ -90,6 +98,10 @@ public class Events {
 		eventName.click();
 	}
 	
+	/**
+	 * @return
+	 * @throws Throwable
+	 */
 	public ArrayList<String> validateBeforeRegistrationData() throws Throwable {
 		Thread.sleep(7000);
 		ArrayList<String> beforeRegData = new ArrayList<String>();
@@ -107,6 +119,10 @@ public class Events {
 		return beforeRegData;
 	}
 	
+	/**
+	 * @return
+	 * @throws InterruptedException
+	 */
 	public ArrayList<String> validateAfterRegistrationData() throws InterruptedException {
 		Thread.sleep(7000);
 		ArrayList<String> afterRegData = new ArrayList<String>();

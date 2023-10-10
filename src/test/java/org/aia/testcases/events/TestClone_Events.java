@@ -59,7 +59,7 @@ public class TestClone_Events extends BaseClass {
 		Logging.configure();
 	}
 
-	@Test(priority = 1, description = "Create New CloneEvent enter event name, enter date, select event category and event search click clone button", enabled = false)
+	@Test(priority = 1, description = "Create New CloneEvent enter event name, enter date, select event category and event search click clone button", enabled = true)
 
 	public void test_CreateCloneEvent(ITestContext context) throws Throwable {
 		events.clickEventsModule();
@@ -76,7 +76,7 @@ public class TestClone_Events extends BaseClass {
 		eventApivalidation.verifyEvent(context);
 	}
 
-	@Test(priority = 2, description = "Verify Price modify for an existing Event", enabled = false)
+	@Test(priority = 2, description = "Verify Price modify for an existing Event", enabled = true)
 	public void test_EditPriceInCloneEvent(ITestContext context) throws InterruptedException, Throwable {
 
 		test_CreateCloneEvent(context);
@@ -97,6 +97,7 @@ public class TestClone_Events extends BaseClass {
 		editCloneEvent.editEventPages();
 		editCloneEvent.saveExitButton();
 		editCloneEvent.clickEventUrl();
+		//sometimes Register link is not clicked in AIA application
 		eventRegistration.RegisterLink(1);
 		signInpage.signUp();
 		ArrayList<String> dataList = signUpPage.signUpData();
@@ -109,6 +110,7 @@ public class TestClone_Events extends BaseClass {
 		editCloneEvent.getAIAData();
 		events.eventsSearch(eventName);
 		editCloneEvent.clickEventUrl();
+		//sometimes Register link is not clicked in AIA application
 		eventRegistration.RegisterLink(3);
 		eventRegistration.selectTicketQuantity();
 		eventRegistration.clickRegisterButton();
@@ -138,7 +140,7 @@ public class TestClone_Events extends BaseClass {
 		mailinator.sessionConfirmationEmailforEvents(dataList, eventName);	
 	}
 	
-	@Test(priority = 3, description = "Verify 'Attendees' info after registering for the event", enabled = false)
+	@Test(priority = 3, description = "Verify 'Attendees' info after registering for the event", enabled = true)
 	public void validate_Attendees(ITestContext context) throws InterruptedException, Throwable {
 
 		test_CreateCloneEvent(context);
@@ -159,6 +161,7 @@ public class TestClone_Events extends BaseClass {
 		editCloneEvent.editEventPages();
 		editCloneEvent.saveExitButton();
 		editCloneEvent.clickEventUrl();
+		//sometimes Register link is not clicked in AIA application
 		eventRegistration.RegisterLink(1);
 		signInpage.signUp();
 		ArrayList<String> dataList = signUpPage.signUpData();
@@ -171,6 +174,7 @@ public class TestClone_Events extends BaseClass {
 		editCloneEvent.getAIAData();
 		events.eventsSearch(eventName);
 		editCloneEvent.clickEventUrl();
+		//sometimes Register link is not clicked in AIA application
 		eventRegistration.RegisterLink(3);
 		eventRegistration.selectTicketQuantity();
 		eventRegistration.clickRegisterButton();
@@ -221,6 +225,7 @@ public class TestClone_Events extends BaseClass {
 		editCloneEvent.saveExitButton();
 		events.validateBeforeRegistrationData();
 		editCloneEvent.clickEventUrl();
+		//sometimes Register link is not clicked in AIA application
 		eventRegistration.RegisterLink(1);
 		signInpage.signUp();
 		ArrayList<String> dataList = signUpPage.signUpData();
@@ -233,6 +238,7 @@ public class TestClone_Events extends BaseClass {
 		editCloneEvent.getAIAData();
 		events.eventsSearch(eventName);
 		editCloneEvent.clickEventUrl();
+		//sometimes Register link is not clicked in AIA application
 		eventRegistration.RegisterLink(3);
 		eventRegistration.selectTicketQuantity();
 		eventRegistration.clickRegisterButton();

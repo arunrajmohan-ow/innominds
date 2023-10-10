@@ -25,4 +25,9 @@ public class FontevaConnection {
         extract().path("access_token");
        return response;
     }
+	
+	public static void main(String[] args) {
+		FontevaConnection fc = new FontevaConnection();
+		System.out.println(fc.getbearerToken());
+	}
 }
