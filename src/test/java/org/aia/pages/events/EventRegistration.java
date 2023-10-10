@@ -1,36 +1,42 @@
 package org.aia.pages.events;
 
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
+import org.aia.pages.fonteva.events.EditCloneEvent;
 import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.Utility;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.log4j.Logger;
-import org.junit.Assert;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.text.PDFTextStripper;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-
-import groovy.transform.Final;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 
 public class EventRegistration {
 	WebDriver driver;
 	Utility util = new Utility(driver, 30);
 	JavascriptExecutor executor;
 	ConfigDataProvider testData;
-	
+
 	public String newEvent = "";
 	public String receiptNum = "";
 	public String postedDate = "";
-	public String totalAmount= "";
-	public String userName="";
+	public String totalAmount = "";
+	public String userName = "";
 	static Logger log = Logger.getLogger(EventRegistration.class);
 
 	public EventRegistration(WebDriver Idriver)
@@ -38,8 +44,12 @@ public class EventRegistration {
 	{
 		this.driver = Idriver;
 		executor = (JavascriptExecutor) driver;
-		testData = new ConfigDataProvider();	
+		testData = new ConfigDataProvider();
 	}
+	
+	// event new tab
+			@FindBy(css = "div[id='navEventMenuItems'] button[data-title='Register']")
+			WebElement eventRegister;
 
 	@FindBy(xpath = "(//select[@name='Quantity'])[1]")
 	WebElement ticketTypeQuantity;
@@ -105,7 +115,7 @@ public class EventRegistration {
 	WebElement attestCheckobox;
 
 	@FindBy(css = "select[name='I attest to the above']")
-	WebElement selectAttest; 
+	WebElement selectAttest;
 
 	@FindBy(css = "div[data-name='Printed Name and Signature:-input'] input")
 	WebElement printedNameAndSignature;
@@ -117,8 +127,9 @@ public class EventRegistration {
 
 	@FindBy(css = "a[data-name='agenda']")
 	WebElement agenda;
-	
-	@FindBy(xpath = "//div[@data-name='subTotalPrice']/strong/span") WebElement subTotalAmount;
+
+	@FindBy(xpath = "//div[@data-name='subTotalPrice']/strong/span")
+	WebElement subTotalAmount;
 
 	@FindBy(xpath = "//button[text()='Continue']")
 	WebElement continueButtonInAgenda;
@@ -127,8 +138,9 @@ public class EventRegistration {
 
 	@FindBy(xpath = "//iframe[@title='Credit Card Input Frame']")
 	WebElement creditCardPaymentFrame;
-	
-	@FindBy(css = "[data-name='totalPrice'] span[data-aura-class='FrameworkCurrencyField']") WebElement totalAmountInCheckout;
+
+	@FindBy(css = "[data-name='totalPrice'] span[data-aura-class='FrameworkCurrencyField']")
+	WebElement totalAmountInCheckout;
 
 	@FindBy(xpath = "//iframe[@title='Card number']")
 	WebElement cardNumFrame2;
@@ -186,8 +198,8 @@ public class EventRegistration {
 	WebElement saveButtonInBiilingaddress;
 
 	// view recipt
-	@FindBy(xpath = "//span[text()='View Receipt']")
-	WebElement viewRecieptInCheckout; 
+	@FindBy(xpath = "//span[text()='View Receipt']//parent::button")
+	WebElement viewRecieptInCheckout;
 
 	@FindBy(css = "div[class*='slds-text-heading--medium slds']")
 	WebElement paymentSuccessMessage;
@@ -197,15 +209,25 @@ public class EventRegistration {
 
 	@FindBy(css = "div[class*='slds-p-horizontal_large slds-m-bottom_medium\'] div:nth-child(2)")
 	WebElement postdDate;
+	
+	
+	
+	public void RegisterLink(int tabIdx) throws Throwable {
+		util.switchToTabs(driver, tabIdx);
+		util.waitUntilElement(driver, eventRegister);
+		util.clickUsingJS(driver, eventRegister);
+		log.info("Event Register button is clicked sucessfully");
+		Thread.sleep(8000);
+	}
 
 	public void selectTicketQuantity() throws Throwable
 
 	{
-		Thread.sleep(7000);
+		Thread.sleep(9000);
 		util.waitUntilElement(driver, ticketTypeQuantity);
 		util.scrollingElementUsingJS(driver, ticketTypeQuantity);
 		Utility.highLightElement(driver, ticketTypeQuantity);
-		util.selectDropDownByText(ticketTypeQuantity, "1");
+		util.selectDropDownByText(ticketTypeQuantity, testData.testDataProvider().getProperty("ticketQuantity"));    
 		log.info("ticketTypeQuantity dropdown selected as 1");
 	}
 
@@ -331,13 +353,14 @@ public class EventRegistration {
 		Thread.sleep(15000);
 		util.waitUntilElement(driver, continueButtonInAgenda);
 		Utility.highLightElement(driver, continueButtonInAgenda);
-		continueButtonInAgenda.click();
+		Thread.sleep(2000);
+		util.clickUsingJS(driver, continueButtonInAgenda);
 		log.info("Continue button is clicked in agenda");
 	}
 
 	public ArrayList<Object> checkoutModule() throws Throwable {
 		ArrayList<Object> receiptData = new ArrayList<Object>();
-		
+
 		util.waitUntilElement(driver, totalAmountInCheckout);
 		Utility.highLightElement(driver, totalAmountInCheckout);
 		totalAmount = totalAmountInCheckout.getText();
@@ -409,11 +432,9 @@ public class EventRegistration {
 		log.info(" Event start poseted date " + postedDate);
 		util.waitUntilElement(driver, viewRecieptInCheckout);
 		Utility.highLightElement(driver, viewRecieptInCheckout);
-		try {
-			util.clickUsingJS(driver, viewRecieptInCheckout);
-		} catch (Exception e) {
-			viewRecieptInCheckout.click();
-		}
+
+		util.clickUsingJS(driver, viewRecieptInCheckout);
+		log.info("View Receipts is clicked successfully using js & contains generate multiple pdf");
 		return receiptData;
 
 	}

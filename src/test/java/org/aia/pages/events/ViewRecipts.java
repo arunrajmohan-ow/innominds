@@ -1,25 +1,23 @@
 package org.aia.pages.events;
 
+import static org.testng.Assert.assertTrue;
+
 import java.io.BufferedInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.time.Duration;
-import java.util.ArrayList;
 import java.util.Set;
-
+import org.aia.pages.fonteva.events.EditCloneEvent;
 import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.Utility;
 import org.apache.log4j.Logger;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
-import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 public class ViewRecipts {
@@ -43,82 +41,74 @@ public class ViewRecipts {
 	@FindBy(xpath = "//body//embed")
 	WebElement getReceiptText;
 
-	public void getReceiptBody(Object receiptNo, Object total) throws Throwable {
-		try {
+	
+	public String viewReceiptValidationsForEvents(Object receiptNo, Object total) throws InterruptedException, IOException {
+		Thread.sleep(10000);
+		Set<String> links = driver.getWindowHandles();
+		String currWin = driver.getWindowHandle();
+		Thread.sleep(1000);
+		String pdfContent = null;
+		for (String s1 : links)
+			if (!s1.contentEquals(currWin)) {
+				driver.switchTo().window(s1);
+				String currentUrl = driver.getCurrentUrl();
+				if (currentUrl.contains("NationalEvents")) {
+					continue;
+				} else if (currentUrl.contains("generateMultiplePDF")) {
+					URL url = new URL(currentUrl);
 
-			Set<String> links = driver.getWindowHandles();
-			String currWin = driver.getWindowHandle();
-			boolean isLinkAvail = false;
-			for (String s1 : links) 
-			{
-				if (!s1.contentEquals(currWin)) 
-				{
-					driver.switchTo().window(s1);
-					String currentUrl = driver.getCurrentUrl();
-					System.out.println(currentUrl);
-					WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(120));
-					wait.until(ExpectedConditions.titleContains("join"));
-					if (currentUrl.contains("generateMultiplePDF")) 
-					{
-						isLinkAvail = true;
-						URL url = new URL(currentUrl);
+					// Open stream method is used to open the pdf file
+					InputStream is = url.openStream();
 
-						// Open stream method is used to open the pdf file
-						InputStream is = url.openStream();
+					// using the Buffered input class(creating the object file parse)
+					BufferedInputStream fileParse = new BufferedInputStream(is);
 
-						// using the Buffered input class(creating the object file parse)
-						BufferedInputStream fileParse = new BufferedInputStream(is);
+					// PD document is coming from PDF box
+					PDDocument document = null;
 
-						// PD document is coming from PDF box
-						PDDocument document = null;
+					// Initialize the document from load method(load buffered input class)
+					document = PDDocument.load(fileParse);
 
-						// Initialize the document from load method(load buffered input class)
-						document = PDDocument.load(fileParse);
+					// creating object he he & returning the content
+					PDFTextStripper strip = new PDFTextStripper();
 
-						// creating object he he & returning the content
-						PDFTextStripper strip = new PDFTextStripper();
+					strip.setStartPage(1);
+					pdfContent = strip.getText(document);
 
-						strip.setStartPage(1);
-						pdfContent = strip.getText(document);
-
-						// Printing the content on console
-						System.out.println(pdfContent);
+					// Printing the content on console
+					System.out.println(pdfContent);
+					if (pdfContent.contains(total.toString())) {
+						assertTrue(pdfContent.contains(total.toString()), "Total amount paid is present in Recipt.");
 					}
+					Assert.assertTrue(pdfContent.contains(editCloneEvent.aiaNumber), "verified customer AIA number in receipt documnet" + editCloneEvent.aiaNumber);
+					log.info("verified customer AIA number in receipt documnet" + editCloneEvent.aiaNumber);
+
+					Assert.assertTrue(pdfContent.contains(testData.testDataProvider().getProperty("PaymentType")));
+					log.info("verified customer AIA number in receipt documnet"
+							+ testData.testDataProvider().getProperty("PaymentType"));
+
+					Assert.assertTrue(pdfContent.contains(total.toString()));
+					log.info("verified total amount in receipt documnet"+ total);
+
+					Assert.assertTrue(pdfContent.contains((receiptNo.toString()).replace("Receipt: #", "").trim()));
+					log.info("verified Receipt number in receipt document"+ receiptNo);
+
+					Assert.assertTrue(pdfContent.contains(eventRegistration.postedDate));
+					log.info("verified postedDate in receipt documnet" + eventRegistration.postedDate);
+
+					Assert.assertTrue(pdfContent.contains(testData.testDataProvider().getProperty("PaymentMethodDescription")));
+					log.info("verified Payment Method Description in receipt documnet"
+							+ testData.testDataProvider().getProperty("PaymentMethodDescription"));
+
+					Assert.assertTrue(pdfContent.contains(eventRegistration.userName));
+					log.info("verified To address in receipt documnet" + eventRegistration.userName);
+
+					Assert.assertTrue(pdfContent.contains(testData.testDataProvider().getProperty("fromAddress")));
+					log.info("verified From address in receipt documnet" + testData.testDataProvider().getProperty("fromAddress"));
+					System.out.println("Link is identified");
+					break;
 				}
 			}
-			if(!isLinkAvail) {
-				throw new Exception("URL is NOT load...");
-			}
-
-			Assert.assertTrue(pdfContent.contains(editCloneEvent.aiaNumber));
-			log.info("verified customer AIA number in receipt documnet" + editCloneEvent.aiaNumber);
-
-			Assert.assertTrue(pdfContent.contains(testData.testDataProvider().getProperty("PaymentType")));
-			log.info("verified customer AIA number in receipt documnet"
-					+ testData.testDataProvider().getProperty("PaymentType"));
-
-			Assert.assertTrue(pdfContent.contains(total.toString()));
-			log.info("verified total amount in receipt documnet" + total);
-
-			Assert.assertTrue(pdfContent.contains((receiptNo.toString()).replace("Receipt: #", "").trim()));
-			log.info("verified Receipt number in receipt document" + receiptNo);
-
-			Assert.assertTrue(pdfContent.contains(eventRegistration.postedDate));
-			log.info("verified postedDate in receipt documnet" + eventRegistration.postedDate);
-
-			Assert.assertTrue(pdfContent.contains(testData.testDataProvider().getProperty("PaymentMethodDescription")));
-			log.info("verified Payment Method Description in receipt documnet"
-					+ testData.testDataProvider().getProperty("PaymentMethodDescription"));
-
-			Assert.assertTrue(pdfContent.contains(eventRegistration.userName));
-			log.info("verified To address in receipt documnet" + eventRegistration.userName);
-
-			Assert.assertTrue(pdfContent.contains(testData.testDataProvider().getProperty("fromAddress")));
-			log.info("verified From address in receipt documnet" + testData.testDataProvider().getProperty("fromAddress"));
-
-		
-		}catch(Exception e) {
-			throw new Exception(e.getMessage());
-		}
+		return pdfContent;
 	}
 }

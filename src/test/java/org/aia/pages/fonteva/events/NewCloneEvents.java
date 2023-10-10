@@ -1,6 +1,4 @@
-package org.aia.pages.events;
-
-
+package org.aia.pages.fonteva.events;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -23,9 +21,6 @@ import org.openqa.selenium.support.FindBy;
 
 import org.testng.Assert;
 
-
-
-
 public class NewCloneEvents {
 	
 	WebDriver driver;
@@ -38,14 +33,11 @@ public class NewCloneEvents {
 	public String eventId = "";
 	static Logger log = Logger.getLogger(NewCloneEvents.class);
 
-	
-	
 	public NewCloneEvents(WebDriver Idriver)
 	{
 		this.driver=Idriver;
 		executor = (JavascriptExecutor) driver;
 		testData = new ConfigDataProvider();
-	
 	}
 	
 	@FindBy(xpath  = "//a[contains(@class,'label-action dndItem')]/span[text()='Events']") WebElement eventsLink;
@@ -92,20 +84,7 @@ public class NewCloneEvents {
 	WebElement eventUrl;
 	
 	
-	
-	public void newCloneEvent(String eventCategory) throws InterruptedException, Throwable {
-		
-		util.waitUntilElement(driver, eventsLink);
-		util.clickUsingJS(driver, eventsLink);
-		log.info("Events clickd successfully");
-		Logging.logger.info("Events clickd successfully");
-		util.waitUntilElement(driver, eventNewButton);
-		eventNewButton.click();
-		log.info("Even New button is clicked");
-		util.waitUntilElement(driver, cloneEventHeader);
-		boolean cloneEventPopup = cloneEventHeader.isDisplayed();
-		Assert.assertTrue(cloneEventPopup);
-		log.info("Clone Event pop is displayed");
+	public void newCloneOnExistingEvent(String eventCategory) throws InterruptedException, Throwable {
 		util.waitUntilElement(driver, existingCloneEvent);
 		Thread.sleep(5000);
 		boolean cloneEventRadioButton = existingCloneEvent.isSelected();
@@ -191,7 +170,6 @@ public class NewCloneEvents {
 	private static Map<String, String> getQueryParams(URI uri) {
         Map<String, String> params = new java.util.HashMap<>();
         String query = uri.getQuery();
-
         
         if (query != null && !query.isEmpty()) {
             // Split the query string into individual parameters

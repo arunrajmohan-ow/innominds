@@ -1,21 +1,21 @@
-package org.aia.pages.events;
+package org.aia.pages.fonteva.events;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+
 import java.util.Date;
 import java.util.List;
 
 import org.aia.utility.Utility;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 
 import groovy.transform.Final;
@@ -24,6 +24,7 @@ public class EditCloneEvent {
 	WebDriver driver;
 	Utility util = new Utility(driver, 30);
 	JavascriptExecutor executor;
+	Events events;
 	Actions act;
 	static Logger log = Logger.getLogger(EditCloneEvent.class);
 	public String salesOrder ="";
@@ -33,6 +34,7 @@ public class EditCloneEvent {
 		this.driver = IDriver;
 		executor = (JavascriptExecutor) driver;
 		act = new Actions(driver);
+		events = PageFactory.initElements(driver, Events.class);
 	}
 
 	@FindBy(xpath = "//li[contains(@data-target-selection-name,'EventApi__Event__c.Edit')]//lightning-button//button")
@@ -142,16 +144,11 @@ public class EditCloneEvent {
 	
 	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//div[contains(text(),'pages for your selected status')]") WebElement eventPagesText;
 
-	// event new tab
-	@FindBy(css = "div[id='navEventMenuItems'] button[data-title='Register']")
-	WebElement eventRegister;
+	
 
 	// created event
 	@FindBy(xpath = "//tbody/tr[1]/th[1]/span[1]/a")
 	WebElement createdEvent;
-
-	@FindBy(xpath = "//a[contains(@class,'label-action dndItem')]/span[text()='Events']")
-	WebElement eventsLink;
 	
 	@FindBy(xpath = "(//lightning-formatted-text[@title='AIA Contact Number']/following::div/lightning-formatted-text)[1]") WebElement getAIANumber;
 	
@@ -183,26 +180,7 @@ public class EditCloneEvent {
 //		return eventName;
 //	}
 	
-	public void eventsTab() {
-		util.waitUntilElement(driver, eventsLink);
-		util.clickUsingJS(driver, eventsLink);
-	}
 	
-	public void globalSearch(String email) throws Throwable {
-		Utility.highLightElement(driver, globSearch);
-		globSearch.click();
-		globSearchInput.sendKeys(email);
-		Thread.sleep(4000);
-		globSearchInput.sendKeys(Keys.ENTER);
-	}
-	
-	public void eventsSearch(String event) {
-		util.waitUntilElement(driver, searchEvents);
-		Utility.highLightElement(driver, searchEvents);
-		searchEvents.sendKeys(event);
-		
-		eventName.click();
-	}
 	
 	public void getAIAData() throws Throwable {
 		util.waitUntilElement(driver, getAIANumber);
@@ -211,7 +189,9 @@ public class EditCloneEvent {
 		log.info(getAIANumber.getText());
 		Utility.highLightElement(driver, accountName);
 		accountName.click();
-		eventsTab();
+		
+		//navigate to main events page
+		events.clickEventsModule();
 		Thread.sleep(4000);
 	}
 	
@@ -396,18 +376,13 @@ public class EditCloneEvent {
 		log.info("saveExit button is clicked sucessfully");
 	}
 
-	public void clickEventUrl(int tabIdx) throws Throwable {
+	public void clickEventUrl() throws Throwable {
 		Thread.sleep(5000);
 		util.waitUntilElement(driver, eventUrl);
 		util.scrollingElementUsingJS(driver, eventUrl);
 		log.info("Scrolled event url");
 		util.clickUsingJS(driver, eventUrl);
 		log.info("event url is clicked sucessfully");
-		util.switchToTabs(driver, tabIdx);
-		util.waitUntilElement(driver, eventRegister);
-		util.clickUsingJS(driver, eventRegister);
-		log.info("Event Register button is clicked sucessfully");
-		Thread.sleep(8000);
 	}
 
 }

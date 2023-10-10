@@ -3,25 +3,21 @@ package org.aia.pages.api.events;
 import static io.restassured.RestAssured.given;
 import static org.testng.Assert.assertEquals;
 
-import java.math.BigDecimal;
+
 import java.text.DecimalFormat;
 import java.util.Date;
 
 import org.aia.pages.events.EventRegistration;
-import org.aia.pages.events.NewCloneEvents;
+import org.aia.pages.fonteva.events.NewCloneEvents;
+import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.DataProviderFactory;
 import org.aia.utility.DateUtils;
 import org.apache.log4j.Logger;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import org.testng.ITestContext;
-import org.testng.annotations.Test;
-
-import com.google.gson.JsonObject;
-
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
@@ -29,6 +25,7 @@ import io.restassured.response.Response;
 
 public class EventAPIValidations {
 	WebDriver driver;
+	ConfigDataProvider testData;
 
 	static Logger log = Logger.getLogger(NewCloneEvents.class);
 	static String EVENT_URI = DataProviderFactory.getConfig().getValue("event_uri_qa");
@@ -57,6 +54,7 @@ public class EventAPIValidations {
 	public EventAPIValidations(WebDriver Idriver) {
 		this.driver = Idriver;
 		eventRegistration = PageFactory.initElements(driver, EventRegistration.class);
+		testData = new ConfigDataProvider();
 	}
 
 	public void uriSetUp() {
@@ -77,6 +75,10 @@ public class EventAPIValidations {
 
 	}
 
+	/**
+	 * @param context
+	 * @throws Throwable
+	 */
 	public void verifyEvent(ITestContext context) throws Throwable {
 		String Id = context.getAttribute("eventId").toString();
 		System.out.println("EVENTID: " + Id);
@@ -86,9 +88,64 @@ public class EventAPIValidations {
 				.extract().response();
 		JSONObject obj = new JSONObject(response.asString());
 		Assert.assertEquals(obj.get("Name").toString(), context.getAttribute("eventName").toString());
+		
+		Assert.assertEquals(Double.parseDouble(obj.get("EventApi__Attendees__c").toString()), Double.parseDouble("0.0"));
 		System.out.println("VERIFIED: Event Name - " + obj.get("Name").toString());
 		log.info("VERIFIED: Event Name - " + obj.get("Name").toString());
+	}
+	
+	
+	/**
+	 * @param context
+	 * @throws Throwable
+	 */
+	public void verifySalesOrderRegistration(ITestContext context) throws Throwable {
+	   String Id = context.getAttribute("eventId").toString();
+		
+		context.setAttribute("eventName", "TestQA10102023124133");
+		String attendeeQuan = context.getAttribute("attendees").toString();
+		String soldTickets = context.getAttribute("soldtickets").toString();
+		String remainEventCapacity = context.getAttribute("remainEvents").toString();
+		String reaminingTickets = context.getAttribute("remainTickets").toString();
+		System.out.println("EVENTID: " + Id);
+		Response response = given().contentType(ContentType.JSON).accept(ContentType.JSON)
+				.header("Authorization", "Bearer " + bearerToken).header("Content-Type", ContentType.JSON)
+				.header("Accept", ContentType.JSON).when().get(EVENT_URI + "/" + Id).then().log().all().statusCode(200)
+				.extract().response();
+		JSONObject obj = new JSONObject(response.asString());
+		Assert.assertEquals(obj.get("Name").toString(), context.getAttribute("eventName").toString());
+		System.out.println("VERIFIED: Event Name - " + obj.get("Name").toString());
+		log.info("VERIFIED: Event Name - " + obj.get("Name").toString());
+		
+		// attendees
+				Assert.assertEquals(Double.parseDouble(obj.get("EventApi__Attendees__c").toString()), Double.parseDouble(attendeeQuan));
+		// ticket sold
+		Assert.assertEquals(Double.parseDouble(obj.get("EventApi__Quantity_Sold__c").toString()), Double.parseDouble(soldTickets));
 
+		// event capacity remaining
+		Assert.assertEquals(Double.parseDouble(obj.get("EventApi__Event_Capacity_Remaining__c").toString()), Double.parseDouble(remainEventCapacity));
+		
+		Assert.assertEquals(Double.parseDouble(obj.get("EventApi__Quantity_Remaining__c").toString()), Double.parseDouble(reaminingTickets));
+		
+		
+	}
+	
+	/**
+	 * @param context
+	 * @throws Throwable
+	 */
+	public void verifyAttendees(ITestContext context) throws Throwable {
+		String Id = context.getAttribute("eventId").toString();
+		String attndessQun = context.getAttribute("attendees").toString();
+		System.out.println("EVENTID: " + Id);
+		Response response = given().contentType(ContentType.JSON).accept(ContentType.JSON)
+				.header("Authorization", "Bearer " + bearerToken).header("Content-Type", ContentType.JSON)
+				.header("Accept", ContentType.JSON).when().get(EVENT_URI + "/" + Id).then().log().all().statusCode(200)
+				.extract().response();
+		JSONObject obj = new JSONObject(response.asString());
+		Assert.assertEquals(obj.get("Name").toString(), context.getAttribute("eventName").toString());
+		// attendees
+		Assert.assertEquals(obj.get("EventApi__Attendees__c").toString(), attndessQun);
 	}
 
 	/**
@@ -99,8 +156,6 @@ public class EventAPIValidations {
 	 * @throws InterruptedException Here we validate the event receipt using get api
 	 *                              call endpoint is "OrderApi__Receipts__r"
 	 */
-
-	
 	public void verifyReciptDetails(String memberAccount, Object receiptNumberExpected, Object amount)
 			throws InterruptedException {
 
@@ -150,6 +205,13 @@ public class EventAPIValidations {
 		}
 	}
 	
+	/**
+	 * @param memberAccount
+	 * @param orderPaidStatus
+	 * @param closed
+	 * @param posted
+	 * @throws InterruptedException
+	 */
 	public void verifySalesOrder(String memberAccount, String orderPaidStatus, String closed, String posted)
 			throws InterruptedException {
 		Response response = given().contentType(ContentType.JSON).accept(ContentType.JSON)
@@ -200,7 +262,6 @@ public class EventAPIValidations {
 			assertEquals(salesOrderStatus, orderPaidStatus);
 			assertEquals(closedStatus, closed);
 			assertEquals(postingStatus, posted);
-//			assertEquals(amountPaid, dues);
 			assertEquals(salesOrderPaidDate, java.time.LocalDate.now().toString());
 			if (postingStatus.equalsIgnoreCase("unpaid")) {
 				assertEquals(subscriptionPlan, "Dues Installment Plan - 6 Installments");
