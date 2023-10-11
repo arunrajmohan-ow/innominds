@@ -234,7 +234,7 @@ public class TestJoinProfessional_CES extends BaseClass {
 				"AutomationOrg", "Institutional", "No");
 
 		// Validate CES Provider account details - Fonteva API validations
-		apiValidation.verifyProviderApplicationAccountDetails("Active", "CES Passport", "2023-12-31", false);
+		apiValidation.verifyProviderApplicationAccountDetails("Active", "CES Passport", "2024-12-31", false);
 
 		// Validate sales order
 		apiValidation.verifySalesOrder(DataProviderFactory.getConfig().getValue("salesOrderStatus"),
