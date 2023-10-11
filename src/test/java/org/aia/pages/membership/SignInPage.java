@@ -32,7 +32,7 @@ public class SignInPage {
 	
 	@FindBy(xpath="//a[text()= 'Forgot password?']")WebElement forgotpwd;
 	
-	@FindBy(xpath="//a[text()='Sign up']")WebElement signUplink;
+	@FindBy(xpath="//a[text()='Sign up' or @class='sign-up-link']")WebElement signUplink;
 	
 	@FindBy(xpath = "//span[contains(text(),'We are')]") WebElement errorMsg;
 	
@@ -48,9 +48,17 @@ public class SignInPage {
 		System.out.println("Email Text field displayed");
 		emailAddress.sendKeys(uname);
 		password.sendKeys(pwd);
+		Thread.sleep(5000);
 		//Thread.sleep(1200000);
 		submitbtn.click();
 		Thread.sleep(5000);
+	}
+	
+	public void signUp() throws Throwable {
+		Thread.sleep(5000);
+		util.waitUntilElement(driver, signUplink);
+		signUplink.click();
+		Thread.sleep(7000);
 	}
 
 }

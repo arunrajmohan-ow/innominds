@@ -93,8 +93,8 @@ public class SignUpPage {
 
 	String nameError = "//input[@placeholder='Enter first name']//ancestor::div//mat-error";
 
-	String fName;
-	String lName;
+	public String fName;
+	public String lName;
 	String mobNumb;
 	String password;
 	public String emailaddressdata;
