@@ -76,17 +76,12 @@ public class FontevaCES {
 	
 	@FindBy(xpath="//button[@title='Edit Term End Date']/span") WebElement editBtn;
 	
-<<<<<<< HEAD
-	//@FindBy(xpath="//a[contains(text(),'Show')]") WebElement showallBtn;
-	@FindBy(xpath="//a[contains(text(),'Show All')]//span") WebElement showallBtn;
-	//@FindBy(xpath="//div[contains(@class,'slds-card__body')]//a[contains(text(),'Show')]") WebElement showallBtn;
-=======
+
 	@FindBy(xpath="//a[contains(text(),'Show')]") WebElement showallBtn;
 	
 	//@FindBy(xpath="//a[contains(text(),'Show All (1')]") WebElement showallBtn;
 	
 	//@FindBy(xpath="//lst-related-list-quick-links-grid//div//div[@class='slds-card__body slds-card__body--inner']//div[@class='rlql-toggle slds-text-align_center']//a[contains(text(),'Show All')]") WebElement showallBtn;
->>>>>>> 962b33e1a1254b27ef997b01710dbd3cc1a72a8f
 	
 	@FindBy(xpath="//h1/span[text()='Contacts']/parent::h1/parent::div/parent::div//button") WebElement contactallBtn;
 	
@@ -164,13 +159,9 @@ public class FontevaCES {
 		Thread.sleep(5000);
 		actions.sendKeys(Keys.ARROW_DOWN).build().perform();
 		actions.sendKeys(Keys.ARROW_DOWN).build().perform();
-<<<<<<< HEAD
-		js.executeScript("arguments[0].click();", showallBtn);
-		//showallBtn.click();
-=======
+
 		actions.moveToElement(showallBtn).build().perform();
 		showallBtn.click();
->>>>>>> 962b33e1a1254b27ef997b01710dbd3cc1a72a8f
 		Thread.sleep(2000);
 		util.waitUntilElement(driver, memberShip);
 		//Instantiating Actions class
