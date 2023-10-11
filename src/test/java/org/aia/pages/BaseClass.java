@@ -37,11 +37,11 @@ import java.nio.file.StandardCopyOption;
 public class BaseClass {
 
 	public static WebDriver driver;
-	
+
 	public static ExtentReports extent;
 	public static ExtentSparkReporter spark;
 	public static ExtentTest test;
-	
+
 	ExtentReports report;
 	ExtentTest logger;
 	protected Utility util;
@@ -50,13 +50,11 @@ public class BaseClass {
 	public static ExtentReporter htmlReporter;
 	public static GenerateReports reports;
 	// Configure Log4j to perform error logging
-	
+
 	@BeforeSuite(alwaysRun = true)
-	public void setup()
-	{
+	public void setup() {
 		System.out.println("Extent report is getting started");
-		
-		
+
 //		extent = new ExtentReports();
 //		spark = new ExtentSparkReporter(System.getProperty("user.dir")+"\\Reports\\AIA+"+Utility.getCurrentDateTime()+".html");
 //		extent.attachReporter(spark);
@@ -64,93 +62,76 @@ public class BaseClass {
 //		extent.attachReporter(spark);
 ////	
 		System.out.println("Extent report is ready to use ");
-		
+
 	}
-	
-	
-	//@Parameters({"browser","url"})
+
+	// @Parameters({"browser","url"})
 	@BeforeClass(alwaysRun = true)
-	//public void setup(String browser, String url)
-	public void setupBrowser()
-	{
-		
+	// public void setup(String browser, String url)
+	public void setupBrowser() {
+
 		Reporter.log("LOG: INFO : Creating browser instances", true);
-			
-		//driver=BrowserSetup.startApplication(driver, DataProviderFactory.getConfig().getValue("browser"),DataProviderFactory.getConfig().getValue("logiurl"));
-		
-		//driver=new BrowserSetup().startApplication(browser,url);
-		
-		util=new Utility(driver, 30);
-		
+
+		// driver=BrowserSetup.startApplication(driver,
+		// DataProviderFactory.getConfig().getValue("browser"),DataProviderFactory.getConfig().getValue("logiurl"));
+
+		// driver=new BrowserSetup().startApplication(browser,url);
+
+		util = new Utility(driver, 30);
+
 		Reporter.log("LOG: INFO : Browser instance is ready ", true);
 
 	}
-	
+
 	@AfterClass(alwaysRun = true)
-	public void tearDown()
-	{
-		
+	public void tearDown() {
+
 		Reporter.log("LOG: INFO : Closing browser instances", true);
 
 		BrowserSetup.closeBrowser(driver);
-		
+
 		Reporter.log("LOG: INFO : Browser instances closed", true);
 
 	}
-	
-	
-	@BeforeTest(alwaysRun = true)
-	 public void initialTestSetup() {
-		 System.out.println("inside @BeforeTest initialTestSetup method");
-		 reports = GenerateReports.getInstance();
-	 }
-	
-	@AfterTest(alwaysRun = true)
-	 public void finalTestTearDown() {
-		 System.out.println("@afterTest started");
-	 }
-	
-	@AfterMethod(alwaysRun = true)
-	public void tearDown(ITestResult result)
-	{
-		
-		System.out.println("Driver value in after method is "+driver);
-		
-		System.out.println("Running After method Test executed with below status");
 
-		System.out.println("Status value "+result.getStatus());
-		
-		if(result.getStatus()==ITestResult.SUCCESS)
-		{
+	@BeforeTest(alwaysRun = true)
+	public void initialTestSetup() {
+		System.out.println("inside @BeforeTest initialTestSetup method");
+		reports = GenerateReports.getInstance();
+	}
+
+	@AfterTest(alwaysRun = true)
+	public void finalTestTearDown() {
+		System.out.println("@afterTest started");
+	}
+
+	@AfterMethod(alwaysRun = true)
+	public void tearDown(ITestResult result) {
+
+		System.out.println("Driver value in after method is " + driver);
+		System.out.println("Running After method Test executed with below status");
+		System.out.println("Status value " + result.getStatus());
+		if (result.getStatus() == ITestResult.SUCCESS) {
 			System.out.println("LOG : PASS User is able to login");
-		}
-		else if(result.getStatus()==ITestResult.FAILURE)
-		{
+		} else if (result.getStatus() == ITestResult.FAILURE) {
 			System.out.println("LOG : FAIL Test failed to executed");
 			TakesScreenshot ts = (TakesScreenshot) driver;
-            File screenshot = ts.getScreenshotAs(OutputType.FILE);
-            
-            try {
-                // Define the destination path for the screenshot
-                String screenshotPath = "./ScreenShots/" + result.getName() + ".png";
-                Files.copy(screenshot.toPath(), new File(screenshotPath).toPath(), StandardCopyOption.REPLACE_EXISTING);
-                System.out.println("Screenshot saved at: " + screenshotPath);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-		}
-		else if(result.getStatus()==ITestResult.SKIP)
-		{
+			File screenshot = ts.getScreenshotAs(OutputType.FILE);
+			try {
+				// Define the destination path for the screenshot
+				String screenshotPath = "./ScreenShots/" + result.getName() + ".png";
+				Files.copy(screenshot.toPath(), new File(screenshotPath).toPath(), StandardCopyOption.REPLACE_EXISTING);
+				System.out.println("Screenshot saved at: " + screenshotPath);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else if (result.getStatus() == ITestResult.SKIP) {
 			System.out.println("LOG : SKIP Test did not executed");
 		}
-		
 //		reports.endReport();
-	
 	}
-	
-	
-	
-	public static WebDriver getDriverInstance(){
+
+	public static WebDriver getDriverInstance() {
 		return driver;
 	}
 }

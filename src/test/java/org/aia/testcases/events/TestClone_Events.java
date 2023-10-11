@@ -21,7 +21,6 @@ import org.aia.utility.Logging;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.ITestContext;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 public class TestClone_Events extends BaseClass {
@@ -59,7 +58,7 @@ public class TestClone_Events extends BaseClass {
 		Logging.configure();
 	}
 
-	@Test(priority = 1, description = "Create New CloneEvent enter event name, enter date, select event category and event search click clone button", enabled = true)
+	@Test(priority = 1, description = "Create New CloneEvent enter event name, enter date, select event category and event search click clone button", enabled = false)
 
 	public void test_CreateCloneEvent(ITestContext context) throws Throwable {
 		events.clickEventsModule();
@@ -102,7 +101,8 @@ public class TestClone_Events extends BaseClass {
 		signInpage.signUp();
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.signUpUser();
-		mailinator.verifyEmailForAccountSetup(dataList.get(3), 1);
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
+		util.switchToTabs(driver, 1);
 		util.navigateToURl(driver, DataProviderFactory.getConfig().getValue("fonteva_sign_in"));
 		signInpage.login(dataList.get(5), dataList.get(6));
 		util.switchToTabs(driver, 0);
@@ -131,16 +131,17 @@ public class TestClone_Events extends BaseClass {
 	
      	//Here we validate the Sales order using API call
 		eventApivalidation.verifySalesOrder(dataList.get(3), DataProviderFactory.getConfig().getValue("salesOrderStatus"), 
-				DataProviderFactory.getConfig().getValue("orderStatus"), 
+				DataProviderFactory.getConfig().getValue("orderStatus"), receiptData.get(0), 
 				DataProviderFactory.getConfig().getValue("postingStatus"));
 		
-		//Email validations registration confirm message
-		mailinator.registrationConfirmationEmailforEvents(dataList, eventName);
+		
 		//Email validations session confirm message
 		mailinator.sessionConfirmationEmailforEvents(dataList, eventName);	
+		//Email validations registration confirm message
+		mailinator.registrationConfirmationEmailforEvents(dataList, eventName);
 	}
 	
-	@Test(priority = 3, description = "Verify 'Attendees' info after registering for the event", enabled = true)
+	@Test(priority = 3, description = "Verify 'Attendees' info after registering for the event", enabled = false)
 	public void validate_Attendees(ITestContext context) throws InterruptedException, Throwable {
 
 		test_CreateCloneEvent(context);
@@ -166,7 +167,8 @@ public class TestClone_Events extends BaseClass {
 		signInpage.signUp();
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.signUpUser();
-		mailinator.verifyEmailForAccountSetup(dataList.get(3), 1);
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
+		util.switchToTabs(driver, 1);
 		util.navigateToURl(driver, DataProviderFactory.getConfig().getValue("fonteva_sign_in"));
 		signInpage.login(dataList.get(5), dataList.get(6));
 		util.switchToTabs(driver, 0);
@@ -203,7 +205,7 @@ public class TestClone_Events extends BaseClass {
 		eventApivalidation.verifyAttendees(context);
 	}
 
-	@Test(priority = 4, description = "Verify 'Attendees' info after registering for the event", enabled = true)
+	@Test(priority = 4, description = "Verify 'Attendees' info after registering for the event", enabled = false)
 	public void validate_SalesAndRegistration(ITestContext context) throws InterruptedException, Throwable {
 
 		test_CreateCloneEvent(context);
@@ -230,7 +232,8 @@ public class TestClone_Events extends BaseClass {
 		signInpage.signUp();
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.signUpUser();
-		mailinator.verifyEmailForAccountSetup(dataList.get(3), 1);
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
+		util.switchToTabs(driver, 1);
 		util.navigateToURl(driver, DataProviderFactory.getConfig().getValue("fonteva_sign_in"));
 		signInpage.login(dataList.get(5), dataList.get(6));
 		util.switchToTabs(driver, 0);

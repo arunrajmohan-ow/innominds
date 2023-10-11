@@ -77,7 +77,7 @@ public class TestRenew_Membership extends BaseClass {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
 		signUpPage.signUpUser();
-		mailinator.verifyEmailForAccountSetup(dataList.get(3), 0);
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
 		closeButtnPage.clickCloseAfterVerification();
 		signInpage.login(dataList.get(5), dataList.get(6));
 		primaryInfoPage.enterPrimaryInfo("activeUSLicense", "None Selected");
@@ -139,7 +139,7 @@ public class TestRenew_Membership extends BaseClass {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
 		signUpPage.signUpUser();
-		mailinator.verifyEmailForAccountSetup(dataList.get(3), 0);
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
 		closeButtnPage.clickCloseAfterVerification();
 		signInpage.login(dataList.get(5), dataList.get(6));
 		// PAC workflow
@@ -196,7 +196,7 @@ public class TestRenew_Membership extends BaseClass {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
 		signUpPage.signUpUser();
-		mailinator.verifyEmailForAccountSetup(dataList.get(3), 0);
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
 		closeButtnPage.clickCloseAfterVerification();
 		signInpage.login(dataList.get(5), dataList.get(6));
 		primaryInfoPage.enterPrimaryInfo_pac("activeUSLicense", "None Selected");
@@ -253,7 +253,7 @@ public class TestRenew_Membership extends BaseClass {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
 		signUpPage.signUpUser();
-		mailinator.verifyEmailForAccountSetup(dataList.get(3), 0);
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
 		closeButtnPage.clickCloseAfterVerification();
 		signInpage.login(dataList.get(5), dataList.get(6));
 		primaryInfoPage.enterPrimaryInfo_pac("activeUSLicense", "None Selected");
@@ -307,7 +307,7 @@ public class TestRenew_Membership extends BaseClass {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
 		signUpPage.signUpUser();
-		mailinator.verifyEmailForAccountSetup(dataList.get(3), 0);
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
 		closeButtnPage.clickCloseAfterVerification();
 		signInpage.login(dataList.get(5), dataList.get(6));
 		primaryInfoPage.enterPrimaryInfo_pac("activeUSLicense", "None Selected");
@@ -365,7 +365,7 @@ public class TestRenew_Membership extends BaseClass {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
 		signUpPage.signUpUser();
-		mailinator.verifyEmailForAccountSetup(dataList.get(3), 0);
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
 		closeButtnPage.clickCloseAfterVerification();
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
 		fontevaJoin.pointOffset();
@@ -406,7 +406,7 @@ public class TestRenew_Membership extends BaseClass {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
 		signUpPage.signUpUser();
-		mailinator.verifyEmailForAccountSetup(dataList.get(3), 0);
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
 		closeButtnPage.clickCloseAfterVerification();
 		signInpage.login(dataList.get(5), dataList.get(6));
 		primaryInfoPage.enterPrimaryInfo(testData.testDataProvider().getProperty("radioSelection"),
@@ -443,7 +443,7 @@ public class TestRenew_Membership extends BaseClass {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
 		signUpPage.signUpUser();
-		mailinator.verifyEmailForAccountSetup(dataList.get(3), 0);
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
 		closeButtnPage.clickCloseAfterVerification();
 		signInpage.login(dataList.get(5), dataList.get(6));
 		primaryInfoPage.enterPrimaryInfo_pacDonation("activeUSLicense", "None Selected", "Donation");

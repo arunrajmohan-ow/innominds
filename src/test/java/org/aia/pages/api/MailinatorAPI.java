@@ -1,6 +1,5 @@
 package org.aia.pages.api;
 
-import static org.testng.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,7 +18,6 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
-import jdk.internal.org.jline.utils.Log;
 
 public class MailinatorAPI {
 
@@ -40,7 +38,7 @@ public class MailinatorAPI {
 	
 	@FindBy(xpath="//span[text()='SUCCESS']") WebElement successMessage;
 	
-	public void verifyEmailForAccountSetup(String emailPrefix, int specTab) throws InterruptedException {
+	public void verifyEmailForAccountSetup(String emailPrefix) throws InterruptedException {
 		String inbox = emailPrefix;
 
 		JsonPath jsonPathEval = null;
@@ -70,7 +68,7 @@ public class MailinatorAPI {
 		driver.switchTo().window(tabs.get(1));
 		driver.get(link);
 		util.waitUntilElement(driver, successMessage);		
-		driver.switchTo().window(tabs.get(specTab));
+		driver.switchTo().window(tabs.get(0));
 
 	}
 	
@@ -310,7 +308,7 @@ public class MailinatorAPI {
 		JsonPath jsonPathEval = null;
 
 		String mailinator_uri = MAILINATOR_API + inbox;
-		Thread.sleep(10000);
+		Thread.sleep(2000);
 
 		Response response =  RestAssured.given().headers("Content-Type",
 				ContentType.JSON, "Accept",
@@ -331,7 +329,7 @@ public class MailinatorAPI {
 				 headers("Content-Type", ContentType.JSON, "Accept", ContentType.JSON,"Authorization",bearerToken).when().get(message_uri).then().extract().response();
 
 		jsonPathEval = response.jsonPath();
-		Thread.sleep(10000);
+		Thread.sleep(2000);
 		
 		System.out.println(response.getBody().asPrettyString());
 		String value = jsonPathEval.getString("parts[1].body");
@@ -347,7 +345,7 @@ public class MailinatorAPI {
 		JsonPath jsonPathEval = null;
 
 		String mailinator_uri = MAILINATOR_API + inbox;
-		Thread.sleep(10000);	
+		Thread.sleep(2000);	
 		 Response response =  RestAssured.given().headers("Content-Type",
 				ContentType.JSON, "Accept",
 				ContentType.JSON,"Authorization",
@@ -368,7 +366,6 @@ public class MailinatorAPI {
 				 headers("Content-Type", ContentType.JSON, "Accept", ContentType.JSON,"Authorization",bearerToken).when().get(message_uri).then().extract().response();
 
 		jsonPathEval = response.jsonPath();
-		Thread.sleep(10000);
 		System.out.println(response.getBody().asPrettyString());
 		String value = jsonPathEval.getString("parts[1].body");
 		System.out.println("body is " + value);

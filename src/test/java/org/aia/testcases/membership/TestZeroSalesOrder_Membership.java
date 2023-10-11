@@ -79,7 +79,7 @@ public class TestZeroSalesOrder_Membership extends BaseClass {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
 		signUpPage.signUpUser();
-		mailinator.verifyEmailForAccountSetup(dataList.get(3), 0);
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
 		closeButtnPage.clickCloseAfterVerification();
 		signInpage.login(dataList.get(5), dataList.get(6));
 		primaryInfoPage.enterPrimaryInfo("activeUSLicense", "Non profit");

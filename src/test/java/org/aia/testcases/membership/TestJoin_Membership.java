@@ -84,7 +84,7 @@ public class TestJoin_Membership extends BaseClass {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
 		signUpPage.signUpUser();
-		mailinator.verifyEmailForAccountSetup(dataList.get(3), 0);
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
 		closeButtnPage.clickCloseAfterVerification();
 		signInpage.login(dataList.get(5), dataList.get(6));
 		primaryInfoPage.enterPrimaryInfo("activeUSLicense", "Non profit");
@@ -121,7 +121,7 @@ public class TestJoin_Membership extends BaseClass {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
 		signUpPage.signUpUser();
-		mailinator.verifyEmailForAccountSetup(dataList.get(3), 0);
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
 		closeButtnPage.clickCloseAfterVerification();
 		signInpage.login(dataList.get(5), dataList.get(6));
 		primaryInfoPage.enterPrimaryInfo("activeUSLicense", "Non profit");
@@ -157,7 +157,7 @@ public class TestJoin_Membership extends BaseClass {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
 		signUpPage.signUpUser();
-		mailinator.verifyEmailForAccountSetup(dataList.get(3), 0);
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
 		closeButtnPage.clickCloseAfterVerification();
 		signInpage.login(dataList.get(5), dataList.get(6));
 		primaryInfoPage.enterPrimaryInfo("activeNonUSLicense", "Non profit");
@@ -190,7 +190,7 @@ public class TestJoin_Membership extends BaseClass {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
 		signUpPage.signUpUser();
-		mailinator.verifyEmailForAccountSetup(dataList.get(3), 0);
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
 		closeButtnPage.clickCloseAfterVerification();
 		signInpage.login(dataList.get(5), dataList.get(6));
 		primaryInfoPage.enterPrimaryInfo("graduate", "Non profit");
@@ -223,7 +223,7 @@ public class TestJoin_Membership extends BaseClass {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
 		signUpPage.signUpUser();
-		mailinator.verifyEmailForAccountSetup(dataList.get(3), 0);
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
 		closeButtnPage.clickCloseAfterVerification();
 		signInpage.login(dataList.get(5), dataList.get(6));
 		primaryInfoPage.enterPrimaryInfo("axp", "Non profit");
@@ -256,7 +256,7 @@ public class TestJoin_Membership extends BaseClass {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
 		signUpPage.signUpUser();
-		mailinator.verifyEmailForAccountSetup(dataList.get(3), 0);
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
 		closeButtnPage.clickCloseAfterVerification();
 		signInpage.login(dataList.get(5), dataList.get(6));
 		primaryInfoPage.enterPrimaryInfo("noLicense", "Non profit");
@@ -289,7 +289,7 @@ public class TestJoin_Membership extends BaseClass {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
 		signUpPage.signUpUser();
-		mailinator.verifyEmailForAccountSetup(dataList.get(3), 0);
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
 		closeButtnPage.clickCloseAfterVerification();
 		signInpage.login(dataList.get(5), dataList.get(6));
 		primaryInfoPage.enterPrimaryInfo("supervision", "Non profit");
@@ -322,7 +322,7 @@ public class TestJoin_Membership extends BaseClass {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
 		signUpPage.signUpUser();
-		mailinator.verifyEmailForAccountSetup(dataList.get(3), 0);
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
 		closeButtnPage.clickCloseAfterVerification();
 		signInpage.login(dataList.get(5), dataList.get(6));
 		primaryInfoPage.enterPrimaryInfo("faculty", "Non profit");
@@ -355,7 +355,7 @@ public class TestJoin_Membership extends BaseClass {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
 		signUpPage.signUpUser();
-		mailinator.verifyEmailForAccountSetup(dataList.get(3), 0);
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
 		closeButtnPage.clickCloseAfterVerification();
 		signInpage.login(dataList.get(5), dataList.get(6));
 		primaryInfoPage.enterPrimaryInfo("allied", "Non profit");
@@ -388,7 +388,7 @@ public class TestJoin_Membership extends BaseClass {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
 		signUpPage.signUpUser();
-		mailinator.verifyEmailForAccountSetup(dataList.get(3), 0);
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
 		closeButtnPage.clickCloseAfterVerification();
 		signInpage.login(dataList.get(5), dataList.get(6));
 		primaryInfoPage.enterPrimaryInfo("activeUSLicense", "For Profit");
@@ -421,7 +421,7 @@ public class TestJoin_Membership extends BaseClass {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
 		signUpPage.signUpUser();
-		mailinator.verifyEmailForAccountSetup(dataList.get(3), 0);
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
 		closeButtnPage.clickCloseAfterVerification();
 		signInpage.login(dataList.get(5), dataList.get(6));
 		primaryInfoPage.enterPrimaryInfo("activeUSLicense", "Govt");
@@ -453,7 +453,7 @@ public class TestJoin_Membership extends BaseClass {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
 		signUpPage.signUpUser();
-		mailinator.verifyEmailForAccountSetup(dataList.get(3), 0);
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
 		closeButtnPage.clickCloseAfterVerification();
 		signInpage.login(dataList.get(5), dataList.get(6));
 		primaryInfoPage.enterPrimaryInfo("activeUSLicense", "Education");
@@ -489,7 +489,7 @@ public class TestJoin_Membership extends BaseClass {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
 		signUpPage.signUpUser();
-		mailinator.verifyEmailForAccountSetup(dataList.get(3), 0);
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
 		closeButtnPage.clickCloseAfterVerification();
 		signInpage.login(dataList.get(5), dataList.get(6));
 		primaryInfoPage.enterPrimaryInfo("activeUSLicense", "Retired");
@@ -525,7 +525,7 @@ public class TestJoin_Membership extends BaseClass {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
 		signUpPage.signUpUser();
-		mailinator.verifyEmailForAccountSetup(dataList.get(3), 0);
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
 		closeButtnPage.clickCloseAfterVerification();
 		signInpage.login(dataList.get(5), dataList.get(6));
 		primaryInfoPage.enterPrimaryInfo("activeUSLicense", "None Selected");
@@ -562,7 +562,7 @@ public class TestJoin_Membership extends BaseClass {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
 		signUpPage.signUpUser();
-		mailinator.verifyEmailForAccountSetup(dataList.get(3), 0);
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
 		closeButtnPage.clickCloseAfterVerification();
 		signInpage.login(dataList.get(5), dataList.get(6));
 		primaryInfoPage.enterPrimaryInfo("activeUSLicense", "None Selected");
@@ -594,7 +594,7 @@ public class TestJoin_Membership extends BaseClass {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
 		signUpPage.signUpUser();
-		mailinator.verifyEmailForAccountSetup(dataList.get(3), 0);
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
 		closeButtnPage.clickCloseAfterVerification();
 		signInpage.login(dataList.get(5), dataList.get(6));
 		primaryInfoPage.enterPrimaryInfo(testData.testDataProvider().getProperty("radioSelection"),
@@ -632,7 +632,7 @@ public class TestJoin_Membership extends BaseClass {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
 		signUpPage.signUpUser();
-		mailinator.verifyEmailForAccountSetup(dataList.get(3), 0);
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
 		closeButtnPage.clickCloseAfterVerification();
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
 		fontevaJoin.selectContact(dataList.get(0) + " " + dataList.get(1));
@@ -667,7 +667,7 @@ public class TestJoin_Membership extends BaseClass {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
 		signUpPage.signUpUser();
-		mailinator.verifyEmailForAccountSetup(dataList.get(3), 0);
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
 		closeButtnPage.clickCloseAfterVerification();
 		signInpage.login(dataList.get(5), dataList.get(6));
 		primaryInfoPage.enterPrimaryInfo(testData.testDataProvider().getProperty("radioSelection"),

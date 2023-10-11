@@ -116,7 +116,7 @@ public class EventAPIValidations {
 		log.info("VERIFIED: Event Name - " + obj.get("Name").toString());
 		
 		// attendees
-				Assert.assertEquals(Double.parseDouble(obj.get("EventApi__Attendees__c").toString()), Double.parseDouble(attendeeQuan));
+		Assert.assertEquals(Double.parseDouble(obj.get("EventApi__Attendees__c").toString()), Double.parseDouble(attendeeQuan));
 		// ticket sold
 		Assert.assertEquals(Double.parseDouble(obj.get("EventApi__Quantity_Sold__c").toString()), Double.parseDouble(soldTickets));
 
@@ -156,22 +156,18 @@ public class EventAPIValidations {
 	 */
 	public void verifyReciptDetails(String memberAccount, Object receiptNumberExpected, Object amount)
 			throws InterruptedException {
-
+		log.info("===============Started Validate ReciptDetails for events=================");
 		Response response = given().contentType(ContentType.JSON).accept(ContentType.JSON)
 				.header("Authorization", "Bearer " + bearerToken).header("Content-Type", ContentType.JSON)
 				.header("Accept", ContentType.JSON).param("q", memberAccount).param("sobject", "Account").when()
 				.get(PARAMETERIZED_SEARCH_URI).then().statusCode(200).extract().response();
 		
 		System.out.println(response.asString());
-
 		jsonPathEval = response.jsonPath();
-	    
 		accountID = jsonPathEval.getString("searchRecords[0].Id");
 		log.info(accountID);
-
 		String RECIPTS_URI = ACCOUNT_URI + "/" + accountID + "/OrderApi__Receipts__r";
 		log.info(RECIPTS_URI);
-
 		response = given().header("Authorization", "Bearer " + bearerToken).header("Content-Type", ContentType.JSON)
 				.header("Accept", ContentType.JSON).param("fields", "Name," + "OrderApi__Total__c").when()
 				.get(RECIPTS_URI).then().statusCode(200).extract().response();
@@ -184,12 +180,10 @@ public class EventAPIValidations {
 			System.out.println("Number of Recipt : " + totalReciptCount);
 			String receiptNumber = jsonPathEval.getString("records[0].Name");
 			Object totalFeePaid = jsonPathEval.getDouble("records[0].OrderApi__Total__c");
-
 			System.out.println("=====================================");
 			System.out.println("Receipt number :" + receiptNumber);
 			System.out.println("Total fee paid :" + totalFeePaid);
 			System.out.println("=====================================");
-
 			assertEquals(receiptNumber, receiptNumberExpected.toString().split("#")[1]);
 			log.info("Actual Receipt number"+receiptNumber+ "is equals to"+ receiptNumberExpected);
 			double doubleValue = Double.parseDouble(totalFeePaid.toString());
@@ -197,10 +191,10 @@ public class EventAPIValidations {
 	        // Format the double to a string with two decimal places
 	        assertEquals("$"+new DecimalFormat("0.00").format(doubleValue), amount);
 			log.info("Actual Receipt number"+ totalFeePaid + "is equals to"+ amount);
-
 		} else {
 			System.out.println("No Recipt found!!!");
 		}
+		log.info("================ReciptDetails are Validated===============");
 	}
 	
 	/**
@@ -210,8 +204,9 @@ public class EventAPIValidations {
 	 * @param posted
 	 * @throws InterruptedException
 	 */
-	public void verifySalesOrder(String memberAccount, String orderPaidStatus, String closed, String posted)
+	public void verifySalesOrder(String memberAccount, String orderPaidStatus, String closed,Object amount, String posted)
 			throws InterruptedException {
+		log.info("==================started Validate SalesOrder for events================");
 		Response response = given().contentType(ContentType.JSON).accept(ContentType.JSON)
 				.header("Authorization", "Bearer " + bearerToken).header("Content-Type", ContentType.JSON)
 				.header("Accept", ContentType.JSON).param("q", memberAccount).param("sobject", "Account").when()
@@ -221,7 +216,6 @@ public class EventAPIValidations {
 		System.out.println(response.asString());
 		log.info(response.asString());
 		jsonPathEval = response.jsonPath();
-	    
 		accountID = jsonPathEval.getString("searchRecords[0].Id");
 		log.info(accountID);
 
@@ -238,7 +232,6 @@ public class EventAPIValidations {
 
 		jsonPathEval = response.jsonPath();
 		int totalSalesOrderCount = jsonPathEval.getInt("totalSize");
-
 		if (totalSalesOrderCount > 0) {
 			System.out.println("Number of Sales order : " + totalSalesOrderCount);
 			String closedStatus = jsonPathEval.getString("records[0].OrderApi__Status__c");
@@ -259,16 +252,17 @@ public class EventAPIValidations {
 
 			assertEquals(salesOrderStatus, orderPaidStatus);
 			assertEquals(closedStatus, closed);
+			double doubleValue = Double.parseDouble(amountPaid.toString());
+			assertEquals("$"+new DecimalFormat("0.00").format(doubleValue), amount);
+			log.info("Actual Receipt number"+ amountPaid + "is equals to"+ amount);
 			assertEquals(postingStatus, posted);
 			assertEquals(salesOrderPaidDate, java.time.LocalDate.now().toString());
 			if (postingStatus.equalsIgnoreCase("unpaid")) {
 				assertEquals(subscriptionPlan, "Dues Installment Plan - 6 Installments");
 			}
-
 		} else {
 			System.out.println("No Sales order found!!!");
 		}
+		log.info("==============Sales Order is Validated===================");
 	}
-
-
 }
