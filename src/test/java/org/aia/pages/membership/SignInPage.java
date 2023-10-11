@@ -39,17 +39,16 @@ public class SignInPage {
 	@FindBy(xpath = "//span[text()='Primary information']") WebElement pageTitel;
 
 	
-	
-	
 	@Test(priority= 1, description="Enter credentials with username {0} and password {1} and click on submit button")
 	public void login(String uname,String pwd) throws InterruptedException
 	{
-		Thread.sleep(5000);
+		Thread.sleep(40000);
 		util.waitUntilElement(driver, emailAddress);
 		System.out.println("Waiting for the email text field to appear");
 		System.out.println("Email Text field displayed");
 		emailAddress.sendKeys(uname);
 		password.sendKeys(pwd);
+		//Thread.sleep(1200000);
 		submitbtn.click();
 		Thread.sleep(5000);
 	}

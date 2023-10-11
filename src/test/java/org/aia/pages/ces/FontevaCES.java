@@ -54,7 +54,8 @@ public class FontevaCES {
 
 	@FindBy(xpath="//div[@class='uiVirtualDataTable indicator']") WebElement tableDiv;
 
-	@FindBy(xpath="//a/slot/span[contains(text(),'Memberships')]") WebElement memberShip;
+	//@FindBy(xpath="//a/slot/span[contains(text(),'Memberships')]") WebElement memberShip;
+	@FindBy(xpath="//a/slot/span[contains(text(),'Memberships')]//ancestor::a") WebElement memberShip;
 
 	@FindBy(xpath="//a/span[@title='Name']") WebElement tableheaderName;
 
@@ -75,9 +76,17 @@ public class FontevaCES {
 	
 	@FindBy(xpath="//button[@title='Edit Term End Date']/span") WebElement editBtn;
 	
+<<<<<<< HEAD
 	//@FindBy(xpath="//a[contains(text(),'Show')]") WebElement showallBtn;
 	@FindBy(xpath="//a[contains(text(),'Show All')]//span") WebElement showallBtn;
 	//@FindBy(xpath="//div[contains(@class,'slds-card__body')]//a[contains(text(),'Show')]") WebElement showallBtn;
+=======
+	@FindBy(xpath="//a[contains(text(),'Show')]") WebElement showallBtn;
+	
+	//@FindBy(xpath="//a[contains(text(),'Show All (1')]") WebElement showallBtn;
+	
+	//@FindBy(xpath="//lst-related-list-quick-links-grid//div//div[@class='slds-card__body slds-card__body--inner']//div[@class='rlql-toggle slds-text-align_center']//a[contains(text(),'Show All')]") WebElement showallBtn;
+>>>>>>> 962b33e1a1254b27ef997b01710dbd3cc1a72a8f
 	
 	@FindBy(xpath="//h1/span[text()='Contacts']/parent::h1/parent::div/parent::div//button") WebElement contactallBtn;
 	
@@ -88,6 +97,8 @@ public class FontevaCES {
 	@FindBy(xpath = "//input[@placeholder='Search this list...']") WebElement searchBox;
 	
 	@FindBy(xpath = "//span[text()='No items to display.']") WebElement noItemHeading;
+	
+	@FindBy(xpath = "//p[text()='Account Name']//parent::div//div//a") WebElement accountName;
 	
 	String  startLocator = "//div[@class='uiVirtualDataTable indicator']/following-sibling::table/tbody//a[text()='";
 	String  endLocator = "']";
@@ -137,6 +148,7 @@ public class FontevaCES {
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		util.waitUntilElement(driver, contacts);
 		contactsDiv.click();
+		//driver.navigate().refresh();
 		util.waitUntilElement(driver, tableheaderName);
 		Thread.sleep(5000);
 		util.waitUntilElement(driver, contactallBtn);
@@ -145,21 +157,26 @@ public class FontevaCES {
 		contactallLink.click();
 		Thread.sleep(15000);
 		driver.findElement(By.xpath(startLocator+fullName+endLocator)).click();
-		actions.sendKeys(Keys.ARROW_DOWN).build().perform();
-		actions.sendKeys(Keys.ARROW_DOWN).build().perform();
-		util.waitUntilElement(driver, showallBtn);
-		js.executeScript("arguments[0].scrollIntoView(true);", showallBtn);
+		util.waitUntilElement(driver, accountName);
+		js.executeScript("arguments[0].click();", accountName);
+		//accountName.click();
 		util.waitUntilElement(driver, showallBtn);
 		Thread.sleep(5000);
 		actions.sendKeys(Keys.ARROW_DOWN).build().perform();
 		actions.sendKeys(Keys.ARROW_DOWN).build().perform();
+<<<<<<< HEAD
 		js.executeScript("arguments[0].click();", showallBtn);
 		//showallBtn.click();
+=======
+		actions.moveToElement(showallBtn).build().perform();
+		showallBtn.click();
+>>>>>>> 962b33e1a1254b27ef997b01710dbd3cc1a72a8f
 		Thread.sleep(2000);
 		util.waitUntilElement(driver, memberShip);
 		//Instantiating Actions class
+		//Actions actions = new Actions(driver);
 		//Hovering on main menu
-		actions.moveToElement(contactTitle);
+		//actions.moveToElement(contactTitle);
 		actions.sendKeys(Keys.ARROW_DOWN).build().perform();
 		actions.sendKeys(Keys.ARROW_DOWN).build().perform();
 		Thread.sleep(5000);
@@ -186,7 +203,7 @@ public class FontevaCES {
 		inputTermEndDate.sendKeys("12/31/2023");
 		util.waitUntilElement(driver, inputTermGraceDate);
 		inputTermGraceDate.clear();
-		inputTermGraceDate.sendKeys("1/31/2024");
+		inputTermGraceDate.sendKeys("4/4/2024");
 		saveBtn.click();
 		Thread.sleep(1000);
 		act.sendKeys(Keys.F5);

@@ -5,6 +5,7 @@ import static org.testng.Assert.assertTrue;
 import java.util.Set;
 
 import org.aia.utility.Utility;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -82,6 +83,8 @@ WebDriver driver;
 	
 	@FindBy(xpath="//p[contains(text(), 'Thank you for submitting your application')]") WebElement passportConfirmtxtCes;
 	
+	@FindBy(xpath = "//button[text()='Confirm Order']") WebElement confirmOrderBtn;
+	
 	/*
 	 * @param : text
 	 * @param : aiaMemberNumber
@@ -127,8 +130,14 @@ WebDriver driver;
 	
 	
 	public void enterECheckDetailsCes(String accountHolderName ,String bankName, String bankRoutingNumber, String bankAccountNumber) throws InterruptedException {
+		//util.waitUntilElement(driver, eCheckCes);
+		JavascriptExecutor executor = (JavascriptExecutor) driver;
+		Thread.sleep(50000);
+		executor.executeScript("arguments[0].scrollIntoView(true);", eCheckCes);
 		util.waitUntilElement(driver, eCheckCes);
-		eCheckCes.click();
+		Thread.sleep(20000);
+		executor.executeScript("arguments[0].click();",eCheckCes);
+		//eCheckCes.click();
 		Thread.sleep(2000);
 		util.waitUntilElement(driver, fullNameECheckoutCes);
 		fullNameECheckoutCes.sendKeys(accountHolderName);
@@ -172,5 +181,10 @@ WebDriver driver;
 		Thread.sleep(1000);
 		util.waitUntilElement(driver, passportConfirmtxtCes);
 		assertTrue(passportConfirmtxtCes.isDisplayed(), "Submission Confirmation text is visible.");
+	}
+	
+	public void confirmOrderWithNoAmt() {
+     util.waitUntilElement(driver, confirmOrderBtn);
+     confirmOrderBtn.click();
 	}
 }

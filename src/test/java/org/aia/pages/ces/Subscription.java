@@ -44,6 +44,8 @@ public class Subscription {
 	
 	@FindBy(xpath="//*[text()='Upload Files']") WebElement profUploadFile;
 	
+	@FindBy(xpath = "//input[@name='uploadFile']") WebElement pdfUploadElement;
+	
 	//@FindBy(xpath="//span[text()='Done'] | //span[text()='Done']//parent::button") WebElement pofessionalFileUplaodDoneButton;
 	
 	@FindBy(xpath="//span[text()='Done']//parent::button") WebElement pofessionalFileUplaodDoneButton;
@@ -149,10 +151,11 @@ public class Subscription {
 		}
 		try {
 			
-			String PdfFile = System.getProperty("user.dir")+"\\UploadFiles\\FileAIA.pdf";
+			String PdfFile = System.getProperty("user.dir")+"/UploadFiles/FileAIA.pdf";
 			util.waitUntilElement(driver, profUploadFile);
 			//profUploadFile.sendKeys("C:\\AIA-code\\aia-fonteva-automation\\UploadFiles\\FileAIA.pdf");
-			profUploadFile.click();
+			pdfUploadElement.sendKeys(System.getProperty("user.dir")+"/UploadFiles/FileAIA.pdf");
+			/*profUploadFile.click();
 			Robot robot = new Robot();
 			StringSelection ss = new StringSelection(PdfFile);
 			Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ss, null);
@@ -164,7 +167,7 @@ public class Subscription {
 			robot.keyRelease(KeyEvent.VK_CONTROL);
 			
 			robot.keyPress(KeyEvent.VK_ENTER);
-			robot.keyRelease(KeyEvent.VK_ENTER);
+			robot.keyRelease(KeyEvent.VK_ENTER);*/
 	    } catch (Exception exp) {
 	        exp.printStackTrace();
 	    }
