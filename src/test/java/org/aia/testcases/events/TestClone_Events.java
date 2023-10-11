@@ -14,14 +14,19 @@ import org.aia.pages.fonteva.events.QuickLinksInEvents;
 import org.aia.pages.membership.CheckYourEmailPage;
 import org.aia.pages.membership.SignInPage;
 import org.aia.pages.membership.SignUpPage;
+import org.aia.testcases.ces.TestCESMembershipStatus_CES;
 import org.aia.utility.BrowserSetup;
 import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.DataProviderFactory;
 import org.aia.utility.Logging;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.ITestContext;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.ExtentTest;
 
 public class TestClone_Events extends BaseClass {
 
@@ -37,6 +42,9 @@ public class TestClone_Events extends BaseClass {
 	ViewRecipts viewReceipts;
 	EventAPIValidations eventApivalidation;
 	QuickLinksInEvents linksInEvents;
+	public ExtentReports extent;
+	public ExtentTest extentTest;
+	final static Logger logger = Logger.getLogger(TestClone_Events.class);
 
 	@BeforeMethod(alwaysRun = true)
 	public void setUp() throws Exception {

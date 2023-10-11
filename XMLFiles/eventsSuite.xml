@@ -4,7 +4,7 @@
 <listeners>
 	<listener class-name="org.aia.utility.GenerateReportsListener"></listener>
 </listeners>
-  <test thread-count="2" parallel="classes" name="Test">
+  <test thread-count="5" name="Test">
     <classes>
 	  <class name="org.aia.testcases.events.TestClone_Events"></class>
     </classes>
