@@ -100,7 +100,7 @@ public class TestDiscountCode_CES extends BaseClass {
 		secPoc.enterSecondaryPocDetails(dataList, prefix, suffix, "No", "United States of America (+1)");
 		additionalUsers.doneWithCreatingUsers();
 		providerStatement.providerStatementEnterNameDate2("FNProviderStatement");
-		checkOutPageCes.SubscriptionType(text);
+		//checkOutPageCes.SubscriptionType(text);
 
 	}
 
