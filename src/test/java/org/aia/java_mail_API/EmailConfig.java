@@ -21,6 +21,11 @@ public class EmailConfig {
 	public static final String PASSWORD = "dpnlfpivjzpfozak";
 
 	/* "**********@gmail.com", */
+<<<<<<< HEAD
 	public static final String[] TO = { "sghodake@innominds.com", "sgopisetty@innominds.com" };
+=======
+	public static final String[] TO = { "sghodake@innominds.com", "sgopisetty@innominds.com",
+			"arajmohan@innominds.com" };
+>>>>>>> e4233d11c2451959159ca851d8147838962c9637
 	public static final String SUBJECT = Constants.getProjectName();
 }

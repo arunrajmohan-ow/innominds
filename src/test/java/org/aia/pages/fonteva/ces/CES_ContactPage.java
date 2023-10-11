@@ -19,13 +19,16 @@ import org.apache.commons.io.serialization.ValidatingObjectInputStream;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.log4j.Logger;
 import org.bouncycastle.asn1.eac.PublicKeyDataObject;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.Select;
 
 /**
  * @author IM-RT-LP-1483 (Suhas)
@@ -198,7 +201,7 @@ public class CES_ContactPage {
 	@FindBy(xpath = "//a[contains(text(),'Show All (2')]")
 	WebElement showAll;
 
-	//@FindBy(xpath = "//span[text()='Show more actions']//ancestor::button")
+	// @FindBy(xpath = "//span[text()='Show more actions']//ancestor::button")
 	@FindBy(xpath = "//lightning-button-menu[contains(@data-target-reveals,'Disable_Auto_Renew')]//button")
 	WebElement moreActionBtn;
 
@@ -213,34 +216,61 @@ public class CES_ContactPage {
 
 	@FindBy(xpath = "//p[text()='Account Name']//parent::div//div//a")
 	WebElement accountName;
-	
+
 	@FindBy(xpath = "//button[text()='Rapid Order Entry']")
 	WebElement rapidOrderEnteryBtn;
-	
+
 	@FindBy(xpath = "//button[text()='Advanced Settings']")
 	WebElement advanceSetting;
-	
+
 	@FindBy(xpath = "//h2[text()='Advanced Settings']")
 	WebElement advancSettingPopUp;
-	
+
 	@FindBy(xpath = "//select[@name='Business Group']")
 	WebElement businessGroupDrp;
-	
+
 	@FindBy(xpath = "//button[@title='Save']")
 	WebElement advanceSettingsaveBtn;
-	
-	//@FindBy(xpath = "//strong[text()='Item Quick Add']//parent::span//following-sibling::span//div//input")
+
+	// @FindBy(xpath = "//strong[text()='Item Quick
+	// Add']//parent::span//following-sibling::span//div//input")
 	@FindBy(xpath = "(//*[contains(@class,'selectize-control')]//div[@class='selectize-input items not-full']//input)[3]")
 	WebElement quickItemSelect;
-	
+
 	@FindBy(xpath = "//button[text()='Add to Order']")
 	WebElement addOrderBtn;
-	
+
 	String quickItemNatinal = "(//span[text()='%s'])[1]";
-    
-   @FindBy(xpath = "(//button[normalize-space()='Go'])")
-   WebElement goBtn;
-	
+
+	@FindBy(xpath = "//button[text()='Go']") // (//button[normalize-space()='Go'])")
+	WebElement goBtn;
+
+	@FindBy(xpath = "//*[contains(text(),'Open Memberships')]")
+	WebElement Membershipslnk;
+
+	@FindBy(xpath = "//span[text()= 'Account']/../..//span//a")
+	WebElement SelectAccount;
+
+	@FindBy(xpath = "//*[@role = 'table']//tbody//tr")
+	WebElement RecordsCount;
+
+	@FindBy(xpath = "((//*[@role = 'table']//tbody//tr)[2]//td)[10]")
+	WebElement Chevronbtn;
+
+	@FindBy(xpath = "//*[contains(text(), \"Are you sure you want to delete this Membership?\")]")
+	WebElement DeleteMsg;
+
+	@FindBy(xpath = "//span[text()='Delete']")
+	WebElement Delete_membership;
+
+	@FindBy(xpath = "(//*[@role = 'table']//tbody//tr//td)[4]")
+	WebElement AvailableMemType;
+
+	@FindBy(xpath = "//span[text()='Refresh']")
+	WebElement RefreshBtn;
+
+	@FindBy(xpath = "//div[text()='Delete']")
+	WebElement DeleteBtn_chevrontype;
 
 	String fName;
 	String lName;
@@ -476,9 +506,36 @@ public class CES_ContactPage {
 	 * @param userFullname
 	 * @param itemQuick
 	 * @throws InterruptedException
-	 * @throws AWTException 
+	 * @throws AWTException
 	 */
-	public void selectRapidOrderEntry(String userFullname, String itemQuick, String quickElement) throws InterruptedException, AWTException {
+	public void selectRapidOrderEntry(String userFullname, String itemQuick, String quickElement)
+			throws InterruptedException, AWTException {
+		selectCreatedContact(userFullname);
+		util.waitUntilElement(driver, accountName);
+		executor.executeScript("arguments[0].click();", accountName);
+		util.waitUntilElement(driver, rapidOrderEnteryBtn);
+		rapidOrderEnteryBtn.click();
+		Thread.sleep(20000);
+		util.waitUntilElement(driver, quickItemSelect);
+		executor.executeScript("arguments[0].click();", quickItemSelect);
+		// executor.executeScript("arguments[0].value='"+itemQuick+"';",
+		// quickItemSelect);
+		quickItemSelect.sendKeys(itemQuick);
+		Thread.sleep(20000);
+		util.waitUntilElement(driver, util.getCustomizedWebElement(driver, quickItemNatinal, quickElement));
+		util.getCustomizedWebElement(driver, quickItemNatinal, quickElement).click();
+		Thread.sleep(20000);
+		util.waitUntilElement(driver, addOrderBtn);
+		addOrderBtn.click();
+		util.waitUntilElement(driver, goBtn);
+		Thread.sleep(20000);
+		goBtn.click();
+
+	}
+
+	public void selectRapidOrderEntry1(String userFullname, String itemQuick, String quickElement)
+			throws InterruptedException, AWTException {
+		Thread.sleep(30000);
 		selectCreatedContact(userFullname);
 		util.waitUntilElement(driver, accountName);
 		executor.executeScript("arguments[0].click();", accountName);
@@ -486,18 +543,112 @@ public class CES_ContactPage {
 		rapidOrderEnteryBtn.click();
 		util.waitUntilElement(driver, quickItemSelect);
 		executor.executeScript("arguments[0].click();", quickItemSelect);
-		Thread.sleep(10000);
-		//executor.executeScript("arguments[0].value='"+itemQuick+"';", quickItemSelect);
-		quickItemSelect.sendKeys(itemQuick);
 		Thread.sleep(20000);
+		// executor.executeScript("arguments[0].value='"+itemQuick+"';",
+		// quickItemSelect);
+		quickItemSelect.sendKeys(itemQuick);
+		Thread.sleep(30000);
 		util.waitUntilElement(driver, util.getCustomizedWebElement(driver, quickItemNatinal, quickElement));
 		util.getCustomizedWebElement(driver, quickItemNatinal, quickElement).click();
-        util.waitUntilElement(driver, addOrderBtn);		
+		util.waitUntilElement(driver, addOrderBtn);
 		addOrderBtn.click();
+		Thread.sleep(30000);
 		util.waitUntilElement(driver, goBtn);
-		Thread.sleep(20000);
 		goBtn.click();
-		
+		System.out.println("GO button clicked");
+		Thread.sleep(20000);
+		util.waitUntilElement(driver, SelectAccount);
+		Actions action = new Actions(driver);
+		action.moveToElement(SelectAccount).click().perform();
+		System.out.println("Account selected");
+		util.waitUntilElement(driver, Membershipslnk);
+		Actions action1 = new Actions(driver);
+		action1.moveToElement(Membershipslnk).click().perform();
+		System.out.println("Memberships clicked");
+		driver.navigate().refresh();
+		// util.waitUntilElement(driver, accountName);
+		// executor.executeScript("arguments[0].click();", accountName);
+	}
+
+	public void validateDeleteCESMembership() throws InterruptedException {
+//		util.waitUntilElement(driver, Membershipslnk);
+//		Actions action1 = new Actions(driver);
+//		action1.moveToElement(Membershipslnk).click().perform();
+//		System.out.println("Memberships clicked");
+//		driver.navigate().refresh();
+		// RefreshBtn.click();
+		List<WebElement> rows = driver.findElements(By.xpath("//*[@role ='table']//tbody//tr"));
+		System.out.println("Number of records:" + rows.size());
+		Thread.sleep(30000);
+		Actions action2 = new Actions(driver);
+		util.waitUntilElement(driver, Chevronbtn);
+		action2.moveToElement(Chevronbtn).click().perform();
+		// Chevronbtn.click();
+		System.out.println("Chevron button clicked");
+		Actions action3 = new Actions(driver);
+		util.waitUntilElement(driver, DeleteBtn_chevrontype);
+		action3.moveToElement(DeleteBtn_chevrontype).click().perform();
+		System.out.println("Delete Option clicked");
+		util.waitUntilElement(driver, DeleteMsg);
+		System.out.println("MyError:" + DeleteMsg.getText());
+		assertTrue(DeleteMsg.getText().equalsIgnoreCase(data.testDataProvider().getProperty("DeleteMsg")));
+		Actions action4 = new Actions(driver);
+		util.waitUntilElement(driver, Delete_membership);
+		action4.moveToElement(Delete_membership).click().perform();
+		// Thread.sleep(30000);
+//		Alert alert = driver.switchTo().alert(); 
+//		String alertMessage = driver.switchTo().alert().getText(); 
+//		System.out.println(alertMessage);
+//		Thread.sleep(5000);
+		util.waitUntilElement(driver, DeleteBtn_chevrontype);
+		DeleteBtn_chevrontype.click();
+		System.out.println("Delete button clicked");
+		util.waitUntilElement(driver, DeleteMsg);
+		System.out.println("MyError:" + DeleteMsg.getText());
+		assertTrue(DeleteMsg.getText().equalsIgnoreCase(data.testDataProvider().getProperty("DeleteMsg")));
+		util.waitUntilElement(driver, Delete_membership);
+		Delete_membership.click();
+		// Thread.sleep(30000);
+		Alert alert = driver.switchTo().alert();
+		String alertMessage = driver.switchTo().alert().getText();
+		System.out.println(alertMessage);
+		Thread.sleep(5000);
+
+	}
+
+	public void validateAvailableMemType() {
+		util.waitUntilElement(driver, AvailableMemType);
+		assertTrue(
+				AvailableMemType.getText().equalsIgnoreCase(data.testDataProvider().getProperty("availableMemType")));
+
 	}
 
 }
+
+//Select drpOptn=new Select(driver.findElement(By.xpath("//ul[@class='scrollable']/li")));
+// drpOptn.selectByVisibleText("Delete");
+/*
+ * List<WebElement> ChevronTypes =
+ * driver.findElements(By.xpath("//ul[@class='scrollable']/li"));
+ * System.out.println(ChevronTypes); //Thread.sleep(10000); for (WebElement
+ * ChevronType:ChevronTypes) { System.out.println(ChevronType.getText()); if
+ * (ChevronType.getText().contains("Delete")); { util.waitUntilElement(driver,
+ * ChevronType); Actions action1 = new Actions(driver);
+ * action1.moveToElement(ChevronType).click().perform(); Thread.sleep(30000);
+ * //ChevronType.click(); System.out.println("Delete button clicked"); break; }
+ * 
+ * } Thread.sleep(10000);
+ */
+
+/*
+ * public void validateDelete() throws InterruptedException {
+ * util.waitUntilElement(driver, DeleteMsg); System.out.println("MyError:" +
+ * DeleteMsg.getText());
+ * assertTrue(DeleteMsg.getText().equalsIgnoreCase(data.testDataProvider().
+ * getProperty("DeleteMsg"))); util.waitUntilElement(driver, DeleteBtn);
+ * DeleteBtn.click(); Thread.sleep(5000); Alert alert =
+ * driver.switchTo().alert(); // switch to alert String alertMessage =
+ * driver.switchTo().alert().getText(); // capture alert message
+ * System.out.println(alertMessage); // Print Alert Message Thread.sleep(5000);
+ * }
+ */

@@ -117,6 +117,9 @@ public class CES_SalesOrder {
 	@FindBy(xpath = "//embed")
 	WebElement downloadPdf;
 
+	@FindBy(xpath = "//span[text()='Account']//parent::div//parent::div//div[@class='slds-form-element__control']//a")
+	WebElement accountNameLinkBtn;
+
 	/**
 	 * @throws InterruptedException
 	 * 
@@ -360,7 +363,7 @@ public class CES_SalesOrder {
 			}
 
 	}
-	
+
 	/**
 	 * @throws InvalidPasswordException
 	 * @throws IOException
@@ -421,6 +424,5 @@ public class CES_SalesOrder {
 			}
 
 	}
-	
 
 }

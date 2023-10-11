@@ -6,12 +6,19 @@ import java.sql.Driver;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.function.Function;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
@@ -23,7 +30,6 @@ import org.openqa.selenium.io.FileHandler;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class Utility {
 	
@@ -33,6 +39,7 @@ public class Utility {
 	{
 		
 	}
+	
 	
 	
 	public  void acceptAlert()
@@ -142,7 +149,7 @@ public class Utility {
 		{
 			x=elements.get(0).getLocation().getX();
 		}
-	
+		
 		while(x>0)
 		{
 			element=driver.findElements(By.xpath(xpath)).get(0);
@@ -186,7 +193,7 @@ public class Utility {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(80));
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(90));
 		wait.until(ExpectedConditions.visibilityOf(element));
 
 	}
@@ -303,4 +310,82 @@ public class Utility {
 		return driver;
 	}
 	
+	public static Map<String,Object> parseJSONObjectToMap(JSONObject jsonObject) throws JSONException{
+	    Map<String, Object> mapData = new HashMap<String, Object>();
+	    Iterator<String> keysItr = jsonObject.keys();
+	        while(keysItr.hasNext()) {
+	            String key = keysItr.next();
+	            Object value = jsonObject.get(key);
+
+	            if(value instanceof JSONArray) {
+	                value = parseJSONArrayToList((JSONArray) value);
+	            }else if(value instanceof JSONObject) {
+	                value = parseJSONObjectToMap((JSONObject) value);
+	            }
+	            mapData.put(key, value);
+	        }
+	    return mapData;
+	}
+
+	public static List<Object> parseJSONArrayToList(JSONArray array) throws JSONException {
+	    List<Object> list = new ArrayList<Object>();
+	    for(int i = 0; i < array.length(); i++) {
+	        Object value = array.get(i);
+	        if(value instanceof JSONArray) {
+	            value = parseJSONArrayToList((JSONArray) value);
+	        }else if(value instanceof JSONObject) {
+	            value = parseJSONObjectToMap((JSONObject) value);
+	        }
+	        list.add(value);
+	    }
+	    return list;
+	}
+	
+	/**
+	 * Here we get todays date using Localdate class from java.
+	 * @return 
+	 */
+	public LocalDate todaysDate() {
+		 LocalDate localDate = java.time.LocalDate.now();
+		 return localDate;
+	}
+	
+	public WebDriver switchToTabs(WebDriver driver, int tab) {
+		ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
+		driver.switchTo().window(tabs.get(tab));
+		return driver;
+	}
+	
+	public void scrollingElementUsingJS(WebDriver driver, WebElement element) {
+		JavascriptExecutor js=(JavascriptExecutor)driver; 
+		js.executeScript("arguments[0].scrollIntoView();", element);
+	}
+	
+	public void clickUsingJS(WebDriver driver, WebElement element) {
+		JavascriptExecutor js=(JavascriptExecutor)driver; 
+		js.executeScript("arguments[0].click();", element);
+	}
+	
+	public void switchToFrameUsingWebElement(WebDriver driver, WebElement element) {
+		driver.switchTo().frame(element);
+
+	}
+	
+	public void navigateToURl(WebDriver driver, String url) {
+		driver.navigate().to(url);
+	}
+
+	public void waitForPageLoad(WebDriver driver) {
+
+	    wait.until(new Function<WebDriver, Boolean>() {
+	        public Boolean apply(WebDriver driver) {
+	            System.out.println("Current Window State       : "                + String.valueOf(((JavascriptExecutor) driver).executeScript("return document.readyState")));
+	            return String
+	                .valueOf(((JavascriptExecutor) driver).executeScript("return document.readyState"))
+	                .equals("complete");
+	        }
+	    });
+	}
+
+
 }
