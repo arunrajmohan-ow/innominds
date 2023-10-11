@@ -22,7 +22,7 @@ import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
 
 public class NewCloneEvents {
-	
+
 	WebDriver driver;
 	Utility util = new Utility(driver, 30);
 	JavascriptExecutor executor;
@@ -33,57 +33,75 @@ public class NewCloneEvents {
 	public String eventId = "";
 	static Logger log = Logger.getLogger(NewCloneEvents.class);
 
-	public NewCloneEvents(WebDriver Idriver)
-	{
-		this.driver=Idriver;
+	public NewCloneEvents(WebDriver Idriver) {
+		this.driver = Idriver;
 		executor = (JavascriptExecutor) driver;
 		testData = new ConfigDataProvider();
 	}
-	
-	@FindBy(xpath  = "//a[contains(@class,'label-action dndItem')]/span[text()='Events']") WebElement eventsLink;
-	
-	@FindBy(xpath = "//a[@class='forceActionLink' and @title='New']") WebElement eventNewButton;
-	
-	@FindBy(xpath = "//div[@data-name='cloneEventTitle']") WebElement cloneEventHeader;
 
-	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//input[@name='eventCreation']/following::span[text()='Clone an existing event']/preceding-sibling::input") WebElement existingCloneEvent;
-	
-	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//div[@data-name='eventObjCloneName']/Input") WebElement eventName;
-	
-	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//div[@data-name='startDate']//div/input") WebElement eventStartDate;
-	
-	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//div[@data-name='cloneEvent']//select[@name='Event Category']") WebElement selectCategory;
-	
-	@FindBy(css = "div[class='windowViewMode-normal oneContent active lafPageHost'] div[class*=selectize-input] input") WebElement eventSearch;
-	
-	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//div[@data-name='cloneOptions']//div/label[contains(text(),'Select which segments you would like to clone')]") WebElement eventOptionTitle;
-	
-	@FindAll(value = { @FindBy(css = "div[class=selectize-dropdown-content] div") }) List<WebElement> eventOptions;
-	
-	@FindBy(css = "div[class='windowViewMode-normal oneContent active lafPageHost'] button[data-name='cloneContinueModal']") WebElement eventCloneButton;
-	
-	@FindBy(css = "div[class='windowViewMode-normal oneContent active lafPageHost'] label[data-name='ticketCheck'] input") WebElement ticketCheckbox;
-	
-	@FindBy(css = "div[class='windowViewMode-normal oneContent active lafPageHost'] label[data-name='scheduleCheck'] input") WebElement scheduleCheckbox;
-	
-	@FindBy(css = "div[class='windowViewMode-normal oneContent active lafPageHost'] label[data-name='venueCheck'] input") WebElement venueCheckbox;
-	
-	@FindBy(css = "div[class='windowViewMode-normal oneContent active lafPageHost'] label[data-name='vendorCheck'] input") WebElement vendorCheckbox;
-	
-	@FindBy(css = "div[class='windowViewMode-normal oneContent active lafPageHost'] label[data-name='speakerCheck'] input") WebElement speakerCheckbox;
-	
-	@FindBy(css = "div[class='windowViewMode-normal oneContent active lafPageHost'] label[data-name='sponsorCheck'] input") WebElement sponsorCheckbox;
-	
-	@FindBy(css = "div[class='windowViewMode-normal oneContent active lafPageHost'] label[data-name='eventStatusPageCheck'] input") WebElement eventStatusPageCheckbox;
-	
-	@FindBy(css = "div[class='windowViewMode-normal oneContent active lafPageHost'] button[data-name='finishCloneModal']") WebElement eventFinishCloneButon;
-	
-	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//slot[contains(@class,\"slds-page-header__title slds-m-right--small slds\")]//lightning-formatted-text") WebElement eventNameHeader;
-	
+	@FindBy(xpath = "//a[contains(@class,'label-action dndItem')]/span[text()='Events']")
+	WebElement eventsLink;
+
+	@FindBy(xpath = "//a[@class='forceActionLink' and @title='New']")
+	WebElement eventNewButton;
+
+	@FindBy(xpath = "//div[@data-name='cloneEventTitle']")
+	WebElement cloneEventHeader;
+
+	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//input[@name='eventCreation']/following::span[text()='Clone an existing event']/preceding-sibling::input")
+	WebElement existingCloneEvent;
+
+	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//div[@data-name='eventObjCloneName']/Input")
+	WebElement eventName;
+
+	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//div[@data-name='startDate']//div/input")
+	WebElement eventStartDate;
+
+	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//div[@data-name='cloneEvent']//select[@name='Event Category']")
+	WebElement selectCategory;
+
+	@FindBy(css = "div[class='windowViewMode-normal oneContent active lafPageHost'] div[class*=selectize-input] input")
+	WebElement eventSearch;
+
+	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//div[@data-name='cloneOptions']//div/label[contains(text(),'Select which segments you would like to clone')]")
+	WebElement eventOptionTitle;
+
+	@FindAll(value = { @FindBy(css = "div[class=selectize-dropdown-content] div") })
+	List<WebElement> eventOptions;
+
+	@FindBy(css = "div[class='windowViewMode-normal oneContent active lafPageHost'] button[data-name='cloneContinueModal']")
+	WebElement eventCloneButton;
+
+	@FindBy(css = "div[class='windowViewMode-normal oneContent active lafPageHost'] label[data-name='ticketCheck'] input")
+	WebElement ticketCheckbox;
+
+	@FindBy(css = "div[class='windowViewMode-normal oneContent active lafPageHost'] label[data-name='scheduleCheck'] input")
+	WebElement scheduleCheckbox;
+
+	@FindBy(css = "div[class='windowViewMode-normal oneContent active lafPageHost'] label[data-name='venueCheck'] input")
+	WebElement venueCheckbox;
+
+	@FindBy(css = "div[class='windowViewMode-normal oneContent active lafPageHost'] label[data-name='vendorCheck'] input")
+	WebElement vendorCheckbox;
+
+	@FindBy(css = "div[class='windowViewMode-normal oneContent active lafPageHost'] label[data-name='speakerCheck'] input")
+	WebElement speakerCheckbox;
+
+	@FindBy(css = "div[class='windowViewMode-normal oneContent active lafPageHost'] label[data-name='sponsorCheck'] input")
+	WebElement sponsorCheckbox;
+
+	@FindBy(css = "div[class='windowViewMode-normal oneContent active lafPageHost'] label[data-name='eventStatusPageCheck'] input")
+	WebElement eventStatusPageCheckbox;
+
+	@FindBy(css = "div[class='windowViewMode-normal oneContent active lafPageHost'] button[data-name='finishCloneModal']")
+	WebElement eventFinishCloneButon;
+
+	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//slot[contains(@class,\"slds-page-header__title slds-m-right--small slds\")]//lightning-formatted-text")
+	WebElement eventNameHeader;
+
 	@FindBy(xpath = "//a[contains(text(),'https://aia--testing.sandbox.my.site.com/NationalE')]")
 	WebElement eventUrl;
-	
-	
+
 	/**
 	 * @param eventCategory
 	 * @throws InterruptedException
@@ -95,9 +113,9 @@ public class NewCloneEvents {
 		boolean cloneEventRadioButton = existingCloneEvent.isSelected();
 		Assert.assertTrue(cloneEventRadioButton);
 		log.info("Existing clone event radio button is selected");
-		
-		 eName = "TestQA" + new SimpleDateFormat("MMddyyyyHHmmss").format(new Date());
-		
+
+		eName = "TestQA" + new SimpleDateFormat("MMddyyyyHHmmss").format(new Date());
+
 		util.enterText(driver, eventName, eName);
 		log.info("Entered Event name as" + eName);
 		startDate = new SimpleDateFormat("MM/dd/yyyy").format(new Date());
@@ -109,23 +127,23 @@ public class NewCloneEvents {
 		Thread.sleep(2000);
 		util.waitUntilElement(driver, eventSearch);
 		util.enterText(driver, eventSearch, "Testing Event");
-		log.info("event list size"+ eventOptions.size());
+		log.info("event list size" + eventOptions.size());
 		for (int i = 0; i < eventOptions.size(); i++) {
 			String event = eventOptions.get(i).getText();
 			String exitEvent = testData.testDataProvider().getProperty("cloneEvent");
-			if(event.equals(exitEvent)) {
+			if (event.equals(exitEvent)) {
 				eventOptions.get(i).click();
 				System.out.println("matched");
 				break;
-			}else {
+			} else {
 				System.out.println("not matched");
 			}
 		}
 		eventCloneButton.click();
 	}
-	
+
 	public void verifyCloneEventSegmentCheckBoxs() throws InterruptedException {
-		
+
 		util.waitUntilElement(driver, eventOptionTitle);
 		log.info(eventOptionTitle.getText());
 		util.waitUntilElement(driver, ticketCheckbox);
@@ -153,47 +171,47 @@ public class NewCloneEvents {
 		System.out.println(eventNameHeader);
 		Assert.assertTrue(eventNameHeader.isDisplayed());
 		log.info("eventName header is displayed");
-			
+
 		Thread.sleep(5000);
 		String url = eventUrl.getAttribute("href");
 		try {
-            // Parse the URL to extract the value of the "id" parameter
-            URI uri = new URI(url);
-        
-            Map<String, String> params = getQueryParams(uri);
+			// Parse the URL to extract the value of the "id" parameter
+			URI uri = new URI(url);
 
-            // Get the ID parameter
-            eventId = params.get("id");
+			Map<String, String> params = getQueryParams(uri);
 
-            // Print the ID
-            System.out.println("EVENTID: " + eventId);
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
+			// Get the ID parameter
+			eventId = params.get("id");
+
+			// Print the ID
+			System.out.println("EVENTID: " + eventId);
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
 	}
-	
+
 	/**
 	 * @param uri
 	 * @return
 	 */
 	private static Map<String, String> getQueryParams(URI uri) {
-        Map<String, String> params = new java.util.HashMap<>();
-        String query = uri.getQuery();
-        
-        if (query != null && !query.isEmpty()) {
-            // Split the query string into individual parameters
-            String[] pairs = query.split("&");
-            for (String pair : pairs) {
-                String[] keyValue = pair.split("=");
-                if (keyValue.length == 2) {
-                    // Add the parameter to the map
-                    String key = keyValue[0];
-                    String value = keyValue[1];
-                    params.put(key, value);
-                }
-            }
-        }
+		Map<String, String> params = new java.util.HashMap<>();
+		String query = uri.getQuery();
 
-        return params;
-    }
+		if (query != null && !query.isEmpty()) {
+			// Split the query string into individual parameters
+			String[] pairs = query.split("&");
+			for (String pair : pairs) {
+				String[] keyValue = pair.split("=");
+				if (keyValue.length == 2) {
+					// Add the parameter to the map
+					String key = keyValue[0];
+					String value = keyValue[1];
+					params.put(key, value);
+				}
+			}
+		}
+
+		return params;
+	}
 }

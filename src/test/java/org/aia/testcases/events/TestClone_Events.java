@@ -58,7 +58,7 @@ public class TestClone_Events extends BaseClass {
 		Logging.configure();
 	}
 
-	@Test(priority = 1, description = "Create New CloneEvent enter event name, enter date, select event category and event search click clone button", enabled = false)
+	@Test(priority = 1, description = "Create New CloneEvent enter event name, enter date, select event category and event search click clone button", enabled = true)
 
 	public void test_CreateCloneEvent(ITestContext context) throws Throwable {
 		events.clickEventsModule();
@@ -70,8 +70,8 @@ public class TestClone_Events extends BaseClass {
 		context.setAttribute("eventName", cloneEventpage.eName);
 		context.setAttribute("startDate", cloneEventpage.startDate);
 		context.setAttribute("eventCategory", testData.testDataProvider().getProperty("eventCategory"));
-		
-		// Clone event validation 
+
+		//Create Clone event validation
 		eventApivalidation.verifyEvent(context);
 	}
 
@@ -96,7 +96,7 @@ public class TestClone_Events extends BaseClass {
 		editCloneEvent.editEventPages();
 		editCloneEvent.saveExitButton();
 		editCloneEvent.clickEventUrl();
-		//sometimes Register link is not clicked in AIA application
+		// sometimes Register link is not clicked in AIA application
 		eventRegistration.RegisterLink(1);
 		signInpage.signUp();
 		ArrayList<String> dataList = signUpPage.signUpData();
@@ -110,7 +110,7 @@ public class TestClone_Events extends BaseClass {
 		editCloneEvent.getAIAData();
 		events.eventsSearch(eventName);
 		editCloneEvent.clickEventUrl();
-		//sometimes Register link is not clicked in AIA application
+		// sometimes Register link is not clicked in AIA application
 		eventRegistration.RegisterLink(3);
 		eventRegistration.selectTicketQuantity();
 		eventRegistration.clickRegisterButton();
@@ -118,30 +118,29 @@ public class TestClone_Events extends BaseClass {
 		eventRegistration.clickRegistrationButton();
 		eventRegistration.validateRegisterReq();
 		eventRegistration.agendaModule();
-		
-		//Here we getting receipt data from UI and storing in ArrayList
-		ArrayList<Object> receiptData= eventRegistration.checkoutModule();
-		
-		
-		//Here we validate PDF data
-	   viewReceipts.viewReceiptValidationsForEvents(receiptData.get(1), receiptData.get(0));
-		
-		//Here we validate the receipt using API call
+
+		// Here we getting receipt data from UI and storing in ArrayList
+		ArrayList<Object> receiptData = eventRegistration.checkoutModule();
+
+		// Here we validate PDF data
+		viewReceipts.viewReceiptValidationsForEvents(receiptData.get(1), receiptData.get(0));
+
+		// Here we validate the receipt using API call
 		eventApivalidation.verifyReciptDetails(dataList.get(3), receiptData.get(1), receiptData.get(0));
-	
-     	//Here we validate the Sales order using API call
-		eventApivalidation.verifySalesOrder(dataList.get(3), DataProviderFactory.getConfig().getValue("salesOrderStatus"), 
-				DataProviderFactory.getConfig().getValue("orderStatus"), receiptData.get(0), 
+
+		// Here we validate the Sales order using API call
+		eventApivalidation.verifySalesOrder(dataList.get(3),
+				DataProviderFactory.getConfig().getValue("salesOrderStatus"),
+				DataProviderFactory.getConfig().getValue("orderStatus"), receiptData.get(0),
 				DataProviderFactory.getConfig().getValue("postingStatus"));
-		
-		
-		//Email validations session confirm message
-		mailinator.sessionConfirmationEmailforEvents(dataList, eventName);	
-		//Email validations registration confirm message
+
+		// Email validations session confirm message
+		mailinator.sessionConfirmationEmailforEvents(dataList, eventName);
+		// Email validations registration confirm message
 		mailinator.registrationConfirmationEmailforEvents(dataList, eventName);
 	}
-	
-	@Test(priority = 3, description = "Verify 'Attendees' info after registering for the event", enabled = false)
+
+	@Test(priority = 3, description = "Verify 'Attendees' info after registering for the event", enabled = true)
 	public void validate_Attendees(ITestContext context) throws InterruptedException, Throwable {
 
 		test_CreateCloneEvent(context);
@@ -162,7 +161,7 @@ public class TestClone_Events extends BaseClass {
 		editCloneEvent.editEventPages();
 		editCloneEvent.saveExitButton();
 		editCloneEvent.clickEventUrl();
-		//sometimes Register link is not clicked in AIA application
+		// sometimes Register link is not clicked in AIA application
 		eventRegistration.RegisterLink(1);
 		signInpage.signUp();
 		ArrayList<String> dataList = signUpPage.signUpData();
@@ -176,7 +175,7 @@ public class TestClone_Events extends BaseClass {
 		editCloneEvent.getAIAData();
 		events.eventsSearch(eventName);
 		editCloneEvent.clickEventUrl();
-		//sometimes Register link is not clicked in AIA application
+		// sometimes Register link is not clicked in AIA application
 		eventRegistration.RegisterLink(3);
 		eventRegistration.selectTicketQuantity();
 		eventRegistration.clickRegisterButton();
@@ -184,28 +183,28 @@ public class TestClone_Events extends BaseClass {
 		eventRegistration.clickRegistrationButton();
 		eventRegistration.validateRegisterReq();
 		eventRegistration.agendaModule();
-		
-		//Here we getting receipt data from UI and storing in ArrayList
-		ArrayList<Object> receiptData= eventRegistration.checkoutModule();
-		
-		//Here we validate PDF data
+
+		// Here we getting receipt data from UI and storing in ArrayList
+		ArrayList<Object> receiptData = eventRegistration.checkoutModule();
+
+		// Here we validate PDF data
 		viewReceipts.viewReceiptValidationsForEvents(receiptData.get(1), receiptData.get(0));
-		
+
 		util.switchToTabs(driver, 0);
 		events.clickEventsModule();
 		events.eventsSearch(eventName);
 		ArrayList<String> afterRegistrationsalesandTotal = events.validateAfterRegistrationData();
 		linksInEvents.clickAttendees();
-		
-		//Registered attendees count
+
+		// Registered attendees count
 		linksInEvents.getAttendeesSize();
 		context.setAttribute("attendees", afterRegistrationsalesandTotal.get(0));
-		
-		//Here we validate Attendees totals using api call
+
+		// Here we validate Attendees totals using api call
 		eventApivalidation.verifyAttendees(context);
 	}
 
-	@Test(priority = 4, description = "Verify 'Attendees' info after registering for the event", enabled = false)
+	@Test(priority = 4, description = "Verify 'Attendees' info after registering for the event", enabled = true)
 	public void validate_SalesAndRegistration(ITestContext context) throws InterruptedException, Throwable {
 
 		test_CreateCloneEvent(context);
@@ -227,7 +226,7 @@ public class TestClone_Events extends BaseClass {
 		editCloneEvent.saveExitButton();
 		events.validateBeforeRegistrationData();
 		editCloneEvent.clickEventUrl();
-		//sometimes Register link is not clicked in AIA application
+		// sometimes Register link is not clicked in AIA application
 		eventRegistration.RegisterLink(1);
 		signInpage.signUp();
 		ArrayList<String> dataList = signUpPage.signUpData();
@@ -241,7 +240,7 @@ public class TestClone_Events extends BaseClass {
 		editCloneEvent.getAIAData();
 		events.eventsSearch(eventName);
 		editCloneEvent.clickEventUrl();
-		//sometimes Register link is not clicked in AIA application
+		// sometimes Register link is not clicked in AIA application
 		eventRegistration.RegisterLink(3);
 		eventRegistration.selectTicketQuantity();
 		eventRegistration.clickRegisterButton();
@@ -249,13 +248,13 @@ public class TestClone_Events extends BaseClass {
 		eventRegistration.clickRegistrationButton();
 		eventRegistration.validateRegisterReq();
 		eventRegistration.agendaModule();
-		
-		//Here we getting receipt data from UI and storing in ArrayList
-		ArrayList<Object> receiptData= eventRegistration.checkoutModule();
-		
-		//Here we validate PDF data
+
+		// Here we getting receipt data from UI and storing in ArrayList
+		ArrayList<Object> receiptData = eventRegistration.checkoutModule();
+
+		// Here we validate PDF data
 		viewReceipts.viewReceiptValidationsForEvents(receiptData.get(1), receiptData.get(0));
-		
+
 		util.switchToTabs(driver, 0);
 		events.clickEventsModule();
 		events.eventsSearch(eventName);
@@ -264,10 +263,9 @@ public class TestClone_Events extends BaseClass {
 		context.setAttribute("soldtickets", afterRegistrationsalesandTotal.get(1));
 		context.setAttribute("remainEvents", afterRegistrationsalesandTotal.get(2));
 		context.setAttribute("remainTickets", afterRegistrationsalesandTotal.get(3));
-		
-		//Here we validate sales & Registration totals using api call
+
+		// Here we validate sales & Registration totals using api call
 		eventApivalidation.verifySalesOrderRegistration(context);
 	}
-
 
 }

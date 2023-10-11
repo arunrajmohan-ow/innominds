@@ -3,7 +3,6 @@ package org.aia.pages.api.events;
 import static io.restassured.RestAssured.given;
 import static org.testng.Assert.assertEquals;
 
-
 import java.text.DecimalFormat;
 import java.util.Date;
 
@@ -88,19 +87,19 @@ public class EventAPIValidations {
 				.extract().response();
 		JSONObject obj = new JSONObject(response.asString());
 		Assert.assertEquals(obj.get("Name").toString(), context.getAttribute("eventName").toString());
-		
-		Assert.assertEquals(Double.parseDouble(obj.get("EventApi__Attendees__c").toString()), Double.parseDouble("0.0"));
+
+		Assert.assertEquals(Double.parseDouble(obj.get("EventApi__Attendees__c").toString()),
+				Double.parseDouble("0.0"));
 		System.out.println("VERIFIED: Event Name - " + obj.get("Name").toString());
 		log.info("VERIFIED: Event Name - " + obj.get("Name").toString());
 	}
-	
-	
+
 	/**
 	 * @param context
 	 * @throws Throwable
 	 */
 	public void verifySalesOrderRegistration(ITestContext context) throws Throwable {
-	    String Id = context.getAttribute("eventId").toString();
+		String Id = context.getAttribute("eventId").toString();
 		String attendeeQuan = context.getAttribute("attendees").toString();
 		String soldTickets = context.getAttribute("soldtickets").toString();
 		String remainEventCapacity = context.getAttribute("remainEvents").toString();
@@ -114,20 +113,23 @@ public class EventAPIValidations {
 		Assert.assertEquals(obj.get("Name").toString(), context.getAttribute("eventName").toString());
 		System.out.println("VERIFIED: Event Name - " + obj.get("Name").toString());
 		log.info("VERIFIED: Event Name - " + obj.get("Name").toString());
-		
+
 		// attendees
-		Assert.assertEquals(Double.parseDouble(obj.get("EventApi__Attendees__c").toString()), Double.parseDouble(attendeeQuan));
+		Assert.assertEquals(Double.parseDouble(obj.get("EventApi__Attendees__c").toString()),
+				Double.parseDouble(attendeeQuan));
 		// ticket sold
-		Assert.assertEquals(Double.parseDouble(obj.get("EventApi__Quantity_Sold__c").toString()), Double.parseDouble(soldTickets));
+		Assert.assertEquals(Double.parseDouble(obj.get("EventApi__Quantity_Sold__c").toString()),
+				Double.parseDouble(soldTickets));
 
 		// event capacity remaining
-		Assert.assertEquals(Double.parseDouble(obj.get("EventApi__Event_Capacity_Remaining__c").toString()), Double.parseDouble(remainEventCapacity));
-		
-		Assert.assertEquals(Double.parseDouble(obj.get("EventApi__Quantity_Remaining__c").toString()), Double.parseDouble(reaminingTickets));
-		
-		
+		Assert.assertEquals(Double.parseDouble(obj.get("EventApi__Event_Capacity_Remaining__c").toString()),
+				Double.parseDouble(remainEventCapacity));
+
+		Assert.assertEquals(Double.parseDouble(obj.get("EventApi__Quantity_Remaining__c").toString()),
+				Double.parseDouble(reaminingTickets));
+
 	}
-	
+
 	/**
 	 * @param context
 	 * @throws Throwable
@@ -143,11 +145,12 @@ public class EventAPIValidations {
 		JSONObject obj = new JSONObject(response.asString());
 		Assert.assertEquals(obj.get("Name").toString(), context.getAttribute("eventName").toString());
 		// attendees
-		Assert.assertEquals(Double.parseDouble(obj.get("EventApi__Attendees__c").toString()), Double.parseDouble(attndessQun));
+		Assert.assertEquals(Double.parseDouble(obj.get("EventApi__Attendees__c").toString()),
+				Double.parseDouble(attndessQun));
 	}
 
 	/**
-	 * @param context 
+	 * @param context
 	 * @param memberAccount
 	 * @param receiptNumberExpected
 	 * @param ammount
@@ -161,7 +164,7 @@ public class EventAPIValidations {
 				.header("Authorization", "Bearer " + bearerToken).header("Content-Type", ContentType.JSON)
 				.header("Accept", ContentType.JSON).param("q", memberAccount).param("sobject", "Account").when()
 				.get(PARAMETERIZED_SEARCH_URI).then().statusCode(200).extract().response();
-		
+
 		System.out.println(response.asString());
 		jsonPathEval = response.jsonPath();
 		accountID = jsonPathEval.getString("searchRecords[0].Id");
@@ -185,18 +188,18 @@ public class EventAPIValidations {
 			System.out.println("Total fee paid :" + totalFeePaid);
 			System.out.println("=====================================");
 			assertEquals(receiptNumber, receiptNumberExpected.toString().split("#")[1]);
-			log.info("Actual Receipt number"+receiptNumber+ "is equals to"+ receiptNumberExpected);
+			log.info("Actual Receipt number" + receiptNumber + "is equals to" + receiptNumberExpected);
 			double doubleValue = Double.parseDouble(totalFeePaid.toString());
 
-	        // Format the double to a string with two decimal places
-	        assertEquals("$"+new DecimalFormat("0.00").format(doubleValue), amount);
-			log.info("Actual Receipt number"+ totalFeePaid + "is equals to"+ amount);
+			// Format the double to a string with two decimal places
+			assertEquals("$" + new DecimalFormat("0.00").format(doubleValue), amount);
+			log.info("Actual Receipt number" + totalFeePaid + "is equals to" + amount);
 		} else {
 			System.out.println("No Recipt found!!!");
 		}
 		log.info("================ReciptDetails are Validated===============");
 	}
-	
+
 	/**
 	 * @param memberAccount
 	 * @param orderPaidStatus
@@ -204,14 +207,13 @@ public class EventAPIValidations {
 	 * @param posted
 	 * @throws InterruptedException
 	 */
-	public void verifySalesOrder(String memberAccount, String orderPaidStatus, String closed,Object amount, String posted)
-			throws InterruptedException {
+	public void verifySalesOrder(String memberAccount, String orderPaidStatus, String closed, Object amount,
+			String posted) throws InterruptedException {
 		log.info("==================started Validate SalesOrder for events================");
 		Response response = given().contentType(ContentType.JSON).accept(ContentType.JSON)
 				.header("Authorization", "Bearer " + bearerToken).header("Content-Type", ContentType.JSON)
 				.header("Accept", ContentType.JSON).param("q", memberAccount).param("sobject", "Account").when()
 				.get(PARAMETERIZED_SEARCH_URI).then().statusCode(200).extract().response();
-
 
 		System.out.println(response.asString());
 		log.info(response.asString());
@@ -222,8 +224,8 @@ public class EventAPIValidations {
 		// Use Account ID to fetch account details.
 		String SALESORDER_URI = ACCOUNT_URI + "/" + accountID + "/OrderApi__Sales_Orders__r";
 		System.out.println("Account Id is:" + accountID);
-		 response = given().header("Authorization", "Bearer " + bearerToken)
-				.header("Content-Type", ContentType.JSON).header("Accept", ContentType.JSON)
+		response = given().header("Authorization", "Bearer " + bearerToken).header("Content-Type", ContentType.JSON)
+				.header("Accept", ContentType.JSON)
 				.param("fields",
 						"OrderApi__Sales_Order_Status__c," + "OrderApi__Status__c," + "OrderApi__Posting_Status__c,"
 								+ "OrderApi__Amount_Paid__c," + "OrderApi__Date__c, "
@@ -253,8 +255,8 @@ public class EventAPIValidations {
 			assertEquals(salesOrderStatus, orderPaidStatus);
 			assertEquals(closedStatus, closed);
 			double doubleValue = Double.parseDouble(amountPaid.toString());
-			assertEquals("$"+new DecimalFormat("0.00").format(doubleValue), amount);
-			log.info("Actual Receipt number"+ amountPaid + "is equals to"+ amount);
+			assertEquals("$" + new DecimalFormat("0.00").format(doubleValue), amount);
+			log.info("Actual Receipt number" + amountPaid + "is equals to" + amount);
 			assertEquals(postingStatus, posted);
 			assertEquals(salesOrderPaidDate, java.time.LocalDate.now().toString());
 			if (postingStatus.equalsIgnoreCase("unpaid")) {

@@ -14,7 +14,7 @@ import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
 
 public class Events {
-	
+
 	WebDriver driver;
 	Utility util = new Utility(driver, 30);
 	JavascriptExecutor executor;
@@ -25,55 +25,65 @@ public class Events {
 	public String eventId = "";
 	static Logger log = Logger.getLogger(NewCloneEvents.class);
 
-	public Events(WebDriver Idriver)
-	{
-		this.driver=Idriver;
+	public Events(WebDriver Idriver) {
+		this.driver = Idriver;
 		executor = (JavascriptExecutor) driver;
 		testData = new ConfigDataProvider();
 	}
-	
-    @FindBy(xpath  = "//a[contains(@class,'label-action dndItem')]/span[text()='Events']") WebElement eventsLink;
-    
-    @FindBy(xpath = "//div[@data-name='cloneEventTitle']") WebElement cloneEventHeader;
-	
-	@FindBy(xpath = "//a[@class='forceActionLink' and @title='New']") WebElement eventNewButton;
-	
-	@FindBy(css = "button[class*='_neutral search-button slds-truncate']") WebElement globSearch;
-	
-	@FindBy(xpath = "//label[text()='Search...']/following-sibling::div/input") WebElement globSearchInput;
-	
-	@FindBy(xpath = "//input[@placeholder='Search this list...']") WebElement searchEvents;
-	
-	@FindBy(xpath = "//span[@class='slds-grid slds-grid--align-spread forceInlineEditCell']//a[@data-refid='recordId']") WebElement eventName;
-	
-	@FindBy(xpath = "//span[text()='Number of Registered Attendees']/following::lightning-formatted-number[1]") WebElement attandessInsalesRegisration;
-	
-	@FindBy(xpath = "//span[text()='Number of Registered Attendees']/following::lightning-formatted-number[2]") WebElement soldticketsInsalesRegisration;
-	
-	@FindBy(xpath = "//span[text()='Number of Registered Attendees']/following::lightning-formatted-number[3]") WebElement eventCapacityInsalesRegisration;
-	
-	@FindBy(xpath = "//span[text()='Number of Registered Attendees']/following::lightning-formatted-number[4]") WebElement ticketsremainInsalesRegisration;
-	
+
+	@FindBy(xpath = "//a[contains(@class,'label-action dndItem')]/span[text()='Events']")
+	WebElement eventsLink;
+
+	@FindBy(xpath = "//div[@data-name='cloneEventTitle']")
+	WebElement cloneEventHeader;
+
+	@FindBy(xpath = "//a[@class='forceActionLink' and @title='New']")
+	WebElement eventNewButton;
+
+	@FindBy(css = "button[class*='_neutral search-button slds-truncate']")
+	WebElement globSearch;
+
+	@FindBy(xpath = "//label[text()='Search...']/following-sibling::div/input")
+	WebElement globSearchInput;
+
+	@FindBy(xpath = "//input[@placeholder='Search this list...']")
+	WebElement searchEvents;
+
+	@FindBy(xpath = "//span[@class='slds-grid slds-grid--align-spread forceInlineEditCell']//a[@data-refid='recordId']")
+	WebElement eventName;
+
+	@FindBy(xpath = "//span[text()='Number of Registered Attendees']/following::lightning-formatted-number[1]")
+	WebElement attandessInsalesRegisration;
+
+	@FindBy(xpath = "//span[text()='Number of Registered Attendees']/following::lightning-formatted-number[2]")
+	WebElement soldticketsInsalesRegisration;
+
+	@FindBy(xpath = "//span[text()='Number of Registered Attendees']/following::lightning-formatted-number[3]")
+	WebElement eventCapacityInsalesRegisration;
+
+	@FindBy(xpath = "//span[text()='Number of Registered Attendees']/following::lightning-formatted-number[4]")
+	WebElement ticketsremainInsalesRegisration;
+
 	public void clickEventsModule() {
 		util.waitUntilElement(driver, eventsLink);
 		util.clickUsingJS(driver, eventsLink);
 		log.info("Events clickd successfully");
-		Logging.logger.info("Events clickd successfully");	
+		Logging.logger.info("Events clickd successfully");
 	}
-	
+
 	public void newButtonInEvents() {
 		util.waitUntilElement(driver, eventNewButton);
 		eventNewButton.click();
 		log.info("Even New button is clicked");
 	}
-	
+
 	public void validateHeaderCloneEvent() {
 		util.waitUntilElement(driver, cloneEventHeader);
 		boolean cloneEventPopup = cloneEventHeader.isDisplayed();
 		Assert.assertTrue(cloneEventPopup);
 		log.info("Clone Event pop is displayed");
 	}
-	
+
 	/**
 	 * @param email
 	 * @throws Throwable
@@ -85,7 +95,7 @@ public class Events {
 		Thread.sleep(4000);
 		globSearchInput.sendKeys(Keys.ENTER);
 	}
-	
+
 	/**
 	 * @param event
 	 * @throws InterruptedException
@@ -97,7 +107,7 @@ public class Events {
 		Thread.sleep(3000);
 		eventName.click();
 	}
-	
+
 	/**
 	 * @return
 	 * @throws Throwable
@@ -105,7 +115,7 @@ public class Events {
 	public ArrayList<String> validateBeforeRegistrationData() throws Throwable {
 		Thread.sleep(7000);
 		ArrayList<String> beforeRegData = new ArrayList<String>();
-		
+
 		util.waitUntilElement(driver, attandessInsalesRegisration);
 		util.scrollingElementUsingJS(driver, attandessInsalesRegisration);
 		String attendee = attandessInsalesRegisration.getText();
@@ -118,7 +128,7 @@ public class Events {
 		beforeRegData.add(3, remainingTickets);
 		return beforeRegData;
 	}
-	
+
 	/**
 	 * @return
 	 * @throws InterruptedException
@@ -137,15 +147,4 @@ public class Events {
 		afterRegData.add(3, remainingTickets);
 		return afterRegData;
 	}
-	
-	
-	
-		
-	}
-	
-	
-	
-	
-	
-
-
+}

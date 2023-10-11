@@ -27,7 +27,7 @@ public class EditCloneEvent {
 	Events events;
 	Actions act;
 	static Logger log = Logger.getLogger(EditCloneEvent.class);
-	public String salesOrder ="";
+	public String salesOrder = "";
 	public String aiaNumber = "";
 
 	public EditCloneEvent(WebDriver IDriver) {
@@ -50,10 +50,10 @@ public class EditCloneEvent {
 	WebElement eventUrl;
 
 	// EventInfo locators
-	@FindBy(xpath  = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//div[@data-name='name']/input")
+	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//div[@data-name='name']/input")
 	WebElement eventInfoName;
 
-	@FindBy(xpath  = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//div[@data-name='displayName']/input")
+	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//div[@data-name='displayName']/input")
 	WebElement eventDisplayName;
 
 	@FindBy(css = "div[class='windowViewMode-normal oneContent active lafPageHost'] div[data-name='startDate'] div input")
@@ -84,7 +84,8 @@ public class EditCloneEvent {
 	@FindBy(xpath = "(//div[@class='windowViewMode-normal oneContent active lafPageHost']//td/div[@data-name='More_Options'])[1]")
 	WebElement actionsColoumnInTicketTypes;
 
-	@FindAll(value = { @FindBy(xpath = "(//div[@class='windowViewMode-normal oneContent active lafPageHost']//ul[@class='dropdown__list'])[1]/li") })
+	@FindAll(value = {
+			@FindBy(xpath = "(//div[@class='windowViewMode-normal oneContent active lafPageHost']//ul[@class='dropdown__list'])[1]/li") })
 	List<WebElement> actionOptions;
 
 	@FindBy(xpath = "//h2[@id='modal-heading-label'][text()='Edit Ticket Type']")
@@ -99,72 +100,86 @@ public class EditCloneEvent {
 	// Invitation locators
 	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//div[@data-menu='EventApi:EventBuilderInvitationOnly']")
 	WebElement eventBuilderInvitation;
-	
-	@FindBy(css  = "div[class='windowViewMode-normal oneContent active lafPageHost'] a[data-panel='attendeeCreationTab']") WebElement attendeeCreationTab;
+
+	@FindBy(css = "div[class='windowViewMode-normal oneContent active lafPageHost'] a[data-panel='attendeeCreationTab']")
+	WebElement attendeeCreationTab;
 
 	// Venues locators
 	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//div[@data-menu='EventApi:EventBuilderVenues']")
 	WebElement eventBuilderVenues;
-	
-	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//div[contains(text(),'Venues')]") WebElement VenuesTab;
+
+	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//div[contains(text(),'Venues')]")
+	WebElement VenuesTab;
 
 	// Event AccessPermissions
 	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//div[@data-menu='EventApi:EventBuilderAccessPermissions']")
 	WebElement eventBuilderAccessPermissions;
-	
-	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//th[contains(text(),'Access to this Item')]") WebElement AcessPermissionTab;
+
+	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//th[contains(text(),'Access to this Item')]")
+	WebElement AcessPermissionTab;
 
 	// Event Speakers
 	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//div[@data-menu='EventApi:EventBuilderSpeakers']")
 	WebElement eventBuilderSpeakers;
-	
-	@FindBy(xpath = "(//div[@class='windowViewMode-normal oneContent active lafPageHost']//div[contains(text(),'Speakers')])[2]") WebElement speakersTab;
+
+	@FindBy(xpath = "(//div[@class='windowViewMode-normal oneContent active lafPageHost']//div[contains(text(),'Speakers')])[2]")
+	WebElement speakersTab;
 
 	// EventApi:EventBuilderAgenda
 	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//div[@data-menu='EventApi:EventBuilderAgenda']")
 	WebElement eventBuilderAgenda;
-	
-	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//a[@data-tab='agenda']") WebElement agendaTab;
+
+	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//a[@data-tab='agenda']")
+	WebElement agendaTab;
 
 	// EventApi:EventBuilderSponsorPackages
 	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//div[@data-menu='EventApi:EventBuilderSponsorPackages']")
 	WebElement eventBuilderSponsorPackages;
-	
-	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//a[@data-tab='sponsorPackages']") WebElement sponcerPackageTab;
+
+	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//a[@data-tab='sponsorPackages']")
+	WebElement sponcerPackageTab;
 
 	// EventApi:EventBuilderStatuses
 	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//div[@data-menu='EventApi:EventBuilderStatuses']")
 	WebElement eventBuilderStatuses;
-	
-	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//div[contains(text(),'statuses for your event.')]") WebElement statusespageText;
+
+	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//div[contains(text(),'statuses for your event.')]")
+	WebElement statusespageText;
 
 	// EventApi:EventBuilderPages
 	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//div[@data-menu='EventApi:EventBuilderPages']")
 	WebElement eventBuilderPages;
-	
-	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//div[contains(text(),'pages for your selected status')]") WebElement eventPagesText;
 
-	
+	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//div[contains(text(),'pages for your selected status')]")
+	WebElement eventPagesText;
 
 	// created event
 	@FindBy(xpath = "//tbody/tr[1]/th[1]/span[1]/a")
 	WebElement createdEvent;
-	
-	@FindBy(xpath = "(//lightning-formatted-text[@title='AIA Contact Number']/following::div/lightning-formatted-text)[1]") WebElement getAIANumber;
-	
-	@FindBy(xpath = "//lightning-formatted-text[text()='Account Name']/following-sibling::div/a") WebElement accountName;
-	
-	@FindBy(xpath = "//a//slot/span[contains(text(),'Sales Orders')]") WebElement salesOrderLink;
-	
-	@FindBy(xpath = "//th[@data-label='Sales Order #']//a/slot/slot/span") WebElement salesOrderText;
-	
-	@FindBy(css = "button[class*='_neutral search-button slds-truncate']") WebElement globSearch;
-	
-	@FindBy(xpath = "//label[text()='Search...']/following-sibling::div/input") WebElement globSearchInput;
-	
-	@FindBy(xpath = "//input[@placeholder='Search this list...']") WebElement searchEvents;
-	
-	@FindBy(xpath = "//span[@class='slds-grid slds-grid--align-spread forceInlineEditCell']//a[@data-refid='recordId']") WebElement eventName;
+
+	@FindBy(xpath = "(//lightning-formatted-text[@title='AIA Contact Number']/following::div/lightning-formatted-text)[1]")
+	WebElement getAIANumber;
+
+	@FindBy(xpath = "//lightning-formatted-text[text()='Account Name']/following-sibling::div/a")
+	WebElement accountName;
+
+	@FindBy(xpath = "//a//slot/span[contains(text(),'Sales Orders')]")
+	WebElement salesOrderLink;
+
+	@FindBy(xpath = "//th[@data-label='Sales Order #']//a/slot/slot/span")
+	WebElement salesOrderText;
+
+	@FindBy(css = "button[class*='_neutral search-button slds-truncate']")
+	WebElement globSearch;
+
+	@FindBy(xpath = "//label[text()='Search...']/following-sibling::div/input")
+	WebElement globSearchInput;
+
+	@FindBy(xpath = "//input[@placeholder='Search this list...']")
+	WebElement searchEvents;
+
+	@FindBy(xpath = "//span[@class='slds-grid slds-grid--align-spread forceInlineEditCell']//a[@data-refid='recordId']")
+	WebElement eventName;
 
 	/**
 	 * @return Event name This method click already exist event in the top of the
@@ -179,9 +194,7 @@ public class EditCloneEvent {
 //		createdEvent.click();
 //		return eventName;
 //	}
-	
-	
-	
+
 	public void getAIAData() throws Throwable {
 		util.waitUntilElement(driver, getAIANumber);
 		Utility.highLightElement(driver, getAIANumber);
@@ -189,23 +202,22 @@ public class EditCloneEvent {
 		log.info(getAIANumber.getText());
 		Utility.highLightElement(driver, accountName);
 		accountName.click();
-		
-		//navigate to main events page
+
+		// navigate to main events page
 		events.clickEventsModule();
 		Thread.sleep(4000);
 	}
-	
+
 	public void clickEditButton() {
 		util.waitUntilElement(driver, EditButton);
 		util.clickUsingJS(driver, EditButton);
-		System.out.println("VERIFIED: Edit Event page is displayed");	
+		System.out.println("VERIFIED: Edit Event page is displayed");
 	}
 
 	/**
-	 * @param ExpectedEventName 
-	 * Here We can get the values Event name, Event Start
-	 * date, Event end date, Event start time, Event end
-	 * time,Event TimeZone, Registration timer.
+	 * @param ExpectedEventName Here We can get the values Event name, Event Start
+	 *                          date, Event end date, Event start time, Event end
+	 *                          time,Event TimeZone, Registration timer.
 	 */
 	public void editEventInfo(String ExpectedEventName) {
 		util.waitUntilElement(driver, eventInfoName);
@@ -222,24 +234,24 @@ public class EditCloneEvent {
 		System.out.println(eventStartDate.getAttribute("value"));
 		Assert.assertEquals(eventStartDate.getAttribute("value"),
 				new SimpleDateFormat("MM/dd/yyyy").format(new Date()));
-		
+
 		log.info(eventEndDate.getAttribute("value"));
 		String endDateStr = eventEndDate.getAttribute("value");
 		DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 		Date startDate = null;
 		Date endDate = null;
 		try {
-		    startDate = dateFormat.parse(startDateStr);
-		    endDate = dateFormat.parse(endDateStr);
+			startDate = dateFormat.parse(startDateStr);
+			endDate = dateFormat.parse(endDateStr);
 		} catch (ParseException e) {
-		    e.printStackTrace();
+			e.printStackTrace();
 		}
 		if (endDate.compareTo(startDate) >= 0) {
-		    System.out.println("End date is equal to or after the start date.");
+			System.out.println("End date is equal to or after the start date.");
 		} else {
-		    System.out.println("End date is before the start date.");
+			System.out.println("End date is before the start date.");
 		}
-		
+
 		log.info(eventStartTime.getAttribute("value"));
 		System.out.println(eventStartTime.getAttribute("value"));
 		Assert.assertEquals(eventStartTime.getAttribute("value"), "12");
@@ -258,11 +270,10 @@ public class EditCloneEvent {
 	}
 
 	/**
-	 * @param editTicket 
-	 * Here editTicket = true Then it click on the            
-	 * actionsColumnTicketType in that i validate options and
-	 * click Edit Ticket Type I validate editTicket type header
-	 * and edit price amount, click and continue button
+	 * @param editTicket Here editTicket = true Then it click on the
+	 *                   actionsColumnTicketType in that i validate options and
+	 *                   click Edit Ticket Type I validate editTicket type header
+	 *                   and edit price amount, click and continue button
 	 * @throws Throwable
 	 */
 	public void editEventTicket(Boolean editTicket) throws Throwable {
@@ -273,7 +284,7 @@ public class EditCloneEvent {
 		util.waitUntilElement(driver, eventTicketSalesStartDate);
 		Utility.highLightElement(driver, eventTicketSalesStartDate);
 		System.out.println(eventTicketSalesStartDate.getAttribute("value"));
-		log.info("eventTicketSalesStartDate"+ eventTicketSalesStartDate.getAttribute("value"));
+		log.info("eventTicketSalesStartDate" + eventTicketSalesStartDate.getAttribute("value"));
 
 		String option;
 		if (editTicket == true) {

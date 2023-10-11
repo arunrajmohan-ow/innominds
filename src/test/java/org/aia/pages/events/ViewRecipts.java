@@ -35,10 +35,9 @@ public class ViewRecipts {
 		executor = (JavascriptExecutor) driver;
 		testData = new ConfigDataProvider();
 		eventRegistration = PageFactory.initElements(driver, EventRegistration.class);
-		editCloneEvent = PageFactory.initElements(driver,  EditCloneEvent.class);
+		editCloneEvent = PageFactory.initElements(driver, EditCloneEvent.class);
 	}
 
-	
 	/**
 	 * @param receiptNo
 	 * @param total
@@ -46,7 +45,8 @@ public class ViewRecipts {
 	 * @throws InterruptedException
 	 * @throws IOException
 	 */
-	public String viewReceiptValidationsForEvents(Object receiptNo, Object total) throws InterruptedException, IOException {
+	public String viewReceiptValidationsForEvents(Object receiptNo, Object total)
+			throws InterruptedException, IOException {
 		Thread.sleep(15000);
 		Set<String> links = driver.getWindowHandles();
 		String currWin = driver.getWindowHandle();
@@ -84,7 +84,8 @@ public class ViewRecipts {
 					if (pdfContent.contains(total.toString())) {
 						assertTrue(pdfContent.contains(total.toString()), "Total amount paid is present in Recipt.");
 					}
-					Assert.assertTrue(pdfContent.contains(editCloneEvent.aiaNumber), "verified customer AIA number in receipt documnet" + editCloneEvent.aiaNumber);
+					Assert.assertTrue(pdfContent.contains(editCloneEvent.aiaNumber),
+							"verified customer AIA number in receipt documnet" + editCloneEvent.aiaNumber);
 					log.info("verified customer AIA number in receipt documnet" + editCloneEvent.aiaNumber);
 
 					Assert.assertTrue(pdfContent.contains(testData.testDataProvider().getProperty("PaymentType")));
@@ -92,15 +93,16 @@ public class ViewRecipts {
 							+ testData.testDataProvider().getProperty("PaymentType"));
 
 					Assert.assertTrue(pdfContent.contains(total.toString()));
-					log.info("verified total amount in receipt documnet"+ total);
+					log.info("verified total amount in receipt documnet" + total);
 
 					Assert.assertTrue(pdfContent.contains((receiptNo.toString()).replace("Receipt: #", "").trim()));
-					log.info("verified Receipt number in receipt document"+ receiptNo);
+					log.info("verified Receipt number in receipt document" + receiptNo);
 
 					Assert.assertTrue(pdfContent.contains(eventRegistration.postedDate));
 					log.info("verified postedDate in receipt documnet" + eventRegistration.postedDate);
 
-					Assert.assertTrue(pdfContent.contains(testData.testDataProvider().getProperty("PaymentMethodDescription")));
+					Assert.assertTrue(
+							pdfContent.contains(testData.testDataProvider().getProperty("PaymentMethodDescription")));
 					log.info("verified Payment Method Description in receipt documnet"
 							+ testData.testDataProvider().getProperty("PaymentMethodDescription"));
 
@@ -108,7 +110,8 @@ public class ViewRecipts {
 					log.info("verified To address in receipt documnet" + eventRegistration.userName);
 
 					Assert.assertTrue(pdfContent.contains(testData.testDataProvider().getProperty("fromAddress")));
-					log.info("verified From address in receipt documnet" + testData.testDataProvider().getProperty("fromAddress"));
+					log.info("verified From address in receipt documnet"
+							+ testData.testDataProvider().getProperty("fromAddress"));
 					System.out.println("Link is identified");
 					Thread.sleep(5000);
 					log.info("Receipt validations are done");
@@ -116,6 +119,6 @@ public class ViewRecipts {
 				}
 			}
 		return pdfContent;
-		
+
 	}
 }

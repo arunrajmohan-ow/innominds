@@ -1,6 +1,5 @@
 package org.aia.pages.events;
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -46,10 +45,10 @@ public class EventRegistration {
 		executor = (JavascriptExecutor) driver;
 		testData = new ConfigDataProvider();
 	}
-	
+
 	// event new tab
-			@FindBy(css = "div[id='navEventMenuItems'] button[data-title='Register']")
-			WebElement eventRegister;
+	@FindBy(css = "div[id='navEventMenuItems'] button[data-title='Register']")
+	WebElement eventRegister;
 
 	@FindBy(xpath = "(//select[@name='Quantity'])[1]")
 	WebElement ticketTypeQuantity;
@@ -209,9 +208,7 @@ public class EventRegistration {
 
 	@FindBy(css = "div[class*='slds-p-horizontal_large slds-m-bottom_medium\'] div:nth-child(2)")
 	WebElement postdDate;
-	
-	
-	
+
 	/**
 	 * @param tabIdx
 	 * @throws Throwable
@@ -231,7 +228,7 @@ public class EventRegistration {
 		util.waitUntilElement(driver, ticketTypeQuantity);
 		util.scrollingElementUsingJS(driver, ticketTypeQuantity);
 		Utility.highLightElement(driver, ticketTypeQuantity);
-		util.selectDropDownByText(ticketTypeQuantity, testData.testDataProvider().getProperty("ticketQuantity"));    
+		util.selectDropDownByText(ticketTypeQuantity, testData.testDataProvider().getProperty("ticketQuantity"));
 		log.info("ticketTypeQuantity dropdown selected as 1");
 	}
 
