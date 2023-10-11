@@ -75,13 +75,9 @@ public class FontevaCES {
 	
 	@FindBy(xpath="//button[@title='Edit Term End Date']/span") WebElement editBtn;
 	
-<<<<<<< HEAD
 	//@FindBy(xpath="//a[contains(text(),'Show')]") WebElement showallBtn;
 	@FindBy(xpath="//a[contains(text(),'Show All')]//span") WebElement showallBtn;
-=======
-	@FindBy(xpath="//a[contains(text(),'Show')]") WebElement showallBtn;
 	//@FindBy(xpath="//div[contains(@class,'slds-card__body')]//a[contains(text(),'Show')]") WebElement showallBtn;
->>>>>>> 36b80fc9b607d636634e0a04e4b58e877852c5ab
 	
 	@FindBy(xpath="//h1/span[text()='Contacts']/parent::h1/parent::div/parent::div//button") WebElement contactallBtn;
 	

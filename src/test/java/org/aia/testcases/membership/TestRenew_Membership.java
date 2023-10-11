@@ -397,10 +397,6 @@ public class TestRenew_Membership extends BaseClass {
 				testData.testDataProvider().getProperty("selection"));
 		apiValidationRenew.validateSalesOrderLine(salesPrice);
 	}
-<<<<<<< HEAD
-	
-	@Test(priority=7, description="Membership Renew Archipac Donation(Architect)", enabled = true)
-=======
 
 	/**
 	 * Suhas
@@ -444,7 +440,6 @@ public class TestRenew_Membership extends BaseClass {
 	 * @throws Exception
 	 */
 	@Test(priority = 7, description = "Membership Renew Archipac Donation(Architect)", enabled = true)
->>>>>>> 36b80fc9b607d636634e0a04e4b58e877852c5ab
 	public void validateArchipacDonation() throws Exception {
 		// Create a renew eligible member with any on from this South
 		// Carolina,Oregon,Oklahoma
