@@ -4,14 +4,26 @@ import static io.restassured.RestAssured.given;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
+import java.util.concurrent.TimeUnit;
+
 import org.aia.utility.DataProviderFactory;
 import org.aia.utility.Utility;
+import org.apache.xmlbeans.impl.xb.xsdschema.Public;
+import org.awaitility.core.Condition;
+import org.checkerframework.common.value.qual.StaticallyExecutable;
 import org.glassfish.jersey.message.internal.StringHeaderProvider;
 import org.openqa.selenium.WebDriver;
 
 import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
+
+import org.awaitility.Awaitility;
+import org.awaitility.Awaitility.*;
+import org.awaitility.Duration.*;
+import java.util.concurrent.TimeUnit.*;
+import org.hamcrest.Matchers.*;
+import org.junit.Assert.*;
 
 public class FontevaCESTermDateChangeAPI {
 	WebDriver driver;
@@ -33,8 +45,9 @@ public class FontevaCESTermDateChangeAPI {
 	private static String providerId = null;
 	private static String membershipId = null;
 
-	public void changeTermDateAPI(String memberAccount, String termDate) {
+	public void changeTermDateAPI(String memberAccount, String termDate, Object membershipIndex) throws InterruptedException {
 		// From this api we get the provider id
+		membershipIndex=null;
 		Response response = given().contentType(ContentType.JSON).accept(ContentType.JSON)
 				.header("Authorization", "Bearer " + bearerToken).header("Content-Type", ContentType.JSON)
 				.header("Accept", ContentType.JSON).param("q", memberAccount)
@@ -56,12 +69,20 @@ public class FontevaCESTermDateChangeAPI {
 
 		// From this API we try to get membership ID
 		String SUBSCRIPTIONS_URI = ACCOUNT_URI + "/" + accountID + "/OrderApi__Subscriptions__r";
-		response = given().header("Authorization", "Bearer " + bearerToken).header("Content-Type", ContentType.JSON)
+		Thread.sleep(6000);
+		
+//		Awaitility.await().atMost(60, TimeUnit.SECONDS).pollInterval(1, TimeUnit.SECONDS).until(() ->
+//		{
+			 response = given().header("Authorization", "Bearer " + bearerToken).header("Content-Type", ContentType.JSON)
 				.header("Accept", ContentType.JSON).when().get(SUBSCRIPTIONS_URI).then().statusCode(200).extract()
 				.response();
+		
+	   // Awaitility.await().atMost(5, TimeUnit.SECONDS).until(customerStatusIsUpdated());
 		jsonPathEval = response.jsonPath();
-		membershipId = jsonPathEval.getString("records[0].Id");
+		membershipId = jsonPathEval.getString("records[1].Id");
 		System.out.println("Membership ID:" + membershipId);
+//	return !membershipId.isEmpty();
+//	});
 
 		// From this call we are getting the termID
 		String selectTermURI = sObjectURI + "/OrderApi__Subscription__c/" + membershipId + "/OrderApi__Renewals__r";
@@ -82,6 +103,25 @@ public class FontevaCESTermDateChangeAPI {
 				.patch(sObjectCompositeURI).then().statusCode(200).extract().response();
 
 	}
+	
+	/**
+	 * @param expectedAccountStatus
+	 * @param expectedMembershipType
+	 * Here we getting accountStatus and membershipType using accountID
+	 * @throws InterruptedException 
+	 */
+	public void getCESAccountDetails(String expectedAccountStatus, String expectedMembershipType) throws InterruptedException {
+		String AccountDetailsURI = ACCOUNT_URI + "/" + accountID;
+		 Response response = given().header("Authorization", "Bearer " + bearerToken).header("Content-Type", ContentType.JSON)
+				.header("Accept", ContentType.JSON).when().get(AccountDetailsURI).then().statusCode(200).extract()
+				.response();
+		jsonPathEval = response.jsonPath();
+		String cesAccountStatus= jsonPathEval.getString("AIA_CES_Provider_Status__c");
+		String cesMembershipType=jsonPathEval.getString("Membership_Type__c");
+		assertEquals(cesAccountStatus,expectedAccountStatus);
+		assertEquals(cesMembershipType,expectedMembershipType);
+		Thread.sleep(3000);
+	}
 
 	/**
 	 * Here we validate actual membership status.
@@ -93,6 +133,32 @@ public class FontevaCESTermDateChangeAPI {
 				.response();
 		jsonPathEval = response.jsonPath();
 		String actualmembershipStatus= jsonPathEval.getString("records[0]."+membershipData+"");
+		assertEquals(membershipStatus, actualmembershipStatus);
+		
+	}
+	public void getNonCESAccountDetails(String expectedAccountStatus, String expectedMembershipType) throws InterruptedException {
+		String AccountDetailsURI = ACCOUNT_URI + "/" + accountID;
+		 Response response = given().header("Authorization", "Bearer " + bearerToken).header("Content-Type", ContentType.JSON)
+				.header("Accept", ContentType.JSON).when().get(AccountDetailsURI).then().statusCode(200).extract()
+				.response();
+		jsonPathEval = response.jsonPath();
+		String cesAccountStatus= jsonPathEval.getString("AIA_CES_Provider_Status__c");
+		String cesMembershipType=jsonPathEval.getString("Membership_Type__c");
+		assertEquals(cesAccountStatus,expectedAccountStatus);
+		assertEquals(cesMembershipType,expectedMembershipType);
+		Thread.sleep(3000);
+	}
+
+	/**
+	 * Here we validate actual membership status.
+	 */
+	public void validateNonCESMembershipCreated(String membershipStatus, String membershipData) {
+		String selectTermURI = sObjectURI + "/OrderApi__Subscription__c/" + membershipId + "/OrderApi__Renewals__r";
+		Response response = given().header("Authorization", "Bearer " + bearerToken).header("Content-Type", ContentType.JSON)
+				.header("Accept", ContentType.JSON).when().get(selectTermURI).then().statusCode(200).extract()
+				.response();
+		jsonPathEval = response.jsonPath();
+		String actualmembershipStatus= jsonPathEval.getString("records[1]."+membershipData+"");
 		assertEquals(membershipStatus, actualmembershipStatus);
 		
 	}

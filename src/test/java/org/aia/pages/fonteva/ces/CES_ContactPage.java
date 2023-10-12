@@ -272,6 +272,15 @@ public class CES_ContactPage {
 	@FindBy(xpath = "//div[text()='Delete']")
 	WebElement DeleteBtn_chevrontype;
 
+	@FindBy(xpath = "//input[@name='referenceNumber']")
+	WebElement referenceNumber;
+
+	@FindBy(xpath = "//button//span[text()= 'Apply Payment']")
+	WebElement applyPaymentBtn;
+
+	@FindBy(xpath = "//*[@data-name='applyPaymentPage']")
+	WebElement applyPaymentPage;
+
 	String fName;
 	String lName;
 	String fullname;
@@ -533,7 +542,7 @@ public class CES_ContactPage {
 
 	}
 
-	public void selectRapidOrderEntry1(String userFullname, String itemQuick, String quickElement)
+	public void cesRapidOrderEntry(String userFullname, String itemQuick, String quickElement)
 			throws InterruptedException, AWTException {
 		Thread.sleep(30000);
 		selectCreatedContact(userFullname);
@@ -557,49 +566,45 @@ public class CES_ContactPage {
 		goBtn.click();
 		System.out.println("GO button clicked");
 		Thread.sleep(20000);
-		util.waitUntilElement(driver, SelectAccount);
-		Actions action = new Actions(driver);
-		action.moveToElement(SelectAccount).click().perform();
-		System.out.println("Account selected");
-		util.waitUntilElement(driver, Membershipslnk);
-		Actions action1 = new Actions(driver);
-		action1.moveToElement(Membershipslnk).click().perform();
-		System.out.println("Memberships clicked");
-		driver.navigate().refresh();
+
+		if (applyPaymentPage.isDisplayed()) {
+			util.waitUntilElement(driver, referenceNumber);
+			referenceNumber.sendKeys(data.testDataProvider().getProperty("referenceNum"));
+			util.waitUntilElement(driver, applyPaymentBtn);
+			action.moveToElement(applyPaymentBtn).click().perform();
+			// applyPaymentBtn.click();
+			System.out.println("applyPaymentButton clicked");
+		} else {
+			util.waitUntilElement(driver, SelectAccount);
+			// Actions action = new Actions(driver);
+			action.moveToElement(SelectAccount).click().perform();
+			System.out.println("Account selected");
+			util.waitUntilElement(driver, Membershipslnk);
+			// Actions action1 = new Actions(driver);
+			action.moveToElement(Membershipslnk).click().perform();
+			System.out.println("Memberships clicked");
+			driver.navigate().refresh();
+		}
 		// util.waitUntilElement(driver, accountName);
 		// executor.executeScript("arguments[0].click();", accountName);
 	}
 
 	public void validateDeleteCESMembership() throws InterruptedException {
-//		util.waitUntilElement(driver, Membershipslnk);
-//		Actions action1 = new Actions(driver);
-//		action1.moveToElement(Membershipslnk).click().perform();
-//		System.out.println("Memberships clicked");
-//		driver.navigate().refresh();
-		// RefreshBtn.click();
 		List<WebElement> rows = driver.findElements(By.xpath("//*[@role ='table']//tbody//tr"));
 		System.out.println("Number of records:" + rows.size());
 		Thread.sleep(30000);
-		Actions action2 = new Actions(driver);
 		util.waitUntilElement(driver, Chevronbtn);
-		action2.moveToElement(Chevronbtn).click().perform();
+		action.moveToElement(Chevronbtn).click().perform();
 		// Chevronbtn.click();
 		System.out.println("Chevron button clicked");
-		Actions action3 = new Actions(driver);
 		util.waitUntilElement(driver, DeleteBtn_chevrontype);
-		action3.moveToElement(DeleteBtn_chevrontype).click().perform();
+		action.moveToElement(DeleteBtn_chevrontype).click().perform();
 		System.out.println("Delete Option clicked");
 		util.waitUntilElement(driver, DeleteMsg);
 		System.out.println("MyError:" + DeleteMsg.getText());
 		assertTrue(DeleteMsg.getText().equalsIgnoreCase(data.testDataProvider().getProperty("DeleteMsg")));
-		Actions action4 = new Actions(driver);
 		util.waitUntilElement(driver, Delete_membership);
-		action4.moveToElement(Delete_membership).click().perform();
-		// Thread.sleep(30000);
-//		Alert alert = driver.switchTo().alert(); 
-//		String alertMessage = driver.switchTo().alert().getText(); 
-//		System.out.println(alertMessage);
-//		Thread.sleep(5000);
+		action.moveToElement(Delete_membership).click().perform();
 		util.waitUntilElement(driver, DeleteBtn_chevrontype);
 		DeleteBtn_chevrontype.click();
 		System.out.println("Delete button clicked");
@@ -609,10 +614,10 @@ public class CES_ContactPage {
 		util.waitUntilElement(driver, Delete_membership);
 		Delete_membership.click();
 		// Thread.sleep(30000);
-		Alert alert = driver.switchTo().alert();
-		String alertMessage = driver.switchTo().alert().getText();
-		System.out.println(alertMessage);
-		Thread.sleep(5000);
+//		Alert alert = driver.switchTo().alert();
+//		String alertMessage = driver.switchTo().alert().getText();
+//		System.out.println(alertMessage);
+//		Thread.sleep(5000);
 
 	}
 
@@ -623,32 +628,44 @@ public class CES_ContactPage {
 
 	}
 
+	public void nonCESRapidOrderEntry(String userFullname, String itemQuick, String quickElement)
+			throws InterruptedException, AWTException {
+		Thread.sleep(30000);
+		selectCreatedContact(userFullname);
+		util.waitUntilElement(driver, accountName);
+		executor.executeScript("arguments[0].click();", accountName);
+		util.waitUntilElement(driver, rapidOrderEnteryBtn);
+		rapidOrderEnteryBtn.click();
+		util.waitUntilElement(driver, quickItemSelect);
+		executor.executeScript("arguments[0].click();", quickItemSelect);
+		Thread.sleep(20000);
+		// executor.executeScript("arguments[0].value='"+itemQuick+"';",
+		// quickItemSelect);
+		quickItemSelect.sendKeys(itemQuick);
+		Thread.sleep(30000);
+		util.waitUntilElement(driver, util.getCustomizedWebElement(driver, quickItemNatinal, quickElement));
+		util.getCustomizedWebElement(driver, quickItemNatinal, quickElement).click();
+		util.waitUntilElement(driver, addOrderBtn);
+		addOrderBtn.click();
+		Thread.sleep(30000);
+		util.waitUntilElement(driver, goBtn);
+		goBtn.click();
+		System.out.println("GO button clicked");
+		Thread.sleep(20000);
+		util.waitUntilElement(driver, referenceNumber);
+		referenceNumber.sendKeys(data.testDataProvider().getProperty("referenceNum"));
+		util.waitUntilElement(driver, applyPaymentBtn);
+		action.moveToElement(applyPaymentBtn).click().perform();
+		// applyPaymentBtn.click();
+		System.out.println("applyPaymentButton clicked");
+		/*
+		 * util.waitUntilElement(driver, SelectAccount);
+		 * action.moveToElement(SelectAccount).click().perform();
+		 * System.out.println("Account selected"); util.waitUntilElement(driver,
+		 * Membershipslnk); action.moveToElement(Membershipslnk).click().perform();
+		 * System.out.println("Memberships clicked"); driver.navigate().refresh();
+		 */
+		// util.waitUntilElement(driver, accountName);
+		// executor.executeScript("arguments[0].click();", accountName);
+	}
 }
-
-//Select drpOptn=new Select(driver.findElement(By.xpath("//ul[@class='scrollable']/li")));
-// drpOptn.selectByVisibleText("Delete");
-/*
- * List<WebElement> ChevronTypes =
- * driver.findElements(By.xpath("//ul[@class='scrollable']/li"));
- * System.out.println(ChevronTypes); //Thread.sleep(10000); for (WebElement
- * ChevronType:ChevronTypes) { System.out.println(ChevronType.getText()); if
- * (ChevronType.getText().contains("Delete")); { util.waitUntilElement(driver,
- * ChevronType); Actions action1 = new Actions(driver);
- * action1.moveToElement(ChevronType).click().perform(); Thread.sleep(30000);
- * //ChevronType.click(); System.out.println("Delete button clicked"); break; }
- * 
- * } Thread.sleep(10000);
- */
-
-/*
- * public void validateDelete() throws InterruptedException {
- * util.waitUntilElement(driver, DeleteMsg); System.out.println("MyError:" +
- * DeleteMsg.getText());
- * assertTrue(DeleteMsg.getText().equalsIgnoreCase(data.testDataProvider().
- * getProperty("DeleteMsg"))); util.waitUntilElement(driver, DeleteBtn);
- * DeleteBtn.click(); Thread.sleep(5000); Alert alert =
- * driver.switchTo().alert(); // switch to alert String alertMessage =
- * driver.switchTo().alert().getText(); // capture alert message
- * System.out.println(alertMessage); // Print Alert Message Thread.sleep(5000);
- * }
- */
