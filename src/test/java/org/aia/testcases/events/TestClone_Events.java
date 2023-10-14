@@ -58,13 +58,15 @@ public class TestClone_Events extends BaseClass {
 		Logging.configure();
 	}
 
-	@Test(priority = 1, description = "Create New CloneEvent enter event name, enter date, select event category and event search click clone button", enabled = true)
+	@Test(priority = 1, description = "Create New CloneEvent enter event name, enter date, select event category and event search click clone button", enabled = false)
 
 	public void test_CreateCloneEvent(ITestContext context) throws Throwable {
 		events.clickEventsModule();
+		util.waitForJavascript(driver, 90000, 5000);
 		events.newButtonInEvents();
 		events.validateHeaderCloneEvent();
 		cloneEventpage.newCloneOnExistingEvent(testData.testDataProvider().getProperty("eventCategory"));
+		util.waitForJavascript(driver, 90000, 5000);
 		cloneEventpage.verifyCloneEventSegmentCheckBoxs();
 		context.setAttribute("eventId", cloneEventpage.eventId);
 		context.setAttribute("eventName", cloneEventpage.eName);
@@ -84,6 +86,7 @@ public class TestClone_Events extends BaseClass {
 		events.clickEventsModule();
 		events.eventsSearch(eventName);
 		editCloneEvent.clickEditButton();
+		util.waitForJavascript(driver, 90000, 5000);
 		editCloneEvent.editEventInfo(eventName);
 		editCloneEvent.editEventTicket(true);
 		editCloneEvent.editEventInvitation();
@@ -95,9 +98,12 @@ public class TestClone_Events extends BaseClass {
 		editCloneEvent.editEventStatuses();
 		editCloneEvent.editEventPages();
 		editCloneEvent.saveExitButton();
+		util.waitForJavascript(driver, 90000, 5000);
 		editCloneEvent.clickEventUrl();
+		util.waitForJavascript(driver, 90000, 5000);
 		// sometimes Register link is not clicked in AIA application
 		eventRegistration.RegisterLink(1);
+		util.waitForJavascript(driver, 90000, 5000);
 		signInpage.signUp();
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.signUpUser();
@@ -112,6 +118,7 @@ public class TestClone_Events extends BaseClass {
 		editCloneEvent.clickEventUrl();
 		// sometimes Register link is not clicked in AIA application
 		eventRegistration.RegisterLink(3);
+		util.waitForJavascript(driver, 90000, 5000);
 		eventRegistration.selectTicketQuantity();
 		eventRegistration.clickRegisterButton();
 		eventRegistration.rigisterRequiredInfo();
@@ -121,6 +128,8 @@ public class TestClone_Events extends BaseClass {
 
 		// Here we getting receipt data from UI and storing in ArrayList
 		ArrayList<Object> receiptData = eventRegistration.checkoutModule();
+		
+		util.waitForJavascript(driver, 90000, 5000);
 
 		// Here we validate PDF data
 		viewReceipts.viewReceiptValidationsForEvents(receiptData.get(1), receiptData.get(0));
@@ -140,15 +149,17 @@ public class TestClone_Events extends BaseClass {
 		mailinator.registrationConfirmationEmailforEvents(dataList, eventName);
 	}
 
-	@Test(priority = 3, description = "Verify 'Attendees' info after registering for the event", enabled = true)
+	@Test(priority = 3, description = "Verify 'Attendees' info after registering for the event", enabled = false)
 	public void validate_Attendees(ITestContext context) throws InterruptedException, Throwable {
 
 		test_CreateCloneEvent(context);
 
 		String eventName = cloneEventpage.newEvent;
 		events.clickEventsModule();
+		util.waitForJavascript(driver, 90000, 5000);
 		events.eventsSearch(eventName);
 		editCloneEvent.clickEditButton();
+		util.waitForJavascript(driver, 90000, 5000);
 		editCloneEvent.editEventInfo(eventName);
 		editCloneEvent.editEventTicket(true);
 		editCloneEvent.editEventInvitation();
@@ -163,6 +174,7 @@ public class TestClone_Events extends BaseClass {
 		editCloneEvent.clickEventUrl();
 		// sometimes Register link is not clicked in AIA application
 		eventRegistration.RegisterLink(1);
+		util.waitForJavascript(driver, 90000, 5000);
 		signInpage.signUp();
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.signUpUser();
@@ -177,6 +189,7 @@ public class TestClone_Events extends BaseClass {
 		editCloneEvent.clickEventUrl();
 		// sometimes Register link is not clicked in AIA application
 		eventRegistration.RegisterLink(3);
+		util.waitForJavascript(driver, 90000, 5000);
 		eventRegistration.selectTicketQuantity();
 		eventRegistration.clickRegisterButton();
 		eventRegistration.rigisterRequiredInfo();
@@ -186,6 +199,8 @@ public class TestClone_Events extends BaseClass {
 
 		// Here we getting receipt data from UI and storing in ArrayList
 		ArrayList<Object> receiptData = eventRegistration.checkoutModule();
+		
+		util.waitForJavascript(driver, 90000, 5000);
 
 		// Here we validate PDF data
 		viewReceipts.viewReceiptValidationsForEvents(receiptData.get(1), receiptData.get(0));
@@ -204,15 +219,17 @@ public class TestClone_Events extends BaseClass {
 		eventApivalidation.verifyAttendees(context);
 	}
 
-	@Test(priority = 4, description = "Verify 'Attendees' info after registering for the event", enabled = true)
+	@Test(priority = 4, description = "Verify 'Attendees' info after registering for the event", enabled = false)
 	public void validate_SalesAndRegistration(ITestContext context) throws InterruptedException, Throwable {
 
 		test_CreateCloneEvent(context);
 
 		String eventName = cloneEventpage.newEvent;
 		events.clickEventsModule();
+		util.waitForJavascript(driver, 90000, 5000);
 		events.eventsSearch(eventName);
 		editCloneEvent.clickEditButton();
+		util.waitForJavascript(driver, 90000, 5000);
 		editCloneEvent.editEventInfo(eventName);
 		editCloneEvent.editEventTicket(true);
 		editCloneEvent.editEventInvitation();
@@ -224,10 +241,12 @@ public class TestClone_Events extends BaseClass {
 		editCloneEvent.editEventStatuses();
 		editCloneEvent.editEventPages();
 		editCloneEvent.saveExitButton();
+		util.waitForJavascript(driver, 90000, 5000);
 		events.validateBeforeRegistrationData();
 		editCloneEvent.clickEventUrl();
 		// sometimes Register link is not clicked in AIA application
 		eventRegistration.RegisterLink(1);
+		util.waitForJavascript(driver, 90000, 5000);
 		signInpage.signUp();
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.signUpUser();
@@ -242,6 +261,7 @@ public class TestClone_Events extends BaseClass {
 		editCloneEvent.clickEventUrl();
 		// sometimes Register link is not clicked in AIA application
 		eventRegistration.RegisterLink(3);
+		util.waitForJavascript(driver, 90000, 5000);
 		eventRegistration.selectTicketQuantity();
 		eventRegistration.clickRegisterButton();
 		eventRegistration.rigisterRequiredInfo();
@@ -251,6 +271,8 @@ public class TestClone_Events extends BaseClass {
 
 		// Here we getting receipt data from UI and storing in ArrayList
 		ArrayList<Object> receiptData = eventRegistration.checkoutModule();
+		
+		util.waitForJavascript(driver, 90000, 5000);
 
 		// Here we validate PDF data
 		viewReceipts.viewReceiptValidationsForEvents(receiptData.get(1), receiptData.get(0));

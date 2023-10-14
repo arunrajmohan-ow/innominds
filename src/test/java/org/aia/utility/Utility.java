@@ -375,6 +375,23 @@ public class Utility {
 		driver.navigate().to(url);
 	}
 
+	public void waitForJavascript(WebDriver driver,int maxWaitMillis, int pollDelimiter) {
+		    double startTime = System.currentTimeMillis();
+		    while (System.currentTimeMillis() < startTime + maxWaitMillis) {
+		        String prevState = driver.getPageSource();
+		        try {
+					Thread.sleep(pollDelimiter);
+					System.out.println("Waiting for Javascript Page loads!!!");
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} // <-- would need to wrap in a try catch
+		        if (prevState.equals(driver.getPageSource())) {
+		            return;
+		        }
+		    }
+		}
+	
 	public void waitForPageLoad(WebDriver driver) {
 
 	    wait.until(new Function<WebDriver, Boolean>() {

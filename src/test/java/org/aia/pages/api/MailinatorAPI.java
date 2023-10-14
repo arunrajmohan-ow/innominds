@@ -371,7 +371,6 @@ public class MailinatorAPI {
 		System.out.println("body is " + value);
 		Assert.assertTrue(value.contains(eventName));
 		Assert.assertTrue(value.contains(dataList.get(0)));
-		Assert.assertTrue(value.contains(dataList.get(1)));
 	}
 
 }

@@ -52,16 +52,16 @@ public class Events {
 	@FindBy(xpath = "//span[@class='slds-grid slds-grid--align-spread forceInlineEditCell']//a[@data-refid='recordId']")
 	WebElement eventName;
 
-	@FindBy(xpath = "//span[text()='Number of Registered Attendees']/following::lightning-formatted-number[1]")
+	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//span[text()='Number of Registered Attendees']/following::lightning-formatted-number[1]")
 	WebElement attandessInsalesRegisration;
 
-	@FindBy(xpath = "//span[text()='Number of Registered Attendees']/following::lightning-formatted-number[2]")
+	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//span[text()='Number of Registered Attendees']/following::lightning-formatted-number[2]")
 	WebElement soldticketsInsalesRegisration;
 
-	@FindBy(xpath = "//span[text()='Number of Registered Attendees']/following::lightning-formatted-number[3]")
+	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//span[text()='Number of Registered Attendees']/following::lightning-formatted-number[3]")
 	WebElement eventCapacityInsalesRegisration;
 
-	@FindBy(xpath = "//span[text()='Number of Registered Attendees']/following::lightning-formatted-number[4]")
+	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//span[text()='Number of Registered Attendees']/following::lightning-formatted-number[4]")
 	WebElement ticketsremainInsalesRegisration;
 
 	public void clickEventsModule() {
