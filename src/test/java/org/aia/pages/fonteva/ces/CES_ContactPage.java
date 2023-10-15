@@ -1,5 +1,6 @@
 package org.aia.pages.fonteva.ces;
 
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 import java.awt.AWTException;
@@ -242,6 +243,8 @@ public class CES_ContactPage {
 
 	String quickItemNatinal = "(//span[text()='%s'])[1]";
 
+	String discountCodeInput = "(//span[text()='%s'])[1]//parent::div";
+
 	@FindBy(xpath = "//button[text()='Go']") // (//button[normalize-space()='Go'])")
 	WebElement goBtn;
 
@@ -271,6 +274,15 @@ public class CES_ContactPage {
 
 	@FindBy(xpath = "//div[text()='Delete']")
 	WebElement DeleteBtn_chevrontype;
+
+	@FindBy(xpath = "//div[@data-label='Discount Code']//input")
+	WebElement discountCodeInputInROE;
+
+	@FindBy(xpath = "//p[@class='slideIn']")
+	WebElement discountAplliedPopUp;
+
+	@FindBy(css = "body > div:nth-child(21) > div:nth-child(1) > section:nth-child(2) > div:nth-child(4) > div:nth-child(5) > div:nth-child(2) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(5) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(3) > div:nth-child(2) > div:nth-child(1) > span:nth-child(1) > div:nth-child(2) > button:nth-child(1)")
+	WebElement discontApplyBtn;
 
 	String fName;
 	String lName;
@@ -620,35 +632,54 @@ public class CES_ContactPage {
 		util.waitUntilElement(driver, AvailableMemType);
 		assertTrue(
 				AvailableMemType.getText().equalsIgnoreCase(data.testDataProvider().getProperty("availableMemType")));
+	}
 
+	/**
+	 * @throws InterruptedException
+	 */
+	public void selectAccountName() throws InterruptedException {
+		util.waitUntilElement(driver, accountName);
+		executor.executeScript("arguments[0].click();", accountName);
+	}
+
+	/**
+	 * Selecting discount code in rapid order entry
+	 * 
+	 * @param discountCode
+	 * @param membershipType 
+	 * @param selectMembership 
+	 * @throws InterruptedException
+	 */
+	public void selectDiscountCode(String discountCode, String membershipType) throws InterruptedException {
+		util.waitUntilElement(driver, rapidOrderEnteryBtn);
+		rapidOrderEnteryBtn.click();
+		Thread.sleep(20000);
+		util.waitUntilElement(driver, quickItemSelect);
+		util.waitUntilElement(driver, discountCodeInputInROE);
+		discountCodeInputInROE.sendKeys(discountCode);
+		util.waitUntilElement(driver, util.getCustomizedWebElement(driver, discountCodeInput, discountCode));
+		util.getCustomizedWebElement(driver, discountCodeInput, discountCode).click();
+		util.waitUntilElement(driver, discontApplyBtn);
+		discontApplyBtn.click();
+		assertEquals(data.testDataProvider().getProperty("cesDiscountPop"), discountAplliedPopUp.getText());
+		util.waitUntilElement(driver, rapidOrderEnteryBtn);
+		rapidOrderEnteryBtn.click();
+		Thread.sleep(20000);
+		util.waitUntilElement(driver, quickItemSelect);
+		executor.executeScript("arguments[0].click();", quickItemSelect);
+		// executor.executeScript("arguments[0].value='"+itemQuick+"';",
+		// quickItemSelect);
+		quickItemSelect.sendKeys(membershipType);
+		Thread.sleep(20000);
+		util.waitUntilElement(driver, util.getCustomizedWebElement(driver, quickItemNatinal, membershipType));
+		util.getCustomizedWebElement(driver, quickItemNatinal, membershipType).click();
+		Thread.sleep(20000);
+		util.waitUntilElement(driver, addOrderBtn);
+		addOrderBtn.click();
+		util.waitUntilElement(driver, goBtn);
+		Thread.sleep(20000);
+		goBtn.click();
+		
 	}
 
 }
-
-//Select drpOptn=new Select(driver.findElement(By.xpath("//ul[@class='scrollable']/li")));
-// drpOptn.selectByVisibleText("Delete");
-/*
- * List<WebElement> ChevronTypes =
- * driver.findElements(By.xpath("//ul[@class='scrollable']/li"));
- * System.out.println(ChevronTypes); //Thread.sleep(10000); for (WebElement
- * ChevronType:ChevronTypes) { System.out.println(ChevronType.getText()); if
- * (ChevronType.getText().contains("Delete")); { util.waitUntilElement(driver,
- * ChevronType); Actions action1 = new Actions(driver);
- * action1.moveToElement(ChevronType).click().perform(); Thread.sleep(30000);
- * //ChevronType.click(); System.out.println("Delete button clicked"); break; }
- * 
- * } Thread.sleep(10000);
- */
-
-/*
- * public void validateDelete() throws InterruptedException {
- * util.waitUntilElement(driver, DeleteMsg); System.out.println("MyError:" +
- * DeleteMsg.getText());
- * assertTrue(DeleteMsg.getText().equalsIgnoreCase(data.testDataProvider().
- * getProperty("DeleteMsg"))); util.waitUntilElement(driver, DeleteBtn);
- * DeleteBtn.click(); Thread.sleep(5000); Alert alert =
- * driver.switchTo().alert(); // switch to alert String alertMessage =
- * driver.switchTo().alert().getText(); // capture alert message
- * System.out.println(alertMessage); // Print Alert Message Thread.sleep(5000);
- * }
- */

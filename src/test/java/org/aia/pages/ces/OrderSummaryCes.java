@@ -1,18 +1,19 @@
 package org.aia.pages.ces;
 
-import static org.testng.Assert.assertTrue;
+import static org.junit.Assert.*;
+import static org.testng.Assert.*;
 
 import org.aia.utility.Utility;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class OrderSummeryCes {
+public class OrderSummaryCes {
 	WebDriver driver;
 
 	Utility util = new Utility(driver, 30);
 
-	public OrderSummeryCes(WebDriver Idriver) {
+	public OrderSummaryCes(WebDriver Idriver) {
 		this.driver = Idriver;
 	}
 
@@ -28,24 +29,27 @@ public class OrderSummeryCes {
 	@FindBy(xpath = "//div[text()='Discount Applied']//parent::div//strong")
 	WebElement discountCodeApplied;
 
+	String beforApplyCodeAmnt;
+	
 	/**
 	 * @param discountCode
-	 * @return 
 	 */
-	public String applyDiscountCode(String discountCode) {
+	public void applyDiscountCode(String discountCode) {
 		util.waitUntilElement(driver, checkoutAmount);
-		String beforApplyCodeAmnt = checkoutAmount.getText();
+	    beforApplyCodeAmnt = checkoutAmount.getText();
 		discountCodeBox.sendKeys(discountCode);
 		applyBtn.click();
-		return beforApplyCodeAmnt;
-		
 	}
 	
+	/**
+	 * Here we validate amount after discount code apply for same membership 
+	 */
 	public void validateAmountAfterApplyDiscountCode() {
 		util.waitUntilElement(driver, checkoutAmount);
 		String afterApplyCodeAmnt = checkoutAmount.getText();
-		assertTrue(false);
+		assertEquals(afterApplyCodeAmnt,beforApplyCodeAmnt);
 	}
+
 	
 	
 }
