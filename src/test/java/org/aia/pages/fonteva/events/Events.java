@@ -43,7 +43,7 @@ public class Events {
 	@FindBy(css = "button[class*='_neutral search-button slds-truncate']")
 	WebElement globSearch;
 
-	@FindBy(xpath = "//label[text()='Search...']/following-sibling::div/input")
+	@FindBy(xpath  = "//label[text()='Search...']/following-sibling::div/input")
 	WebElement globSearchInput;
 
 	@FindBy(xpath = "//input[@placeholder='Search this list...']")
@@ -89,6 +89,7 @@ public class Events {
 	 * @throws Throwable
 	 */
 	public void globalSearch(String email) throws Throwable {
+		util.waitUntilElement(driver, globSearch);
 		Utility.highLightElement(driver, globSearch);
 		globSearch.click();
 		globSearchInput.sendKeys(email);

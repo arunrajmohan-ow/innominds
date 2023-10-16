@@ -18,10 +18,16 @@ import org.aia.utility.BrowserSetup;
 import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.DataProviderFactory;
 import org.aia.utility.Logging;
+import org.aia.utility.VideoRecorder;
+import org.checkerframework.common.reflection.qual.GetMethod;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.ITestContext;
+import org.testng.ITestResult;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
+
+@Listeners(org.aia.utility.GenerateReportsListener.class)
 
 public class TestClone_Events extends BaseClass {
 
@@ -37,7 +43,7 @@ public class TestClone_Events extends BaseClass {
 	ViewRecipts viewReceipts;
 	EventAPIValidations eventApivalidation;
 	QuickLinksInEvents linksInEvents;
-
+	
 	@BeforeMethod(alwaysRun = true)
 	public void setUp() throws Exception {
 		testData = new ConfigDataProvider();
@@ -58,9 +64,12 @@ public class TestClone_Events extends BaseClass {
 		Logging.configure();
 	}
 
-	@Test(priority = 1, description = "Create New CloneEvent enter event name, enter date, select event category and event search click clone button", enabled = false)
+	@Test(priority = 1, description = "Create New CloneEvent enter event name, enter date, select event category and event search click clone button", enabled = true)
 
 	public void test_CreateCloneEvent(ITestContext context) throws Throwable {
+		
+	    VideoRecorder.startRecording("test_CreateCloneEvent");
+		
 		events.clickEventsModule();
 		util.waitForJavascript(driver, 90000, 5000);
 		events.newButtonInEvents();
@@ -72,7 +81,6 @@ public class TestClone_Events extends BaseClass {
 		context.setAttribute("eventName", cloneEventpage.eName);
 		context.setAttribute("startDate", cloneEventpage.startDate);
 		context.setAttribute("eventCategory", testData.testDataProvider().getProperty("eventCategory"));
-
 		//Create Clone event validation
 		eventApivalidation.verifyEvent(context);
 	}
@@ -81,7 +89,7 @@ public class TestClone_Events extends BaseClass {
 	public void test_EditPriceInCloneEvent(ITestContext context) throws InterruptedException, Throwable {
 
 		test_CreateCloneEvent(context);
-
+		VideoRecorder.startRecording("test_EditPriceInCloneEvent");
 		String eventName = cloneEventpage.newEvent;
 		events.clickEventsModule();
 		events.eventsSearch(eventName);
@@ -136,7 +144,7 @@ public class TestClone_Events extends BaseClass {
 
 		// Here we validate the receipt using API call
 		eventApivalidation.verifyReciptDetails(dataList.get(3), receiptData.get(1), receiptData.get(0));
-
+		
 		// Here we validate the Sales order using API call
 		eventApivalidation.verifySalesOrder(dataList.get(3),
 				DataProviderFactory.getConfig().getValue("salesOrderStatus"),
@@ -153,7 +161,7 @@ public class TestClone_Events extends BaseClass {
 	public void validate_Attendees(ITestContext context) throws InterruptedException, Throwable {
 
 		test_CreateCloneEvent(context);
-
+		VideoRecorder.startRecording("validate_Attendees");
 		String eventName = cloneEventpage.newEvent;
 		events.clickEventsModule();
 		util.waitForJavascript(driver, 90000, 5000);
@@ -217,13 +225,16 @@ public class TestClone_Events extends BaseClass {
 
 		// Here we validate Attendees totals using api call
 		eventApivalidation.verifyAttendees(context);
+		
+		VideoRecorder.stopRecording();
 	}
 
 	@Test(priority = 4, description = "Verify 'Attendees' info after registering for the event", enabled = false)
 	public void validate_SalesAndRegistration(ITestContext context) throws InterruptedException, Throwable {
 
 		test_CreateCloneEvent(context);
-
+		
+        VideoRecorder.startRecording("validate_SalesAndRegistration");
 		String eventName = cloneEventpage.newEvent;
 		events.clickEventsModule();
 		util.waitForJavascript(driver, 90000, 5000);
@@ -288,6 +299,7 @@ public class TestClone_Events extends BaseClass {
 
 		// Here we validate sales & Registration totals using api call
 		eventApivalidation.verifySalesOrderRegistration(context);
+		VideoRecorder.stopRecording();
 	}
 
 }

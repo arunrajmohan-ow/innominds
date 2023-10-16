@@ -47,7 +47,7 @@ public class ViewRecipts {
 	 */
 	public String viewReceiptValidationsForEvents(Object receiptNo, Object total)
 			throws InterruptedException, IOException {
-//		Thread.sleep(15000);
+		util.waitForJavascript(driver, 90000, 5000);
 		Set<String> links = driver.getWindowHandles();
 		String currWin = driver.getWindowHandle();
 		Thread.sleep(1000);
