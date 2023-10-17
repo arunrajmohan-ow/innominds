@@ -45,9 +45,10 @@ public class FontevaCESTermDateChangeAPI {
 	private static String providerId = null;
 	private static String membershipId = null;
 
-	public void changeTermDateAPI(String memberAccount, String termDate, Object membershipIndex) throws InterruptedException {
+	public void changeTermDateAPI(String memberAccount, String termDate, Object membershipIndex)
+			throws InterruptedException {
 		// From this api we get the provider id
-		membershipIndex=null;
+		membershipIndex = null;
 		Response response = given().contentType(ContentType.JSON).accept(ContentType.JSON)
 				.header("Authorization", "Bearer " + bearerToken).header("Content-Type", ContentType.JSON)
 				.header("Accept", ContentType.JSON).param("q", memberAccount)
@@ -70,19 +71,16 @@ public class FontevaCESTermDateChangeAPI {
 		// From this API we try to get membership ID
 		String SUBSCRIPTIONS_URI = ACCOUNT_URI + "/" + accountID + "/OrderApi__Subscriptions__r";
 		Thread.sleep(6000);
-		
+
 //		Awaitility.await().atMost(60, TimeUnit.SECONDS).pollInterval(1, TimeUnit.SECONDS).until(() ->
 //		{
-			 response = given().header("Authorization", "Bearer " + bearerToken).header("Content-Type", ContentType.JSON)
+		response = given().header("Authorization", "Bearer " + bearerToken).header("Content-Type", ContentType.JSON)
 				.header("Accept", ContentType.JSON).when().get(SUBSCRIPTIONS_URI).then().statusCode(200).extract()
 				.response();
-		
-	   // Awaitility.await().atMost(5, TimeUnit.SECONDS).until(customerStatusIsUpdated());
+		Thread.sleep(10000);
 		jsonPathEval = response.jsonPath();
 		membershipId = jsonPathEval.getString("records[1].Id");
 		System.out.println("Membership ID:" + membershipId);
-//	return !membershipId.isEmpty();
-//	});
 
 		// From this call we are getting the termID
 		String selectTermURI = sObjectURI + "/OrderApi__Subscription__c/" + membershipId + "/OrderApi__Renewals__r";
@@ -103,23 +101,24 @@ public class FontevaCESTermDateChangeAPI {
 				.patch(sObjectCompositeURI).then().statusCode(200).extract().response();
 
 	}
-	
+
 	/**
 	 * @param expectedAccountStatus
-	 * @param expectedMembershipType
-	 * Here we getting accountStatus and membershipType using accountID
-	 * @throws InterruptedException 
+	 * @param expectedMembershipType Here we getting accountStatus and
+	 *                               membershipType using accountID
+	 * @throws InterruptedException
 	 */
-	public void getCESAccountDetails(String expectedAccountStatus, String expectedMembershipType) throws InterruptedException {
+	public void getCESAccountDetails(String expectedAccountStatus, String expectedMembershipType)
+			throws InterruptedException {
 		String AccountDetailsURI = ACCOUNT_URI + "/" + accountID;
-		 Response response = given().header("Authorization", "Bearer " + bearerToken).header("Content-Type", ContentType.JSON)
-				.header("Accept", ContentType.JSON).when().get(AccountDetailsURI).then().statusCode(200).extract()
-				.response();
+		Response response = given().header("Authorization", "Bearer " + bearerToken)
+				.header("Content-Type", ContentType.JSON).header("Accept", ContentType.JSON).when()
+				.get(AccountDetailsURI).then().statusCode(200).extract().response();
 		jsonPathEval = response.jsonPath();
-		String cesAccountStatus= jsonPathEval.getString("AIA_CES_Provider_Status__c");
-		String cesMembershipType=jsonPathEval.getString("Membership_Type__c");
-		assertEquals(cesAccountStatus,expectedAccountStatus);
-		assertEquals(cesMembershipType,expectedMembershipType);
+		String cesAccountStatus = jsonPathEval.getString("AIA_CES_Provider_Status__c");
+		String cesMembershipType = jsonPathEval.getString("Membership_Type__c");
+		assertEquals(cesAccountStatus, expectedAccountStatus);
+		assertEquals(cesMembershipType, expectedMembershipType);
 		Thread.sleep(3000);
 	}
 
@@ -128,38 +127,12 @@ public class FontevaCESTermDateChangeAPI {
 	 */
 	public void validateCESMembershipCreated(String membershipStatus, String membershipData) {
 		String selectTermURI = sObjectURI + "/OrderApi__Subscription__c/" + membershipId + "/OrderApi__Renewals__r";
-		Response response = given().header("Authorization", "Bearer " + bearerToken).header("Content-Type", ContentType.JSON)
-				.header("Accept", ContentType.JSON).when().get(selectTermURI).then().statusCode(200).extract()
-				.response();
+		Response response = given().header("Authorization", "Bearer " + bearerToken)
+				.header("Content-Type", ContentType.JSON).header("Accept", ContentType.JSON).when().get(selectTermURI)
+				.then().statusCode(200).extract().response();
 		jsonPathEval = response.jsonPath();
-		String actualmembershipStatus= jsonPathEval.getString("records[0]."+membershipData+"");
+		String actualmembershipStatus = jsonPathEval.getString("records[1]." + membershipData + "");
 		assertEquals(membershipStatus, actualmembershipStatus);
-		
-	}
-	public void getNonCESAccountDetails(String expectedAccountStatus, String expectedMembershipType) throws InterruptedException {
-		String AccountDetailsURI = ACCOUNT_URI + "/" + accountID;
-		 Response response = given().header("Authorization", "Bearer " + bearerToken).header("Content-Type", ContentType.JSON)
-				.header("Accept", ContentType.JSON).when().get(AccountDetailsURI).then().statusCode(200).extract()
-				.response();
-		jsonPathEval = response.jsonPath();
-		String cesAccountStatus= jsonPathEval.getString("AIA_CES_Provider_Status__c");
-		String cesMembershipType=jsonPathEval.getString("Membership_Type__c");
-		assertEquals(cesAccountStatus,expectedAccountStatus);
-		assertEquals(cesMembershipType,expectedMembershipType);
-		Thread.sleep(3000);
-	}
 
-	/**
-	 * Here we validate actual membership status.
-	 */
-	public void validateNonCESMembershipCreated(String membershipStatus, String membershipData) {
-		String selectTermURI = sObjectURI + "/OrderApi__Subscription__c/" + membershipId + "/OrderApi__Renewals__r";
-		Response response = given().header("Authorization", "Bearer " + bearerToken).header("Content-Type", ContentType.JSON)
-				.header("Accept", ContentType.JSON).when().get(selectTermURI).then().statusCode(200).extract()
-				.response();
-		jsonPathEval = response.jsonPath();
-		String actualmembershipStatus= jsonPathEval.getString("records[1]."+membershipData+"");
-		assertEquals(membershipStatus, actualmembershipStatus);
-		
 	}
 }

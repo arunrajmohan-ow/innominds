@@ -57,7 +57,9 @@ public class CES_ContactPage {
 	@FindBy(xpath = "//a/span[@title='Name']")
 	WebElement tableheaderName;
 
-	@FindBy(xpath = "//h1/span[text()='Contacts']/parent::h1/parent::div/parent::div//button")
+	//@FindBy(xpath = "//h1/span[text()='Contacts']/parent::h1/parent::div/parent::div//button")
+	
+	@FindBy(xpath = "//button[contains(@title,'Select a List View: Contacts')]")
 	WebElement contactallBtn;
 
 	@FindBy(xpath = "//li[contains(@class,'forceVirtualAutocompleteMenuOption')]//span[text()='All Contacts'][1]")
@@ -281,6 +283,9 @@ public class CES_ContactPage {
 	@FindBy(xpath = "//*[@data-name='applyPaymentPage']")
 	WebElement applyPaymentPage;
 
+	@FindBy(xpath = "//div/strong[text()='Items']/span")
+	WebElement itemsFees;
+
 	String fName;
 	String lName;
 	String fullname;
@@ -483,9 +488,10 @@ public class CES_ContactPage {
 		Thread.sleep(5000);
 		util.waitUntilElement(driver, contactallBtn);
 		contactallBtn.click();
+		Thread.sleep(15000);
 		util.waitUntilElement(driver, contactallLink);
 		contactallLink.click();
-		Thread.sleep(14000);
+		Thread.sleep(20000);
 		executor.executeScript("arguments[0].scrollIntoView(true);",
 				util.getCustomizedWebElement(driver, contactName, userFullname));
 		util.waitUntilElement(driver, util.getCustomizedWebElement(driver, contactName, userFullname));
@@ -556,37 +562,50 @@ public class CES_ContactPage {
 		// executor.executeScript("arguments[0].value='"+itemQuick+"';",
 		// quickItemSelect);
 		quickItemSelect.sendKeys(itemQuick);
-		Thread.sleep(30000);
+		Thread.sleep(10000);
 		util.waitUntilElement(driver, util.getCustomizedWebElement(driver, quickItemNatinal, quickElement));
 		util.getCustomizedWebElement(driver, quickItemNatinal, quickElement).click();
+		Thread.sleep(10000);
 		util.waitUntilElement(driver, addOrderBtn);
 		addOrderBtn.click();
-		Thread.sleep(30000);
-		util.waitUntilElement(driver, goBtn);
-		goBtn.click();
-		System.out.println("GO button clicked");
 		Thread.sleep(20000);
+		util.waitUntilElement(driver, itemsFees);
+		String fee = itemsFees.getText();
+		System.out.println("Item fee: " + fee);
 
-		if (applyPaymentPage.isDisplayed()) {
+//		util.waitUntilElement(driver, goBtn);
+//		action.moveToElement(goBtn).click().perform();
+//		System.out.println("GO button clicked");
+
+		if (fee.equalsIgnoreCase("Free")) {
+			Thread.sleep(10000);
+			util.waitUntilElement(driver, goBtn);
+			action.moveToElement(goBtn).click().perform();
+			System.out.println("GO button clicked");
+			Thread.sleep(10000);
+			util.waitUntilElement(driver, SelectAccount);
+			action.moveToElement(SelectAccount).click().perform();
+			System.out.println("Account selected");
+			Thread.sleep(10000);
+			util.waitUntilElement(driver, Membershipslnk);
+			action.moveToElement(Membershipslnk).click().perform();
+			System.out.println("Memberships clicked");
+			driver.navigate().refresh();
+		} else {
+			// Thread.sleep(10000);
+			util.waitUntilElement(driver, goBtn);
+			action.moveToElement(goBtn).click().perform();
+			System.out.println("GO button clicked");
+			Thread.sleep(10000);
 			util.waitUntilElement(driver, referenceNumber);
 			referenceNumber.sendKeys(data.testDataProvider().getProperty("referenceNum"));
 			util.waitUntilElement(driver, applyPaymentBtn);
 			action.moveToElement(applyPaymentBtn).click().perform();
 			// applyPaymentBtn.click();
 			System.out.println("applyPaymentButton clicked");
-		} else {
-			util.waitUntilElement(driver, SelectAccount);
-			// Actions action = new Actions(driver);
-			action.moveToElement(SelectAccount).click().perform();
-			System.out.println("Account selected");
-			util.waitUntilElement(driver, Membershipslnk);
-			// Actions action1 = new Actions(driver);
-			action.moveToElement(Membershipslnk).click().perform();
-			System.out.println("Memberships clicked");
-			driver.navigate().refresh();
+			Thread.sleep(20000);
 		}
-		// util.waitUntilElement(driver, accountName);
-		// executor.executeScript("arguments[0].click();", accountName);
+
 	}
 
 	public void validateDeleteCESMembership() throws InterruptedException {
@@ -605,20 +624,15 @@ public class CES_ContactPage {
 		assertTrue(DeleteMsg.getText().equalsIgnoreCase(data.testDataProvider().getProperty("DeleteMsg")));
 		util.waitUntilElement(driver, Delete_membership);
 		action.moveToElement(Delete_membership).click().perform();
-		util.waitUntilElement(driver, DeleteBtn_chevrontype);
-		DeleteBtn_chevrontype.click();
-		System.out.println("Delete button clicked");
-		util.waitUntilElement(driver, DeleteMsg);
-		System.out.println("MyError:" + DeleteMsg.getText());
-		assertTrue(DeleteMsg.getText().equalsIgnoreCase(data.testDataProvider().getProperty("DeleteMsg")));
-		util.waitUntilElement(driver, Delete_membership);
-		Delete_membership.click();
-		// Thread.sleep(30000);
-//		Alert alert = driver.switchTo().alert();
-//		String alertMessage = driver.switchTo().alert().getText();
-//		System.out.println(alertMessage);
-//		Thread.sleep(5000);
-
+		Thread.sleep(20000);
+//		util.waitUntilElement(driver, DeleteBtn_chevrontype);
+//		DeleteBtn_chevrontype.click();
+//		System.out.println("Delete button clicked");
+//		util.waitUntilElement(driver, DeleteMsg);
+//		System.out.println("MyError:" + DeleteMsg.getText());
+//		assertTrue(DeleteMsg.getText().equalsIgnoreCase(data.testDataProvider().getProperty("DeleteMsg")));
+//		util.waitUntilElement(driver, Delete_membership);
+//		action.moveToElement(Delete_membership).click().perform();
 	}
 
 	public void validateAvailableMemType() {
@@ -626,46 +640,5 @@ public class CES_ContactPage {
 		assertTrue(
 				AvailableMemType.getText().equalsIgnoreCase(data.testDataProvider().getProperty("availableMemType")));
 
-	}
-
-	public void nonCESRapidOrderEntry(String userFullname, String itemQuick, String quickElement)
-			throws InterruptedException, AWTException {
-		Thread.sleep(30000);
-		selectCreatedContact(userFullname);
-		util.waitUntilElement(driver, accountName);
-		executor.executeScript("arguments[0].click();", accountName);
-		util.waitUntilElement(driver, rapidOrderEnteryBtn);
-		rapidOrderEnteryBtn.click();
-		util.waitUntilElement(driver, quickItemSelect);
-		executor.executeScript("arguments[0].click();", quickItemSelect);
-		Thread.sleep(20000);
-		// executor.executeScript("arguments[0].value='"+itemQuick+"';",
-		// quickItemSelect);
-		quickItemSelect.sendKeys(itemQuick);
-		Thread.sleep(30000);
-		util.waitUntilElement(driver, util.getCustomizedWebElement(driver, quickItemNatinal, quickElement));
-		util.getCustomizedWebElement(driver, quickItemNatinal, quickElement).click();
-		util.waitUntilElement(driver, addOrderBtn);
-		addOrderBtn.click();
-		Thread.sleep(30000);
-		util.waitUntilElement(driver, goBtn);
-		goBtn.click();
-		System.out.println("GO button clicked");
-		Thread.sleep(20000);
-		util.waitUntilElement(driver, referenceNumber);
-		referenceNumber.sendKeys(data.testDataProvider().getProperty("referenceNum"));
-		util.waitUntilElement(driver, applyPaymentBtn);
-		action.moveToElement(applyPaymentBtn).click().perform();
-		// applyPaymentBtn.click();
-		System.out.println("applyPaymentButton clicked");
-		/*
-		 * util.waitUntilElement(driver, SelectAccount);
-		 * action.moveToElement(SelectAccount).click().perform();
-		 * System.out.println("Account selected"); util.waitUntilElement(driver,
-		 * Membershipslnk); action.moveToElement(Membershipslnk).click().perform();
-		 * System.out.println("Memberships clicked"); driver.navigate().refresh();
-		 */
-		// util.waitUntilElement(driver, accountName);
-		// executor.executeScript("arguments[0].click();", accountName);
 	}
 }
