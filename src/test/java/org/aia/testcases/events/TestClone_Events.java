@@ -153,11 +153,13 @@ public class TestClone_Events extends BaseClass {
 
 		// Email validations session confirm message
 		mailinator.sessionConfirmationEmailforEvents(dataList, eventName);
+		
 		// Email validations registration confirm message
+		//Note:- Sometimes API body returning as null
 		mailinator.registrationConfirmationEmailforEvents(dataList, eventName);
 	}
 
-	@Test(priority = 3, description = "Verify 'Attendees' info after registering for the event", enabled = false)
+	@Test(priority = 3, description = "Verify 'Attendees' info after registering for the event", enabled = true)
 	public void validate_Attendees(ITestContext context) throws InterruptedException, Throwable {
 
 		test_CreateCloneEvent(context);
@@ -229,7 +231,7 @@ public class TestClone_Events extends BaseClass {
 		VideoRecorder.stopRecording();
 	}
 
-	@Test(priority = 4, description = "Verify 'Attendees' info after registering for the event", enabled = false)
+	@Test(priority = 4, description = "Verify 'Attendees' info after registering for the event", enabled = true)
 	public void validate_SalesAndRegistration(ITestContext context) throws InterruptedException, Throwable {
 
 		test_CreateCloneEvent(context);

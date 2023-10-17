@@ -308,7 +308,7 @@ public class MailinatorAPI {
 		JsonPath jsonPathEval = null;
 
 		String mailinator_uri = MAILINATOR_API + inbox;
-		Thread.sleep(2000);
+		Thread.sleep(10000);
 
 		Response response =  RestAssured.given().headers("Content-Type",
 				ContentType.JSON, "Accept",
@@ -325,11 +325,12 @@ public class MailinatorAPI {
 		System.out.println("Message Id is "+messageId);
 
 		String message_uri = MAILINATOR_INBOS_ENDPOINT + inbox + "/messages/" + messageId ;
+		Thread.sleep(10000);
 		 response =  RestAssured.given().
 				 headers("Content-Type", ContentType.JSON, "Accept", ContentType.JSON,"Authorization",bearerToken).when().get(message_uri).then().extract().response();
 
 		jsonPathEval = response.jsonPath();
-		Thread.sleep(2000);
+		Thread.sleep(6000);
 		
 		System.out.println(response.getBody().asPrettyString());
 		String value = jsonPathEval.getString("parts[1].body");
@@ -345,7 +346,7 @@ public class MailinatorAPI {
 		JsonPath jsonPathEval = null;
 
 		String mailinator_uri = MAILINATOR_API + inbox;
-		Thread.sleep(2000);	
+		Thread.sleep(10000);	
 		 Response response =  RestAssured.given().headers("Content-Type",
 				ContentType.JSON, "Accept",
 				ContentType.JSON,"Authorization",
@@ -360,12 +361,14 @@ public class MailinatorAPI {
 
 		String messageId = jsonPathEval.getString("msgs[0].id");
 		System.out.println("Message Id is "+messageId);
-
+       
 		String message_uri = MAILINATOR_INBOS_ENDPOINT + inbox + "/messages/" + messageId ;
+		Thread.sleep(10000);
 		 response =  RestAssured.given().
 				 headers("Content-Type", ContentType.JSON, "Accept", ContentType.JSON,"Authorization",bearerToken).when().get(message_uri).then().extract().response();
 
 		jsonPathEval = response.jsonPath();
+		Thread.sleep(5000);
 		System.out.println(response.getBody().asPrettyString());
 		String value = jsonPathEval.getString("parts[1].body");
 		System.out.println("body is " + value);
