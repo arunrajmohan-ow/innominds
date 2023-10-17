@@ -114,11 +114,11 @@ public class TestCESMembershipStatus_CES extends BaseClass {
 		cesTermDateChangeAPI = PageFactory.initElements(driver, FontevaCESTermDateChangeAPI.class);
 		ces_ContactPage = PageFactory.initElements(driver, CES_ContactPage.class);
 		salesorder = PageFactory.initElements(driver, CES_SalesOrder.class);
-	
+
 	}
 
-	@Test(priority = 1, description = "Validate Login experience user as CES AIA Component.", enabled = true)
-	public void verifyLoginAsExpUserCESAIAComponent() throws Exception {
+	@Test(priority = 1, description = "(FC-331) validate Term creation for $0 CES Membership type", enabled = false)
+	public void validateTermCreation$0CESMembershipType() throws Exception {
 		String prefix = "Dr.";
 		String suffix = "Sr.";
 		signUpPage.clickSignUplink();
@@ -140,10 +140,13 @@ public class TestCESMembershipStatus_CES extends BaseClass {
 		Object amount = paymntSuccesFullPageCes.amountPaid();
 		// Navigate to Fonteva app and make record renew eligible.
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
-		ces_ContactPage.selectRapidOrderEntry(dataList.get(0) + " " + dataList.get(1), "CES AIA National", "National");
+		ces_ContactPage.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
+				testData.testDataProvider().getProperty("cesmembershipType1"),
+				testData.testDataProvider().getProperty("quickElement1"));
 		ces_ContactPage.validateDeleteCESMembership();
-		ces_ContactPage.validateAvailableMemType();
-		termDateChangeApi.changeTermDateAPI(dataList.get(3),(testData.testDataProvider().getProperty("changeTermDate")));
+		// ces_ContactPage.validateAvailableMemType();
+		termDateChangeApi.changeTermDateAPI(dataList.get(3),
+				(testData.testDataProvider().getProperty("changeTermDate")), 0);
 		// Validate Provider Application & CES Provider account details - Fonteva API
 		// validations
 		apiValidation.verifyProviderApplicationDetails("Approved", dataList, "Passport",
@@ -151,12 +154,15 @@ public class TestCESMembershipStatus_CES extends BaseClass {
 				"No");
 
 		// Validate CES Provider account details - Fonteva API validations
-		apiValidation.verifyProviderApplicationAccountDetails("Active", "CES Passport", "2023-12-31", false);
+		apiValidation.verifyProviderApplicationAccountDetails(
+				testData.testDataProvider().getProperty("membershipStatus"),
+				testData.testDataProvider().getProperty("cesmembershipType0"),
+				testData.testDataProvider().getProperty("changeTermDate"), false);
 		// Validate Primary POC
 		apiValidation.verifyPointOfContact("CES Primary", dataList.get(5), dataList.get(0) + " " + dataList.get(1));
 	}
 
-	@Test(priority = 2, description = "Validate Membership Type when term date for CES Membership is updated", enabled = true)
+	@Test(priority = 2, description = "(FC-172) Validate Membership Type when term date for CES Membership is updated", enabled = false)
 	public void verifyTermDateCESMembershipType() throws Exception {
 		String prefix = "Dr.";
 		String suffix = "Sr.";
@@ -179,16 +185,20 @@ public class TestCESMembershipStatus_CES extends BaseClass {
 		Object amount = paymntSuccesFullPageCes.amountPaid();
 		// Navigate to Fonteva app and make record renew eligible.
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
-		ces_ContactPage.selectRapidOrderEntry1(dataList.get(0) + " " + dataList.get(1), "CES AIA National", "National");
-		termDateChangeApi.changeTermDateAPI(dataList.get(3), util.todaysDate().toString());
-		cesTermDateChangeAPI.validateCESMembershipCreated(testData.testDataProvider().getProperty("membershipType"),testData.testDataProvider().getProperty("memTypeEndPoint"));
+		ces_ContactPage.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
+				testData.testDataProvider().getProperty("cesmembershipType1"),
+				testData.testDataProvider().getProperty("quickElement1"));
+		termDateChangeApi.changeTermDateAPI(dataList.get(3), testData.testDataProvider().getProperty("termEndDate"),
+				testData.testDataProvider().get("membershipIndex1"));
+		termDateChangeApi.getCESAccountDetails(testData.testDataProvider().getProperty("membershipStatus"),
+				testData.testDataProvider().getProperty("cesmembershipType1"));
 
 	}
 
-	@Test(priority = 3, description = "Verify Membership status when term date for CES Membership is updated", enabled = true, groups = {
+	@Test(priority = 3, description = "(FC-164) Verify Membership status when term date for CES Membership is updated", enabled = false, groups = {
 			"Smoke" })
 	public void validateCESMembershipStatus() throws Exception {
-        //Here we create the user
+		// Here we create the user
 		String prefix = "Dr.";
 		String suffix = "Sr.";
 		signUpPage.clickSignUplink();
@@ -208,14 +218,268 @@ public class TestCESMembershipStatus_CES extends BaseClass {
 		checkOutPageCes.SubscriptionType(text);
 		Logging.logger.info("Total Amount is : " + paymntSuccesFullPageCes.amountPaid());
 		String reciptData = paymntSuccesFullPageCes.ClickonViewReceipt();
-        //Navigate to Fonteva side
+		// Navigate to Fonteva side
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
-        //fontevaPage.changeTermDates(dataList.get(0) + " " + dataList.get(1));
+		// fontevaPage.changeTermDates(dataList.get(0) + " " + dataList.get(1));
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
-		ces_ContactPage.selectRapidOrderEntry(dataList.get(0) + " " + dataList.get(1), "CES AIA National", "National");
-		cesTermDateChangeAPI.changeTermDateAPI(dataList.get(3), util.todaysDate().toString());
-		cesTermDateChangeAPI.validateCESMembershipCreated(testData.testDataProvider().getProperty("membershipStatus"),testData.testDataProvider().getProperty("memStatusEndPoint"));
+		ces_ContactPage.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
+				testData.testDataProvider().getProperty("cesmembershipType1"),
+				testData.testDataProvider().getProperty("quickElement1"));
+		termDateChangeApi.changeTermDateAPI(dataList.get(3), testData.testDataProvider().getProperty("termEndDate"),
+				testData.testDataProvider().get("membershipIndex1"));
+		termDateChangeApi.getCESAccountDetails(testData.testDataProvider().getProperty("membershipStatus"),
+				testData.testDataProvider().getProperty("cesmembershipType1"));
+	}
 
+	@Test(priority = 4, description = "(FC-165) Verify update the NON-CES membership as the latest Term end date", enabled = false)
+	public void verifyTermDateNonCESMembershipType() throws Exception {
+		String prefix = "Dr.";
+		String suffix = "Sr.";
+		signUpPage.clickSignUplink();
+		ArrayList<String> dataList = signUpPage.signUpData();
+		signUpPage.signUpUser();
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
+		closeButtnPage.clickCloseAfterVerification();
+		loginPageCes.loginToCes(dataList.get(5), dataList.get(6));
+		loginPageCes.checkLoginSuccess();
+		primarypocPage.enterPrimaryPocDetails(prefix, suffix, dataList.get(2));
+		String text = organizationPage.enterOrganizationDetails(dataList, "Other", "No",
+				"United States of America (+1)");
+		subscribePage.SubscriptionType(text, "Yes", null, "Non-profit");
+		secPoc.enterSecondaryPocDetails(dataList, prefix, suffix, "No", "United States of America (+1)");
+		additionalUsers.doneWithCreatingUsers();
+		providerStatement.providerStatementEnterNameDate2("FNProviderStatement");
+		checkOutPageCes.SubscriptionType(text);
+		Logging.logger.info("Total Amount is : " + paymntSuccesFullPageCes.amountPaid());
+		Object amount = paymntSuccesFullPageCes.amountPaid();
+		// Navigate to Fonteva app and make record renew eligible.
+		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
+		ces_ContactPage.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
+				testData.testDataProvider().getProperty("nonCESMembershipType0"),
+				testData.testDataProvider().getProperty("quickElement1"));
+		termDateChangeApi.changeTermDateAPI(dataList.get(3), testData.testDataProvider().getProperty("termEndDate"),
+				testData.testDataProvider().get("membershipIndex1"));
+		termDateChangeApi.getCESAccountDetails(testData.testDataProvider().getProperty("membershipStatus"),
+				testData.testDataProvider().getProperty("cesmembershipType0"));
+	}
+
+	@Test(priority = 5, description = "(FC-166) Verify membership status when Term date for one Membership is updated under multiple CES Membership's", enabled = false, groups = {
+			"Smoke" })
+	public void validateMultipleCESMembershipStatus() throws Exception {
+//Here we create the user
+		String prefix = "Dr.";
+		String suffix = "Sr.";
+		signUpPage.clickSignUplink();
+		ArrayList<String> dataList = signUpPage.signUpData();
+		signUpPage.signUpUser();
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
+		closeButtnPage.clickCloseAfterVerification();
+		loginPageCes.loginToCes(dataList.get(5), dataList.get(6));
+		loginPageCes.checkLoginSuccess();
+		primarypocPage.enterPrimaryPocDetails(prefix, suffix, dataList.get(2));
+		String text = organizationPage.enterOrganizationDetails(dataList, "Other", "No",
+				"United States of America (+1)");
+		subscribePage.SubscriptionType(text, "Yes", null, "Non-profit");
+		secPoc.enterSecondaryPocDetails(dataList, prefix, suffix, "No", "United States of America (+1)");
+		additionalUsers.doneWithCreatingUsers();
+		providerStatement.providerStatementEnterNameDate2("FNProviderStatement");
+		checkOutPageCes.SubscriptionType(text);
+		Logging.logger.info("Total Amount is : " + paymntSuccesFullPageCes.amountPaid());
+		String reciptData = paymntSuccesFullPageCes.ClickonViewReceipt();
+//Navigate to Fonteva side
+		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
+//fontevaPage.changeTermDates(dataList.get(0) + " " + dataList.get(1));
+		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
+		ces_ContactPage.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
+				testData.testDataProvider().getProperty("cesmembershipType1"),
+				testData.testDataProvider().getProperty("quickElement1"));
+		ces_ContactPage.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
+				testData.testDataProvider().getProperty("cesMembershipType2"),
+				testData.testDataProvider().getProperty("quickElement2"));
+		termDateChangeApi.changeTermDateAPI(dataList.get(3), testData.testDataProvider().getProperty("termEndDate"),
+				testData.testDataProvider().get("membershipIndex1"));
+		termDateChangeApi.getCESAccountDetails(testData.testDataProvider().getProperty("membershipStatus"),
+				testData.testDataProvider().getProperty("cesmembershipType1"));
+	}
+
+	@Test(priority = 6, description = "(FC-167) Verify membership status when updated same for multiple and different CES Membership types", enabled = false, groups = {
+			"Smoke" })
+	public void validateMultipleCESMembershipTypeStatus() throws Exception {
+//Here we create the user
+		String prefix = "Dr.";
+		String suffix = "Sr.";
+		signUpPage.clickSignUplink();
+		ArrayList<String> dataList = signUpPage.signUpData();
+		signUpPage.signUpUser();
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
+		closeButtnPage.clickCloseAfterVerification();
+		loginPageCes.loginToCes(dataList.get(5), dataList.get(6));
+		loginPageCes.checkLoginSuccess();
+		primarypocPage.enterPrimaryPocDetails(prefix, suffix, dataList.get(2));
+		String text = organizationPage.enterOrganizationDetails(dataList, "Other", "No",
+				"United States of America (+1)");
+		subscribePage.SubscriptionType(text, "Yes", null, "Non-profit");
+		secPoc.enterSecondaryPocDetails(dataList, prefix, suffix, "No", "United States of America (+1)");
+		additionalUsers.doneWithCreatingUsers();
+		providerStatement.providerStatementEnterNameDate2("FNProviderStatement");
+		checkOutPageCes.SubscriptionType(text);
+		Logging.logger.info("Total Amount is : " + paymntSuccesFullPageCes.amountPaid());
+		String reciptData = paymntSuccesFullPageCes.ClickonViewReceipt();
+//Navigate to Fonteva side
+		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
+//fontevaPage.changeTermDates(dataList.get(0) + " " + dataList.get(1));
+		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
+		ces_ContactPage.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
+				testData.testDataProvider().getProperty("cesmembershipType1"),
+				testData.testDataProvider().getProperty("quickElement1"));
+		ces_ContactPage.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
+				testData.testDataProvider().getProperty("cesMembershipType2"),
+				testData.testDataProvider().getProperty("quickElement2"));
+		termDateChangeApi.changeTermDateAPI(dataList.get(3), testData.testDataProvider().getProperty("termEndDate"),
+				testData.testDataProvider().get("membershipIndex1"));
+		termDateChangeApi.getCESAccountDetails(testData.testDataProvider().getProperty("membershipStatus"),
+				testData.testDataProvider().getProperty("cesmembershipType1"));
+	}
+
+	@Test(priority = 7, description = "(FC-168) Verify membership status after adding a NON-CES Membership", enabled = true)
+	public void verifyNonCESMembershipStatus() throws Exception {
+		String prefix = "Dr.";
+		String suffix = "Sr.";
+		signUpPage.clickSignUplink();
+		ArrayList<String> dataList = signUpPage.signUpData();
+		signUpPage.signUpUser();
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
+		closeButtnPage.clickCloseAfterVerification();
+		loginPageCes.loginToCes(dataList.get(5), dataList.get(6));
+		loginPageCes.checkLoginSuccess();
+		primarypocPage.enterPrimaryPocDetails(prefix, suffix, dataList.get(2));
+		String text = organizationPage.enterOrganizationDetails(dataList, "Other", "No",
+				"United States of America (+1)");
+		subscribePage.SubscriptionType(text, "Yes", null, "Non-profit");
+		secPoc.enterSecondaryPocDetails(dataList, prefix, suffix, "No", "United States of America (+1)");
+		additionalUsers.doneWithCreatingUsers();
+		providerStatement.providerStatementEnterNameDate2("FNProviderStatement");
+		checkOutPageCes.SubscriptionType(text);
+		Logging.logger.info("Total Amount is : " + paymntSuccesFullPageCes.amountPaid());
+		Object amount = paymntSuccesFullPageCes.amountPaid();
+		// Navigate to Fonteva app and make record renew eligible.
+		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
+		ces_ContactPage.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
+				testData.testDataProvider().getProperty("nonCESMembershipType0"),
+				testData.testDataProvider().getProperty("quickElement1"));
+		termDateChangeApi.changeTermDateAPI(dataList.get(3), testData.testDataProvider().getProperty("termEndDate"),
+				testData.testDataProvider().get("membershipIndex1"));
+		termDateChangeApi.getCESAccountDetails(testData.testDataProvider().getProperty("membershipStatus"),
+				testData.testDataProvider().getProperty("cesmembershipType0"));
+	}
+
+	@Test(priority = 8, description = "(FC-173) Verify CES Membership type when NON-CES membership updated as the latest Term end date", enabled = false)
+	public void verifyNonCESMembershipType() throws Exception {
+		String prefix = "Dr.";
+		String suffix = "Sr.";
+		signUpPage.clickSignUplink();
+		ArrayList<String> dataList = signUpPage.signUpData();
+		signUpPage.signUpUser();
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
+		closeButtnPage.clickCloseAfterVerification();
+		loginPageCes.loginToCes(dataList.get(5), dataList.get(6));
+		loginPageCes.checkLoginSuccess();
+		primarypocPage.enterPrimaryPocDetails(prefix, suffix, dataList.get(2));
+		String text = organizationPage.enterOrganizationDetails(dataList, "Other", "No",
+				"United States of America (+1)");
+		subscribePage.SubscriptionType(text, "Yes", null, "Non-profit");
+		secPoc.enterSecondaryPocDetails(dataList, prefix, suffix, "No", "United States of America (+1)");
+		additionalUsers.doneWithCreatingUsers();
+		providerStatement.providerStatementEnterNameDate2("FNProviderStatement");
+		checkOutPageCes.SubscriptionType(text);
+		Object amount = paymntSuccesFullPageCes.amountPaid();
+		// Navigate to Fonteva app and make record renew eligible.
+		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
+		ces_ContactPage.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
+				testData.testDataProvider().getProperty("nonCESMembershipType0"),
+				testData.testDataProvider().getProperty("quickElement1"));
+		termDateChangeApi.changeTermDateAPI(dataList.get(3), testData.testDataProvider().getProperty("termEndDate"),
+				testData.testDataProvider().get("membershipIndex1"));
+		termDateChangeApi.getCESAccountDetails(testData.testDataProvider().getProperty("membershipStatus"),
+				testData.testDataProvider().getProperty("cesmembershipType0"));
+	}
+
+	@Test(priority = 9, description = "(FC-174) Verify membership Type when Term date is updated under multiple CES Membership's", enabled = false, groups = {
+			"Smoke" })
+	public void validateMultipleCESMembershipType() throws Exception {
+//Here we create the user
+		String prefix = "Dr.";
+		String suffix = "Sr.";
+		signUpPage.clickSignUplink();
+		ArrayList<String> dataList = signUpPage.signUpData();
+		signUpPage.signUpUser();
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
+		closeButtnPage.clickCloseAfterVerification();
+		loginPageCes.loginToCes(dataList.get(5), dataList.get(6));
+		loginPageCes.checkLoginSuccess();
+		primarypocPage.enterPrimaryPocDetails(prefix, suffix, dataList.get(2));
+		String text = organizationPage.enterOrganizationDetails(dataList, "Other", "No",
+				"United States of America (+1)");
+		subscribePage.SubscriptionType(text, "Yes", null, "Non-profit");
+		secPoc.enterSecondaryPocDetails(dataList, prefix, suffix, "No", "United States of America (+1)");
+		additionalUsers.doneWithCreatingUsers();
+		providerStatement.providerStatementEnterNameDate2("FNProviderStatement");
+		checkOutPageCes.SubscriptionType(text);
+		Logging.logger.info("Total Amount is : " + paymntSuccesFullPageCes.amountPaid());
+		String reciptData = paymntSuccesFullPageCes.ClickonViewReceipt();
+//Navigate to Fonteva side
+		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
+//fontevaPage.changeTermDates(dataList.get(0) + " " + dataList.get(1));
+		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
+		ces_ContactPage.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
+				testData.testDataProvider().getProperty("cesmembershipType1"),
+				testData.testDataProvider().getProperty("quickElement1"));
+		ces_ContactPage.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
+				testData.testDataProvider().getProperty("cesMembershipType2"),
+				testData.testDataProvider().getProperty("quickElement2"));
+		termDateChangeApi.changeTermDateAPI(dataList.get(3), testData.testDataProvider().getProperty("termEndDate"),
+				testData.testDataProvider().get("membershipIndex1"));
+		termDateChangeApi.getCESAccountDetails(testData.testDataProvider().getProperty("membershipStatus"),
+				testData.testDataProvider().getProperty("cesmembershipType1"));
+	}
+
+	@Test(priority = 10, description = "(FC-175) Verify membership type when term updated for multiple and different CES Membership types of same Term End date", enabled = false, groups = {
+			"Smoke" })
+	public void validateMultipleCESMemTypes() throws Exception {
+//Here we create the user
+		String prefix = "Dr.";
+		String suffix = "Sr.";
+		signUpPage.clickSignUplink();
+		ArrayList<String> dataList = signUpPage.signUpData();
+		signUpPage.signUpUser();
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
+		closeButtnPage.clickCloseAfterVerification();
+		loginPageCes.loginToCes(dataList.get(5), dataList.get(6));
+		loginPageCes.checkLoginSuccess();
+		primarypocPage.enterPrimaryPocDetails(prefix, suffix, dataList.get(2));
+		String text = organizationPage.enterOrganizationDetails(dataList, "Other", "No",
+				"United States of America (+1)");
+		subscribePage.SubscriptionType(text, "Yes", null, "Non-profit");
+		secPoc.enterSecondaryPocDetails(dataList, prefix, suffix, "No", "United States of America (+1)");
+		additionalUsers.doneWithCreatingUsers();
+		providerStatement.providerStatementEnterNameDate2("FNProviderStatement");
+		checkOutPageCes.SubscriptionType(text);
+		Logging.logger.info("Total Amount is : " + paymntSuccesFullPageCes.amountPaid());
+		String reciptData = paymntSuccesFullPageCes.ClickonViewReceipt();
+//Navigate to Fonteva side
+		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
+//fontevaPage.changeTermDates(dataList.get(0) + " " + dataList.get(1));
+		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
+		ces_ContactPage.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
+				testData.testDataProvider().getProperty("cesMembershipType2"),
+				testData.testDataProvider().getProperty("quickElement2"));
+		ces_ContactPage.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
+				testData.testDataProvider().getProperty("cesmembershipType1"),
+				testData.testDataProvider().getProperty("quickElement1"));
+		termDateChangeApi.changeTermDateAPI(dataList.get(3), testData.testDataProvider().getProperty("termEndDate"),
+				testData.testDataProvider().get("membershipIndex1"));
+		termDateChangeApi.getCESAccountDetails(testData.testDataProvider().getProperty("membershipStatus"),
+				testData.testDataProvider().getProperty("cesMembershipType2"));
 	}
 
 }
