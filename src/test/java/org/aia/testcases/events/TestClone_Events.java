@@ -19,10 +19,8 @@ import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.DataProviderFactory;
 import org.aia.utility.Logging;
 import org.aia.utility.VideoRecorder;
-import org.checkerframework.common.reflection.qual.GetMethod;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.ITestContext;
-import org.testng.ITestResult;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
@@ -43,6 +41,7 @@ public class TestClone_Events extends BaseClass {
 	ViewRecipts viewReceipts;
 	EventAPIValidations eventApivalidation;
 	QuickLinksInEvents linksInEvents;
+	boolean recording;
 	
 	@BeforeMethod(alwaysRun = true)
 	public void setUp() throws Exception {
@@ -61,6 +60,7 @@ public class TestClone_Events extends BaseClass {
 		eventRegistration = PageFactory.initElements(driver, EventRegistration.class);
 		viewReceipts = PageFactory.initElements(driver, ViewRecipts.class);
 		eventApivalidation = PageFactory.initElements(driver, EventAPIValidations.class);
+		recording = Boolean.parseBoolean(testData.testDataProvider().getProperty("videoRecording"));
 		Logging.configure();
 	}
 
@@ -68,7 +68,9 @@ public class TestClone_Events extends BaseClass {
 
 	public void test_CreateCloneEvent(ITestContext context) throws Throwable {
 		
-	    VideoRecorder.startRecording("test_CreateCloneEvent");
+		if(recording) {
+			VideoRecorder.startRecording("verifyCreateVenuePopUpInputField");
+		}
 		
 		events.clickEventsModule();
 		util.waitForJavascript(driver, 90000, 5000);
@@ -83,13 +85,18 @@ public class TestClone_Events extends BaseClass {
 		context.setAttribute("eventCategory", testData.testDataProvider().getProperty("eventCategory"));
 		//Create Clone event validation
 		eventApivalidation.verifyEvent(context);
+		if(recording) {
+			VideoRecorder.stopRecording();
+		}
 	}
 
 	@Test(priority = 2, description = "Verify Price modify for an existing Event", enabled = true)
 	public void test_EditPriceInCloneEvent(ITestContext context) throws InterruptedException, Throwable {
 
 		test_CreateCloneEvent(context);
-		VideoRecorder.startRecording("test_EditPriceInCloneEvent");
+		if(recording) {
+			VideoRecorder.startRecording("verifyCreateVenuePopUpInputField");
+		}
 		String eventName = cloneEventpage.newEvent;
 		events.clickEventsModule();
 		events.eventsSearch(eventName);
@@ -157,13 +164,18 @@ public class TestClone_Events extends BaseClass {
 		// Email validations registration confirm message
 		//Note:- Sometimes API body returning as null
 		mailinator.registrationConfirmationEmailforEvents(dataList, eventName);
+		if(recording) {
+			VideoRecorder.stopRecording();
+		}
 	}
 
-	@Test(priority = 3, description = "Verify 'Attendees' info after registering for the event", enabled = true)
+	@Test(priority = 3, description = "Verify 'Attendees' info after registering for the event", enabled = false)
 	public void validate_Attendees(ITestContext context) throws InterruptedException, Throwable {
 
 		test_CreateCloneEvent(context);
-		VideoRecorder.startRecording("validate_Attendees");
+		if(recording) {
+			VideoRecorder.startRecording("verifyCreateVenuePopUpInputField");
+		}
 		String eventName = cloneEventpage.newEvent;
 		events.clickEventsModule();
 		util.waitForJavascript(driver, 90000, 5000);
@@ -227,16 +239,19 @@ public class TestClone_Events extends BaseClass {
 
 		// Here we validate Attendees totals using api call
 		eventApivalidation.verifyAttendees(context);
-		
-		VideoRecorder.stopRecording();
+		if(recording) {
+			VideoRecorder.stopRecording();
+		}
 	}
 
-	@Test(priority = 4, description = "Verify 'Attendees' info after registering for the event", enabled = true)
+	@Test(priority = 4, description = "Verify 'Attendees' info after registering for the event", enabled = false)
 	public void validate_SalesAndRegistration(ITestContext context) throws InterruptedException, Throwable {
 
 		test_CreateCloneEvent(context);
 		
-        VideoRecorder.startRecording("validate_SalesAndRegistration");
+		if(recording) {
+			VideoRecorder.startRecording("verifyCreateVenuePopUpInputField");
+		}
 		String eventName = cloneEventpage.newEvent;
 		events.clickEventsModule();
 		util.waitForJavascript(driver, 90000, 5000);
@@ -301,7 +316,9 @@ public class TestClone_Events extends BaseClass {
 
 		// Here we validate sales & Registration totals using api call
 		eventApivalidation.verifySalesOrderRegistration(context);
-		VideoRecorder.stopRecording();
+		if(recording) {
+			VideoRecorder.stopRecording();
+		}
 	}
 
 }
