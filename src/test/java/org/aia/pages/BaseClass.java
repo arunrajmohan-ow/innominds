@@ -52,7 +52,6 @@ public class BaseClass {
 	public void setup() {
 		System.out.println("Extent report is getting started");
 		System.out.println("Extent report is ready to use ");
-
 	}
 
 	// @Parameters({"browser","url"})
@@ -84,15 +83,13 @@ public class BaseClass {
 
 	@AfterMethod(alwaysRun = true)
 	public void tearDown(ITestResult result) {
-
+	
 		System.out.println("Driver value in after method is " + driver);
 		System.out.println("Running After method Test executed with below status");
 		System.out.println("Status value " + result.getStatus());
 		if (result.getStatus() == ITestResult.SUCCESS) {
-			VideoRecorder.stopRecording();
 			System.out.println("LOG : PASS User is able to login");
 		} else if (result.getStatus() == ITestResult.FAILURE) {
-			VideoRecorder.stopRecording();
 			System.out.println("LOG : FAIL Test failed to executed");
 			TakesScreenshot ts = (TakesScreenshot) driver;
 			File screenshot = ts.getScreenshotAs(OutputType.FILE);

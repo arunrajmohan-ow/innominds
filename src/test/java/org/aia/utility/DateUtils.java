@@ -1,16 +1,23 @@
-/**
- * @author Pallavi Aggrawal
- */
-
-/***************************************************/
 
 package org.aia.utility;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
+
+import org.aia.pages.fonteva.events.EventConfig;
+
+
+
 
 public final class DateUtils {
 	public static final String DEFAULT_DATE_FORMAT = "MM/dd/yyyy";
@@ -164,4 +171,112 @@ public final class DateUtils {
 	public static String getFormatedDate(Date date, String format) {
 		return new SimpleDateFormat(format).format(date);
 	}
+	
+	public static String getCurrentDate(){    
+		   DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");  
+		   LocalDateTime now = LocalDateTime.now();  
+		   String todayDate = dtf.format(now);
+		   return todayDate;
+	}   
+	
+	public static ArrayList<String> findDifferenceBetweenTwoDates(String start_date,String end_date) throws ParseException
+    {
+		ArrayList<String> dateValues = new ArrayList<>();
+		DateTimeFormatter formatter=  DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm");
+		LocalDateTime endDateTime=LocalDateTime.parse(end_date,formatter);
+		LocalDateTime startDateTime=LocalDateTime.parse(start_date, formatter);
+		Duration duration=  Duration.between(startDateTime,endDateTime);
+	  
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm", Locale.ENGLISH);
+		Date d1 = sdf.parse(start_date);
+        Date d2 = sdf.parse(end_date);
+        
+        long difference_In_Time= d2.getTime() - d1.getTime();
+ 
+           // long difference_In_Seconds= (difference_In_Time/ 1000)% 60;
+ 
+            long difference_In_Minutes = (difference_In_Time/ (1000 * 60))% 60;
+ 
+            long difference_In_Hours = (difference_In_Time/ (1000 * 60 * 60))% 24;
+            if(!EventConfig.endTimePeriodType.equals(EventConfig.startTimePeriodType) && EventConfig.select24HoursTime ==false) {
+            	difference_In_Hours =difference_In_Hours+12;
+            }
+            
+            long difference_In_Years= (difference_In_Time/ (1000l * 60 * 60 * 24 * 365));
+            
+            //long difference_In_Days = (difference_In_Time/ (1000 * 60 * 60 * 24))% 365;
+           
+            long difference_In_Days = findDifferenceBetweenDays(start_date,end_date);
+            
+            long difference_In_Months = findDifferenceBetweenMonths(start_date,end_date);
+            
+            dateValues.add(difference_In_Years+" years");
+            
+			dateValues.add(difference_In_Months+" month");
+            
+            dateValues.add(difference_In_Days+" days");
+           
+            dateValues.add(difference_In_Hours+" hours");
+            
+            dateValues.add(difference_In_Minutes+" minute");
+            
+           // dateValues.add(difference_In_Seconds+" Seconds");
+   
+         return dateValues;
+    }
+    
+ 
+    public static long findDifferenceBetweenMonths(String start_date,String end_date){
+    	
+    	String[] startDateArr = start_date.trim().split(" ");
+    	String[] endDateArr = end_date.trim().split(" ");
+    	
+    	int startYear =Integer.parseInt((startDateArr[0].split("/"))[2]);
+    	int startMonth =Integer.parseInt((startDateArr[0].split("/"))[0]);
+    	int startDay =Integer.parseInt((startDateArr[0].split("/"))[1]);
+    	
+    	int endYear =Integer.parseInt((endDateArr[0].split("/"))[2]);
+    	int endMonth =Integer.parseInt((endDateArr[0].split("/"))[0]);
+    	int endDay =Integer.parseInt((endDateArr[0].split("/"))[1]);
+    	
+    	LocalDate start_date1 = LocalDate.of(startYear, startMonth, startDay);
+    	LocalDate end_date1 = LocalDate.of(endYear, endMonth, endDay);
+    	Period diff= Period.between(start_date1,end_date1);
+        long months =diff.getMonths();
+        
+        return months;
+    }
+     
+    public static long findDifferenceBetweenDays(String start_date,String end_date) {
+    	int totalDays=0;
+    	String[] startDateArr = start_date.trim().split(" ");
+    	String[] endDateArr = end_date.split(" ");
+    	
+    	String startMonth =(startDateArr[0].split("/"))[0];
+    	int startDay =Integer.parseInt((startDateArr[0].split("/"))[1]);
+    	
+    	String endMonth =(endDateArr[0].split("/"))[0];
+    	int endDay =Integer.parseInt((endDateArr[0].split("/"))[1]);
+    	
+    	if(startDay>endDay) {
+    			totalDays = EventConfig.monthsdays.get(startMonth)-startDay+endDay;
+		
+    	}
+    	else if(startDay<endDay) {
+    		totalDays = endDay-((EventConfig.monthsdays.get(startMonth)%30+startDay));
+    	}
+    	else {
+    		totalDays =0;
+    	}	
+    	
+    	return totalDays;
+    	
+    }
+    
+    
 }
+
+	
+	
+	

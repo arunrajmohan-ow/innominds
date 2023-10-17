@@ -48,6 +48,8 @@ public class VideoRecorder extends ScreenRecorder {
 	}
 
 	public static void startRecording(String methodName){
+		System.out.println("==========================Recording started=================");
+
 		File file = new File(Constants.OUTPUT_VIDEO_PATH);
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		int width = screenSize.width;
@@ -82,6 +84,7 @@ public class VideoRecorder extends ScreenRecorder {
 	public static void stopRecording() {
 		try {
 			screenRecorder.stop();
+			System.out.println("==========================Recording stoped=================");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

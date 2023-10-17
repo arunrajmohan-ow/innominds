@@ -31,8 +31,21 @@ public class Events {
 		testData = new ConfigDataProvider();
 	}
 
+	@FindBy(xpath = "//span[text()='App Launcher']//parent::div")
+	WebElement appLauncher;
+
+	@FindBy(xpath = "//div//input[@id='input-148']")
+	WebElement appLauncherSearchBox;
+
+	@FindBy(xpath = "//lightning-icon[@icon-name='standard:person_account']//ancestor::lightning-avatar//following-sibling::lightning-formatted-rich-text//b")
+	WebElement appLauncherEventsValue;
+
 	@FindBy(xpath = "//a[contains(@class,'label-action dndItem')]/span[text()='Events']")
 	WebElement eventsLink;
+
+	// created event
+	@FindBy(xpath = "//tbody/tr[1]/th[1]/span[1]/a")
+	WebElement createdEvent;
 
 	@FindBy(xpath = "//div[@data-name='cloneEventTitle']")
 	WebElement cloneEventHeader;
@@ -43,7 +56,7 @@ public class Events {
 	@FindBy(css = "button[class*='_neutral search-button slds-truncate']")
 	WebElement globSearch;
 
-	@FindBy(xpath  = "//label[text()='Search...']/following-sibling::div/input")
+	@FindBy(xpath = "//label[text()='Search...']/following-sibling::div/input")
 	WebElement globSearchInput;
 
 	@FindBy(xpath = "//input[@placeholder='Search this list...']")
@@ -64,11 +77,32 @@ public class Events {
 	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//span[text()='Number of Registered Attendees']/following::lightning-formatted-number[4]")
 	WebElement ticketsremainInsalesRegisration;
 
-	public void clickEventsModule() {
+
+	public void eventsTab() throws Exception {
+		if (!eventsLink.isDisplayed()) {
+			util.waitUntilElement(driver, appLauncher);
+			appLauncher.click();
+			util.waitUntilElement(driver, appLauncherSearchBox);
+			appLauncherSearchBox.sendKeys("Events");
+			Thread.sleep(2000);
+			util.scrollingElementUsingJS(driver, appLauncherEventsValue);
+			appLauncherEventsValue.click();
+		}
 		util.waitUntilElement(driver, eventsLink);
 		util.clickUsingJS(driver, eventsLink);
 		log.info("Events clickd successfully");
 		Logging.logger.info("Events clickd successfully");
+	}
+
+	/**
+	 * @return Event name This method click already exist event in the top of the
+	 *         row.
+	 */
+	public String clickCreatedEvent() throws Throwable {
+		util.waitUntilElement(driver, createdEvent);
+		String eventName = createdEvent.getText();
+		createdEvent.click();
+		return eventName;
 	}
 
 	public void newButtonInEvents() {

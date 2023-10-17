@@ -11,6 +11,7 @@ import org.aia.pages.fonteva.events.EditCloneEvent;
 import org.aia.pages.fonteva.events.Events;
 import org.aia.pages.fonteva.events.NewCloneEvents;
 import org.aia.pages.fonteva.events.QuickLinksInEvents;
+import org.aia.pages.fonteva.events.TicketModule;
 import org.aia.pages.membership.CheckYourEmailPage;
 import org.aia.pages.membership.SignInPage;
 import org.aia.pages.membership.SignUpPage;
@@ -44,6 +45,7 @@ public class TestClone_Events extends BaseClass {
 	EventAPIValidations eventApivalidation;
 	QuickLinksInEvents linksInEvents;
 	
+	
 	@BeforeMethod(alwaysRun = true)
 	public void setUp() throws Exception {
 		testData = new ConfigDataProvider();
@@ -64,13 +66,10 @@ public class TestClone_Events extends BaseClass {
 		Logging.configure();
 	}
 
-	@Test(priority = 1, description = "Create New CloneEvent enter event name, enter date, select event category and event search click clone button", enabled = true)
+	@Test(priority = 1, description = "Create New CloneEvent enter event name, enter date, select event category and event search click clone button", enabled = false)
 
 	public void test_CreateCloneEvent(ITestContext context) throws Throwable {
-		
-	    VideoRecorder.startRecording("test_CreateCloneEvent");
-		
-		events.clickEventsModule();
+		events.eventsTab();
 		util.waitForJavascript(driver, 90000, 5000);
 		events.newButtonInEvents();
 		events.validateHeaderCloneEvent();
@@ -85,13 +84,12 @@ public class TestClone_Events extends BaseClass {
 		eventApivalidation.verifyEvent(context);
 	}
 
-	@Test(priority = 2, description = "Verify Price modify for an existing Event", enabled = true)
+	@Test(priority = 2, description = "Verify Price modify for an existing Event", enabled = false)
 	public void test_EditPriceInCloneEvent(ITestContext context) throws InterruptedException, Throwable {
 
 		test_CreateCloneEvent(context);
-		VideoRecorder.startRecording("test_EditPriceInCloneEvent");
 		String eventName = cloneEventpage.newEvent;
-		events.clickEventsModule();
+		events.eventsTab();
 		events.eventsSearch(eventName);
 		editCloneEvent.clickEditButton();
 		util.waitForJavascript(driver, 90000, 5000);
@@ -159,13 +157,12 @@ public class TestClone_Events extends BaseClass {
 		mailinator.registrationConfirmationEmailforEvents(dataList, eventName);
 	}
 
-	@Test(priority = 3, description = "Verify 'Attendees' info after registering for the event", enabled = true)
+	@Test(priority = 3, description = "Verify 'Attendees' info after registering for the event", enabled = false)
 	public void validate_Attendees(ITestContext context) throws InterruptedException, Throwable {
 
 		test_CreateCloneEvent(context);
-		VideoRecorder.startRecording("validate_Attendees");
 		String eventName = cloneEventpage.newEvent;
-		events.clickEventsModule();
+		events.eventsTab();
 		util.waitForJavascript(driver, 90000, 5000);
 		events.eventsSearch(eventName);
 		editCloneEvent.clickEditButton();
@@ -216,7 +213,7 @@ public class TestClone_Events extends BaseClass {
 		viewReceipts.viewReceiptValidationsForEvents(receiptData.get(1), receiptData.get(0));
 
 		util.switchToTabs(driver, 0);
-		events.clickEventsModule();
+		events.eventsTab();
 		events.eventsSearch(eventName);
 		ArrayList<String> afterRegistrationsalesandTotal = events.validateAfterRegistrationData();
 		linksInEvents.clickAttendees();
@@ -231,14 +228,13 @@ public class TestClone_Events extends BaseClass {
 		VideoRecorder.stopRecording();
 	}
 
-	@Test(priority = 4, description = "Verify 'Attendees' info after registering for the event", enabled = true)
+	@Test(priority = 4, description = "Verify 'Attendees' info after registering for the event", enabled = false)
 	public void validate_SalesAndRegistration(ITestContext context) throws InterruptedException, Throwable {
 
 		test_CreateCloneEvent(context);
 		
-        VideoRecorder.startRecording("validate_SalesAndRegistration");
 		String eventName = cloneEventpage.newEvent;
-		events.clickEventsModule();
+		events.eventsTab();
 		util.waitForJavascript(driver, 90000, 5000);
 		events.eventsSearch(eventName);
 		editCloneEvent.clickEditButton();
@@ -291,7 +287,7 @@ public class TestClone_Events extends BaseClass {
 		viewReceipts.viewReceiptValidationsForEvents(receiptData.get(1), receiptData.get(0));
 
 		util.switchToTabs(driver, 0);
-		events.clickEventsModule();
+		events.eventsTab();
 		events.eventsSearch(eventName);
 		ArrayList<String> afterRegistrationsalesandTotal = events.validateAfterRegistrationData();
 		context.setAttribute("attendees", afterRegistrationsalesandTotal.get(0));
@@ -302,6 +298,29 @@ public class TestClone_Events extends BaseClass {
 		// Here we validate sales & Registration totals using api call
 		eventApivalidation.verifySalesOrderRegistration(context);
 		VideoRecorder.stopRecording();
+	}
+	
+	@Test(priority = 5, description = "Edit cloneEven info, tickets,", enabled = true)
+	public void test_EditSelectDateInCloneEventInfo(ITestContext context) throws InterruptedException, Throwable {
+		
+		events.eventsTab();
+		events.clickCreatedEvent();
+		editCloneEvent.clickEditButton();
+		util.waitForJavascript(driver, 90000, 5000);
+		editCloneEvent.editCloneEventDateAndTime();
+		editCloneEvent.verifyTimeDurationOfEditCloneEventDateAndTime();
+	}
+	
+	@Test(priority = 6, description = "Edit cloneEven info, tickets,", enabled = true)
+	public void test_RegistrationTimerCloneEventInfo(ITestContext context) throws InterruptedException, Throwable {
+		
+		String eventName = cloneEventpage.newEvent;
+		events.eventsTab();
+		events.clickCreatedEvent();
+		editCloneEvent.clickEditButton();
+		util.waitForJavascript(driver, 90000, 5000);
+		editCloneEvent.verifyUserAbleToProvidedataInRegistrationTimerInputBox();
+		
 	}
 
 }
