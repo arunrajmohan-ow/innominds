@@ -70,7 +70,7 @@ public class EventAPIValidation {
 
 	}
 	
-	public void verifyEvent(ITestContext context) throws InterruptedException {
+	public Response verifyEvent(ITestContext context) throws InterruptedException {
 		String Id=(String) context.getAttribute("eventId");
 		System.out.println("EVENTID: "+Id);
 		Response response = given().contentType(ContentType.JSON)
@@ -83,7 +83,7 @@ public class EventAPIValidation {
 				.statusCode(200)
 				.extract()
 				.response();
-
+		return response;
 	}
 	
 }
