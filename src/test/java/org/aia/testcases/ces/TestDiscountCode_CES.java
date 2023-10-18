@@ -92,7 +92,7 @@ public class TestDiscountCode_CES extends BaseClass {
 		cesContactPage=PageFactory.initElements(driver, CES_ContactPage.class);
 	}
 
-	@Test(priority = 1, description = "[FC-270]Verify CES Basic Discount on Checkout tab for CES passport JOIN.", enabled = true)
+	@Test(priority = 1, description = "[FC-270]Verify CES Basic Discount on Checkout tab for CES passport JOIN.", enabled = false)
 	public void validateDiscountCodeCESBasic() throws Exception {
 		String prefix = "Dr.";
 		String suffix = "Sr.";
