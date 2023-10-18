@@ -142,7 +142,7 @@ public class TestDiscountCode_CES extends BaseClass {
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
 		cesContactPage.selectCreatedContact(dataList.get(0)+" "+dataList.get(1));
 		cesContactPage.selectAccountName();
-		cesContactPage.selectDiscountCode("15% CES Basic","Allied National");
+		cesContactPage.selectDiscountCode("Basic","Allied National");
 		
 		
 	}

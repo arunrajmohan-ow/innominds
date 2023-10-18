@@ -277,7 +277,6 @@ public class CES_ContactPage {
 	@FindBy(xpath = "//div[text()='Delete']")
 	WebElement DeleteBtn_chevrontype;
 
-<<<<<<< HEAD
 	@FindBy(xpath = "//div[@data-label='Discount Code']//input")
 	WebElement discountCodeInputInROE;
 
@@ -286,7 +285,7 @@ public class CES_ContactPage {
 
 	@FindBy(css = "body > div:nth-child(21) > div:nth-child(1) > section:nth-child(2) > div:nth-child(4) > div:nth-child(5) > div:nth-child(2) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(5) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(3) > div:nth-child(2) > div:nth-child(1) > span:nth-child(1) > div:nth-child(2) > button:nth-child(1)")
 	WebElement discontApplyBtn;
-=======
+
 	@FindBy(xpath = "//input[@name='referenceNumber']")
 	WebElement referenceNumber;
 
@@ -298,7 +297,6 @@ public class CES_ContactPage {
 
 	@FindBy(xpath = "//div/strong[text()='Items']/span")
 	WebElement itemsFees;
->>>>>>> 18936f8946905a72b031428ab420ac697ae420ae
 
 	String fName;
 	String lName;
