@@ -64,21 +64,21 @@ public class TestClone_Events extends BaseClass {
 		Logging.configure();
 	}
 
-	@Test(priority = 1, description = "Create New CloneEvent enter event name, enter date, select event category and event search click clone button", enabled = true)
+	@Test(priority = 1, description = "Create New CloneEvent enter event name, enter date, select event category and event search click clone button")
 
 	public void test_CreateCloneEvent(ITestContext context) throws Throwable {
-		
 		if(recording) {
 			VideoRecorder.startRecording("verifyCreateVenuePopUpInputField");
 		}
-		
-		events.clickEventsModule();
+		events.eventsTab();
 		util.waitForJavascript(driver, 90000, 5000);
 		events.newButtonInEvents();
 		events.validateHeaderCloneEvent();
 		cloneEventpage.newCloneOnExistingEvent(testData.testDataProvider().getProperty("eventCategory"));
 		util.waitForJavascript(driver, 90000, 5000);
 		cloneEventpage.verifyCloneEventSegmentCheckBoxs();
+		cloneEventpage.validateEventHeader();
+		cloneEventpage.getEventId();
 		context.setAttribute("eventId", cloneEventpage.eventId);
 		context.setAttribute("eventName", cloneEventpage.eName);
 		context.setAttribute("startDate", cloneEventpage.startDate);
@@ -90,20 +90,23 @@ public class TestClone_Events extends BaseClass {
 		}
 	}
 
-	@Test(priority = 2, description = "Verify Price modify for an existing Event", enabled = true)
+	@Test(priority = 2, description = "Verify Price modify for an existing Event", enabled = true, dependsOnMethods = {"test_CreateCloneEvent"})
 	public void test_EditPriceInCloneEvent(ITestContext context) throws InterruptedException, Throwable {
-
-		test_CreateCloneEvent(context);
 		if(recording) {
 			VideoRecorder.startRecording("verifyCreateVenuePopUpInputField");
 		}
-		String eventName = cloneEventpage.newEvent;
-		events.clickEventsModule();
-		events.eventsSearch(eventName);
+		util.waitForJavascript(driver, 90000, 5000);
+		events.eventsTab();
+		String eventName  = events.clickCreatedEvent();
 		editCloneEvent.clickEditButton();
 		util.waitForJavascript(driver, 90000, 5000);
 		editCloneEvent.editEventInfo(eventName);
+		editCloneEvent.eventTicketsTab();
+		editCloneEvent.validateEventTicketSalesStartDate();
 		editCloneEvent.editEventTicket(true);
+		editCloneEvent.validateEditTicketTypeHeader();
+		editCloneEvent.editPriceInEditTicketType();
+		editCloneEvent.saveAndContinueButtonInTicketType();
 		editCloneEvent.editEventInvitation();
 		editCloneEvent.editEventVenues();
 		editCloneEvent.editEventAccessPermissions();
@@ -127,9 +130,10 @@ public class TestClone_Events extends BaseClass {
 		util.navigateToURl(driver, DataProviderFactory.getConfig().getValue("fonteva_sign_in"));
 		signInpage.login(dataList.get(5), dataList.get(6));
 		util.switchToTabs(driver, 0);
-		events.globalSearch(signUpPage.emailaddressdata);
+		events.globalSearch(dataList.get(5));
 		editCloneEvent.getAIAData();
 		events.eventsSearch(eventName);
+		cloneEventpage.getEventId();
 		editCloneEvent.clickEventUrl();
 		// sometimes Register link is not clicked in AIA application
 		eventRegistration.RegisterLink(3);
@@ -169,30 +173,15 @@ public class TestClone_Events extends BaseClass {
 		}
 	}
 
-	@Test(priority = 3, description = "Verify 'Attendees' info after registering for the event", enabled = false)
+	@Test(priority = 3, description = "Verify 'Attendees' info after registering for the event", enabled = true, dependsOnMethods = {"test_CreateCloneEvent"})
 	public void validate_Attendees(ITestContext context) throws InterruptedException, Throwable {
-
-		test_CreateCloneEvent(context);
 		if(recording) {
 			VideoRecorder.startRecording("verifyCreateVenuePopUpInputField");
 		}
-		String eventName = cloneEventpage.newEvent;
-		events.clickEventsModule();
+		events.eventsTab();
 		util.waitForJavascript(driver, 90000, 5000);
-		events.eventsSearch(eventName);
-		editCloneEvent.clickEditButton();
+		String eventName  = events.clickCreatedEvent();
 		util.waitForJavascript(driver, 90000, 5000);
-		editCloneEvent.editEventInfo(eventName);
-		editCloneEvent.editEventTicket(true);
-		editCloneEvent.editEventInvitation();
-		editCloneEvent.editEventVenues();
-		editCloneEvent.editEventAccessPermissions();
-		editCloneEvent.editEventSpeakers();
-		editCloneEvent.editEventAgenda();
-		editCloneEvent.editEventSponsorPackages();
-		editCloneEvent.editEventStatuses();
-		editCloneEvent.editEventPages();
-		editCloneEvent.saveExitButton();
 		editCloneEvent.clickEventUrl();
 		// sometimes Register link is not clicked in AIA application
 		eventRegistration.RegisterLink(1);
@@ -205,7 +194,7 @@ public class TestClone_Events extends BaseClass {
 		util.navigateToURl(driver, DataProviderFactory.getConfig().getValue("fonteva_sign_in"));
 		signInpage.login(dataList.get(5), dataList.get(6));
 		util.switchToTabs(driver, 0);
-		events.globalSearch(signUpPage.emailaddressdata);
+		events.globalSearch(dataList.get(5));
 		editCloneEvent.getAIAData();
 		events.eventsSearch(eventName);
 		editCloneEvent.clickEventUrl();
@@ -228,14 +217,17 @@ public class TestClone_Events extends BaseClass {
 		viewReceipts.viewReceiptValidationsForEvents(receiptData.get(1), receiptData.get(0));
 
 		util.switchToTabs(driver, 0);
-		events.clickEventsModule();
+		events.eventsTab();
 		events.eventsSearch(eventName);
+		String eventID = cloneEventpage.getEventId();
 		ArrayList<String> afterRegistrationsalesandTotal = events.validateAfterRegistrationData();
 		linksInEvents.clickAttendees();
 
 		// Registered attendees count
 		linksInEvents.getAttendeesSize();
+		context.setAttribute("eventName", eventName);
 		context.setAttribute("attendees", afterRegistrationsalesandTotal.get(0));
+		context.setAttribute("eventId", eventID);
 
 		// Here we validate Attendees totals using api call
 		eventApivalidation.verifyAttendees(context);
@@ -244,32 +236,14 @@ public class TestClone_Events extends BaseClass {
 		}
 	}
 
-	@Test(priority = 4, description = "Verify 'Attendees' info after registering for the event", enabled = false)
+	@Test(priority = 4, description = "Verify 'Attendees' info after registering for the event", enabled = true, dependsOnMethods = {"test_CreateCloneEvent"})
 	public void validate_SalesAndRegistration(ITestContext context) throws InterruptedException, Throwable {
-
-		test_CreateCloneEvent(context);
-		
 		if(recording) {
 			VideoRecorder.startRecording("verifyCreateVenuePopUpInputField");
 		}
-		String eventName = cloneEventpage.newEvent;
-		events.clickEventsModule();
+		events.eventsTab();
 		util.waitForJavascript(driver, 90000, 5000);
-		events.eventsSearch(eventName);
-		editCloneEvent.clickEditButton();
-		util.waitForJavascript(driver, 90000, 5000);
-		editCloneEvent.editEventInfo(eventName);
-		editCloneEvent.editEventTicket(true);
-		editCloneEvent.editEventInvitation();
-		editCloneEvent.editEventVenues();
-		editCloneEvent.editEventAccessPermissions();
-		editCloneEvent.editEventSpeakers();
-		editCloneEvent.editEventAgenda();
-		editCloneEvent.editEventSponsorPackages();
-		editCloneEvent.editEventStatuses();
-		editCloneEvent.editEventPages();
-		editCloneEvent.saveExitButton();
-		util.waitForJavascript(driver, 90000, 5000);
+		String eventName  = events.clickCreatedEvent();
 		events.validateBeforeRegistrationData();
 		editCloneEvent.clickEventUrl();
 		// sometimes Register link is not clicked in AIA application
@@ -283,7 +257,7 @@ public class TestClone_Events extends BaseClass {
 		util.navigateToURl(driver, DataProviderFactory.getConfig().getValue("fonteva_sign_in"));
 		signInpage.login(dataList.get(5), dataList.get(6));
 		util.switchToTabs(driver, 0);
-		events.globalSearch(signUpPage.emailaddressdata);
+		events.globalSearch(dataList.get(5));
 		editCloneEvent.getAIAData();
 		events.eventsSearch(eventName);
 		editCloneEvent.clickEventUrl();
@@ -306,9 +280,12 @@ public class TestClone_Events extends BaseClass {
 		viewReceipts.viewReceiptValidationsForEvents(receiptData.get(1), receiptData.get(0));
 
 		util.switchToTabs(driver, 0);
-		events.clickEventsModule();
+		events.eventsTab();
 		events.eventsSearch(eventName);
+		String eventID = cloneEventpage.getEventId();
 		ArrayList<String> afterRegistrationsalesandTotal = events.validateAfterRegistrationData();
+		context.setAttribute("eventId", eventID);
+		context.setAttribute("eventName", eventName);
 		context.setAttribute("attendees", afterRegistrationsalesandTotal.get(0));
 		context.setAttribute("soldtickets", afterRegistrationsalesandTotal.get(1));
 		context.setAttribute("remainEvents", afterRegistrationsalesandTotal.get(2));

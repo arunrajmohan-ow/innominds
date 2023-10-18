@@ -165,6 +165,9 @@ public class NewCloneEvents {
 		log.info("VERIFIED: eventStatusPageCheckbox is selected");
 		eventFinishCloneButon.click();
 		log.info("Clone button is clicked sucessfully");
+	}
+	
+	public void validateEventHeader() {
 		util.waitForJavascript(driver, 90000, 5000);
 		util.waitUntilElement(driver, eventNameHeader);
 		newEvent = eventNameHeader.getText();
@@ -172,8 +175,10 @@ public class NewCloneEvents {
 		System.out.println(eventNameHeader);
 		Assert.assertTrue(eventNameHeader.isDisplayed());
 		log.info("eventName header is displayed");
-
-		Thread.sleep(5000);
+	}
+	
+	public String getEventId() {
+		Utility.waitForWebElement(driver, eventUrl, 30);
 		String url = eventUrl.getAttribute("href");
 		try {
 			// Parse the URL to extract the value of the "id" parameter
@@ -186,11 +191,14 @@ public class NewCloneEvents {
 
 			// Print the ID
 			System.out.println("EVENTID: " + eventId);
+			return eventId;
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
-	}
+		return eventId;
 
+	}
+	
 	/**
 	 * @param uri
 	 * @return
