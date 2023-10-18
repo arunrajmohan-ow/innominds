@@ -45,10 +45,9 @@ public class FontevaCESTermDateChangeAPI {
 	private static String providerId = null;
 	private static String membershipId = null;
 
-	public void changeTermDateAPI(String memberAccount, String termDate, Object membershipIndex)
+	public void changeTermDateAPI(String memberAccount, String termDate)
 			throws InterruptedException {
 		// From this api we get the provider id
-		membershipIndex = null;
 		Response response = given().contentType(ContentType.JSON).accept(ContentType.JSON)
 				.header("Authorization", "Bearer " + bearerToken).header("Content-Type", ContentType.JSON)
 				.header("Accept", ContentType.JSON).param("q", memberAccount)

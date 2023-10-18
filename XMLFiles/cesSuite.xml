@@ -10,6 +10,7 @@
       <class name="org.aia.testcases.membership.TestDIPJoin_Membership"/>
       <class name="org.aia.testcases.membership.TestDIPRenew_Membership"/>
       <class name="org.aia.testcases.membership.TestJoin_Membership"/> -->   
+      <class name="org.aia.testcases.ces.TestCESMembershipStatus_CES"/>  
       <class name="org.aia.testcases.ces.TestJoinPassport_CES"/>  
       <class name="org.aia.testcases.ces.TestJoinArchitectureFirm_CES"/> 
       <class name="org.aia.testcases.ces.TestJoinProfessional_CES"/> 

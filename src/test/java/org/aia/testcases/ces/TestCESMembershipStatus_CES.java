@@ -146,7 +146,7 @@ public class TestCESMembershipStatus_CES extends BaseClass {
 		ces_ContactPage.validateDeleteCESMembership();
 		// ces_ContactPage.validateAvailableMemType();
 		termDateChangeApi.changeTermDateAPI(dataList.get(3),
-				(testData.testDataProvider().getProperty("changeTermDate")), 0);
+				(testData.testDataProvider().getProperty("changeTermDate")));
 		// Validate Provider Application & CES Provider account details - Fonteva API
 		// validations
 		apiValidation.verifyProviderApplicationDetails("Approved", dataList, "Passport",
@@ -162,7 +162,7 @@ public class TestCESMembershipStatus_CES extends BaseClass {
 		apiValidation.verifyPointOfContact("CES Primary", dataList.get(5), dataList.get(0) + " " + dataList.get(1));
 	}
 
-	@Test(priority = 2, description = "(FC-172) Validate Membership Type when term date for CES Membership is updated", enabled = false)
+	@Test(priority = 2, description = "(FC-172) Validate Membership Type when term date for CES Membership is updated", enabled = true)
 	public void verifyTermDateCESMembershipType() throws Exception {
 		String prefix = "Dr.";
 		String suffix = "Sr.";
@@ -188,14 +188,13 @@ public class TestCESMembershipStatus_CES extends BaseClass {
 		ces_ContactPage.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
 				testData.testDataProvider().getProperty("cesmembershipType1"),
 				testData.testDataProvider().getProperty("quickElement1"));
-		termDateChangeApi.changeTermDateAPI(dataList.get(3), testData.testDataProvider().getProperty("termEndDate"),
-				testData.testDataProvider().get("membershipIndex1"));
+		termDateChangeApi.changeTermDateAPI(dataList.get(3), testData.testDataProvider().getProperty("termEndDate"));
 		termDateChangeApi.getCESAccountDetails(testData.testDataProvider().getProperty("membershipStatus"),
 				testData.testDataProvider().getProperty("cesmembershipType1"));
 
 	}
 
-	@Test(priority = 3, description = "(FC-164) Verify Membership status when term date for CES Membership is updated", enabled = false, groups = {
+	@Test(priority = 3, description = "(FC-164) Verify Membership status when term date for CES Membership is updated", enabled = true, groups = {
 			"Smoke" })
 	public void validateCESMembershipStatus() throws Exception {
 		// Here we create the user
@@ -225,13 +224,12 @@ public class TestCESMembershipStatus_CES extends BaseClass {
 		ces_ContactPage.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
 				testData.testDataProvider().getProperty("cesmembershipType1"),
 				testData.testDataProvider().getProperty("quickElement1"));
-		termDateChangeApi.changeTermDateAPI(dataList.get(3), testData.testDataProvider().getProperty("termEndDate"),
-				testData.testDataProvider().get("membershipIndex1"));
+		termDateChangeApi.changeTermDateAPI(dataList.get(3), testData.testDataProvider().getProperty("termEndDate"));
 		termDateChangeApi.getCESAccountDetails(testData.testDataProvider().getProperty("membershipStatus"),
 				testData.testDataProvider().getProperty("cesmembershipType1"));
 	}
 
-	@Test(priority = 4, description = "(FC-165) Verify update the NON-CES membership as the latest Term end date", enabled = false)
+	@Test(priority = 4, description = "(FC-165) Verify update the NON-CES membership as the latest Term end date", enabled = true)
 	public void verifyTermDateNonCESMembershipType() throws Exception {
 		String prefix = "Dr.";
 		String suffix = "Sr.";
@@ -257,13 +255,12 @@ public class TestCESMembershipStatus_CES extends BaseClass {
 		ces_ContactPage.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
 				testData.testDataProvider().getProperty("nonCESMembershipType0"),
 				testData.testDataProvider().getProperty("quickElement1"));
-		termDateChangeApi.changeTermDateAPI(dataList.get(3), testData.testDataProvider().getProperty("termEndDate"),
-				testData.testDataProvider().get("membershipIndex1"));
+		termDateChangeApi.changeTermDateAPI(dataList.get(3), testData.testDataProvider().getProperty("termEndDate"));
 		termDateChangeApi.getCESAccountDetails(testData.testDataProvider().getProperty("membershipStatus"),
 				testData.testDataProvider().getProperty("cesmembershipType0"));
 	}
 
-	@Test(priority = 5, description = "(FC-166) Verify membership status when Term date for one Membership is updated under multiple CES Membership's", enabled = false, groups = {
+	@Test(priority = 5, description = "(FC-166) Verify membership status when Term date for one Membership is updated under multiple CES Membership's", enabled = true, groups = {
 			"Smoke" })
 	public void validateMultipleCESMembershipStatus() throws Exception {
 //Here we create the user
@@ -296,13 +293,12 @@ public class TestCESMembershipStatus_CES extends BaseClass {
 		ces_ContactPage.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
 				testData.testDataProvider().getProperty("cesMembershipType2"),
 				testData.testDataProvider().getProperty("quickElement2"));
-		termDateChangeApi.changeTermDateAPI(dataList.get(3), testData.testDataProvider().getProperty("termEndDate"),
-				testData.testDataProvider().get("membershipIndex1"));
+		termDateChangeApi.changeTermDateAPI(dataList.get(3), testData.testDataProvider().getProperty("termEndDate"));
 		termDateChangeApi.getCESAccountDetails(testData.testDataProvider().getProperty("membershipStatus"),
 				testData.testDataProvider().getProperty("cesmembershipType1"));
 	}
 
-	@Test(priority = 6, description = "(FC-167) Verify membership status when updated same for multiple and different CES Membership types", enabled = false, groups = {
+	@Test(priority = 6, description = "(FC-167) Verify membership status when updated same for multiple and different CES Membership types", enabled = true, groups = {
 			"Smoke" })
 	public void validateMultipleCESMembershipTypeStatus() throws Exception {
 //Here we create the user
@@ -335,8 +331,7 @@ public class TestCESMembershipStatus_CES extends BaseClass {
 		ces_ContactPage.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
 				testData.testDataProvider().getProperty("cesMembershipType2"),
 				testData.testDataProvider().getProperty("quickElement2"));
-		termDateChangeApi.changeTermDateAPI(dataList.get(3), testData.testDataProvider().getProperty("termEndDate"),
-				testData.testDataProvider().get("membershipIndex1"));
+		termDateChangeApi.changeTermDateAPI(dataList.get(3), testData.testDataProvider().getProperty("termEndDate"));
 		termDateChangeApi.getCESAccountDetails(testData.testDataProvider().getProperty("membershipStatus"),
 				testData.testDataProvider().getProperty("cesmembershipType1"));
 	}
@@ -367,13 +362,12 @@ public class TestCESMembershipStatus_CES extends BaseClass {
 		ces_ContactPage.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
 				testData.testDataProvider().getProperty("nonCESMembershipType0"),
 				testData.testDataProvider().getProperty("quickElement1"));
-		termDateChangeApi.changeTermDateAPI(dataList.get(3), testData.testDataProvider().getProperty("termEndDate"),
-				testData.testDataProvider().get("membershipIndex1"));
+		termDateChangeApi.changeTermDateAPI(dataList.get(3), testData.testDataProvider().getProperty("termEndDate"));
 		termDateChangeApi.getCESAccountDetails(testData.testDataProvider().getProperty("membershipStatus"),
 				testData.testDataProvider().getProperty("cesmembershipType0"));
 	}
 
-	@Test(priority = 8, description = "(FC-173) Verify CES Membership type when NON-CES membership updated as the latest Term end date", enabled = false)
+	@Test(priority = 8, description = "(FC-173) Verify CES Membership type when NON-CES membership updated as the latest Term end date", enabled = true)
 	public void verifyNonCESMembershipType() throws Exception {
 		String prefix = "Dr.";
 		String suffix = "Sr.";
@@ -398,13 +392,12 @@ public class TestCESMembershipStatus_CES extends BaseClass {
 		ces_ContactPage.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
 				testData.testDataProvider().getProperty("nonCESMembershipType0"),
 				testData.testDataProvider().getProperty("quickElement1"));
-		termDateChangeApi.changeTermDateAPI(dataList.get(3), testData.testDataProvider().getProperty("termEndDate"),
-				testData.testDataProvider().get("membershipIndex1"));
+		termDateChangeApi.changeTermDateAPI(dataList.get(3), testData.testDataProvider().getProperty("termEndDate"));
 		termDateChangeApi.getCESAccountDetails(testData.testDataProvider().getProperty("membershipStatus"),
 				testData.testDataProvider().getProperty("cesmembershipType0"));
 	}
 
-	@Test(priority = 9, description = "(FC-174) Verify membership Type when Term date is updated under multiple CES Membership's", enabled = false, groups = {
+	@Test(priority = 9, description = "(FC-174) Verify membership Type when Term date is updated under multiple CES Membership's", enabled = true, groups = {
 			"Smoke" })
 	public void validateMultipleCESMembershipType() throws Exception {
 //Here we create the user
@@ -437,13 +430,12 @@ public class TestCESMembershipStatus_CES extends BaseClass {
 		ces_ContactPage.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
 				testData.testDataProvider().getProperty("cesMembershipType2"),
 				testData.testDataProvider().getProperty("quickElement2"));
-		termDateChangeApi.changeTermDateAPI(dataList.get(3), testData.testDataProvider().getProperty("termEndDate"),
-				testData.testDataProvider().get("membershipIndex1"));
+		termDateChangeApi.changeTermDateAPI(dataList.get(3), testData.testDataProvider().getProperty("termEndDate"));
 		termDateChangeApi.getCESAccountDetails(testData.testDataProvider().getProperty("membershipStatus"),
 				testData.testDataProvider().getProperty("cesmembershipType1"));
 	}
 
-	@Test(priority = 10, description = "(FC-175) Verify membership type when term updated for multiple and different CES Membership types of same Term End date", enabled = false, groups = {
+	@Test(priority = 10, description = "(FC-175) Verify membership type when term updated for multiple and different CES Membership types of same Term End date", enabled = true, groups = {
 			"Smoke" })
 	public void validateMultipleCESMemTypes() throws Exception {
 //Here we create the user
@@ -476,8 +468,7 @@ public class TestCESMembershipStatus_CES extends BaseClass {
 		ces_ContactPage.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
 				testData.testDataProvider().getProperty("cesmembershipType1"),
 				testData.testDataProvider().getProperty("quickElement1"));
-		termDateChangeApi.changeTermDateAPI(dataList.get(3), testData.testDataProvider().getProperty("termEndDate"),
-				testData.testDataProvider().get("membershipIndex1"));
+		termDateChangeApi.changeTermDateAPI(dataList.get(3), testData.testDataProvider().getProperty("termEndDate"));
 		termDateChangeApi.getCESAccountDetails(testData.testDataProvider().getProperty("membershipStatus"),
 				testData.testDataProvider().getProperty("cesMembershipType2"));
 	}
