@@ -19,6 +19,7 @@ import java.util.regex.Pattern;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.junit.validator.PublicClassValidator;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
@@ -387,5 +388,21 @@ public class Utility {
 	    });
 	}
 
+	public void domLoading(WebDriver driver,int maxWaitMillis, int pollDelimiter) {
+		double startTime = System.currentTimeMillis();
+	    while (System.currentTimeMillis() < startTime + maxWaitMillis) {
+	        String prevState = driver.getPageSource();
+	        try {
+				Thread.sleep(pollDelimiter);
+				System.out.println("Waiting for Javascript Page loads!!!");
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} // <-- would need to wrap in a try catch
+	        if (prevState.equals(driver.getPageSource())) {
+	            return;
+	        }
+	    }
+	}
 
 }
