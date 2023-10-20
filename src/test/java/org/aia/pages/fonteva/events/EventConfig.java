@@ -50,7 +50,7 @@ public class EventConfig {
 	}
 //Tickets Module value
 	
-	public static String ticketalesStartDate ="11/20/2023";
+	public static String ticketSalesStartDate ="11/20/2023";
 	
 	
 //Venues

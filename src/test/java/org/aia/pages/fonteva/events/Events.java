@@ -43,6 +43,28 @@ public class Events {
 	@FindBy(xpath = "//a[contains(@class,'label-action dndItem')]/span[text()='Events']")
 	WebElement eventsLink;
 
+	// Delete event
+	@FindBy(xpath  = "(//div[@class='forceVirtualActionMarker forceVirtualAction']/a)[1]")
+	WebElement actionColumnHeader;
+
+	@FindBy(css = "div [class='branding-actions actionMenu'] a[data-target-selection-name*='Delete']")
+	WebElement deleteEvent;
+
+	@FindBy(css = "div [class='modal-header slds-modal__header'] h2")
+	WebElement deleteEventPopupHeader;
+
+	@FindBy(css = "div [class='detail slds-text-align--center']")
+	WebElement deletePopupText;
+
+	@FindBy(css = "div[data-aura-class='forceModalActionContainer--footerAction forceModalActionContainer'] button[title='Cancel'] span")
+	WebElement cancelButtonInDeletePopup;
+
+	@FindBy(css = "div[data-aura-class='forceModalActionContainer--footerAction forceModalActionContainer'] button[title='Delete'] span")
+	WebElement deleteButtonInDeletePopup;
+
+	@FindBy(css = "div[data-aura-class='forceToastMessage'] div:nth-child(2) span")
+	WebElement toasMsgafterDelete;
+
 	// created event
 	@FindBy(xpath = "//tbody/tr[1]/th[1]/span[1]/a")
 	WebElement createdEvent;
@@ -56,7 +78,7 @@ public class Events {
 	@FindBy(css = "button[class*='_neutral search-button slds-truncate']")
 	WebElement globSearch;
 
-	@FindBy(xpath = "//label[text()='Search...']/following-sibling::div/input")
+	@FindBy(xpath = "//label[contains(text(),'Search')]/following-sibling::div/input[contains(@aria-controls,'suggestionsList')]")
 	WebElement globSearchInput;
 
 	@FindBy(xpath = "//input[@placeholder='Search this list...']")
@@ -76,7 +98,6 @@ public class Events {
 
 	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//span[text()='Number of Registered Attendees']/following::lightning-formatted-number[4]")
 	WebElement ticketsremainInsalesRegisration;
-
 
 	public void eventsTab() throws Exception {
 		if (!eventsLink.isDisplayed()) {
@@ -102,6 +123,7 @@ public class Events {
 		util.waitUntilElement(driver, createdEvent);
 		String eventName = createdEvent.getText();
 		createdEvent.click();
+		Thread.sleep(3000);
 		return eventName;
 	}
 
@@ -181,5 +203,52 @@ public class Events {
 		String remainingTickets = ticketsremainInsalesRegisration.getText();
 		afterRegData.add(3, remainingTickets);
 		return afterRegData;
+	}
+
+	public void clickActionsInEvents(String action) {
+		util.waitUntilElement(driver, actionColumnHeader);
+		util.clickUsingJS(driver, actionColumnHeader);
+		switch (action) {
+		case "Delete":
+			util.waitUntilElement(driver, deleteEvent);
+			util.clickUsingJS(driver, deleteEvent);
+			break;
+		case "Edit":
+			// TODO
+			break;
+		case "Change Owner":
+			// TODO
+			break;
+		}
+	}
+
+	public void validateDeletePopup() {
+		util.waitUntilElement(driver, deleteEventPopupHeader);
+		Assert.assertTrue(deleteEventPopupHeader.isDisplayed());
+		String header = deleteEventPopupHeader.getText();
+		log.info(header);
+		String deleteText = deletePopupText.getText();
+		log.info(deleteText);
+	}
+
+	/**
+	 * @param action
+	 */
+	public void clickActionsInDeletePopup(String action) {
+		util.waitUntilElement(driver, deleteButtonInDeletePopup);
+		switch (action) {
+		case "Delete":
+			util.clickUsingJS(driver, deleteButtonInDeletePopup);
+			break;
+		case "Cancel":
+			util.clickUsingJS(driver, deleteButtonInDeletePopup);
+			break;
+		}
+	}
+
+	public void validateToasteMessage() {
+		util.waitUntilElement(driver, toasMsgafterDelete);
+		String message = toasMsgafterDelete.getText();
+		log.info("Toaste message is visible after deleted the event" + message);
 	}
 }
