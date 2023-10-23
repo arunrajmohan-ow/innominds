@@ -1,5 +1,8 @@
 package org.aia.pages.ces;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.util.ArrayList;
 
 import org.aia.utility.Utility;
@@ -8,6 +11,15 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+/**
+ * 
+ */
+/**
+ * 
+ */
+/**
+ * 
+ */
 public class Organization {
 	
 	WebDriver driver;
@@ -45,7 +57,8 @@ public class Organization {
 		
 		@FindBy(xpath="//input[@name='postalCode']") WebElement organizationPostalCode;
 		
-		@FindBy(xpath="//button[@name='AIA_Work_Phone_Country__c']") WebElement orgWorkPhoneCountry;
+		@FindBy(xpath="//*[text()='Work Phone Country']/following-sibling::lightning-input-field/lightning-picklist")
+		WebElement orgWorkPhoneCountry;
 		
 		@FindBy(xpath="//label[text()='Work Phone Country']/following-sibling::*[text()='Please provide "
 				+ "a valid input.']") WebElement workPhoneCountryValidation;
@@ -60,7 +73,8 @@ public class Organization {
 		
 		@FindBy(xpath="//button[text()='Previous']") WebElement orgPrevious;
 
-		@FindBy(xpath="//button[text()='Next']") WebElement orgNext;
+		@FindBy(xpath="//button[text()='Next']")
+		 WebElement orgNext;
 		
 		@FindBy(xpath="//input[@name='Organization_Tax_ID_number_EIN']") WebElement orgTaxIDTxtbox;
 		
@@ -68,13 +82,41 @@ public class Organization {
 		
 		@FindBy(xpath="//select[@name='Where_do_you_offer_courses']") WebElement orgCoursesSelect;
 		
+//		@FindBy(xpath = "//b[text()= 'Primary Point of Contact']")
+//		WebElement tabTitleOrganization;
+		
+		@FindBy(xpath = "//div[@class='slds-m-bottom_x-small']/span[@class='main']/img[contains(@src, 'Organization')]")
+		WebElement tabTitleOrganization;
+		
+		@FindBy(xpath = "(//span[contains(normalize-space(), 'Please enter some valid input. Input is not optional.')])[1]")
+		WebElement orgNameError;
+		
+		@FindBy(xpath = "//div[@class='flowruntime-input-error slds-form-element__help']/lightning-formatted-rich-text/span[text()='Please select a choice.']")
+		WebElement orgPriorProviderError;
+		
+		@FindBy(xpath = "//span[@class='error']")
+		WebElement workPhoneCountryError;
+		
+		@FindBy(xpath = "//span[@class='error']")
+		WebElement workPhoneError;
+		
+	   @FindBy(xpath = "//span[text()=Please select the country code as you've already entered the work phone number]")
+		WebElement workPhoneCountryError2;
+		
+
+	  @FindBy(xpath = "//span[@class='error']")
+	  WebElement workPhoneError2;
+		
 		/*
 		 * Enter Mandatory Organization Details.
 		 */
 		public String enterOrganizationDetails(ArrayList<String> dataList, String orgType, String provider, String countryCode) throws InterruptedException {
 			util.waitUntilElement(driver, organizationName);
 			organizationName.sendKeys(orgName);
+			util.waitUntilElement(driver, organizationType);  // added 
 			util.selectDropDownByText(organizationType, orgType);
+			// added 
+			util.waitUntilElement(driver, organizationPriorProvider);
 			util.selectDropDownByText(organizationPriorProvider, provider);
 			if(provider.equalsIgnoreCase("Yes")) {
 				util.waitUntilElement(driver, orgFormerCesProviderNumber);
@@ -92,19 +134,82 @@ public class Organization {
 			return orgType;
 			
 		}
-
+		
 		/*
-		 * Enter all Details.
+		 * Validate Organization Tab.
 		 */
-		public String enterAllOrgDetails(ArrayList<String> dataList, String orgType, String provider, String countryName, String countryCode) throws InterruptedException {
+		
+		public void verifyOrganizationTab() {
+			util.waitUntilElement(driver, tabTitleOrganization);
+			assertTrue(tabTitleOrganization.isDisplayed());
+			
+		}
+		
+		/*
+		 * Validate Organization Tab Refresh Function.
+		 */
+		public void refreshFunction() {
+			util.waitUntilElement(driver, tabTitleOrganization);
+			assertTrue(tabTitleOrganization.isDisplayed());
+			driver.navigate().refresh();
+		}
+		/*
+		 * Enter Organization Tab	 Details Without Next
+		 */
+		
+		public void enterOrganizationDetailsWithoutNext(ArrayList<String> dataList, String orgType, String provider, String countryCode) throws InterruptedException {
 			util.waitUntilElement(driver, organizationName);
 			organizationName.sendKeys(orgName);
+			util.waitUntilElement(driver, organizationType);  // added 
 			util.selectDropDownByText(organizationType, orgType);
-			util.selectDropDownByText(organizationPriorProvider, provider);	
+			// added 
+			util.waitUntilElement(driver, organizationPriorProvider);
+			util.selectDropDownByText(organizationPriorProvider, provider);
 			if(provider.equalsIgnoreCase("Yes")) {
 				util.waitUntilElement(driver, orgFormerCesProviderNumber);
 				orgFormerCesProviderNumber.sendKeys(cesProviderNumber);
 			}
+			orgWorkPhoneCountry.click();
+			//Sample : driver.findElement(By.xpath("//span[@title=\"United States of America (+1)\"]")).click();
+			driver.findElement(By.xpath("//span[@title='"+countryCode+"']")).click();
+			organizationWorkPhoneNum.sendKeys(dataList.get(2));
+			orgTaxIDTxtbox.sendKeys(orgName);
+			orgrevenueTxtbox.sendKeys("1000");
+			util.selectDropDownByText(orgCoursesSelect, "National");
+			System.out.println("MY ORG type:"+orgType);
+			
+		}
+		
+		/*
+		 * Validate Organization Name Error
+		 */
+			
+		public void validateORGNameError() {
+			organizationName.clear();
+			orgNext.click();
+			util.waitUntilElement(driver, orgNameError);
+			assertTrue(orgNameError.isDisplayed());
+		}
+		
+		/*
+		 * Validate Organization Type Error
+		 */
+		
+		public void validateORGTypeError() {
+			organizationName.clear();
+			orgNext.click();
+			util.waitUntilElement(driver, orgNameError);
+			assertTrue(orgNameError.isDisplayed());
+		}
+		
+		/*
+		 * Validate Prior Provider Error
+		 */
+		
+		public void validatePriorProviderError(ArrayList<String> dataList, String orgType, String countryName,String countryCode) {
+			util.waitUntilElement(driver, organizationName);
+			organizationName.sendKeys(orgName);
+			util.selectDropDownByText(organizationType, orgType);
 			organizationCountry.click();
 			driver.findElement(By.xpath("//span[@title='"+countryName+"']")).click();
 			util.waitUntilElement(driver, organizationCity);
@@ -116,13 +221,113 @@ public class Organization {
 			driver.findElement(By.xpath("//span[@title='"+countryCode+"']")).click();
 			organizationWorkPhoneNum.sendKeys(dataList.get(2));
 			orgWebsite.sendKeys(dataList.get(7));
-			orgNext.click();	
-			
-			return orgType;
+			orgNext.click();
+			util.waitUntilElement(driver, orgPriorProviderError);
+			assertTrue(orgPriorProviderError.isDisplayed());
 		}
 		
 		
+		/**
+		 * Validate Error on Organization Tab without providing any details
+		 */
 		
+		public void validateAllErrorsOnORGTab() {
+			util.waitUntilElement(driver, orgNext);
+			orgNext.click();
+			util.waitUntilElement(driver, orgNameError);
+			assertTrue(orgNameError.isDisplayed());
+		    assertTrue(orgPriorProviderError.isDisplayed());
+			util.waitUntilElement(driver, workPhoneCountryError);
+			assertTrue(workPhoneCountryError.isDisplayed());
+	      }
+		
+		/**
+		 * Validate Error on Organization Tab without providing Organization Name
+		 */
+
+		
+		public void validateErrorForOrgName(ArrayList<String> dataList, String orgType, String provider, String countryCode) {
+			util.waitUntilElement(driver, organizationType);   
+			util.selectDropDownByText(organizationType, orgType); 
+			util.waitUntilElement(driver, organizationPriorProvider);
+			util.selectDropDownByText(organizationPriorProvider, provider);
+			if(provider.equalsIgnoreCase("Yes")) {
+				util.waitUntilElement(driver, orgFormerCesProviderNumber);
+				orgFormerCesProviderNumber.sendKeys(cesProviderNumber);
+			}
+			orgWorkPhoneCountry.click();
+			//Sample : driver.findElement(By.xpath("//span[@title=\"United States of America (+1)\"]")).click();
+			driver.findElement(By.xpath("//span[@title='"+countryCode+"']")).click();
+			organizationWorkPhoneNum.sendKeys(dataList.get(2));
+			orgTaxIDTxtbox.sendKeys(orgName);
+			orgrevenueTxtbox.sendKeys("1000");
+			util.selectDropDownByText(orgCoursesSelect, "National");
+			orgNext.click();
+			util.waitUntilElement(driver, orgNameError);
+			assertTrue(orgNameError.isDisplayed());
+		    
+		
+		}
+		
+		/**
+		 * Validate Error for 'Work phone country'
+		 */
+		
+		public void validateWorkPhoneCountyError(ArrayList<String> dataList, String orgType, String provider) throws InterruptedException {
+			util.waitUntilElement(driver, organizationName);
+			organizationName.sendKeys(orgName);
+			util.waitUntilElement(driver, organizationType); 
+			util.selectDropDownByText(organizationType, orgType); 
+			util.waitUntilElement(driver, organizationPriorProvider);
+			util.selectDropDownByText(organizationPriorProvider, provider);
+			if(provider.equalsIgnoreCase("Yes")) {
+				util.waitUntilElement(driver, orgFormerCesProviderNumber);
+				orgFormerCesProviderNumber.sendKeys(cesProviderNumber);
+			}
+			orgTaxIDTxtbox.sendKeys(orgName);
+			orgrevenueTxtbox.sendKeys("1000");
+			util.selectDropDownByText(orgCoursesSelect, "National");
+			util.waitUntilElement(driver, workPhoneCountryError);
+			assertTrue(workPhoneCountryError.isDisplayed());
+			util.waitUntilElement(driver, workPhoneError);
+			assertTrue(workPhoneError.isDisplayed());
+			//Enter number in 'Work phone' tab
+			organizationWorkPhoneNum.sendKeys(dataList.get(2));
+			orgNext.click();
+			util.waitUntilElement(driver, workPhoneCountryError2);
+			assertTrue(workPhoneCountryError2.isDisplayed());
+		}
+		 
+		/**
+		 * Validate Error for 'Work phone'
+		 */
+		
+		public void validateWorkPhoneError(ArrayList<String> dataList, String orgType, String provider,String countryCode) throws InterruptedException {
+			util.waitUntilElement(driver, organizationName);
+			organizationName.sendKeys(orgName);
+			util.waitUntilElement(driver, organizationType);  // added 
+			util.selectDropDownByText(organizationType, orgType);
+			// added 
+			util.waitUntilElement(driver, organizationPriorProvider);
+			util.selectDropDownByText(organizationPriorProvider, provider);
+			if(provider.equalsIgnoreCase("Yes")) {
+				util.waitUntilElement(driver, orgFormerCesProviderNumber);
+				orgFormerCesProviderNumber.sendKeys(cesProviderNumber);
+			}
+			orgTaxIDTxtbox.sendKeys(orgName);
+			orgrevenueTxtbox.sendKeys("1000");
+			util.selectDropDownByText(orgCoursesSelect, "National");
+			orgNext.click();
+			util.waitUntilElement(driver, workPhoneCountryError);
+			assertTrue(workPhoneCountryError.isDisplayed());
+			util.waitUntilElement(driver, workPhoneError);
+			assertTrue(workPhoneError.isDisplayed());
+			orgWorkPhoneCountry.click();
+			orgNext.click();
+			util.waitUntilElement(driver, workPhoneError2);
+			assertTrue(workPhoneError2.isDisplayed());
+		
+		}
 		
 
 }

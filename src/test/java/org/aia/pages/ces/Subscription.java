@@ -1,5 +1,7 @@
 package org.aia.pages.ces;
 
+import static org.junit.Assert.assertTrue;
+
 import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
@@ -70,6 +72,8 @@ public class Subscription {
 	
 	@FindBy(xpath="//span[text()='What is your employee size?']") WebElement empSizetxt;
 	
+	@FindBy(xpath = "//div[@class='slds-m-bottom_x-small']/span[@class='main']/img[contains(@src, 'Subscription')]")
+	WebElement tabTitleSubscription;
 	
 	/*
 	 * @param : text
@@ -189,6 +193,12 @@ public class Subscription {
 		else {
 			System.out.println("Proration page is not available.");
 		}
+	}
+	
+	public void verifySubscriptionTab() {
+		util.waitUntilElement(driver, tabTitleSubscription);
+		assertTrue(tabTitleSubscription.isDisplayed());
+		
 	}
 	
 }
