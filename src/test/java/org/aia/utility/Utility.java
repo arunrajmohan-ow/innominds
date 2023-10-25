@@ -349,4 +349,17 @@ public class Utility {
 		 LocalDate localDate = java.time.LocalDate.now();
 		 return localDate;
 	}
-}
+	
+	/**
+	 * Here we switching to new tab using below params
+	 * @param driver
+	 * @param link
+	 */
+	public void createNewWindow(WebDriver driver, String link) {
+		((JavascriptExecutor)driver).executeScript("window.open()");
+		ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
+		driver.switchTo().window(tabs.get(1));
+		driver.get(link);
+		
+	}
+} 

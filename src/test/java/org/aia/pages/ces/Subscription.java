@@ -78,7 +78,7 @@ public class Subscription {
 	 */
 	public void SubscriptionType(String text, String isFirmSubscription, String aiaMemberNumber, String orgType) throws InterruptedException {
 		if(text.contentEquals("Architecture Firm")||text.contentEquals("Architecture - Single Discipline")||text.contentEquals("Multi-Disciplinary (Architect Led)")||text.contentEquals("Multi-disciplinary (engineer led)")
-				||text.contentEquals("Multi-disciplinary (interior led)")||text.contentEquals("Multi-disciplinary (planning led)")||text.contentEquals("Design & construction services")) 
+				||text.contentEquals("Multi-disciplinary (interior led)")||text.contentEquals("Multi-disciplinary (planning led)")||text.contentEquals("Design & Construction Services")) 
 		{
 			ArchitectType(isFirmSubscription, aiaMemberNumber);
 		}
