@@ -243,6 +243,8 @@ public class CES_ContactPage {
 	WebElement addOrderBtn;
 
 	String quickItemNatinal = "(//span[text()='%s'])[1]";
+	
+	String providerApplication="(//b[text()='%s'])[1]";
 
 	@FindBy(xpath = "//button[text()='Go']") // (//button[normalize-space()='Go'])")
 	WebElement goBtn;
@@ -265,7 +267,7 @@ public class CES_ContactPage {
 	@FindBy(xpath = "//span[text()='Delete']")
 	WebElement Delete_membership;
 
-	@FindBy(xpath = "(//*[@role = 'table']//tbody//tr//td)[4]")
+	@FindBy(xpath = "(//*[@role = 'table']//tbody//tr//td)[4]//div//div")
 	WebElement AvailableMemType;
 
 	@FindBy(xpath = "//span[text()='Refresh']")
@@ -285,6 +287,12 @@ public class CES_ContactPage {
 
 	@FindBy(xpath = "//div/strong[text()='Items']/span")
 	WebElement itemsFees;
+	
+//	@FindBy(xpath="//button[@aria-haspopup='dialog']//span[text()='App Launcher']/..")
+//	WebElement appLauncher;
+//	
+//	@FindBy(xpath = "//button[contains(@title,'Select a List View: Provider Application')]")
+//	WebElement providerAppBtn;
 
 	String fName;
 	String lName;
@@ -572,11 +580,6 @@ public class CES_ContactPage {
 		util.waitUntilElement(driver, itemsFees);
 		String fee = itemsFees.getText();
 		System.out.println("Item fee: " + fee);
-
-//		util.waitUntilElement(driver, goBtn);
-//		action.moveToElement(goBtn).click().perform();
-//		System.out.println("GO button clicked");
-
 		if (fee.equalsIgnoreCase("Free")) {
 			Thread.sleep(10000);
 			util.waitUntilElement(driver, goBtn);
@@ -592,7 +595,6 @@ public class CES_ContactPage {
 			System.out.println("Memberships clicked");
 			driver.navigate().refresh();
 		} else {
-			// Thread.sleep(10000);
 			util.waitUntilElement(driver, goBtn);
 			action.moveToElement(goBtn).click().perform();
 			System.out.println("GO button clicked");
@@ -601,7 +603,6 @@ public class CES_ContactPage {
 			referenceNumber.sendKeys(data.testDataProvider().getProperty("referenceNum"));
 			util.waitUntilElement(driver, applyPaymentBtn);
 			action.moveToElement(applyPaymentBtn).click().perform();
-			// applyPaymentBtn.click();
 			System.out.println("applyPaymentButton clicked");
 			Thread.sleep(20000);
 		}
@@ -614,7 +615,6 @@ public class CES_ContactPage {
 		Thread.sleep(30000);
 		util.waitUntilElement(driver, Chevronbtn);
 		action.moveToElement(Chevronbtn).click().perform();
-		// Chevronbtn.click();
 		System.out.println("Chevron button clicked");
 		util.waitUntilElement(driver, DeleteBtn_chevrontype);
 		action.moveToElement(DeleteBtn_chevrontype).click().perform();
@@ -625,14 +625,6 @@ public class CES_ContactPage {
 		util.waitUntilElement(driver, Delete_membership);
 		action.moveToElement(Delete_membership).click().perform();
 		Thread.sleep(20000);
-//		util.waitUntilElement(driver, DeleteBtn_chevrontype);
-//		DeleteBtn_chevrontype.click();
-//		System.out.println("Delete button clicked");
-//		util.waitUntilElement(driver, DeleteMsg);
-//		System.out.println("MyError:" + DeleteMsg.getText());
-//		assertTrue(DeleteMsg.getText().equalsIgnoreCase(data.testDataProvider().getProperty("DeleteMsg")));
-//		util.waitUntilElement(driver, Delete_membership);
-//		action.moveToElement(Delete_membership).click().perform();
 	}
 
 	public void validateAvailableMemType() {
@@ -641,4 +633,27 @@ public class CES_ContactPage {
 				AvailableMemType.getText().equalsIgnoreCase(data.testDataProvider().getProperty("availableMemType")));
 
 	}
+	
+//	public void selectProviderApp(String userFullname,String quickElement)throws InterruptedException, AWTException {
+//		Thread.sleep(10000);
+//		util.waitUntilElement(driver, appLauncherIcn);
+//		appLauncherIcn.click();
+//		Thread.sleep(10000);
+//		appSearchtxtbx.sendKeys(data.testDataProvider().getProperty("providerApp"));
+//		Thread.sleep(10000);
+//		util.waitUntilElement(driver, util.getCustomizedWebElement(driver, providerApplication, quickElement));
+//		util.getCustomizedWebElement(driver, providerApplication, quickElement).click();
+//		util.waitUntilElement(driver, providerAppBtn);
+//		providerAppBtn.click();
+//		util.waitUntilElement(driver, allBtn);
+//		allBtn.click();
+//		executor.executeScript("arguments[0].scrollIntoView(true);",
+//				util.getCustomizedWebElement(driver, contactName, userFullname));
+//		util.waitUntilElement(driver, util.getCustomizedWebElement(driver, contactName, userFullname));
+//		executor.executeScript("arguments[0].click();",
+//				util.getCustomizedWebElement(driver, contactName, userFullname));
+//		util.waitUntilElement(driver, showAll);
+//		showAll.click();
+//		
+//}
 }
