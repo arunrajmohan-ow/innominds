@@ -30,6 +30,7 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.io.FileHandler;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -417,4 +418,10 @@ public class Utility {
 		}
 		return sb.toString();
 	}
+	
+	public void mosueOverUsingAction(WebDriver driver, WebElement element) {
+	Actions action = new Actions(driver);
+	action.moveToElement(element).perform();
+	}
+
 }

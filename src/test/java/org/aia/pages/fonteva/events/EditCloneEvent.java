@@ -107,7 +107,7 @@ public class EditCloneEvent {
 	// EventApi:EventBuilderAgenda
 	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//div[@data-menu='EventApi:EventBuilderAgenda']")
 	WebElement eventBuilderAgenda;
-	
+
 	@FindBy(css = "table[class='slds-table slds-table_header-fixed slds-table_bordered slds-table_edit'] tr:nth-child(5)  th lightning-base-formatted-text")
 	WebElement scheduleItemDisplayName;
 
@@ -159,6 +159,12 @@ public class EditCloneEvent {
 	@FindBy(xpath = "//span[@class='slds-grid slds-grid--align-spread forceInlineEditCell']//a[@data-refid='recordId']")
 	WebElement eventName;
 
+	// status in edit
+	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//span[text()='Planned']")
+	WebElement statusDropdown;
+
+	@FindBy(xpath = "(//div[@class='windowViewMode-normal oneContent active lafPageHost']//a[text()='Active'])")
+	WebElement activeOption;
 	// Date selection on Calendar in Event info
 
 	@FindBy(xpath = "//label[contains(text(),'Start Date')]//parent::span//parent::div//following-sibling::div//input")
@@ -229,7 +235,7 @@ public class EditCloneEvent {
 	 *                          date, Event end date, Event start time, Event end
 	 *                          time,Event TimeZone, Registration timer.
 	 */
-	public void editEventInfo(String ExpectedEventName) {
+	public void editEventInfo(String ExpectedEventName, String startTime, String endTime, String regTime, String timeZone) {
 		util.waitUntilElement(driver, eventInfoName);
 		log.info(eventInfoName.getAttribute("value"));
 		System.out.println(eventInfoName.getAttribute("value"));
@@ -264,19 +270,19 @@ public class EditCloneEvent {
 
 		log.info(eventStartTime.getAttribute("value"));
 		System.out.println(eventStartTime.getAttribute("value"));
-		Assert.assertEquals(eventStartTime.getAttribute("value"), "12");
+		Assert.assertEquals(eventStartTime.getAttribute("value"), startTime);
 
 		log.info(eventEndTime.getAttribute("value"));
 		System.out.println(eventEndTime.getAttribute("value"));
-		Assert.assertEquals(eventEndTime.getAttribute("value"), "5");
+		Assert.assertEquals(eventEndTime.getAttribute("value"), endTime);
 
 		log.info(eventTimeZone.getAttribute("value"));
 		System.out.println(eventTimeZone.getAttribute("value"));
-		Assert.assertEquals(eventTimeZone.getAttribute("value"), "(GMT-04:00) America/New_York");
+		Assert.assertEquals(eventTimeZone.getAttribute("value"), timeZone);
 
 		log.info(eventRegistrationTimer.getAttribute("value"));
 		System.out.println(eventRegistrationTimer.getAttribute("value"));
-		Assert.assertEquals(eventRegistrationTimer.getAttribute("value"), "30");
+		Assert.assertEquals(eventRegistrationTimer.getAttribute("value"), regTime);
 	}
 
 	public void editEventInvitation() {
@@ -314,8 +320,7 @@ public class EditCloneEvent {
 		Assert.assertTrue(agendaTab.isDisplayed());
 		log.info("agendaTab is displayed");
 	}
-	
-	
+
 	public String getSceduleItemsInAgenda() {
 		util.scrollingElementUsingJS(driver, scheduleItemDisplayName);
 		Utility.waitForWebElement(driver, scheduleItemDisplayName, 30);
@@ -451,6 +456,16 @@ public class EditCloneEvent {
 		System.out.println("PickDate :" + PickDate);
 		System.out.println("EventConfig.ticketalesStartDate : " + EventConfig.RegistrationTimer);
 		Assert.assertEquals(RegistrationTimerInputBox.getAttribute("value"), EventConfig.RegistrationTimer);
+	}
+
+	public void selectActiveStatus() {
+		Utility.waitForWebElement(driver, activeOption, 20);
+		util.clickUsingJS(driver, activeOption);
+	}
+
+	public void clickStatusDropDown() {
+		Utility.waitForWebElement(driver, statusDropdown, 20);
+		util.mosueOverUsingAction(driver, statusDropdown);
 	}
 
 }

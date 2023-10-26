@@ -308,8 +308,6 @@ public class TicketModule {
 	}
 
 	public void verifyAllFIeldsInCreateTicketpivotTabPopUp() throws InterruptedException {
-		util.waitUntilElement(driver, eventBuilderTickets);
-		eventBuilderTickets.click();
 		util.waitUntilElement(driver, newTicketType);
 		util.scrollingElementUsingJS(driver, newTicketType);
 		Assert.assertTrue(newTicketType.isDisplayed(), "newTicketType button is not available");

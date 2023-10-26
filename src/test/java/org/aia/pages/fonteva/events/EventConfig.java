@@ -59,6 +59,8 @@ public class EventConfig {
 	
 	public static String  venueNameInputField;
 	
+	public static String paymentButonfun;
+	
 	//public static String  venueNameInputField="Test123";
 	
 	public static String  descriptionTextField="Create new Venue description";
@@ -73,7 +75,7 @@ public class EventConfig {
 	}
 	
 	
-	public static String  venueImageURLInput="C:\\Users\\btalupuri\\AIA\\aia-fonteva-automation\\UploadFiles\\screenshoot.jpg";
+	public static String  venueImageURLInput="D:\\AIA-Main\\aia-fonteva-automation\\UploadFiles\\screenshoot.jpg";
 	public static String getVenueRecordsCount;
 	public static String getVenueRecordsCount2;
 	

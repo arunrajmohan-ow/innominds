@@ -34,7 +34,7 @@ public class Events {
 	@FindBy(xpath = "//span[text()='App Launcher']//parent::div")
 	WebElement appLauncher;
 
-	@FindBy(xpath = "//div//input[@id='input-148']")
+	@FindBy(xpath = "//input[@placeholder='Search apps and items...']")
 	WebElement appLauncherSearchBox;
 
 	@FindBy(xpath = "//lightning-icon[@icon-name='standard:person_account']//ancestor::lightning-avatar//following-sibling::lightning-formatted-rich-text//b")
@@ -100,7 +100,14 @@ public class Events {
 	WebElement ticketsremainInsalesRegisration;
 
 	public void eventsTab() throws Exception {
-		if (!eventsLink.isDisplayed()) {
+		try {
+		util.waitUntilElement(driver, eventsLink);
+		util.clickUsingJS(driver, eventsLink);
+		log.info("Events clickd successfully");
+		Logging.logger.info("Events clickd successfully");
+		}
+		catch (Exception e) {
+			System.out.println("Events module is not displayed");
 			util.waitUntilElement(driver, appLauncher);
 			appLauncher.click();
 			util.waitUntilElement(driver, appLauncherSearchBox);
@@ -109,10 +116,6 @@ public class Events {
 			util.scrollingElementUsingJS(driver, appLauncherEventsValue);
 			appLauncherEventsValue.click();
 		}
-		util.waitUntilElement(driver, eventsLink);
-		util.clickUsingJS(driver, eventsLink);
-		log.info("Events clickd successfully");
-		Logging.logger.info("Events clickd successfully");
 	}
 
 	/**

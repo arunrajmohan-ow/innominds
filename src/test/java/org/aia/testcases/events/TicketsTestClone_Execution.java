@@ -90,7 +90,8 @@ public class TicketsTestClone_Execution extends BaseClass {
 		events.eventsTab();
 		events.clickCreatedEvent();
 		editCloneEvent.clickEditButton();
-		util.waitForJavascript(driver, 90000, 5000);
+		util.waitForJavascript(driver, 30000, 5000);
+		ticketModule.eventTicketsTab();
 		ticketModule.verifyAllFIeldsInCreateTicketpivotTabPopUp();
 		ticketModule.publishedCheckBox();
 		ticketModule.activeCheckBox();
