@@ -9,6 +9,7 @@ public class Constants {
 	public static final String EXTENT_REPORT_NAME = "report.html";
 	public static final String YES = "yes";
 	public static final String NO = "no";
+	public static final String OUTPUT_VIDEO_PATH =USER_DIR+ "/Records/";
 	
 	private static final String PROJECT_NAME = "Fonteva GUI Automation Report";
 	public static String getProjectName() {

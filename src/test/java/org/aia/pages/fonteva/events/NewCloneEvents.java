@@ -126,11 +126,12 @@ public class NewCloneEvents {
 		log.info("Event category slected" + eventCategory);
 		Thread.sleep(2000);
 		util.waitUntilElement(driver, eventSearch);
-		util.enterText(driver, eventSearch, "Testing Event");
+		String exitEvent = testData.testDataProvider().getProperty("cloneEvent");
+		eventSearch.click();
+		util.enterText(driver, eventSearch, exitEvent);
 		log.info("event list size" + eventOptions.size());
 		for (int i = 0; i < eventOptions.size(); i++) {
 			String event = eventOptions.get(i).getText();
-			String exitEvent = testData.testDataProvider().getProperty("cloneEvent");
 			if (event.equals(exitEvent)) {
 				eventOptions.get(i).click();
 				System.out.println("matched");
@@ -164,15 +165,20 @@ public class NewCloneEvents {
 		log.info("VERIFIED: eventStatusPageCheckbox is selected");
 		eventFinishCloneButon.click();
 		log.info("Clone button is clicked sucessfully");
-		Thread.sleep(8000);
+	}
+	
+	public void validateEventHeader() {
+		util.waitForJavascript(driver, 90000, 5000);
 		util.waitUntilElement(driver, eventNameHeader);
 		newEvent = eventNameHeader.getText();
 		log.info(newEvent);
 		System.out.println(eventNameHeader);
 		Assert.assertTrue(eventNameHeader.isDisplayed());
 		log.info("eventName header is displayed");
-
-		Thread.sleep(5000);
+	}
+	
+	public String getEventId() {
+		Utility.waitForWebElement(driver, eventUrl, 30);
 		String url = eventUrl.getAttribute("href");
 		try {
 			// Parse the URL to extract the value of the "id" parameter
@@ -185,11 +191,14 @@ public class NewCloneEvents {
 
 			// Print the ID
 			System.out.println("EVENTID: " + eventId);
+			return eventId;
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
-	}
+		return eventId;
 
+	}
+	
 	/**
 	 * @param uri
 	 * @return
