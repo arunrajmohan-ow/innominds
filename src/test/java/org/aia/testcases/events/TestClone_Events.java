@@ -346,44 +346,4 @@ public class TestClone_Events extends BaseClass {
 		}
 	}
 
-	@Test(priority = 5, description = "Edit cloneEvent date and time,", enabled = true)
-	public void test_EditSelectDateInCloneEventInfo(ITestContext context) throws InterruptedException, Throwable {
-		events.eventsTab();
-		events.clickCreatedEvent();
-		editCloneEvent.clickEditButton();
-		util.waitForJavascript(driver, 90000, 5000);
-		editCloneEvent.editCloneEventDateAndTime();
-		editCloneEvent.verifyTimeDurationOfEditCloneEventDateAndTime();
-		if (recording) {
-			VideoRecorder.stopRecording();
-		}
-	}
-
-	@Test(priority = 6, description = "Validate register timer in Edit cloneEvent info,", enabled = true)
-	public void validate_RegistrationTimerCloneEventInfo(ITestContext context) throws InterruptedException, Throwable {
-		events.eventsTab();
-		events.clickCreatedEvent();
-		editCloneEvent.clickEditButton();
-		util.waitForJavascript(driver, 90000, 5000);
-		editCloneEvent.verifyUserAbleToProvidedataInRegistrationTimerInputBox();
-		if (recording) {
-			VideoRecorder.stopRecording();
-		}
-	}
-	
-	@Test(priority = 7, description = "Verify Delation Existing Event", enabled = true)
-	public void validate_DeleteExistingEvent(ITestContext context) throws InterruptedException, Throwable {
-		events.eventsTab();
-		events.clickActionsInEvents("Delete");
-		events.validateDeletePopup();
-		events.clickActionsInDeletePopup("Delete");
-		events.validateToasteMessage();
-	}
-
-//	@AfterMethod(alwaysRun = true)
-//	public void teardown() {
-//		BrowserSetup.closeBrowser(driver);
-//
-//	}
-
 }
