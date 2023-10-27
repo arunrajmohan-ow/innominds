@@ -335,9 +335,9 @@ public class CES_GracePeriodEndDate {
 		driver.switchTo().alert().accept();
 		Thread.sleep(3000);
 		util.waitUntilElement(driver, selectAccount);
-		selectAccount.clear();
+		selectAccount.click();
 		Thread.sleep(3000);
-		//action.moveToElement(selectAccount).click().perform();
+		// action.moveToElement(selectAccount).click().perform();
 		System.out.println("Account selected");
 		util.waitUntilElement(driver, cesProviderStatus);
 		String cesProviderStatusValue = cesProviderStatus.getText();

@@ -111,7 +111,7 @@ public class TestGracePeriod_CES extends BaseClass {
 		cesTermDateChangeAPI = PageFactory.initElements(driver, FontevaCESTermDateChangeAPI.class);
 		ces_ContactPage = PageFactory.initElements(driver, CES_ContactPage.class);
 		salesorder = PageFactory.initElements(driver, CES_SalesOrder.class);
-		ces_GracePeriod=PageFactory.initElements(driver, CES_GracePeriodEndDate.class);
+		ces_GracePeriod = PageFactory.initElements(driver, CES_GracePeriodEndDate.class);
 
 	}
 
@@ -142,6 +142,7 @@ public class TestGracePeriod_CES extends BaseClass {
 		ces_GracePeriod.validateGracePeriodEndDate();
 
 	}
+
 	@Test(priority = 2, description = "(FC-263) Validating error message in Term end date by providing incorrect date format", enabled = false)
 	public void verifyTermEnddateFormat() throws Exception {
 		String prefix = "Dr.";
@@ -169,7 +170,7 @@ public class TestGracePeriod_CES extends BaseClass {
 		ces_GracePeriod.validateDateFormatError();
 
 	}
-	
+
 	@Test(priority = 3, description = "(FC-264) Verify CES Provider status when the Grace period end date exceeds >32 days", enabled = true)
 	public void verifyCESProviderStatus() throws Exception {
 		String prefix = "Dr.";
