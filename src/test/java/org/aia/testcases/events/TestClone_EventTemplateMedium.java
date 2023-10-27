@@ -28,8 +28,8 @@ import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 @Listeners(org.aia.utility.GenerateReportsListener.class)
-public class TestClone_EventTemplateMedium  extends BaseClass  {
-	
+public class TestClone_EventTemplateMedium extends BaseClass {
+
 	Events events;
 	NewCloneEvents cloneEventpage;
 	ConfigDataProvider testData;
@@ -45,7 +45,6 @@ public class TestClone_EventTemplateMedium  extends BaseClass  {
 	TicketModule ticketModule;
 	boolean recording;
 
-	
 	@BeforeMethod(alwaysRun = true)
 	public void setUp() throws Exception {
 		testData = new ConfigDataProvider();
@@ -103,7 +102,7 @@ public class TestClone_EventTemplateMedium  extends BaseClass  {
 			VideoRecorder.stopRecording();
 		}
 	}
-	
+
 	@Test(description = "Verify Price modify for an existing Event", enabled = true, priority = 4)
 	public void test_EditPriceInCloneEvent(ITestContext context) throws InterruptedException, Throwable {
 		test_CreateCloneEvent(context);
@@ -115,10 +114,10 @@ public class TestClone_EventTemplateMedium  extends BaseClass  {
 		String eventName = events.clickCreatedEvent();
 		editCloneEvent.clickEditButton();
 		util.waitForJavascript(driver, 30000, 5000);
-		String eventTimeZone =testData.testDataProvider().getProperty("eventTimeZone");
-		String registrationTime =testData.testDataProvider().getProperty("registrationTimer");
-		String startTime =testData.testDataProvider().getProperty("eventStartTimeInMediumTemplate");
-		String endTime =testData.testDataProvider().getProperty("eventEndTimeInMediumTemplate");
+		String eventTimeZone = testData.testDataProvider().getProperty("eventTimeZone");
+		String registrationTime = testData.testDataProvider().getProperty("registrationTimer");
+		String startTime = testData.testDataProvider().getProperty("eventStartTimeInMediumTemplate");
+		String endTime = testData.testDataProvider().getProperty("eventEndTimeInMediumTemplate");
 		editCloneEvent.editEventInfo(eventName, startTime, endTime, registrationTime, eventTimeZone);
 		// tickets tab
 		ticketModule.eventTicketsTab();
@@ -157,14 +156,14 @@ public class TestClone_EventTemplateMedium  extends BaseClass  {
 		eventRegistration.ValidateEmailInRegistartion();
 		eventRegistration.singleticketRegistratioButton();
 		eventRegistration.agendaModule();
-	
+
 		// Here we getting receipt data from UI and storing in ArrayList
-		 eventRegistration.paymentDataIncheckoutModule();
-		 
-		 eventRegistration.biilingaddressInCheckoutModule();
-		
-         eventRegistration.paymentProcessButton();
-		
+		eventRegistration.paymentDataIncheckoutModule();
+
+		eventRegistration.biilingaddressInCheckoutModule();
+
+		eventRegistration.paymentProcessButton();
+
 		ArrayList<Object> receiptData = eventRegistration.clickReceiptInChecout();
 
 		util.waitForJavascript(driver, 90000, 5000);
@@ -172,8 +171,8 @@ public class TestClone_EventTemplateMedium  extends BaseClass  {
 		// Here we validate PDF data
 		String paymentType = testData.testDataProvider().getProperty("payMentTypeInMediumTemplate");
 		String paymentMethodDescr = testData.testDataProvider().getProperty("PaymentMethodDescriptionInMediumTemplate");
-		viewReceipts.viewReceiptValidationsForEvents(receiptData.get(1), receiptData.get(0), paymentType, paymentMethodDescr);
-
+		viewReceipts.viewReceiptValidationsForEvents(receiptData.get(1), receiptData.get(0), paymentType,
+				paymentMethodDescr);
 
 		// Here we validate the receipt using API call
 		eventApivalidation.verifyReciptDetails(dataList.get(3), receiptData.get(1), receiptData.get(0));
@@ -195,7 +194,7 @@ public class TestClone_EventTemplateMedium  extends BaseClass  {
 			VideoRecorder.stopRecording();
 		}
 	}
-	
+
 	@Test(description = "Verify 'Attendees' info after registering for the event", enabled = true, priority = 2)
 	public void validate_Attendees(ITestContext context) throws InterruptedException, Throwable {
 		test_CreateCloneEvent(context);
@@ -236,9 +235,9 @@ public class TestClone_EventTemplateMedium  extends BaseClass  {
 		eventRegistration.ValidateEmailInRegistartion();
 		eventRegistration.singleticketRegistratioButton();
 		eventRegistration.agendaModule();
-	
+
 		// Here we getting receipt data from UI and storing in ArrayList
-		
+
 		eventRegistration.confirmOrderIncheckout();
 		util.waitForJavascript(driver, 10000, 5000);
 		ArrayList<Object> receiptData = eventRegistration.clickReceiptInChecout();
@@ -248,7 +247,8 @@ public class TestClone_EventTemplateMedium  extends BaseClass  {
 		// Here we validate PDF data
 		String paymentType = testData.testDataProvider().getProperty("payMentTypeInMediumTemplate");
 		String paymentMethodDescr = testData.testDataProvider().getProperty("PaymentMethodDescriptionInMediumTemplate");
-		viewReceipts.viewReceiptValidationsForEvents(receiptData.get(1), receiptData.get(0), paymentType, paymentMethodDescr);
+		viewReceipts.viewReceiptValidationsForEvents(receiptData.get(1), receiptData.get(0), paymentType,
+				paymentMethodDescr);
 
 		util.switchToTabs(driver, 0);
 		events.eventsTab();
@@ -313,8 +313,8 @@ public class TestClone_EventTemplateMedium  extends BaseClass  {
 		eventRegistration.agendaModule();
 
 		// Here we getting receipt data from UI and storing in ArrayList
-         eventRegistration.confirmOrderIncheckout();
-		
+		eventRegistration.confirmOrderIncheckout();
+
 		ArrayList<Object> receiptData = eventRegistration.clickReceiptInChecout();
 
 		util.waitForJavascript(driver, 30000, 5000);
@@ -322,8 +322,8 @@ public class TestClone_EventTemplateMedium  extends BaseClass  {
 		// Here we validate PDF data
 		String paymentType = testData.testDataProvider().getProperty("payMentTypeInMediumTemplate");
 		String paymentMethodDescr = testData.testDataProvider().getProperty("PaymentMethodDescriptionInMediumTemplate");
-		viewReceipts.viewReceiptValidationsForEvents(receiptData.get(1), receiptData.get(0), paymentType, paymentMethodDescr);
-
+		viewReceipts.viewReceiptValidationsForEvents(receiptData.get(1), receiptData.get(0), paymentType,
+				paymentMethodDescr);
 
 		util.switchToTabs(driver, 0);
 		events.eventsTab();
@@ -368,7 +368,7 @@ public class TestClone_EventTemplateMedium  extends BaseClass  {
 			VideoRecorder.stopRecording();
 		}
 	}
-	
+
 	@Test(priority = 7, description = "Verify Delation Existing Event", enabled = true)
 	public void validate_DeleteExistingEvent(ITestContext context) throws InterruptedException, Throwable {
 		events.eventsTab();
@@ -377,6 +377,5 @@ public class TestClone_EventTemplateMedium  extends BaseClass  {
 		events.clickActionsInDeletePopup("Delete");
 		events.validateToasteMessage();
 	}
-
 
 }

@@ -1,15 +1,11 @@
 package org.aia.pages;
 
 import java.io.IOException;
-
 import org.aia.pages.api.membership.FontevaConnectionSOAP;
 import org.aia.utility.BrowserSetup;
 import org.aia.utility.ConfigDataProvider;
-import org.aia.utility.DataProviderFactory;
 import org.aia.utility.GenerateReports;
 import org.aia.utility.Utility;
-import org.aia.utility.VideoRecorder;
-import org.aia.utility.Logging;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -17,20 +13,14 @@ import org.testng.ITestResult;
 import org.testng.Reporter;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
-
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.BeforeTest;
-
-
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
-
 //import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
 import com.aventstack.extentreports.reporter.ExtentReporter;
-
-
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;

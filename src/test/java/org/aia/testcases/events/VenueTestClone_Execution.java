@@ -48,7 +48,7 @@ public class VenueTestClone_Execution extends BaseClass {
 		Logging.configure();
 	}
 
-	@Test(priority = 1,description = "Create Venue PopUp InputField,", enabled = true)
+	@Test(priority = 1, description = "Create Venue PopUp InputField,", enabled = true)
 	public void verifyCreateVenuePopUpInputField(ITestContext context) throws InterruptedException, Throwable {
 		if (recording) {
 			VideoRecorder.startRecording("verifyCreateVenuePopUpInputField");
@@ -62,7 +62,8 @@ public class VenueTestClone_Execution extends BaseClass {
 		venuesEvent.verifyCreateVenueinputFields();
 	}
 
-	@Test(priority = 2,description = "Close Icon And CloseButton Are Working fine", enabled = true, dependsOnMethods = {"verifyCreateVenuePopUpInputField"})
+	@Test(priority = 2, description = "Close Icon And CloseButton Are Working fine", enabled = true, dependsOnMethods = {
+			"verifyCreateVenuePopUpInputField" })
 	public void VerifyCloseIconAndCloseButtonAreWorkingRelatedToCreateVenuePopUp(ITestContext context)
 			throws InterruptedException, Throwable {
 		// fec-121
@@ -71,7 +72,8 @@ public class VenueTestClone_Execution extends BaseClass {
 		venuesEvent.ClickOnCloseButtonAndVerifycreateNewVenuepopUpTabIsClosed();
 	}
 
-	@Test(priority = 3,description = "create New Venue", enabled = true, dependsOnMethods = {"verifyCreateVenuePopUpInputField"})
+	@Test(priority = 3, description = "create New Venue", enabled = true, dependsOnMethods = {
+			"verifyCreateVenuePopUpInputField" })
 	public void createNewVenue(ITestContext context) throws InterruptedException, Throwable {
 		// fec-119
 		venuesEvent.navigateAddIntoVenuePopUpTabAndVerifyIt();
@@ -79,32 +81,35 @@ public class VenueTestClone_Execution extends BaseClass {
 				EventConfig.venueImageURLInput);
 	}
 
-	@Test(priority = 4,description = "Created Venue Name Is displayed In Listing Screen", enabled = true, dependsOnMethods = {"verifyCreateVenuePopUpInputField"})
+	@Test(priority = 4, description = "Created Venue Name Is displayed In Listing Screen", enabled = true, dependsOnMethods = {
+			"verifyCreateVenuePopUpInputField" })
 	public void verifyCreatedVenueNameIsdisplayedInListingScreen(ITestContext context)
 			throws InterruptedException, Throwable {
 		venuesEvent.VerifyTotalCreatedVenueCounts();
 		venuesEvent.newlyCreatedVenueIsDisplayedInVenuesListingScreen();
 	}
 
-	@Test(priority = 5,description = "Total Created Venues Count", dependsOnMethods = {
+	@Test(priority = 5, description = "Total Created Venues Count", dependsOnMethods = {
 			"verifyCreateVenuePopUpInputField" }, enabled = true)
 	public void VerifyTotalCreatedVenueCounts(ITestContext context) throws InterruptedException, Throwable {
 		// fec-124
 		venuesEvent.VerifyTotalCreatedVenueCounts();
 	}
 
-	@Test(priority = 6,description = "Edit Venue Name And Verify It", enabled = true, dependsOnMethods = {"verifyCreateVenuePopUpInputField"})
+	@Test(priority = 6, description = "Edit Venue Name And Verify It", enabled = true, dependsOnMethods = {
+			"verifyCreateVenuePopUpInputField" })
 	public void editVenueNameAndVerifyIt(ITestContext context) throws InterruptedException, Throwable {
 		// fec-122
 		venuesEvent.editCreatedVenueNameAndVerifyIt();
 	}
 
-	@Test(priority = 7, description = "Delete Venue And Verify It", enabled = true, dependsOnMethods = {"verifyCreateVenuePopUpInputField"})
+	@Test(priority = 7, description = "Delete Venue And Verify It", enabled = true, dependsOnMethods = {
+			"verifyCreateVenuePopUpInputField" })
 	public void deleteVenueAndVerifyIt(ITestContext context) throws InterruptedException, Throwable {
 		// fec-120
 		venuesEvent.deleteVenueNameAndVerifyIt();
 	}
-	
+
 	@AfterClass(alwaysRun = true)
 	public void teardown() {
 		if (recording) {

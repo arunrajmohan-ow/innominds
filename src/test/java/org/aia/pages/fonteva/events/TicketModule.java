@@ -130,26 +130,33 @@ public class TicketModule {
 
 	@FindBy(xpath = "//span//label[contains(text(),'Refund Request Policy')]")
 	WebElement refundRequestPolicy;
-	
-    @FindBy(css = "button[data-name='addNewTicket']") WebElement newTicketTypeInTicketsTab;
-	
-	@FindBy(xpath = "//label[@data-name='isPublished']/input") WebElement isPublishedCheckBox;
-	
-	@FindBy(xpath = "//label[@data-name='isActive']/input") WebElement isActiveCheckBox;
-	
-	@FindBy(xpath = "//div[@data-name='ticketName']/input") WebElement ticketNameInCreateTicketType;
-	
+
+	@FindBy(css = "button[data-name='addNewTicket']")
+	WebElement newTicketTypeInTicketsTab;
+
+	@FindBy(xpath = "//label[@data-name='isPublished']/input")
+	WebElement isPublishedCheckBox;
+
+	@FindBy(xpath = "//label[@data-name='isActive']/input")
+	WebElement isActiveCheckBox;
+
+	@FindBy(xpath = "//div[@data-name='ticketName']/input")
+	WebElement ticketNameInCreateTicketType;
+
 	@FindBy(xpath = "//label[text()='Price']/following::div/div[@data-name='price']/input")
 	WebElement PriceInCreateTicketType;
-	
-    @FindBy(xpath = "//label[@data-name='restrictQuantity']/input") WebElement restrictQunperOrderCheckBox;
-	
-	@FindBy(xpath = "//div[@data-name='minimumQuantity']/input") WebElement miniQuantityInCreateTicketType;
-	
-	@FindBy(xpath = "//div[@data-name='maximumQuantity']/input") WebElement maxQuantityInCreateTicketType;
-	
-	@FindBy(xpath = "//div[@data-name='ticketDescription']/textarea") WebElement descriptionInCreateTicketType;
 
+	@FindBy(xpath = "//label[@data-name='restrictQuantity']/input")
+	WebElement restrictQunperOrderCheckBox;
+
+	@FindBy(xpath = "//div[@data-name='minimumQuantity']/input")
+	WebElement miniQuantityInCreateTicketType;
+
+	@FindBy(xpath = "//div[@data-name='maximumQuantity']/input")
+	WebElement maxQuantityInCreateTicketType;
+
+	@FindBy(xpath = "//div[@data-name='ticketDescription']/textarea")
+	WebElement descriptionInCreateTicketType;
 
 	public void eventTicketsTab() {
 		util.waitForJavascript(driver, 90000, 5000);
@@ -165,40 +172,38 @@ public class TicketModule {
 		System.out.println(eventTicketSalesStartDate.getAttribute("value"));
 		log.info("eventTicketSalesStartDate" + eventTicketSalesStartDate.getAttribute("value"));
 	}
-	
+
 	public void clickNewTicketType() throws InterruptedException {
 		Thread.sleep(5000);
 		util.waitUntilElement(driver, newTicketTypeInTicketsTab);
 		Utility.highLightElement(driver, newTicketTypeInTicketsTab);
 		newTicketTypeInTicketsTab.click();
 	}
-	
-	public  void publishedCheckBox() throws Throwable {
+
+	public void publishedCheckBox() throws Throwable {
 		Thread.sleep(5000);
 		util.waitUntilElement(driver, isPublishedCheckBox);
 		Utility.highLightElement(driver, isPublishedCheckBox);
-		if(isPublishedCheckBox.isSelected()) {
+		if (isPublishedCheckBox.isSelected()) {
 			System.out.println("is published checkobox is enabled");
-		}
-		else {
-		util.clickUsingJS(driver, isPublishedCheckBox);	
-		log.info("IsPublished CheckBox is clicked");
+		} else {
+			util.clickUsingJS(driver, isPublishedCheckBox);
+			log.info("IsPublished CheckBox is clicked");
 		}
 	}
-	
-	public  void activeCheckBox() throws Throwable {
+
+	public void activeCheckBox() throws Throwable {
 		Thread.sleep(5000);
 		util.waitUntilElement(driver, isActiveCheckBox);
 		Utility.highLightElement(driver, isActiveCheckBox);
-		if(isActiveCheckBox.isSelected()) {
+		if (isActiveCheckBox.isSelected()) {
 			System.out.println("is published checkobox is enabled");
+		} else {
+			util.clickUsingJS(driver, isActiveCheckBox);
+			log.info("IsActive CheckBox is clicked");
 		}
-		else {
-		util.clickUsingJS(driver, isActiveCheckBox);	
-		log.info("IsActive CheckBox is clicked");
-		}
-     }
-	
+	}
+
 	public void enterTicketName() {
 		Utility.highLightElement(driver, ticketNameInCreateTicketType);
 		util.enterText(driver, ticketNameInCreateTicketType, testData.testDataProvider().getProperty("ticketName"));
@@ -232,30 +237,29 @@ public class TicketModule {
 
 	public void enterPriceInCreateTicketType() throws Throwable {
 		util.enterText(driver, PriceInCreateTicketType, "400.00");
-		log.info("Price enterd in Create ticket type popup");	
+		log.info("Price enterd in Create ticket type popup");
 	}
-	
-	public  void restrictQuantityCheckBox() throws Throwable {
+
+	public void restrictQuantityCheckBox() throws Throwable {
 		Thread.sleep(5000);
 		util.waitUntilElement(driver, restrictQunperOrderCheckBox);
 		Utility.highLightElement(driver, restrictQunperOrderCheckBox);
-		if(restrictQunperOrderCheckBox.isSelected()) {
+		if (restrictQunperOrderCheckBox.isSelected()) {
 			System.out.println("is published checkobox is enabled");
+		} else {
+			util.clickUsingJS(driver, restrictQunperOrderCheckBox);
+			log.info("IsActive CheckBox is clicked");
+			util.enterText(driver, miniQuantityInCreateTicketType, "1");
+			util.enterText(driver, maxQuantityInCreateTicketType, "1");
+
 		}
-		else {
-		util.clickUsingJS(driver, restrictQunperOrderCheckBox);	
-		log.info("IsActive CheckBox is clicked");
-		util.enterText(driver, miniQuantityInCreateTicketType, "1");
-		util.enterText(driver, maxQuantityInCreateTicketType, "1");
-		
-		}
-     }
-	
+	}
+
 	public void enterDescriptionInCreateTicketType() {
 		Utility.highLightElement(driver, descriptionInCreateTicketType);
 		util.enterText(driver, descriptionInCreateTicketType, "Ticket type description");
 	}
-	
+
 	public void buttonsInCreateTicketType(String action) throws InterruptedException {
 		switch (action) {
 		case "SaveContinue":
@@ -265,7 +269,7 @@ public class TicketModule {
 			Thread.sleep(5000);
 			break;
 		case "cancel":
-			//TODO
+			// TODO
 			break;
 		}
 	}

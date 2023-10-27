@@ -45,9 +45,9 @@ public class ViewRecipts {
 	 * @throws InterruptedException
 	 * @throws IOException
 	 */
-	public String viewReceiptValidationsForEvents(Object receiptNo, Object total, String paymentType, String paymentMethodDescr)
-			throws InterruptedException, IOException {
-		Thread.sleep(10000);
+	public String viewReceiptValidationsForEvents(Object receiptNo, Object total, String paymentType,
+			String paymentMethodDescr) throws InterruptedException, IOException {
+		Thread.sleep(15000);
 		Set<String> links = driver.getWindowHandles();
 		String currWin = driver.getWindowHandle();
 		Thread.sleep(1000);
@@ -89,8 +89,7 @@ public class ViewRecipts {
 					log.info("verified customer AIA number in receipt documnet" + editCloneEvent.aiaNumber);
 
 					Assert.assertTrue(pdfContent.contains(paymentType));
-					log.info("verified customer AIA number in receipt documnet"
-							+ paymentType);
+					log.info("verified customer AIA number in receipt documnet" + paymentType);
 
 					Assert.assertTrue(pdfContent.contains(total.toString()));
 					log.info("verified total amount in receipt documnet" + total);
@@ -101,10 +100,8 @@ public class ViewRecipts {
 					Assert.assertTrue(pdfContent.contains(eventRegistration.postedDate));
 					log.info("verified postedDate in receipt documnet" + eventRegistration.postedDate);
 
-					Assert.assertTrue(
-							pdfContent.contains(paymentMethodDescr));
-					log.info("verified Payment Method Description in receipt documnet"
-							+ paymentMethodDescr);
+					Assert.assertTrue(pdfContent.contains(paymentMethodDescr));
+					log.info("verified Payment Method Description in receipt documnet" + paymentMethodDescr);
 
 					Assert.assertTrue(pdfContent.contains(eventRegistration.userName));
 					log.info("verified To address in receipt documnet" + eventRegistration.userName);

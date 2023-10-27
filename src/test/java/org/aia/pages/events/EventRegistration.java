@@ -58,8 +58,9 @@ public class EventRegistration {
 
 	@FindBy(css = "div[id='ticketRegButton'] button")
 	WebElement registerButton;
-	
-	@FindBy(css = "div[id='ticketRegButton'] button[data-name='singleTicketBtn']") WebElement singleTicketRegButton;
+
+	@FindBy(css = "div[id='ticketRegButton'] button[data-name='singleTicketBtn']")
+	WebElement singleTicketRegButton;
 
 	@FindBy(css = "div[data-name='firstName'] div[data-name='matchFields'] input")
 	WebElement firstName;
@@ -166,12 +167,12 @@ public class EventRegistration {
 
 	@FindBy(css = "button[data-name='processBtn']")
 	WebElement processPayment;
-	
+
 	public static String paymentButonfun(String paymentButton) {
-		String xpath = "//button[@data-name='"+paymentButton+"']";
+		String xpath = "//button[@data-name='" + paymentButton + "']";
 		return xpath;
 	}
-	
+
 	@FindBy(css = "button[data-name='Confirm_Order']")
 	WebElement confirmOrderPayment;
 
@@ -221,30 +222,32 @@ public class EventRegistration {
 
 	@FindBy(css = "div[class*='slds-p-horizontal_large slds-m-bottom_medium\'] div:nth-child(2)")
 	WebElement postdDate;
-	
-	@FindBy(css = "[data-name='firstName'] input") WebElement firstNameInReg;
-	
-	@FindBy(css = "[data-name='lastName'] input") WebElement lastNameInReg;
-	
-	@FindBy(css = "[data-name='email'] input") WebElement emailInReg;
-	
-	
+
+	@FindBy(css = "[data-name='firstName'] input")
+	WebElement firstNameInReg;
+
+	@FindBy(css = "[data-name='lastName'] input")
+	WebElement lastNameInReg;
+
+	@FindBy(css = "[data-name='email'] input")
+	WebElement emailInReg;
+
 	public void validateFirstNameInRegistartion() {
 		Utility.waitForWebElement(driver, firstNameInReg, 20);
 		log.info(firstNameInReg.getAttribute("value"));
-		System.out.println(firstNameInReg.getAttribute("value"));	
+		System.out.println(firstNameInReg.getAttribute("value"));
 	}
-	
+
 	public void validateLastNameInRegistartion() {
 		Utility.waitForWebElement(driver, lastNameInReg, 20);
 		log.info(lastNameInReg.getAttribute("value"));
-		System.out.println(lastNameInReg.getAttribute("value"));	
+		System.out.println(lastNameInReg.getAttribute("value"));
 	}
-	
+
 	public void ValidateEmailInRegistartion() {
 		Utility.waitForWebElement(driver, emailInReg, 20);
 		log.info(emailInReg.getAttribute("value"));
-		System.out.println(emailInReg.getAttribute("value"));	
+		System.out.println(emailInReg.getAttribute("value"));
 	}
 
 	/**
@@ -277,10 +280,10 @@ public class EventRegistration {
 		log.info("Register Now button is cliked sucessfully");
 		Thread.sleep(14000);
 	}
-	
+
 	public void singleticketRegistratioButton() {
 		Utility.waitForWebElement(driver, singleTicketRegButton, 30);
-		singleTicketRegButton.click();	
+		singleTicketRegButton.click();
 	}
 
 	/**
@@ -437,17 +440,17 @@ public class EventRegistration {
 		return receiptData;
 
 	}
-	
+
 	public void paymentProcessButton() throws Throwable {
 //		WebElement buttonInPayment = driver.findElement(By.xpath(paymentButonfun(option)));
-		util.scrollingElementUsingJS(driver,processPayment);
+		util.scrollingElementUsingJS(driver, processPayment);
 		util.clickUsingJS(driver, processPayment);
 		log.info("processPayment is clicked successfully");
 		Thread.sleep(7000);
 		util.waitUntilElement(driver, paymentSuccessMessage);
 		log.info("After Payment success message" + paymentSuccessMessage.getText());
 	}
-	
+
 	public ArrayList<Object> confirmOrderIncheckout() throws Throwable {
 		util.waitUntilElement(driver, totalAmountInCheckout);
 		Utility.highLightElement(driver, totalAmountInCheckout);
@@ -461,7 +464,7 @@ public class EventRegistration {
 		log.info("After Payment success message" + paymentSuccessMessage.getText());
 		return receiptData;
 	}
-	
+
 	public void biilingaddressInCheckoutModule() throws Throwable {
 		String type = "Home";
 		util.waitUntilElement(driver, addressCreateButton);
@@ -497,9 +500,9 @@ public class EventRegistration {
 		saveButtonInBiilingaddress.click();
 		log.info("Save Button is clicked successfully in Biilingaddress checkout");
 	}
-	
+
 	public ArrayList<Object> clickReceiptInChecout() {
-		
+
 		receiptNum = receiptNumber.getText();
 		receiptData.add(1, receiptNum);
 		log.info("Receipt Number" + receiptNum);

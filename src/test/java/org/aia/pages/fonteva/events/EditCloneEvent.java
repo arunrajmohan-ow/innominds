@@ -6,7 +6,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import org.aia.utility.DateUtils;
 import org.aia.utility.Utility;
 import org.apache.log4j.Logger;
@@ -15,12 +14,9 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
-
-import groovy.transform.Final;
 
 public class EditCloneEvent {
 	WebDriver driver;
@@ -235,7 +231,8 @@ public class EditCloneEvent {
 	 *                          date, Event end date, Event start time, Event end
 	 *                          time,Event TimeZone, Registration timer.
 	 */
-	public void editEventInfo(String ExpectedEventName, String startTime, String endTime, String regTime, String timeZone) {
+	public void editEventInfo(String ExpectedEventName, String startTime, String endTime, String regTime,
+			String timeZone) {
 		util.waitUntilElement(driver, eventInfoName);
 		log.info(eventInfoName.getAttribute("value"));
 		System.out.println(eventInfoName.getAttribute("value"));

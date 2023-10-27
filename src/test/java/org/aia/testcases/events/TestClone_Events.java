@@ -22,9 +22,6 @@ import org.aia.utility.Logging;
 import org.aia.utility.VideoRecorder;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.ITestContext;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
@@ -66,11 +63,12 @@ public class TestClone_Events extends BaseClass {
 		viewReceipts = PageFactory.initElements(driver, ViewRecipts.class);
 		eventApivalidation = PageFactory.initElements(driver, EventAPIValidations.class);
 		ticketModule = PageFactory.initElements(driver, TicketModule.class);
+
 		recording = Boolean.parseBoolean(testData.testDataProvider().getProperty("videoRecording"));
 		Logging.configure();
 	}
 
-	@Test(priority = 1, description = "Create New CloneEvent enter event name, enter date, select event category and event search click clone button", enabled = true)
+	@Test(priority = 1, description = "Create New CloneEvent enter event name, enter date, select event category and event search click clone button")
 
 	public void test_CreateCloneEvent(ITestContext context) throws Throwable {
 		String exitEvent = testData.testDataProvider().getProperty("cloneEvent");
@@ -91,6 +89,8 @@ public class TestClone_Events extends BaseClass {
 		cloneEventpage.validateEventHeader();
 		cloneEventpage.getEventId();
 		util.waitForJavascript(driver, 90000, 5000);
+		cloneEventpage.validateEventHeader();
+		cloneEventpage.getEventId();
 
 		context.setAttribute("eventId", cloneEventpage.eventId);
 		context.setAttribute("eventName", cloneEventpage.eName);
@@ -98,6 +98,7 @@ public class TestClone_Events extends BaseClass {
 		context.setAttribute("eventCategory", testData.testDataProvider().getProperty("eventCategory"));
 		// Create Clone event validation
 		eventApivalidation.verifyEvent(context);
+
 		if (recording) {
 			VideoRecorder.stopRecording();
 		}
@@ -113,10 +114,10 @@ public class TestClone_Events extends BaseClass {
 		String eventName = events.clickCreatedEvent();
 		editCloneEvent.clickEditButton();
 		util.waitForJavascript(driver, 90000, 5000);
-		String eventTimeZone =testData.testDataProvider().getProperty("eventTimeZone");
-		String registrationTime =testData.testDataProvider().getProperty("registrationTimer");
-		String startTime =testData.testDataProvider().getProperty("eventStartTime");
-		String endTime =testData.testDataProvider().getProperty("eventEndTime");
+		String eventTimeZone = testData.testDataProvider().getProperty("eventTimeZone");
+		String registrationTime = testData.testDataProvider().getProperty("registrationTimer");
+		String startTime = testData.testDataProvider().getProperty("eventStartTime");
+		String endTime = testData.testDataProvider().getProperty("eventEndTime");
 		editCloneEvent.editEventInfo(eventName, startTime, endTime, registrationTime, eventTimeZone);
 		// tickets tab
 		ticketModule.eventTicketsTab();
@@ -130,7 +131,7 @@ public class TestClone_Events extends BaseClass {
 		editCloneEvent.editEventAccessPermissions();
 		editCloneEvent.editEventSpeakers();
 		editCloneEvent.editEventAgenda();
-		//String scheduleName = editCloneEvent.getSceduleItemsInAgenda();
+		// String scheduleName = editCloneEvent.getSceduleItemsInAgenda();
 		editCloneEvent.editEventSponsorPackages();
 		editCloneEvent.editEventStatuses();
 		editCloneEvent.editEventPages();
@@ -152,6 +153,7 @@ public class TestClone_Events extends BaseClass {
 		events.globalSearch(dataList.get(5));
 		editCloneEvent.getAIAData();
 		events.eventsSearch(eventName);
+		cloneEventpage.getEventId();
 		editCloneEvent.clickEventUrl();
 		// sometimes Register link is not clicked in AIA application
 		eventRegistration.RegisterLink(3);
@@ -162,14 +164,14 @@ public class TestClone_Events extends BaseClass {
 		eventRegistration.clickRegistrationButton();
 		eventRegistration.validateRegisterReq();
 		eventRegistration.agendaModule();
-	
+
 		// Here we getting receipt data from UI and storing in ArrayList
 		eventRegistration.paymentDataIncheckoutModule();
-		 
+
 		eventRegistration.biilingaddressInCheckoutModule();
-		
+
 		eventRegistration.paymentProcessButton();
-			
+
 		ArrayList<Object> receiptData = eventRegistration.clickReceiptInChecout();
 
 		util.waitForJavascript(driver, 90000, 5000);
@@ -177,8 +179,8 @@ public class TestClone_Events extends BaseClass {
 		// Here we validate PDF data
 		String paymentType = testData.testDataProvider().getProperty("PaymentType");
 		String paymentMethodDescr = testData.testDataProvider().getProperty("PaymentMethodDescription");
-		viewReceipts.viewReceiptValidationsForEvents(receiptData.get(1), receiptData.get(0), paymentType, paymentMethodDescr);
-
+		viewReceipts.viewReceiptValidationsForEvents(receiptData.get(1), receiptData.get(0), paymentType,
+				paymentMethodDescr);
 
 		// Here we validate the receipt using API call
 		eventApivalidation.verifyReciptDetails(dataList.get(3), receiptData.get(1), receiptData.get(0));
@@ -222,7 +224,7 @@ public class TestClone_Events extends BaseClass {
 		util.navigateToURl(driver, DataProviderFactory.getConfig().getValue("fonteva_sign_in"));
 		signInpage.login(dataList.get(5), dataList.get(6));
 		util.switchToTabs(driver, 0);
-		events.globalSearch(signUpPage.emailaddressdata);
+		events.globalSearch(dataList.get(5));
 		editCloneEvent.getAIAData();
 		events.eventsSearch(eventName);
 		editCloneEvent.clickEventUrl();
@@ -238,11 +240,11 @@ public class TestClone_Events extends BaseClass {
 
 		// Here we getting receipt data from UI and storing in ArrayList
 		eventRegistration.paymentDataIncheckoutModule();
-		 
+
 		eventRegistration.biilingaddressInCheckoutModule();
-		
+
 		eventRegistration.paymentProcessButton();
-			
+
 		ArrayList<Object> receiptData = eventRegistration.clickReceiptInChecout();
 
 		util.waitForJavascript(driver, 90000, 5000);
@@ -250,8 +252,8 @@ public class TestClone_Events extends BaseClass {
 		// Here we validate PDF data
 		String paymentType = testData.testDataProvider().getProperty("PaymentType");
 		String paymentMethodDescr = testData.testDataProvider().getProperty("PaymentMethodDescription");
-		viewReceipts.viewReceiptValidationsForEvents(receiptData.get(1), receiptData.get(0), paymentType, paymentMethodDescr);
-
+		viewReceipts.viewReceiptValidationsForEvents(receiptData.get(1), receiptData.get(0), paymentType,
+				paymentMethodDescr);
 
 		util.switchToTabs(driver, 0);
 		events.eventsTab();
@@ -262,9 +264,9 @@ public class TestClone_Events extends BaseClass {
 
 		// Registered attendees count
 		linksInEvents.getAttendeesSize();
-		context.setAttribute("eventId", eventID);
 		context.setAttribute("eventName", eventName);
 		context.setAttribute("attendees", afterRegistrationsalesandTotal.get(0));
+		context.setAttribute("eventId", eventID);
 
 		// Here we validate Attendees totals using api call
 		eventApivalidation.verifyAttendees(context);
@@ -296,7 +298,7 @@ public class TestClone_Events extends BaseClass {
 		util.navigateToURl(driver, DataProviderFactory.getConfig().getValue("fonteva_sign_in"));
 		signInpage.login(dataList.get(5), dataList.get(6));
 		util.switchToTabs(driver, 0);
-		events.globalSearch(signUpPage.emailaddressdata);
+		events.globalSearch(dataList.get(5));
 		editCloneEvent.getAIAData();
 		events.eventsSearch(eventName);
 		editCloneEvent.clickEventUrl();
@@ -312,11 +314,11 @@ public class TestClone_Events extends BaseClass {
 
 		// Here we getting receipt data from UI and storing in ArrayList
 		eventRegistration.paymentDataIncheckoutModule();
-		 
+
 		eventRegistration.biilingaddressInCheckoutModule();
-		
+
 		eventRegistration.paymentProcessButton();
-			
+
 		ArrayList<Object> receiptData = eventRegistration.clickReceiptInChecout();
 
 		util.waitForJavascript(driver, 90000, 5000);
@@ -324,8 +326,8 @@ public class TestClone_Events extends BaseClass {
 		// Here we validate PDF data
 		String paymentType = testData.testDataProvider().getProperty("PaymentType");
 		String paymentMethodDescr = testData.testDataProvider().getProperty("PaymentMethodDescription");
-		viewReceipts.viewReceiptValidationsForEvents(receiptData.get(1), receiptData.get(0), paymentType, paymentMethodDescr);
-
+		viewReceipts.viewReceiptValidationsForEvents(receiptData.get(1), receiptData.get(0), paymentType,
+				paymentMethodDescr);
 
 		util.switchToTabs(driver, 0);
 		events.eventsTab();
@@ -341,6 +343,7 @@ public class TestClone_Events extends BaseClass {
 
 		// Here we validate sales & Registration totals using api call
 		eventApivalidation.verifySalesOrderRegistration(context);
+
 		if (recording) {
 			VideoRecorder.stopRecording();
 		}

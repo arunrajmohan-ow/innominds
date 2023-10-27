@@ -55,10 +55,10 @@ public class TicketsTestClone_Execution extends BaseClass {
 		util.waitForJavascript(driver, 90000, 5000);
 		ticketModule.verifyAllFIeldsTicketModule();
 	}
-	
+
 	@Test(priority = 2, description = "Verify creation of New Ticket Type", enabled = true)
 	public void validate_CreateNewTicketType(ITestContext context) throws InterruptedException, Throwable {
-       //fec-103
+		// fec-103
 		events.eventsTab();
 		events.clickCreatedEvent();
 		editCloneEvent.clickEditButton();
@@ -71,7 +71,7 @@ public class TicketsTestClone_Execution extends BaseClass {
 		ticketModule.restrictQuantityCheckBox();
 		ticketModule.enterDescriptionInCreateTicketType();
 		ticketModule.buttonsInCreateTicketType("SaveContinue");
-	}	
+	}
 
 	@Test(priority = 3, description = "verify field in TicketModule info, tickets sales start date,", enabled = true)
 	public void test_VeriftTickets_sales_startDate(ITestContext context) throws InterruptedException, Throwable {

@@ -41,10 +41,10 @@ public class Events {
 	WebElement appLauncherEventsValue;
 
 	@FindBy(xpath = "//a[contains(@class,'label-action dndItem')]/span[text()='Events']")
-	WebElement eventsLink;
+	WebElement eventsModule;
 
 	// Delete event
-	@FindBy(xpath  = "(//div[@class='forceVirtualActionMarker forceVirtualAction']/a)[1]")
+	@FindBy(xpath = "(//div[@class='forceVirtualActionMarker forceVirtualAction']/a)[1]")
 	WebElement actionColumnHeader;
 
 	@FindBy(css = "div [class='branding-actions actionMenu'] a[data-target-selection-name*='Delete']")
@@ -101,12 +101,11 @@ public class Events {
 
 	public void eventsTab() throws Exception {
 		try {
-		util.waitUntilElement(driver, eventsLink);
-		util.clickUsingJS(driver, eventsLink);
-		log.info("Events clickd successfully");
-		Logging.logger.info("Events clickd successfully");
-		}
-		catch (Exception e) {
+			util.waitUntilElement(driver, eventsModule);
+			util.clickUsingJS(driver, eventsModule);
+			log.info("Events clickd successfully");
+			Logging.logger.info("Events clickd successfully");
+		} catch (Exception e) {
 			System.out.println("Events module is not displayed");
 			util.waitUntilElement(driver, appLauncher);
 			appLauncher.click();
@@ -123,10 +122,11 @@ public class Events {
 	 *         row.
 	 */
 	public String clickCreatedEvent() throws Throwable {
+		util.waitUntilElement(driver, eventsModule);
+		util.clickUsingJS(driver, eventsModule);
 		util.waitUntilElement(driver, createdEvent);
 		String eventName = createdEvent.getText();
-		createdEvent.click();
-		Thread.sleep(3000);
+		util.clickUsingJS(driver, createdEvent);
 		return eventName;
 	}
 
@@ -148,8 +148,7 @@ public class Events {
 	 * @throws Throwable
 	 */
 	public void globalSearch(String email) throws Throwable {
-		util.waitUntilElement(driver, globSearch);
-		Utility.highLightElement(driver, globSearch);
+		Utility.waitForWebElement(driver, globSearch, 30);
 		globSearch.click();
 		globSearchInput.sendKeys(email);
 		Thread.sleep(4000);
@@ -165,7 +164,8 @@ public class Events {
 		Utility.highLightElement(driver, searchEvents);
 		util.enterText(driver, searchEvents, event);
 		Thread.sleep(3000);
-		eventName.click();
+		util.waitUntilElement(driver, eventName);
+		util.clickUsingJS(driver, eventName);
 	}
 
 	/**

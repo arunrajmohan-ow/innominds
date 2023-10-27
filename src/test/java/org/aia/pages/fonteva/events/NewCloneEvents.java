@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.aia.utility.ConfigDataProvider;
-import org.aia.utility.Logging;
 import org.aia.utility.Utility;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.JavascriptExecutor;
@@ -101,9 +100,9 @@ public class NewCloneEvents {
 
 	@FindBy(xpath = "//a[contains(text(),'https://aia--testing.sandbox.my.site.com/NationalE')]")
 	WebElement eventUrl;
-	
+
 	public void enterEventName(String template) {
-		eName = "TestQA"+ template + new SimpleDateFormat("MMddyyyyHHmmss").format(new Date());
+		eName = "TestQA" + template + new SimpleDateFormat("MMddyyyyHHmmss").format(new Date());
 		util.enterText(driver, eventName, eName);
 		log.info("Entered Event name as" + eName);
 	}
@@ -114,18 +113,18 @@ public class NewCloneEvents {
 	 * @throws Throwable
 	 */
 	public void enterStartDate() throws InterruptedException, Throwable {
-		
+
 		startDate = new SimpleDateFormat("MM/dd/yyyy").format(new Date());
 		util.enterText(driver, eventStartDate, startDate);
 		log.info("Event Date is Entered");
 	}
-	
+
 	public void selectEventCategory(String eventCategory) {
 		util.waitUntilElement(driver, selectCategory);
 		util.selectDropDownByText(selectCategory, eventCategory);
 		log.info("Event category slected" + eventCategory);
 	}
-	
+
 	public void validateCloneOnExistingRadioButton() throws InterruptedException {
 		util.waitUntilElement(driver, existingCloneEvent);
 		Thread.sleep(5000);
@@ -133,7 +132,7 @@ public class NewCloneEvents {
 		Assert.assertTrue(cloneEventRadioButton);
 		log.info("Existing clone event radio button is selected");
 	}
-	
+
 	public void CloneEventSearchTemplate(String exitEvent) throws Throwable {
 		util.waitUntilElement(driver, eventSearch);
 		eventSearch.click();
@@ -151,12 +150,12 @@ public class NewCloneEvents {
 			}
 		}
 	}
-	
+
 	public void eventCloneButton() throws InterruptedException {
-       Thread.sleep(2000);
-	   eventCloneButton.click();
+		Thread.sleep(2000);
+		eventCloneButton.click();
 	}
-	
+
 	public void verifyCloneEventSegmentCheckBoxs() throws InterruptedException {
 
 		util.waitUntilElement(driver, eventOptionTitle);
@@ -178,7 +177,7 @@ public class NewCloneEvents {
 		System.out.println("VERIFIED: eventStatusPageCheckbox is selected");
 		log.info("VERIFIED: eventStatusPageCheckbox is selected");
 	}
-	
+
 	public void eventFinishCloneButton() {
 		eventFinishCloneButon.click();
 		log.info("Clone button is clicked sucessfully");
@@ -213,7 +212,6 @@ public class NewCloneEvents {
 			e.printStackTrace();
 		}
 		return eventId;
-
 	}
 
 	/**
