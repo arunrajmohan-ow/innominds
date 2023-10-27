@@ -506,7 +506,9 @@ public class CES_ContactPage {
 		executor.executeScript("arguments[0].click();",
 				util.getCustomizedWebElement(driver, contactName, userFullname));
 		util.waitUntilElement(driver, showAll);
+		//action.moveToElement(showAll).click().perform();
 		showAll.click();
+		
 	}
 
 	/**

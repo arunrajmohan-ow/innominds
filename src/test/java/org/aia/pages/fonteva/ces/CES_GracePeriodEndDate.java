@@ -1,4 +1,5 @@
 package org.aia.pages.fonteva.ces;
+
 import static org.testng.Assert.assertTrue;
 
 import java.time.LocalDate;
@@ -18,12 +19,12 @@ import org.openqa.selenium.support.FindBy;
 
 import io.cucumber.java.it.Data;
 
-public class FontevaCES {
+public class CES_GracePeriodEndDate {
 
 	WebDriver driver;
 	Actions action;
 
-	public FontevaCES(WebDriver Idriver) {
+	public CES_GracePeriodEndDate(WebDriver Idriver) {
 
 		this.driver = Idriver;
 		action = new Actions(driver);
@@ -215,16 +216,19 @@ public class FontevaCES {
 
 	@FindBy(xpath = "//button[@title='Edit Application Status']")
 	WebElement editApplicationStatus;
-	
-	@FindBy(xpath = "//span[text()= 'Account']/../..//span//a")
+
+	// @FindBy(xpath = "//span[text()= 'Account']/../..//span//a//span")
+	// WebElement selectAccount;
+	@FindBy(xpath = "//span[text()= 'Account']/parent::div/parent::div//a//span")
 	WebElement selectAccount;
+
+	@FindBy(xpath = "//div[contains(text(),'Your entry does not match the allowed format M/d/yyyy.')]")
+	WebElement dateFormatError;
 
 	String startLocator = "//div[@class='uiVirtualDataTable indicator']/following-sibling::table/tbody//a[text()='";
 	String endLocator = "']";
 	String appName = "Provider Application";
 
-public class CES_GracePeriodEndDate {
-	
 	public void validateGracePeriodEndDate() throws InterruptedException {
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		util.waitUntilElement(driver, memberShip);
@@ -289,7 +293,7 @@ public class CES_GracePeriodEndDate {
 
 	}
 
-	public void validateCESProviderStatus() throws InterruptedException {
+	public void changeTermandGracePeriodDates() throws InterruptedException {
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		util.waitUntilElement(driver, memberShip);
 		action.moveToElement(memberShip).click().perform();
@@ -319,18 +323,25 @@ public class CES_GracePeriodEndDate {
 		inputTermGraceDate.clear();
 		String todaysDate = dateUtils.getDate(0, "MM/dd/yyyy");
 		System.out.println("today's Date is: " + todaysDate);
-		inputTermEndDate.sendKeys(todaysDate);
+		inputTermGraceDate.sendKeys(todaysDate);
 		saveBtn.click();
 		Thread.sleep(1000);
 		action.sendKeys(Keys.F5);
-		Thread.sleep(2000);
+		Thread.sleep(3000);
+	}
+
+	public void validateCESProviderStatus() throws InterruptedException {
+		driver.navigate().refresh();
+		driver.switchTo().alert().accept();
+		Thread.sleep(3000);
 		util.waitUntilElement(driver, selectAccount);
-		action.moveToElement(selectAccount).click().perform();
+		selectAccount.clear();
+		Thread.sleep(3000);
+		//action.moveToElement(selectAccount).click().perform();
 		System.out.println("Account selected");
 		util.waitUntilElement(driver, cesProviderStatus);
 		String cesProviderStatusValue = cesProviderStatus.getText();
 		System.out.println("CES Provider Status Value is:" + cesProviderStatusValue);
 		assertTrue(cesProviderStatusValue.equalsIgnoreCase(data.testDataProvider().getProperty("cesProviderStatus")));
 	}
-}
 }
