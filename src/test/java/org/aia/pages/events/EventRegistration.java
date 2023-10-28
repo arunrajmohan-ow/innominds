@@ -224,7 +224,7 @@ public class EventRegistration {
 	public void selectTicketQuantity() throws Throwable
 
 	{
-		Thread.sleep(9000);
+//		Thread.sleep(9000);
 		util.waitUntilElement(driver, ticketTypeQuantity);
 		util.scrollingElementUsingJS(driver, ticketTypeQuantity);
 		Utility.highLightElement(driver, ticketTypeQuantity);

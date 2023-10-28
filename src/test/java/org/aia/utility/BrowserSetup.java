@@ -49,7 +49,6 @@ public class BrowserSetup {
 			options.addArguments("--headless");
 			options.addArguments("--window-size=1920,1080");
 			driver = new FirefoxDriver(options);
-
 		} else if (browser.equalsIgnoreCase("edge")) {
 			// System.setProperty("webdriver.edge.driver",
 			// System.getProperty("user.dir")+"\\Drivers\\MicrosoftWebDriver.exe");
@@ -64,17 +63,12 @@ public class BrowserSetup {
 		driver.manage().deleteAllCookies();
 		driver.manage().window().maximize();
 		driver.get(url);
-
 		return driver;
 	}
 
 	public static void closeBrowser(WebDriver driver) {
-
 		System.out.println("LOG :Info- Browser Session getting terminated");
-
 	    driver.quit();
-		
 		System.out.println("LOG :Info- Browser Session terminated");
-
 	}
 }
