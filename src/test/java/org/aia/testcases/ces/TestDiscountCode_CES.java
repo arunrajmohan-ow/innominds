@@ -2,6 +2,7 @@ package org.aia.testcases.ces;
 
 import java.util.ArrayList;
 
+
 import org.aia.pages.BaseClass;
 import org.aia.pages.api.MailinatorCESAPI;
 import org.aia.pages.api.ces.JoinCESAPIValidation;
@@ -20,6 +21,7 @@ import org.aia.pages.ces.SecondaryPointOfContact;
 import org.aia.pages.ces.SignUpPageCes;
 import org.aia.pages.ces.Subscription;
 import org.aia.pages.fonteva.ces.CES_ContactPage;
+import org.aia.pages.fonteva.ces.CES_RapidOrderEntry;
 import org.aia.pages.membership.OrderSummaryPage;
 import org.aia.pages.membership.PaymentInformation;
 import org.aia.pages.membership.PrimaryInformationPage;
@@ -59,6 +61,7 @@ public class TestDiscountCode_CES extends BaseClass {
 	PaymentSuccessFullPageCes paymntSuccesFullPageCes;
 	JoinCESAPIValidation apiValidation;
 	OrderSummaryCes orderSummary;
+	CES_RapidOrderEntry rapidOrderEntery;
 	CES_ContactPage cesContactPage;
 
 	public ExtentReports extent;
@@ -88,11 +91,11 @@ public class TestDiscountCode_CES extends BaseClass {
 		checkOutPageCes = PageFactory.initElements(driver, CheckOutPageCes.class);
 		paymntSuccesFullPageCes = PageFactory.initElements(driver, PaymentSuccessFullPageCes.class);
 		apiValidation = PageFactory.initElements(driver, JoinCESAPIValidation.class);
-		orderSummary=PageFactory.initElements(driver, OrderSummaryCes.class);
-		cesContactPage=PageFactory.initElements(driver, CES_ContactPage.class);
+		orderSummary = PageFactory.initElements(driver, OrderSummaryCes.class);
+		cesContactPage = PageFactory.initElements(driver, CES_ContactPage.class);
 	}
 
-	@Test(priority = 1, description = "[FC-270]Verify CES Basic Discount on Checkout tab for CES passport JOIN.", enabled = false)
+	@Test(priority = 1, description = "[FC-270]Verify CES Basic Discount on Checkout tab for CES passport JOIN.", enabled = true)
 	public void validateDiscountCodeCESBasic() throws Exception {
 		String prefix = "Dr.";
 		String suffix = "Sr.";
@@ -113,15 +116,16 @@ public class TestDiscountCode_CES extends BaseClass {
 		orderSummary.applyDiscountCode(testData.testDataProvider().getProperty("cesBasicDiscountCode"));
 		orderSummary.validateAmountAfterApplyDiscountCode();
 		checkOutPageCes.SubscriptionType(text);
-		Object amount = paymntSuccesFullPageCes.amountPaid(); 
-		String reciptData = paymntSuccesFullPageCes.ClickonViewReceipt(); 
-	    apiValidation.getAccountId(dataList.get(3));
-		// Here we validate receipt 
-		apiValidation.verifyReciptDetails(reciptData, amount, testData.testDataProvider().getProperty("availableMemType"));
+		Object amount = paymntSuccesFullPageCes.amountPaid();
+		String reciptData = paymntSuccesFullPageCes.ClickonViewReceipt();
+		apiValidation.getAccountId(dataList.get(3));
+		// Here we validate receipt
+		apiValidation.verifyReciptDetails(reciptData, amount,
+				testData.testDataProvider().getProperty("availableMemType"));
 	}
-	
+
 	@Test(priority = 2, description = "[FC-271]Verify CES Basic Discount code for other Membership types", enabled = true)
-	public void validateDiscountCodeForMembership() throws Exception {
+	public void validateDiscountCodeDiffMembership() throws Exception {
 		String prefix = "Dr.";
 		String suffix = "Sr.";
 		signUpPage.clickSignUplink();
@@ -140,11 +144,66 @@ public class TestDiscountCode_CES extends BaseClass {
 		providerStatement.providerStatementEnterNameDate2("FNProviderStatement");
 		checkOutPageCes.SubscriptionType(text);
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
-		cesContactPage.selectCreatedContact(dataList.get(0)+" "+dataList.get(1));
-		cesContactPage.selectAccountName();
-		cesContactPage.selectDiscountCode("Basic","Allied National");
-		
-		
+		cesContactPage.selectCreatedContact(dataList.get(0) + " " + dataList.get(1));
+		rapidOrderEntery.selectAccountName();
+		rapidOrderEntery.selectDiscountCode(testData.testDataProvider().getProperty("cesBasicDiscountCode"),
+				testData.testDataProvider().getProperty("quickElement1"),
+				testData.testDataProvider().getProperty("cesBasicPriceId"));
+
+	}
+
+	@Test(priority = 3, description = "[FC-273]Verify discount code for CES Basic membership", enabled = true)
+	public void validateDiscountCodeForCESMembership() throws Exception {
+		String prefix = "Dr.";
+		String suffix = "Sr.";
+		signUpPage.clickSignUplink();
+		ArrayList<String> dataList = signUpPage.signUpData();
+		signUpPage.signUpUser();
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
+		closeButtnPage.clickCloseAfterVerification();
+		loginPageCes.loginToCes(dataList.get(5), dataList.get(6));
+		loginPageCes.checkLoginSuccess();
+		primarypocPage.enterPrimaryPocDetails(prefix, suffix, dataList.get(2));
+		String text = organizationPage.enterOrganizationDetails(dataList, "Other", "No",
+				"United States of America (+1)");
+		subscribePage.SubscriptionType(text, "Yes", null, "Non-profit");
+		secPoc.enterSecondaryPocDetails(dataList, prefix, suffix, "No", "United States of America (+1)");
+		additionalUsers.doneWithCreatingUsers();
+		providerStatement.providerStatementEnterNameDate2("FNProviderStatement");
+		checkOutPageCes.SubscriptionType(text);
+		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
+		cesContactPage.selectCreatedContact(dataList.get(0) + " " + dataList.get(1));
+		rapidOrderEntery.selectAccountName();
+		rapidOrderEntery.selectDiscountCode(testData.testDataProvider().getProperty("cesBasicDiscountCode"),
+				testData.testDataProvider().getProperty("quickElement2"),testData.testDataProvider().getProperty("cesBasicPriceId"));
+
+	}
+	
+	@Test(priority = 4, description = "[FC-273]Verify discount code for Other CES membership", enabled = true)
+	public void validateDiscountCodeForOtherCESMem() throws Exception {
+		String prefix = "Dr.";
+		String suffix = "Sr.";
+		signUpPage.clickSignUplink();
+		ArrayList<String> dataList = signUpPage.signUpData();
+		signUpPage.signUpUser();
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
+		closeButtnPage.clickCloseAfterVerification();
+		loginPageCes.loginToCes(dataList.get(5), dataList.get(6));
+		loginPageCes.checkLoginSuccess();
+		primarypocPage.enterPrimaryPocDetails(prefix, suffix, dataList.get(2));
+		String text = organizationPage.enterOrganizationDetails(dataList, "Other", "No",
+				"United States of America (+1)");
+		subscribePage.SubscriptionType(text, "Yes", null, "Non-profit");
+		secPoc.enterSecondaryPocDetails(dataList, prefix, suffix, "No", "United States of America (+1)");
+		additionalUsers.doneWithCreatingUsers();
+		providerStatement.providerStatementEnterNameDate2("FNProviderStatement");
+		checkOutPageCes.SubscriptionType(text);
+		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
+		cesContactPage.selectCreatedContact(dataList.get(0) + " " + dataList.get(1));
+		rapidOrderEntery.selectAccountName();
+		rapidOrderEntery.selectDiscountCode(testData.testDataProvider().getProperty("cesBasicDiscountCode"),
+				testData.testDataProvider().getProperty("quickElement0"),testData.testDataProvider().getProperty("cesPassportPriceId"));
+
 	}
 
 	@AfterMethod
