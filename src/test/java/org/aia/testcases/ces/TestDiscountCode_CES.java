@@ -2,7 +2,6 @@ package org.aia.testcases.ces;
 
 import java.util.ArrayList;
 
-
 import org.aia.pages.BaseClass;
 import org.aia.pages.api.MailinatorCESAPI;
 import org.aia.pages.api.ces.JoinCESAPIValidation;
@@ -93,6 +92,7 @@ public class TestDiscountCode_CES extends BaseClass {
 		apiValidation = PageFactory.initElements(driver, JoinCESAPIValidation.class);
 		orderSummary = PageFactory.initElements(driver, OrderSummaryCes.class);
 		cesContactPage = PageFactory.initElements(driver, CES_ContactPage.class);
+		rapidOrderEntery = PageFactory.initElements(driver, CES_RapidOrderEntry.class);
 	}
 
 	@Test(priority = 1, description = "[FC-270]Verify CES Basic Discount on Checkout tab for CES passport JOIN.", enabled = true)
@@ -175,10 +175,11 @@ public class TestDiscountCode_CES extends BaseClass {
 		cesContactPage.selectCreatedContact(dataList.get(0) + " " + dataList.get(1));
 		rapidOrderEntery.selectAccountName();
 		rapidOrderEntery.selectDiscountCode(testData.testDataProvider().getProperty("cesBasicDiscountCode"),
-				testData.testDataProvider().getProperty("quickElement2"),testData.testDataProvider().getProperty("cesBasicPriceId"));
+				testData.testDataProvider().getProperty("quickElement2"),
+				testData.testDataProvider().getProperty("cesBasicPriceId"));
 
 	}
-	
+
 	@Test(priority = 4, description = "[FC-273]Verify discount code for Other CES membership", enabled = true)
 	public void validateDiscountCodeForOtherCESMem() throws Exception {
 		String prefix = "Dr.";
@@ -202,7 +203,8 @@ public class TestDiscountCode_CES extends BaseClass {
 		cesContactPage.selectCreatedContact(dataList.get(0) + " " + dataList.get(1));
 		rapidOrderEntery.selectAccountName();
 		rapidOrderEntery.selectDiscountCode(testData.testDataProvider().getProperty("cesBasicDiscountCode"),
-				testData.testDataProvider().getProperty("quickElement0"),testData.testDataProvider().getProperty("cesPassportPriceId"));
+				testData.testDataProvider().getProperty("quickElement0"),
+				testData.testDataProvider().getProperty("cesPassportPriceId"));
 
 	}
 
