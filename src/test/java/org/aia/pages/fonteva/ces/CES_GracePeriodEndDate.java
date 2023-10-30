@@ -83,8 +83,6 @@ public class CES_GracePeriodEndDate {
 	@FindBy(xpath = "//div[@class='uiVirtualDataTable indicator']")
 	WebElement tableDiv;
 
-	// @FindBy(xpath="//a/slot/span[contains(text(),'Memberships')]") WebElement
-	// memberShip;
 	@FindBy(xpath = "//a/slot/span[contains(text(),'Memberships')]//ancestor::a")
 	WebElement memberShip;
 
@@ -112,21 +110,11 @@ public class CES_GracePeriodEndDate {
 	@FindBy(xpath = "//div[@class='uiVirtualDataTable indicator']/following-sibling::table/tbody/tr/th")
 	WebElement Name;
 
-	// @FindBy(xpath="//span[text()='Term End
-	// Date']/parent::div/following-sibling::div//button") WebElement editBtn;
-
 	@FindBy(xpath = "//button[@title='Edit Term End Date']/span")
 	WebElement editBtn;
 
 	@FindBy(xpath = "//a[contains(text(),'Show')]")
 	WebElement showallBtn;
-
-	// @FindBy(xpath="//a[contains(text(),'Show All (1')]") WebElement showallBtn;
-
-	// @FindBy(xpath="//lst-related-list-quick-links-grid//div//div[@class='slds-card__body
-	// slds-card__body--inner']//div[@class='rlql-toggle
-	// slds-text-align_center']//a[contains(text(),'Show All')]") WebElement
-	// showallBtn;
 
 	@FindBy(xpath = "//h1/span[text()='Contacts']/parent::h1/parent::div/parent::div//button")
 	WebElement contactallBtn;
@@ -164,8 +152,6 @@ public class CES_GracePeriodEndDate {
 	@FindBy(xpath = "//span[text()='Attestation Date']/parent::div/parent::div//div//span//slot/*[@slot='outputField']")
 	WebElement attestationDate;
 
-	// @FindBy(xpath="//span[text()='Account']/parent::div/parent::div//div//span//slot/*[@slot='outputField']")WebElement
-	// accounttxt;
 	@FindBy(xpath = "//span[text()= 'Account']/parent::div/parent::div//a//span")
 	WebElement accounttxt;
 
@@ -217,8 +203,6 @@ public class CES_GracePeriodEndDate {
 	@FindBy(xpath = "//button[@title='Edit Application Status']")
 	WebElement editApplicationStatus;
 
-	// @FindBy(xpath = "//span[text()= 'Account']/../..//span//a//span")
-	// WebElement selectAccount;
 	@FindBy(xpath = "//span[text()= 'Account']/parent::div/parent::div//a//span")
 	WebElement selectAccount;
 
@@ -228,6 +212,12 @@ public class CES_GracePeriodEndDate {
 	String startLocator = "//div[@class='uiVirtualDataTable indicator']/following-sibling::table/tbody//a[text()='";
 	String endLocator = "']";
 	String appName = "Provider Application";
+
+	/**
+	 * Here ,we verify GracePeriodEndDate after changing termEndDate
+	 * 
+	 * @throws InterruptedException
+	 */
 
 	public void validateGracePeriodEndDate() throws InterruptedException {
 		JavascriptExecutor js = (JavascriptExecutor) driver;
@@ -260,6 +250,11 @@ public class CES_GracePeriodEndDate {
 
 	}
 
+	/**
+	 * Here, we verify the dateFormatError
+	 * 
+	 * @throws InterruptedException
+	 */
 	public void validateDateFormatError() throws InterruptedException {
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		util.waitUntilElement(driver, memberShip);
@@ -292,6 +287,13 @@ public class CES_GracePeriodEndDate {
 		assertTrue(dateFormatErrorValue.equalsIgnoreCase(data.testDataProvider().getProperty("dateFormatErrorMsg")));
 
 	}
+
+	/**
+	 * Here, termEndDate and GracePeriodEndDates will be modified. termEndDate is
+	 * >32 days GracePeriodEndDate will be today's date
+	 * 
+	 * @throws InterruptedException
+	 */
 
 	public void changeTermandGracePeriodDates() throws InterruptedException {
 		JavascriptExecutor js = (JavascriptExecutor) driver;
@@ -330,6 +332,10 @@ public class CES_GracePeriodEndDate {
 		Thread.sleep(3000);
 	}
 
+	/**
+	 * Here, on the account page, we verify the CESProviderStatus.
+	 *
+	 **/
 	public void validateCESProviderStatus() throws InterruptedException {
 		driver.navigate().refresh();
 		driver.switchTo().alert().accept();
@@ -337,7 +343,6 @@ public class CES_GracePeriodEndDate {
 		util.waitUntilElement(driver, selectAccount);
 		selectAccount.click();
 		Thread.sleep(3000);
-		// action.moveToElement(selectAccount).click().perform();
 		System.out.println("Account selected");
 		util.waitUntilElement(driver, cesProviderStatus);
 		String cesProviderStatusValue = cesProviderStatus.getText();
