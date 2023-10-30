@@ -1,7 +1,7 @@
 package org.aia.pages.ces;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.testng.Assert.*;
+
 
 import java.util.ArrayList;
 
@@ -106,7 +106,9 @@ public class Organization {
 
 	  @FindBy(xpath = "//span[@class='error']")
 	  WebElement workPhoneError2;
-		
+	  
+	  String accountName="//span[text()='%s']/ancestor::a";
+	  
 		/*
 		 * Enter Mandatory Organization Details.
 		 */
@@ -141,6 +143,7 @@ public class Organization {
 		
 		public void verifyOrganizationTab() {
 			util.waitUntilElement(driver, tabTitleOrganization);
+			util.getCustomizedWebElement(driver, accountName, "AccontOrg");
 			assertTrue(tabTitleOrganization.isDisplayed());
 			
 		}

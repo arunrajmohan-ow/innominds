@@ -26,7 +26,7 @@ public class FontevaCES {
 	
 	@FindBy(xpath="//input[@id='Login']") WebElement loginBtn;
 	
-	@FindBy(xpath="//*[@title='Contacts']/span") WebElement contacts;
+	@FindBy(xpath="//*[@title='Contact']/span") WebElement contacts;
 	
 	@FindBy(xpath="//span[text()='App Launcher']/parent::div//parent::button") WebElement appLauncherIcn;
 	
@@ -225,4 +225,6 @@ public class FontevaCES {
 		util.waitUntilElement(driver, noItemHeading);
 		assertTrue(noItemHeading.isDisplayed());
 	}
+	
+	
 }

@@ -20,6 +20,7 @@ import org.aia.pages.ces.ProviderStatement;
 import org.aia.pages.ces.SecondaryPointOfContact;
 import org.aia.pages.ces.SignUpPageCes;
 import org.aia.pages.ces.Subscription;
+import org.aia.pages.fonteva.ces.CES_PointsOfContact;
 import org.aia.pages.membership.OrderSummaryPage;
 import org.aia.pages.membership.PaymentInformation;
 import org.aia.pages.membership.PrimaryInformationPage;
@@ -37,7 +38,7 @@ import org.testng.annotations.Test;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 
-public class TestProviderAppTab_CES extends BaseClass {
+public class TestPointsofContacts_CES extends BaseClass {
 	
 	SignUpPageCes signUpPage;
 	SignInPage signInpage;
@@ -59,6 +60,7 @@ public class TestProviderAppTab_CES extends BaseClass {
 	PaymentSuccessFullPageCes paymntSuccesFullPageCes;
 	JoinCESAPIValidation apiValidation;
 	FontevaCES fontevaPage;
+	CES_PointsOfContact pointsOfContact;
 	public ExtentReports extent;
 	public ExtentTest extentTest;
 	final static Logger logger = Logger.getLogger(TestJoinPassport_CES.class);
@@ -86,12 +88,14 @@ public class TestProviderAppTab_CES extends BaseClass {
 		paymntSuccesFullPageCes = PageFactory.initElements(driver, PaymentSuccessFullPageCes.class);
 		apiValidation = PageFactory.initElements(driver, JoinCESAPIValidation.class);
 		fontevaPage = PageFactory.initElements(driver, FontevaCES.class);
+		pointsOfContact = PageFactory.initElements(driver, CES_PointsOfContact.class);
+
 	}
 
 	/**
 	 * @throws Exception
 	 */
-	@Test(priority = 1, description = "Validate Primary point of contact tab", enabled = true)
+	@Test(priority = 1, description = "Validate Primary point of contact tab", enabled = false)
 	public void validatePrimaryPOCTab() throws Exception {
 		String prefix = "Dr.";
 		String suffix = "Sr.";
@@ -107,26 +111,8 @@ public class TestProviderAppTab_CES extends BaseClass {
 		primarypocPage.enterPOCdetail(prefix, suffix, dataList.get(2), dataList, mobileCountry);
 	}
 	
-	@Test(priority = 2, description = "Validate refresh functionality Organization tab", enabled = false)
-	public void validateRefreshFuntionInOrg() throws Exception {
-		String prefix = "Dr.";
-		String suffix = "Sr.";
-		signUpPage.clickSignUplink();
-		ArrayList<String> dataList = signUpPage.signUpData();
-		String mobileCountry = signUpPage.signUpUserDetail();
-		mailinator.verifyEmailForAccountSetup(dataList.get(3));
-		closeButtnPage.clickCloseAfterVerification();
-		loginPageCes.loginToCes(dataList.get(5), dataList.get(6));
-		loginPageCes.checkLoginSuccess();
-		primarypocPage.verifyPOCTab();
-		primarypocPage.validateErrorOnPOCTab();
-		primarypocPage.enterPOCdetail(prefix, suffix, dataList.get(2), dataList, mobileCountry);
-		organizationPage.verifyOrganizationTab();
-		organizationPage.refreshFunction();
-			
-	}
 	
-	@Test(priority = 3, description = "Validate the Provider application number being created", enabled = true)
+	@Test(priority = 2, description = "(FC-291) Verify Edit for existing Role in contact", enabled = false)
 	public void validateProviderAppNoCreated() throws Exception {
 		String prefix = "Dr.";
 		String suffix = "Sr.";
@@ -160,8 +146,84 @@ public class TestProviderAppTab_CES extends BaseClass {
 		final String sID = sessionID.getSessionID();
 		System.out.println("sessionID 2 is :" +sID);
 		driver.get("https://aia--testing.sandbox.my.salesforce.com/secur/frontdoor.jsp?sid=" + sID);
-		fontevaPage.changeProviderApplicationStatus(userAccount.get(0)+" "+userAccount.get(1), paId, "Approved");
+		pointsOfContact.clickPointsOfContact(userAccount.get(0)+" "+userAccount.get(1), paId, "Approved");
 		
+	}
+	
+	@Test(priority = 3, description = "(FC-292) Verify 'Delete' option for a contact", enabled = true)
+	public void validateDeleteBtnPOC() throws Exception {
+		String prefix = "Dr.";
+		String suffix = "Sr.";
+		signUpPage.clickSignUplink(); 
+		ArrayList<String> dataList = signUpPage.signUpData(); 
+		ArrayList<String> userAccount = dataList;
+		signUpPage.signUpUser();
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
+		closeButtnPage.clickCloseAfterVerification();
+		loginPageCes.loginToCes(dataList.get(5), dataList.get(6));
+		loginPageCes.checkLoginSuccess();
+		primarypocPage.enterPrimaryPocDetails(prefix, suffix, dataList.get(2));
+		String subType = organizationPage.enterOrganizationDetails(dataList, 
+				  "Architecture Firm", "No", "United States of America (+1)");
+		subscribePage.SubscriptionType(subType, "Yes", null, "Non-profit");
+		//subscribePage.proratedSubscriptionNext();
+		secPoc.enterSecondaryPocDetails(dataList, prefix, suffix, "No", "United States of America (+1)"); 
+		additionalUsers.doneWithCreatingUsers();
+		providerStatement.providerStatementEnterNameDate2("FNProviderStatement");
+		checkOutPageCes.SubscriptionType(subType);
+		mailinator.ProviderApplicationReviewEmailLink(userAccount);
+
+		for(int i=0;i<userAccount.size();i++)
+			System.out.println("useraccount value is ***:" +userAccount.get(i));
+		// Get Provider application ID
+		String paId = apiValidation.getProviderApplicationID(userAccount.get(0)+" "+userAccount.get(1)); 
+		
+		// Navigate to Fonteva app and make record renew eligible.
+		FontevaConnectionSOAP sessionID = new FontevaConnectionSOAP(); 
+		System.out.println("sessionID is :" +sessionID);
+		final String sID = sessionID.getSessionID();
+		System.out.println("sessionID 2 is :" +sID);
+		driver.get("https://aia--testing.sandbox.my.salesforce.com/secur/frontdoor.jsp?sid=" + sID);
+		pointsOfContact.clickPointsOfContact(userAccount.get(0)+" "+userAccount.get(1), paId, "Approved");
+		pointsOfContact.deletePointsOfContact();
+	}
+	
+	@Test(priority = 4, description = "(FC-294) Verify Role change of contact from Points of contact", enabled = false)
+	public void validateRoleChangePOC() throws Exception {
+		String prefix = "Dr.";
+		String suffix = "Sr.";
+		signUpPage.clickSignUplink(); 
+		ArrayList<String> dataList = signUpPage.signUpData(); 
+		ArrayList<String> userAccount = dataList;
+		signUpPage.signUpUser();
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
+		closeButtnPage.clickCloseAfterVerification();
+		loginPageCes.loginToCes(dataList.get(5), dataList.get(6));
+		loginPageCes.checkLoginSuccess();
+		primarypocPage.enterPrimaryPocDetails(prefix, suffix, dataList.get(2));
+		String subType = organizationPage.enterOrganizationDetails(dataList, 
+				  "Architecture Firm", "No", "United States of America (+1)");
+		subscribePage.SubscriptionType(subType, "Yes", null, "Non-profit");
+		//subscribePage.proratedSubscriptionNext();
+		secPoc.enterSecondaryPocDetails(dataList, prefix, suffix, "No", "United States of America (+1)"); 
+		additionalUsers.doneWithCreatingUsers();
+		providerStatement.providerStatementEnterNameDate2("FNProviderStatement");
+		checkOutPageCes.SubscriptionType(subType);
+		mailinator.ProviderApplicationReviewEmailLink(userAccount);
+
+		for(int i=0;i<userAccount.size();i++)
+			System.out.println("useraccount value is ***:" +userAccount.get(i));
+		// Get Provider application ID
+		String paId = apiValidation.getProviderApplicationID(userAccount.get(0)+" "+userAccount.get(1)); 
+		
+		// Navigate to Fonteva app and make record renew eligible.
+		FontevaConnectionSOAP sessionID = new FontevaConnectionSOAP(); 
+		System.out.println("sessionID is :" +sessionID);
+		final String sID = sessionID.getSessionID();
+		System.out.println("sessionID 2 is :" +sID);
+		driver.get("https://aia--testing.sandbox.my.salesforce.com/secur/frontdoor.jsp?sid=" + sID);
+		pointsOfContact.clickPointsOfContact(userAccount.get(0)+" "+userAccount.get(1), paId, "Approved");
+		pointsOfContact.roleChangePointsOfContact();
 	}
 	
 	}
