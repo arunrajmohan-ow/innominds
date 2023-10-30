@@ -39,9 +39,6 @@ public class CheckOutPageCes {
 	@FindBy(xpath = "//select[@name='Exp year']")
 	WebElement expYearCheckOutCes;
 
-	@FindBy(css = "#ccPaymentComp>div:nth-child(1)>div:nth-child(7)>div>div:nth-child(2)>div>label>span:nth-child(2)")
-	WebElement CreditCrdcheckboxCheckOutCes;
-
 	@FindBy(xpath = "//button[text()='Process payment']")
 	WebElement btnProcessPaymnt;
 
@@ -50,9 +47,6 @@ public class CheckOutPageCes {
 
 	@FindBy(xpath = "//iframe[@title='Credit Card Input Frame']")
 	WebElement creditCardNumFrame1Ces;
-
-	// @FindBy(xpath="//iframe[@id='spreedlyFrame']") WebElement
-	// creditCardNumFrame1Ces;
 
 	@FindBy(xpath = "//iframe[@title='Card number']")
 	WebElement creditCardNumFrame2Ces;
@@ -101,9 +95,6 @@ public class CheckOutPageCes {
 
 	@FindBy(xpath = "//select[@name='Bank Account Holder Type']")
 	WebElement bankAccntHolderTypeECheckoutCes;
-
-	@FindBy(xpath = "#eCheckMethod>div:nth-child(6)>div>div:nth-child(2)>div>label>span:nth-child(2)")
-	WebElement checkboxECheckoutCes;
 
 	@FindBy(xpath = "//button[text()='Process payment']")
 	WebElement btnProcessPaymntECheckoutCes;
