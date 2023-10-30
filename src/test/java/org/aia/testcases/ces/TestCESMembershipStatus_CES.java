@@ -473,4 +473,9 @@ public class TestCESMembershipStatus_CES extends BaseClass {
 				testData.testDataProvider().getProperty("cesMembershipType2"));
 	}
 
+	@AfterMethod(alwaysRun = true)
+	public void teardown() {
+		BrowserSetup.closeBrowser(driver);
+
+	}
 }
