@@ -1,6 +1,7 @@
 package org.aia.testcases.events;
 
 import java.util.ArrayList;
+
 import org.aia.pages.BaseClass;
 import org.aia.pages.api.MailinatorAPI;
 import org.aia.pages.api.events.EventAPIValidations;
@@ -19,23 +20,16 @@ import org.aia.utility.BrowserSetup;
 import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.DataProviderFactory;
 import org.aia.utility.Logging;
-<<<<<<< HEAD
 import org.apache.log4j.Logger;
-=======
 import org.aia.utility.VideoRecorder;
->>>>>>> c748094e722e5110eb5d3c68125dfe6b4600c223
 import org.openqa.selenium.support.PageFactory;
 import org.testng.ITestContext;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
-<<<<<<< HEAD
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
-=======
-@Listeners(org.aia.utility.GenerateReportsListener.class)
->>>>>>> c748094e722e5110eb5d3c68125dfe6b4600c223
 
 public class TestClone_Events extends BaseClass {
 
@@ -51,15 +45,11 @@ public class TestClone_Events extends BaseClass {
 	ViewRecipts viewReceipts;
 	EventAPIValidations eventApivalidation;
 	QuickLinksInEvents linksInEvents;
-<<<<<<< HEAD
 	public ExtentReports extent;
 	public ExtentTest extentTest;
 	final static Logger logger = Logger.getLogger(TestClone_Events.class);
-
-=======
 	boolean recording;
 	
->>>>>>> c748094e722e5110eb5d3c68125dfe6b4600c223
 	@BeforeMethod(alwaysRun = true)
 	public void setUp() throws Exception {
 		testData = new ConfigDataProvider();
