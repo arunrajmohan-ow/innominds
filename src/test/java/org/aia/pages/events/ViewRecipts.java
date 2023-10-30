@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Set;
-import org.aia.pages.fonteva.events.EditCloneEvent;
+import org.aia.pages.fonteva.events.EventInfoModule;
 import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.Utility;
 import org.apache.log4j.Logger;
@@ -26,7 +26,7 @@ public class ViewRecipts {
 	JavascriptExecutor executor;
 	ConfigDataProvider testData;
 	EventRegistration eventRegistration;
-	EditCloneEvent editCloneEvent;
+	EventInfoModule editCloneEvent;
 	static Logger log = Logger.getLogger(EventRegistration.class);
 	String pdfContent = "";
 
@@ -35,7 +35,7 @@ public class ViewRecipts {
 		executor = (JavascriptExecutor) driver;
 		testData = new ConfigDataProvider();
 		eventRegistration = PageFactory.initElements(driver, EventRegistration.class);
-		editCloneEvent = PageFactory.initElements(driver, EditCloneEvent.class);
+		editCloneEvent = PageFactory.initElements(driver, EventInfoModule.class);
 	}
 
 	/**

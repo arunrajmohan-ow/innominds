@@ -8,7 +8,7 @@ import org.aia.pages.api.events.EventAPIValidations;
 import org.aia.pages.api.membership.FontevaConnectionSOAP;
 import org.aia.pages.events.EventRegistration;
 import org.aia.pages.events.ViewRecipts;
-import org.aia.pages.fonteva.events.EditCloneEvent;
+import org.aia.pages.fonteva.events.EventInfoModule;
 import org.aia.pages.fonteva.events.Events;
 import org.aia.pages.fonteva.events.NewCloneEvents;
 import org.aia.pages.fonteva.events.QuickLinksInEvents;
@@ -33,7 +33,7 @@ public class TestClone_EventTemplateMedium extends BaseClass {
 	Events events;
 	NewCloneEvents cloneEventpage;
 	ConfigDataProvider testData;
-	EditCloneEvent editCloneEvent;
+	EventInfoModule editCloneEvent;
 	SignUpPage signUpPage;
 	MailinatorAPI mailinator;
 	SignInPage signInpage;
@@ -53,7 +53,7 @@ public class TestClone_EventTemplateMedium extends BaseClass {
 				testData.getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
 		events = PageFactory.initElements(driver, Events.class);
 		cloneEventpage = PageFactory.initElements(driver, NewCloneEvents.class);
-		editCloneEvent = PageFactory.initElements(driver, EditCloneEvent.class);
+		editCloneEvent = PageFactory.initElements(driver, EventInfoModule.class);
 		signInpage = PageFactory.initElements(driver, SignInPage.class);
 		signUpPage = PageFactory.initElements(driver, SignUpPage.class);
 		linksInEvents = PageFactory.initElements(driver, QuickLinksInEvents.class);

@@ -19,7 +19,7 @@ public class TicketModule {
 	JavascriptExecutor executor;
 	ConfigDataProvider testData;
 	Actions act;
-	static Logger log = Logger.getLogger(EditCloneEvent.class);
+	static Logger log = Logger.getLogger(EventInfoModule.class);
 	public String salesOrder = "";
 	public String aiaNumber = "";
 

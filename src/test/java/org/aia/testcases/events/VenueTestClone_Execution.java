@@ -3,7 +3,7 @@ package org.aia.testcases.events;
 import org.aia.pages.BaseClass;
 import org.aia.pages.api.events.EventAPIValidations;
 import org.aia.pages.api.membership.FontevaConnectionSOAP;
-import org.aia.pages.fonteva.events.EditCloneEvent;
+import org.aia.pages.fonteva.events.EventInfoModule;
 import org.aia.pages.fonteva.events.EventConfig;
 import org.aia.pages.fonteva.events.Events;
 import org.aia.pages.fonteva.events.NewCloneEvents;
@@ -28,7 +28,7 @@ public class VenueTestClone_Execution extends BaseClass {
 	Events events;
 	NewCloneEvents cloneEventpage;
 	ConfigDataProvider testData;
-	EditCloneEvent editCloneEvent;
+	EventInfoModule editCloneEvent;
 	EventAPIValidations eventApivalidation;
 	VenuesEvent venuesEvent;
 	boolean recording;
@@ -41,7 +41,7 @@ public class VenueTestClone_Execution extends BaseClass {
 				testData.getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
 		events = PageFactory.initElements(driver, Events.class);
 		cloneEventpage = PageFactory.initElements(driver, NewCloneEvents.class);
-		editCloneEvent = PageFactory.initElements(driver, EditCloneEvent.class);
+		editCloneEvent = PageFactory.initElements(driver, EventInfoModule.class);
 		eventApivalidation = PageFactory.initElements(driver, EventAPIValidations.class);
 		venuesEvent = PageFactory.initElements(driver, VenuesEvent.class);
 		recording = Boolean.parseBoolean(testData.testDataProvider().getProperty("videoRecording"));

@@ -8,7 +8,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-import org.aia.pages.fonteva.events.EditCloneEvent;
+import org.aia.pages.fonteva.events.EventInfoModule;
 import org.aia.pages.fonteva.events.EventConfig;
 import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.Utility;

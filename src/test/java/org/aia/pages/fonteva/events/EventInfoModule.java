@@ -14,21 +14,22 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 
-public class EditCloneEvent {
+public class EventInfoModule {
 	WebDriver driver;
 	Utility util = new Utility(driver, 30);
 	JavascriptExecutor executor;
 	Events events;
 	Actions act;
-	static Logger log = Logger.getLogger(EditCloneEvent.class);
+	static Logger log = Logger.getLogger(EventInfoModule.class);
 	public String salesOrder = "";
 	public String aiaNumber = "";
 
-	public EditCloneEvent(WebDriver IDriver) {
+	public EventInfoModule(WebDriver IDriver) {
 		this.driver = IDriver;
 		executor = (JavascriptExecutor) driver;
 		act = new Actions(driver);
@@ -71,7 +72,19 @@ public class EditCloneEvent {
 
 	@FindBy(css = "div[class='windowViewMode-normal oneContent active lafPageHost'] div[data-name='registrationTimer'] input")
 	WebElement eventRegistrationTimer;
+	
+	@FindAll(value = {@FindBy(xpath = "//label[text()='Event Overview']/following::div[@id='pLUCEHQkwq']//p")})
+    WebElement eventOverViewText;
+	
+	@FindBy(xpath = "//div[@data-name='description']/textarea") WebElement DescriptionInEventInfo;
+	
+	@FindBy(xpath = "//div[@data-name='whenWhereSummary']") WebElement whenWhereSummaryInEventInfo;
+	
+	@FindBy(xpath = "//label[@data-name='enableEventDisplayNameAndDT']/input") WebElement eventDisplayNameAndDT;
+	
+	@FindBy(xpath = "//label[@data-name='isFeaturedEvent']/input") WebElement isFeaturedEvent;
 
+	@FindBy(xpath = "//select[@name='Time Zone']") WebElement timeZoneIneventInfo;
 	// Invitation locators
 	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//div[@data-menu='EventApi:EventBuilderInvitationOnly']")
 	WebElement eventBuilderInvitation;
