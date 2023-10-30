@@ -36,6 +36,7 @@ import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.DataProviderFactory;
 import org.aia.utility.Logging;
 import org.aia.utility.Utility;
+import org.apache.commons.io.filefilter.FalseFileFilter;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.annotations.BeforeMethod;
@@ -115,7 +116,7 @@ public class TestGracePeriod_CES extends BaseClass {
 
 	}
 
-	@Test(priority = 1, description = "(FC-262) Verify 'Grace period End date' in Term page when there is no value in Term End date ", enabled = false)
+	@Test(priority = 1, description = "(FC-262) Verify 'Grace period End date' in Term page when there is no value in Term End date ", enabled = true)
 	public void verifyGracePeriodEndDate() throws Exception {
 		String prefix = "Dr.";
 		String suffix = "Sr.";
@@ -143,7 +144,7 @@ public class TestGracePeriod_CES extends BaseClass {
 
 	}
 
-	@Test(priority = 2, description = "(FC-263) Validating error message in Term end date by providing incorrect date format", enabled = false)
+	@Test(priority = 2, description = "(FC-263) Validating error message in Term end date by providing incorrect date format", enabled = true)
 	public void verifyTermEnddateFormat() throws Exception {
 		String prefix = "Dr.";
 		String suffix = "Sr.";
