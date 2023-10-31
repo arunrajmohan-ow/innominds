@@ -111,6 +111,11 @@ public class SpeakersModule {
 			}
 		}
 		
+		public void featuredRadioButton() {
+			Utility.waitForWebElement(driver, featuredCheckbox, 0);
+			Assert.assertTrue( featuredCheckbox.isDisplayed());
+		}
+		
 		
 		
 		
