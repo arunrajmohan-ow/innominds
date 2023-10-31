@@ -106,13 +106,6 @@ public class EventInfoModule {
 	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//th[contains(text(),'Access to this Item')]")
 	WebElement AcessPermissionTab;
 
-	// Event Speakers
-	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//div[@data-menu='EventApi:EventBuilderSpeakers']")
-	WebElement eventBuilderSpeakers;
-
-	@FindBy(xpath = "(//div[@class='windowViewMode-normal oneContent active lafPageHost']//div[contains(text(),'Speakers')])[2]")
-	WebElement speakersTab;
-
 	// EventApi:EventBuilderAgenda
 	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//div[@data-menu='EventApi:EventBuilderAgenda']")
 	WebElement eventBuilderAgenda;
@@ -336,15 +329,6 @@ public class EventInfoModule {
 		Utility.waitForWebElement(driver, scheduleItemDisplayName, 30);
 		String scheduleItemName = scheduleItemDisplayName.getText();
 		return scheduleItemName;
-	}
-
-	public void editEventSpeakers() {
-		util.waitUntilElement(driver, eventBuilderSpeakers);
-		eventBuilderSpeakers.click();
-		log.info("Event Speakers is clicked successfully");
-		util.waitUntilElement(driver, speakersTab);
-		Assert.assertTrue(speakersTab.isDisplayed());
-		log.info("speakersTab is displayed");
 	}
 
 	public void editEventSponsorPackages() {
