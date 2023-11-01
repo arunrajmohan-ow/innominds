@@ -10,6 +10,7 @@ import org.aia.utility.DataProviderFactory;
 import org.aia.utility.Utility;
 import org.apache.xmlbeans.impl.xb.xsdschema.Public;
 import org.awaitility.core.Condition;
+import org.checkerframework.checker.index.qual.LessThan;
 import org.checkerframework.common.value.qual.StaticallyExecutable;
 import org.glassfish.jersey.message.internal.StringHeaderProvider;
 import org.openqa.selenium.WebDriver;
@@ -52,8 +53,9 @@ public class FontevaCESTermDateChangeAPI {
 		Response response = given().contentType(ContentType.JSON).accept(ContentType.JSON)
 				.header("Authorization", "Bearer " + bearerToken).header("Content-Type", ContentType.JSON)
 				.header("Accept", ContentType.JSON).param("q", memberAccount)
-				.param("sobject", "Provider_Application__c").when().get(PARAMETERIZED_SEARCH_URI).then().statusCode(200)
-				.extract().response();
+				.param("sobject", "Provider_Application__c").when().get(PARAMETERIZED_SEARCH_URI);
+		util.waitForResponse(response, 200);
+		response.then().statusCode(200).extract().response();
 
 		jsonPathEval = response.jsonPath();
 		providerId = jsonPathEval.getString("searchRecords[0].Id");
@@ -63,7 +65,9 @@ public class FontevaCESTermDateChangeAPI {
 		String providerUri = sObjectURI + "/Provider_Application__c/" + providerId;
 		System.out.println("ProviderUrl:" + providerUri);
 		response = given().header("Authorization", "Bearer " + bearerToken).header("Content-Type", ContentType.JSON)
-				.header("Accept", ContentType.JSON).when().get(providerUri).then().statusCode(200).extract().response();
+				.header("Accept", ContentType.JSON).when().get(providerUri);
+				util.waitForResponse(response, 200);
+				response.then().statusCode(200).extract().response();
 		jsonPathEval = response.jsonPath();
 		accountID = jsonPathEval.getString("Account__c");
 		System.out.println("Account ID:" + accountID);
@@ -75,7 +79,9 @@ public class FontevaCESTermDateChangeAPI {
 //		Awaitility.await().atMost(60, TimeUnit.SECONDS).pollInterval(1, TimeUnit.SECONDS).until(() ->
 //		{
 		response = given().header("Authorization", "Bearer " + bearerToken).header("Content-Type", ContentType.JSON)
-				.header("Accept", ContentType.JSON).when().get(SUBSCRIPTIONS_URI).then().statusCode(200).extract()
+				.header("Accept", ContentType.JSON).when().get(SUBSCRIPTIONS_URI);
+				util.waitForResponse(response, 200);
+				response.then().statusCode(200).extract()
 				.response();
 		Thread.sleep(10000);
 		jsonPathEval = response.jsonPath();
@@ -85,7 +91,9 @@ public class FontevaCESTermDateChangeAPI {
 		// From this call we are getting the termID
 		String selectTermURI = sObjectURI + "/OrderApi__Subscription__c/" + membershipId + "/OrderApi__Renewals__r";
 		response = given().header("Authorization", "Bearer " + bearerToken).header("Content-Type", ContentType.JSON)
-				.header("Accept", ContentType.JSON).when().get(selectTermURI).then().statusCode(200).extract()
+				.header("Accept", ContentType.JSON).when().get(selectTermURI);
+				util.waitForResponse(response,200);
+				response.then().statusCode(200).extract()
 				.response();
 		jsonPathEval = response.jsonPath();
 		String termId = jsonPathEval.getString("records[0].Id");
@@ -98,7 +106,9 @@ public class FontevaCESTermDateChangeAPI {
 						+ "            },\r\n" + "             \"id\": \"" + termId + "\",\r\n"
 						+ "            \"OrderApi__Term_End_Date__c\": \"" + termDate + "\"\r\n" + "        }\r\n"
 						+ "    ]\r\n" + "}")
-				.patch(sObjectCompositeURI).then().statusCode(200).extract().response();
+				.patch(sObjectCompositeURI);
+				util.waitForResponse(response, 200);
+				response.then().statusCode(200).extract().response();
 
 	}
 
