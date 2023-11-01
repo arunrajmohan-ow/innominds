@@ -153,10 +153,6 @@ public class EditCloneEvent {
 	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//div[contains(text(),'pages for your selected status')]")
 	WebElement eventPagesText;
 
-	// created event
-	@FindBy(xpath = "//tbody/tr[1]/th[1]/span[1]/a")
-	WebElement createdEvent;
-
 	@FindBy(xpath = "(//lightning-formatted-text[@title='AIA Contact Number']/following::div/lightning-formatted-text)[1]")
 	WebElement getAIANumber;
 
@@ -181,20 +177,6 @@ public class EditCloneEvent {
 	@FindBy(xpath = "//span[@class='slds-grid slds-grid--align-spread forceInlineEditCell']//a[@data-refid='recordId']")
 	WebElement eventName;
 
-	/**
-	 * @return Event name This method click already exist event in the top of the
-	 *         row.
-	 */
-//	public String clickCreatedEvent() throws Throwable {
-//
-//		util.waitUntilElement(driver, eventsLink);
-//		util.clickUsingJS(driver, eventsLink);
-//		util.waitUntilElement(driver, createdEvent);
-//		String eventName = createdEvent.getText();
-//		createdEvent.click();
-//		return eventName;
-//	}
-
 	public void getAIAData() throws Throwable {
 		util.waitUntilElement(driver, getAIANumber);
 		Utility.highLightElement(driver, getAIANumber);
@@ -204,7 +186,7 @@ public class EditCloneEvent {
 		accountName.click();
 
 		// navigate to main events page
-		events.clickEventsModule();
+		events.eventsTab();
 		Thread.sleep(4000);
 	}
 
@@ -268,24 +250,28 @@ public class EditCloneEvent {
 		System.out.println(eventRegistrationTimer.getAttribute("value"));
 		Assert.assertEquals(eventRegistrationTimer.getAttribute("value"), "30");
 	}
-
-	/**
-	 * @param editTicket Here editTicket = true Then it click on the
-	 *                   actionsColumnTicketType in that i validate options and
-	 *                   click Edit Ticket Type I validate editTicket type header
-	 *                   and edit price amount, click and continue button
-	 * @throws Throwable
-	 */
-	public void editEventTicket(Boolean editTicket) throws Throwable {
+	
+	public void eventTicketsTab() {
 		Utility.highLightElement(driver, eventBuilderTickets);
 		util.waitUntilElement(driver, eventBuilderTickets);
 		eventBuilderTickets.click();
 		log.info("Event Tickets is clicked successfully");
+	}
+	
+	public void validateEventTicketSalesStartDate() {
 		util.waitUntilElement(driver, eventTicketSalesStartDate);
 		Utility.highLightElement(driver, eventTicketSalesStartDate);
 		System.out.println(eventTicketSalesStartDate.getAttribute("value"));
 		log.info("eventTicketSalesStartDate" + eventTicketSalesStartDate.getAttribute("value"));
+	}
 
+	/**
+	 * @param editTicket Here editTicket = true Then it click on the
+	 * actionsColumnTicketType in that i validate options.
+	 *                  
+	 * @throws Throwable
+	 */
+	public void editEventTicket(Boolean editTicket) throws Throwable {
 		String option;
 		if (editTicket == true) {
 			actionsColoumnInTicketTypes.click();
@@ -295,16 +281,30 @@ public class EditCloneEvent {
 					actionOptions.get(i).click();
 				}
 				System.out.println(option);
-			}
-			;
+			};
 		}
-
-		util.waitUntilElement(driver, ediTicketTypeHeader);
-		Assert.assertTrue(ediTicketTypeHeader.isDisplayed());
+	}
+	
+	public void editPriceInEditTicketType() {
+		Utility.waitForWebElement(driver, PriceInEditTicketType, 30);
 		util.enterText(driver, PriceInEditTicketType, "400.00");
+	}
+	
+	public void saveAndContinueButtonInTicketType() {
+		try {
+			Utility.waitForWebElement(driver, saveAndContinueButtonInEditTicketType, 30);
 		saveAndContinueButtonInEditTicketType.click();
 		log.info("Continue button is clicked in Edit ticket type");
-		Thread.sleep(5000);
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void validateEditTicketTypeHeader() {
+		util.waitUntilElement(driver, ediTicketTypeHeader);
+		Assert.assertTrue(ediTicketTypeHeader.isDisplayed());
 	}
 
 	public void editEventInvitation() {

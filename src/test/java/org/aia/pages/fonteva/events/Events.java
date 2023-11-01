@@ -30,9 +30,22 @@ public class Events {
 		executor = (JavascriptExecutor) driver;
 		testData = new ConfigDataProvider();
 	}
+	
+	@FindBy(xpath = "//span[text()='App Launcher']//parent::div")
+	WebElement appLauncher;
+
+	@FindBy(xpath = "//div//input[@id='input-148']")
+	WebElement appLauncherSearchBox;
+
+	@FindBy(xpath = "//lightning-icon[@icon-name='standard:person_account']//ancestor::lightning-avatar//following-sibling::lightning-formatted-rich-text//b")
+	WebElement appLauncherEventsValue;
 
 	@FindBy(xpath = "//a[contains(@class,'label-action dndItem')]/span[text()='Events']")
-	WebElement eventsLink;
+	WebElement eventsModule;
+	
+	// created event
+	@FindBy(xpath = "//tbody/tr[1]/th[1]/span[1]/a")
+	WebElement createdEvent;
 
 	@FindBy(xpath = "//div[@data-name='cloneEventTitle']")
 	WebElement cloneEventHeader;
@@ -43,7 +56,7 @@ public class Events {
 	@FindBy(css = "button[class*='_neutral search-button slds-truncate']")
 	WebElement globSearch;
 
-	@FindBy(xpath = "//label[text()='Search...']/following-sibling::div/input")
+	@FindBy(xpath  = "//label[contains(text(),'Search')]/following-sibling::div/input[contains(@aria-controls,'suggestionsList')]")
 	WebElement globSearchInput;
 
 	@FindBy(xpath = "//input[@placeholder='Search this list...']")
@@ -52,25 +65,48 @@ public class Events {
 	@FindBy(xpath = "//span[@class='slds-grid slds-grid--align-spread forceInlineEditCell']//a[@data-refid='recordId']")
 	WebElement eventName;
 
-	@FindBy(xpath = "//span[text()='Number of Registered Attendees']/following::lightning-formatted-number[1]")
+	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//span[text()='Number of Registered Attendees']/following::lightning-formatted-number[1]")
 	WebElement attandessInsalesRegisration;
 
-	@FindBy(xpath = "//span[text()='Number of Registered Attendees']/following::lightning-formatted-number[2]")
+	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//span[text()='Number of Registered Attendees']/following::lightning-formatted-number[2]")
 	WebElement soldticketsInsalesRegisration;
 
-	@FindBy(xpath = "//span[text()='Number of Registered Attendees']/following::lightning-formatted-number[3]")
+	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//span[text()='Number of Registered Attendees']/following::lightning-formatted-number[3]")
 	WebElement eventCapacityInsalesRegisration;
 
-	@FindBy(xpath = "//span[text()='Number of Registered Attendees']/following::lightning-formatted-number[4]")
+	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//span[text()='Number of Registered Attendees']/following::lightning-formatted-number[4]")
 	WebElement ticketsremainInsalesRegisration;
 
-	public void clickEventsModule() {
-		util.waitUntilElement(driver, eventsLink);
-		util.clickUsingJS(driver, eventsLink);
+
+	public void eventsTab() throws Exception {
+		if (!eventsModule.isDisplayed()) {
+			util.waitUntilElement(driver, appLauncher);
+			appLauncher.click();
+			util.waitUntilElement(driver, appLauncherSearchBox);
+			appLauncherSearchBox.sendKeys("Events");
+			Thread.sleep(2000);
+			util.scrollingElementUsingJS(driver, appLauncherEventsValue);
+			appLauncherEventsValue.click();
+		}
+		util.waitUntilElement(driver, eventsModule);
+		util.clickUsingJS(driver, eventsModule);
 		log.info("Events clickd successfully");
 		Logging.logger.info("Events clickd successfully");
 	}
-
+	
+	/**
+	 * @return Event name This method click already exist event in the top of the
+	 *         row.
+	 */
+	public String clickCreatedEvent() throws Throwable {
+		util.waitUntilElement(driver, eventsModule);
+		util.clickUsingJS(driver, eventsModule);
+		util.waitUntilElement(driver, createdEvent);
+		String eventName = createdEvent.getText();
+		util.clickUsingJS(driver, createdEvent);
+		return eventName;
+	}
+	
 	public void newButtonInEvents() {
 		util.waitUntilElement(driver, eventNewButton);
 		eventNewButton.click();
@@ -89,7 +125,7 @@ public class Events {
 	 * @throws Throwable
 	 */
 	public void globalSearch(String email) throws Throwable {
-		Utility.highLightElement(driver, globSearch);
+		Utility.waitForWebElement(driver, globSearch, 30);
 		globSearch.click();
 		globSearchInput.sendKeys(email);
 		Thread.sleep(4000);
@@ -105,7 +141,8 @@ public class Events {
 		Utility.highLightElement(driver, searchEvents);
 		util.enterText(driver, searchEvents, event);
 		Thread.sleep(3000);
-		eventName.click();
+		util.waitUntilElement(driver, eventName);
+		util.clickUsingJS(driver, eventName);
 	}
 
 	/**

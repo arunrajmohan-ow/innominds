@@ -5,7 +5,6 @@
 	<groupId>aia-fonteva</groupId>
 	<artifactId>aia-fonteva-automation</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-
 	<dependencies>
 		<!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-java -->
 		<dependency>
@@ -96,6 +95,12 @@
 			<artifactId>log4j</artifactId>
 			<version>1.2.17</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.github.stephenc.monte/monte-screen-recorder -->
+		<dependency>
+			<groupId>com.github.stephenc.monte</groupId>
+			<artifactId>monte-screen-recorder</artifactId>
+			<version>0.7.7.0</version>
+		</dependency>
 		<dependency>
 			<groupId>io.github.bonigarcia</groupId>
 			<artifactId>webdrivermanager</artifactId>
@@ -107,13 +112,19 @@
 			<version>1.18.24</version>
 			<scope>provided</scope>
 		</dependency>
-		
-<dependency>
-<groupId>org.awaitility</groupId>
-<artifactId>awaitility</artifactId>
-<version>3.0.0</version>
-<scope>test</scope>
-</dependency>
+		<dependency>
+			<groupId>org.awaitility</groupId>
+			<artifactId>awaitility</artifactId>
+			<version>4.1.1</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.awaitility</groupId>
+			<artifactId>awaitility</artifactId>
+			<version>3.0.0</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
@@ -122,14 +133,12 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>3.1.0</version>
 				<configuration>
-				 <suiteXmlFiles>
+					<suiteXmlFiles>
 						<suiteXmlFile>${suiteXmlFiles}</suiteXmlFile>
 						 
-					</suiteXmlFiles>	 
+					</suiteXmlFiles>
 					<!-- <systemPropertyVariables> <url>${url}</url> <browser>${browser}</browser> 
 						<userame>${username}</userame> <password>${password}</password> </systemPropertyVariables> -->
-
-
 				</configuration>
 			</plugin>
 			<plugin>
@@ -142,6 +151,5 @@
 				</configuration>
 			</plugin>
 		</plugins>
-
 	</build>
 </project>
