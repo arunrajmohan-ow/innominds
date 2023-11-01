@@ -72,32 +72,26 @@ public class BaseClass {
 		System.out.println("@afterTest started");
 	}
 
-	@AfterMethod(alwaysRun = true)
-	public void tearDown(ITestResult result) {
-
-		System.out.println("Driver value in after method is " + driver);
-		System.out.println("Running After method Test executed with below status");
-		System.out.println("Status value " + result.getStatus());
-		if (result.getStatus() == ITestResult.SUCCESS) {
-			System.out.println("LOG : PASS User is able to login");
-		} else if (result.getStatus() == ITestResult.FAILURE) {
-			System.out.println("LOG : FAIL Test failed to executed");
-			TakesScreenshot ts = (TakesScreenshot) driver;
-			File screenshot = ts.getScreenshotAs(OutputType.FILE);
-			try {
-				// Define the destination path for the screenshot
-				String screenshotPath = "./ScreenShots/" + result.getName() + ".png";
-				Files.copy(screenshot.toPath(), new File(screenshotPath).toPath(), StandardCopyOption.REPLACE_EXISTING);
-				System.out.println("Screenshot saved at: " + screenshotPath);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		} else if (result.getStatus() == ITestResult.SKIP) {
-			System.out.println("LOG : SKIP Test did not executed");
-		}
-//		reports.endReport();
-	}
-
+	/*
+	 * @AfterMethod(alwaysRun = true) public void tearDown(ITestResult result) {
+	 * 
+	 * System.out.println("Driver value in after method is " + driver);
+	 * System.out.println("Running After method Test executed with below status");
+	 * System.out.println("Status value " + result.getStatus()); if
+	 * (result.getStatus() == ITestResult.SUCCESS) {
+	 * System.out.println("LOG : PASS User is able to login"); } else if
+	 * (result.getStatus() == ITestResult.FAILURE) {
+	 * System.out.println("LOG : FAIL Test failed to executed"); TakesScreenshot ts
+	 * = (TakesScreenshot) driver; File screenshot =
+	 * ts.getScreenshotAs(OutputType.FILE); try { // Define the destination path for
+	 * the screenshot String screenshotPath = "./ScreenShots/" + result.getName() +
+	 * ".png"; Files.copy(screenshot.toPath(), new File(screenshotPath).toPath(),
+	 * StandardCopyOption.REPLACE_EXISTING);
+	 * System.out.println("Screenshot saved at: " + screenshotPath); } catch
+	 * (IOException e) { e.printStackTrace(); } } else if (result.getStatus() ==
+	 * ITestResult.SKIP) { System.out.println("LOG : SKIP Test did not executed"); }
+	 * // reports.endReport(); }
+	 */
 	public static WebDriver getDriverInstance() {
 		return driver;
 	}
