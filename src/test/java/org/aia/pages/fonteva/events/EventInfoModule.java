@@ -106,30 +106,13 @@ public class EventInfoModule {
 	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//th[contains(text(),'Access to this Item')]")
 	WebElement AcessPermissionTab;
 
-	// EventApi:EventBuilderAgenda
-	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//div[@data-menu='EventApi:EventBuilderAgenda']")
-	WebElement eventBuilderAgenda;
-
-	@FindBy(css = "table[class='slds-table slds-table_header-fixed slds-table_bordered slds-table_edit'] tr:nth-child(5)  th lightning-base-formatted-text")
-	WebElement scheduleItemDisplayName;
-
-	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//a[@data-tab='agenda']")
-	WebElement agendaTab;
-
 	// EventApi:EventBuilderSponsorPackages
 	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//div[@data-menu='EventApi:EventBuilderSponsorPackages']")
 	WebElement eventBuilderSponsorPackages;
 
 	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//a[@data-tab='sponsorPackages']")
 	WebElement sponcerPackageTab;
-
-	// EventApi:EventBuilderStatuses
-	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//div[@data-menu='EventApi:EventBuilderStatuses']")
-	WebElement eventBuilderStatuses;
-
-	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//div[contains(text(),'statuses for your event.')]")
-	WebElement statusespageText;
-
+	
 	// EventApi:EventBuilderPages
 	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//div[@data-menu='EventApi:EventBuilderPages']")
 	WebElement eventBuilderPages;
@@ -137,11 +120,17 @@ public class EventInfoModule {
 	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//div[contains(text(),'pages for your selected status')]")
 	WebElement eventPagesText;
 
-	@FindBy(xpath = "(//lightning-formatted-text[@title='AIA Contact Number']/following::div/lightning-formatted-text)[1]")
+//	@FindBy(xpath = "(//lightning-formatted-text[@title='AIA Contact Number']/following::div/lightning-formatted-text)[1]")
+//	WebElement getAIANumber;
+//	
+	@FindBy(xpath = "(//table[@data-aura-class='uiVirtualDataTable']//tbody/tr/th/following::td/span/span[@title!=''])[1]")
 	WebElement getAIANumber;
 
-	@FindBy(xpath = "//lightning-formatted-text[text()='Account Name']/following-sibling::div/a")
+	@FindBy(xpath = "(//table[@data-aura-class='uiVirtualDataTable']//tbody//tr/th/span/a)[2]")
 	WebElement accountName;
+	
+//	@FindBy(xpath = "//lightning-formatted-text[text()='Account Name']/following-sibling::div/a")
+//	WebElement accountName;
 
 	@FindBy(xpath = "//a//slot/span[contains(text(),'Sales Orders')]")
 	WebElement salesOrderLink;
@@ -315,22 +304,6 @@ public class EventInfoModule {
 		log.info("AcessPermissionTab is displayed");
 	}
 
-	public void editEventAgenda() {
-		util.waitUntilElement(driver, eventBuilderAgenda);
-		eventBuilderAgenda.click();
-		log.info("Event Agenda is clicked successfully");
-		util.waitUntilElement(driver, agendaTab);
-		Assert.assertTrue(agendaTab.isDisplayed());
-		log.info("agendaTab is displayed");
-	}
-
-	public String getSceduleItemsInAgenda() {
-		util.scrollingElementUsingJS(driver, scheduleItemDisplayName);
-		Utility.waitForWebElement(driver, scheduleItemDisplayName, 30);
-		String scheduleItemName = scheduleItemDisplayName.getText();
-		return scheduleItemName;
-	}
-
 	public void editEventSponsorPackages() {
 		util.waitUntilElement(driver, eventBuilderSponsorPackages);
 		eventBuilderSponsorPackages.click();
@@ -338,15 +311,6 @@ public class EventInfoModule {
 		util.waitUntilElement(driver, sponcerPackageTab);
 		Assert.assertTrue(sponcerPackageTab.isDisplayed());
 		log.info("sponcerPackageTab is displayed");
-	}
-
-	public void editEventStatuses() {
-		util.waitUntilElement(driver, eventBuilderStatuses);
-		eventBuilderStatuses.click();
-		log.info("Event Statuses is clicked successfully");
-		util.waitUntilElement(driver, statusespageText);
-		Assert.assertTrue(statusespageText.isDisplayed());
-		log.info("statusespageText is displayed");
 	}
 
 	public void editEventPages() {

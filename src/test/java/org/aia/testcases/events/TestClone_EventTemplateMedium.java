@@ -188,7 +188,7 @@ public class TestClone_EventTemplateMedium extends BaseClass {
 
 		// Email validations registration confirm message
 		// Note:- Sometimes API body returning as null
-		mailinator.registrationConfirmationEmailforEvents(dataList, eventName);
+	//	mailinator.registrationConfirmationEmailforEvents(dataList, eventName);
 
 		if (recording) {
 			VideoRecorder.stopRecording();

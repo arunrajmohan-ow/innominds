@@ -1,20 +1,18 @@
 package org.aia.testcases.events;
-
-
-
-
 import java.util.ArrayList;
-
 import org.aia.pages.BaseClass;
 import org.aia.pages.api.MailinatorAPI;
 import org.aia.pages.api.events.EventAPIValidations;
 import org.aia.pages.api.membership.FontevaConnectionSOAP;
 import org.aia.pages.events.EventRegistration;
 import org.aia.pages.events.ViewRecipts;
+import org.aia.pages.fonteva.events.AgendaModule;
 import org.aia.pages.fonteva.events.EventInfoModule;
 import org.aia.pages.fonteva.events.Events;
 import org.aia.pages.fonteva.events.NewCloneEvents;
 import org.aia.pages.fonteva.events.QuickLinksInEvents;
+import org.aia.pages.fonteva.events.SpeakersModule;
+import org.aia.pages.fonteva.events.StatusesModule;
 import org.aia.pages.fonteva.events.TicketModule;
 import org.aia.pages.membership.CheckYourEmailPage;
 import org.aia.pages.membership.SignInPage;
@@ -45,6 +43,9 @@ public class CloneEventCreate_End_To_End_flow extends BaseClass{
 	EventAPIValidations eventApivalidation;
 	QuickLinksInEvents linksInEvents;
 	TicketModule ticketModule;
+	SpeakersModule speakersModule;
+	AgendaModule agendaModule;
+	StatusesModule statusModule;
 	boolean recording;
 
 	@BeforeMethod(alwaysRun = true)
@@ -65,6 +66,9 @@ public class CloneEventCreate_End_To_End_flow extends BaseClass{
 		viewReceipts = PageFactory.initElements(driver, ViewRecipts.class);
 		eventApivalidation = PageFactory.initElements(driver, EventAPIValidations.class);
 		ticketModule = PageFactory.initElements(driver, TicketModule.class);
+		speakersModule= PageFactory.initElements(driver, SpeakersModule.class);
+		agendaModule= PageFactory.initElements(driver, AgendaModule.class);
+		statusModule= PageFactory.initElements(driver, StatusesModule.class);
 		recording = Boolean.parseBoolean(testData.testDataProvider().getProperty("videoRecording"));
 		Logging.configure();
 	}
@@ -117,7 +121,42 @@ public class CloneEventCreate_End_To_End_flow extends BaseClass{
 		ticketModule.validateEditTicketTypeHeader();
 		ticketModule.enterPriceInCreateTicketType();
 		ticketModule.saveAndContinueButtonInTicketType();
+		// speakers tab
+		speakersModule.eventSpeakersTab();
+		speakersModule.clickNewSpeaker();
+		speakersModule.enterSpeakerName();
+		speakersModule.contactRecordsInNewSpeakerPopup();
+		speakersModule.featuredRadioButton();
+		speakersModule.enterTitleInSpeaker();
+		speakersModule.enterCompanyInSpeaker();
+		speakersModule.selectStatusInSpeakers();
+		speakersModule.speakerPhotoUrlBrowser();
+		speakersModule.cropImageButtonsInSpeaker();
+		speakersModule.speakerButtonsInnewSpeakerPopup();
+		
+		//agenda tab
+		agendaModule.clickEventAgenda();
+		
+		
+		
+		
+		
+		
 		util.waitForJavascript(driver, 30000, 5000);
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		editCloneEvent.clickStatusDropDown();
 		editCloneEvent.selectActiveStatus();
 		editCloneEvent.saveExitButton();
@@ -185,12 +224,4 @@ public class CloneEventCreate_End_To_End_flow extends BaseClass{
 			VideoRecorder.stopRecording();
 		}
 	}
-
-	
-	
-	
-	
-	
-	
-	
-	}
+}

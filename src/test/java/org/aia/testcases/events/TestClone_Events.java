@@ -7,10 +7,13 @@ import org.aia.pages.api.events.EventAPIValidations;
 import org.aia.pages.api.membership.FontevaConnectionSOAP;
 import org.aia.pages.events.EventRegistration;
 import org.aia.pages.events.ViewRecipts;
+import org.aia.pages.fonteva.events.AgendaModule;
 import org.aia.pages.fonteva.events.EventInfoModule;
 import org.aia.pages.fonteva.events.Events;
 import org.aia.pages.fonteva.events.NewCloneEvents;
 import org.aia.pages.fonteva.events.QuickLinksInEvents;
+import org.aia.pages.fonteva.events.SpeakersModule;
+import org.aia.pages.fonteva.events.StatusesModule;
 import org.aia.pages.fonteva.events.TicketModule;
 import org.aia.pages.membership.CheckYourEmailPage;
 import org.aia.pages.membership.SignInPage;
@@ -43,6 +46,9 @@ public class TestClone_Events extends BaseClass {
 	EventAPIValidations eventApivalidation;
 	QuickLinksInEvents linksInEvents;
 	TicketModule ticketModule;
+	SpeakersModule speakersModule;
+	AgendaModule agendaModule;
+	StatusesModule statusModule;
 	boolean recording;
 
 	@BeforeMethod(alwaysRun = true)
@@ -63,6 +69,9 @@ public class TestClone_Events extends BaseClass {
 		viewReceipts = PageFactory.initElements(driver, ViewRecipts.class);
 		eventApivalidation = PageFactory.initElements(driver, EventAPIValidations.class);
 		ticketModule = PageFactory.initElements(driver, TicketModule.class);
+		speakersModule= PageFactory.initElements(driver, SpeakersModule.class);
+		agendaModule= PageFactory.initElements(driver, AgendaModule.class);
+		statusModule= PageFactory.initElements(driver, StatusesModule.class);
 
 		recording = Boolean.parseBoolean(testData.testDataProvider().getProperty("videoRecording"));
 		Logging.configure();
@@ -129,11 +138,11 @@ public class TestClone_Events extends BaseClass {
 		editCloneEvent.editEventInvitation();
 		editCloneEvent.editEventVenues();
 		editCloneEvent.editEventAccessPermissions();
-		editCloneEvent.editEventSpeakers();
-		editCloneEvent.editEventAgenda();
+		speakersModule.eventSpeakersTab();
+		agendaModule.clickEventAgenda();
 		// String scheduleName = editCloneEvent.getSceduleItemsInAgenda();
 		editCloneEvent.editEventSponsorPackages();
-		editCloneEvent.editEventStatuses();
+		statusModule.editEventStatuses();
 		editCloneEvent.editEventPages();
 		editCloneEvent.saveExitButton();
 		util.waitForJavascript(driver, 90000, 5000);
