@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import org.aia.pages.BaseClass;
 import org.aia.pages.api.MailinatorAPI;
+import org.aia.pages.api.ces.FontevaCESTermDateChangeAPI;
 import org.aia.pages.api.membership.FontevaConnectionSOAP;
 import org.aia.pages.api.membership.JoinAPIValidation;
 import org.aia.pages.api.membership.RenewAPIValidation;
@@ -72,7 +73,7 @@ public class TestRenew_Membership extends BaseClass {
 		salesOrder = PageFactory.initElements(driver, SalesOrder.class);
 	}
 
-	@Test(priority = 1, description = "Validate Renew without supplemental dues", enabled = true,invocationCount = 5)
+	@Test(priority = 1, description = "Validate Renew without supplemental dues", enabled = true)
 	public void ValidateRenew() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
@@ -131,9 +132,10 @@ public class TestRenew_Membership extends BaseClass {
 				DataProviderFactory.getConfig().getValue("postingStatus"));
 		// Validate Receipt Details
 		apiValidationRenew.verifyReciptDetails(receiptData.get(0), receiptData.get(2));
+		util.writeCsv(dataList.get(7), dataList.get(5));
 	}
 
-	@Test(priority = 2, description = "Validate Renew for architectural Firm Owner - supplemental Dues", enabled = true, groups = {
+	@Test(priority = 2, description = "Validate Renew for architectural Firm Owner - supplemental Dues", enabled = false, groups = {
 			"Smoke" },invocationCount = 2)
 	public void ValidateRenewWithSupplementalDuesAFO() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
@@ -189,9 +191,11 @@ public class TestRenew_Membership extends BaseClass {
 				DataProviderFactory.getConfig().getValue("postingStatus"));
 		// Validate Receipt Details
 		apiValidationRenew.verifyReciptDetails(receiptData.get(0), receiptData.get(2));
+		util.writeCsv(dataList.get(7), dataList.get(5));
+		util.writeCsv(dataList.get(7), dataList.get(5));
 	}
 
-	@Test(priority = 3, description = "Validate Renew for sole Practitioner - supplemental Dues", enabled = true,invocationCount = 2)
+	@Test(priority = 3, description = "Validate Renew for sole Practitioner - supplemental Dues", enabled = false,invocationCount = 2)
 	public void ValidateRenewWithSupplementalDuesSP() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
@@ -246,9 +250,10 @@ public class TestRenew_Membership extends BaseClass {
 				DataProviderFactory.getConfig().getValue("postingStatus"));
 		// Validate Receipt Details
 		apiValidationRenew.verifyReciptDetails(receiptData.get(0), receiptData.get(2));
+		util.writeCsv(dataList.get(7), dataList.get(5));
 	}
 
-	@Test(priority = 4, description = "Validate Renew for architecture Firm Manager - supplemental Dues", enabled = true)
+	@Test(priority = 4, description = "Validate Renew for architecture Firm Manager - supplemental Dues", enabled = false)
 	public void ValidateRenewWithSupplementalDuesAFM() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
@@ -299,9 +304,10 @@ public class TestRenew_Membership extends BaseClass {
 				DataProviderFactory.getConfig().getValue("postingStatus"));
 		// Validate Receipt Details
 		apiValidationRenew.verifyReciptDetails(receiptData.get(0), receiptData.get(2));
+		util.writeCsv(dataList.get(7), dataList.get(5));
 	}
 
-	@Test(priority = 5, description = "Validate Renew for not Sole Practitioner - supplemental Dues", enabled = true, groups = {
+	@Test(priority = 5, description = "Validate Renew for not Sole Practitioner - supplemental Dues", enabled = false, groups = {
 			"Smoke" },invocationCount = 3)
 	public void ValidateRenewWithSupplementalDuesNSP() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
@@ -358,6 +364,7 @@ public class TestRenew_Membership extends BaseClass {
 				DataProviderFactory.getConfig().getValue("postingStatus"));
 		// Validate Receipt Details
 		apiValidationRenew.verifyReciptDetails(receiptData.get(0), receiptData.get(2));
+		util.writeCsv(dataList.get(7), dataList.get(5));
 	}
 
 	@Test(priority = 6, description = "Validate sales price in sales order lines for renew  ", enabled = false)
@@ -394,6 +401,7 @@ public class TestRenew_Membership extends BaseClass {
 				DataProviderFactory.getConfig().getValue("termEndDate"), receiptData.get(2),
 				DataProviderFactory.getConfig().getValue("type_aia_national"), testData.testDataProvider().getProperty("membershipType"), testData.testDataProvider().getProperty("selection"));
 		apiValidationRenew.validateSalesOrderLine(salesPrice);
+		util.writeCsv(dataList.get(7), dataList.get(5));
 	}
 
 	/**

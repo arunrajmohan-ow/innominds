@@ -34,18 +34,18 @@ public class FontevaCESTermDateChangeAPI {
 
 	Utility util = new Utility(driver, 10);
 
-	String PARAMETERIZED_SEARCH_URI = DataProviderFactory.getConfig().getValue("parameterizedSearch_uri");
-	String ACCOUNT_URI = DataProviderFactory.getConfig().getValue("account_uri");
-	String sObjectURI = DataProviderFactory.getConfig().getValue("sobject_uri");
-	String sObjectCompositeURI = DataProviderFactory.getConfig().getValue("sObjectURI");
+	static String PARAMETERIZED_SEARCH_URI = DataProviderFactory.getConfig().getValue("parameterizedSearch_uri");
+    static String ACCOUNT_URI = DataProviderFactory.getConfig().getValue("account_uri");
+	static String sObjectURI = DataProviderFactory.getConfig().getValue("sobject_uri");
+	static String sObjectCompositeURI = DataProviderFactory.getConfig().getValue("sObjectURI");
 	static FontevaConnection bt = new FontevaConnection();
 	private static final String bearerToken = bt.getbearerToken();
-	JsonPath jsonPathEval = null;
+	static JsonPath jsonPathEval = null;
 	private static String accountID = null;
 	private static String providerId = null;
 	private static String membershipId = null;
 
-	public void changeTermDateAPI(String memberAccount, String termDate)
+	public static void changeTermDateAPI(String memberAccount, String termDate)
 			throws InterruptedException {
 		// From this api we get the provider id
 		Response response = given().contentType(ContentType.JSON).accept(ContentType.JSON)
@@ -133,5 +133,9 @@ public class FontevaCESTermDateChangeAPI {
 		String actualmembershipStatus = jsonPathEval.getString("records[1]." + membershipData + "");
 		assertEquals(membershipStatus, actualmembershipStatus);
 
+	}
+	
+	public static void main(String[] args) throws InterruptedException {
+		changeTermDateAPI("auto_ruia11022023", "12-31-2022");
 	}
 }
