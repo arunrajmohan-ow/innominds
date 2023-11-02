@@ -24,6 +24,8 @@ import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBys;
 
+import com.aventstack.extentreports.model.Log;
+
 import groovyjarjarantlr4.v4.runtime.tree.xpath.XPath;
 import io.cucumber.java.it.Data;
 import io.qameta.allure.Step;

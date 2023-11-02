@@ -421,5 +421,12 @@ public class Utility {
 	        }
 	    }
 	}
+	
+	/**
+	 * Writing csv
+	 */
+	public void writeCsv() {
+		File file = new File(System.getProperty("user.dir")+"/"+""); 
+	}
 
 }
