@@ -17,6 +17,7 @@ import org.aia.utility.Utility;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.Validate;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
@@ -32,9 +33,11 @@ public class SignUpPage {
 	WebDriver driver;
 	Utility util = new Utility(driver, 30);
 	ConfigDataProvider data = new ConfigDataProvider();
+	JavascriptExecutor executor;
 
 	public SignUpPage(WebDriver Idriver) {
 		this.driver = Idriver;
+		executor = (JavascriptExecutor) driver;
 	}
 
 	@FindBy(xpath = "//*[@id=\"email \"]")
@@ -148,7 +151,8 @@ public class SignUpPage {
 		lastName.sendKeys(lName);
 		emailAddress.sendKeys(emailaddressdata);
 		util.waitUntilElement(driver, mobileCountry);
-		mobileCountry.click();
+		executor.executeScript("arguments[0].click();",mobileCountry);
+		//mobileCountry.click();
 		Thread.sleep(7000);
 		util.waitUntilElement(driver, mobileCountryoption);
 		mobileCountryoption.click();

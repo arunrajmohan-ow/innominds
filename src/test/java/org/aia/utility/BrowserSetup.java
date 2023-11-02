@@ -59,7 +59,6 @@ public class BrowserSetup {
 			options.addArguments("--headless");
 			options.addArguments("--window-size=1920,1080");
 			driver = new FirefoxDriver(options);
-
 		} else if (browser.equalsIgnoreCase("edge")) {
 			// System.setProperty("webdriver.edge.driver",
 			// System.getProperty("user.dir")+"\\Drivers\\MicrosoftWebDriver.exe");
