@@ -51,30 +51,31 @@ public class FontevaCESTermDateChangeAPI {
 		Response response = given().contentType(ContentType.JSON).accept(ContentType.JSON)
 				.header("Authorization", "Bearer " + bearerToken).header("Content-Type", ContentType.JSON)
 				.header("Accept", ContentType.JSON).param("q", memberAccount)
-				.param("sobject", "Provider_Application__c").when().get(PARAMETERIZED_SEARCH_URI).then().statusCode(200)
+				.param("sobject", "Account").when().get(PARAMETERIZED_SEARCH_URI).then().statusCode(200)
 				.extract().response();
 
 		jsonPathEval = response.jsonPath();
-		providerId = jsonPathEval.getString("searchRecords[0].Id");
-		System.out.println("ProviderId  ID:" + providerId);
+		accountID = jsonPathEval.getString("searchRecords[0].Id");
+		System.out.println("ProviderId  ID:" + accountID);
 
 		// From this api call we get account id using provider id
-		String providerUri = sObjectURI + "/Provider_Application__c/" + providerId;
+		/*String providerUri = sObjectURI + "/Provider_Application__c/" + providerId;
 		System.out.println("ProviderUrl:" + providerUri);
-		response = given().header("Authorization", "Bearer " + bearerToken).header("Content-Type", ContentType.JSON)
+	    response = given().header("Authorization", "Bearer " + bearerToken).header("Content-Type", ContentType.JSON)
 				.header("Accept", ContentType.JSON).when().get(providerUri).then().statusCode(200).extract().response();
 		jsonPathEval = response.jsonPath();
 		accountID = jsonPathEval.getString("Account__c");
-		System.out.println("Account ID:" + accountID);
+		System.out.println("Account ID:" + accountID);*/
 
 		// From this API we try to get membership ID
 		String SUBSCRIPTIONS_URI = ACCOUNT_URI + "/" + accountID + "/OrderApi__Subscriptions__r";
-		Thread.sleep(6000);
 
 //		Awaitility.await().atMost(60, TimeUnit.SECONDS).pollInterval(1, TimeUnit.SECONDS).until(() ->
 //		{
 		response = given().header("Authorization", "Bearer " + bearerToken).header("Content-Type", ContentType.JSON)
-				.header("Accept", ContentType.JSON).when().get(SUBSCRIPTIONS_URI).then().statusCode(200).extract()
+				.header("Accept", ContentType.JSON).when().get(SUBSCRIPTIONS_URI);
+				
+		         response.then().statusCode(200).extract()
 				.response();
 		Thread.sleep(10000);
 		jsonPathEval = response.jsonPath();
