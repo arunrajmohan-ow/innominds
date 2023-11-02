@@ -112,6 +112,15 @@
 			<version>1.18.24</version>
 			<scope>provided</scope>
 		</dependency>
+<<<<<<< HEAD
+=======
+		<dependency>
+			<groupId>org.awaitility</groupId>
+			<artifactId>awaitility</artifactId>
+			<version>4.1.1</version>
+			<scope>test</scope>
+		</dependency>
+>>>>>>> 6db1411497467564e82173e9b24eb844b1f5c063
 
 		<dependency>
 			<groupId>org.awaitility</groupId>
@@ -119,11 +128,14 @@
 			<version>3.0.0</version>
 			<scope>test</scope>
 		</dependency>
+<<<<<<< HEAD
 		<dependency>
 			<groupId>com.opencsv</groupId>
 			<artifactId>opencsv</artifactId>
 			<version>4.1</version>
 		</dependency>
+=======
+>>>>>>> 6db1411497467564e82173e9b24eb844b1f5c063
 	</dependencies>
 	<build>
 		<plugins>

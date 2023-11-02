@@ -6,6 +6,8 @@
 
 # BlueJ files
 *.ctxt
+
+#Ignore .classpath file
 .classpath
 
 # Mobile Tools for Java (J2ME)
@@ -21,7 +23,7 @@
 *.rar
 *.png
 *.settings
-*.classpath
+*.log
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
@@ -31,4 +33,9 @@ hs_err_pid*
 /test-results
 /test-output
 /Report/report.html
+
+# Ignore IDE-specific files
+/.idea/
+/.vscode/
+*.iml 
 

@@ -74,7 +74,7 @@ public class FontevaCESTermDateChangeAPI {
 //		{
 		response = given().header("Authorization", "Bearer " + bearerToken).header("Content-Type", ContentType.JSON)
 				.header("Accept", ContentType.JSON).when().get(SUBSCRIPTIONS_URI);
-				
+		      
 		         response.then().statusCode(200).extract()
 				.response();
 		Thread.sleep(10000);

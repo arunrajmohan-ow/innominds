@@ -1,34 +1,27 @@
 package org.aia.pages.fonteva.ces;
 
-import static org.testng.Assert.assertTrue;
 
-import java.awt.AWTException;
-import java.awt.Robot;
-import java.awt.event.KeyEvent;
-import java.security.Key;
+import static org.testng.Assert.*;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.aia.pages.api.ces.SubscriptionPlanPrice;
 import org.aia.pages.fonteva.membership.ContactCreateUser;
 import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.Utility;
-import org.apache.commons.io.serialization.ValidatingObjectInputStream;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.log4j.Logger;
-import org.bouncycastle.asn1.eac.PublicKeyDataObject;
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.Select;
 
 /**
  * @author IM-RT-LP-1483 (Suhas)
@@ -38,6 +31,7 @@ public class CES_ContactPage {
 	WebDriver driver;
 	Utility util = new Utility(driver, 30);
 	ConfigDataProvider data = new ConfigDataProvider();
+	SubscriptionPlanPrice subscriptionAPI = new SubscriptionPlanPrice(driver);
 	static Logger log = Logger.getLogger(ContactCreateUser.class);
 	Actions action;
 	JavascriptExecutor executor;
@@ -57,8 +51,9 @@ public class CES_ContactPage {
 	@FindBy(xpath = "//a/span[@title='Name']")
 	WebElement tableheaderName;
 
-	//@FindBy(xpath = "//h1/span[text()='Contacts']/parent::h1/parent::div/parent::div//button")
-	
+	// @FindBy(xpath =
+	// "//h1/span[text()='Contacts']/parent::h1/parent::div/parent::div//button")
+
 	@FindBy(xpath = "//button[contains(@title,'Select a List View: Contacts')]")
 	WebElement contactallBtn;
 
@@ -236,13 +231,17 @@ public class CES_ContactPage {
 
 	// @FindBy(xpath = "//strong[text()='Item Quick
 	// Add']//parent::span//following-sibling::span//div//input")
-	@FindBy(xpath = "(//*[contains(@class,'selectize-control')]//div[@class='selectize-input items not-full']//input)[3]")
+	// (//strong[text()='Item Quick
+	// Add']/ancestor::div[@data-name='itemQuickAdd']//div[@data-name='quickAddItem']/div/div/div/input)
+	@FindBy(xpath = "//div[@data-name='itemQuickAdd']//div[@data-name='quickAddItem']/div/div/div/input")
 	WebElement quickItemSelect;
 
 	@FindBy(xpath = "//button[text()='Add to Order']")
 	WebElement addOrderBtn;
 
-	String quickItemNatinal = "(//span[text()='%s'])[1]";
+	String quickItemNatinal = "(//span[text()='%s'])";
+
+	String discountCodeInput = "//span[text()='%s']";
 
 	@FindBy(xpath = "//button[text()='Go']") // (//button[normalize-space()='Go'])")
 	WebElement goBtn;
@@ -274,6 +273,18 @@ public class CES_ContactPage {
 	@FindBy(xpath = "//div[text()='Delete']")
 	WebElement DeleteBtn_chevrontype;
 
+	@FindBy(xpath = "//div[@data-label='Discount Code']//input")
+	WebElement discountCodeInputInROE;
+
+	@FindBy(xpath = "//p[@class='slideIn']")
+	WebElement discountAplliedPopUp;
+
+	@FindBy(xpath = "//button[@class='iziToast-close']")
+	WebElement popUpCloseButton;
+
+	@FindBy(xpath = "//button[text()='Apply']")
+	WebElement discontApplyBtn;
+
 	@FindBy(xpath = "//input[@name='referenceNumber']")
 	WebElement referenceNumber;
 
@@ -285,6 +296,9 @@ public class CES_ContactPage {
 
 	@FindBy(xpath = "//div/strong[text()='Items']/span")
 	WebElement itemsFees;
+	
+	@FindBy(xpath = "//div[text()='Receipt']/parent::h1")
+	WebElement receiptElement; 
 
 	String fName;
 	String lName;
@@ -517,128 +531,4 @@ public class CES_ContactPage {
 		Thread.sleep(5000);
 	}
 
-	/**
-	 * @param userFullname
-	 * @param itemQuick
-	 * @throws InterruptedException
-	 * @throws AWTException
-	 */
-	public void selectRapidOrderEntry(String userFullname, String itemQuick, String quickElement)
-			throws InterruptedException, AWTException {
-		selectCreatedContact(userFullname);
-		util.waitUntilElement(driver, accountName);
-		executor.executeScript("arguments[0].click();", accountName);
-		util.waitUntilElement(driver, rapidOrderEnteryBtn);
-		rapidOrderEnteryBtn.click();
-		Thread.sleep(20000);
-		util.waitUntilElement(driver, quickItemSelect);
-		executor.executeScript("arguments[0].click();", quickItemSelect);
-		// executor.executeScript("arguments[0].value='"+itemQuick+"';",
-		// quickItemSelect);
-		quickItemSelect.sendKeys(itemQuick);
-		Thread.sleep(20000);
-		util.waitUntilElement(driver, util.getCustomizedWebElement(driver, quickItemNatinal, quickElement));
-		util.getCustomizedWebElement(driver, quickItemNatinal, quickElement).click();
-		Thread.sleep(20000);
-		util.waitUntilElement(driver, addOrderBtn);
-		addOrderBtn.click();
-		util.waitUntilElement(driver, goBtn);
-		Thread.sleep(20000);
-		goBtn.click();
-
-	}
-
-	public void cesRapidOrderEntry(String userFullname, String itemQuick, String quickElement)
-			throws InterruptedException, AWTException {
-		Thread.sleep(30000);
-		selectCreatedContact(userFullname);
-		util.waitUntilElement(driver, accountName);
-		executor.executeScript("arguments[0].click();", accountName);
-		util.waitUntilElement(driver, rapidOrderEnteryBtn);
-		rapidOrderEnteryBtn.click();
-		util.waitUntilElement(driver, quickItemSelect);
-		executor.executeScript("arguments[0].click();", quickItemSelect);
-		Thread.sleep(20000);
-		// executor.executeScript("arguments[0].value='"+itemQuick+"';",
-		// quickItemSelect);
-		quickItemSelect.sendKeys(itemQuick);
-		Thread.sleep(10000);
-		util.waitUntilElement(driver, util.getCustomizedWebElement(driver, quickItemNatinal, quickElement));
-		util.getCustomizedWebElement(driver, quickItemNatinal, quickElement).click();
-		Thread.sleep(10000);
-		util.waitUntilElement(driver, addOrderBtn);
-		addOrderBtn.click();
-		Thread.sleep(20000);
-		util.waitUntilElement(driver, itemsFees);
-		String fee = itemsFees.getText();
-		System.out.println("Item fee: " + fee);
-
-//		util.waitUntilElement(driver, goBtn);
-//		action.moveToElement(goBtn).click().perform();
-//		System.out.println("GO button clicked");
-
-		if (fee.equalsIgnoreCase("Free")) {
-			Thread.sleep(10000);
-			util.waitUntilElement(driver, goBtn);
-			action.moveToElement(goBtn).click().perform();
-			System.out.println("GO button clicked");
-			Thread.sleep(10000);
-			util.waitUntilElement(driver, SelectAccount);
-			action.moveToElement(SelectAccount).click().perform();
-			System.out.println("Account selected");
-			Thread.sleep(10000);
-			util.waitUntilElement(driver, Membershipslnk);
-			action.moveToElement(Membershipslnk).click().perform();
-			System.out.println("Memberships clicked");
-			driver.navigate().refresh();
-		} else {
-			// Thread.sleep(10000);
-			util.waitUntilElement(driver, goBtn);
-			action.moveToElement(goBtn).click().perform();
-			System.out.println("GO button clicked");
-			Thread.sleep(10000);
-			util.waitUntilElement(driver, referenceNumber);
-			referenceNumber.sendKeys(data.testDataProvider().getProperty("referenceNum"));
-			util.waitUntilElement(driver, applyPaymentBtn);
-			action.moveToElement(applyPaymentBtn).click().perform();
-			// applyPaymentBtn.click();
-			System.out.println("applyPaymentButton clicked");
-			Thread.sleep(20000);
-		}
-
-	}
-
-	public void validateDeleteCESMembership() throws InterruptedException {
-		List<WebElement> rows = driver.findElements(By.xpath("//*[@role ='table']//tbody//tr"));
-		System.out.println("Number of records:" + rows.size());
-		Thread.sleep(30000);
-		util.waitUntilElement(driver, Chevronbtn);
-		action.moveToElement(Chevronbtn).click().perform();
-		// Chevronbtn.click();
-		System.out.println("Chevron button clicked");
-		util.waitUntilElement(driver, DeleteBtn_chevrontype);
-		action.moveToElement(DeleteBtn_chevrontype).click().perform();
-		System.out.println("Delete Option clicked");
-		util.waitUntilElement(driver, DeleteMsg);
-		System.out.println("MyError:" + DeleteMsg.getText());
-		assertTrue(DeleteMsg.getText().equalsIgnoreCase(data.testDataProvider().getProperty("DeleteMsg")));
-		util.waitUntilElement(driver, Delete_membership);
-		action.moveToElement(Delete_membership).click().perform();
-		Thread.sleep(20000);
-//		util.waitUntilElement(driver, DeleteBtn_chevrontype);
-//		DeleteBtn_chevrontype.click();
-//		System.out.println("Delete button clicked");
-//		util.waitUntilElement(driver, DeleteMsg);
-//		System.out.println("MyError:" + DeleteMsg.getText());
-//		assertTrue(DeleteMsg.getText().equalsIgnoreCase(data.testDataProvider().getProperty("DeleteMsg")));
-//		util.waitUntilElement(driver, Delete_membership);
-//		action.moveToElement(Delete_membership).click().perform();
-	}
-
-	public void validateAvailableMemType() {
-		util.waitUntilElement(driver, AvailableMemType);
-		assertTrue(
-				AvailableMemType.getText().equalsIgnoreCase(data.testDataProvider().getProperty("availableMemType")));
-
-	}
 }

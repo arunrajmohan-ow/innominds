@@ -92,7 +92,10 @@ public class BaseClass {
 	 * ITestResult.SKIP) { System.out.println("LOG : SKIP Test did not executed"); }
 	 * // reports.endReport(); }
 	 */
+<<<<<<< HEAD
 
+=======
+>>>>>>> 6db1411497467564e82173e9b24eb844b1f5c063
 	public static WebDriver getDriverInstance() {
 		return driver;
 	}
