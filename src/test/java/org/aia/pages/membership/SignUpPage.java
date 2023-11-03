@@ -157,7 +157,7 @@ public class SignUpPage {
 		util.waitUntilElement(driver, mobileCountry);
 		executor.executeScript("arguments[0].click();",mobileCountry);
 		//mobileCountry.click();
-		Thread.sleep(7000);
+		//Thread.sleep(7000);
 		util.waitUntilElement(driver, mobileCountryoption);
 		mobileCountryoption.click();
 		mobilePhoneNum.sendKeys(mobNumb);

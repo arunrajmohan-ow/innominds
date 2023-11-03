@@ -10,6 +10,7 @@ import org.aia.pages.BaseClass;
 import org.aia.pages.api.MailinatorAPI;
 import org.aia.pages.api.ces.FontevaCESTermDateChangeAPI;
 import org.aia.pages.api.membership.FontevaConnectionSOAP;
+import org.aia.pages.api.membership.FontevaMemTermDateChangeAPI;
 import org.aia.pages.api.membership.JoinAPIValidation;
 import org.aia.pages.api.membership.RenewAPIValidation;
 import org.aia.pages.fonteva.membership.ContactCreateUser;
@@ -43,6 +44,7 @@ public class TestRenew_Membership extends BaseClass {
 	ReNewUser fontevaRenew;
 	ContactCreateUser fontevaJoin;
 	SalesOrder salesOrder;
+	FontevaMemTermDateChangeAPI termDateChangeAPI;
 	public String inbox;
 
 	@BeforeMethod(alwaysRun = true)
@@ -71,6 +73,7 @@ public class TestRenew_Membership extends BaseClass {
 		testData = new ConfigDataProvider();
 		fontevaRenew = PageFactory.initElements(driver, ReNewUser.class);
 		salesOrder = PageFactory.initElements(driver, SalesOrder.class);
+		termDateChangeAPI=PageFactory.initElements(driver, FontevaMemTermDateChangeAPI.class);
 	}
 
 	@Test(priority = 1, description = "Validate Renew without supplemental dues", enabled = true)
@@ -96,14 +99,13 @@ public class TestRenew_Membership extends BaseClass {
 		Logging.logger.info("Receipt Number is." + receiptData.get(0));
 		Logging.logger.info("Total Amount is : " + receiptData.get(2));
 		Logging.logger.info("FN : " + dataList.get(0));
-		mailinator.welcomeAIAEmailLink(dataList, receiptData);
-
 		// Navigate to Fonteva app and make record renew eligible.
-		FontevaConnectionSOAP sessionID = new FontevaConnectionSOAP();
+		/*FontevaConnectionSOAP sessionID = new FontevaConnectionSOAP();
 		final String sID = sessionID.getSessionID();
 		driver.get("https://aia--testing.sandbox.my.salesforce.com/secur/frontdoor.jsp?sid=" + sID);
 		// driver.get(DataProviderFactory.getConfig().getValue("fonteva_endpoint"));
-		fontevaPage.changeTermDates(dataList.get(0) + " " + dataList.get(1));
+		fontevaPage.changeTermDates(dataList.get(0) + " " + dataList.get(1));*/
+		termDateChangeAPI.changeTermDateAPI(dataList.get(3),"2023-12-31");
 
 		// Navigate back to membership portal
 		driver.get(DataProviderFactory.getConfig().getValue("membership_app_endpoint"));

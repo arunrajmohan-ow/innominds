@@ -139,7 +139,7 @@ public class TellusAboutYourselfPage {
 			JavascriptExecutor js = (JavascriptExecutor) driver;
 			js.executeScript("window.scrollBy(0,900)", workBusinesChckboxTellpage);
 			clickonChckBox();
-			Thread.sleep(7000);
+			//Thread.sleep(7000);
 			enterdetails(homecountryUnitedStatesTellpage);
 
 		}
@@ -156,7 +156,7 @@ public class TellusAboutYourselfPage {
 			entercareerType(careerType);
 			enterLicenseDetailsNonUS();
 			clickonChckBox();
-			Thread.sleep(7000);
+			//Thread.sleep(7000);
 			enterdetails(homecountryUnitedStates2Tellpage);
 		}
 
@@ -236,7 +236,7 @@ public class TellusAboutYourselfPage {
 
 	public void entercareerType(String careerType) throws InterruptedException {
 
-		Thread.sleep(30000);
+		//Thread.sleep(30000);
 		util.waitUntilElement(driver, TellUsAbtLabelTellpage);
 		util.waitUntilElement(driver, CareeTypTellpage);
 		Thread.sleep(1000);
@@ -328,9 +328,9 @@ public class TellusAboutYourselfPage {
 	}
 
 	public void enterdetails(WebElement ele) throws InterruptedException {
-		Thread.sleep(30000);
+		//Thread.sleep(30000);
 		JavascriptExecutor js = (JavascriptExecutor) driver;
-
+        
 		js.executeScript("window.scrollBy(0,30)", homecountryTellpage2);
 		util.waitUntilElement(driver, homecountryTellpage2);
 		Thread.sleep(10000);
@@ -372,7 +372,7 @@ public class TellusAboutYourselfPage {
 		// act.moveToElement(nextBtnTellpage).click().build().perform();
 		// nextBtnTellpage.click();
 		js.executeScript("arguments[0].click();", nextBtnTellpage);
-		Thread.sleep(15000);
+		//Thread.sleep(15000);
 		util.waitUntilElement(driver, EquityLabelEquityPage);
 
 		util.waitUntilElement(driver, nextBtnEquitypage);

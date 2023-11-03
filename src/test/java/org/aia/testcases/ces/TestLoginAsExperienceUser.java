@@ -70,11 +70,8 @@ public class TestLoginAsExperienceUser extends BaseClass {
 	CES_ReNewUser reNewUser;
 	CES_ContactPage ces_ContactPage;
 	CES_Memberships ces_membership;
-<<<<<<< HEAD
 	FontevaCESTermDateChangeAPI termDateChangeAPICall;
-=======
 	CES_RapidOrderEntry rapidOrderEntery;
->>>>>>> 6db1411497467564e82173e9b24eb844b1f5c063
 	public ExtentReports extent;
 	public ExtentTest extentTest;
 	final static Logger logger = Logger.getLogger(TestRenewPassport_CES.class);
@@ -107,11 +104,8 @@ public class TestLoginAsExperienceUser extends BaseClass {
 		reNewUser = PageFactory.initElements(driver, CES_ReNewUser.class);
 		ces_ContactPage = PageFactory.initElements(driver, CES_ContactPage.class);
 		ces_membership=PageFactory.initElements(driver, CES_Memberships.class);
-<<<<<<< HEAD
 		termDateChangeAPICall = PageFactory.initElements(driver, FontevaCESTermDateChangeAPI.class);
-=======
 		rapidOrderEntery = PageFactory.initElements(driver, CES_RapidOrderEntry.class);
->>>>>>> 6db1411497467564e82173e9b24eb844b1f5c063
 	}
 
 	@Test(priority = 1, description = "Validate Login experience user in multiple module.", enabled = true)

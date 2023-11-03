@@ -15,6 +15,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.function.Function;
 import java.util.Map;
+import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -36,15 +37,11 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-<<<<<<< HEAD
 import com.opencsv.CSVWriter;
 import com.sun.org.apache.bcel.internal.generic.ANEWARRAY;
-=======
 import com.sun.org.apache.bcel.internal.generic.RETURN;
 
 import io.restassured.response.Response;
-
->>>>>>> 6db1411497467564e82173e9b24eb844b1f5c063
 
 public class Utility {
 
@@ -383,7 +380,6 @@ public class Utility {
 		});
 	}
 
-<<<<<<< HEAD
 	public void domLoading(WebDriver driver, int maxWaitMillis, int pollDelimiter) {
 		double startTime = System.currentTimeMillis();
 		while (System.currentTimeMillis() < startTime + maxWaitMillis) {
@@ -416,21 +412,21 @@ public class Utility {
         String[] header = { "Name", "Email" }; 
         writer.writeNext(header);
         List<String[]> userData= new ArrayList<>();
-        for(int i=0;i<=100;i++) {
         	String[] userCreated= {userName,userEmail};
         	userData.add(userCreated);
-        }
         for(String [] user:userData) {
         	writer.writeNext(user);
         }
         writer.close(); 
-=======
-	/**
+	}
+     /**
 	* Here we are using awaitility for waiting the response from api
 	*/
-	public void waitForResponse(final Response response, final int statusCode) {
-      Awaitility.await().atMost(10,TimeUnit.SECONDS).until(()->{return response.getStatusCode()==statusCode;});
->>>>>>> 6db1411497467564e82173e9b24eb844b1f5c063
+	public static void waitForResponse( final Response response, final int statusCode) {
+      Awaitility.await().atMost(50,TimeUnit.SECONDS).until(new Callable<Boolean>() {
+		@Override
+		public Boolean call() throws Exception {return response.getStatusCode()==statusCode;}
+	});
 	}
 
 }
