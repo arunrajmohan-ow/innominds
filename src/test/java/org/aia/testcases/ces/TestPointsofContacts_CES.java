@@ -110,7 +110,7 @@ public class TestPointsofContacts_CES extends BaseClass {
 		primarypocPage.enterPOCdetail(prefix, suffix, dataList.get(2), dataList, mobileCountry);
 	}
 
-	@Test(priority = 2, description = "(FC-291,FC-293) Verify Edit for existing Role in contact", enabled = false)
+	@Test(priority = 2, description = "(FC-291,FC-293) Verify Edit for existing Role in contact", enabled = true)
 	public void validateProviderAppNoCreated() throws Exception {
 		String prefix = "Dr.";
 		String suffix = "Sr.";
@@ -260,6 +260,6 @@ public class TestPointsofContacts_CES extends BaseClass {
 		System.out.println("sessionID 2 is :" + sID);
 		driver.get("https://aia--testing.sandbox.my.salesforce.com/secur/frontdoor.jsp?sid=" + sID);
 		pointsOfContact.clickPointsOfContact(userAccount.get(0) + " " + userAccount.get(1), paId, "Approved");
-		pointsOfContact.newPointsOfContact("LMS Admin");
+		pointsOfContact.newPointsOfContact("CES Secondary");
 	}
 }
