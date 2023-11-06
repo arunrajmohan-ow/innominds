@@ -373,6 +373,7 @@ public class TellusAboutYourselfPage {
 		// nextBtnTellpage.click();
 		js.executeScript("arguments[0].click();", nextBtnTellpage);
 		//Thread.sleep(15000);
+		Utility.waitForWebElement(driver, EquityLabelEquityPage, 10000);
 		util.waitUntilElement(driver, EquityLabelEquityPage);
 
 		util.waitUntilElement(driver, nextBtnEquitypage);

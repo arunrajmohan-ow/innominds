@@ -126,7 +126,7 @@ public class TestRenew_Membership extends BaseClass {
 
 		// Validate Membership renew - Fonteva API validations
 		apiValidationRenew.verifyMemebershipRenewal(dataList.get(3),
-				DataProviderFactory.getConfig().getValue("termEndDate"), receiptData.get(2),
+				DataProviderFactory.getConfig().getValue("renewrenewTermEndDate"), receiptData.get(2),
 				DataProviderFactory.getConfig().getValue("type_aia_national"), "Architect", "Non profit");
 		// Validate sales order
 		apiValidationRenew.verifySalesOrder(DataProviderFactory.getConfig().getValue("salesOrderStatus"),
@@ -185,7 +185,7 @@ public class TestRenew_Membership extends BaseClass {
 
 		// Validate Membership renew - Fonteva API validations
 		apiValidationRenew.verifyMemebershipRenewal(dataList.get(3),
-				DataProviderFactory.getConfig().getValue("termEndDate"), receiptData.get(2),
+				DataProviderFactory.getConfig().getValue("renewTermEndDate"), receiptData.get(2),
 				DataProviderFactory.getConfig().getValue("type_aia_national"), "Architect", "Non profit");
 		// Validate sales order
 		apiValidationRenew.verifySalesOrder(DataProviderFactory.getConfig().getValue("salesOrderStatus"),
@@ -244,7 +244,7 @@ public class TestRenew_Membership extends BaseClass {
 
 		// Validate Membership renew - Fonteva API validations
 		apiValidationRenew.verifyMemebershipRenewal(dataList.get(3),
-				DataProviderFactory.getConfig().getValue("termEndDate"), receiptData.get(2),
+				DataProviderFactory.getConfig().getValue("renewTermEndDate"), receiptData.get(2),
 				DataProviderFactory.getConfig().getValue("type_aia_national"), "Architect", "Non profit");
 		// Validate sales order
 		apiValidationRenew.verifySalesOrder(DataProviderFactory.getConfig().getValue("salesOrderStatus"),
@@ -298,7 +298,7 @@ public class TestRenew_Membership extends BaseClass {
 
 		// Validate Membership renew - Fonteva API validations
 		apiValidationRenew.verifyMemebershipRenewal(dataList.get(3),
-				DataProviderFactory.getConfig().getValue("termEndDate"), receiptData.get(2),
+				DataProviderFactory.getConfig().getValue("renewTermEndDate"), receiptData.get(2),
 				DataProviderFactory.getConfig().getValue("type_aia_national"), "Architect", "Non profit");
 		// Validate sales order
 		apiValidationRenew.verifySalesOrder(DataProviderFactory.getConfig().getValue("salesOrderStatus"),
@@ -358,7 +358,7 @@ public class TestRenew_Membership extends BaseClass {
 
 		// Validate Membership renew - Fonteva API validations
 		apiValidationRenew.verifyMemebershipRenewal(dataList.get(3),
-				DataProviderFactory.getConfig().getValue("termEndDate"), receiptData.get(2),
+				DataProviderFactory.getConfig().getValue("renewTermEndDate"), receiptData.get(2),
 				DataProviderFactory.getConfig().getValue("type_aia_national"), "Architect", "Non profit");
 		// Validate sales order
 		apiValidationRenew.verifySalesOrder(DataProviderFactory.getConfig().getValue("salesOrderStatus"),
@@ -400,7 +400,7 @@ public class TestRenew_Membership extends BaseClass {
 		ArrayList<Object> receiptData = finalPage.getFinalReceiptData();
 		//Verify Membership renewal 
 		apiValidationRenew.verifyMemebershipRenewal(dataList.get(3),
-				DataProviderFactory.getConfig().getValue("termEndDate"), receiptData.get(2),
+				DataProviderFactory.getConfig().getValue("renewTermEndDate"), receiptData.get(2),
 				DataProviderFactory.getConfig().getValue("type_aia_national"), testData.testDataProvider().getProperty("membershipType"), testData.testDataProvider().getProperty("selection"));
 		apiValidationRenew.validateSalesOrderLine(salesPrice);
 		util.writeCsv(dataList.get(7), dataList.get(5));
