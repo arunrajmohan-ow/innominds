@@ -25,6 +25,7 @@ import org.aia.pages.ces.SignUpPageCes;
 import org.aia.pages.ces.Subscription;
 import org.aia.pages.fonteva.ces.CES_ContactPage;
 import org.aia.pages.fonteva.ces.CES_Memberships;
+import org.aia.pages.fonteva.ces.CES_RapidOrderEntry;
 import org.aia.pages.fonteva.ces.CES_ReNewUser;
 import org.aia.pages.fonteva.ces.CES_SalesOrder;
 import org.aia.pages.membership.OrderSummaryPage;
@@ -76,6 +77,7 @@ public class TestCESMembershipStatus_CES extends BaseClass {
 	FontevaCES fontevaPage;
 	FontevaCESTermDateChangeAPI cesTermDateChangeAPI;
 	CES_SalesOrder salesorder;
+	CES_RapidOrderEntry rapidOrderEntery;
 
 	public ExtentReports extent;
 	public ExtentTest extentTest;
@@ -114,6 +116,7 @@ public class TestCESMembershipStatus_CES extends BaseClass {
 		cesTermDateChangeAPI = PageFactory.initElements(driver, FontevaCESTermDateChangeAPI.class);
 		ces_ContactPage = PageFactory.initElements(driver, CES_ContactPage.class);
 		salesorder = PageFactory.initElements(driver, CES_SalesOrder.class);
+		rapidOrderEntery = PageFactory.initElements(driver, CES_RapidOrderEntry.class);
 
 	}
 
@@ -140,10 +143,10 @@ public class TestCESMembershipStatus_CES extends BaseClass {
 		Object amount = paymntSuccesFullPageCes.amountPaid();
 		// Navigate to Fonteva app and make record renew eligible.
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
-		ces_ContactPage.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
+		rapidOrderEntery.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
 				testData.testDataProvider().getProperty("cesmembershipType1"),
 				testData.testDataProvider().getProperty("quickElement1"));
-		ces_ContactPage.validateDeleteCESMembership();
+		rapidOrderEntery.validateDeleteCESMembership();
 		// ces_ContactPage.validateAvailableMemType();
 		termDateChangeApi.changeTermDateAPI(dataList.get(3),
 				(testData.testDataProvider().getProperty("changeTermDate")), 0);
@@ -185,7 +188,7 @@ public class TestCESMembershipStatus_CES extends BaseClass {
 		Object amount = paymntSuccesFullPageCes.amountPaid();
 		// Navigate to Fonteva app and make record renew eligible.
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
-		ces_ContactPage.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
+		rapidOrderEntery.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
 				testData.testDataProvider().getProperty("cesmembershipType1"),
 				testData.testDataProvider().getProperty("quickElement1"));
 		termDateChangeApi.changeTermDateAPI(dataList.get(3), testData.testDataProvider().getProperty("termEndDate"),
@@ -222,7 +225,7 @@ public class TestCESMembershipStatus_CES extends BaseClass {
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
 		// fontevaPage.changeTermDates(dataList.get(0) + " " + dataList.get(1));
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
-		ces_ContactPage.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
+		rapidOrderEntery.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
 				testData.testDataProvider().getProperty("cesmembershipType1"),
 				testData.testDataProvider().getProperty("quickElement1"));
 		termDateChangeApi.changeTermDateAPI(dataList.get(3), testData.testDataProvider().getProperty("termEndDate"),
@@ -254,7 +257,7 @@ public class TestCESMembershipStatus_CES extends BaseClass {
 		Object amount = paymntSuccesFullPageCes.amountPaid();
 		// Navigate to Fonteva app and make record renew eligible.
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
-		ces_ContactPage.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
+		rapidOrderEntery.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
 				testData.testDataProvider().getProperty("nonCESMembershipType0"),
 				testData.testDataProvider().getProperty("quickElement1"));
 		termDateChangeApi.changeTermDateAPI(dataList.get(3), testData.testDataProvider().getProperty("termEndDate"),
@@ -290,10 +293,10 @@ public class TestCESMembershipStatus_CES extends BaseClass {
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
 //fontevaPage.changeTermDates(dataList.get(0) + " " + dataList.get(1));
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
-		ces_ContactPage.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
+		rapidOrderEntery.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
 				testData.testDataProvider().getProperty("cesmembershipType1"),
 				testData.testDataProvider().getProperty("quickElement1"));
-		ces_ContactPage.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
+		rapidOrderEntery.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
 				testData.testDataProvider().getProperty("cesMembershipType2"),
 				testData.testDataProvider().getProperty("quickElement2"));
 		termDateChangeApi.changeTermDateAPI(dataList.get(3), testData.testDataProvider().getProperty("termEndDate"),
@@ -329,10 +332,10 @@ public class TestCESMembershipStatus_CES extends BaseClass {
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
 //fontevaPage.changeTermDates(dataList.get(0) + " " + dataList.get(1));
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
-		ces_ContactPage.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
+		rapidOrderEntery.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
 				testData.testDataProvider().getProperty("cesmembershipType1"),
 				testData.testDataProvider().getProperty("quickElement1"));
-		ces_ContactPage.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
+		rapidOrderEntery.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
 				testData.testDataProvider().getProperty("cesMembershipType2"),
 				testData.testDataProvider().getProperty("quickElement2"));
 		termDateChangeApi.changeTermDateAPI(dataList.get(3), testData.testDataProvider().getProperty("termEndDate"),
@@ -364,7 +367,7 @@ public class TestCESMembershipStatus_CES extends BaseClass {
 		Object amount = paymntSuccesFullPageCes.amountPaid();
 		// Navigate to Fonteva app and make record renew eligible.
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
-		ces_ContactPage.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
+		rapidOrderEntery.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
 				testData.testDataProvider().getProperty("nonCESMembershipType0"),
 				testData.testDataProvider().getProperty("quickElement1"));
 		termDateChangeApi.changeTermDateAPI(dataList.get(3), testData.testDataProvider().getProperty("termEndDate"),
@@ -395,7 +398,7 @@ public class TestCESMembershipStatus_CES extends BaseClass {
 		Object amount = paymntSuccesFullPageCes.amountPaid();
 		// Navigate to Fonteva app and make record renew eligible.
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
-		ces_ContactPage.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
+		rapidOrderEntery.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
 				testData.testDataProvider().getProperty("nonCESMembershipType0"),
 				testData.testDataProvider().getProperty("quickElement1"));
 		termDateChangeApi.changeTermDateAPI(dataList.get(3), testData.testDataProvider().getProperty("termEndDate"),
@@ -431,10 +434,10 @@ public class TestCESMembershipStatus_CES extends BaseClass {
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
 //fontevaPage.changeTermDates(dataList.get(0) + " " + dataList.get(1));
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
-		ces_ContactPage.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
+		rapidOrderEntery.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
 				testData.testDataProvider().getProperty("cesmembershipType1"),
 				testData.testDataProvider().getProperty("quickElement1"));
-		ces_ContactPage.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
+		rapidOrderEntery.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
 				testData.testDataProvider().getProperty("cesMembershipType2"),
 				testData.testDataProvider().getProperty("quickElement2"));
 		termDateChangeApi.changeTermDateAPI(dataList.get(3), testData.testDataProvider().getProperty("termEndDate"),
@@ -470,10 +473,10 @@ public class TestCESMembershipStatus_CES extends BaseClass {
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
 //fontevaPage.changeTermDates(dataList.get(0) + " " + dataList.get(1));
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
-		ces_ContactPage.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
+		rapidOrderEntery.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
 				testData.testDataProvider().getProperty("cesMembershipType2"),
 				testData.testDataProvider().getProperty("quickElement2"));
-		ces_ContactPage.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
+		rapidOrderEntery.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
 				testData.testDataProvider().getProperty("cesmembershipType1"),
 				testData.testDataProvider().getProperty("quickElement1"));
 		termDateChangeApi.changeTermDateAPI(dataList.get(3), testData.testDataProvider().getProperty("termEndDate"),

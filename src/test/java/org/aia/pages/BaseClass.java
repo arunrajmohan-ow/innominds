@@ -55,11 +55,9 @@ public class BaseClass {
 
 	@AfterClass(alwaysRun = true)
 	public void tearDown() {
-		if(driver != null) {
 			Reporter.log("LOG: INFO : Closing browser instances", true);
 	    	BrowserSetup.closeBrowser(driver);
 			Reporter.log("LOG: INFO : Browser instances closed", true);
-		}
 	}
 
 	@BeforeTest(alwaysRun = true)
