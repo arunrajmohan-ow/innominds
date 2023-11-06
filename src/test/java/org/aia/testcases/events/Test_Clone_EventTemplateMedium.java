@@ -1,5 +1,6 @@
 package org.aia.testcases.events;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import org.aia.pages.BaseClass;
@@ -121,7 +122,7 @@ public class Test_Clone_EventTemplateMedium extends BaseClass {
 		}
 	}
 
-	@Test(priority = 2, description = "Verify Price modify for an existing Event", enabled = false)
+	@Test(priority = 2, description = "Verify Price modify for an existing Event", enabled = true)
 	public void test_EditPriceInCloneEventMediumTEmplate(ITestContext context) throws InterruptedException, Throwable {
 		 Logging.logger.info("================================test_EditPriceInCloneEvent started==========================");
 		try {
@@ -212,7 +213,7 @@ public class Test_Clone_EventTemplateMedium extends BaseClass {
 
 	}
 
-	 @Test(priority = 3, description = "Verify 'Attendees' info after registering for the event", enabled = false)
+	 @Test(priority = 3, description = "Verify 'Attendees' info after registering for the event", enabled = true)
 	public void validate_AttendeesMediumTEmplates(ITestContext context) throws InterruptedException, Throwable {
 		 Logging.logger.info("================================validate_Attendees started==========================");
 		try {
@@ -294,7 +295,7 @@ public class Test_Clone_EventTemplateMedium extends BaseClass {
 
 	}
 
-	@Test(priority = 4, description = "Verify 'sales and registration' info after registering for the event", enabled = false)
+	@Test(priority = 4, description = "Verify 'sales and registration' info after registering for the event", enabled = true)
 	public void validate_SalesAndRegistrationMediumTEmplate(ITestContext context) throws InterruptedException, Throwable {
 		 Logging.logger.info("================================validate_SalesAndRegistration started==========================");
 		try {
@@ -369,7 +370,7 @@ public class Test_Clone_EventTemplateMedium extends BaseClass {
 		}
 	}
 	
-	@Test(priority = 5, description = "Edit cloneEvent date and time,", enabled = false)
+	@Test(priority = 5, description = "Edit cloneEvent date and time,", enabled = true)
 	public void test_EditSelectDateInCloneEventInfoMediumTEmplate(ITestContext context) throws InterruptedException, Throwable {
 		 Logging.logger.info("================================test_EditSelectDateInCloneEventInfo started==========================");
 		try {
@@ -390,7 +391,7 @@ public class Test_Clone_EventTemplateMedium extends BaseClass {
 		}
 	}
 
-	@Test(priority = 6, description = "Validate register timer in Edit cloneEvent info,", enabled = false)
+	@Test(priority = 6, description = "Validate register timer in Edit cloneEvent info,", enabled = true)
 	public void validate_RegistrationTimerCloneEventInfoMediumTEmplate(ITestContext context) throws InterruptedException, Throwable {
 		 Logging.logger.info("================================validate_RegistrationTimerCloneEventInfo started==========================");
 		try {
@@ -411,7 +412,7 @@ public class Test_Clone_EventTemplateMedium extends BaseClass {
 	}
 	
 	@AfterMethod(alwaysRun = true)
-	public void teardown(ITestResult result) {
+	public void teardown(ITestResult result) throws IOException {
 		if (recording) {
 			VideoRecorder.stopRecording();
 		}
@@ -419,9 +420,7 @@ public class Test_Clone_EventTemplateMedium extends BaseClass {
 			System.out.println("LOG : FAIL Test failed to executed");
 			Utility.takeScreenShotAfterFail(driver, result);
 		}
-		if(driver != null){
 		BrowserSetup.closeBrowser(driver);
-		}
 	}
 
 	

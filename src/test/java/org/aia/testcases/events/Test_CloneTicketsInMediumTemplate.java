@@ -70,7 +70,7 @@ public class Test_CloneTicketsInMediumTemplate extends BaseClass {
 		
 	}
 
-	@Test(priority = 2, description = "Verify creation of New Ticket Type", enabled = false)
+	@Test(priority = 2, description = "Verify creation of New Ticket Type", enabled = true)
 	public void validate_CreateNewTicketTypeMediumTEmplate(ITestContext context) throws InterruptedException, Throwable {
 		Logging.logger.info("================================test_EditPriceInCloneEvent started==========================");
 		// fec-103
@@ -95,7 +95,7 @@ public class Test_CloneTicketsInMediumTemplate extends BaseClass {
 		
 	}
 
-	@Test(priority = 3, description = "verify field in TicketModule info, tickets sales start date,", enabled = false)
+	@Test(priority = 3, description = "verify field in TicketModule info, tickets sales start date,", enabled = true)
 	public void test_VeriftTickets_sales_startDateMediumTEmplate(ITestContext context) throws InterruptedException, Throwable {
 		Logging.logger.info("================================test_EditPriceInCloneEvent started==========================");
 		// Fec-104
@@ -110,10 +110,9 @@ public class Test_CloneTicketsInMediumTemplate extends BaseClass {
 		} catch (Throwable e) {
 			throw new AssertionError(e.getMessage());
 		}
-		
 	}
 
-	@Test(priority = 4, description = "Verify CreateNewTicket And ValidateAllfields,", enabled = false)
+	@Test(priority = 4, description = "Verify CreateNewTicket And ValidateAllfields,", enabled = true)
 	public void test_VerifycCreateNewTicketAndValidateAllfieldsMediumTEmplate(ITestContext context)
 			throws InterruptedException, Throwable {
 		Logging.logger.info("================================test_EditPriceInCloneEvent started==========================");

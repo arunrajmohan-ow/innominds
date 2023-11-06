@@ -48,33 +48,6 @@ public class Test_CloneVenuesInMediumTemplate extends BaseClass {
 		Logging.configure();
 	}
 	
-	 @Test(priority = 0, description = "Create New CloneEvent enter event name, enter date, select event category and event search click clone button",enabled = true)
-		public void test_CreateCloneEvent(ITestContext context) throws Throwable {
-			 Logging.logger.info("================================test_CreateCloneEvent started==========================");
-			try {
-				String exitEvent = testData.testDataProvider().getProperty("cloneEventTemplate");
-				if (recording) {
-					VideoRecorder.startRecording("test_CreateCloneEvent");
-				}
-				events.eventsTab();
-				events.eventsTab();
-				util.waitForJavascript(driver, 30000, 5000);
-				events.newButtonInEvents();
-				events.validateHeaderCloneEvent();
-				cloneEventpage.validateCloneOnExistingRadioButton();
-				cloneEventpage.enterEventName("Medium");
-				cloneEventpage.enterStartDate();
-				cloneEventpage.selectEventCategory(testData.testDataProvider().getProperty("eventCategory"));
-				cloneEventpage.CloneEventSearchTemplate(exitEvent);
-				cloneEventpage.eventCloneButton();
-				cloneEventpage.verifyCloneEventSegmentCheckBoxs();
-				cloneEventpage.eventFinishCloneButton();
-			}catch (Exception e) {
-				throw new Exception(e.getMessage());
-			} catch (Throwable e) {
-				throw new AssertionError(e.getMessage());
-			}
-	 }
 	@Test(priority = 1, description = "Create Venue PopUp InputField,", enabled = true)
 	public void verifyCreateVenuePopUpInputField(ITestContext context) throws InterruptedException, Throwable {
 		if (recording) {
@@ -83,7 +56,7 @@ public class Test_CloneVenuesInMediumTemplate extends BaseClass {
 		events.eventsTab();
 		events.clickCreatedEvent("RecentEvents");
 		editCloneEvent.clickEditButton();
-		util.waitForJavascript(driver, 90000, 5000);
+		util.waitForJavascript(driver, 30000, 5000);
 		venuesEvent.navigateIntoVenueModule();
 		venuesEvent.navigateAddIntoVenuePopUpTabAndVerifyIt();
 		venuesEvent.verifyCreateVenueinputFields();
