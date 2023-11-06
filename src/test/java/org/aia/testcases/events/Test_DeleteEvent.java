@@ -23,8 +23,8 @@ import org.aia.utility.VideoRecorder;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class Test_DeleteEvent extends BaseClass {
@@ -44,7 +44,7 @@ public class Test_DeleteEvent extends BaseClass {
 	TicketModule ticketModule;
 	boolean recording;
 	
-	@BeforeClass(alwaysRun = true)
+	@BeforeMethod(alwaysRun = true)
 	public void setUp() throws Exception {
 		try {
 			testData = new ConfigDataProvider();
@@ -86,7 +86,7 @@ public class Test_DeleteEvent extends BaseClass {
 		}
 	}
 
-	@AfterClass(alwaysRun = true)
+	@AfterMethod(alwaysRun = true)
 	public void teardown(ITestResult result) {
 		if (recording) {
 			VideoRecorder.stopRecording();
