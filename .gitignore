@@ -34,6 +34,7 @@ hs_err_pid*
 /test-results
 /test-output
 /Report/report.html
+/.settings
 
 # Ignore IDE-specific files
 /.idea/
