@@ -72,9 +72,16 @@ public class BrowserSetup {
 		return driver;
 	}
 
-	public static void closeBrowser(WebDriver driver) {
+	public static void closeBrowser(WebDriver driver)  {
 		System.out.println("LOG :Info- Browser Session getting terminated");
-	    driver.quit();
+		driver.close();
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		driver.quit();
 		System.out.println("LOG :Info- Browser Session terminated");
 	}
 }

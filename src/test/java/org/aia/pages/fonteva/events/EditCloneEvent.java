@@ -131,10 +131,16 @@ public class EditCloneEvent {
 	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//div[contains(text(),'pages for your selected status')]")
 	WebElement eventPagesText;
 
-	@FindBy(xpath = "(//lightning-formatted-text[@title='AIA Contact Number']/following::div/lightning-formatted-text)[1]")
+//	@FindBy(xpath = "(//lightning-formatted-text[@title='AIA Contact Number']/following::div/lightning-formatted-text)[1]")
+//	WebElement getAIANumber;
+//	
+//	@FindBy(xpath = "//lightning-formatted-text[text()='Account Name']/following-sibling::div/a")
+//	WebElement accountName;
+	
+	@FindBy(xpath = "(//table[@data-aura-class='uiVirtualDataTable']//tbody/tr/th/following::td/span/span[@title!=''])[1]")
 	WebElement getAIANumber;
 
-	@FindBy(xpath = "//lightning-formatted-text[text()='Account Name']/following-sibling::div/a")
+	@FindBy(xpath = "(//table[@data-aura-class='uiVirtualDataTable']//tbody//tr/th/span/a)[1]")
 	WebElement accountName;
 
 	@FindBy(xpath = "//a//slot/span[contains(text(),'Sales Orders')]")
@@ -156,6 +162,8 @@ public class EditCloneEvent {
 	WebElement eventName;
 
 	// status in edit
+	@FindBy(xpath = "//div[text()='Status:']//span[text()='Planned']") WebElement StatusInEditEvent;
+	
 	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//span[text()='Planned']")
 	WebElement statusDropdown;
 
@@ -454,15 +462,17 @@ public class EditCloneEvent {
 		System.out.println("EventConfig.ticketalesStartDate : " + EventConfig.RegistrationTimer);
 		Assert.assertEquals(RegistrationTimerInputBox.getAttribute("value"), EventConfig.RegistrationTimer);
 	}
+	
+	
 
 	public void selectActiveStatus() {
-		Utility.waitForWebElement(driver, activeOption, 20);
-		util.clickUsingJS(driver, activeOption);
-	}
-
-	public void clickStatusDropDown() {
+		Utility.waitForWebElement(driver, StatusInEditEvent, 10);
+		if(StatusInEditEvent.isDisplayed()) {
 		Utility.waitForWebElement(driver, statusDropdown, 20);
 		util.mosueOverUsingAction(driver, statusDropdown);
+		Utility.waitForWebElement(driver, activeOption, 20);
+		util.clickUsingJS(driver, activeOption);
+		}
 	}
 
 }

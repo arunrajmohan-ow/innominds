@@ -27,6 +27,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
+import groovy.transform.Final;
+
 public class EventRegistration {
 	WebDriver driver;
 	Utility util = new Utility(driver, 30);
@@ -38,6 +40,8 @@ public class EventRegistration {
 	public String postedDate = "";
 	public String totalAmount = "";
 	public String userName = "";
+	public String aiaNumber ="";
+	public String aiamemeberfullName="";
 	ArrayList<Object> receiptData = new ArrayList<Object>();
 	static Logger log = Logger.getLogger(EventRegistration.class);
 
@@ -231,8 +235,15 @@ public class EventRegistration {
 
 	@FindBy(css = "[data-name='email'] input")
 	WebElement emailInReg;
+	
+	@FindBy(xpath = "//p[@class='aia-number'][text()]") WebElement getaiaNumber;
+	
+	@FindBy(xpath = "//p[@class='aia-number']/span[text()]") WebElement getAiaText;
+	
+	@FindBy(xpath = "//div[@class='member-name']") WebElement aiaMemberName;
 
 	public void validateFirstNameInRegistartion() {
+		util.scrollingElementUsingJS(driver, firstNameInReg);
 		Utility.waitForWebElement(driver, firstNameInReg, 20);
 		log.info(firstNameInReg.getAttribute("value"));
 		System.out.println(firstNameInReg.getAttribute("value"));
@@ -284,6 +295,18 @@ public class EventRegistration {
 	public void singleticketRegistratioButton() {
 		Utility.waitForWebElement(driver, singleTicketRegButton, 30);
 		singleTicketRegButton.click();
+	}
+	
+	public String getAIAData() {
+		Utility.waitForWebElement(driver, getaiaNumber, 10);
+		String ss = getAiaText.getText();
+		System.out.println(ss);
+		String	aiaNum =getaiaNumber.getText();
+		aiaNumber = aiaNum.replace("AIA number: ", "");
+		System.out.println(aiaNumber);
+		Utility.waitForWebElement(driver, aiaMemberName, 10);
+		aiamemeberfullName = aiaMemberName.getText();
+		return aiaNumber;
 	}
 
 	/**

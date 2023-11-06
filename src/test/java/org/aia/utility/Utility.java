@@ -7,6 +7,8 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
@@ -38,8 +40,7 @@ import org.openqa.selenium.io.FileHandler;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
-import com.sun.org.apache.bcel.internal.generic.RETURN;
+import org.testng.ITestResult;
 
 import io.restassured.response.Response;
 
@@ -440,6 +441,19 @@ public class Utility {
 	public void waitForResponse(final Response response, final int statusCode) {
       Awaitility.await().atMost(10,TimeUnit.SECONDS).until(()->{return response.getStatusCode()==statusCode;});
 
+	}
+	
+	public static void takeScreenShotAfterFail(WebDriver driver, ITestResult result) {
+		TakesScreenshot ts = (TakesScreenshot) driver;
+		File screenshot = ts.getScreenshotAs(OutputType.FILE);
+		try {
+			// Define the destination path for the screenshot
+			String screenshotPath = "./ScreenShots/" + result.getName() + ".png";
+			Files.copy(screenshot.toPath(), new File(screenshotPath).toPath(), StandardCopyOption.REPLACE_EXISTING);
+			System.out.println("Screenshot saved at: " + screenshotPath);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

@@ -46,7 +46,7 @@ public class ViewRecipts {
 	 * @throws IOException
 	 */
 	public String viewReceiptValidationsForEvents(Object receiptNo, Object total, String paymentType,
-			String paymentMethodDescr) throws InterruptedException, IOException {
+			String paymentMethodDescr,String aiaNumber) throws InterruptedException, IOException {
 		Thread.sleep(15000);
 		Set<String> links = driver.getWindowHandles();
 		String currWin = driver.getWindowHandle();
@@ -84,9 +84,10 @@ public class ViewRecipts {
 					if (pdfContent.contains(total.toString())) {
 						assertTrue(pdfContent.contains(total.toString()), "Total amount paid is present in Recipt.");
 					}
-					Assert.assertTrue(pdfContent.contains(editCloneEvent.aiaNumber),
-							"verified customer AIA number in receipt documnet" + editCloneEvent.aiaNumber);
-					log.info("verified customer AIA number in receipt documnet" + editCloneEvent.aiaNumber);
+					System.out.println("hbjj");
+					Assert.assertTrue(pdfContent.contains(aiaNumber.replace(" ", "")),
+							"verified customer AIA number in receipt documnet" + aiaNumber);
+					log.info("verified customer AIA number in receipt documnet" + aiaNumber);
 
 					Assert.assertTrue(pdfContent.contains(paymentType));
 					log.info("verified customer AIA number in receipt documnet" + paymentType);

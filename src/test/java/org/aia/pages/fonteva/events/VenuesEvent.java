@@ -82,7 +82,7 @@ public class VenuesEvent {
 	@FindBy(xpath = "//label[contains(text(),'City')]/parent::span//following-sibling::div//input")
 	WebElement city;
 
-	@FindBy(xpath = "//label[contains(text(),'Country')]/parent::span//following-sibling::div//select")
+	@FindBy(xpath = "//label[contains(text(),'Country')]/parent::span//following-sibling::div//select[@name='Country']")
 	WebElement country;
 
 	@FindBy(xpath = "//label[contains(text(),'Zip Code')]//parent::span//following-sibling::div//input")
@@ -211,6 +211,7 @@ public class VenuesEvent {
 		util.scrollingElementUsingJS(driver, city);
 		city.sendKeys(venueAddress.get("city"));
 
+		Utility.waitForWebElement(driver, country, 10);
 		util.scrollingElementUsingJS(driver, country);
 		util.selectDropDownByText(country, venueAddress.get("country"));
 
