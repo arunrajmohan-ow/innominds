@@ -18,8 +18,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.function.Function;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.awaitility.Awaitility;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,13 +39,16 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import io.restassured.response.Response;
+
+
 public class Utility {
 
 	WebDriverWait wait;
+
 	Robot robot;
 
 	public Utility(WebDriver driver, int time) {
-	
 
 	}
 
@@ -382,7 +388,6 @@ public class Utility {
 			allElementText.add(elements.get(i).getText());
 		}
 		return allElementText;
-
 	}
 
 	public void fileUploadThroughKeyBoardActions(WebDriver driver, WebElement element, String filepath) {
@@ -422,6 +427,13 @@ public class Utility {
 	public void mosueOverUsingAction(WebDriver driver, WebElement element) {
 	Actions action = new Actions(driver);
 	action.moveToElement(element).perform();
+	}
+	
+	/**
+	* Here we are using awaitility for waiting the response from api
+	*/
+	public void waitForResponse(final Response response, final int statusCode) {
+      Awaitility.await().atMost(10,TimeUnit.SECONDS).until(()->{return response.getStatusCode()==statusCode;});
 	}
 
 }

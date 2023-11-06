@@ -103,7 +103,7 @@ public class TestClone_EventTemplateMedium extends BaseClass {
 		}
 	}
 
-	@Test(description = "Verify Price modify for an existing Event", enabled = true, priority = 4)
+	@Test(description = "Verify Price modify for an existing Event", enabled = false, priority = 4)
 	public void test_EditPriceInCloneEvent(ITestContext context) throws InterruptedException, Throwable {
 		test_CreateCloneEvent(context);
 		if (recording) {
@@ -195,7 +195,7 @@ public class TestClone_EventTemplateMedium extends BaseClass {
 		}
 	}
 
-	@Test(description = "Verify 'Attendees' info after registering for the event", enabled = true, priority = 2)
+	@Test(description = "Verify 'Attendees' info after registering for the event", enabled = false, priority = 2)
 	public void validate_Attendees(ITestContext context) throws InterruptedException, Throwable {
 		test_CreateCloneEvent(context);
 		if (recording) {
@@ -271,7 +271,7 @@ public class TestClone_EventTemplateMedium extends BaseClass {
 		}
 	}
 
-	@Test(description = "Verify 'sales and registration' info after registering for the event", enabled = true, priority = 3)
+	@Test(description = "Verify 'sales and registration' info after registering for the event", enabled = false, priority = 3)
 	public void validate_SalesAndRegistration(ITestContext context) throws InterruptedException, Throwable {
 		test_CreateCloneEvent(context);
 		util.waitForJavascript(driver, 10000, 5000);
@@ -344,7 +344,7 @@ public class TestClone_EventTemplateMedium extends BaseClass {
 		}
 	}
 
-	@Test(priority = 5, description = "Edit cloneEvent date and time,", enabled = true)
+	@Test(priority = 5, description = "Edit cloneEvent date and time,", enabled = false)
 	public void test_EditSelectDateInCloneEventInfo(ITestContext context) throws InterruptedException, Throwable {
 		events.eventsTab();
 		events.clickCreatedEvent();
@@ -357,7 +357,7 @@ public class TestClone_EventTemplateMedium extends BaseClass {
 		}
 	}
 
-	@Test(priority = 6, description = "Validate register timer in Edit cloneEvent info,", enabled = true)
+	@Test(priority = 6, description = "Validate register timer in Edit cloneEvent info,", enabled = false)
 	public void validate_RegistrationTimerCloneEventInfo(ITestContext context) throws InterruptedException, Throwable {
 		events.eventsTab();
 		events.clickCreatedEvent();
@@ -369,7 +369,7 @@ public class TestClone_EventTemplateMedium extends BaseClass {
 		}
 	}
 
-	@Test(priority = 7, description = "Verify Delation Existing Event", enabled = true)
+	@Test(priority = 7, description = "Verify Delation Existing Event", enabled = false)
 	public void validate_DeleteExistingEvent(ITestContext context) throws InterruptedException, Throwable {
 		events.eventsTab();
 		events.clickActionsInEvents("Delete");

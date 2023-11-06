@@ -22,6 +22,7 @@ public class TicketModule {
 	static Logger log = Logger.getLogger(EventInfoModule.class);
 	public String salesOrder = "";
 	public String aiaNumber = "";
+	int editEventTicketCapacity;
 
 	public TicketModule(WebDriver IDriver) {
 		this.driver = IDriver;
@@ -51,9 +52,6 @@ public class TicketModule {
 
 	@FindBy(css = "button[data-name='ticketTypeSaveModalButton']")
 	WebElement saveAndContinueButtonInEditTicketType;
-
-	@FindBy(xpath = "//button[contains(text(),'Manage Inventory')]")
-	WebElement manageInventory;
 
 	@FindBy(xpath = "//button[contains(text(),'New Ticket Type')]")
 	WebElement newTicketType;
@@ -157,6 +155,38 @@ public class TicketModule {
 
 	@FindBy(xpath = "//div[@data-name='ticketDescription']/textarea")
 	WebElement descriptionInCreateTicketType;
+	
+	//Manage inventory
+		@FindBy(xpath = "//button[contains(text(),'Manage Inventory')]")
+		WebElement manageInventory;
+		
+		@FindBy(xpath = "(//div[@data-name='quantity']//input)[1]")
+		WebElement attendeeRegistration;
+			
+		@FindBy(xpath ="//button[@data-name='saveTicketBlockBtn']")
+		WebElement saveTicketButton;
+		
+		@FindBy(xpath = "//span[text()='Event Info']")
+		WebElement eventinfo;
+	
+		@FindBy(xpath = "//div[text()='Ticket Capacity:']/following::div[@class='slds-form-element_control']")
+		WebElement EventCapacityInEventInfo;
+	
+	//Tickets display order dropdown
+	@FindBy(xpath ="//select[@name='Ticket Display Order']")
+	WebElement ticketDisplayOrderDropdown;
+	
+	@FindBy(xpath = "//option[@label='Price (low -> high)']")
+	WebElement priceLowToHigh;
+ 
+	@FindBy(xpath = "//option[@label='Price (high -> low)']")
+	WebElement priceHighToLow;
+	
+	@FindBy(xpath = "//option[@label='Name (A - Z)']")
+	WebElement priceAToZ;
+	
+	@FindBy(xpath = "//option[@label='Name (Z - A)']")
+	WebElement priceZToA;
 
 	public void eventTicketsTab() {
 		util.waitForJavascript(driver, 90000, 5000);
@@ -411,4 +441,80 @@ public class TicketModule {
 		System.out.println("EventConfig.ticketSalesStartDate : " + EventConfig.ticketSalesStartDate);
 		Assert.assertEquals(ticketSalesStartDate.getAttribute("value"), EventConfig.ticketSalesStartDate);
 	}
-}
+	
+	public void clickManageInventory() {
+		Utility.waitForWebElement(driver, manageInventory, 20);
+		manageInventory.click();
+	}
+	
+	public void EnterAiaMemberDetails() {
+		util.enterText(driver, attendeeRegistration, "260");
+	}
+	
+	public String VerifyEventTicketCapacity() {
+		String aiaMemberPrice = attendeeRegistration.getAttribute("value");
+		 editEventTicketCapacity = Integer.parseInt(aiaMemberPrice);
+		 saveTicketButton.click();
+	       util.waitUntilElement(driver, eventinfo);
+		 eventinfo.click();
+       util.waitUntilElement(driver, EventCapacityInEventInfo);
+       String expectedEventCapacity = EventCapacityInEventInfo.getText();
+       return expectedEventCapacity;
+	}
+	
+	public void VerifyTicketOrderValues() throws InterruptedException{
+			Thread.sleep(5000);
+			System.out.println("tickets tab oepned");
+			util.scrollingElementUsingJS(driver, ticketDisplayOrder);
+			Thread.sleep(5000);
+			System.out.println("tickets tab scrolled");
+			util.waitUntilElement(driver, ticketDisplayOrderDropdown);
+			Thread.sleep(5000);
+			ticketDisplayOrderDropdown.click();
+			Thread.sleep(5000);
+			Assert.assertTrue(ticketDisplayOrderDropdown.isDisplayed(), "Name (A - Z)");
+			util.waitUntilElement(driver, priceZToA);
+			Utility.highLightElement(driver, priceZToA);
+			if (priceZToA.isDisplayed()) {
+				System.out.println("priceZToA is displayed");
+			} else {
+				Thread.sleep(5000);
+				util.clickUsingJS(driver, priceZToA);
+				Thread.sleep(5000);
+				log.info("priceZToA  is clicked");
+			}
+			Assert.assertTrue(ticketDisplayOrderDropdown.isDisplayed(), "Name (Z - A)");
+			util.waitUntilElement(driver, priceAToZ);
+			Utility.highLightElement(driver, priceAToZ);
+			if (priceZToA.isDisplayed()) {
+				System.out.println("priceAToZ is displayed");
+			} else {
+				Thread.sleep(5000);
+				util.clickUsingJS(driver, priceAToZ);
+				Thread.sleep(5000);
+				log.info("priceAToZ  is clicked");
+			}
+			Assert.assertTrue(ticketDisplayOrderDropdown.isDisplayed(), "Price (low -> high)");
+			util.waitUntilElement(driver, priceLowToHigh);
+			Utility.highLightElement(driver, priceLowToHigh);
+			if (priceLowToHigh.isDisplayed()) {
+				System.out.println("priceLowToHigh is displayed");
+			} else {
+				Thread.sleep(5000);
+				util.clickUsingJS(driver, priceAToZ);
+				Thread.sleep(5000);
+				log.info("priceLowToHigh  is clicked");
+			}
+			Assert.assertTrue(ticketDisplayOrderDropdown.isDisplayed(), "Price (high -> low)");
+			util.waitUntilElement(driver, priceHighToLow);
+			Utility.highLightElement(driver, priceHighToLow);
+			if (priceHighToLow.isDisplayed()) {
+				System.out.println("priceHighToLow is displayed");
+			} else {
+				Thread.sleep(5000);
+				util.clickUsingJS(driver, priceZToA);
+				Thread.sleep(5000);
+				log.info("priceHighToLow  is clicked");
+			}
+		}
+	}

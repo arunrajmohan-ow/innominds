@@ -267,4 +267,25 @@ public class EventAPIValidations {
 		}
 		log.info("==============Sales Order is Validated===================");
 	}
+	
+	/**
+	 * @param context
+	 * @throws Throwable
+	 */
+	public void verifyEventTicketCapacity(ITestContext context) throws Throwable {
+		String Id = context.getAttribute("eventId").toString();
+		System.out.println("EVENTID: " + Id);
+		 String uiEditEventCapacity =context.getAttribute("uiEventCapacityAfterModify").toString();
+		Response response = given().contentType(ContentType.JSON).accept(ContentType.JSON)
+				.header("Authorization", "Bearer " + bearerToken).header("Content-Type", ContentType.JSON)
+				.header("Accept", ContentType.JSON).when().get(EVENT_URI + "/" + Id).then().log().all().statusCode(200)
+				.extract().response();
+		JSONObject obj = new JSONObject(response.asString());
+		Assert.assertEquals(obj.get("Name").toString(), context.getAttribute("eventName").toString());
+
+		Assert.assertEquals(Double.parseDouble(obj.get("EventApi__Capacity__c").toString()),
+				Double.parseDouble(uiEditEventCapacity));
+		System.out.println("VERIFIED: Event Name - " + obj.get("Name").toString());
+		log.info("VERIFIED: Event Name - " + obj.get("Name").toString());
+	}
 }

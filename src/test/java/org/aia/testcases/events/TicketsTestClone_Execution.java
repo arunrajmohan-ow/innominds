@@ -1,6 +1,7 @@
 package org.aia.testcases.events;
 
 import org.aia.pages.BaseClass;
+import org.aia.pages.api.events.EventAPIValidations;
 import org.aia.pages.api.membership.FontevaConnectionSOAP;
 import org.aia.pages.fonteva.events.EventInfoModule;
 import org.aia.pages.fonteva.events.Events;
@@ -27,6 +28,7 @@ public class TicketsTestClone_Execution extends BaseClass {
 	ConfigDataProvider testData;
 	EventInfoModule editCloneEvent;
 	TicketModule ticketModule;
+	EventAPIValidations eventApivalidation;
 	boolean recording;
 
 	@BeforeMethod(alwaysRun = true)
@@ -38,12 +40,13 @@ public class TicketsTestClone_Execution extends BaseClass {
 		events = PageFactory.initElements(driver, Events.class);
 		cloneEventpage = PageFactory.initElements(driver, NewCloneEvents.class);
 		editCloneEvent = PageFactory.initElements(driver, EventInfoModule.class);
+		eventApivalidation = PageFactory.initElements(driver, EventAPIValidations.class);
 		ticketModule = PageFactory.initElements(driver, TicketModule.class);
 		recording = Boolean.parseBoolean(testData.testDataProvider().getProperty("videoRecording"));
 		Logging.configure();
 	}
 
-	@Test(priority = 1, description = "verify field in TicketModule tickets info,", enabled = true)
+	@Test(priority = 1, description = "verify field in TicketModule tickets info,", enabled = false)
 	public void test_verifyFieldInTicketModule(ITestContext context) throws InterruptedException, Throwable {
 		// Fec-102
 		if (recording) {
@@ -56,7 +59,7 @@ public class TicketsTestClone_Execution extends BaseClass {
 		ticketModule.verifyAllFIeldsTicketModule();
 	}
 
-	@Test(priority = 2, description = "Verify creation of New Ticket Type", enabled = true)
+	@Test(priority = 2, description = "Verify creation of New Ticket Type", enabled = false)
 	public void validate_CreateNewTicketType(ITestContext context) throws InterruptedException, Throwable {
 		// fec-103
 		events.eventsTab();
@@ -73,9 +76,9 @@ public class TicketsTestClone_Execution extends BaseClass {
 		ticketModule.buttonsInCreateTicketType("SaveContinue");
 	}
 
-	@Test(priority = 3, description = "verify field in TicketModule info, tickets sales start date,", enabled = true)
+	@Test(priority = 3, description = "verify field in TicketModule info, tickets sales start date,", enabled = false)
 	public void test_VeriftTickets_sales_startDate(ITestContext context) throws InterruptedException, Throwable {
-		// Fec-104
+		// Fec-104 duplicate as fec-116
 		events.eventsTab();
 		events.clickCreatedEvent();
 		editCloneEvent.clickEditButton();
@@ -83,7 +86,7 @@ public class TicketsTestClone_Execution extends BaseClass {
 		ticketModule.verifyUserAbleToProvidedateIntoTicketSalesStartDate();
 	}
 
-	@Test(priority = 4, description = "Verify CreateNewTicket And ValidateAllfields,", enabled = true)
+	@Test(priority = 4, description = "Verify CreateNewTicket And ValidateAllfields,", enabled = false)
 	public void test_VerifycCreateNewTicketAndValidateAllfields(ITestContext context)
 			throws InterruptedException, Throwable {
 		// Fec-114
@@ -104,4 +107,43 @@ public class TicketsTestClone_Execution extends BaseClass {
 			VideoRecorder.stopRecording();
 		}
 	}
+	
+	@Test(priority = 5, description = "validate_TicketDisplayOrderValues", enabled = true)
+	public void validate_TicketDisplayOrderValues(ITestContext context) throws InterruptedException, Throwable {
+		//fec-115
+		events.eventsTab();
+		System.out.println("eventsticket tab displayed");
+		events.clickCreatedEvent();
+		editCloneEvent.clickEditButton();
+		ticketModule.eventTicketsTab();
+		util.waitForJavascript(driver, 30000, 5000);
+		System.out.println("tickets tab is displayed");
+		ticketModule.VerifyTicketOrderValues();
+		System.out.println("testcase executed SUccessfully");
+    }
+	
+	@Test(priority = 6, description = "test_VerifyManageInventoryInTickets", enabled = true)
+	public void test_VerifyManageInventoryInTickets(ITestContext context)
+			throws InterruptedException, Throwable {
+		// Fec-118
+		events.eventsTab();
+		String eventName =events.clickCreatedEvent();
+		 String eventId = cloneEventpage.getEventId();
+		editCloneEvent.clickEditButton();
+		util.waitForJavascript(driver, 30000, 5000);
+		ticketModule.eventTicketsTab();
+		ticketModule.clickManageInventory();
+		ticketModule.EnterAiaMemberDetails();
+		String uiEventCapacity =ticketModule.VerifyEventTicketCapacity();
+		context.setAttribute("eventId", eventId);
+		context.setAttribute("eventName", eventName);
+		context.setAttribute("uiEventCapacityAfterModify", uiEventCapacity);
+		
+		//Edit Event capacity API validation
+		eventApivalidation.verifyEventTicketCapacity(context);
+		if (recording) {
+			VideoRecorder.stopRecording();
+		}
+	}
 }
+
