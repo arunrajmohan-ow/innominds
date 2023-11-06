@@ -76,7 +76,7 @@ public class TestRenew_Membership extends BaseClass {
 		termDateChangeAPI=PageFactory.initElements(driver, FontevaMemTermDateChangeAPI.class);
 	}
 
-	@Test(priority = 1, description = "Validate Renew without supplemental dues", enabled = true)
+	@Test(priority = 1, description = "Validate Renew without supplemental dues", enabled = true,invocationCount = 5)
 	public void ValidateRenew() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
