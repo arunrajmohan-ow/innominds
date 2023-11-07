@@ -75,7 +75,7 @@ public class EventConfig {
 	}
 	
 	
-	public static String  venueImageURLInput="D:\\AIA_master\\aia-fonteva-automation\\UploadFiles\\screenshoot.jpg";
+	public static String  venueImageURLInput= System.getProperty("user.dir")+ "\\UploadFiles\\screenshoot.jpg";
 	public static String getVenueRecordsCount;
 	public static String getVenueRecordsCount2;
 	

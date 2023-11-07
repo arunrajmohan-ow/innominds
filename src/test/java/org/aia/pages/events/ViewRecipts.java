@@ -84,7 +84,6 @@ public class ViewRecipts {
 					if (pdfContent.contains(total.toString())) {
 						assertTrue(pdfContent.contains(total.toString()), "Total amount paid is present in Recipt.");
 					}
-					System.out.println("hbjj");
 					Assert.assertTrue(pdfContent.contains(aiaNumber.replace(" ", "")),
 							"verified customer AIA number in receipt documnet" + aiaNumber);
 					log.info("verified customer AIA number in receipt documnet" + aiaNumber);
