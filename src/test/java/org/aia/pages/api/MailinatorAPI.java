@@ -365,6 +365,7 @@ public class MailinatorAPI {
 		String value = jsonPathEval.getString("parts[1].body");
 		System.out.println("body is " + value);
 		Assert.assertTrue(value.contains(eventName));
+		//Assert.assertTrue(value.contains(scheduleName));
 		Assert.assertTrue(value.contains(dataList.get(0)));
 	}
 

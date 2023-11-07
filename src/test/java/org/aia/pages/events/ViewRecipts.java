@@ -45,8 +45,8 @@ public class ViewRecipts {
 	 * @throws InterruptedException
 	 * @throws IOException
 	 */
-	public String viewReceiptValidationsForEvents(Object receiptNo, Object total)
-			throws InterruptedException, IOException {
+	public String viewReceiptValidationsForEvents(Object receiptNo, Object total, String paymentType,
+			String paymentMethodDescr,String aiaNumber) throws InterruptedException, IOException {
 		Thread.sleep(15000);
 		Set<String> links = driver.getWindowHandles();
 		String currWin = driver.getWindowHandle();
@@ -84,13 +84,13 @@ public class ViewRecipts {
 					if (pdfContent.contains(total.toString())) {
 						assertTrue(pdfContent.contains(total.toString()), "Total amount paid is present in Recipt.");
 					}
-					Assert.assertTrue(pdfContent.contains(editCloneEvent.aiaNumber),
-							"verified customer AIA number in receipt documnet" + editCloneEvent.aiaNumber);
-					log.info("verified customer AIA number in receipt documnet" + editCloneEvent.aiaNumber);
+					System.out.println("hbjj");
+					Assert.assertTrue(pdfContent.contains(aiaNumber.replace(" ", "")),
+							"verified customer AIA number in receipt documnet" + aiaNumber);
+					log.info("verified customer AIA number in receipt documnet" + aiaNumber);
 
-					Assert.assertTrue(pdfContent.contains(testData.testDataProvider().getProperty("PaymentType")));
-					log.info("verified customer AIA number in receipt documnet"
-							+ testData.testDataProvider().getProperty("PaymentType"));
+					Assert.assertTrue(pdfContent.contains(paymentType));
+					log.info("verified customer AIA number in receipt documnet" + paymentType);
 
 					Assert.assertTrue(pdfContent.contains(total.toString()));
 					log.info("verified total amount in receipt documnet" + total);
@@ -101,10 +101,8 @@ public class ViewRecipts {
 					Assert.assertTrue(pdfContent.contains(eventRegistration.postedDate));
 					log.info("verified postedDate in receipt documnet" + eventRegistration.postedDate);
 
-					Assert.assertTrue(
-							pdfContent.contains(testData.testDataProvider().getProperty("PaymentMethodDescription")));
-					log.info("verified Payment Method Description in receipt documnet"
-							+ testData.testDataProvider().getProperty("PaymentMethodDescription"));
+					Assert.assertTrue(pdfContent.contains(paymentMethodDescr));
+					log.info("verified Payment Method Description in receipt documnet" + paymentMethodDescr);
 
 					Assert.assertTrue(pdfContent.contains(eventRegistration.userName));
 					log.info("verified To address in receipt documnet" + eventRegistration.userName);
