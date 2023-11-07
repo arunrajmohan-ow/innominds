@@ -1,5 +1,7 @@
 package org.aia.pages.ces;
 
+import static org.junit.Assert.assertTrue;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -39,6 +41,8 @@ public class ProviderStatement {
 	@FindBy(xpath="//div/button[1]/text()/parent::button") WebElement providerStatementPrevious;
 	
 	@FindBy(xpath="//button[text()='Next']") WebElement providerStatementNext;
+	
+	@FindBy(xpath="//div/span[@class='main']") WebElement tabTitleProvider;
 	
 	public void providerStatementEnterNameDate(String firstname) throws InterruptedException {
 		
@@ -136,5 +140,15 @@ public void providerStatementEnterNameDate2(String firstname) throws Interrupted
 				return;
 				}
 	   }	
+	}
+	
+	/*
+	 * Validate Organization Tab.
+	 */
+	
+	public void verifyProviderStatementTab() {
+		util.waitUntilElement(driver, tabTitleProvider);
+		assertTrue(tabTitleProvider.isDisplayed());
+		
 	}
 }

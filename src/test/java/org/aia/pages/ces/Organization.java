@@ -85,7 +85,7 @@ public class Organization {
 //		@FindBy(xpath = "//b[text()= 'Primary Point of Contact']")
 //		WebElement tabTitleOrganization;
 		
-		@FindBy(xpath = "//div[@class='slds-m-bottom_x-small']/span[@class='main']/img[contains(@src, 'Organization')]")
+		@FindBy(xpath = "//div/span[@class='main']")
 		WebElement tabTitleOrganization;
 		
 		@FindBy(xpath = "(//span[contains(normalize-space(), 'Please enter some valid input. Input is not optional.')])[1]")
