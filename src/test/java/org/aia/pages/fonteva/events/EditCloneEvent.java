@@ -3,22 +3,20 @@ package org.aia.pages.fonteva.events;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
+import org.aia.utility.DateUtils;
 import org.aia.utility.Utility;
 import org.apache.log4j.Logger;
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
-
-import groovy.transform.Final;
 
 public class EditCloneEvent {
 	WebDriver driver;
@@ -74,29 +72,6 @@ public class EditCloneEvent {
 	@FindBy(css = "div[class='windowViewMode-normal oneContent active lafPageHost'] div[data-name='registrationTimer'] input")
 	WebElement eventRegistrationTimer;
 
-	// Tickets locators EventApi:EventBuilderTickets
-	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//div[@data-menu='EventApi:EventBuilderTickets']")
-	WebElement eventBuilderTickets;
-
-	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//div[@data-name='ticketSalesStartDate']//input")
-	WebElement eventTicketSalesStartDate;
-
-	@FindBy(xpath = "(//div[@class='windowViewMode-normal oneContent active lafPageHost']//td/div[@data-name='More_Options'])[1]")
-	WebElement actionsColoumnInTicketTypes;
-
-	@FindAll(value = {
-			@FindBy(xpath = "(//div[@class='windowViewMode-normal oneContent active lafPageHost']//ul[@class='dropdown__list'])[1]/li") })
-	List<WebElement> actionOptions;
-
-	@FindBy(xpath = "//h2[@id='modal-heading-label'][text()='Edit Ticket Type']")
-	WebElement ediTicketTypeHeader;
-
-	@FindBy(xpath = "//label[text()='Price']/following::div/div[@data-name='price']/input")
-	WebElement PriceInEditTicketType;
-
-	@FindBy(css = "button[data-name='ticketTypeSaveModalButton']")
-	WebElement saveAndContinueButtonInEditTicketType;
-
 	// Invitation locators
 	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//div[@data-menu='EventApi:EventBuilderInvitationOnly']")
 	WebElement eventBuilderInvitation;
@@ -129,6 +104,9 @@ public class EditCloneEvent {
 	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//div[@data-menu='EventApi:EventBuilderAgenda']")
 	WebElement eventBuilderAgenda;
 
+	@FindBy(css = "table[class='slds-table slds-table_header-fixed slds-table_bordered slds-table_edit'] tr:nth-child(5)  th lightning-base-formatted-text")
+	WebElement scheduleItemDisplayName;
+
 	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//a[@data-tab='agenda']")
 	WebElement agendaTab;
 
@@ -153,10 +131,16 @@ public class EditCloneEvent {
 	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//div[contains(text(),'pages for your selected status')]")
 	WebElement eventPagesText;
 
-	@FindBy(xpath = "(//lightning-formatted-text[@title='AIA Contact Number']/following::div/lightning-formatted-text)[1]")
+//	@FindBy(xpath = "(//lightning-formatted-text[@title='AIA Contact Number']/following::div/lightning-formatted-text)[1]")
+//	WebElement getAIANumber;
+//	
+//	@FindBy(xpath = "//lightning-formatted-text[text()='Account Name']/following-sibling::div/a")
+//	WebElement accountName;
+	
+	@FindBy(xpath = "(//table[@data-aura-class='uiVirtualDataTable']//tbody/tr/th/following::td/span/span[@title!=''])[1]")
 	WebElement getAIANumber;
 
-	@FindBy(xpath = "//lightning-formatted-text[text()='Account Name']/following-sibling::div/a")
+	@FindBy(xpath = "(//table[@data-aura-class='uiVirtualDataTable']//tbody//tr/th/span/a)[1]")
 	WebElement accountName;
 
 	@FindBy(xpath = "//a//slot/span[contains(text(),'Sales Orders')]")
@@ -176,6 +160,60 @@ public class EditCloneEvent {
 
 	@FindBy(xpath = "//span[@class='slds-grid slds-grid--align-spread forceInlineEditCell']//a[@data-refid='recordId']")
 	WebElement eventName;
+
+	// status in edit
+	@FindBy(xpath = "//div[text()='Status:']//span[text()='Planned']") WebElement StatusInEditEvent;
+	
+	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//span[text()='Planned']")
+	WebElement statusDropdown;
+
+	@FindBy(xpath = "(//div[@class='windowViewMode-normal oneContent active lafPageHost']//a[text()='Active'])")
+	WebElement activeOption;
+	// Date selection on Calendar in Event info
+
+	@FindBy(xpath = "//label[contains(text(),'Start Date')]//parent::span//parent::div//following-sibling::div//input")
+	WebElement startDateCalender;
+
+	@FindBy(xpath = "//label[contains(text(),'End Date')]//parent::span//parent::div//following-sibling::div//input")
+	WebElement endDateCalendar;
+
+	@FindBy(xpath = "//a[@title='Go to previous month']")
+	WebElement perviousMonthsButton;
+
+	@FindBy(xpath = "//a[@title='Go to next month']")
+	WebElement nextMonthsButton;
+
+	@FindBy(xpath = "//label[contains(text(),'Start Time')]//parent::span//following-sibling::div//div//select")
+	WebElement startTimeHoursDropDown;
+
+	@FindBy(xpath = "(//div[@class='slds-select_container'])[2]//select")
+	WebElement startTimeMinutesDropDown;
+
+	@FindBy(xpath = "(//div[@class='slds-select_container'])[3]//select")
+	WebElement startTimePeriodDropDown;
+
+	@FindBy(xpath = "//label[contains(text(),'End Time')]//parent::span//following-sibling::div//div//select")
+	WebElement endTimeHoursDropDown;
+
+	@FindBy(xpath = "(//div[@class='slds-select_container'])[5]//select")
+	WebElement endTimeMinutesDropDown;
+
+	@FindBy(xpath = "(//div[@class='slds-select_container'])[6]//select")
+	WebElement endTimePeriodDropDown;
+
+	String DurationOfStartEndDates = "(//span[text() ='Duration']//following-sibling::span)[2]//span";
+
+	@FindBy(xpath = "(//span[text() ='Duration']//following-sibling::span)[2]//span")
+	WebElement DurationOfStartEndDate;
+
+	@FindBy(xpath = "//button[contains(text(),'Save')]")
+	WebElement eventSaveButton;
+
+	@FindBy(xpath = "//span[contains(text(),'24-Hour Time')]//preceding-sibling::span")
+	WebElement a24HoursTimeCheckBoxXpath;
+
+	@FindBy(xpath = "//label[contains(text(),'Registration Timer (in minutes)')]//parent::span//following-sibling::div//input")
+	WebElement RegistrationTimerInputBox;
 
 	public void getAIAData() throws Throwable {
 		util.waitUntilElement(driver, getAIANumber);
@@ -201,7 +239,8 @@ public class EditCloneEvent {
 	 *                          date, Event end date, Event start time, Event end
 	 *                          time,Event TimeZone, Registration timer.
 	 */
-	public void editEventInfo(String ExpectedEventName) {
+	public void editEventInfo(String ExpectedEventName, String startTime, String endTime, String regTime,
+			String timeZone) {
 		util.waitUntilElement(driver, eventInfoName);
 		log.info(eventInfoName.getAttribute("value"));
 		System.out.println(eventInfoName.getAttribute("value"));
@@ -236,75 +275,19 @@ public class EditCloneEvent {
 
 		log.info(eventStartTime.getAttribute("value"));
 		System.out.println(eventStartTime.getAttribute("value"));
-		Assert.assertEquals(eventStartTime.getAttribute("value"), "12");
+		Assert.assertEquals(eventStartTime.getAttribute("value"), startTime);
 
 		log.info(eventEndTime.getAttribute("value"));
 		System.out.println(eventEndTime.getAttribute("value"));
-		Assert.assertEquals(eventEndTime.getAttribute("value"), "5");
+		Assert.assertEquals(eventEndTime.getAttribute("value"), endTime);
 
 		log.info(eventTimeZone.getAttribute("value"));
 		System.out.println(eventTimeZone.getAttribute("value"));
-		Assert.assertEquals(eventTimeZone.getAttribute("value"), "(GMT-04:00) America/New_York");
+		Assert.assertEquals(eventTimeZone.getAttribute("value"), timeZone);
 
 		log.info(eventRegistrationTimer.getAttribute("value"));
 		System.out.println(eventRegistrationTimer.getAttribute("value"));
-		Assert.assertEquals(eventRegistrationTimer.getAttribute("value"), "30");
-	}
-	
-	public void eventTicketsTab() {
-		Utility.highLightElement(driver, eventBuilderTickets);
-		util.waitUntilElement(driver, eventBuilderTickets);
-		eventBuilderTickets.click();
-		log.info("Event Tickets is clicked successfully");
-	}
-	
-	public void validateEventTicketSalesStartDate() {
-		util.waitUntilElement(driver, eventTicketSalesStartDate);
-		Utility.highLightElement(driver, eventTicketSalesStartDate);
-		System.out.println(eventTicketSalesStartDate.getAttribute("value"));
-		log.info("eventTicketSalesStartDate" + eventTicketSalesStartDate.getAttribute("value"));
-	}
-
-	/**
-	 * @param editTicket Here editTicket = true Then it click on the
-	 * actionsColumnTicketType in that i validate options.
-	 *                  
-	 * @throws Throwable
-	 */
-	public void editEventTicket(Boolean editTicket) throws Throwable {
-		String option;
-		if (editTicket == true) {
-			actionsColoumnInTicketTypes.click();
-			for (int i = 0; i < actionOptions.size(); i++) {
-				option = actionOptions.get(i).getText();
-				if (option.equals("Edit Ticket Type")) {
-					actionOptions.get(i).click();
-				}
-				System.out.println(option);
-			};
-		}
-	}
-	
-	public void editPriceInEditTicketType() {
-		Utility.waitForWebElement(driver, PriceInEditTicketType, 30);
-		util.enterText(driver, PriceInEditTicketType, "400.00");
-	}
-	
-	public void saveAndContinueButtonInTicketType() {
-		try {
-			Utility.waitForWebElement(driver, saveAndContinueButtonInEditTicketType, 30);
-		saveAndContinueButtonInEditTicketType.click();
-		log.info("Continue button is clicked in Edit ticket type");
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
-	public void validateEditTicketTypeHeader() {
-		util.waitUntilElement(driver, ediTicketTypeHeader);
-		Assert.assertTrue(ediTicketTypeHeader.isDisplayed());
+		Assert.assertEquals(eventRegistrationTimer.getAttribute("value"), regTime);
 	}
 
 	public void editEventInvitation() {
@@ -341,6 +324,13 @@ public class EditCloneEvent {
 		util.waitUntilElement(driver, agendaTab);
 		Assert.assertTrue(agendaTab.isDisplayed());
 		log.info("agendaTab is displayed");
+	}
+
+	public String getSceduleItemsInAgenda() {
+		util.scrollingElementUsingJS(driver, scheduleItemDisplayName);
+		Utility.waitForWebElement(driver, scheduleItemDisplayName, 30);
+		String scheduleItemName = scheduleItemDisplayName.getText();
+		return scheduleItemName;
 	}
 
 	public void editEventSpeakers() {
@@ -396,6 +386,93 @@ public class EditCloneEvent {
 		log.info("Scrolled event url");
 		util.clickUsingJS(driver, eventUrl);
 		log.info("event url is clicked sucessfully");
+	}
+
+	public void editCloneEventDateAndTime() throws InterruptedException {
+		// Select Start Date and Time
+		if (EventConfig.select24HoursTime == true) {
+			util.waitUntilElement(driver, a24HoursTimeCheckBoxXpath);
+			Thread.sleep(5000);
+			util.scrollingElementUsingJS(driver, a24HoursTimeCheckBoxXpath);
+			a24HoursTimeCheckBoxXpath.click();
+		}
+
+		util.waitUntilElement(driver, startDateCalender);
+		util.scrollingElementUsingJS(driver, startDateCalender);
+		startDateCalender.clear();
+		startDateCalender.sendKeys(EventConfig.startDateWithTime.split(" ")[0]);
+
+		util.selectDropDownByText(startTimeHoursDropDown, EventConfig.startDateWithTime.split(" ")[1].split(":")[0]);
+		util.selectDropDownByText(startTimeMinutesDropDown, EventConfig.startDateWithTime.split(" ")[1].split(":")[1]);
+
+		if (EventConfig.select24HoursTime == false) {
+			util.selectDropDownByText(startTimePeriodDropDown, EventConfig.startTimePeriodType);
+		}
+
+		// Select End Date and Time
+		util.scrollingElementUsingJS(driver, endDateCalendar);
+		util.waitUntilElement(driver, endDateCalendar);
+		endDateCalendar.clear();
+		endDateCalendar.sendKeys(EventConfig.endDateWithTime.split(" ")[0]);
+
+		util.selectDropDownByText(endTimeHoursDropDown, EventConfig.endDateWithTime.split(" ")[1].split(":")[0]);
+		util.selectDropDownByText(endTimeMinutesDropDown, EventConfig.endDateWithTime.split(" ")[1].split(":")[1]);
+
+		if (EventConfig.select24HoursTime == false) {
+			util.selectDropDownByText(endTimePeriodDropDown, EventConfig.endTimePeriodType);
+		}
+	}
+
+	public void verifyTimeDurationOfEditCloneEventDateAndTime() throws ParseException {
+		boolean value = true;
+		util.scrollingElementUsingJS(driver, DurationOfStartEndDate);
+		List<WebElement> totalElementTexts = driver.findElements(By.xpath(DurationOfStartEndDates));
+		String exactTotalElementText = null;
+		for (WebElement totalElm : totalElementTexts) {
+			if (!totalElm.getText().isBlank()) {
+				exactTotalElementText = exactTotalElementText + totalElm.getText();
+			}
+		}
+		System.out.println("UI date validation Text" + exactTotalElementText);
+
+		ArrayList<String> values = DateUtils.findDifferenceBetweenTwoDates(EventConfig.startDateWithTime,
+				EventConfig.endDateWithTime);
+		for (String dateTime : values) {
+			System.out.println("Expected date validation Text" + dateTime);
+		}
+		for (int i = 0; i < values.size(); i++) {
+			if (!values.get(i).startsWith("0")) {
+				if (!exactTotalElementText.contains(values.get(i))) {
+					value = false;
+					break;
+				}
+				;
+			}
+		}
+		Assert.assertTrue(value, "Assert failure:- giving date duration is wrong");
+	}
+
+	public void verifyUserAbleToProvidedataInRegistrationTimerInputBox() throws InterruptedException {
+		util.waitUntilElement(driver, RegistrationTimerInputBox);
+		util.scrollingElementUsingJS(driver, RegistrationTimerInputBox);
+		RegistrationTimerInputBox.clear();
+		RegistrationTimerInputBox.sendKeys(EventConfig.RegistrationTimer);
+		String PickDate = RegistrationTimerInputBox.getAttribute("value");
+		System.out.println("PickDate :" + PickDate);
+		System.out.println("EventConfig.ticketalesStartDate : " + EventConfig.RegistrationTimer);
+		Assert.assertEquals(RegistrationTimerInputBox.getAttribute("value"), EventConfig.RegistrationTimer);
+	}
+	
+	
+
+	public void selectActiveStatus() {
+		Utility.waitForWebElement(driver, StatusInEditEvent, 10);
+		if(StatusInEditEvent.isDisplayed()) {
+		Utility.waitForWebElement(driver, statusDropdown, 20);
+		util.mosueOverUsingAction(driver, statusDropdown);
+		Utility.waitForWebElement(driver, activeOption, 20);
+		util.clickUsingJS(driver, activeOption);
+		}
 	}
 
 }

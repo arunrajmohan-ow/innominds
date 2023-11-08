@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.aia.utility.ConfigDataProvider;
-import org.aia.utility.Logging;
 import org.aia.utility.Utility;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.JavascriptExecutor;
@@ -102,33 +101,44 @@ public class NewCloneEvents {
 	@FindBy(xpath = "//a[contains(text(),'https://aia--testing.sandbox.my.site.com/NationalE')]")
 	WebElement eventUrl;
 
+	public String enterEventName(String template) {
+		EventConfig.getEventName = "TestQA" + template + new SimpleDateFormat("MMddyyyyHHmmss").format(new Date());
+		util.enterText(driver, eventName, EventConfig.getEventName);
+		log.info("Entered Event name as" + EventConfig.getEventName);
+		return EventConfig.getEventName;
+	}
+
 	/**
 	 * @param eventCategory
 	 * @throws InterruptedException
 	 * @throws Throwable
 	 */
-	public void newCloneOnExistingEvent(String eventCategory) throws InterruptedException, Throwable {
+	public void enterStartDate() throws InterruptedException, Throwable {
+
+		startDate = new SimpleDateFormat("MM/dd/yyyy").format(new Date());
+		util.enterText(driver, eventStartDate, startDate);
+		log.info("Event Date is Entered");
+	}
+
+	public void selectEventCategory(String eventCategory) {
+		util.waitUntilElement(driver, selectCategory);
+		util.selectDropDownByText(selectCategory, eventCategory);
+		log.info("Event category slected" + eventCategory);
+	}
+
+	public void validateCloneOnExistingRadioButton() throws InterruptedException {
 		util.waitUntilElement(driver, existingCloneEvent);
 		Thread.sleep(5000);
 		boolean cloneEventRadioButton = existingCloneEvent.isSelected();
 		Assert.assertTrue(cloneEventRadioButton);
 		log.info("Existing clone event radio button is selected");
+	}
 
-		eName = "TestQA" + new SimpleDateFormat("MMddyyyyHHmmss").format(new Date());
-
-		util.enterText(driver, eventName, eName);
-		log.info("Entered Event name as" + eName);
-		startDate = new SimpleDateFormat("MM/dd/yyyy").format(new Date());
-		util.enterText(driver, eventStartDate, startDate);
-		log.info("Event Date is Entered");
-		util.waitUntilElement(driver, selectCategory);
-		util.selectDropDownByText(selectCategory, eventCategory);
-		log.info("Event category slected" + eventCategory);
-		Thread.sleep(2000);
+	public void CloneEventSearchTemplate(String exitEvent) throws Throwable {
 		util.waitUntilElement(driver, eventSearch);
-		String exitEvent = testData.testDataProvider().getProperty("cloneEvent");
 		eventSearch.click();
 		util.enterText(driver, eventSearch, exitEvent);
+		Thread.sleep(3000);
 		log.info("event list size" + eventOptions.size());
 		for (int i = 0; i < eventOptions.size(); i++) {
 			String event = eventOptions.get(i).getText();
@@ -140,6 +150,10 @@ public class NewCloneEvents {
 				System.out.println("not matched");
 			}
 		}
+	}
+
+	public void eventCloneButton() throws InterruptedException {
+		Thread.sleep(2000);
 		eventCloneButton.click();
 	}
 
@@ -163,10 +177,13 @@ public class NewCloneEvents {
 		Assert.assertTrue(eventStatusPageCheckbox.isDisplayed());
 		System.out.println("VERIFIED: eventStatusPageCheckbox is selected");
 		log.info("VERIFIED: eventStatusPageCheckbox is selected");
+	}
+
+	public void eventFinishCloneButton() {
 		eventFinishCloneButon.click();
 		log.info("Clone button is clicked sucessfully");
 	}
-	
+
 	public void validateEventHeader() {
 		util.waitForJavascript(driver, 90000, 5000);
 		util.waitUntilElement(driver, eventNameHeader);
@@ -176,7 +193,7 @@ public class NewCloneEvents {
 		Assert.assertTrue(eventNameHeader.isDisplayed());
 		log.info("eventName header is displayed");
 	}
-	
+
 	public String getEventId() {
 		Utility.waitForWebElement(driver, eventUrl, 30);
 		String url = eventUrl.getAttribute("href");
@@ -196,9 +213,8 @@ public class NewCloneEvents {
 			e.printStackTrace();
 		}
 		return eventId;
-
 	}
-	
+
 	/**
 	 * @param uri
 	 * @return
@@ -223,4 +239,5 @@ public class NewCloneEvents {
 
 		return params;
 	}
+
 }

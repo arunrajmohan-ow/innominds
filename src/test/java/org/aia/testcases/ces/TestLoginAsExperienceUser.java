@@ -22,6 +22,7 @@ import org.aia.pages.ces.SignUpPageCes;
 import org.aia.pages.ces.Subscription;
 import org.aia.pages.fonteva.ces.CES_ContactPage;
 import org.aia.pages.fonteva.ces.CES_Memberships;
+import org.aia.pages.fonteva.ces.CES_RapidOrderEntry;
 import org.aia.pages.fonteva.ces.CES_ReNewUser;
 import org.aia.pages.membership.OrderSummaryPage;
 import org.aia.pages.membership.PaymentInformation;
@@ -68,6 +69,7 @@ public class TestLoginAsExperienceUser extends BaseClass {
 	CES_ReNewUser reNewUser;
 	CES_ContactPage ces_ContactPage;
 	CES_Memberships ces_membership;
+	CES_RapidOrderEntry rapidOrderEntery;
 	public ExtentReports extent;
 	public ExtentTest extentTest;
 	final static Logger logger = Logger.getLogger(TestRenewPassport_CES.class);
@@ -100,6 +102,7 @@ public class TestLoginAsExperienceUser extends BaseClass {
 		reNewUser = PageFactory.initElements(driver, CES_ReNewUser.class);
 		ces_ContactPage = PageFactory.initElements(driver, CES_ContactPage.class);
 		ces_membership=PageFactory.initElements(driver, CES_Memberships.class);
+		rapidOrderEntery = PageFactory.initElements(driver, CES_RapidOrderEntry.class);
 	}
 
 	@Test(priority = 1, description = "Validate Login experience user in multiple module.", enabled = false)
@@ -182,7 +185,7 @@ public class TestLoginAsExperienceUser extends BaseClass {
 		Object amount = paymntSuccesFullPageCes.amountPaid();
 		// Navigate to Fonteva app and make record renew eligible.
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
-		ces_ContactPage.selectRapidOrderEntry(dataList.get(0) + " " + dataList.get(1), "CES AIA National", "National");
+		rapidOrderEntery.selectRapidOrderEntry(dataList.get(0) + " " + dataList.get(1), "CES AIA National", "National");
 		ces_membership.changeTermInTwoMembership(dataList.get(0) + " " + dataList.get(1));
 		reNewUser.selectContactInTerm(dataList.get(0) + " " + dataList.get(1));
 		ces_ContactPage.selectExpAsUserOpt();
