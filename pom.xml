@@ -115,6 +115,7 @@
 		<dependency>
 			<groupId>org.awaitility</groupId>
 			<artifactId>awaitility</artifactId>
+<<<<<<< HEAD
 			<version>3.0.0</version>
 			<scope>test</scope>
 		</dependency>
@@ -123,6 +124,11 @@
 			<artifactId>opencsv</artifactId>
 			<version>4.1</version>
 		</dependency>
+=======
+			<version>4.1.1</version>
+			<scope>test</scope>
+		</dependency>
+>>>>>>> 61900fdf40ae51cc52a7a32e5d7eed6f8448bd34
 	</dependencies>
 	<build>
 		<plugins>
