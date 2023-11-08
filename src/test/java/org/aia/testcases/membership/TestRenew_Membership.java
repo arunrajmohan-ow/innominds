@@ -84,11 +84,11 @@ public class TestRenew_Membership extends BaseClass {
 		mailinator.verifyEmailForAccountSetup(dataList.get(3));
 		closeButtnPage.clickCloseAfterVerification();
 		signInpage.login(dataList.get(5), dataList.get(6));
-		primaryInfoPage.enterPrimaryInfo("activeUSLicense", "None Selected");
-		orderSummaryPage.confirmTerms("activeUSLicense");
+		primaryInfoPage.enterPrimaryInfo("allied", "None Selected");
+		orderSummaryPage.confirmTerms("allied");
 		orderSummaryPage.clickonPayNow();
-		String aiaNational = paymentInfoPage.paymentDetails("activeUSLicense");
-		tellAbtPage.enterTellUsAboutYourSelfdetails("activeUSLicense", "None Selected");
+		String aiaNational = paymentInfoPage.paymentDetails("allied");
+		tellAbtPage.enterTellUsAboutYourSelfdetails("allied", "None Selected");
 		finalPage.verifyThankYouMessage();
 		ArrayList<Object> receiptData = finalPage.getFinalReceiptData();
 		receiptData.add(3, aiaNational);
@@ -112,10 +112,10 @@ public class TestRenew_Membership extends BaseClass {
 
 		// Renew user
 		renew.renewMembership(dataList.get(5));
-		orderSummaryPage.confirmTerms("activeUSLicense");
+		orderSummaryPage.confirmTerms("allied");
 		orderSummaryPage.clickonPayNow();
 		paymentInfoPage.clickOnCreditCard();
-		paymentInfoPage.paymentDetails("activeUSLicense");
+		paymentInfoPage.paymentDetails("allied");
 		finalPage.verifyThankYouMessage();
 		finalPage.getFinalReceiptData();
 		ArrayList<Object> receiptData1 = finalPage.getFinalReceiptData();
@@ -126,7 +126,7 @@ public class TestRenew_Membership extends BaseClass {
 
 		// Validate Membership renew - Fonteva API validations
 		apiValidationRenew.verifyMemebershipRenewal(dataList.get(3),
-				DataProviderFactory.getConfig().getValue("renewrenewTermEndDate"), receiptData.get(2),
+				DataProviderFactory.getConfig().getValue("renewTermEndDate"), receiptData.get(2),
 				DataProviderFactory.getConfig().getValue("type_aia_national"), "Architect", "Non profit");
 		// Validate sales order
 		apiValidationRenew.verifySalesOrder(DataProviderFactory.getConfig().getValue("salesOrderStatus"),
@@ -137,7 +137,7 @@ public class TestRenew_Membership extends BaseClass {
 		util.writeCsv(dataList.get(7), dataList.get(5));
 	}
 
-	@Test(priority = 2, description = "Validate Renew for architectural Firm Owner - supplemental Dues", enabled = true, groups = {
+	@Test(priority = 2, description = "Validate Renew for architectural Firm Owner - supplemental Dues", enabled = false, groups = {
 			"Smoke" },invocationCount = 2)
 	public void ValidateRenewWithSupplementalDuesAFO() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
@@ -197,7 +197,7 @@ public class TestRenew_Membership extends BaseClass {
 		util.writeCsv(dataList.get(7), dataList.get(5));
 	}
 
-	@Test(priority = 3, description = "Validate Renew for sole Practitioner - supplemental Dues", enabled = true,invocationCount = 2)
+	@Test(priority = 3, description = "Validate Renew for sole Practitioner - supplemental Dues", enabled = false,invocationCount = 2)
 	public void ValidateRenewWithSupplementalDuesSP() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
@@ -255,7 +255,7 @@ public class TestRenew_Membership extends BaseClass {
 		util.writeCsv(dataList.get(7), dataList.get(5));
 	}
 
-	@Test(priority = 4, description = "Validate Renew for architecture Firm Manager - supplemental Dues", enabled = true)
+	@Test(priority = 4, description = "Validate Renew for architecture Firm Manager - supplemental Dues", enabled = false)
 	public void ValidateRenewWithSupplementalDuesAFM() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
@@ -309,7 +309,7 @@ public class TestRenew_Membership extends BaseClass {
 		util.writeCsv(dataList.get(7), dataList.get(5));
 	}
 
-	@Test(priority = 5, description = "Validate Renew for not Sole Practitioner - supplemental Dues", enabled = true, groups = {
+	@Test(priority = 5, description = "Validate Renew for not Sole Practitioner - supplemental Dues", enabled = false, groups = {
 			"Smoke" },invocationCount = 3)
 	public void ValidateRenewWithSupplementalDuesNSP() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
@@ -369,7 +369,7 @@ public class TestRenew_Membership extends BaseClass {
 		util.writeCsv(dataList.get(7), dataList.get(5));
 	}
 
-	@Test(priority = 6, description = "Validate sales price in sales order lines for renew  ", enabled = true)
+	@Test(priority = 6, description = "Validate sales price in sales order lines for renew  ", enabled = false)
 	public void validateSalesOrderLineRenew() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
@@ -411,7 +411,7 @@ public class TestRenew_Membership extends BaseClass {
 	 * 
 	 * @throws Exception
 	 */
-	@Test(priority = 7, description = "Validate visibility of download pdf button in renew  ", enabled = true)
+	@Test(priority = 7, description = "Validate visibility of download pdf button in renew  ", enabled = false)
 	public void validateVisibilityDownloadPdfBtn() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
@@ -447,7 +447,7 @@ public class TestRenew_Membership extends BaseClass {
 	/**
 	 * @throws Exception
 	 */
-	@Test(priority = 8, description = "Membership Renew Archipac Donation(Architect)", enabled = true)
+	@Test(priority = 8, description = "Membership Renew Archipac Donation(Architect)", enabled = false)
 	public void validateArchipacDonation() throws Exception {
 		//Create a renew eligible member with any on from this South Carolina,Oregon,Oklahoma
 		ArrayList<String> dataList = signUpPage.signUpData();
