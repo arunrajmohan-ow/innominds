@@ -45,7 +45,7 @@ public class AgendaModule {
 		
 		@FindBy(xpath = "//h2[text()='Add Schedule Item']") WebElement headerPopupInSceduleItem;
 		
-		@FindBy(xpath = "label[data-label='Active when the event is active'] input") WebElement activeCheckboxInsceduleItem;
+		@FindBy(css = "label[data-label='Active when the event is active'] input") WebElement activeCheckboxInsceduleItem;
 		
 		@FindBy(css = "div[data-label='Schedule item name'] input") WebElement sceduleItemName;
 		
@@ -75,7 +75,7 @@ public class AgendaModule {
 		
 	
 		public void clickEventAgenda() {
-			util.waitUntilElement(driver, eventBuilderAgenda);
+			Utility.waitForWebElement(driver, eventBuilderAgenda, 0);
 			eventBuilderAgenda.click();
 			log.info("Event Agenda is clicked successfully");
 			util.waitUntilElement(driver, agendaTab);
@@ -93,8 +93,7 @@ public class AgendaModule {
 		
 		public void ValidateActiveCheckBoxInScheduleItem() throws Throwable {
 			Thread.sleep(5000);
-			util.waitUntilElement(driver, activeCheckboxInsceduleItem);
-			Utility.highLightElement(driver, activeCheckboxInsceduleItem);
+			Utility.waitForWebElement(driver, activeCheckboxInsceduleItem, 0);
 			if (activeCheckboxInsceduleItem.isSelected()) {
 				System.out.println("Active checkobox is enabled");
 			} else {
@@ -103,9 +102,84 @@ public class AgendaModule {
 			}
 		}
 		
+		public void EntersceduleItemName() {
+			Utility.waitForWebElement(driver, sceduleItemName, 0);
+			util.enterText(driver, sceduleItemName, "Bala");
+			log.info("scedule item name enterd");	
+		}
 		
+		public void EntercapacityInscheduleItem() {
+			Utility.waitForWebElement(driver, capacityInscheduleItem, 0);
+			util.enterText(driver, capacityInscheduleItem, "2");
+			log.info("capacity in schedule item enterd");	
+ 
+		}
 		
+		public void EnterdisplayNameInscheduleItem() {
+			Utility.waitForWebElement(driver, displayNameInscheduleItem, 0);
+			util.enterText(driver, displayNameInscheduleItem, "QA Schedule");
+			log.info("display name in schedule item enterd");
+		}
 		
+		public void EnterpriceInscheduleItem() {
+			Utility.waitForWebElement(driver, priceInscheduleItem, 0);
+			util.enterText(driver, priceInscheduleItem, "460");
+			log.info("price in schedule item enterd");
+		}
 		
+		public void EnterstartDateInscheduleItem() {
+			Utility.waitForWebElement(driver, startDateInscheduleItem, 0);
+			util.enterText(driver, startDateInscheduleItem, "11/09/2023");
+			log.info("start date in schedule item enterd");
+			
+		}
+		
+		public void SelectstartTimeInscheduleItem() {
+			Utility.waitForWebElement(driver, startTimeInscheduleItem, 0);
+			util.selectDropDownByText(startTimeInscheduleItem, "08");
+			log.info("start time in schedule item selected");			
+		}
+	
+		public void SelectstartMinInScheduleItem() {
+			Utility.waitForWebElement(driver, startMinInScheduleItem, 0);
+			util.selectDropDownByText(startMinInScheduleItem, "18");
+			log.info("start min in schedule item selected");
+		}
+ 
+		
+		public void SelectstartAmPmSceduleItem() {
+			Utility.waitForWebElement(driver, startAmPmSceduleItem, 0);
+			util.selectDropDownByText(startAmPmSceduleItem, "AM");
+			log.info("start AMPM in schedule item selected");
+		}
+		
+		public void SelectdurationInScheduleItem() {
+			Utility.waitForWebElement(driver, startAmPmSceduleItem, 0);
+			util.selectDropDownByText(durationInScheduleItem, "06");
+			log.info("duration in schedule item selected");
+		}
+		
+		public void SelectallowConflictsInScheduleItem() {
+			Assert.assertFalse(allowConflictsInScheduleItem.isSelected(), "checkbox is not selected");
+		}
+		
+		public void EnterspeakerInScheduleItem() {
+			Utility.waitForWebElement(driver, speakerInScheduleItem, 0);
+			util.enterText(driver, speakerInScheduleItem, "Speaker two");
+			log.info("speaker in schedule item enterd");
+		}
+		
+		public void EnterdescriptionInscheduleItem() {
+			Utility.waitForWebElement(driver, descriptionInscheduleItem, 0);
+			util.enterText(driver, descriptionInscheduleItem, "Description enterd");
+			log.info("description in schedule item enterd");
+		}
+		
+		public void ClickbuttonsInScheduleItem() {
+			Utility.waitForWebElement(driver, buttonsInScheduleItem, 0);
+			buttonsInScheduleItem.click();
+			log.info("save button in schedule item clicked");
+ 
+		}	
 
 }

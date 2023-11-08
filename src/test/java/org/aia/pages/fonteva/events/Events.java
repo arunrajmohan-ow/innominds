@@ -6,6 +6,7 @@ import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.Logging;
 import org.aia.utility.Utility;
 import org.apache.log4j.Logger;
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -30,6 +31,12 @@ public class Events {
 		executor = (JavascriptExecutor) driver;
 		testData = new ConfigDataProvider();
 	}
+	
+	@FindBy(xpath = "//button[@title='Select a List View: Events']") WebElement selectLastViewEvents;
+	
+	@FindBy(xpath = "//li//span[text()='Active Events']") WebElement activeEventsLink;
+	
+	@FindBy(xpath = "//li//span[text()='Recently Viewed']") WebElement recentlyEventsLink;
 
 	@FindBy(xpath = "//span[text()='App Launcher']//parent::div")
 	WebElement appLauncher;
@@ -42,7 +49,7 @@ public class Events {
 
 	@FindBy(xpath = "//a[contains(@class,'label-action dndItem')]/span[text()='Events']")
 	WebElement eventsModule;
-
+	
 	// Delete event
 	@FindBy(xpath = "(//div[@class='forceVirtualActionMarker forceVirtualAction']/a)[1]")
 	WebElement actionColumnHeader;
@@ -68,6 +75,13 @@ public class Events {
 	// created event
 	@FindBy(xpath = "//tbody/tr[1]/th[1]/span[1]/a")
 	WebElement createdEvent;
+	
+	@FindBy(xpath = "//table//a[text()='TestQAMedium11032023131804']") WebElement createdActiveEvent;
+	
+	public static String createdActiveEvent(String activeEvent) {
+		String xpath = "//table//a[text()='"+activeEvent+"']";
+		return xpath;
+	}
 
 	@FindBy(xpath = "//div[@data-name='cloneEventTitle']")
 	WebElement cloneEventHeader;
@@ -98,6 +112,8 @@ public class Events {
 
 	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//span[text()='Number of Registered Attendees']/following::lightning-formatted-number[4]")
 	WebElement ticketsremainInsalesRegisration;
+	
+	@FindBy(xpath = "//h1[text()='Search Results']/following::span[text()='Contacts']") WebElement contactsInGlobalSearch;
 
 	public void eventsTab() throws Exception {
 		try {
@@ -116,17 +132,49 @@ public class Events {
 			appLauncherEventsValue.click();
 		}
 	}
+	
+	public String clickCreatedEvent(String option) {
+		String eventName = null;
+		Utility.waitForWebElement(driver, selectLastViewEvents, 10);
+		selectLastViewEvents.click();
+		switch (option) {
+		case "Active":
+			Utility.waitForWebElement(driver, activeEventsLink, 10);
+			activeEventsLink.click();
+			Utility.waitForWebElement(driver, driver.findElement(By.xpath(Events.createdActiveEvent(EventConfig.getEventName))), 10);
+			eventName =driver.findElement(By.xpath(Events.createdActiveEvent(EventConfig.getEventName))).getText();
+			driver.findElement(By.xpath(Events.createdActiveEvent(EventConfig.getEventName))).click();
+			break;
+		case "RecentEvents":
+			Utility.waitForWebElement(driver, recentlyEventsLink, 10); 
+			recentlyEventsLink.click();
+			util.waitUntilElement(driver, createdEvent);
+			eventName = createdEvent.getText();
+			util.clickUsingJS(driver, createdEvent);
+			break;
+		}
+		return eventName;
+	}
 
 	/**
 	 * @return Event name This method click already exist event in the top of the
 	 *         row.
 	 */
-	public String clickCreatedEvent() throws Throwable {
+	public String clickCreatedEventInRecentlyViewd() throws Throwable {
 		util.waitUntilElement(driver, eventsModule);
 		util.clickUsingJS(driver, eventsModule);
 		util.waitUntilElement(driver, createdEvent);
 		String eventName = createdEvent.getText();
 		util.clickUsingJS(driver, createdEvent);
+		return eventName;
+	}
+	
+	public String clickCreatedEventInActiveEvents() throws Throwable {
+		util.waitUntilElement(driver, eventsModule);
+		util.clickUsingJS(driver, eventsModule);
+		util.waitUntilElement(driver, createdActiveEvent);
+		String eventName = createdActiveEvent.getText();
+		util.clickUsingJS(driver, createdActiveEvent);
 		return eventName;
 	}
 
@@ -141,6 +189,12 @@ public class Events {
 		boolean cloneEventPopup = cloneEventHeader.isDisplayed();
 		Assert.assertTrue(cloneEventPopup);
 		log.info("Clone Event pop is displayed");
+	}
+	
+	public void clickContactsInGlobalSearch() {
+		Utility.waitForWebElement(driver, contactsInGlobalSearch, 10);
+		contactsInGlobalSearch.click();
+		util.waitForJavascript(driver, 7000, 2000);
 	}
 
 	/**

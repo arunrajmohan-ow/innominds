@@ -7,6 +7,8 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
@@ -18,6 +20,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.function.Function;
 import java.util.Map;
+import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -39,6 +42,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import org.testng.ITestResult;
+
 import io.restassured.response.Response;
 
 
@@ -47,6 +52,7 @@ public class Utility {
 	WebDriverWait wait;
 
 	Robot robot;
+	Actions action;
 
 	public Utility(WebDriver driver, int time) {
 
@@ -425,15 +431,35 @@ public class Utility {
 	}
 	
 	public void mosueOverUsingAction(WebDriver driver, WebElement element) {
-	Actions action = new Actions(driver);
+	action = new Actions(driver);
 	action.moveToElement(element).perform();
 	}
-	
+
+
 	/**
 	* Here we are using awaitility for waiting the response from api
 	*/
 	public void waitForResponse(final Response response, final int statusCode) {
+
       Awaitility.await().atMost(10,TimeUnit.SECONDS).until(()->{return response.getStatusCode()==statusCode;});
+      
+      Awaitility.await().atMost(10,TimeUnit.SECONDS).until(new Callable<Boolean>() {
+		@Override
+		public Boolean call() throws Exception {return response.getStatusCode()==statusCode;}
+	});
+	}
+	
+	public static void takeScreenShotAfterFail(WebDriver driver, ITestResult result) {
+		TakesScreenshot ts = (TakesScreenshot) driver;
+		File screenshot = ts.getScreenshotAs(OutputType.FILE);
+		try {
+			// Define the destination path for the screenshot
+			String screenshotPath = "./ScreenShots/" + result.getName() + ".png";
+			Files.copy(screenshot.toPath(), new File(screenshotPath).toPath(), StandardCopyOption.REPLACE_EXISTING);
+			System.out.println("Screenshot saved at: " + screenshotPath);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

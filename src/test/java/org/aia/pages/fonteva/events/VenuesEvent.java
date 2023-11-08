@@ -82,7 +82,7 @@ public class VenuesEvent {
 	@FindBy(xpath = "//label[contains(text(),'City')]/parent::span//following-sibling::div//input")
 	WebElement city;
 
-	@FindBy(xpath = "//label[contains(text(),'Country')]/parent::span//following-sibling::div//select")
+	@FindBy(xpath = "//label[contains(text(),'Country')]/parent::span//following-sibling::div//select[@name='Country']")
 	WebElement country;
 
 	@FindBy(xpath = "//label[contains(text(),'Zip Code')]//parent::span//following-sibling::div//input")
@@ -93,9 +93,12 @@ public class VenuesEvent {
 
 	@FindBy(xpath = "(//label[contains(text(),'Venue Image URL')]//parent::span//following-sibling::div//input)[1]")
 	WebElement venueImageURLInput;
-
+	
 	@FindBy(xpath = "//label[contains(text(),'Browse')]") // button[@data-label='Save']
 	WebElement browseButton;
+
+	@FindBy(xpath = "//input[@placeholder=\"Browse for files or paste in a URL\"]/following::input[@name='file']") // button[@data-label='Save']
+	WebElement uploadFile;
 
 	@FindBy(xpath = "//button[@data-label='Save']")
 	WebElement cropimageSaveButton;
@@ -211,6 +214,7 @@ public class VenuesEvent {
 		util.scrollingElementUsingJS(driver, city);
 		city.sendKeys(venueAddress.get("city"));
 
+		Utility.waitForWebElement(driver, country, 10);
 		util.scrollingElementUsingJS(driver, country);
 		util.selectDropDownByText(country, venueAddress.get("country"));
 
@@ -221,7 +225,10 @@ public class VenuesEvent {
 		displayMapCheckBox.click();
 
 		util.scrollingElementUsingJS(driver, venueImageURLInput);
-		util.fileUploadThroughKeyBoardActions(driver, browseButton, imageURL);
+		browseButton.click();
+		uploadFile.sendKeys(imageURL);
+		//util.enterText(driver, uploadFile, imageURL);
+		//util.fileUploadThroughKeyBoardActions(driver, browseButton, imageURL);
 
 		Thread.sleep(4000);
 

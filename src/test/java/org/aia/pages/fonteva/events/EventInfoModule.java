@@ -85,6 +85,7 @@ public class EventInfoModule {
 	@FindBy(xpath = "//label[@data-name='isFeaturedEvent']/input") WebElement isFeaturedEvent;
 
 	@FindBy(xpath = "//select[@name='Time Zone']") WebElement timeZoneIneventInfo;
+	
 	// Invitation locators
 	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//div[@data-menu='EventApi:EventBuilderInvitationOnly']")
 	WebElement eventBuilderInvitation;
@@ -112,26 +113,19 @@ public class EventInfoModule {
 
 	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//a[@data-tab='sponsorPackages']")
 	WebElement sponcerPackageTab;
-	
-	// EventApi:EventBuilderPages
-	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//div[@data-menu='EventApi:EventBuilderPages']")
-	WebElement eventBuilderPages;
-
-	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//div[contains(text(),'pages for your selected status')]")
-	WebElement eventPagesText;
 
 //	@FindBy(xpath = "(//lightning-formatted-text[@title='AIA Contact Number']/following::div/lightning-formatted-text)[1]")
 //	WebElement getAIANumber;
-//	
-	@FindBy(xpath = "(//table[@data-aura-class='uiVirtualDataTable']//tbody/tr/th/following::td/span/span[@title!=''])[1]")
-	WebElement getAIANumber;
-
-	@FindBy(xpath = "(//table[@data-aura-class='uiVirtualDataTable']//tbody//tr/th/span/a)[2]")
-	WebElement accountName;
 	
 //	@FindBy(xpath = "//lightning-formatted-text[text()='Account Name']/following-sibling::div/a")
 //	WebElement accountName;
 
+	@FindBy(xpath = "(//table[@data-aura-class='uiVirtualDataTable']//tbody/tr/th/following::td/span/span[@title!=''])[1]")
+	WebElement getAIANumber;
+
+	@FindBy(xpath = "(//table[@data-aura-class='uiVirtualDataTable']//tbody//tr/th/span/a)[1]")
+	WebElement accountName;
+	
 	@FindBy(xpath = "//a//slot/span[contains(text(),'Sales Orders')]")
 	WebElement salesOrderLink;
 
@@ -151,6 +145,8 @@ public class EventInfoModule {
 	WebElement eventName;
 
 	// status in edit
+	@FindBy(xpath = "//div[text()='Status:']//span[text()='Planned']") WebElement StatusInEditEvent;
+	
 	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//span[text()='Planned']")
 	WebElement statusDropdown;
 
@@ -313,15 +309,6 @@ public class EventInfoModule {
 		log.info("sponcerPackageTab is displayed");
 	}
 
-	public void editEventPages() {
-		util.waitUntilElement(driver, eventBuilderPages);
-		eventBuilderPages.click();
-		log.info("Event Pages is clicked successfully");
-		util.waitUntilElement(driver, eventPagesText);
-		Assert.assertTrue(eventPagesText.isDisplayed());
-		log.info("eventPagesText is displayed");
-	}
-
 	public void saveExitButton() throws Throwable {
 		Utility.highLightElement(driver, hoverSaveDropDown);
 		act.moveToElement(hoverSaveDropDown);
@@ -415,15 +402,15 @@ public class EventInfoModule {
 		System.out.println("EventConfig.ticketalesStartDate : " + EventConfig.RegistrationTimer);
 		Assert.assertEquals(RegistrationTimerInputBox.getAttribute("value"), EventConfig.RegistrationTimer);
 	}
-
+	
 	public void selectActiveStatus() {
-		Utility.waitForWebElement(driver, activeOption, 20);
-		util.clickUsingJS(driver, activeOption);
-	}
-
-	public void clickStatusDropDown() {
+		Utility.waitForWebElement(driver, StatusInEditEvent, 10);
+		if(StatusInEditEvent.isDisplayed()) {
 		Utility.waitForWebElement(driver, statusDropdown, 20);
 		util.mosueOverUsingAction(driver, statusDropdown);
+		Utility.waitForWebElement(driver, activeOption, 20);
+		util.clickUsingJS(driver, activeOption);
+		}
 	}
 
 }

@@ -1,4 +1,5 @@
 package org.aia.testcases.events;
+
 import java.util.ArrayList;
 import org.aia.pages.BaseClass;
 import org.aia.pages.api.MailinatorAPI;
@@ -7,9 +8,11 @@ import org.aia.pages.api.membership.FontevaConnectionSOAP;
 import org.aia.pages.events.EventRegistration;
 import org.aia.pages.events.ViewRecipts;
 import org.aia.pages.fonteva.events.AgendaModule;
+import org.aia.pages.fonteva.events.EventConfig;
 import org.aia.pages.fonteva.events.EventInfoModule;
 import org.aia.pages.fonteva.events.Events;
 import org.aia.pages.fonteva.events.NewCloneEvents;
+import org.aia.pages.fonteva.events.PagesModule;
 import org.aia.pages.fonteva.events.QuickLinksInEvents;
 import org.aia.pages.fonteva.events.SpeakersModule;
 import org.aia.pages.fonteva.events.StatusesModule;
@@ -29,11 +32,11 @@ import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 @Listeners(org.aia.utility.GenerateReportsListener.class)
-public class CloneEventCreate_End_To_End_flow extends BaseClass{
+public class CloneEventCreate_End_To_End_flow extends BaseClass {
 	Events events;
 	NewCloneEvents cloneEventpage;
 	ConfigDataProvider testData;
-	EventInfoModule editCloneEvent;
+	EventInfoModule eventInfoModule;
 	SignUpPage signUpPage;
 	MailinatorAPI mailinator;
 	SignInPage signInpage;
@@ -46,6 +49,7 @@ public class CloneEventCreate_End_To_End_flow extends BaseClass{
 	SpeakersModule speakersModule;
 	AgendaModule agendaModule;
 	StatusesModule statusModule;
+	PagesModule pagesModule;
 	boolean recording;
 
 	@BeforeMethod(alwaysRun = true)
@@ -56,7 +60,7 @@ public class CloneEventCreate_End_To_End_flow extends BaseClass{
 				testData.getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
 		events = PageFactory.initElements(driver, Events.class);
 		cloneEventpage = PageFactory.initElements(driver, NewCloneEvents.class);
-		editCloneEvent = PageFactory.initElements(driver, EventInfoModule.class);
+		eventInfoModule = PageFactory.initElements(driver, EventInfoModule.class);
 		signInpage = PageFactory.initElements(driver, SignInPage.class);
 		signUpPage = PageFactory.initElements(driver, SignUpPage.class);
 		linksInEvents = PageFactory.initElements(driver, QuickLinksInEvents.class);
@@ -66,13 +70,14 @@ public class CloneEventCreate_End_To_End_flow extends BaseClass{
 		viewReceipts = PageFactory.initElements(driver, ViewRecipts.class);
 		eventApivalidation = PageFactory.initElements(driver, EventAPIValidations.class);
 		ticketModule = PageFactory.initElements(driver, TicketModule.class);
-		speakersModule= PageFactory.initElements(driver, SpeakersModule.class);
-		agendaModule= PageFactory.initElements(driver, AgendaModule.class);
-		statusModule= PageFactory.initElements(driver, StatusesModule.class);
+		speakersModule = PageFactory.initElements(driver, SpeakersModule.class);
+		agendaModule = PageFactory.initElements(driver, AgendaModule.class);
+		statusModule = PageFactory.initElements(driver, StatusesModule.class);
+		pagesModule = PageFactory.initElements(driver, PagesModule.class);
 		recording = Boolean.parseBoolean(testData.testDataProvider().getProperty("videoRecording"));
 		Logging.configure();
 	}
-	
+
 	@Test(description = "Create a Valid Clone event (End to End Process)", enabled = true, priority = 4)
 	public void CreateCloneEvent_End_To_End_Flow(ITestContext context) throws InterruptedException, Throwable {
 		
@@ -95,32 +100,28 @@ public class CloneEventCreate_End_To_End_flow extends BaseClass{
 		cloneEventpage.eventFinishCloneButton();
 		util.waitForJavascript(driver, 20000, 5000);
 		cloneEventpage.validateEventHeader();
-		cloneEventpage.getEventId();
+		String eventId = cloneEventpage.getEventId();
 		util.waitForJavascript(driver, 90000, 5000);
-		context.setAttribute("eventId", cloneEventpage.eventId);
-		context.setAttribute("eventName", cloneEventpage.eName);
+		context.setAttribute("eventId", eventId);
+		context.setAttribute("eventName", EventConfig.getEventName);
 		context.setAttribute("startDate", cloneEventpage.startDate);
 		context.setAttribute("eventCategory", testData.testDataProvider().getProperty("eventCategory"));
 		// Create Clone event validation
 		eventApivalidation.verifyEvent(context);
 		events.eventsTab();
 		util.waitForJavascript(driver, 20000, 5000);
-		String eventName = events.clickCreatedEvent();
-		editCloneEvent.clickEditButton();
+		String eventName = events.clickCreatedEvent("RecentEvents");
+		eventInfoModule.clickEditButton();
 		util.waitForJavascript(driver, 30000, 5000);
 		String eventTimeZone = testData.testDataProvider().getProperty("eventTimeZone");
 		String registrationTime = testData.testDataProvider().getProperty("registrationTimer");
 		String startTime = testData.testDataProvider().getProperty("eventStartTimeInMediumTemplate");
 		String endTime = testData.testDataProvider().getProperty("eventEndTimeInMediumTemplate");
 		//Event info
-		editCloneEvent.editEventInfo(eventName, startTime, endTime, registrationTime, eventTimeZone);
-		// tickets tab
+		eventInfoModule.editEventInfo(eventName, startTime, endTime, registrationTime, eventTimeZone);
+		// tickets tab pending steps
 		ticketModule.eventTicketsTab();
 		ticketModule.validateEventTicketSalesStartDate();
-		ticketModule.editEventTicket(true);
-		ticketModule.validateEditTicketTypeHeader();
-		ticketModule.enterPriceInCreateTicketType();
-		ticketModule.saveAndContinueButtonInTicketType();
 		// speakers tab
 		speakersModule.eventSpeakersTab();
 		speakersModule.clickNewSpeaker();
@@ -132,36 +133,57 @@ public class CloneEventCreate_End_To_End_flow extends BaseClass{
 		speakersModule.selectStatusInSpeakers();
 		speakersModule.speakerPhotoUrlBrowser();
 		speakersModule.cropImageButtonsInSpeaker();
+		speakersModule.VerifySpeakerBio();
+		speakersModule.VerifyFaceBookURL();
+		speakersModule.VerifyLinkedURL();
+		speakersModule.VerifyTwitterURL();
 		speakersModule.speakerButtonsInnewSpeakerPopup();
-		
 		//agenda tab
 		agendaModule.clickEventAgenda();
-		
-		
-		
-		
-		
-		
+		agendaModule.clickNewScheduleItem();
+		agendaModule.ValidateActiveCheckBoxInScheduleItem();
+		agendaModule.EntersceduleItemName();
+		agendaModule.EntercapacityInscheduleItem();
+		agendaModule.EnterdisplayNameInscheduleItem();
+		agendaModule.EnterpriceInscheduleItem();
+		agendaModule.EnterstartDateInscheduleItem();
+		agendaModule.SelectstartTimeInscheduleItem();
+		agendaModule.SelectstartMinInScheduleItem();
+		agendaModule.SelectstartAmPmSceduleItem();
+		agendaModule.SelectdurationInScheduleItem();
+		agendaModule.SelectallowConflictsInScheduleItem();
+		agendaModule.EnterspeakerInScheduleItem();
+		agendaModule.EnterdescriptionInscheduleItem();
+		agendaModule.ClickbuttonsInScheduleItem();
 		util.waitForJavascript(driver, 30000, 5000);
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		editCloneEvent.clickStatusDropDown();
-		editCloneEvent.selectActiveStatus();
-		editCloneEvent.saveExitButton();
+		//status tab
+		statusModule.editEventStatuses();
+		statusModule.ClicknewStatuses();
+		statusModule.EnterstatusName();
+		statusModule.SelectCheckboxForRegistration();
+		statusModule.SelectCheckboxForPublishPortal();
+		statusModule.ClicksaveCloseButtonInNewStatus();
+		//pages tab
+		pagesModule.eventPagesTab();
+		util.waitForJavascript(driver, 10000, 2000);
+		pagesModule.clickNewPage();
+		pagesModule.enterNavigationLabelName();
+		pagesModule.enterBrowserLabelName();
+		pagesModule.SelectCheckboxForPublished();
+		pagesModule.clickOnActions();
+		pagesModule.clickManageComopnents();
+		util.waitForJavascript(driver, 10000, 2000);
+		pagesModule.selectEventSSO();
+		pagesModule.validate_AddedEventOne();
+		pagesModule.selectEventRegistration();
+		pagesModule.validate_AddedEventTwo();
+		pagesModule.selectEventFooter();
+		pagesModule.validate_AddedEventThird();
+		//active
+		eventInfoModule.selectActiveStatus();
+		eventInfoModule.saveExitButton();
 		util.waitForJavascript(driver, 30000, 5000);
-		editCloneEvent.clickEventUrl();
+		eventInfoModule.clickEventUrl();
 		util.waitForJavascript(driver, 30000, 5000);
 		// sometimes Register link is not clicked in AIA application
 		eventRegistration.RegisterLink(1);
@@ -175,9 +197,9 @@ public class CloneEventCreate_End_To_End_flow extends BaseClass{
 		signInpage.login(dataList.get(5), dataList.get(6));
 		util.switchToTabs(driver, 0);
 		events.globalSearch(signUpPage.emailaddressdata);
-		editCloneEvent.getAIAData();
+		String aiaNumber = eventRegistration.getAIAData();
 		events.eventsSearch(eventName);
-		editCloneEvent.clickEventUrl();
+		eventInfoModule.clickEventUrl();
 		// sometimes Register link is not clicked in AIA application
 		eventRegistration.RegisterLink(3);
 		util.waitForJavascript(driver, 30000, 5000);
@@ -202,7 +224,7 @@ public class CloneEventCreate_End_To_End_flow extends BaseClass{
 		String paymentType = testData.testDataProvider().getProperty("payMentTypeInMediumTemplate");
 		String paymentMethodDescr = testData.testDataProvider().getProperty("PaymentMethodDescriptionInMediumTemplate");
 		viewReceipts.viewReceiptValidationsForEvents(receiptData.get(1), receiptData.get(0), paymentType,
-				paymentMethodDescr);
+				paymentMethodDescr, aiaNumber);
 
 		// Here we validate the receipt using API call
 		eventApivalidation.verifyReciptDetails(dataList.get(3), receiptData.get(1), receiptData.get(0));

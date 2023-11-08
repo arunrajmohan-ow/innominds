@@ -55,9 +55,9 @@ public class BaseClass {
 
 	@AfterClass(alwaysRun = true)
 	public void tearDown() {
-		Reporter.log("LOG: INFO : Closing browser instances", true);
-		BrowserSetup.closeBrowser(driver);
-		Reporter.log("LOG: INFO : Browser instances closed", true);
+			Reporter.log("LOG: INFO : Closing browser instances", true);
+	    	BrowserSetup.closeBrowser(driver);
+			Reporter.log("LOG: INFO : Browser instances closed", true);
 	}
 
 	@BeforeTest(alwaysRun = true)
@@ -73,19 +73,19 @@ public class BaseClass {
 
 	@AfterMethod(alwaysRun = true)
 	public void tearDown(ITestResult result) {
-	
 		System.out.println("Driver value in after method is " + driver);
 		System.out.println("Running After method Test executed with below status");
 		System.out.println("Status value " + result.getStatus());
 		if (result.getStatus() == ITestResult.SUCCESS) {
 			System.out.println("LOG : PASS User is able to login");
+			System.out.println(result.getName() + "Passed");
 		} else if (result.getStatus() == ITestResult.FAILURE) {
 			System.out.println("LOG : FAIL Test failed to executed");
 		} else if (result.getStatus() == ITestResult.SKIP) {
 			System.out.println("LOG : SKIP Test did not executed");
 		}
-//		reports.endReport();
 	}
+
 	public static WebDriver getDriverInstance() {
 		return driver;
 	}

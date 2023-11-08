@@ -53,7 +53,7 @@ public class TicketsTestClone_Execution extends BaseClass {
 			VideoRecorder.startRecording("verifyCreateVenuePopUpInputField");
 		}
 		events.eventsTab();
-		events.clickCreatedEvent();
+		events.clickCreatedEvent("RecentEvents");
 		editCloneEvent.clickEditButton();
 		util.waitForJavascript(driver, 90000, 5000);
 		ticketModule.verifyAllFIeldsTicketModule();
@@ -63,7 +63,7 @@ public class TicketsTestClone_Execution extends BaseClass {
 	public void validate_CreateNewTicketType(ITestContext context) throws InterruptedException, Throwable {
 		// fec-103
 		events.eventsTab();
-		events.clickCreatedEvent();
+		events.clickCreatedEvent("RecentEvents");
 		editCloneEvent.clickEditButton();
 		ticketModule.eventTicketsTab();
 		ticketModule.clickNewTicketType();
@@ -80,7 +80,7 @@ public class TicketsTestClone_Execution extends BaseClass {
 	public void test_VeriftTickets_sales_startDate(ITestContext context) throws InterruptedException, Throwable {
 		// Fec-104 duplicate as fec-116
 		events.eventsTab();
-		events.clickCreatedEvent();
+		events.clickCreatedEvent("RecentEvents");
 		editCloneEvent.clickEditButton();
 		util.waitForJavascript(driver, 90000, 5000);
 		ticketModule.verifyUserAbleToProvidedateIntoTicketSalesStartDate();
@@ -91,7 +91,7 @@ public class TicketsTestClone_Execution extends BaseClass {
 			throws InterruptedException, Throwable {
 		// Fec-114
 		events.eventsTab();
-		events.clickCreatedEvent();
+		events.clickCreatedEvent("RecentEvents");
 		editCloneEvent.clickEditButton();
 		util.waitForJavascript(driver, 30000, 5000);
 		ticketModule.eventTicketsTab();
@@ -113,7 +113,7 @@ public class TicketsTestClone_Execution extends BaseClass {
 		//fec-115
 		events.eventsTab();
 		System.out.println("eventsticket tab displayed");
-		events.clickCreatedEvent();
+		events.clickCreatedEvent("RecentEvents");
 		editCloneEvent.clickEditButton();
 		ticketModule.eventTicketsTab();
 		util.waitForJavascript(driver, 30000, 5000);
@@ -127,7 +127,7 @@ public class TicketsTestClone_Execution extends BaseClass {
 			throws InterruptedException, Throwable {
 		// Fec-118
 		events.eventsTab();
-		String eventName =events.clickCreatedEvent();
+		String eventName =events.clickCreatedEvent("RecentEvents");
 		 String eventId = cloneEventpage.getEventId();
 		editCloneEvent.clickEditButton();
 		util.waitForJavascript(driver, 30000, 5000);

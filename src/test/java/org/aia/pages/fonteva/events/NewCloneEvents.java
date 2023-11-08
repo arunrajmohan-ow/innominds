@@ -101,10 +101,11 @@ public class NewCloneEvents {
 	@FindBy(xpath = "//a[contains(text(),'https://aia--testing.sandbox.my.site.com/NationalE')]")
 	WebElement eventUrl;
 
-	public void enterEventName(String template) {
-		eName = "TestQA" + template + new SimpleDateFormat("MMddyyyyHHmmss").format(new Date());
-		util.enterText(driver, eventName, eName);
-		log.info("Entered Event name as" + eName);
+	public String enterEventName(String template) {
+		EventConfig.getEventName = "TestQA" + template + new SimpleDateFormat("MMddyyyyHHmmss").format(new Date());
+		util.enterText(driver, eventName, EventConfig.getEventName);
+		log.info("Entered Event name as" + EventConfig.getEventName);
+		return EventConfig.getEventName;
 	}
 
 	/**

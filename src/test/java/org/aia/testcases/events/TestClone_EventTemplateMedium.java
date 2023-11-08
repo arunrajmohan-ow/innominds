@@ -33,7 +33,7 @@ public class TestClone_EventTemplateMedium extends BaseClass {
 	Events events;
 	NewCloneEvents cloneEventpage;
 	ConfigDataProvider testData;
-	EventInfoModule editCloneEvent;
+	EventInfoModule eventInfoModule;
 	SignUpPage signUpPage;
 	MailinatorAPI mailinator;
 	SignInPage signInpage;
@@ -53,7 +53,7 @@ public class TestClone_EventTemplateMedium extends BaseClass {
 				testData.getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
 		events = PageFactory.initElements(driver, Events.class);
 		cloneEventpage = PageFactory.initElements(driver, NewCloneEvents.class);
-		editCloneEvent = PageFactory.initElements(driver, EventInfoModule.class);
+		eventInfoModule = PageFactory.initElements(driver, EventInfoModule.class);
 		signInpage = PageFactory.initElements(driver, SignInPage.class);
 		signUpPage = PageFactory.initElements(driver, SignUpPage.class);
 		linksInEvents = PageFactory.initElements(driver, QuickLinksInEvents.class);
@@ -111,14 +111,14 @@ public class TestClone_EventTemplateMedium extends BaseClass {
 		}
 		events.eventsTab();
 		util.waitForJavascript(driver, 20000, 5000);
-		String eventName = events.clickCreatedEvent();
-		editCloneEvent.clickEditButton();
+		String eventName = events.clickCreatedEvent("RecentEvents");
+		eventInfoModule.clickEditButton();
 		util.waitForJavascript(driver, 30000, 5000);
 		String eventTimeZone = testData.testDataProvider().getProperty("eventTimeZone");
 		String registrationTime = testData.testDataProvider().getProperty("registrationTimer");
 		String startTime = testData.testDataProvider().getProperty("eventStartTimeInMediumTemplate");
 		String endTime = testData.testDataProvider().getProperty("eventEndTimeInMediumTemplate");
-		editCloneEvent.editEventInfo(eventName, startTime, endTime, registrationTime, eventTimeZone);
+		eventInfoModule.editEventInfo(eventName, startTime, endTime, registrationTime, eventTimeZone);
 		// tickets tab
 		ticketModule.eventTicketsTab();
 		ticketModule.validateEventTicketSalesStartDate();
@@ -127,11 +127,10 @@ public class TestClone_EventTemplateMedium extends BaseClass {
 		ticketModule.enterPriceInCreateTicketType();
 		ticketModule.saveAndContinueButtonInTicketType();
 		util.waitForJavascript(driver, 30000, 5000);
-		editCloneEvent.clickStatusDropDown();
-		editCloneEvent.selectActiveStatus();
-		editCloneEvent.saveExitButton();
+		eventInfoModule.selectActiveStatus();
+		eventInfoModule.saveExitButton();
 		util.waitForJavascript(driver, 30000, 5000);
-		editCloneEvent.clickEventUrl();
+		eventInfoModule.clickEventUrl();
 		util.waitForJavascript(driver, 30000, 5000);
 		// sometimes Register link is not clicked in AIA application
 		eventRegistration.RegisterLink(1);
@@ -145,9 +144,9 @@ public class TestClone_EventTemplateMedium extends BaseClass {
 		signInpage.login(dataList.get(5), dataList.get(6));
 		util.switchToTabs(driver, 0);
 		events.globalSearch(signUpPage.emailaddressdata);
-		editCloneEvent.getAIAData();
+		 String aiaNumber =eventRegistration.getAIAData();
 		events.eventsSearch(eventName);
-		editCloneEvent.clickEventUrl();
+		eventInfoModule.clickEventUrl();
 		// sometimes Register link is not clicked in AIA application
 		eventRegistration.RegisterLink(3);
 		util.waitForJavascript(driver, 30000, 5000);
@@ -172,7 +171,7 @@ public class TestClone_EventTemplateMedium extends BaseClass {
 		String paymentType = testData.testDataProvider().getProperty("payMentTypeInMediumTemplate");
 		String paymentMethodDescr = testData.testDataProvider().getProperty("PaymentMethodDescriptionInMediumTemplate");
 		viewReceipts.viewReceiptValidationsForEvents(receiptData.get(1), receiptData.get(0), paymentType,
-				paymentMethodDescr);
+				paymentMethodDescr, aiaNumber);
 
 		// Here we validate the receipt using API call
 		eventApivalidation.verifyReciptDetails(dataList.get(3), receiptData.get(1), receiptData.get(0));
@@ -203,14 +202,13 @@ public class TestClone_EventTemplateMedium extends BaseClass {
 		}
 		events.eventsTab();
 		util.waitForJavascript(driver, 20000, 5000);
-		String eventName = events.clickCreatedEvent();
+		String eventName = events.clickCreatedEvent("RecentEvents");
 		events.validateBeforeRegistrationData();
-		editCloneEvent.clickEditButton();
+		eventInfoModule.clickEditButton();
 		util.waitForJavascript(driver, 30000, 5000);
-		editCloneEvent.clickStatusDropDown();
-		editCloneEvent.selectActiveStatus();
-		editCloneEvent.saveExitButton();
-		editCloneEvent.clickEventUrl();
+		eventInfoModule.selectActiveStatus();
+		eventInfoModule.saveExitButton();
+		eventInfoModule.clickEventUrl();
 		util.waitForJavascript(driver, 30000, 5000);
 		// sometimes Register link is not clicked in AIA application
 		eventRegistration.RegisterLink(1);
@@ -224,9 +222,9 @@ public class TestClone_EventTemplateMedium extends BaseClass {
 		signInpage.login(dataList.get(5), dataList.get(6));
 		util.switchToTabs(driver, 0);
 		events.globalSearch(dataList.get(5));
-		editCloneEvent.getAIAData();
+		String aiaNumber =eventRegistration.getAIAData();
 		events.eventsSearch(eventName);
-		editCloneEvent.clickEventUrl();
+		eventInfoModule.clickEventUrl();
 		// sometimes Register link is not clicked in AIA application
 		eventRegistration.RegisterLink(3);
 		util.waitForJavascript(driver, 30000, 5000);
@@ -248,7 +246,7 @@ public class TestClone_EventTemplateMedium extends BaseClass {
 		String paymentType = testData.testDataProvider().getProperty("payMentTypeInMediumTemplate");
 		String paymentMethodDescr = testData.testDataProvider().getProperty("PaymentMethodDescriptionInMediumTemplate");
 		viewReceipts.viewReceiptValidationsForEvents(receiptData.get(1), receiptData.get(0), paymentType,
-				paymentMethodDescr);
+				paymentMethodDescr, aiaNumber);
 
 		util.switchToTabs(driver, 0);
 		events.eventsTab();
@@ -280,14 +278,13 @@ public class TestClone_EventTemplateMedium extends BaseClass {
 		}
 		events.eventsTab();
 		util.waitForJavascript(driver, 90000, 5000);
-		String eventName = events.clickCreatedEvent();
+		String eventName = events.clickCreatedEvent("RecentEvents");
 		events.validateBeforeRegistrationData();
-		editCloneEvent.clickEditButton();
+		eventInfoModule.clickEditButton();
 		util.waitForJavascript(driver, 30000, 5000);
-		editCloneEvent.clickStatusDropDown();
-		editCloneEvent.selectActiveStatus();
-		editCloneEvent.saveExitButton();
-		editCloneEvent.clickEventUrl();
+		eventInfoModule.selectActiveStatus();
+		eventInfoModule.saveExitButton();
+		eventInfoModule.clickEventUrl();
 		// sometimes Register link is not clicked in AIA application
 		eventRegistration.RegisterLink(1);
 		util.waitForJavascript(driver, 90000, 5000);
@@ -300,9 +297,9 @@ public class TestClone_EventTemplateMedium extends BaseClass {
 		signInpage.login(dataList.get(5), dataList.get(6));
 		util.switchToTabs(driver, 0);
 		events.globalSearch(signUpPage.emailaddressdata);
-		editCloneEvent.getAIAData();
+		String aiaNumber = eventRegistration.getAIAData();
 		events.eventsSearch(eventName);
-		editCloneEvent.clickEventUrl();
+		eventInfoModule.clickEventUrl();
 		// sometimes Register link is not clicked in AIA application
 		eventRegistration.RegisterLink(3);
 		util.waitForJavascript(driver, 30000, 5000);
@@ -323,7 +320,7 @@ public class TestClone_EventTemplateMedium extends BaseClass {
 		String paymentType = testData.testDataProvider().getProperty("payMentTypeInMediumTemplate");
 		String paymentMethodDescr = testData.testDataProvider().getProperty("PaymentMethodDescriptionInMediumTemplate");
 		viewReceipts.viewReceiptValidationsForEvents(receiptData.get(1), receiptData.get(0), paymentType,
-				paymentMethodDescr);
+				paymentMethodDescr, aiaNumber);
 
 		util.switchToTabs(driver, 0);
 		events.eventsTab();
@@ -347,11 +344,11 @@ public class TestClone_EventTemplateMedium extends BaseClass {
 	@Test(priority = 5, description = "Edit cloneEvent date and time,", enabled = false)
 	public void test_EditSelectDateInCloneEventInfo(ITestContext context) throws InterruptedException, Throwable {
 		events.eventsTab();
-		events.clickCreatedEvent();
-		editCloneEvent.clickEditButton();
+		events.clickCreatedEvent("RecentEvents");
+		eventInfoModule.clickEditButton();
 		util.waitForJavascript(driver, 90000, 5000);
-		editCloneEvent.editCloneEventDateAndTime();
-		editCloneEvent.verifyTimeDurationOfEditCloneEventDateAndTime();
+		eventInfoModule.editCloneEventDateAndTime();
+		eventInfoModule.verifyTimeDurationOfEditCloneEventDateAndTime();
 		if (recording) {
 			VideoRecorder.stopRecording();
 		}
@@ -360,10 +357,10 @@ public class TestClone_EventTemplateMedium extends BaseClass {
 	@Test(priority = 6, description = "Validate register timer in Edit cloneEvent info,", enabled = false)
 	public void validate_RegistrationTimerCloneEventInfo(ITestContext context) throws InterruptedException, Throwable {
 		events.eventsTab();
-		events.clickCreatedEvent();
-		editCloneEvent.clickEditButton();
+		events.clickCreatedEvent("RecentEvents");
+		eventInfoModule.clickEditButton();
 		util.waitForJavascript(driver, 90000, 5000);
-		editCloneEvent.verifyUserAbleToProvidedataInRegistrationTimerInputBox();
+		eventInfoModule.verifyUserAbleToProvidedataInRegistrationTimerInputBox();
 		if (recording) {
 			VideoRecorder.stopRecording();
 		}
