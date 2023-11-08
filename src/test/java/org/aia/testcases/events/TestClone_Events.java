@@ -2,6 +2,7 @@ package org.aia.testcases.events;
 
 import java.util.ArrayList;
 
+
 import org.aia.pages.BaseClass;
 import org.aia.pages.api.MailinatorAPI;
 import org.aia.pages.api.events.EventAPIValidations;
@@ -21,11 +22,8 @@ import org.aia.utility.BrowserSetup;
 import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.DataProviderFactory;
 import org.aia.utility.Logging;
-<<<<<<< HEAD
 import org.apache.log4j.Logger;
-=======
 import org.aia.utility.Utility;
->>>>>>> 61900fdf40ae51cc52a7a32e5d7eed6f8448bd34
 import org.aia.utility.VideoRecorder;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.ITestContext;
@@ -52,13 +50,10 @@ public class TestClone_Events extends BaseClass {
 	ViewRecipts viewReceipts;
 	EventAPIValidations eventApivalidation;
 	QuickLinksInEvents linksInEvents;
-<<<<<<< HEAD
 	public ExtentReports extent;
 	public ExtentTest extentTest;
 	final static Logger logger = Logger.getLogger(TestClone_Events.class);
-=======
 	TicketModule ticketModule;
->>>>>>> 61900fdf40ae51cc52a7a32e5d7eed6f8448bd34
 	boolean recording;
 
 	@BeforeMethod(alwaysRun = true)

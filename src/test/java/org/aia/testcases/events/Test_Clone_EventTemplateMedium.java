@@ -36,7 +36,6 @@ import org.testng.asserts.Assertion;
 
 import com.aventstack.extentreports.util.Assert;
 
-@Listeners(org.aia.utility.GenerateReportsListener.class)
 public class Test_Clone_EventTemplateMedium extends BaseClass {
 
 	Events events;

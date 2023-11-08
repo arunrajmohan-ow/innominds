@@ -95,7 +95,7 @@ public class RenewAPIValidation
 					 		+ "OrderApi__Grace_Period_End_Date__c,"
 					 		+ "Id").
 					 when().get(SUBSCRIPTIONS_URI);
-			 Utility.waitForResponse(response, 200);
+			 util.waitForResponse(response, 200);
 					response.then().statusCode(200).extract().response();
 	
 			jsonPathEval = response.jsonPath();
