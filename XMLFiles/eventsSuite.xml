@@ -6,7 +6,7 @@
 	</listeners>
 	<test thread-count="1" parallel="classes" name="Test">
 		<classes>
-		    <class name="org.aia.testcases.events.TestClone_Events"></class>
+		   <class name="org.aia.testcases.events.TestClone_Events"></class>
 			<class name="org.aia.testcases.events.Test_Clone_EventTemplateMedium"></class>
 			<class name="org.aia.testcases.events.Test_CloneTicketsInMediumTemplate"></class>
 			<class name="org.aia.testcases.events.Test_DeleteEvent"></class>
