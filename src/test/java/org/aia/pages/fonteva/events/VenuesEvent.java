@@ -97,6 +97,9 @@ public class VenuesEvent {
 	@FindBy(xpath = "//label[contains(text(),'Browse')]") // button[@data-label='Save']
 	WebElement browseButton;
 
+	@FindBy(xpath = "//input[@placeholder=\"Browse for files or paste in a URL\"]/following::input[@name='file']") // button[@data-label='Save']
+	WebElement uploadFile;
+
 	@FindBy(xpath = "//button[@data-label='Save']")
 	WebElement cropimageSaveButton;
 
@@ -222,7 +225,8 @@ public class VenuesEvent {
 		displayMapCheckBox.click();
 
 		util.scrollingElementUsingJS(driver, venueImageURLInput);
-		util.fileUploadThroughKeyBoardActions(driver, browseButton, imageURL);
+		uploadFile.sendKeys(imageURL);
+	//	util.fileUploadThroughKeyBoardActions(driver, browseButton, imageURL);
 
 		Thread.sleep(4000);
 
