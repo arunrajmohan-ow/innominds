@@ -1,8 +1,14 @@
 package org.aia.utility;
 
+import java.awt.AWTException;
+import java.awt.Robot;
+import java.awt.Toolkit;
+import java.awt.datatransfer.StringSelection;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
-import java.sql.Driver;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
@@ -14,6 +20,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.function.Function;
 import java.util.Map;
+import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -29,12 +36,12 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.io.FileHandler;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
-import com.sun.org.apache.bcel.internal.generic.RETURN;
+import org.testng.ITestResult;
 
 import io.restassured.response.Response;
 
@@ -43,8 +50,11 @@ public class Utility {
 
 	WebDriverWait wait;
 
-	public Utility(WebDriver driver, int time) {
+	Robot robot;
+	Actions action;
 
+	public Utility(WebDriver driver, int time) {
+	
 	}
 
 	public void acceptAlert() {
@@ -376,11 +386,77 @@ public class Utility {
 		});
 	}
 
+
+	public List<String> getAllElementsText(WebDriver driver, String xpath) {
+		List<WebElement> elements = driver.findElements(By.xpath(xpath));
+		List<String> allElementText = new ArrayList<>();
+		for (int i = 0; i < elements.size(); i++) {
+			allElementText.add(elements.get(i).getText());
+		}
+		return allElementText;
+
+	}
+
+	public void fileUploadThroughKeyBoardActions(WebDriver driver, WebElement element, String filepath) {
+		try {
+			robot = new Robot();
+		} catch (AWTException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		element.click();
+		robot.setAutoDelay(2000);
+		StringSelection stringSeclection = new StringSelection(filepath);
+		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(stringSeclection, null);
+		robot.setAutoDelay(1000);
+		robot.keyPress(KeyEvent.VK_CONTROL);
+		robot.keyPress(KeyEvent.VK_V);
+
+		robot.keyRelease(KeyEvent.VK_CONTROL);
+		robot.keyRelease(KeyEvent.VK_V);
+
+		robot.setAutoDelay(2000);
+
+		robot.keyPress(KeyEvent.VK_ENTER);
+		robot.keyRelease(KeyEvent.VK_ENTER);
+	}
+
+	public String randomStringGenerator(int n) {
+		String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" + "0123456789" + "abcdefghijklmnopqrstuvxyz";
+		StringBuilder sb = new StringBuilder(n);
+		for (int i = 0; i < n; i++) {
+			int index = (int) (AlphaNumericString.length() * Math.random());
+			sb.append(AlphaNumericString.charAt(index));
+		}
+		return sb.toString();
+	}
+	
+	public void mosueOverUsingAction(WebDriver driver, WebElement element) {
+	action = new Actions(driver);
+	action.moveToElement(element).perform();
+	}
+
 	/**
 	* Here we are using awaitility for waiting the response from api
 	*/
 	public void waitForResponse(final Response response, final int statusCode) {
-      Awaitility.await().atMost(10,TimeUnit.SECONDS).until(()->{return response.getStatusCode()==statusCode;});
+      Awaitility.await().atMost(10,TimeUnit.SECONDS).until(new Callable<Boolean>() {
+		@Override
+		public Boolean call() throws Exception {return response.getStatusCode()==statusCode;}
+	});
+	}
+	
+	public static void takeScreenShotAfterFail(WebDriver driver, ITestResult result) {
+		TakesScreenshot ts = (TakesScreenshot) driver;
+		File screenshot = ts.getScreenshotAs(OutputType.FILE);
+		try {
+			// Define the destination path for the screenshot
+			String screenshotPath = "./ScreenShots/" + result.getName() + ".png";
+			Files.copy(screenshot.toPath(), new File(screenshotPath).toPath(), StandardCopyOption.REPLACE_EXISTING);
+			System.out.println("Screenshot saved at: " + screenshotPath);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

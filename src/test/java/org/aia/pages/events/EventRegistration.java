@@ -9,12 +9,14 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import org.aia.pages.fonteva.events.EditCloneEvent;
+import org.aia.pages.fonteva.events.EventConfig;
 import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.Utility;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.log4j.Logger;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -24,6 +26,8 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+
+import groovy.transform.Final;
 
 public class EventRegistration {
 	WebDriver driver;
@@ -36,6 +40,9 @@ public class EventRegistration {
 	public String postedDate = "";
 	public String totalAmount = "";
 	public String userName = "";
+	public String aiaNumber ="";
+	public String aiamemeberfullName="";
+	ArrayList<Object> receiptData = new ArrayList<Object>();
 	static Logger log = Logger.getLogger(EventRegistration.class);
 
 	public EventRegistration(WebDriver Idriver)
@@ -55,6 +62,9 @@ public class EventRegistration {
 
 	@FindBy(css = "div[id='ticketRegButton'] button")
 	WebElement registerButton;
+
+	@FindBy(css = "div[id='ticketRegButton'] button[data-name='singleTicketBtn']")
+	WebElement singleTicketRegButton;
 
 	@FindBy(css = "div[data-name='firstName'] div[data-name='matchFields'] input")
 	WebElement firstName;
@@ -162,6 +172,14 @@ public class EventRegistration {
 	@FindBy(css = "button[data-name='processBtn']")
 	WebElement processPayment;
 
+	public static String paymentButonfun(String paymentButton) {
+		String xpath = "//button[@data-name='" + paymentButton + "']";
+		return xpath;
+	}
+
+	@FindBy(css = "button[data-name='Confirm_Order']")
+	WebElement confirmOrderPayment;
+
 	// New Billing Address
 	@FindBy(css = "button[data-name='addressCreateButton']")
 	WebElement addressCreateButton;
@@ -209,6 +227,40 @@ public class EventRegistration {
 	@FindBy(css = "div[class*='slds-p-horizontal_large slds-m-bottom_medium\'] div:nth-child(2)")
 	WebElement postdDate;
 
+	@FindBy(css = "[data-name='firstName'] input")
+	WebElement firstNameInReg;
+
+	@FindBy(css = "[data-name='lastName'] input")
+	WebElement lastNameInReg;
+
+	@FindBy(css = "[data-name='email'] input")
+	WebElement emailInReg;
+	
+	@FindBy(xpath = "//p[@class='aia-number'][text()]") WebElement getaiaNumber;
+	
+	@FindBy(xpath = "//p[@class='aia-number']/span[text()]") WebElement getAiaText;
+	
+	@FindBy(xpath = "//div[@class='member-name']") WebElement aiaMemberName;
+
+	public void validateFirstNameInRegistartion() {
+		util.scrollingElementUsingJS(driver, firstNameInReg);
+		Utility.waitForWebElement(driver, firstNameInReg, 20);
+		log.info(firstNameInReg.getAttribute("value"));
+		System.out.println(firstNameInReg.getAttribute("value"));
+	}
+
+	public void validateLastNameInRegistartion() {
+		Utility.waitForWebElement(driver, lastNameInReg, 20);
+		log.info(lastNameInReg.getAttribute("value"));
+		System.out.println(lastNameInReg.getAttribute("value"));
+	}
+
+	public void ValidateEmailInRegistartion() {
+		Utility.waitForWebElement(driver, emailInReg, 20);
+		log.info(emailInReg.getAttribute("value"));
+		System.out.println(emailInReg.getAttribute("value"));
+	}
+
 	/**
 	 * @param tabIdx
 	 * @throws Throwable
@@ -238,6 +290,23 @@ public class EventRegistration {
 		registerButton.click();
 		log.info("Register Now button is cliked sucessfully");
 		Thread.sleep(14000);
+	}
+
+	public void singleticketRegistratioButton() {
+		Utility.waitForWebElement(driver, singleTicketRegButton, 30);
+		singleTicketRegButton.click();
+	}
+	
+	public String getAIAData() {
+		Utility.waitForWebElement(driver, getaiaNumber, 10);
+		String ss = getAiaText.getText();
+		System.out.println(ss);
+		String	aiaNum =getaiaNumber.getText();
+		aiaNumber = aiaNum.replace("AIA number: ", "");
+		System.out.println(aiaNumber);
+		Utility.waitForWebElement(driver, aiaMemberName, 10);
+		aiamemeberfullName = aiaMemberName.getText();
+		return aiaNumber;
 	}
 
 	/**
@@ -366,15 +435,12 @@ public class EventRegistration {
 	 * @return
 	 * @throws Throwable
 	 */
-	public ArrayList<Object> checkoutModule() throws Throwable {
-		ArrayList<Object> receiptData = new ArrayList<Object>();
-
+	public ArrayList<Object> paymentDataIncheckoutModule() throws Throwable {
 		util.waitUntilElement(driver, totalAmountInCheckout);
 		Utility.highLightElement(driver, totalAmountInCheckout);
 		totalAmount = totalAmountInCheckout.getText();
 		receiptData.add(0, totalAmount);
 		log.info("Total Amount in checkout" + totalAmount);
-		String type = "Home";
 		Thread.sleep(14000);
 		util.waitUntilElement(driver, cardHolderName);
 		Utility.highLightElement(driver, cardHolderName);
@@ -394,6 +460,36 @@ public class EventRegistration {
 		log.info("ExpMonth selected as" + testData.testDataProvider().getProperty("CREDIT_CARD_EXP_MONTH"));
 		util.selectDropDownByText(expYear, testData.testDataProvider().getProperty("CREDIT_CARD_EXP_YEAR"));
 		log.info("ExpMonth selected as" + testData.testDataProvider().getProperty("CREDIT_CARD_EXP_YEAR"));
+		return receiptData;
+
+	}
+
+	public void paymentProcessButton() throws Throwable {
+//		WebElement buttonInPayment = driver.findElement(By.xpath(paymentButonfun(option)));
+		util.scrollingElementUsingJS(driver, processPayment);
+		util.clickUsingJS(driver, processPayment);
+		log.info("processPayment is clicked successfully");
+		Thread.sleep(7000);
+		util.waitUntilElement(driver, paymentSuccessMessage);
+		log.info("After Payment success message" + paymentSuccessMessage.getText());
+	}
+
+	public ArrayList<Object> confirmOrderIncheckout() throws Throwable {
+		util.waitUntilElement(driver, totalAmountInCheckout);
+		Utility.highLightElement(driver, totalAmountInCheckout);
+		totalAmount = totalAmountInCheckout.getText();
+		receiptData.add(0, "0.00");
+		log.info("Total Amount in checkout" + totalAmount);
+		Utility.waitForWebElement(driver, confirmOrderPayment, 20);
+		util.clickUsingJS(driver, confirmOrderPayment);
+		Thread.sleep(7000);
+		util.waitUntilElement(driver, paymentSuccessMessage);
+		log.info("After Payment success message" + paymentSuccessMessage.getText());
+		return receiptData;
+	}
+
+	public void biilingaddressInCheckoutModule() throws Throwable {
+		String type = "Home";
 		util.waitUntilElement(driver, addressCreateButton);
 		addressCreateButton.click();
 		String addressName = "apk" + RandomStringUtils.randomAlphabetic(4);
@@ -403,7 +499,6 @@ public class EventRegistration {
 		util.enterText(driver, addressSearch, "In");
 		Thread.sleep(4000);
 		log.info("event list size" + addressSearchOptions.size());
-
 		for (int i = 0; i < addressSearchOptions.size(); i++) {
 			String event = addressSearchOptions.get(i).getText();
 			if (event.contains("Indonesia")) {
@@ -427,24 +522,21 @@ public class EventRegistration {
 		util.waitUntilElement(driver, saveButtonInBiilingaddress);
 		saveButtonInBiilingaddress.click();
 		log.info("Save Button is clicked successfully in Biilingaddress checkout");
-		util.scrollingElementUsingJS(driver, processPayment);
-		util.clickUsingJS(driver, processPayment);
-		log.info("processPayment is clicked successfully");
-		Thread.sleep(7000);
-		util.waitUntilElement(driver, paymentSuccessMessage);
-		log.info("After Payment success message" + paymentSuccessMessage.getText());
+	}
+
+	public ArrayList<Object> clickReceiptInChecout() {
+
 		receiptNum = receiptNumber.getText();
 		receiptData.add(1, receiptNum);
 		log.info("Receipt Number" + receiptNum);
 		postedDate = postdDate.getText();
+		receiptData.add(2, postedDate);
 		log.info(" Event start poseted date " + postedDate);
 		util.waitUntilElement(driver, viewRecieptInCheckout);
 		Utility.highLightElement(driver, viewRecieptInCheckout);
-
 		util.clickUsingJS(driver, viewRecieptInCheckout);
 		log.info("View Receipts is clicked successfully using js & contains generate multiple pdf");
 		return receiptData;
-
 	}
 
 }
