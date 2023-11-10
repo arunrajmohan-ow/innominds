@@ -203,34 +203,6 @@ public class FontevaCES {
 		Thread.sleep(2000);
 	}
 	
-	public void changeonlyTermEndDate() throws InterruptedException {
-		JavascriptExecutor js = (JavascriptExecutor) driver;
-		util.waitUntilElement(driver, memberShip);
-		action.moveToElement(memberShip).click().perform();
-		System.out.println("Memberships clicked");
-		driver.navigate().refresh();
-		util.waitUntilElement(driver, tableSubscriptionId);
-		Thread.sleep(1000);
-		tableSubscriptionId.click();
-		util.waitUntilElement(driver, Terms);
-		Terms.click();
-		util.waitUntilElement(driver, termId);
-		js.executeScript("arguments[0].click();", termId);
-		// termId.click();
-		Thread.sleep(5000);
-		util.waitUntilElement(driver, editBtn);
-		Thread.sleep(5000);
-		action.scrollToElement(editBtn);
-		js.executeScript("window.scrollBy(0,200)", editBtn);
-		editBtn.click();
-		util.waitUntilElement(driver, inputTermEndDate);
-		inputTermEndDate.clear();
-		DateUtils dateUtils = new DateUtils();
-		String previousDate = dateUtils.getDate(-32, "MM/dd/yyyy");
-		System.out.println("date before -32 is: " + previousDate);
-		inputTermEndDate.sendKeys(previousDate);
-	}
-	
 	/**
 	 * @throws InterruptedException
 	 */

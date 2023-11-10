@@ -511,8 +511,11 @@ public class CES_ContactPage {
 		util.waitUntilElement(driver, util.getCustomizedWebElement(driver, contactName, userFullname));
 		executor.executeScript("arguments[0].click();",
 				util.getCustomizedWebElement(driver, contactName, userFullname));
+		Thread.sleep(10000);
 		util.waitUntilElement(driver, showAll);
 		showAll.click();
+		Thread.sleep(10000);
+		//action.moveToElement(showAll).click().perform();
 	}
 
 	/**

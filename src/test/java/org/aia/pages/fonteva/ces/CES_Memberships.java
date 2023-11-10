@@ -119,6 +119,21 @@ public class CES_Memberships {
 
 	@FindBy(xpath = "//a[normalize-space()='Show All (10)']")
 	WebElement showallBtn;
+	
+	@FindBy(xpath="(//*[@role = 'table']//tbody//tr//td)[6]//a")
+	WebElement subscriptionPlan;
+	
+	@FindBy(xpath="(//*[@role = 'table']//tbody//tr//td)[3]//a")
+	WebElement selectCustomer;
+	
+	@FindBy(xpath="//button[@title='Edit Pre-Term Renewal Window']//span[1]")
+	WebElement editPreTermBtn;
+
+	@FindBy(xpath="//input[@name='OrderApi__PreTerm_Renewal_Window__c']")
+	WebElement preTerminput;
+	
+	@FindBy(xpath="//input[@name='OrderApi__PostTerm_Renewal_Window__c']")
+	WebElement postTerminput;
 
 	String startLocator = "//div[@class='uiVirtualDataTable indicator']/following-sibling::table/tbody//a[text()='";
 	String endLocator = "']";
@@ -263,5 +278,29 @@ public class CES_Memberships {
 		Thread.sleep(2000);
 
 	}
+	public void changePreAndPostTermRenewalDays()throws InterruptedException{
+		util.waitUntilElement(driver, membership);
+		action.moveToElement(membership).click().perform();
+		driver.navigate().refresh();
+		util.waitUntilElement(driver, subscriptionPlan);
+		subscriptionPlan.click();
+		util.waitUntilElement(driver, editPreTermBtn);
+		Thread.sleep(5000);
+		action.scrollToElement(editPreTermBtn);
+		executor.executeScript("window.scrollBy(0,200)", editPreTermBtn);
+		editPreTermBtn.click();
+		util.waitUntilElement(driver, preTerminput);
+		preTerminput.clear();
+		preTerminput.sendKeys("1");
+		util.waitUntilElement(driver, postTerminput);
+		postTerminput.clear();
+		postTerminput.sendKeys("0");
+		util.waitUntilElement(driver, saveBtn);
+		saveBtn.click();
+		Thread.sleep(5000);
+		driver.navigate().refresh();
+		Thread.sleep(3000);
+		driver.navigate().back();
 
+}
 }
