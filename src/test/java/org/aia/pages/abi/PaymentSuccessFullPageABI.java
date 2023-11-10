@@ -99,7 +99,7 @@ public class PaymentSuccessFullPageABI {
 		return totalAmnt1;
 	}
 
-	public Object freeDuesamountPaid() throws InvalidPasswordException, IOException {
+	public Object freeDuesAmountPaid() throws InvalidPasswordException, IOException {
 		util.waitUntilElement(driver, paymentSucessfulMessage);
 		Object totalAmnt1 = 0;
 		String totalAmnt = paymentTotalTxt.getText();

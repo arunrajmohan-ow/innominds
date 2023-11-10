@@ -8,6 +8,8 @@ import java.util.List;
 
 import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.Utility;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -71,31 +73,28 @@ public class MailinatorAPI {
 
 	}
 	
-	public String GetLinks(ArrayList<String> dataList) 
+	public String GetLinks(String emailprefix, String pattern) 
 	{
-		String URI = "https://mailinator.com/api/v2/domains/"+domain+"/inboxes/";
-		String emailprefix = dataList.get(3);
-		
+		String URI = "https://mailinator.com/api/v2/domains/"+domain+"/inboxes/";		
 		String token = "13779f35d3cc4108a0cf41ef417d183f";
 		Response response =  RestAssured.given().headers("Content-Type", ContentType.JSON, "Accept", ContentType.JSON,"Authorization",token).when().get(URI).then().extract().response();
         String responseBody = response.getBody().asString();
-        System.out.println("Response Body is "+ responseBody);
-		 
-		 System.out.println("Status code is "+ response.then().assertThat().statusCode(200));
-		 
-		 JsonPath js = new JsonPath(responseBody);
-		 
+        //System.out.println("Response Body is "+ responseBody);
+		//System.out.println("Status code is "+ response.then().assertThat().statusCode(200));
+        
+		 JsonPath js = new JsonPath(responseBody); 
 		 List<HashMap<String, Object>> msgs = js.getList("msgs");
 		 System.out.println("MSGS is " + msgs);
 		
 		    for (HashMap<String, Object> singleObject : msgs) {
-		        if (singleObject.get("to").equals(emailprefix)) {
-		            System.out.println(singleObject.get("id"));
+		        if (singleObject.get("to").equals(emailprefix)&&singleObject.get("subject").equals("Sandbox: Payment_For_Renewal")) {
+		            System.out.println("****To******: "+singleObject.get("id"));
 		            msgId = singleObject.get("id").toString();
+		            System.out.println("MessageId: "+msgId);
 		        }		       
 		    }	
 		String finalMailURI = "https://mailinator.com/api/v2/domains/"+domain+"/inboxes/"+emailprefix+"/messages/"+msgId+"/links";
-		
+		System.out.println("finalMailURI: "+finalMailURI);
 		Response resp =  RestAssured.given().headers("Authorization",token).when().get(finalMailURI).then().extract().response();
         String respBody = resp.getBody().asString();
         System.out.println("Response Body is "+ respBody);
@@ -103,13 +102,14 @@ public class MailinatorAPI {
         System.out.println("Status is" + response.then().assertThat().statusCode(200));
         
         JsonPath json = new JsonPath(respBody);
-		 
+		System.out.println("JSON: "+json.prettyPrint());
         List<String> links = json.getList("links");
+        
         String lnk= "";
         
         for(String l:links)
         {
-        	if(l.contains("confirm-signup?"));
+        	if(l.contains(pattern))//confirm-signup?
         	lnk =l;
         	System.out.println("Verification link is "+ lnk);
         	break;

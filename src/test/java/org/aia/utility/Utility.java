@@ -1,7 +1,12 @@
 package org.aia.utility;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.sql.Driver;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -13,19 +18,25 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.text.PDFTextStripper;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.io.FileHandler;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -218,6 +229,17 @@ public class Utility {
 	 
 	}
 	
+	public void jseClick(WebDriver driver, WebElement e) {
+	JavascriptExecutor jse=(JavascriptExecutor)driver;
+	jse.executeScript("return document.readyState").toString().equals("complete");
+	jse.executeScript("arguments[0].click();", e);
+	}
+
+	public void waitForPageLoad(WebDriver driver) {
+		JavascriptExecutor jse=(JavascriptExecutor)driver;
+		jse.executeScript("return document.readyState").toString().equals("complete");
+	}
+	
 	public void enterText(WebDriver driver, WebElement ele, String txt) {
 		waitUntilElement(driver, ele);
 		ele.clear();
@@ -341,6 +363,66 @@ public class Utility {
 	    return list;
 	}
 	
+	public List<String> getPDFDetails(WebDriver driver) throws URISyntaxException, IOException{
+		ArrayList<String> pdfDetails=new ArrayList<String>();
+		Set<String> links = driver.getWindowHandles();
+		String currWin = driver.getWindowHandle();
+		for (String s1 : links)
+			if (!s1.contentEquals(currWin)) {
+				driver.switchTo().window(s1);
+				String currentUrl = driver.getCurrentUrl();
+				if (currentUrl.contains("signupSuccess")) {
+					continue;
+				} else if (currentUrl.contains("generateMultiplePDF")) {
+					String pdfContent = null;
+					//String path = "https://fonteva-io.herokuapp.com/generateMultiplePDF/dev/join?doc=https%3A%2F%2Faia--testing.sandbox.my.site.com%2Fecommerce%2Fs%2Freceipt%3FgeneratePDF%3Dtrue%26language%3Den_US%26id%3DKEQx4mKsEnk5PdW3nZTE6QhNQlxGVAEKZBcZr5Jgm8g%3D&doc=https%3A%2F%2Faia--testing.sandbox.my.site.com%2Fecommerce%2Fs%2Fsales-order%3FgeneratePDF%3Dtrue%26language%3Den_US%26id%3DHQEJO7wHomVY0Q52c561YthzO-2j6JVFxpaBvgSO75o%3D";
+					URI uri=new URI(currentUrl);
+					URL url=uri.toURL();
+					InputStream is = url.openStream();
+					BufferedInputStream fileParse = new BufferedInputStream(is);
+					PDDocument document = null;
+					document = PDDocument.load(fileParse);
+					PDFTextStripper strip = new PDFTextStripper();
+					strip.setStartPage(2);
+					pdfContent = strip.getText(document);
+					//pdfContent = strip.getText(document).
+					Scanner scnr=new Scanner(pdfContent);
+					while (scnr.hasNextLine()) {
+						String line = scnr.nextLine();
+						String[] matches=new String[] {"Sales Order #", "NY CITY TAX $", "NY SPECIAL TAX $", "NY STATE TAX $", "Subtotal $", "Taxes $", "Total $"};
+						for(String match:matches) {
+						if(line.contains(match)){
+							line.replaceAll("[^A-Za-z0-9]","");
+							pdfDetails.add(line);
+							}
+						}
+					}
+					scnr.close();
+					}
+				}
+		return pdfDetails;
+	}
+	
+	public boolean retryingFindClick(WebElement e) {
+	    boolean result = false;
+	    int attempts = 0;
+	    while(attempts < 2) {
+	        try {
+	            e.click();
+	            result = true;
+	            break;
+	        } catch(NoSuchElementException ex) {
+	        }
+	        attempts++;
+	    }
+	    return result;
+	}
+	
+	public void mouseOver(WebDriver driver, WebElement e) {
+		Actions action = new Actions(driver);
+		action.moveToElement(e).click().build().perform();
+		
+	}
 	/**
 	 * Here we get todays date using Localdate class from java.
 	 * @return 

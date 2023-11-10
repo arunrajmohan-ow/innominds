@@ -17,6 +17,7 @@ import org.aia.utility.Utility;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.Validate;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
@@ -58,10 +59,14 @@ public class SignUpPage {
 	@FindBy(xpath = "//input[@formcontrolname='email']")
 	WebElement emailAddress;
 
-	@FindBy(xpath = "//mat-select[@formcontrolname='mobilePhoneCountry']")
+	//@FindBy(xpath = "//mat-select[@formcontrolname='mobilePhoneCountry']")
+	//@FindBy(xpath = "//mat-form-field//mat-select")
+	@FindBy(xpath = "//div[@class='mat-select-arrow-wrapper']")
+
 	WebElement mobileCountry;
 
-	@FindBy(xpath = "//span[text()=' United States of America (+1) ']")
+	//@FindBy(xpath = "//span[text()=' United States of America (+1) ']")
+	@FindBy(xpath = "//mat-option[@id='mat-option-1']")
 	WebElement mobileCountryoption;
 
 	@FindBy(xpath = "//input[@formcontrolname='mobilePhone']")
@@ -140,6 +145,7 @@ public class SignUpPage {
 		return list;
 	}
 
+	@SuppressWarnings("static-access")
 	@Step("Enter user details and click on submit button")
 	public void signUpUser() throws Exception {
 		util.waitUntilElement(driver, firstName);
@@ -147,11 +153,13 @@ public class SignUpPage {
 		firstName.sendKeys(fName);
 		lastName.sendKeys(lName);
 		emailAddress.sendKeys(emailaddressdata);
-		util.waitUntilElement(driver, mobileCountry);
-		mobileCountry.click();
-		Thread.sleep(7000);
-		util.waitUntilElement(driver, mobileCountryoption);
-		mobileCountryoption.click();
+		util.waitForPageLoad(driver);
+		Thread.sleep(3000);
+		util.waitForWebElement(driver, mobileCountry,3000);
+		util.jseClick(driver, mobileCountry);
+		util.waitForPageLoad(driver);
+		util.waitForWebElement(driver, mobileCountryoption,3000);
+		util.jseClick(driver, mobileCountryoption);
 		mobilePhoneNum.sendKeys(mobNumb);
 		desirdPwd.sendKeys(password);
 		confrmPwd.sendKeys(password);

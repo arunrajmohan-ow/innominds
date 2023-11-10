@@ -20,9 +20,12 @@ import com.aventstack.extentreports.reporter.ExtentReporter;
 
 public class GenerateReportsListener implements ITestListener{
 	
-	ExtentReporter htmlreport;
+	public static WebDriver driver;
+	public ExtentReporter htmlreport;
 	public static ExtentReports extent;
 	public static ExtentTest logger;
+	protected Utility util;
+	protected ConfigDataProvider testData;
 	public GenerateReports report = GenerateReports.getInstance();
 	static int count_passedTCs;
 	static int count_skippedTCs;

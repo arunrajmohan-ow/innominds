@@ -29,13 +29,13 @@ import com.aventstack.extentreports.reporter.ExtentReporter;
 public class BaseClass {
 
 	public static WebDriver driver;
-	ExtentReports report;
-	ExtentTest logger;
+	//ExtentReports report;
+	//ExtentTest logger;
 	protected Utility util;
 	protected ConfigDataProvider testData;
 	protected FontevaConnectionSOAP sessionID;
-	public static ExtentReporter htmlReporter;
-	public static GenerateReports reports;
+	//public static ExtentReporter htmlReporter;
+	//public static GenerateReports reports;
 	// Configure Log4j to perform error logging
 	
 	@BeforeSuite
@@ -88,7 +88,7 @@ public class BaseClass {
 	@BeforeTest
 	 public void initialTestSetup() {
 		 System.out.println("inside @BeforeTest initialTestSetup method");
-		 reports = GenerateReports.getInstance();
+		// reports = GenerateReports.getInstance();
 	 }
 	
 	@AfterTest
