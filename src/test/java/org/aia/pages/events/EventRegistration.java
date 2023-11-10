@@ -241,6 +241,25 @@ public class EventRegistration {
 	@FindBy(xpath = "//p[@class='aia-number']/span[text()]") WebElement getAiaText;
 	
 	@FindBy(xpath = "//div[@class='member-name']") WebElement aiaMemberName;
+	
+	//speakers
+	@FindBy(css = "div[id='navEventMenuItems'] button[data-title='Speakers']") WebElement speakersButtonInAIAPage;
+	
+	//Agenda
+	
+	@FindBy(xpath = "//div[@id='navEventMenuItems']//div[text()='Agenda']") WebElement agendaINAIA;
+
+	public static String scheduleNameInAgenda(String scheduleName) {
+		String xpath = "//div/a/span[text()='" + scheduleName + "']";
+		return xpath;
+	}
+	
+	
+	
+	public static String speakerName(String speakerName) {
+		String venueName1 = "//div[text()='" + speakerName + "']";
+		return venueName1;
+	}
 
 	public void validateFirstNameInRegistartion() {
 		util.scrollingElementUsingJS(driver, firstNameInReg);
@@ -539,4 +558,24 @@ public class EventRegistration {
 		return receiptData;
 	}
 
+	public void speakersButtonInAIA() {
+		Utility.waitForWebElement(driver, speakersButtonInAIAPage, 0);
+		speakersButtonInAIAPage.click();
+	}
+	
+	public void validateSpeakerInAIA() {
+	WebElement speaker =	driver.findElement(By.xpath(speakerName(EventConfig.speakerNameInputField)));
+	log.info(speaker.getText());
+	Assert.assertTrue(speaker.isDisplayed());
+	}
+	
+	public void agendaNavigationButtonInAIA() {
+		Utility.waitForWebElement(driver, agendaINAIA, 0);
+		util.clickUsingJS(driver, agendaINAIA);
+	}
+	
+	public void validateScheduleInAgenda() {
+	WebElement scheduleName = driver.findElement(By.xpath(scheduleNameInAgenda(EventConfig.scheduleNameInputFieldInAgenda)));
+	Assert.assertTrue(scheduleName.isDisplayed());
+	}
 }

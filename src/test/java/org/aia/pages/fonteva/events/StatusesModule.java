@@ -61,7 +61,7 @@ public class StatusesModule {
 		log.info("statusespageText is displayed");
 	}
 
-	public void ClicknewStatuses() {
+	public void clicknewStatuses() {
 		Utility.waitForWebElement(driver, newStatuses, 0);
 		newStatuses.click();
 		log.info("new Statuses is clicked successfully");
@@ -70,13 +70,13 @@ public class StatusesModule {
 
 	}
 
-	public void EnterstatusName() {
+	public void enterstatusName() {
 		Utility.waitForWebElement(driver, statusName, 0);
-		util.enterText(driver, statusName, "Active");
+		util.enterText(driver, statusName, "hold");
 		log.info("status name enterd");
 	}
 
-	public void SelectCheckboxForRegistration() {
+	public void selectCheckboxForRegistration() {
 		util.waitUntilElement(driver, registrationOpenInNewStatusCheckBox);
 		Utility.highLightElement(driver, registrationOpenInNewStatusCheckBox);
 		if (registrationOpenInNewStatusCheckBox.isSelected()) {
@@ -88,7 +88,7 @@ public class StatusesModule {
 		}
 	}
 
-	public void SelectCheckboxForPublishPortal() {
+	public void selectCheckboxForPublishPortal() {
 		util.waitUntilElement(driver, publishPortalInNewStatusCheckBox);
 		Utility.highLightElement(driver, publishPortalInNewStatusCheckBox);
 		if (publishPortalInNewStatusCheckBox.isSelected()) {
@@ -100,7 +100,7 @@ public class StatusesModule {
 		}
 	}
 
-	public void ClicksaveCloseButtonInNewStatus() {
+	public void clicksaveCloseButtonInNewStatus() {
 		Utility.waitForWebElement(driver, saveCloseButtonInNewStatus, 0);
 		saveCloseButtonInNewStatus.click();
 		log.info("save button in new status clicked");

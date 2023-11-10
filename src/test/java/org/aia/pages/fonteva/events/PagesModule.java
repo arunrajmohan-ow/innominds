@@ -55,7 +55,7 @@ public class PagesModule {
 	@FindBy(xpath = "//tr[contains(@data-pageid,'NewPage')]//button[@title='More Options']")
 	WebElement moreOptionsInActionsInPageModule;
 
-	@FindBy(xpath = "tr[contains(@data-pageid,'NewPage')]//a[text()='Manage Components']")
+	@FindBy(xpath = "//tr[contains(@data-pageid,'NewPage')]//a[text()='Manage Components']")
 	WebElement manageComponentsOption;
 
 	@FindBy(xpath = "//li[@class='componentAvailable' and text()='AIA Event SSO']")
@@ -64,13 +64,13 @@ public class PagesModule {
 	@FindBy(css = "button[data-name='addPageComponentButton']")
 	WebElement addPageComponentButton;
 
-	@FindBy(xpath = "//div[@id='selectedPageComponents']/div[1]/div/div/div[text()='AIA Event SSO'")
+	@FindBy(xpath = "//div[@id='selectedPageComponents']/div[1]/div/div/div[text()='AIA Event SSO']")
 	WebElement validateAddOneRow;
 
 	@FindBy(xpath = "//li[@class='componentAvailable' and text()='AIA Event Footer']")
 	WebElement aiaEventFooterInRegisterPopUp;
 
-	@FindBy(xpath = "//div[@id='selectedPageComponents']/div[3]/div/div/div[text()='Registration']")
+	@FindBy(xpath = "//div[@id='selectedPageComponents']/div[2]/div/div/div[text()='Registration']")
 	WebElement validateAddSecondRow;
 
 	@FindBy(xpath = "//div[@id='selectedPageComponents']/div[3]/div/div/div[text()='AIA Event Footer']")
@@ -164,7 +164,8 @@ public class PagesModule {
 		Assert.assertTrue(validateAddThridRow.isDisplayed());
 	}
 	
-	public void clickSaveCloseButtonInPageModule() {
+	public void clickSaveCloseButtonInPageModule() throws InterruptedException {
+		Thread.sleep(5000);
 		Utility.waitForWebElement(driver, saveCloseButtonInPageModule, 0);
 		saveCloseButtonInPageModule.click();
 	}

@@ -35,7 +35,7 @@ import org.testng.annotations.Test;
 
 @Listeners(org.aia.utility.GenerateReportsListener.class)
 
-public class TestClone_Events extends BaseClass {
+public class TestClone_EventsWLSTemplate extends BaseClass {
 
 	Events events;
 	NewCloneEvents cloneEventpage;

@@ -281,7 +281,7 @@ public class EventInfoModule {
 		Assert.assertTrue(attendeeCreationTab.isDisplayed());
 		log.info("attendeeCreationTab is displayed");
 	}
-
+	
 	public void editEventVenues() {
 		util.waitUntilElement(driver, eventBuilderVenues);
 		eventBuilderVenues.click();
@@ -402,12 +402,13 @@ public class EventInfoModule {
 		System.out.println("EventConfig.ticketalesStartDate : " + EventConfig.RegistrationTimer);
 		Assert.assertEquals(RegistrationTimerInputBox.getAttribute("value"), EventConfig.RegistrationTimer);
 	}
-	
+
 	public void selectActiveStatus() {
 		Utility.waitForWebElement(driver, StatusInEditEvent, 10);
 		if(StatusInEditEvent.isDisplayed()) {
 		Utility.waitForWebElement(driver, statusDropdown, 20);
 		util.mosueOverUsingAction(driver, statusDropdown);
+		statusDropdown.click();
 		Utility.waitForWebElement(driver, activeOption, 20);
 		util.clickUsingJS(driver, activeOption);
 		}

@@ -52,7 +52,7 @@ public class VenuesEvent {
 	@FindBy(xpath = "(//button[contains(text(),'Delete')])[2]")
 	WebElement confirmationDeleteButton;
 
-	@FindBy(xpath = "//div[@class='slds-grid slds-grid--align-spread slds-p-bottom--medium slds-m-bottom--medium']//div[@class='slds-text-heading--small']")
+	@FindBy(xpath = "//div[@class='EventApiEventBuilderVenues']//div//div[@class='slds-text-heading--small']")
 	WebElement createdVenueCountText;
 
 	@FindBy(xpath = "//h2[contains(text(),'Create Venue')]")
@@ -97,16 +97,16 @@ public class VenuesEvent {
 	@FindBy(xpath = "//label[contains(text(),'Browse')]") // button[@data-label='Save']
 	WebElement browseButton;
 
-	@FindBy(xpath = "//input[@placeholder=\"Browse for files or paste in a URL\"]/following::input[@name='file']") // button[@data-label='Save']
+	@FindBy(xpath = "//input[@placeholder='Browse for files or paste in a URL']/following::input[@name='file' and @aria-label='venueImageUrl']") // button[@data-label='Save']
 	WebElement uploadFile;
 
-	@FindBy(xpath = "//button[@data-label='Save']")
+	@FindBy(xpath = "//div[@data-name='venueImageUrl']//button[@data-label='Save' and @data-name='saveCroppedImage']")
 	WebElement cropimageSaveButton;
 
 	@FindBy(xpath = "//button[contains(text(),'Save & Continue')]//preceding-sibling::button[contains(text(),'Cancel')]")
 	WebElement cancelButton;
 
-	@FindBy(xpath = "//button[contains(text(),'Cancel')]//following-sibling::button[contains(text(),'Save & Continue')]")
+	@FindBy(css = "div[class='windowViewMode-normal oneContent active lafPageHost'] button[data-name='venueModalSaveButton']")
 	WebElement saveContinueButton;
 
 	@FindBy(xpath = "//h2[contains(text(),'Create Venue')]//parent::div//span[@part='boundary']")
@@ -128,10 +128,14 @@ public class VenuesEvent {
 		util.waitUntilElement(driver, createdVenueCountText);
 		Assert.assertTrue(createdVenueCountText.isDisplayed(), "create Venue count Text is not available");
 	}
-
-	public void navigateAddIntoVenuePopUpTabAndVerifyIt() {
+	
+	public void clickAddVenue() {
 		util.waitUntilElement(driver, addVenueButton);
 		addVenueButton.click();
+	}
+
+	public void navigateAddIntoVenuePopUpTabAndVerifyIt() {
+		clickAddVenue();
 		util.waitUntilElement(driver, createdVenueCountText);
 		util.scrollingElementUsingJS(driver, createdVenueCountText);
 		Assert.assertTrue(createdVenueCountText.isDisplayed(), "create Venue Text is not available");
@@ -225,17 +229,12 @@ public class VenuesEvent {
 		displayMapCheckBox.click();
 
 		util.scrollingElementUsingJS(driver, venueImageURLInput);
-		browseButton.click();
 		uploadFile.sendKeys(imageURL);
-		//util.enterText(driver, uploadFile, imageURL);
-		//util.fileUploadThroughKeyBoardActions(driver, browseButton, imageURL);
-
-		Thread.sleep(4000);
-
+		Thread.sleep(5000);
 		if (cropimageSaveButton.isDisplayed()) {
 			cropimageSaveButton.click();
 		}
-		Thread.sleep(5000);
+		Thread.sleep(7000);
 		util.waitUntilElement(driver, saveContinueButton);
 		saveContinueButton.click();
 

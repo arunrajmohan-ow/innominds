@@ -54,7 +54,7 @@ public class Test_CloneTicketsInMediumTemplate extends BaseClass {
 	
 	@Test(priority = 1, description = "verify field in TicketModule tickets info,", enabled = true)
 	public void test_verifyFieldInTicketModuleMediumTEmplate(ITestContext context) throws InterruptedException, Throwable {
-		Logging.logger.info("================================test_EditPriceInCloneEvent started==========================");
+		Logging.logger.info("================================test_verifyFieldInTicketModuleMediumTEmplate started==========================");
 		// Fec-102
 		try {
 			events.eventsTab();
@@ -72,7 +72,7 @@ public class Test_CloneTicketsInMediumTemplate extends BaseClass {
 
 	@Test(priority = 2, description = "Verify creation of New Ticket Type", enabled = true)
 	public void validate_CreateNewTicketTypeMediumTEmplate(ITestContext context) throws InterruptedException, Throwable {
-		Logging.logger.info("================================test_EditPriceInCloneEvent started==========================");
+		Logging.logger.info("================================validate_CreateNewTicketTypeMediumTEmplate started==========================");
 		// fec-103
 		try {
 			events.eventsTab();
@@ -97,7 +97,7 @@ public class Test_CloneTicketsInMediumTemplate extends BaseClass {
 
 	@Test(priority = 3, description = "verify field in TicketModule info, tickets sales start date,", enabled = true)
 	public void test_VeriftTickets_sales_startDateMediumTEmplate(ITestContext context) throws InterruptedException, Throwable {
-		Logging.logger.info("================================test_EditPriceInCloneEvent started==========================");
+		Logging.logger.info("================================test_VeriftTickets_sales_startDateMediumTEmplates started==========================");
 		// Fec-104
 		try {
 			events.eventsTab();
@@ -115,7 +115,7 @@ public class Test_CloneTicketsInMediumTemplate extends BaseClass {
 	@Test(priority = 4, description = "Verify CreateNewTicket And ValidateAllfields,", enabled = true)
 	public void test_VerifycCreateNewTicketAndValidateAllfieldsMediumTEmplate(ITestContext context)
 			throws InterruptedException, Throwable {
-		Logging.logger.info("================================test_EditPriceInCloneEvent started==========================");
+		Logging.logger.info("================================test_VerifycCreateNewTicketAndValidateAllfieldsMediumTEmplate started==========================");
 		// Fec-114
 		try {
 			events.eventsTab();
@@ -137,7 +137,44 @@ public class Test_CloneTicketsInMediumTemplate extends BaseClass {
 		} catch (Throwable e) {
 			throw new AssertionError(e.getMessage());
 		}
+	}
+	
+	@Test(priority = 5, description = "validate_TicketDisplayOrderValues", enabled = true)
+	public void validate_TicketDisplayOrderValues(ITestContext context) throws InterruptedException, Throwable {
+		//fec-115
+		events.eventsTab();
+		System.out.println("eventsticket tab displayed");
+		events.clickCreatedEvent("RecentEvents");
+		eventInfoModule.clickEditButton();
+		ticketModule.eventTicketsTab();
+		util.waitForJavascript(driver, 30000, 5000);
+		System.out.println("tickets tab is displayed");
+		ticketModule.VerifyTicketOrderValues();
+		System.out.println("testcase executed SUccessfully");
+    }
+	
+	@Test(priority = 6, description = "test_VerifyManageInventoryInTickets", enabled = true)
+	public void test_VerifyManageInventoryInTickets(ITestContext context)
+			throws InterruptedException, Throwable {
+		// Fec-118
+		events.eventsTab();
+		String eventName =events.clickCreatedEvent("RecentEvents");
+		 String eventId = cloneEventpage.getEventId();
+		 eventInfoModule.clickEditButton();
+		util.waitForJavascript(driver, 30000, 5000);
+		ticketModule.eventTicketsTab();
+		ticketModule.clickManageInventory();
+		ticketModule.EnterAiaMemberDetails();
+		String uiEventCapacity =ticketModule.VerifyEventTicketCapacity();
+		context.setAttribute("eventId", eventId);
+		context.setAttribute("eventName", eventName);
+		context.setAttribute("uiEventCapacityAfterModify", uiEventCapacity);
 		
+		//Edit Event capacity API validation
+		eventApivalidation.verifyEventTicketCapacity(context);
+		if (recording) {
+			VideoRecorder.stopRecording();
+		}
 	}
 	
 	@AfterMethod(alwaysRun = true)

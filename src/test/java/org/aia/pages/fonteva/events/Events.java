@@ -147,7 +147,7 @@ public class Events {
 			break;
 		case "RecentEvents":
 			Utility.waitForWebElement(driver, recentlyEventsLink, 10); 
-			recentlyEventsLink.click();
+			util.clickUsingJS(driver, recentlyEventsLink);
 			util.waitUntilElement(driver, createdEvent);
 			eventName = createdEvent.getText();
 			util.clickUsingJS(driver, createdEvent);

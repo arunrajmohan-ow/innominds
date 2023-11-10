@@ -71,7 +71,7 @@ public class SpeakersModule {
 	@FindBy(xpath = "//label[text()='Speaker Photo URL']/following::label[text()='Browse']")
 	WebElement speakerPhotoUrl;
 
-	@FindBy(xpath = "(//button[@data-label='Save'])[2]")
+	@FindBy(xpath = "//div[@data-name='photoUrl']//button[@data-label='Save' and @data-name='saveCroppedImage']")
 	WebElement cropimageSaveButton;
 
 	@FindBy(xpath = "//button[@data-label='Cancel']")
@@ -80,7 +80,7 @@ public class SpeakersModule {
 	@FindBy(xpath = "//button[contains(text(),'Save & Continue')]//preceding-sibling::button[contains(text(),'Cancel')]")
 	WebElement cancelButton;
 
-	@FindBy(css = "button[data-name='speakerModalSaveButton']")
+	@FindBy(css = "div[class='windowViewMode-normal oneContent active lafPageHost'] button[data-name='speakerModalSaveButton']")
 	WebElement saveContinueButton;
 
 	@FindBy(xpath = "//span[@data-label='Speaker Bio']/following::span[text()='Type something']")
@@ -94,6 +94,8 @@ public class SpeakersModule {
 
 	@FindBy(css = "div[data-label='Twitter URL'] input")
 	WebElement twitterUrl;
+	
+	@FindBy(xpath = "//input[@placeholder='Browse for files or paste in a URL']/following::input[@name='file' and @aria-label='photoUrl']") WebElement uploadFileInSpeakerModule;
 
 	public void eventSpeakersTab() {
 		util.waitUntilElement(driver, eventBuilderSpeakers);
@@ -111,8 +113,9 @@ public class SpeakersModule {
 	}
 
 	public void enterSpeakerName() {
+		EventConfig.speakerNameInputField = util.randomStringGenerator(5);
 		Utility.waitForWebElement(driver, speakerName, 10);
-		util.enterText(driver, speakerName, testData.testDataProvider().getProperty("speakerName"));
+		util.enterText(driver, speakerName, EventConfig.speakerNameInputField);
 
 	}
 
@@ -157,17 +160,12 @@ public class SpeakersModule {
 
 	public void speakerPhotoUrlBrowser() {
 		util.scrollingElementUsingJS(driver, speakerPhotoUrl);
-		util.fileUploadThroughKeyBoardActions(driver, speakerPhotoUrl, EventConfig.venueImageURLInput);
-		try {
-			Thread.sleep(4000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		uploadFileInSpeakerModule.sendKeys(EventConfig.venueImageURLInput);
 	}
 
 	public void cropImageButtonsInSpeaker() {
 		Utility.waitForWebElement(driver, cropimageSaveButton, 20);
+		System.out.println("km");
 		if (cropimageSaveButton.isDisplayed()) {
 			cropimageSaveButton.click();
 		}
@@ -178,19 +176,23 @@ public class SpeakersModule {
 		saveContinueButton.click();
 	}
 
-	public void VerifySpeakerBio() {
+	public void verifySpeakerBio() {
+		Utility.waitForWebElement(driver, speakerBio, 0);
 		Assert.assertTrue(speakerBio.isDisplayed(), "SpeakerBio is displayed");
 	}
 
-	public void VerifyFaceBookURL() {
+	public void verifyFaceBookURL() {
+		Utility.waitForWebElement(driver, faceBookUrl, 0);
 		Assert.assertTrue(faceBookUrl.isDisplayed(), "facebook URL is displayed");
 	}
 
-	public void VerifyLinkedURL() {
+	public void verifyLinkedURL() {
+		Utility.waitForWebElement(driver, linkedInUrl, 0);
 		Assert.assertTrue(linkedInUrl.isDisplayed(), "linkedInURL is displayed");
 	}
 
-	public void VerifyTwitterURL() {
+	public void verifyTwitterURL() {
+		Utility.waitForWebElement(driver, twitterUrl, 0);
 		Assert.assertTrue(twitterUrl.isDisplayed(), "twitterUrl is displayed");
 	}
 

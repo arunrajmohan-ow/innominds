@@ -59,6 +59,10 @@ public class EventConfig {
 	
 	public static String  venueNameInputField;
 	
+	public static String speakerNameInputField;
+	
+	public static String scheduleNameInputFieldInAgenda;
+	
 	public static String paymentButonfun;
 	
 	//public static String  venueNameInputField="Test123";
