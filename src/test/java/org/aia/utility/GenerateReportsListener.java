@@ -35,13 +35,15 @@ public class GenerateReportsListener implements ITestListener{
 	public void onTestStart(ITestResult result) {
 		count_totalTCs = count_totalTCs + 1;
 		System.out.println("Inside GenerateReportsListener onTestStart() method creating test report");
-		report.startTestReport(result.getTestClass().getRealClass().getSimpleName());
+		report.startTestReport(result.getTestClass().getName() + "@TestCase :" + result.getMethod().getMethodName());
 		System.out.println("onTestStart completed");
 	}
 
 	public void onTestSuccess(ITestResult result) {
 		count_passedTCs = count_passedTCs + 1;
-		report.logTestpassed((String)result.getMethod().getMethodName());
+		String logText = "<b>" + "TEST CASE:- " + result.getMethod().getMethodName().toUpperCase() + " PASSED" + "</b>";
+		System.out.println(" Inside onTestSuccess Listener method");
+		report.logTestpassed(logText);
 	}
 
 	/*

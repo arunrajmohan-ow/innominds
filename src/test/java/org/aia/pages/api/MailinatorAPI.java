@@ -1,12 +1,12 @@
 package org.aia.pages.api;
 
-import static org.testng.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import org.aia.utility.ConfigDataProvider;
+import org.aia.utility.Logging;
 import org.aia.utility.Utility;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -58,7 +58,8 @@ public class MailinatorAPI {
 		String message_uri = MAILINATOR_INBOS_ENDPOINT + inbox
 				+ "/messages/" + messageId + "/links";
 		 response =  RestAssured.given().headers("Content-Type", ContentType.JSON, "Accept", ContentType.JSON,"Authorization",bearerToken).when().get(message_uri).then().extract().response();
-
+        
+		Logging.logger.info(response.asString());
 		jsonPathEval = response.jsonPath();
 		Thread.sleep(15000);
 		
@@ -145,8 +146,9 @@ public class MailinatorAPI {
 				 headers("Content-Type", ContentType.JSON, "Accept", ContentType.JSON,"Authorization",bearerToken).when().get(message_uri).then().extract().response();
 
 		jsonPathEval = response.jsonPath();
-		Thread.sleep(5000);
+		Thread.sleep(7000);
 		
+		System.out.println(response.getBody().asPrettyString());
 		String value = response.path("parts[1].body").toString();
 		System.out.println("body is " + value);
 		
@@ -286,7 +288,6 @@ public class MailinatorAPI {
 				then().
 				extract().response();
 		System.out.println(response.getBody().asPrettyString());
-
 		jsonPathEval = response.jsonPath();
 		String messageId = jsonPathEval.getString("msgs[0].id");
 		String message_uri = MAILINATOR_INBOS_ENDPOINT + inbox + "/messages/" + messageId ;
@@ -299,4 +300,73 @@ public class MailinatorAPI {
 		System.out.println("body is " + msgBody);
 		Assert.assertTrue(msgBody.contains(data.testDataProvider().getProperty("thankyouJoinMail")));
 	}
+	
+	public void registrationConfirmationEmailforEvents(ArrayList<String> dataList, String eventName) throws Throwable {
+		try {
+		String inbox = dataList.get(3);
+		JsonPath jsonPathEval = null;
+		String mailinator_uri = MAILINATOR_API + inbox;
+		Thread.sleep(10000);
+		Response response =  RestAssured.given().headers("Content-Type",
+				ContentType.JSON, "Accept",
+				ContentType.JSON,"Authorization",
+				bearerToken).
+				when().
+				get(mailinator_uri).
+				then().
+				extract().response();
+		System.out.println(response.getBody().asPrettyString());
+		jsonPathEval = response.jsonPath();
+		String messageId = jsonPathEval.getString("msgs[1].id");
+		System.out.println("Message Id is "+messageId);
+		String message_uri = MAILINATOR_INBOS_ENDPOINT + inbox + "/messages/" + messageId ;
+		Thread.sleep(10000);
+		 response =  RestAssured.given().
+				 headers("Content-Type", ContentType.JSON, "Accept", ContentType.JSON,"Authorization",bearerToken).when().get(message_uri).then().extract().response();
+		jsonPathEval = response.jsonPath();
+		Thread.sleep(6000);
+		System.out.println(response.getBody().asPrettyString());
+		String value = jsonPathEval.getString("parts[1].body");
+		System.out.println("body is " + value);
+		Assert.assertTrue(value.contains(eventName));
+		System.out.println("event name is contains in email");
+		Assert.assertTrue(value.contains(dataList.get(0)));
+		}catch(Throwable e){
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	public void sessionConfirmationEmailforEvents(ArrayList<String> dataList, String eventName) throws Throwable {
+		String inbox = dataList.get(3);
+
+		JsonPath jsonPathEval = null;
+
+		String mailinator_uri = MAILINATOR_API + inbox;
+		Thread.sleep(10000);	
+		 Response response =  RestAssured.given().headers("Content-Type",
+				ContentType.JSON, "Accept",
+				ContentType.JSON,"Authorization",
+				bearerToken).
+				when().
+				get(mailinator_uri).
+				then().
+				extract().response();
+		System.out.println(response.getBody().asPrettyString());
+		jsonPathEval = response.jsonPath();
+		String messageId = jsonPathEval.getString("msgs[0].id");
+		System.out.println("Message Id is "+messageId);
+		String message_uri = MAILINATOR_INBOS_ENDPOINT + inbox + "/messages/" + messageId ;
+		Thread.sleep(10000);
+		 response =  RestAssured.given().
+				 headers("Content-Type", ContentType.JSON, "Accept", ContentType.JSON,"Authorization",bearerToken).when().get(message_uri).then().extract().response();
+		jsonPathEval = response.jsonPath();
+		Thread.sleep(5000);
+		System.out.println(response.getBody().asPrettyString());
+		String value = jsonPathEval.getString("parts[1].body");
+		System.out.println("body is " + value);
+		Assert.assertTrue(value.contains(eventName));
+		//Assert.assertTrue(value.contains(scheduleName));
+		Assert.assertTrue(value.contains(dataList.get(0)));
+	}
+
 }
