@@ -5,6 +5,7 @@ import static org.testng.Assert.assertTrue;
 import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.Utility;
 import org.apache.log4j.Logger;
+import org.apache.xmlbeans.impl.xb.xsdschema.Public;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
@@ -119,20 +120,20 @@ public class CES_Memberships {
 
 	@FindBy(xpath = "//a[normalize-space()='Show All (10)']")
 	WebElement showallBtn;
-	
-	@FindBy(xpath="(//*[@role = 'table']//tbody//tr//td)[6]//a")
+
+	@FindBy(xpath = "(//*[@role = 'table']//tbody//tr//td)[6]//a")
 	WebElement subscriptionPlan;
-	
-	@FindBy(xpath="(//*[@role = 'table']//tbody//tr//td)[3]//a")
+
+	@FindBy(xpath = "(//*[@role = 'table']//tbody//tr//td)[3]//a")
 	WebElement selectCustomer;
-	
-	@FindBy(xpath="//button[@title='Edit Pre-Term Renewal Window']//span[1]")
+
+	@FindBy(xpath = "//button[@title='Edit Pre-Term Renewal Window']//span[1]")
 	WebElement editPreTermBtn;
 
-	@FindBy(xpath="//input[@name='OrderApi__PreTerm_Renewal_Window__c']")
+	@FindBy(xpath = "//input[@name='OrderApi__PreTerm_Renewal_Window__c']")
 	WebElement preTerminput;
-	
-	@FindBy(xpath="//input[@name='OrderApi__PostTerm_Renewal_Window__c']")
+
+	@FindBy(xpath = "//input[@name='OrderApi__PostTerm_Renewal_Window__c']")
 	WebElement postTerminput;
 
 	String startLocator = "//div[@class='uiVirtualDataTable indicator']/following-sibling::table/tbody//a[text()='";
@@ -252,7 +253,7 @@ public class CES_Memberships {
 		util.waitUntilElement(driver, tableSubscriptionId);
 		Thread.sleep(1000);
 		executor.executeScript("arguments[0].click();", tableSubscriptionId);
-		//tableSubscriptionId.click();
+		// tableSubscriptionId.click();
 		util.waitUntilElement(driver, Terms);
 		Terms.click();
 		util.waitUntilElement(driver, termId);
@@ -278,10 +279,25 @@ public class CES_Memberships {
 		Thread.sleep(2000);
 
 	}
-	public void changePreAndPostTermRenewalDays()throws InterruptedException{
+
+	/**
+	 * Here it selects membership
+	 * 
+	 * @throws InterruptedException
+	 */
+	public void selectMembership() throws InterruptedException {
 		util.waitUntilElement(driver, membership);
 		action.moveToElement(membership).click().perform();
 		driver.navigate().refresh();
+	}
+
+	/**
+	 * @param preTermvalue
+	 * @param postTermValue
+	 * @throws InterruptedException Here it changes the Pre and Post Term Renewal
+	 *                              Days from CES Calendar
+	 */
+	public void changePreAndPostTermRenewalDays(String preTermvalue, String postTermValue) throws InterruptedException {
 		util.waitUntilElement(driver, subscriptionPlan);
 		subscriptionPlan.click();
 		util.waitUntilElement(driver, editPreTermBtn);
@@ -291,16 +307,16 @@ public class CES_Memberships {
 		editPreTermBtn.click();
 		util.waitUntilElement(driver, preTerminput);
 		preTerminput.clear();
-		preTerminput.sendKeys("1");
+		preTerminput.sendKeys(preTermvalue);
 		util.waitUntilElement(driver, postTerminput);
 		postTerminput.clear();
-		postTerminput.sendKeys("0");
+		postTerminput.sendKeys(postTermValue);
 		util.waitUntilElement(driver, saveBtn);
 		saveBtn.click();
 		Thread.sleep(5000);
 		driver.navigate().refresh();
-		Thread.sleep(3000);
+		Thread.sleep(5000);
 		driver.navigate().back();
-
-}
+		Thread.sleep(5000);
+	}
 }

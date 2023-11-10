@@ -78,6 +78,7 @@ public class TestRenewEligibleFields_CES extends BaseClass {
 	public ExtentReports extent;
 	public ExtentTest extentTest;
 	final static Logger logger = Logger.getLogger(TestCESMembershipStatus_CES.class);
+	DateUtils dateUtils = new DateUtils();
 
 	@BeforeMethod(alwaysRun = true)
 	public void setUp() throws Exception {
@@ -112,8 +113,8 @@ public class TestRenewEligibleFields_CES extends BaseClass {
 		cesTermDateChangeAPI = PageFactory.initElements(driver, FontevaCESTermDateChangeAPI.class);
 		ces_ContactPage = PageFactory.initElements(driver, CES_ContactPage.class);
 		salesorder = PageFactory.initElements(driver, CES_SalesOrder.class);
-		//rapidOrderEntery = PageFactory.initElements(driver, CES_RapidOrderEntry.class);
 	}
+
 	@Test(priority = 1, description = "(FC-181) Verify renew eligible fields when the current date of renewal is with-in the Pre-Term Renewal window", enabled = false)
 	public void validateRenewEligibleFieldWithinPreTermRenwal() throws Exception {
 // Here we create the user
@@ -141,14 +142,17 @@ public class TestRenewEligibleFields_CES extends BaseClass {
 // fontevaPage.changeTermDates(dataList.get(0) + " " + dataList.get(1));
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
 		ces_ContactPage.selectCreatedContact(dataList.get(0) + " " + dataList.get(1));
-		ces_membership.changePreAndPostTermRenewalDays();
-		//fontevaPage.changeonlyTermEndDate();
-		DateUtils dateUtils = new DateUtils();
-		String changetermDate = dateUtils.getDate(0, "yyyy-MM-dd");
-		System.out.println("changetermDate to:"+changetermDate);
-		termDateChangeApi.changeTermDateAPI(dataList.get(3),changetermDate, 0);
-		cesTermDateChangeAPI.validateisproviderRenewEligible(true);		
+		ces_membership.selectMembership();
+		ces_membership.changePreAndPostTermRenewalDays("1", "0");
+		String changetermDate = dateUtils.getDate(1, "yyyy-MM-dd");
+		System.out.println("changetermDate to:" + changetermDate);
+		termDateChangeApi.changeTermDateAPI(dataList.get(3), changetermDate, 0);
+		cesTermDateChangeAPI.validateisproviderRenewEligible(true);
+		ces_membership.changePreAndPostTermRenewalDays(
+				testData.testDataProvider().getProperty("setPreviousPreRenwalDays"),
+				testData.testDataProvider().getProperty("setPreviousPostRenwalDays"));
 	}
+
 	@Test(priority = 2, description = "(FC-197) Verify renew eligible fields when the current date of renewal is exactly on the first day of the Pre-Term Renewal window", enabled = false)
 	public void validateRenewEligibleFieldFirstdayPreTermRenwal() throws Exception {
 // Here we create the user
@@ -176,15 +180,18 @@ public class TestRenewEligibleFields_CES extends BaseClass {
 // fontevaPage.changeTermDates(dataList.get(0) + " " + dataList.get(1));
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
 		ces_ContactPage.selectCreatedContact(dataList.get(0) + " " + dataList.get(1));
-		ces_membership.changePreAndPostTermRenewalDays();
-		//fontevaPage.changeonlyTermEndDate();
-		DateUtils dateUtils = new DateUtils();
+		ces_membership.selectMembership();
+		ces_membership.changePreAndPostTermRenewalDays("1", "0");
 		String changetermDate = dateUtils.getDate(0, "yyyy-MM-dd");
-		System.out.println("changetermDate to:"+changetermDate);
-		termDateChangeApi.changeTermDateAPI(dataList.get(3),changetermDate, 0);
-		cesTermDateChangeAPI.validateisproviderRenewEligible(true);		
+		System.out.println("changetermDate to:" + changetermDate);
+		termDateChangeApi.changeTermDateAPI(dataList.get(3), changetermDate, 0);
+		cesTermDateChangeAPI.validateisproviderRenewEligible(true);
+		ces_membership.changePreAndPostTermRenewalDays(
+				testData.testDataProvider().getProperty("setPreviousPreRenwalDays"),
+				testData.testDataProvider().getProperty("setPreviousPostRenwalDays"));
 	}
-	@Test(priority = 3, description = "(FC-199) Verify renew eligible fields when the current date of renewal is before the Pre-Term Renewal window", enabled = true)
+
+	@Test(priority = 3, description = "(FC-199) Verify renew eligible fields when the current date of renewal is before the Pre-Term Renewal window", enabled = false)
 	public void validateRenewEligibleFieldBeforePreTermRenwal() throws Exception {
 // Here we create the user
 		String prefix = "Dr.";
@@ -211,12 +218,128 @@ public class TestRenewEligibleFields_CES extends BaseClass {
 // fontevaPage.changeTermDates(dataList.get(0) + " " + dataList.get(1));
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
 		ces_ContactPage.selectCreatedContact(dataList.get(0) + " " + dataList.get(1));
-		ces_membership.changePreAndPostTermRenewalDays();
-		//fontevaPage.changeonlyTermEndDate();
-		DateUtils dateUtils = new DateUtils();
+		ces_membership.selectMembership();
+		ces_membership.changePreAndPostTermRenewalDays("1", "0");
 		String changetermDate = dateUtils.getDate(-1, "yyyy-MM-dd");
-		System.out.println("changetermDate to:"+changetermDate);
-		termDateChangeApi.changeTermDateAPI(dataList.get(3),changetermDate, 0);
-		cesTermDateChangeAPI.validateisproviderRenewEligible(false);		
+		System.out.println("changetermDate to:" + changetermDate);
+		termDateChangeApi.changeTermDateAPI(dataList.get(3), changetermDate, 0);
+		cesTermDateChangeAPI.validateisproviderRenewEligible(false);
+		ces_membership.changePreAndPostTermRenewalDays(
+				testData.testDataProvider().getProperty("setPreviousPreRenwalDays"),
+				testData.testDataProvider().getProperty("setPreviousPostRenwalDays"));
+	}
+
+	@Test(priority = 4, description = "(FC-182) Verify renew eligible fields when the current date of renewal is with-in the Post-Term Renewal window", enabled = false)
+	public void validateRenewEligibleFieldWithinPostTermRenwal() throws Exception {
+// Here we create the user
+		String prefix = "Dr.";
+		String suffix = "Sr.";
+		signUpPage.clickSignUplink();
+		ArrayList<String> dataList = signUpPage.signUpData();
+		signUpPage.signUpUser();
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
+		closeButtnPage.clickCloseAfterVerification();
+		loginPageCes.loginToCes(dataList.get(5), dataList.get(6));
+		loginPageCes.checkLoginSuccess();
+		primarypocPage.enterPrimaryPocDetails(prefix, suffix, dataList.get(2));
+		String text = organizationPage.enterOrganizationDetails(dataList, "Other", "No",
+				"United States of America (+1)");
+		subscribePage.SubscriptionType(text, "Yes", null, "Non-profit");
+		secPoc.enterSecondaryPocDetails(dataList, prefix, suffix, "No", "United States of America (+1)");
+		additionalUsers.doneWithCreatingUsers();
+		providerStatement.providerStatementEnterNameDate2("FNProviderStatement");
+		checkOutPageCes.SubscriptionType(text);
+		Logging.logger.info("Total Amount is : " + paymntSuccesFullPageCes.amountPaid());
+		String reciptData = paymntSuccesFullPageCes.ClickonViewReceipt();
+// Navigate to Fonteva side
+		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
+// fontevaPage.changeTermDates(dataList.get(0) + " " + dataList.get(1));
+		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
+		ces_ContactPage.selectCreatedContact(dataList.get(0) + " " + dataList.get(1));
+		ces_membership.selectMembership();
+		ces_membership.changePreAndPostTermRenewalDays("0", "1");
+		String changetermDate = dateUtils.getDate(-1, "yyyy-MM-dd");
+		System.out.println("changetermDate to:" + changetermDate);
+		termDateChangeApi.changeTermDateAPI(dataList.get(3), changetermDate, 0);
+		cesTermDateChangeAPI.validateisproviderRenewEligible(true);
+		ces_membership.changePreAndPostTermRenewalDays(
+				testData.testDataProvider().getProperty("setPreviousPreRenwalDays"),
+				testData.testDataProvider().getProperty("setPreviousPostRenwalDays"));
+	}
+
+	@Test(priority = 5, description = "(FC-198) Verify renew eligible fields when the current date of renewal is exactly on the last day of the Post-Term Renewal window", enabled = false)
+	public void validateRenewEligibleFieldLastdayPostTermRenwal() throws Exception {
+// Here we create the user
+		String prefix = "Dr.";
+		String suffix = "Sr.";
+		signUpPage.clickSignUplink();
+		ArrayList<String> dataList = signUpPage.signUpData();
+		signUpPage.signUpUser();
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
+		closeButtnPage.clickCloseAfterVerification();
+		loginPageCes.loginToCes(dataList.get(5), dataList.get(6));
+		loginPageCes.checkLoginSuccess();
+		primarypocPage.enterPrimaryPocDetails(prefix, suffix, dataList.get(2));
+		String text = organizationPage.enterOrganizationDetails(dataList, "Other", "No",
+				"United States of America (+1)");
+		subscribePage.SubscriptionType(text, "Yes", null, "Non-profit");
+		secPoc.enterSecondaryPocDetails(dataList, prefix, suffix, "No", "United States of America (+1)");
+		additionalUsers.doneWithCreatingUsers();
+		providerStatement.providerStatementEnterNameDate2("FNProviderStatement");
+		checkOutPageCes.SubscriptionType(text);
+		Logging.logger.info("Total Amount is : " + paymntSuccesFullPageCes.amountPaid());
+		String reciptData = paymntSuccesFullPageCes.ClickonViewReceipt();
+// Navigate to Fonteva side
+		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
+// fontevaPage.changeTermDates(dataList.get(0) + " " + dataList.get(1));
+		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
+		ces_ContactPage.selectCreatedContact(dataList.get(0) + " " + dataList.get(1));
+		ces_membership.selectMembership();
+		ces_membership.changePreAndPostTermRenewalDays("0", "1");
+		String changetermDate = dateUtils.getDate(0, "yyyy-MM-dd");
+		System.out.println("changetermDate to:" + changetermDate);
+		termDateChangeApi.changeTermDateAPI(dataList.get(3), changetermDate, 0);
+		cesTermDateChangeAPI.validateisproviderRenewEligible(true);
+		ces_membership.changePreAndPostTermRenewalDays(
+				testData.testDataProvider().getProperty("setPreviousPreRenwalDays"),
+				testData.testDataProvider().getProperty("setPreviousPostRenwalDays"));
+	}
+
+	@Test(priority = 6, description = "(FC-429) Verify renew eligible fields when the current date of renewal is after the Post-Term Renewal window", enabled = true)
+	public void validateRenewEligibleFieldAfterPostTermRenwal() throws Exception {
+// Here we create the user
+		String prefix = "Dr.";
+		String suffix = "Sr.";
+		signUpPage.clickSignUplink();
+		ArrayList<String> dataList = signUpPage.signUpData();
+		signUpPage.signUpUser();
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
+		closeButtnPage.clickCloseAfterVerification();
+		loginPageCes.loginToCes(dataList.get(5), dataList.get(6));
+		loginPageCes.checkLoginSuccess();
+		primarypocPage.enterPrimaryPocDetails(prefix, suffix, dataList.get(2));
+		String text = organizationPage.enterOrganizationDetails(dataList, "Other", "No",
+				"United States of America (+1)");
+		subscribePage.SubscriptionType(text, "Yes", null, "Non-profit");
+		secPoc.enterSecondaryPocDetails(dataList, prefix, suffix, "No", "United States of America (+1)");
+		additionalUsers.doneWithCreatingUsers();
+		providerStatement.providerStatementEnterNameDate2("FNProviderStatement");
+		checkOutPageCes.SubscriptionType(text);
+		Logging.logger.info("Total Amount is : " + paymntSuccesFullPageCes.amountPaid());
+		String reciptData = paymntSuccesFullPageCes.ClickonViewReceipt();
+// Navigate to Fonteva side
+		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
+// fontevaPage.changeTermDates(dataList.get(0) + " " + dataList.get(1));
+		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
+		ces_ContactPage.selectCreatedContact(dataList.get(0) + " " + dataList.get(1));
+		ces_membership.selectMembership();
+		ces_membership.changePreAndPostTermRenewalDays("0", "1");
+		String changetermDate = dateUtils.getDate(1, "yyyy-MM-dd");
+		System.out.println("changetermDate to:" + changetermDate);
+		termDateChangeApi.changeTermDateAPI(dataList.get(3), changetermDate, 0);
+		cesTermDateChangeAPI.validateisproviderRenewEligible(false);
+		ces_membership.changePreAndPostTermRenewalDays(
+				testData.testDataProvider().getProperty("setPreviousPreRenwalDays"),
+				testData.testDataProvider().getProperty("setPreviousPostRenwalDays"));
 	}
 }
