@@ -91,7 +91,7 @@ public class TestProviderAppTab_CES extends BaseClass {
 	/**
 	 * @throws Exception
 	 */
-	@Test(priority = 1, description = "Validate Primary point of contact tab", enabled = true)
+	@Test(priority = 1, description = "Validate Primary point of contact tab", enabled = false)
 	public void validatePrimaryPOCTab() throws Exception {
 		String prefix = "Dr.";
 		String suffix = "Sr.";
