@@ -52,7 +52,6 @@ import io.restassured.response.Response;
 public class Utility {
 
 	WebDriverWait wait;
-
 	Robot robot;
 	Actions action;
 
@@ -105,9 +104,9 @@ public class Utility {
 		TakesScreenshot ts = (TakesScreenshot) driver;
 		try {
 
-			String mybase = ts.getScreenshotAs(OutputType.BASE64);
+			File mybase = ts.getScreenshotAs(OutputType.FILE);
 
-			newBase = "data:image/png;base64," + mybase;
+			newBase = "data:image/png;base64," + mybase.toString();
 
 			System.out.println(mybase);
 
