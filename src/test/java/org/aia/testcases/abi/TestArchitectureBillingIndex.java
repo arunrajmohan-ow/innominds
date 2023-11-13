@@ -100,7 +100,7 @@ public class TestArchitectureBillingIndex extends BaseClass {
 	@BeforeMethod(alwaysRun = true)
 	public void setUp() throws Exception {
 		System.out.println("@BeforeMethod");
-		VideoRecorder.startRecording("Test");
+		//VideoRecorder.startRecording("Test");
 		sessionID = new FontevaConnectionSOAP();
 		driver = BrowserSetup.startApplication(driver, DataProviderFactory.getConfig().getValue("browser"), DataProviderFactory.getConfig().getValue("devstagingurl_abi"));
 		inbox = DataProviderFactory.getConfig().getValue("inbox");
@@ -149,7 +149,7 @@ public class TestArchitectureBillingIndex extends BaseClass {
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
 		fontevaLoginPage.viewSalesOrder((String)context.getAttribute("contactName"), (String)context.getAttribute("salesOrderId")); 
 		abisignUpPage.validateSubscriptionDetails(pdfDetails);
-		VideoRecorder.stopRecording();
+		//VideoRecorder.stopRecording();
 
 	}
     
