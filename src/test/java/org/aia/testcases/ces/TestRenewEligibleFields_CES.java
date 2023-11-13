@@ -115,7 +115,7 @@ public class TestRenewEligibleFields_CES extends BaseClass {
 		salesorder = PageFactory.initElements(driver, CES_SalesOrder.class);
 	}
 
-	@Test(priority = 1, description = "(FC-181) Verify renew eligible fields when the current date of renewal is with-in the Pre-Term Renewal window", enabled = false)
+	@Test(priority = 1, description = "(FC-181) Verify renew eligible fields when the current date of renewal is with-in the Pre-Term Renewal window", enabled = true)
 	public void validateRenewEligibleFieldWithinPreTermRenwal() throws Exception {
 // Here we create the user
 		String prefix = "Dr.";
@@ -153,7 +153,7 @@ public class TestRenewEligibleFields_CES extends BaseClass {
 				testData.testDataProvider().getProperty("setPreviousPostRenwalDays"));
 	}
 
-	@Test(priority = 2, description = "(FC-197) Verify renew eligible fields when the current date of renewal is exactly on the first day of the Pre-Term Renewal window", enabled = false)
+	@Test(priority = 2, description = "(FC-197) Verify renew eligible fields when the current date of renewal is exactly on the first day of the Pre-Term Renewal window", enabled = true)
 	public void validateRenewEligibleFieldFirstdayPreTermRenwal() throws Exception {
 // Here we create the user
 		String prefix = "Dr.";
@@ -191,7 +191,7 @@ public class TestRenewEligibleFields_CES extends BaseClass {
 				testData.testDataProvider().getProperty("setPreviousPostRenwalDays"));
 	}
 
-	@Test(priority = 3, description = "(FC-199) Verify renew eligible fields when the current date of renewal is before the Pre-Term Renewal window", enabled = false)
+	@Test(priority = 3, description = "(FC-199) Verify renew eligible fields when the current date of renewal is before the Pre-Term Renewal window", enabled = true)
 	public void validateRenewEligibleFieldBeforePreTermRenwal() throws Exception {
 // Here we create the user
 		String prefix = "Dr.";
@@ -229,7 +229,7 @@ public class TestRenewEligibleFields_CES extends BaseClass {
 				testData.testDataProvider().getProperty("setPreviousPostRenwalDays"));
 	}
 
-	@Test(priority = 4, description = "(FC-182) Verify renew eligible fields when the current date of renewal is with-in the Post-Term Renewal window", enabled = false)
+	@Test(priority = 4, description = "(FC-182) Verify renew eligible fields when the current date of renewal is with-in the Post-Term Renewal window", enabled = true)
 	public void validateRenewEligibleFieldWithinPostTermRenwal() throws Exception {
 // Here we create the user
 		String prefix = "Dr.";
@@ -267,7 +267,7 @@ public class TestRenewEligibleFields_CES extends BaseClass {
 				testData.testDataProvider().getProperty("setPreviousPostRenwalDays"));
 	}
 
-	@Test(priority = 5, description = "(FC-198) Verify renew eligible fields when the current date of renewal is exactly on the last day of the Post-Term Renewal window", enabled = false)
+	@Test(priority = 5, description = "(FC-198) Verify renew eligible fields when the current date of renewal is exactly on the last day of the Post-Term Renewal window", enabled = true)
 	public void validateRenewEligibleFieldLastdayPostTermRenwal() throws Exception {
 // Here we create the user
 		String prefix = "Dr.";
