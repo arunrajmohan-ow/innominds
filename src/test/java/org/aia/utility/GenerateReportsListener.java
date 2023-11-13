@@ -2,6 +2,7 @@ package org.aia.utility;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.Arrays;
 import java.util.HashMap;
 
@@ -24,7 +25,7 @@ public class GenerateReportsListener implements ITestListener{
 	public ExtentReporter htmlreport;
 	public static ExtentReports extent;
 	public static ExtentTest logger;
-	protected Utility util;
+	public static Utility util;
 	protected ConfigDataProvider testData;
 	public GenerateReports report = GenerateReports.getInstance();
 	static int count_passedTCs;
@@ -32,18 +33,18 @@ public class GenerateReportsListener implements ITestListener{
 	static int count_failedTCs;
 	static int count_totalTCs;
 
-	public void onTestStart(ITestResult result) {
+	public void onTestStart(ITestResult result, ITestContext context) {
 		count_totalTCs = count_totalTCs + 1;
 		System.out.println("Inside GenerateReportsListener onTestStart() method creating test report");
-		report.startTestReport(result.getTestClass().getName() + "@TestCase :" + result.getMethod().getMethodName());
+		report.startTestReport(result.getMethod().getRealClass().getCanonicalName() + "@TestCase :" + result.getMethod().getMethodName());
 		System.out.println("onTestStart completed");
 	}
 
 	public void onTestSuccess(ITestResult result) {
 		count_passedTCs = count_passedTCs + 1;
-		String logText = "<b>" + "TEST CASE:- " + result.getMethod().getMethodName().toUpperCase() + " PASSED" + "</b>";
+		//String logText = "<b>" + "TEST CASE:- " + result.getMethod().getMethodName().toUpperCase() + " PASSED" + "</b>";
 		System.out.println(" Inside onTestSuccess Listener method");
-		report.logTestpassed(logText);
+		report.logTestpassed(result.getMethod().getMethodName());
 	}
 
 	/*
@@ -59,9 +60,10 @@ public class GenerateReportsListener implements ITestListener{
 	public void onTestFailure(ITestResult result){
 		count_failedTCs = count_failedTCs + 1;
 		String exceptionMessage = Arrays.toString(result.getThrowable().getStackTrace());
-		WebDriver driver = BaseClass.getDriverInstance();
+		//driver = BaseClass.getDriverInstance();
 		String screenshotPath2 =Utility.captureScreenshotFromBase64(driver);
-		report.logTestFailed("<span class='label failure'>" + result.getMethod().getMethodName() + "</span>", "<pre>Results = " + result.getThrowable().getCause() + "\n\n GET MESSAGE : " + result.getThrowable().getMessage() + "</pre>");
+		//report.logTestFailed("<span class='label failure'>" + result.getMethod().getMethodName() + "</span>", "<pre>Results = " + result.getThrowable().getCause() + "\n\n GET MESSAGE : " + result.getThrowable().getMessage() + "</pre>");
+		report.logTestFailed(result.getMethod().getMethodName(), "<span class='label failure'> </span>"+ "<pre>Results = " + result.getThrowable().getCause() + "\n\n GET MESSAGE : " + result.getThrowable().getMessage() + "</pre>");
 		try {
 			report.attachScreeshot(screenshotPath2);
 		} catch (IOException e) {

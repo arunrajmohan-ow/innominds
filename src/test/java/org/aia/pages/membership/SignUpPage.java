@@ -153,13 +153,13 @@ public class SignUpPage {
 		firstName.sendKeys(fName);
 		lastName.sendKeys(lName);
 		emailAddress.sendKeys(emailaddressdata);
-		util.waitForPageLoad(driver);
+		//util.waitForPageLoad(driver);
 		Thread.sleep(3000);
 		util.waitForWebElement(driver, mobileCountry,3000);
-		util.jseClick(driver, mobileCountry);
-		util.waitForPageLoad(driver);
+		util.clickUsingJS(driver, mobileCountry);
+		//util.waitForPageLoad(driver);
 		util.waitForWebElement(driver, mobileCountryoption,3000);
-		util.jseClick(driver, mobileCountryoption);
+		util.clickUsingJS(driver, mobileCountryoption);
 		mobilePhoneNum.sendKeys(mobNumb);
 		desirdPwd.sendKeys(password);
 		confrmPwd.sendKeys(password);

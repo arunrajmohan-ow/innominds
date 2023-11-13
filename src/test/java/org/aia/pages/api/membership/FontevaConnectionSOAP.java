@@ -32,4 +32,8 @@ public class FontevaConnectionSOAP {
 			throw new Exception(e.getMessage());
 		}
 	}
+	public static void main(String args[]) throws Exception {
+		FontevaConnectionSOAP fc=new FontevaConnectionSOAP();
+		System.out.println("sessionID: "+fc.getSessionID());
+	}
 }

@@ -197,7 +197,8 @@ public class ABISignUpPage {
 		util.waitForWebElement(driver, addToCart, 5000);
 		addToCart.click();
 		Thread.sleep(10000);	
-		util.waitForWebElement(driver, cartIcon, 5000); cartIcon.click();
+		util.waitForWebElement(driver, cartIcon, 5000); 
+		cartIcon.click();
 		/*
 		 * util.waitForWebElement(driver, cartIcon, 5000); cartIcon.click();
 		 * util.waitForWebElement(driver, viewCart, 5000); viewCart.click();
@@ -319,7 +320,7 @@ public class ABISignUpPage {
 		driver.navigate().to(pymntURL);
 		//util.waitForPageLoad(driver);
 		util.waitForWebElement(driver, pymtLoginBtn, 5000);
-		util.jseClick(driver, pymtLoginBtn);
+		util.clickUsingJS(driver, pymtLoginBtn);
 		//util.waitForPageLoad(driver);
 		signInUser(email,"Login_123");										
 				}
