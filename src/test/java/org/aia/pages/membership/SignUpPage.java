@@ -1,6 +1,7 @@
 package org.aia.pages.membership;
 
 import static org.junit.Assert.assertArrayEquals;
+
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
@@ -17,11 +18,8 @@ import org.aia.utility.Utility;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.Validate;
 import org.openqa.selenium.By;
-<<<<<<< HEAD
 import org.openqa.selenium.JavascriptExecutor;
-=======
 import org.openqa.selenium.Keys;
->>>>>>> 2db7dbe6b9a1b18cdb6f62c7037024ac532e23e0
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
@@ -163,22 +161,12 @@ public class SignUpPage {
 		firstName.sendKeys(fName);
 		lastName.sendKeys(lName);
 		emailAddress.sendKeys(emailaddressdata);
-<<<<<<< HEAD
 		util.waitUntilElement(driver, mobileCountry);
 		executor.executeScript("arguments[0].click();",mobileCountry);
 		//mobileCountry.click();
 		//Thread.sleep(7000);
 		util.waitUntilElement(driver, mobileCountryoption);
 		mobileCountryoption.click();
-=======
-		//util.waitForPageLoad(driver);
-		Thread.sleep(3000);
-		util.waitForWebElement(driver, mobileCountry,3000);
-		util.clickUsingJS(driver, mobileCountry);
-		//util.waitForPageLoad(driver);
-		util.waitForWebElement(driver, mobileCountryoption,3000);
-		util.clickUsingJS(driver, mobileCountryoption);
->>>>>>> 2db7dbe6b9a1b18cdb6f62c7037024ac532e23e0
 		mobilePhoneNum.sendKeys(mobNumb);
 		desirdPwd.sendKeys(password);
 		confrmPwd.sendKeys(password);

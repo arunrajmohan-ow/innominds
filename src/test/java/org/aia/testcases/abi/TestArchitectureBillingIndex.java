@@ -2,6 +2,7 @@ package org.aia.testcases.abi;
 
 import static io.restassured.RestAssured.given;
 
+
 import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -36,7 +37,6 @@ import org.aia.pages.membership.SignUpPage;
 //import org.aia.pages.membership.SignUpPage;
 import org.aia.pages.membership.SignUpSuccess;
 import org.aia.pages.membership.TellusAboutYourselfPage;
-import org.aia.testcases.events.FontevaConnection;
 import org.aia.utility.BrowserSetup;
 import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.DataProviderFactory;
@@ -67,7 +67,6 @@ import com.aventstack.extentreports.ExtentTest;
 import io.netty.util.internal.SystemPropertyUtil;
 import io.restassured.http.ContentType;
 
-@Listeners(org.aia.utility.GenerateReportsListener.class)
 
 public class TestArchitectureBillingIndex extends GenerateReportsListener {
 			
