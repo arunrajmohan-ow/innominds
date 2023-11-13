@@ -1,5 +1,6 @@
 package org.aia.pages.ces;
 
+import static org.junit.Assert.assertTrue;
 import static org.testng.Assert.*;
 
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
 
 /**
  * 
@@ -105,7 +107,7 @@ public class Organization {
 	@FindBy(xpath = "(//span[contains(normalize-space(), 'Please enter some valid input. Input is not optional.')])[1]")
 	WebElement orgNameError;
 
-	@FindBy(xpath = "//div[@class='flowruntime-input-error slds-form-element__help']/lightning-formatted-rich-text/span[text()='Please select a choice.']")
+	@FindBy(xpath = "//div//lightning-formatted-rich-text/span[text()='Please select a choice.']")
 	WebElement orgPriorProviderError;
 
 	@FindBy(xpath = "//span[@class='error']")
@@ -119,6 +121,12 @@ public class Organization {
 
 	@FindBy(xpath = "//span[@class='error']")
 	WebElement workPhoneError2;
+	
+	@FindBy(xpath = "//span[contains(text(), 'Phone number must be 10 digits.')]")
+	WebElement invalidNumberValidation;
+	
+	@FindBy(xpath = "//span[contains(text(), 'Please select the country code')]")
+	WebElement workCountryText;
 
 	String accountName = "//span[text()='%s']/ancestor::a";
 
@@ -351,5 +359,40 @@ public class Organization {
 		assertTrue(workPhoneError2.isDisplayed());
 
 	}
-
+ 
+	
+	public void enterInvalidWorkPhoneCountry(ArrayList<String> dataList, String orgType, String provider) throws InterruptedException{
+		util.waitUntilElement(driver, organizationName);
+		organizationName.sendKeys(orgName);
+		util.waitUntilElement(driver, organizationType); 
+		util.selectDropDownByText(organizationType, orgType);
+		util.waitUntilElement(driver, organizationPriorProvider);
+		util.selectDropDownByText(organizationPriorProvider, provider);
+		if (provider.equalsIgnoreCase("Yes")) {
+			util.waitUntilElement(driver, orgFormerCesProviderNumber);
+			orgFormerCesProviderNumber.sendKeys(cesProviderNumber);
+		}
+		//orgWorkPhoneCountry.click();
+		//organizationWorkPhoneNum.sendKeys(dataList.get(2));
+		orgTaxIDTxtbox.sendKeys(orgName);
+		orgrevenueTxtbox.sendKeys("1000");
+		util.selectDropDownByText(orgCoursesSelect, "National");
+		orgNext.click();
+		util.waitUntilElement(driver, workPhoneError);
+		assertTrue(workPhoneError.isDisplayed());
+		
+	}
+	
+	public void enterDetailsWithoutWorkCountry(ArrayList<String> dataList) throws InterruptedException{
+		
+		organizationWorkPhoneNum.sendKeys(dataList.get(2));
+		orgNext.click();
+		WebElement textValidation = Utility.waitForWebElement(driver, workCountryText, 10);
+		Assert.assertEquals("Please select the country code as you've already entered the work phone number",
+				textValidation.getText());
+		
+	}
+	
+	
+	
 }
