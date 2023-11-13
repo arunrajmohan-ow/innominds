@@ -6,7 +6,7 @@
 </listeners>
   <test thread-count="2" parallel="classes" name="Test">
     <classes>
-	  <class name="org.aia.testcases.events.TestArchitectureBillingIndex"/>
+	  <class name="org.aia.testcases.abi.TestArchitectureBillingIndex"/>
     </classes>
   </test> <!-- Test -->
 </suite> <!-- Suite -->

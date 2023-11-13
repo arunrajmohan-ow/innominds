@@ -68,7 +68,7 @@ import io.netty.util.internal.SystemPropertyUtil;
 import io.restassured.http.ContentType;
 
 
-public class TestArchitectureBillingIndex extends GenerateReportsListener {
+public class TestArchitectureBillingIndex extends BaseClass {
 			
 	SignUpPage signUpPage;
 	ABISignUpPage abisignUpPage;
@@ -129,8 +129,8 @@ public class TestArchitectureBillingIndex extends GenerateReportsListener {
 		closeButtnPage.clickCloseAfterVerification();
 		signInpage.login(dataList.get(5), dataList.get(6));
 		pdfDetails=abisignUpPage.subscribeToABI(dataList.get(0)+" "+dataList.get(1), String.valueOf(address));
-		report.logTestInfo((String)context.getAttribute("contactName"));
-		report.logTestInfo((String)addressType+"-"+(String)address);
+		//report.logTestInfo((String)context.getAttribute("contactName"));
+		//report.logTestInfo((String)addressType+"-"+(String)address);
 		context.setAttribute("salesOrderId", pdfDetails.get(0).substring(13));
 		context.setAttribute("contactName", dataList.get(0)+" "+dataList.get(1));
 		users.put(dataList.get(0)+" "+dataList.get(1), dataList.get(5));
