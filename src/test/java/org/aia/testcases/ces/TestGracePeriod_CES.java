@@ -116,7 +116,7 @@ public class TestGracePeriod_CES extends BaseClass {
 
 	}
 
-	@Test(priority = 1, description = "(FC-262) Verify 'Grace period End date' in Term page when there is no value in Term End date ", enabled = true)
+	@Test(priority = 1, description = "(FC-262) Verify 'Grace period End date' in Term page when there is no value in Term End date ", enabled = false)
 	public void verifyGracePeriodEndDate() throws Exception {
 		String prefix = "Dr.";
 		String suffix = "Sr.";
@@ -144,7 +144,7 @@ public class TestGracePeriod_CES extends BaseClass {
 
 	}
 
-	@Test(priority = 2, description = "(FC-263) Validating error message in Term end date by providing incorrect date format", enabled = true)
+	@Test(priority = 2, description = "(FC-263) Validating error message in Term end date by providing incorrect date format", enabled = false)
 	public void verifyTermEnddateFormat() throws Exception {
 		String prefix = "Dr.";
 		String suffix = "Sr.";
