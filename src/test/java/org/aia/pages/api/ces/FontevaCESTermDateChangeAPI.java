@@ -1,7 +1,6 @@
 package org.aia.pages.api.ces;
 
 import static io.restassured.RestAssured.given;
-
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
@@ -22,6 +21,7 @@ import io.restassured.response.Response;
 
 import org.awaitility.Awaitility;
 import org.awaitility.Awaitility.*;
+import org.awaitility.Duration.*;
 import java.util.concurrent.TimeUnit.*;
 import org.hamcrest.Matchers.*;
 import org.junit.Assert.*;
