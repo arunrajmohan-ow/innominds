@@ -122,12 +122,10 @@ public class TestArchitectureBillingIndex extends BaseClass {
 	}
 
 	@Test(groups = { "Smoke" }, description = " To subscribe for ABI", enabled = true, dataProvider = "Address") // ,
-																													// retryAnalyzer
-																													// =
 																													// FailedTestRun.class
 	public void SubscribeToABI(ITestContext context, String addressType, String address) throws Exception {
 		System.out.println("Subscription");
-		/*ArrayList<String> dataList = signUpPage.signUpData();
+		ArrayList<String> dataList = signUpPage.signUpData();
 		abisignUpPage.goToSignUpLink();
 		signUpPage.signUpUser();
 		mailinator.verifyEmailForAccountSetup(dataList.get(3));
@@ -142,8 +140,7 @@ public class TestArchitectureBillingIndex extends BaseClass {
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
 		fontevaLoginPage.viewSalesOrder((String) context.getAttribute("contactName"),
 				(String) context.getAttribute("salesOrderId"));
-		abisignUpPage.validateSubscriptionDetails(pdfDetails);*/
-		Assert.assertTrue(true);
+		abisignUpPage.validateSubscriptionDetails(pdfDetails);
 
 	}
 
