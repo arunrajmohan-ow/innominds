@@ -33,7 +33,7 @@ import org.testng.annotations.Test;
 
 @Listeners(org.aia.utility.GenerateReportsListener.class)
 public class Test_DeleteEvent extends BaseClass {
-	
+
 	Events events;
 	NewCloneEvents cloneEventpage;
 	ConfigDataProvider testData;
@@ -48,7 +48,7 @@ public class Test_DeleteEvent extends BaseClass {
 	QuickLinksInEvents linksInEvents;
 	TicketModule ticketModule;
 	boolean recording;
-	
+
 	@BeforeMethod(alwaysRun = true)
 	public void setUp() throws Exception {
 		try {
@@ -74,53 +74,52 @@ public class Test_DeleteEvent extends BaseClass {
 			throw new Exception(e.getMessage());
 		}
 	}
-	
-	 @Test(priority = 1, description = "Create New CloneEvent enter event name, enter date, select event category and event search click clone button",enabled = true)
-		public void test_CreateCloneEventMediumTemplate(ITestContext context) throws Throwable {
-			 Logging.logger.info("================================test_CreateCloneEventMediumTemplate started==========================");
-			try {
-				String exitEvent = testData.testDataProvider().getProperty("cloneEventTemplate");
-				if (recording) {
-					VideoRecorder.startRecording("test_CreateCloneEvent");
-				}
-				events.eventsTab();
-				events.eventsTab();
-				util.waitForJavascript(driver, 30000, 5000);
-				events.newButtonInEvents();
-				events.validateHeaderCloneEvent();
-				cloneEventpage.validateCloneOnExistingRadioButton();
-				cloneEventpage.enterEventName("Medium");
-				cloneEventpage.enterStartDate();
-				cloneEventpage.selectEventCategory(testData.testDataProvider().getProperty("eventCategory"));
-				cloneEventpage.CloneEventSearchTemplate(exitEvent);
-				cloneEventpage.eventCloneButton();
-				cloneEventpage.verifyCloneEventSegmentCheckBoxs();
-				cloneEventpage.eventFinishCloneButton();
-				util.waitForJavascript(driver, 20000, 5000);
-				cloneEventpage.validateEventHeader();
-				cloneEventpage.getEventId();
-				util.waitForJavascript(driver, 30000, 5000);
 
-				context.setAttribute("eventId", cloneEventpage.eventId);
-				context.setAttribute("eventName", EventConfig.getEventName);
-				context.setAttribute("startDate", cloneEventpage.startDate);
-				context.setAttribute("eventCategory", testData.testDataProvider().getProperty("eventCategory"));
-				// Create Clone event validation
-				eventApivalidation.verifyEvent(context);
-				if (recording) {
-					VideoRecorder.stopRecording();
-				}
-			} catch (Exception e) {
-				throw new Exception(e.getMessage());
-			} catch (Throwable e) {
-				throw new AssertionError(e.getMessage());
+	@Test(priority = 1, description = "Create New CloneEvent enter event name, enter date, select event category and event search click clone button", enabled = true)
+	public void test_CreateCloneEventMediumTemplate(ITestContext context) throws Throwable {
+		Logging.logger.info(
+				"================================test_CreateCloneEventMediumTemplate started==========================");
+		try {
+			String exitEvent = testData.testDataProvider().getProperty("cloneEventTemplate");
+			if (recording) {
+				VideoRecorder.startRecording("test_CreateCloneEvent");
 			}
-		}
+			events.eventsTab();
+			events.eventsTab();
+			util.waitForJavascript(driver, 30000, 5000);
+			events.newButtonInEvents();
+			events.validateHeaderCloneEvent();
+			cloneEventpage.validateCloneOnExistingRadioButton();
+			cloneEventpage.enterEventName("Medium");
+			cloneEventpage.enterStartDate();
+			cloneEventpage.selectEventCategory(testData.testDataProvider().getProperty("eventCategory"));
+			cloneEventpage.CloneEventSearchTemplate(exitEvent);
+			cloneEventpage.eventCloneButton();
+			cloneEventpage.verifyCloneEventSegmentCheckBoxs();
+			cloneEventpage.eventFinishCloneButton();
+			util.waitForJavascript(driver, 20000, 5000);
+			cloneEventpage.validateEventHeader();
+			cloneEventpage.getEventId();
+			util.waitForJavascript(driver, 30000, 5000);
 
-	
+			context.setAttribute("eventId", cloneEventpage.eventId);
+			context.setAttribute("eventName", EventConfig.getEventName);
+			context.setAttribute("startDate", cloneEventpage.startDate);
+			context.setAttribute("eventCategory", testData.testDataProvider().getProperty("eventCategory"));
+			// Create Clone event validation
+			eventApivalidation.verifyEvent(context);
+		} catch (Exception e) {
+			throw new Exception(e.getMessage());
+		} catch (Throwable e) {
+			throw new AssertionError(e.getMessage());
+		}
+	}
+
 	@Test(priority = 2, description = "Verify Delation Existing Event", enabled = true)
-	public void validate_DeleteExistingEventMediumTEmplate(ITestContext context) throws InterruptedException, Throwable {
-		 Logging.logger.info("================================validate_DeleteExistingEvent started==========================");
+	public void validate_DeleteExistingEventMediumTEmplate(ITestContext context)
+			throws InterruptedException, Throwable {
+		Logging.logger
+				.info("================================validate_DeleteExistingEvent started==========================");
 		try {
 			events.eventsTab();
 			events.clickActionsInEvents("Delete");
@@ -143,8 +142,8 @@ public class Test_DeleteEvent extends BaseClass {
 			System.out.println("LOG : FAIL Test failed to executed");
 			Utility.takeScreenShotAfterFail(driver, result);
 		}
-		if(driver != null){
+		if (driver != null) {
 			BrowserSetup.closeBrowser(driver);
-			}
+		}
 	}
 }

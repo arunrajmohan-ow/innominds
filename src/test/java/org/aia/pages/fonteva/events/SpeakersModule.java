@@ -94,8 +94,9 @@ public class SpeakersModule {
 
 	@FindBy(css = "div[data-label='Twitter URL'] input")
 	WebElement twitterUrl;
-	
-	@FindBy(xpath = "//input[@placeholder='Browse for files or paste in a URL']/following::input[@name='file' and @aria-label='photoUrl']") WebElement uploadFileInSpeakerModule;
+
+	@FindBy(xpath = "//input[@placeholder='Browse for files or paste in a URL']/following::input[@name='file' and @aria-label='photoUrl']")
+	WebElement uploadFileInSpeakerModule;
 
 	public void eventSpeakersTab() {
 		util.waitUntilElement(driver, eventBuilderSpeakers);

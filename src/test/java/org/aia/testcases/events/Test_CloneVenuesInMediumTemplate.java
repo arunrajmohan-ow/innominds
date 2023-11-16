@@ -47,7 +47,7 @@ public class Test_CloneVenuesInMediumTemplate extends BaseClass {
 		recording = Boolean.parseBoolean(testData.testDataProvider().getProperty("videoRecording"));
 		Logging.configure();
 	}
-	
+
 	@Test(priority = 1, description = "Create Venue PopUp InputField,", enabled = true)
 	public void verifyCreateVenuePopUpInputField(ITestContext context) throws InterruptedException, Throwable {
 		if (recording) {
@@ -115,8 +115,8 @@ public class Test_CloneVenuesInMediumTemplate extends BaseClass {
 		if (recording) {
 			VideoRecorder.stopRecording();
 		}
-		if(driver != null){
+		if (driver != null) {
 			BrowserSetup.closeBrowser(driver);
-			}
+		}
 	}
 }

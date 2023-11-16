@@ -357,6 +357,10 @@ public class Utility {
 	public void navigateToURl(WebDriver driver, String url) {
 		driver.navigate().to(url);
 	}
+	
+	public void navigateToBack(WebDriver driver) {
+		driver.navigate().back();
+	}
 
 	public void waitForJavascript(WebDriver driver, int maxWaitMillis, int pollDelimiter) {
 		double startTime = System.currentTimeMillis();

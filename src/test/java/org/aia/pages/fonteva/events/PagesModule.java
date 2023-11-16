@@ -81,6 +81,18 @@ public class PagesModule {
 
 	@FindBy(css = "button[data-name='saveClosePageObj']")
 	WebElement saveCloseButtonInPageModule;
+	
+	@FindBy(css = "tr[data-pageid*='NewPage'] button[title='down']") WebElement downButtonInRegPage;
+	
+	@FindBy(xpath = "//tr[@data-name='Register']//button[@title='More Options']") WebElement multipleOptionsInPages;
+	
+	@FindBy(xpath = "//tr[@data-name='Register']//ul[@class='dropdown__list']/li/a[text()='Delete']") WebElement deleteButtonInRegColum;
+	
+	@FindBy(xpath = "//div[@class='slds-modal__container']//p[text()='Delete Page']") WebElement headerDeleteInPagesModule;
+	
+	@FindBy(xpath = "//pre[contains(text(),'Are you sure you want to delete the')]") WebElement validateTextInDeletePageColumn;
+	
+	@FindBy(xpath = "//span[@class='deletePrompt']//button[@data-name='submitButton']") WebElement deleteButtonInDeletePopUp;
 
 	public void eventPagesTab() {
 		util.waitUntilElement(driver, eventBuilderPages);
@@ -89,6 +101,29 @@ public class PagesModule {
 		util.waitUntilElement(driver, eventPagesText);
 		Assert.assertTrue(eventPagesText.isDisplayed());
 		log.info("eventPagesText is displayed");
+	}
+	
+	public void multiOptionsInPages(String option) throws InterruptedException {
+		Thread.sleep(4000);
+		multipleOptionsInPages.click();
+		switch (option) {
+		case "Manage Components":
+			//TODO
+			break;
+		case "Access Permissions":
+			//TODO
+			break;
+		case "Delete":
+			deleteButtonInRegColum.click();
+			log.info(headerDeleteInPagesModule.getText()); 
+			log.info(validateTextInDeletePageColumn.getText());
+			if(option.equals("Delete")) {
+				deleteButtonInDeletePopUp.click();
+			}else {
+				//TODO
+			}
+			break;
+		}
 	}
 
 	public void clickNewPage() {
@@ -148,7 +183,6 @@ public class PagesModule {
 	}
 
 	public void validate_AddedEventTwo() {
-
 		Utility.waitForWebElement(driver, validateAddSecondRow, 0);
 		Assert.assertTrue(validateAddSecondRow.isDisplayed());
 	}
@@ -156,6 +190,7 @@ public class PagesModule {
 	public void selectEventFooter() {
 		Utility.waitForWebElement(driver, aiaEventFooterInRegisterPopUp, 0);
 		aiaEventFooterInRegisterPopUp.click();
+		Utility.waitForWebElement(driver, addPageComponentButton, 0);
 		addPageComponentButton.click();
 	}
 
@@ -163,11 +198,21 @@ public class PagesModule {
 		Utility.waitForWebElement(driver, validateAddThridRow, 0);
 		Assert.assertTrue(validateAddThridRow.isDisplayed());
 	}
-	
+
 	public void clickSaveCloseButtonInPageModule() throws InterruptedException {
 		Thread.sleep(5000);
 		Utility.waitForWebElement(driver, saveCloseButtonInPageModule, 0);
 		saveCloseButtonInPageModule.click();
 	}
+	
+	public void downButtonInRegColumnInPage() {
+		for (int i = 0; i <=5; i++) {
+			downButtonInRegPage.click();
+		}
+		
+
+	}
+	
+	
 
 }

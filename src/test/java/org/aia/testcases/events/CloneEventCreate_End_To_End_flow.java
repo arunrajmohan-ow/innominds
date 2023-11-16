@@ -87,7 +87,6 @@ public class CloneEventCreate_End_To_End_flow extends BaseClass {
 
 	@Test(description = "Create a Valid Clone event (End to End Process)", enabled = true, priority = 4)
 	public void CreateCloneEvent_End_To_End_Flow(ITestContext context) throws InterruptedException, Throwable {
-		
 		if (recording) {
 			VideoRecorder.startRecording("CreateCloneEvent_End_To_End_Flow");
 		}
@@ -119,33 +118,47 @@ public class CloneEventCreate_End_To_End_flow extends BaseClass {
 		util.waitForJavascript(driver, 20000, 5000);
 		String eventName = events.clickCreatedEvent("RecentEvents");
 		eventInfoModule.clickEditButton();
-		util.waitForJavascript(driver, 30000, 5000);
 		String eventTimeZone = testData.testDataProvider().getProperty("eventTimeZone");
 		String registrationTime = testData.testDataProvider().getProperty("registrationTimer");
 		String startTime = testData.testDataProvider().getProperty("eventStartTimeInMediumTemplate");
 		String endTime = testData.testDataProvider().getProperty("eventEndTimeInMediumTemplate");
-		//Event info
+		util.waitForJavascript(driver, 40000, 5000);
+		// Event info
 		eventInfoModule.editEventInfo(eventName, startTime, endTime, registrationTime, eventTimeZone);
+		eventInfoModule.enterEventOverview();
+		eventInfoModule.enterDescriptionInEventInfo();
+		eventInfoModule.enterwhenWhereSummaryInEventInfo();
+		eventInfoModule.selecteventDisplayNameAndDT();
+		eventInfoModule.selectisFeaturedEvent();
+		eventInfoModule.selecttimeZoneIneventInfo(eventTimeZone);
 		// tickets tab
 		ticketModule.eventTicketsTab();
 		util.waitForJavascript(driver, 8000, 2000);
 		ticketModule.validateEventTicketSalesStartDate();
+		//fec-194
+		//ticketModule.verifyUserAbleToProvidedateIntoTicketSalesStartDate();
+		util.waitForJavascript(driver, 5000, 2000);
+		ticketModule.editEventTicket(true);
+		ticketModule.validateEditTicketTypeHeader();
+		ticketModule.enterPriceInCreateTicketType("5.00");
+		ticketModule.saveAndContinueButtonInTicketType();
 		ticketModule.clickNewTicketType();
 		ticketModule.publishedCheckBox();
 		ticketModule.activeCheckBox();
 		ticketModule.enterTicketName();
-		ticketModule.enterPriceInCreateTicketType();
+		ticketModule.enterPriceInCreateTicketType("50.00");
 		ticketModule.restrictQuantityCheckBox();
 		ticketModule.enterDescriptionInCreateTicketType();
 		ticketModule.buttonsInCreateTicketType("SaveContinue");
 		//venues tab
+		util.waitForJavascript(driver, 8000, 2000);
 		venuesModule.navigateIntoVenueModule();
 		venuesModule.clickAddVenue();
 		venuesModule.createNewVenue(EventConfig.descriptionTextField, EventConfig.address,
 				EventConfig.venueImageURLInput);
 		// speakers tab
-		speakersModule.eventSpeakersTab();
 		util.waitForJavascript(driver, 8000, 2000);
+		speakersModule.eventSpeakersTab();
 		speakersModule.clickNewSpeaker();
 		speakersModule.enterSpeakerName();
 		speakersModule.contactRecordsInNewSpeakerPopup();
@@ -160,9 +173,9 @@ public class CloneEventCreate_End_To_End_flow extends BaseClass {
 		speakersModule.verifyLinkedURL();
 		speakersModule.verifyTwitterURL();
 		speakersModule.speakerButtonsInnewSpeakerPopup();
-		//agenda tab
+		// agenda tab
+		util.waitForJavascript(driver, 10000, 2000);
 		agendaModule.clickEventAgenda();
-		util.waitForJavascript(driver, 8000, 2000);
 		agendaModule.clickNewScheduleItem();
 		agendaModule.validateActiveCheckBoxInScheduleItem();
 		agendaModule.entersceduleItemName();
@@ -180,7 +193,7 @@ public class CloneEventCreate_End_To_End_flow extends BaseClass {
 		agendaModule.enterdescriptionInscheduleItem();
 		agendaModule.clickbuttonsInScheduleItem();
 		util.waitForJavascript(driver, 30000, 5000);
-		//status tab
+		// status tab
 		statusModule.editEventStatuses();
 		util.waitForJavascript(driver, 8000, 2000);
 		statusModule.clicknewStatuses();
@@ -188,10 +201,12 @@ public class CloneEventCreate_End_To_End_flow extends BaseClass {
 		statusModule.selectCheckboxForRegistration();
 		statusModule.selectCheckboxForPublishPortal();
 		statusModule.clicksaveCloseButtonInNewStatus();
-		//pages tab
-		pagesModule.eventPagesTab();
+//		// pages tab
 		util.waitForJavascript(driver, 10000, 2000);
+		pagesModule.eventPagesTab();
+		pagesModule.multiOptionsInPages("Delete");
 		pagesModule.clickNewPage();
+		pagesModule.downButtonInRegColumnInPage();
 		pagesModule.enterNavigationLabelName();
 		pagesModule.enterBrowserLabelName();
 		pagesModule.SelectCheckboxForPublished();
@@ -205,7 +220,9 @@ public class CloneEventCreate_End_To_End_flow extends BaseClass {
 		pagesModule.selectEventFooter();
 		pagesModule.validate_AddedEventThird();
 		pagesModule.clickSaveCloseButtonInPageModule();
-		//active
+		// active
+		//The Event Builder header with options 'Refresh', 'Preview In', 'Status','Edit in salesforce' and Edit' is not getting displayed.
+		//Bug Id:- FEC-194
 		eventInfoModule.selectActiveStatus();
 		eventInfoModule.saveExitButton();
 		util.waitForJavascript(driver, 30000, 5000);
@@ -225,7 +242,10 @@ public class CloneEventCreate_End_To_End_flow extends BaseClass {
 		String aiaNumber = eventRegistration.getAIAData();
 		util.switchToTabs(driver, 0);
 		eventInfoModule.clickEventUrl();
+		// AIA application
 		util.switchToTabs(driver, 3);
+		eventRegistration.detailsNavButton();
+		eventRegistration.validateEventOverView();
 		eventRegistration.agendaNavigationButtonInAIA();
 		eventRegistration.validateScheduleInAgenda();
 		eventRegistration.speakersButtonInAIA();
@@ -233,9 +253,11 @@ public class CloneEventCreate_End_To_End_flow extends BaseClass {
 		// sometimes Register link is not clicked in AIA application
 		eventRegistration.RegisterLink(3);
 		util.waitForJavascript(driver, 30000, 5000);
+		eventRegistration.selectTicketQuantity();
 		eventRegistration.clickRegisterButton();
 		eventRegistration.validateRegisterReq();
 		eventRegistration.clickRegistrationButton();
+		eventRegistration.getScheduleDetailsInAgenda();
 		eventRegistration.agendaModule();
 
 		// Here we getting receipt data from UI and storing in ArrayList
@@ -272,7 +294,7 @@ public class CloneEventCreate_End_To_End_flow extends BaseClass {
 		mailinator.registrationConfirmationEmailforEvents(dataList, eventName);
 
 	}
-	
+
 	@AfterMethod(alwaysRun = true)
 	public void teardown(ITestResult result) throws IOException {
 		if (recording) {

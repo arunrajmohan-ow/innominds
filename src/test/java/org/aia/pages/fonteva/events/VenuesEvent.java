@@ -64,7 +64,7 @@ public class VenuesEvent {
 	@FindBy(xpath = "//label//span[contains(text(),'Primary Venue')]//preceding-sibling::span")
 	WebElement primaryVenueCheckBox;
 
-	@FindBy(xpath = "(//label[contains(text(),'Description')]//parent::span//following-sibling::div//p)[2]")
+	@FindBy(xpath = "//span[@data-name='description' and @data-label='Description']/following::div[@class='fr-element fr-view cke_editable']/p")
 	WebElement descriptionTextField;
 
 	@FindBy(xpath = "(//label[contains(text(),'Address')]//parent::span//following-sibling::div//input)[1]")
@@ -73,7 +73,7 @@ public class VenuesEvent {
 //	@FindBy(xpath  = "//span[contains(text(),'Hyderabad, Bhagya Nagar Colony, Kukatpally, Hyderabad, Telangana, India')]")
 //	WebElement selectAddressBasedUponInputField;
 
-	@FindBy(xpath = "//span[contains(text(),'Enter address manually')]//preceding-sibling::span")
+	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//label[@data-name='manualAddress']//input")
 	WebElement enterAddressManually;
 
 	@FindBy(xpath = "//label[contains(text(),'Street')]/parent::span//following-sibling::div//textarea")
@@ -93,7 +93,7 @@ public class VenuesEvent {
 
 	@FindBy(xpath = "(//label[contains(text(),'Venue Image URL')]//parent::span//following-sibling::div//input)[1]")
 	WebElement venueImageURLInput;
-	
+
 	@FindBy(xpath = "//label[contains(text(),'Browse')]") // button[@data-label='Save']
 	WebElement browseButton;
 
@@ -128,7 +128,7 @@ public class VenuesEvent {
 		util.waitUntilElement(driver, createdVenueCountText);
 		Assert.assertTrue(createdVenueCountText.isDisplayed(), "create Venue count Text is not available");
 	}
-	
+
 	public void clickAddVenue() {
 		util.waitUntilElement(driver, addVenueButton);
 		addVenueButton.click();
@@ -209,8 +209,14 @@ public class VenuesEvent {
 		util.scrollingElementUsingJS(driver, descriptionTextField);
 		descriptionTextField.sendKeys(description);
 
-		util.scrollingElementUsingJS(driver, enterAddressManually);
-		enterAddressManually.click();
+		util.waitUntilElement(driver, enterAddressManually);
+		Utility.highLightElement(driver, enterAddressManually);
+		if (enterAddressManually.isSelected()) {
+			System.out.println("is published checkobox is enabled");
+		} else {
+			util.clickUsingJS(driver, enterAddressManually);
+			log.info("IsPublished CheckBox is clicked");
+		}
 
 		util.scrollingElementUsingJS(driver, street);
 		street.sendKeys(venueAddress.get("street"));

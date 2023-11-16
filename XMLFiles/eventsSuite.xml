@@ -9,10 +9,10 @@
 		    <class name="org.aia.testcases.events.TestClone_EventsWLSTemplate"></class>
 			<class name="org.aia.testcases.events.Test_Clone_EventTemplateMedium"></class>
 			<class name="org.aia.testcases.events.Test_CloneTicketsInMediumTemplate"></class>
-			<class name="org.aia.testcases.events.Test_DeleteEvent"></class>
 			<class name="org.aia.testcases.events.Test_CloneVenuesInMediumTemplate"></class>
-			<class name="org.aia.testcases.events.CloneEventCreate_End_To_End_flow"></class>
 			<class name="org.aia.testcases.events.TestEmailAllAttendees"></class>
+			<class name="org.aia.testcases.events.CloneEventCreate_End_To_End_flow"></class>
+			<class name="org.aia.testcases.events.Test_DeleteEvent"></class>
 		</classes>
 	</test> 
 </suite> 

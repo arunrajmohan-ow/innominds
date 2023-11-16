@@ -74,11 +74,10 @@ public class TestClone_EventsWLSTemplate extends BaseClass {
 		viewReceipts = PageFactory.initElements(driver, ViewRecipts.class);
 		eventApivalidation = PageFactory.initElements(driver, EventAPIValidations.class);
 		ticketModule = PageFactory.initElements(driver, TicketModule.class);
-		speakersModule= PageFactory.initElements(driver, SpeakersModule.class);
-		agendaModule= PageFactory.initElements(driver, AgendaModule.class);
+		speakersModule = PageFactory.initElements(driver, SpeakersModule.class);
+		agendaModule = PageFactory.initElements(driver, AgendaModule.class);
 		pagesModule = PageFactory.initElements(driver, PagesModule.class);
-		statusModule= PageFactory.initElements(driver, StatusesModule.class);
-
+		statusModule = PageFactory.initElements(driver, StatusesModule.class);
 		recording = Boolean.parseBoolean(testData.testDataProvider().getProperty("videoRecording"));
 		Logging.configure();
 	}
@@ -86,7 +85,8 @@ public class TestClone_EventsWLSTemplate extends BaseClass {
 	@Test(priority = 1, description = "Create New CloneEvent enter event name, enter date, select event category and event search click clone button", enabled = true)
 
 	public void test_CreateCloneEvent(ITestContext context) throws Throwable {
-		Logging.logger.info("================================ test_CreateCloneEvent wls template started==========================");
+		Logging.logger.info(
+				"================================ test_CreateCloneEvent wls template started==========================");
 		try {
 			if (recording) {
 				VideoRecorder.startRecording("test_CreateCloneEvent");
@@ -96,7 +96,7 @@ public class TestClone_EventsWLSTemplate extends BaseClass {
 			util.waitForJavascript(driver, 90000, 5000);
 			events.newButtonInEvents();
 			events.validateHeaderCloneEvent();
-			String eventName  = cloneEventpage.enterEventName("Wls");
+			String eventName = cloneEventpage.enterEventName("Wls");
 			cloneEventpage.enterStartDate();
 			cloneEventpage.selectEventCategory(testData.testDataProvider().getProperty("eventCategory"));
 			cloneEventpage.CloneEventSearchTemplate(exitEvent);
@@ -115,17 +115,18 @@ public class TestClone_EventsWLSTemplate extends BaseClass {
 			context.setAttribute("eventCategory", testData.testDataProvider().getProperty("eventCategory"));
 			// Create Clone event validation
 			eventApivalidation.verifyEvent(context);
-		}catch (Exception e) {
+		} catch (Exception e) {
 			throw new Exception(e.getMessage());
 		} catch (Throwable e) {
 			throw new AssertionError(e.getMessage());
 		}
-		
+
 	}
 
 	@Test(priority = 2, description = "Verify Price modify for an existing Event", enabled = true)
 	public void test_EditPriceInCloneEvent(ITestContext context) throws InterruptedException, Throwable {
-		Logging.logger.info("================================test_EditPriceInCloneEvent wls template started==========================");
+		Logging.logger.info(
+				"================================test_EditPriceInCloneEvent wls template started==========================");
 		try {
 			if (recording) {
 				VideoRecorder.startRecording("test_EditPriceInCloneEvent");
@@ -142,14 +143,17 @@ public class TestClone_EventsWLSTemplate extends BaseClass {
 			// tickets tab
 			ticketModule.eventTicketsTab();
 			ticketModule.validateEventTicketSalesStartDate();
+			//fec-194
+			//ticketModule.verifyUserAbleToProvidedateIntoTicketSalesStartDate();
 			ticketModule.editEventTicket(true);
 			ticketModule.validateEditTicketTypeHeader();
-			ticketModule.enterPriceInCreateTicketType();
+			ticketModule.enterPriceInCreateTicketType("100.00");
 			ticketModule.saveAndContinueButtonInTicketType();
 			eventInfoModule.editEventInvitation();
 			eventInfoModule.editEventVenues();
 			eventInfoModule.editEventAccessPermissions();
-			speakersModule.eventSpeakersTab();;
+			speakersModule.eventSpeakersTab();
+			;
 			agendaModule.clickEventAgenda();
 			// String scheduleName = editCloneEvent.getSceduleItemsInAgenda();
 			eventInfoModule.editEventSponsorPackages();
@@ -216,7 +220,7 @@ public class TestClone_EventsWLSTemplate extends BaseClass {
 			// Email validations registration confirm message
 			// Note:- Sometimes API body returning as null
 			mailinator.registrationConfirmationEmailforEvents(dataList, eventName);
-		}catch (Exception e) {
+		} catch (Exception e) {
 			throw new Exception(e.getMessage());
 		} catch (Throwable e) {
 			throw new AssertionError(e.getMessage());
@@ -225,7 +229,8 @@ public class TestClone_EventsWLSTemplate extends BaseClass {
 
 	@Test(priority = 3, description = "Verify 'Attendees' info after registering for the event", enabled = true)
 	public void validate_Attendees(ITestContext context) throws InterruptedException, Throwable {
-		Logging.logger.info("================================validate_Attendees wls template started==========================");
+		Logging.logger.info(
+				"================================validate_Attendees wls template started==========================");
 		try {
 			util.waitForJavascript(driver, 10000, 5000);
 			if (recording) {
@@ -291,16 +296,17 @@ public class TestClone_EventsWLSTemplate extends BaseClass {
 
 			// Here we validate Attendees totals using api call
 			eventApivalidation.verifyAttendees(context);
-		}catch (Exception e) {
+		} catch (Exception e) {
 			throw new Exception(e.getMessage());
 		} catch (Throwable e) {
 			throw new AssertionError(e.getMessage());
 		}
-			}
+	}
 
 	@Test(priority = 4, description = "Verify 'Attendees' info after registering for the event", enabled = true)
 	public void validate_SalesAndRegistration(ITestContext context) throws InterruptedException, Throwable {
-		Logging.logger.info("================================validate_SalesAndRegistration wls template started==========================");
+		Logging.logger.info(
+				"================================validate_SalesAndRegistration wls template started==========================");
 		try {
 			util.waitForJavascript(driver, 10000, 5000);
 			if (recording) {
@@ -366,13 +372,13 @@ public class TestClone_EventsWLSTemplate extends BaseClass {
 
 			// Here we validate sales & Registration totals using api call
 			eventApivalidation.verifySalesOrderRegistration(context);
-		}catch (Exception e) {
+		} catch (Exception e) {
 			throw new Exception(e.getMessage());
 		} catch (Throwable e) {
 			throw new AssertionError(e.getMessage());
 		}
-			}
-	
+	}
+
 	@AfterMethod(alwaysRun = true)
 	public void teardown(ITestResult result) {
 		if (recording) {
@@ -382,9 +388,9 @@ public class TestClone_EventsWLSTemplate extends BaseClass {
 			System.out.println("LOG : FAIL Test failed to executed");
 			Utility.takeScreenShotAfterFail(driver, result);
 		}
-		if(driver != null){
+		if (driver != null) {
 			BrowserSetup.closeBrowser(driver);
-			}
+		}
 	}
 
 }
