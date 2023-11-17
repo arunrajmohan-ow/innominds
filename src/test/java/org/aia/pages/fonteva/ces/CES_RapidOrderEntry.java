@@ -19,20 +19,20 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 
 public class CES_RapidOrderEntry {
-
 	WebDriver driver;
 	Utility util = new Utility(driver, 30);
 	ConfigDataProvider data = new ConfigDataProvider();
-	CES_ContactPage contactPage= new CES_ContactPage(driver);
+	CES_ContactPage contactPage;
 	SubscriptionPlanPrice subscriptionAPI = new SubscriptionPlanPrice(driver);
 	static Logger log = Logger.getLogger(ContactCreateUser.class);
 	Actions action;
 	JavascriptExecutor executor;
 
-	public CES_RapidOrderEntry(WebDriver driver) {
-		this.driver = driver;
+	public CES_RapidOrderEntry(WebDriver ldriver) {
+		this.driver = ldriver;
 		action = new Actions(driver);
 		executor = (JavascriptExecutor) driver;
+		contactPage=new CES_ContactPage(driver);
 	}
 	
 	@FindBy(xpath = "//p[text()='Account Name']//parent::div//div//a")
