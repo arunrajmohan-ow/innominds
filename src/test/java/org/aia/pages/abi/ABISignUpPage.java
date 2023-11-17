@@ -113,6 +113,18 @@ public class ABISignUpPage {
 	
 	@FindBy(xpath = "//button[text()='Login']")
 	WebElement pymtLoginBtn;
+	
+	@FindBy(xpath = "//div[@data-name='FirstName']//input")
+	WebElement gFirstNameTxt;
+	
+	@FindBy(xpath = "//div[@data-name='LastName']//input")
+	WebElement gLastNameTxt;
+	
+	@FindBy(xpath = "//div[@data-name='Email']//input")
+	WebElement gEmailTxt;
+	
+	@FindBy(xpath = "//button[text()='Continue as Guest']")
+	WebElement continueAsGuestBtn;
 
 	public void clickLoginLink() throws Exception {
 		util.waitUntilElement(driver, loginBtn);
@@ -134,9 +146,21 @@ public class ABISignUpPage {
 		passwordTxt.sendKeys(password);
 		util.waitForWebElement(driver, signInBtn, 3000);
 		signInBtn.click();
-		util.waitForPageLoad(driver);
+		//util.waitForPageLoad(driver);
         }
 
+	@SuppressWarnings("static-access")
+	public void continueAsGuest(String firstName, String lastName, String email) throws Exception {
+		util.waitForWebElement(driver, gFirstNameTxt, 3000);
+		gFirstNameTxt.sendKeys(firstName);
+		util.waitForWebElement(driver, gLastNameTxt,3000);
+		gLastNameTxt.sendKeys(lastName);
+		util.waitForWebElement(driver, gEmailTxt, 3000);
+		gEmailTxt.sendKeys(email);
+		util.waitForWebElement(driver, continueAsGuestBtn, 3000);
+		continueAsGuestBtn.click();
+		//util.waitForPageLoad(driver);
+        }
 	@SuppressWarnings("static-access")
 	public ArrayList<String> getPDFContent() throws URISyntaxException, InterruptedException, IOException {
 		List<String> pdfDetails=new ArrayList<String>();
@@ -184,10 +208,7 @@ public class ABISignUpPage {
 							}
 						return (ArrayList<String>) pdfDetails;
 						}
-	
-	
-	@SuppressWarnings({ "static-access", "null" })
-	public ArrayList<String> subscribeToABI(String user, String address ) throws InterruptedException, URISyntaxException, IOException {
+	public void continueToCheckOut() throws InterruptedException {
 		util.waitForWebElement(driver, abiImage, 5000);
 		abiImage.click();
 		util.waitForWebElement(driver, autoRenewChkBx, 5000);
@@ -206,6 +227,10 @@ public class ABISignUpPage {
 		 */
 		util.waitForWebElement(driver, checkOut, 5000);
 		checkOut.click();
+	}
+	
+	@SuppressWarnings({ "static-access", "null" })
+	public ArrayList<String> subscribeToABI(String user, String address ) throws InterruptedException, URISyntaxException, IOException {
 		util.waitForWebElement(driver, createAddress, 5000);
 		createAddress.click();
 		util.waitForWebElement(driver, name, 5000);
@@ -281,7 +306,7 @@ public class ABISignUpPage {
 		util.waitForWebElement(driver, proceedToCheckOut, 5000);
 		proceedToCheckOut.click();
 		
-		util.waitForPageLoad(driver);
+		//util.waitForPageLoad(driver);
 		util.waitForWebElement(driver, iFrame1, 5000);
 		driver.switchTo().frame(iFrame1);
 		
@@ -316,8 +341,10 @@ public class ABISignUpPage {
 								}
 	@SuppressWarnings("static-access")
 	public void processPayment(String email) throws Exception {
-		String pymntURL=mailinator.GetLinks(email.substring(0,email.indexOf("@")), "public-store#");
-		driver.navigate().to(pymntURL);
+		util.waitForJavascript(driver, 6000, 1000);
+		Thread.sleep(10000);
+		String pymntURL=mailinator.GetLinks(email.substring(0,email.indexOf("@")), "Sandbox: Payment_For_Renewal", "public-store#");
+		util.navigateToURl(driver, pymntURL);
 		//util.waitForPageLoad(driver);
 		util.waitForWebElement(driver, pymtLoginBtn, 5000);
 		util.clickUsingJS(driver, pymtLoginBtn);
