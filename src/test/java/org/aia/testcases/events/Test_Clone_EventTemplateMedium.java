@@ -79,7 +79,7 @@ public class Test_Clone_EventTemplateMedium extends BaseClass {
 		}
 	}
 
-	@Test(priority = 1, description = "Create New CloneEvent enter event name, enter date, select event category and event search click clone button", enabled = false)
+	@Test(priority = 1, description = "Create New CloneEvent enter event name, enter date, select event category and event search click clone button", enabled = true)
 	public void test_CreateCloneEventMediumTemplate(ITestContext context) throws Throwable {
 		Logging.logger.info(
 				"================================test_CreateCloneEventMediumTemplate started==========================");
@@ -119,7 +119,7 @@ public class Test_Clone_EventTemplateMedium extends BaseClass {
 		}
 	}
 
-	@Test(priority = 2, description = "Verify Price modify for an existing Event", enabled = false)
+	@Test(priority = 2, description = "Verify Price modify for an existing Event", enabled = true)
 	public void test_EditPriceInCloneEventMediumTEmplate(ITestContext context) throws InterruptedException, Throwable {
 		Logging.logger
 				.info("================================test_EditPriceInCloneEvent started==========================");
@@ -212,7 +212,7 @@ public class Test_Clone_EventTemplateMedium extends BaseClass {
 
 	}
 
-	@Test(priority = 3, description = "Verify 'Attendees' info after registering for the event", enabled = false)
+	@Test(priority = 3, description = "Verify 'Attendees' info after registering for the event", enabled = true)
 	public void validate_AttendeesMediumTEmplates(ITestContext context) throws InterruptedException, Throwable {
 		Logging.logger.info("================================validate_Attendees started==========================");
 		try {
@@ -289,7 +289,7 @@ public class Test_Clone_EventTemplateMedium extends BaseClass {
 
 	}
 
-	@Test(priority = 4, description = "Verify 'sales and registration' info after registering for the event", enabled = false)
+	@Test(priority = 4, description = "Verify 'sales and registration' info after registering for the event", enabled = true)
 	public void validate_SalesAndRegistrationMediumTEmplate(ITestContext context)
 			throws InterruptedException, Throwable {
 		Logging.logger.info(
@@ -411,7 +411,7 @@ public class Test_Clone_EventTemplateMedium extends BaseClass {
 		}
 	
 
-	@Test(priority = 6, description = "Edit cloneEvent date and time,", enabled = false)
+	@Test(priority = 6, description = "Edit cloneEvent date and time,", enabled = true)
 	public void test_EditSelectDateInCloneEventInfoMediumTEmplate(ITestContext context)
 			throws InterruptedException, Throwable {
 		Logging.logger.info(
@@ -430,7 +430,7 @@ public class Test_Clone_EventTemplateMedium extends BaseClass {
 		}
 	}
 
-	@Test(priority = 7, description = "Validate register timer in Edit cloneEvent info,", enabled = false)
+	@Test(priority = 7, description = "Validate register timer in Edit cloneEvent info,", enabled = true)
 	public void validate_RegistrationTimerCloneEventInfoMediumTEmplate(ITestContext context)
 			throws InterruptedException, Throwable {
 		Logging.logger.info(
