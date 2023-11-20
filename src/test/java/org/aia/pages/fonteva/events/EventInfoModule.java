@@ -4,31 +4,36 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+
 import org.aia.utility.DateUtils;
 import org.aia.utility.Utility;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 
-public class EditCloneEvent {
+public class EventInfoModule {
 	WebDriver driver;
 	Utility util = new Utility(driver, 30);
 	JavascriptExecutor executor;
 	Events events;
 	Actions act;
-	static Logger log = Logger.getLogger(EditCloneEvent.class);
+	static Logger log = Logger.getLogger(EventInfoModule.class);
 	public String salesOrder = "";
 	public String aiaNumber = "";
 
-	public EditCloneEvent(WebDriver IDriver) {
+	public EventInfoModule(WebDriver IDriver) {
 		this.driver = IDriver;
 		executor = (JavascriptExecutor) driver;
 		act = new Actions(driver);
@@ -72,6 +77,24 @@ public class EditCloneEvent {
 	@FindBy(css = "div[class='windowViewMode-normal oneContent active lafPageHost'] div[data-name='registrationTimer'] input")
 	WebElement eventRegistrationTimer;
 
+	@FindAll(value = { @FindBy(xpath = "(//label[text()='Event Overview']/following::div[@class='fr-element fr-view cke_editable'])[1]/p") })
+	List<WebElement> eventOverViewText;
+
+	@FindBy(xpath = "//div[@data-name='description']/textarea")
+	WebElement DescriptionInEventInfo;
+
+	@FindBy(xpath = "(//div[contains(@class,'p-horizontal_large slds-m-bottom_medium')])[2]")
+	WebElement whenWhereSummaryInEventInfo;
+
+	@FindBy(xpath = "//label[@data-name='enableEventDisplayNameAndDT']/input")
+	WebElement eventDisplayNameAndDT;
+
+	@FindBy(xpath = "//label[@data-name='isFeaturedEvent']/input")
+	WebElement isFeaturedEvent;
+
+	@FindBy(xpath = "//select[@name='Time Zone']")
+	WebElement timeZoneIneventInfo;
+
 	// Invitation locators
 	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//div[@data-menu='EventApi:EventBuilderInvitationOnly']")
 	WebElement eventBuilderInvitation;
@@ -93,23 +116,6 @@ public class EditCloneEvent {
 	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//th[contains(text(),'Access to this Item')]")
 	WebElement AcessPermissionTab;
 
-	// Event Speakers
-	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//div[@data-menu='EventApi:EventBuilderSpeakers']")
-	WebElement eventBuilderSpeakers;
-
-	@FindBy(xpath = "(//div[@class='windowViewMode-normal oneContent active lafPageHost']//div[contains(text(),'Speakers')])[2]")
-	WebElement speakersTab;
-
-	// EventApi:EventBuilderAgenda
-	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//div[@data-menu='EventApi:EventBuilderAgenda']")
-	WebElement eventBuilderAgenda;
-
-	@FindBy(css = "table[class='slds-table slds-table_header-fixed slds-table_bordered slds-table_edit'] tr:nth-child(5)  th lightning-base-formatted-text")
-	WebElement scheduleItemDisplayName;
-
-	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//a[@data-tab='agenda']")
-	WebElement agendaTab;
-
 	// EventApi:EventBuilderSponsorPackages
 	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//div[@data-menu='EventApi:EventBuilderSponsorPackages']")
 	WebElement eventBuilderSponsorPackages;
@@ -117,26 +123,12 @@ public class EditCloneEvent {
 	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//a[@data-tab='sponsorPackages']")
 	WebElement sponcerPackageTab;
 
-	// EventApi:EventBuilderStatuses
-	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//div[@data-menu='EventApi:EventBuilderStatuses']")
-	WebElement eventBuilderStatuses;
-
-	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//div[contains(text(),'statuses for your event.')]")
-	WebElement statusespageText;
-
-	// EventApi:EventBuilderPages
-	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//div[@data-menu='EventApi:EventBuilderPages']")
-	WebElement eventBuilderPages;
-
-	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//div[contains(text(),'pages for your selected status')]")
-	WebElement eventPagesText;
-
 //	@FindBy(xpath = "(//lightning-formatted-text[@title='AIA Contact Number']/following::div/lightning-formatted-text)[1]")
 //	WebElement getAIANumber;
-//	
+
 //	@FindBy(xpath = "//lightning-formatted-text[text()='Account Name']/following-sibling::div/a")
 //	WebElement accountName;
-	
+
 	@FindBy(xpath = "(//table[@data-aura-class='uiVirtualDataTable']//tbody/tr/th/following::td/span/span[@title!=''])[1]")
 	WebElement getAIANumber;
 
@@ -162,8 +154,9 @@ public class EditCloneEvent {
 	WebElement eventName;
 
 	// status in edit
-	@FindBy(xpath = "//div[text()='Status:']//span[text()='Planned']") WebElement StatusInEditEvent;
-	
+	@FindBy(xpath = "//div[text()='Status:']//span[text()='Planned']")
+	WebElement StatusInEditEvent;
+
 	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//span[text()='Planned']")
 	WebElement statusDropdown;
 
@@ -317,31 +310,6 @@ public class EditCloneEvent {
 		log.info("AcessPermissionTab is displayed");
 	}
 
-	public void editEventAgenda() {
-		util.waitUntilElement(driver, eventBuilderAgenda);
-		eventBuilderAgenda.click();
-		log.info("Event Agenda is clicked successfully");
-		util.waitUntilElement(driver, agendaTab);
-		Assert.assertTrue(agendaTab.isDisplayed());
-		log.info("agendaTab is displayed");
-	}
-
-	public String getSceduleItemsInAgenda() {
-		util.scrollingElementUsingJS(driver, scheduleItemDisplayName);
-		Utility.waitForWebElement(driver, scheduleItemDisplayName, 30);
-		String scheduleItemName = scheduleItemDisplayName.getText();
-		return scheduleItemName;
-	}
-
-	public void editEventSpeakers() {
-		util.waitUntilElement(driver, eventBuilderSpeakers);
-		eventBuilderSpeakers.click();
-		log.info("Event Speakers is clicked successfully");
-		util.waitUntilElement(driver, speakersTab);
-		Assert.assertTrue(speakersTab.isDisplayed());
-		log.info("speakersTab is displayed");
-	}
-
 	public void editEventSponsorPackages() {
 		util.waitUntilElement(driver, eventBuilderSponsorPackages);
 		eventBuilderSponsorPackages.click();
@@ -349,24 +317,6 @@ public class EditCloneEvent {
 		util.waitUntilElement(driver, sponcerPackageTab);
 		Assert.assertTrue(sponcerPackageTab.isDisplayed());
 		log.info("sponcerPackageTab is displayed");
-	}
-
-	public void editEventStatuses() {
-		util.waitUntilElement(driver, eventBuilderStatuses);
-		eventBuilderStatuses.click();
-		log.info("Event Statuses is clicked successfully");
-		util.waitUntilElement(driver, statusespageText);
-		Assert.assertTrue(statusespageText.isDisplayed());
-		log.info("statusespageText is displayed");
-	}
-
-	public void editEventPages() {
-		util.waitUntilElement(driver, eventBuilderPages);
-		eventBuilderPages.click();
-		log.info("Event Pages is clicked successfully");
-		util.waitUntilElement(driver, eventPagesText);
-		Assert.assertTrue(eventPagesText.isDisplayed());
-		log.info("eventPagesText is displayed");
 	}
 
 	public void saveExitButton() throws Throwable {
@@ -462,17 +412,60 @@ public class EditCloneEvent {
 		System.out.println("EventConfig.ticketalesStartDate : " + EventConfig.RegistrationTimer);
 		Assert.assertEquals(RegistrationTimerInputBox.getAttribute("value"), EventConfig.RegistrationTimer);
 	}
-	
-	
 
 	public void selectActiveStatus() {
 		Utility.waitForWebElement(driver, StatusInEditEvent, 10);
-		if(StatusInEditEvent.isDisplayed()) {
-		Utility.waitForWebElement(driver, statusDropdown, 20);
-		util.mosueOverUsingAction(driver, statusDropdown);
-		Utility.waitForWebElement(driver, activeOption, 20);
-		util.clickUsingJS(driver, activeOption);
+		if (StatusInEditEvent.isDisplayed()) {
+			Utility.waitForWebElement(driver, statusDropdown, 20);
+			util.mosueOverUsingAction(driver, statusDropdown);
+			statusDropdown.click();
+			Utility.waitForWebElement(driver, activeOption, 20);
+			util.clickUsingJS(driver, activeOption);
 		}
 	}
-
+	
+	public void enterEventOverview() {
+		log.info(eventOverViewText.size());
+		System.out.println("hgfj");
+		System.out.println("hjf");
+		for (int i = 0; i < eventOverViewText.size(); i++) {
+		log.info(eventOverViewText.get(i).getText());
+			eventOverViewText.get(i).clear();
+			eventOverViewText.get(i).sendKeys(Keys.BACK_SPACE);
+		}
+		for (int j = 0; j < eventOverViewText.size() ; j++) {
+			eventOverViewText.get(j).sendKeys(EventConfig.eventOverView);
+		}	
+	}
+	
+	public void enterDescriptionInEventInfo() {
+			Utility.waitForWebElement(driver, DescriptionInEventInfo, 0);
+			util.enterText(driver, DescriptionInEventInfo, "entered description");
+			log.info("Description has been entered");
+		}
+		
+		public void enterwhenWhereSummaryInEventInfo() {
+			String todayDate = new SimpleDateFormat("MM/dd/yyyy").format(new Date());
+			System.out.println(todayDate.replace("/", ""));
+			String date = todayDate.replace("/", "");   
+			Utility.waitForWebElement(driver, whenWhereSummaryInEventInfo, 0);
+			JavascriptExecutor js = (JavascriptExecutor) driver;
+			js.executeScript("document.getElementsByClassName('bold slds-m-bottom_small')[0].textContent="+date);
+			log.info("When and where summary entered");
+		}
+		
+		public void selecteventDisplayNameAndDT() {
+			Assert.assertTrue(eventDisplayNameAndDT.isDisplayed());
+			log.info("CheckBox is selected event display name and dt");
+		}
+		public void selectisFeaturedEvent() {
+			Assert.assertTrue(isFeaturedEvent.isDisplayed());
+			log.info("Checkbox is selected for feature event");
+		}
+		
+		public void selecttimeZoneIneventInfo(String timeZone) {
+			Utility.waitForWebElement(driver, timeZoneIneventInfo, 0);
+			util.selectDropDownByText(timeZoneIneventInfo, timeZone);
+			log.info("time zone in event info selected");
+		}
 }
