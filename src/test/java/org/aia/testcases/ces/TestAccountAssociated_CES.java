@@ -28,6 +28,7 @@ import org.aia.pages.fonteva.ces.CES_Memberships;
 import org.aia.pages.fonteva.ces.CES_RapidOrderEntry;
 import org.aia.pages.fonteva.ces.CES_ReNewUser;
 import org.aia.pages.fonteva.ces.CES_SalesOrder;
+import org.aia.pages.fonteva.membership.ContactCreateUser;
 import org.aia.pages.membership.OrderSummaryPage;
 import org.aia.pages.membership.PaymentInformation;
 import org.aia.pages.membership.PrimaryInformationPage;
@@ -38,6 +39,7 @@ import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.DataProviderFactory;
 import org.aia.utility.Logging;
 import org.aia.utility.Utility;
+import org.aia.utility.VideoRecorder;
 import org.apache.log4j.Logger;
 import org.apache.poi.util.PackageHelper;
 import org.openqa.selenium.support.PageFactory;
@@ -85,6 +87,7 @@ public class TestAccountAssociated_CES extends BaseClass {
 
 	@BeforeMethod(alwaysRun = true)
 	public void setUp() throws Exception {
+		VideoRecorder.startRecording("RapidOrderEntryScenerio");
 		sessionID = new FontevaConnectionSOAP();
 		driver = BrowserSetup.startApplication(driver, DataProviderFactory.getConfig().getValue("browser"),
 				DataProviderFactory.getConfig().getValue("ces_signin"));
@@ -146,8 +149,10 @@ public class TestAccountAssociated_CES extends BaseClass {
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
 //fontevaPage.changeTermDates(dataList.get(0) + " " + dataList.get(1));
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
+		ces_ContactPage.selectCreatedContact(dataList.get(0) + " " + dataList.get(1)); 
 		rapidOrderEntery.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
 				testData.testDataProvider().getProperty("cesMembershipType2"),
 				testData.testDataProvider().getProperty("quickElement2"));
+	
 }
 }

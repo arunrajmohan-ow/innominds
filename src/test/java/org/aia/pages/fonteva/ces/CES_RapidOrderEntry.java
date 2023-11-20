@@ -158,7 +158,7 @@ public class CES_RapidOrderEntry {
 	public void cesRapidOrderEntry(String userFullname, String itemQuick, String quickElement)
 			throws InterruptedException, AWTException {
 		Thread.sleep(30000);
-		contactPage.selectCreatedContact(userFullname);
+		//contactPage.selectCreatedContact(userFullname);
 		util.waitUntilElement(driver, accountName);
 		executor.executeScript("arguments[0].click();", accountName);
 		util.waitUntilElement(driver, rapidOrderEnteryBtn);
