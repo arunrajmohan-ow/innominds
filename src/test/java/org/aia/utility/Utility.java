@@ -44,11 +44,7 @@ import org.openqa.selenium.io.FileHandler;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
-<<<<<<< HEAD
 import com.opencsv.CSVWriter;
-=======
-
->>>>>>> 9f2e36956c912fa80ea45aaa1ede1e2433271479
 import org.testng.ITestResult;
 
 import io.restassured.response.Response;
@@ -362,7 +358,7 @@ public class Utility {
 	public void navigateToURl(WebDriver driver, String url) {
 		driver.navigate().to(url);
 	}
-	
+
 	public void navigateToBack(WebDriver driver) {
 		driver.navigate().back();
 	}
@@ -396,7 +392,6 @@ public class Utility {
 		});
 	}
 
-<<<<<<< HEAD
 	public void domLoading(WebDriver driver, int maxWaitMillis, int pollDelimiter) {
 		double startTime = System.currentTimeMillis();
 		while (System.currentTimeMillis() < startTime + maxWaitMillis) {
@@ -414,8 +409,6 @@ public class Utility {
 		}
 	}
 
-=======
->>>>>>> 9f2e36956c912fa80ea45aaa1ede1e2433271479
 	public List<String> getAllElementsText(WebDriver driver, String xpath) {
 		List<WebElement> elements = driver.findElements(By.xpath(xpath));
 		List<String> allElementText = new ArrayList<>();
@@ -464,9 +457,7 @@ public class Utility {
 		action.moveToElement(element).perform();
 	}
 
-
 	/**
-<<<<<<< HEAD
 	 * Writing csv
 	 * 
 	 * @param userEmail
@@ -487,19 +478,8 @@ public class Utility {
 		for (String[] user : userData) {
 			writer.writeNext(user);
 		}
-		writer.close();
-=======
-	* Here we are using awaitility for waiting the response from api
-	*/
-	public void waitForResponse(final Response response, final int statusCode) {
 
-      Awaitility.await().atMost(10,TimeUnit.SECONDS).until(()->{return response.getStatusCode()==statusCode;});
-      
-      Awaitility.await().atMost(10,TimeUnit.SECONDS).until(new Callable<Boolean>() {
-		@Override
-		public Boolean call() throws Exception {return response.getStatusCode()==statusCode;}
-	});
->>>>>>> 9f2e36956c912fa80ea45aaa1ede1e2433271479
+		writer.close();
 	}
 
 	/**

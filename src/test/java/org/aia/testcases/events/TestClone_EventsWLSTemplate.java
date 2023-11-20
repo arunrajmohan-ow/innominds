@@ -56,7 +56,7 @@ public class TestClone_EventsWLSTemplate extends BaseClass {
 	QuickLinksInEvents linksInEvents;
 	public ExtentReports extent;
 	public ExtentTest extentTest;
-	final static Logger logger = Logger.getLogger(TestClone_Events.class);
+	final static Logger logger = Logger.getLogger(TestClone_EventsWLSTemplate.class);
 	TicketModule ticketModule;
 	SpeakersModule speakersModule;
 	AgendaModule agendaModule;
