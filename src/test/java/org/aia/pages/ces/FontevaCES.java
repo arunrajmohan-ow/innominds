@@ -2,6 +2,7 @@ package org.aia.pages.ces;
 
 import static org.testng.Assert.assertTrue;
 
+import org.aia.utility.DateUtils;
 import org.aia.utility.Utility;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -14,9 +15,12 @@ import org.openqa.selenium.support.FindBy;
 public class FontevaCES {
 
 	WebDriver driver;
+	Actions action;
 	public FontevaCES(WebDriver Idriver) 
 	{
+		
 		this.driver = Idriver;
+		action = new Actions(driver);
 	}
 	Utility util = new Utility(driver, 10);
 	

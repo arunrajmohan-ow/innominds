@@ -298,7 +298,10 @@ public class CES_ContactPage {
 	WebElement itemsFees;
 	
 	@FindBy(xpath = "//div[text()='Receipt']/parent::h1")
-	WebElement receiptElement; 
+	WebElement receiptElement;
+	
+	@FindBy(xpath = "//span[text()= 'Account Name']/parent::div/parent::div//a//span")
+	WebElement account;
 
 	String fName;
 	String lName;
@@ -511,8 +514,8 @@ public class CES_ContactPage {
 		util.waitUntilElement(driver, util.getCustomizedWebElement(driver, contactName, userFullname));
 		executor.executeScript("arguments[0].click();",
 				util.getCustomizedWebElement(driver, contactName, userFullname));
-		util.waitUntilElement(driver, showAll);
-		showAll.click();
+		util.waitUntilElement(driver, account);
+		account.click();
 	}
 
 	/**
