@@ -121,10 +121,10 @@ public class Organization {
 
 	@FindBy(xpath = "//span[@class='error']")
 	WebElement workPhoneError2;
-	
+
 	@FindBy(xpath = "//span[contains(text(), 'Phone number must be 10 digits.')]")
 	WebElement invalidNumberValidation;
-	
+
 	@FindBy(xpath = "//span[contains(text(), 'Please select the country code')]")
 	WebElement workCountryText;
 
@@ -166,7 +166,6 @@ public class Organization {
 
 	public void verifyOrganizationTab() {
 		util.waitUntilElement(driver, tabTitleOrganization);
-		util.getCustomizedWebElement(driver, accountName, "AccontOrg");
 		assertTrue(tabTitleOrganization.isDisplayed());
 
 	}
@@ -185,10 +184,10 @@ public class Organization {
 
 	public void enterOrganizationDetailsWithoutNext(ArrayList<String> dataList, String orgType, String provider,
 			String countryCode) throws InterruptedException {
-		Thread.sleep(20000); // Added extra wait
+		Thread.sleep(20000);
 		util.waitUntilElement(driver, organizationName);
 		organizationName.sendKeys(orgName);
-		util.waitUntilElement(driver, organizationType); // added
+		util.waitUntilElement(driver, organizationType);
 		util.selectDropDownByText(organizationType, orgType);
 		// added
 		util.waitUntilElement(driver, organizationPriorProvider);
@@ -336,9 +335,8 @@ public class Organization {
 			throws InterruptedException {
 		util.waitUntilElement(driver, organizationName);
 		organizationName.sendKeys(orgName);
-		util.waitUntilElement(driver, organizationType); // added
+		util.waitUntilElement(driver, organizationType);
 		util.selectDropDownByText(organizationType, orgType);
-		// added
 		util.waitUntilElement(driver, organizationPriorProvider);
 		util.selectDropDownByText(organizationPriorProvider, provider);
 		if (provider.equalsIgnoreCase("Yes")) {
@@ -359,12 +357,12 @@ public class Organization {
 		assertTrue(workPhoneError2.isDisplayed());
 
 	}
- 
-	
-	public void enterInvalidWorkPhoneCountry(ArrayList<String> dataList, String orgType, String provider) throws InterruptedException{
+
+	public void enterInvalidWorkPhoneCountry(ArrayList<String> dataList, String orgType, String provider)
+			throws InterruptedException {
 		util.waitUntilElement(driver, organizationName);
 		organizationName.sendKeys(orgName);
-		util.waitUntilElement(driver, organizationType); 
+		util.waitUntilElement(driver, organizationType);
 		util.selectDropDownByText(organizationType, orgType);
 		util.waitUntilElement(driver, organizationPriorProvider);
 		util.selectDropDownByText(organizationPriorProvider, provider);
@@ -372,27 +370,23 @@ public class Organization {
 			util.waitUntilElement(driver, orgFormerCesProviderNumber);
 			orgFormerCesProviderNumber.sendKeys(cesProviderNumber);
 		}
-		//orgWorkPhoneCountry.click();
-		//organizationWorkPhoneNum.sendKeys(dataList.get(2));
 		orgTaxIDTxtbox.sendKeys(orgName);
 		orgrevenueTxtbox.sendKeys("1000");
 		util.selectDropDownByText(orgCoursesSelect, "National");
 		orgNext.click();
 		util.waitUntilElement(driver, workPhoneError);
 		assertTrue(workPhoneError.isDisplayed());
-		
+
 	}
-	
-	public void enterDetailsWithoutWorkCountry(ArrayList<String> dataList) throws InterruptedException{
-		
+
+	public void enterDetailsWithoutWorkCountry(ArrayList<String> dataList) throws InterruptedException {
+
 		organizationWorkPhoneNum.sendKeys(dataList.get(2));
 		orgNext.click();
 		WebElement textValidation = Utility.waitForWebElement(driver, workCountryText, 10);
 		Assert.assertEquals("Please select the country code as you've already entered the work phone number",
 				textValidation.getText());
-		
+
 	}
-	
-	
-	
+
 }
