@@ -99,20 +99,24 @@ public class Utility {
 		return path;
 	}
 
-	public static String captureScreenshotFromBase64(WebDriver driver) {
+	public static String captureScreenshotFromBase64(WebDriver driver)
+	{  
 		String newBase = null;
-		TakesScreenshot ts = (TakesScreenshot) driver;
-		try {
+		TakesScreenshot ts=(TakesScreenshot)driver;
+		try 
+		{
 
-			File mybase = ts.getScreenshotAs(OutputType.FILE);
-
-			newBase = "data:image/png;base64," + mybase.toString();
-
+			String mybase=	ts.getScreenshotAs(OutputType.BASE64);
+				
+			 newBase="data:image/png;base64,"+mybase;
+			
 			System.out.println(mybase);
-
-		} catch (WebDriverException e) {
-			System.out.println("Unable to capture screenshots " + e.getMessage());
-		}
+	
+		} 
+		catch (WebDriverException e) 
+		{
+			System.out.println("Unable to capture screenshots "+e.getMessage());
+		} 
 		return newBase;
 	}
 
