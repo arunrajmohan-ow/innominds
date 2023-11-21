@@ -98,6 +98,9 @@ public class FontevaCES {
 	
 	@FindBy(xpath = "//p[text()='Account Name']//parent::div//div//a") WebElement accountName;
 	
+	@FindBy(xpath = "(//*[@role = 'grid']//tbody//tr//td)[2]//a")
+	WebElement selectPId;
+	
 	String  startLocator = "//div[@class='uiVirtualDataTable indicator']/following-sibling::table/tbody//a[text()='";
 	String  endLocator = "']";
 	String  appName = "Provider Application";
@@ -229,4 +232,27 @@ public class FontevaCES {
 		util.waitUntilElement(driver, noItemHeading);
 		assertTrue(noItemHeading.isDisplayed());
 	}
+	public void selectProviderApplication(String user) throws InterruptedException {
+		Actions actions = new Actions(driver);
+		util.waitUntilElement(driver, appLauncherIcn);
+		Thread.sleep(10000);
+		appLauncherIcn.click();
+		util.waitUntilElement(driver, appSearchtxtbx);
+		util.enterText(driver, appSearchtxtbx, appName);
+		util.waitUntilElement(driver, searchedAppPA);
+		WebElement provAppElement = Utility.waitForWebElement(driver, "//b[text()='" + appName + "']", 10);
+		provAppElement.click();
+		Thread.sleep(2000);
+		util.waitUntilElement(driver, tableProviderApp);
+		util.waitUntilElement(driver, selectList);
+		selectList.click();
+		util.waitUntilElement(driver, allBtn);
+		allBtn.click();
+		util.waitUntilElement(driver, searchBox);
+		searchBox.click();
+		searchBox.sendKeys(user);
+		actions.sendKeys(Keys.ENTER).build().perform();
+		util.waitUntilElement(driver, selectPId);
+		selectPId.click();
+}
 }

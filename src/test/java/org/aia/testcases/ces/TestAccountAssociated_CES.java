@@ -247,4 +247,51 @@ public class TestAccountAssociated_CES extends BaseClass {
 		rapidOrderEntery.selectAccountName();
 		rapidOrderEntery.verifyAccountAssociatedtoPOC();
 	}
+	@Test(priority = 4, description = "(FC-373) Verify account associated to Primary POC on contact page after JOIN Process", enabled = false)
+	public void validateaccountAssociatedtoPrimaryPOC() throws Exception {
+//Here we create the user
+		String prefix = "Dr.";
+		String suffix = "Sr.";
+		signUpPage.clickSignUplink();
+		ArrayList<String> dataList = signUpPage.signUpData();
+		signUpPage.signUpUser();
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
+		closeButtnPage.clickCloseAfterVerification();
+		loginPageCes.loginToCes(dataList.get(5), dataList.get(6));
+		loginPageCes.checkLoginSuccess();
+		primarypocPage.enterPrimaryPocDetails(prefix, suffix, dataList.get(2));
+		String text = organizationPage.enterOrganizationDetails(dataList, "Other", "No",
+				"United States of America (+1)");
+		subscribePage.SubscriptionType(text, "Yes", null, "Non-profit");
+		secPoc.enterSecondaryPocDetails(dataList, prefix, suffix, "No", "United States of America (+1)");
+		additionalUsers.doneWithCreatingUsers();
+		providerStatement.providerStatementEnterNameDate2("FNProviderStatement");
+		checkOutPageCes.SubscriptionType(text);
+		Logging.logger.info("Total Amount is : " + paymntSuccesFullPageCes.amountPaid());
+		String reciptData = paymntSuccesFullPageCes.ClickonViewReceipt();
+		Object amount = paymntSuccesFullPageCes.amountPaid();
+//Navigate to Fonteva side
+		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
+//fontevaPage.changeTermDates(dataList.get(0) + " " + dataList.get(1));
+		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
+		fontevaPage.selectProviderApplication(dataList.get(0) + " " + dataList.get(1));
+		apiValidation.verifyProviderApplicationDetails(testData.testDataProvider().getProperty("applicationStatus"),
+				dataList, testData.testDataProvider().getProperty("providerApplicationType"),
+				dataList.get(0) + " " + dataList.get(1), true, util.todaysDate().toString(),
+				testData.testDataProvider().getProperty("orgName"), "Other",
+				testData.testDataProvider().getProperty("priorProvider"));
+		apiValidation.verifyProviderApplicationAccountDetails(
+				testData.testDataProvider().getProperty("cesmembershipStatus"),
+				testData.testDataProvider().getProperty("cesMembershipType3"),
+				testData.testDataProvider().getProperty("termEndDate"), false);
+		apiValidation.verifySalesOrder(testData.testDataProvider().getProperty("orderPaidStatus"),
+				testData.testDataProvider().getProperty("closedStatus"), amount,
+				testData.testDataProvider().getProperty("postingStatus"));
+		apiValidation.verifyReciptDetails(null, amount, testData.testDataProvider().getProperty("cesMembershipType3"));
+		apiValidation.verifyPointOfContact(testData.testDataProvider().getProperty("pocRole"), dataList.get(5),
+				dataList.get(0) + " " + dataList.get(1));
+		rapidOrderEntery.selectAccount();
+		rapidOrderEntery.verifyAccountAssociatedtoPOC();
+
+	}
 }
