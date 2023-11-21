@@ -43,6 +43,7 @@ import org.aia.utility.VideoRecorder;
 import org.apache.log4j.Logger;
 import org.apache.poi.util.PackageHelper;
 import org.openqa.selenium.support.PageFactory;
+import org.testng.Reporter;
 import org.testng.annotations.AfterMethod;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.annotations.BeforeMethod;
@@ -87,7 +88,6 @@ public class TestAccountAssociated_CES extends BaseClass {
 
 	@BeforeMethod(alwaysRun = true)
 	public void setUp() throws Exception {
-		VideoRecorder.startRecording("RapidOrderEntryScenerio");
 		sessionID = new FontevaConnectionSOAP();
 		driver = BrowserSetup.startApplication(driver, DataProviderFactory.getConfig().getValue("browser"),
 				DataProviderFactory.getConfig().getValue("ces_signin"));
@@ -123,7 +123,7 @@ public class TestAccountAssociated_CES extends BaseClass {
 
 	}
 
-	@Test(priority = 1, description = "(FC-370) Verify adding Membership through ROE", enabled = true)
+	@Test(priority = 1, description = "(FC-370) Verify adding Membership through ROE", enabled = false)
 	public void validateMembershipthroughROE() throws Exception {
 //Here we create the user
 		String prefix = "Dr.";
@@ -149,10 +149,102 @@ public class TestAccountAssociated_CES extends BaseClass {
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
 //fontevaPage.changeTermDates(dataList.get(0) + " " + dataList.get(1));
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
-		ces_ContactPage.selectCreatedContact(dataList.get(0) + " " + dataList.get(1)); 
+		ces_ContactPage.selectCreatedContact(dataList.get(0) + " " + dataList.get(1));
 		rapidOrderEntery.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
 				testData.testDataProvider().getProperty("cesMembershipType2"),
 				testData.testDataProvider().getProperty("quickElement2"));
-	
-}
+		rapidOrderEntery.selectAccount();
+		rapidOrderEntery.verifyRecieptAfterROE();
+
+	}
+
+	@Test(priority = 2, description = "(FC-371) Verify account associated to POC after adding CES Membership through ROE", enabled = false)
+	public void validateaccountAssociatedROE() throws Exception {
+//Here we create the user
+		String prefix = "Dr.";
+		String suffix = "Sr.";
+		signUpPage.clickSignUplink();
+		ArrayList<String> dataList = signUpPage.signUpData();
+		signUpPage.signUpUser();
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
+		closeButtnPage.clickCloseAfterVerification();
+		loginPageCes.loginToCes(dataList.get(5), dataList.get(6));
+		loginPageCes.checkLoginSuccess();
+		primarypocPage.enterPrimaryPocDetails(prefix, suffix, dataList.get(2));
+		String text = organizationPage.enterOrganizationDetails(dataList, "Other", "No",
+				"United States of America (+1)");
+		subscribePage.SubscriptionType(text, "Yes", null, "Non-profit");
+		secPoc.enterSecondaryPocDetails(dataList, prefix, suffix, "No", "United States of America (+1)");
+		additionalUsers.doneWithCreatingUsers();
+		providerStatement.providerStatementEnterNameDate2("FNProviderStatement");
+		checkOutPageCes.SubscriptionType(text);
+		Logging.logger.info("Total Amount is : " + paymntSuccesFullPageCes.amountPaid());
+		String reciptData = paymntSuccesFullPageCes.ClickonViewReceipt();
+//Navigate to Fonteva side
+		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
+//fontevaPage.changeTermDates(dataList.get(0) + " " + dataList.get(1));
+		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
+		ces_ContactPage.selectCreatedContact(dataList.get(0) + " " + dataList.get(1));
+		rapidOrderEntery.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
+				testData.testDataProvider().getProperty("cesMembershipType2"),
+				testData.testDataProvider().getProperty("quickElement2"));
+		rapidOrderEntery.verifyRecieptAfterROE();
+		rapidOrderEntery.selectAccount();
+		rapidOrderEntery.verifyAccountAssociatedtoPOC();
+
+	}
+
+	@Test(priority = 3, description = "(FC-372) Verify account associated to POC after Renew process", enabled = true)
+	public void validateaccountAssociatedafterRenew() throws Exception {
+//Here we create the user
+		String prefix = "Dr.";
+		String suffix = "Sr.";
+		signUpPage.clickSignUplink();
+		ArrayList<String> dataList = signUpPage.signUpData();
+		ArrayList<String> userAccount = dataList;
+		signUpPage.signUpUser();
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
+		closeButtnPage.clickCloseAfterVerification();
+		loginPageCes.loginToCes(dataList.get(5), dataList.get(6));
+		loginPageCes.checkLoginSuccess();
+		primarypocPage.enterPrimaryPocDetails(prefix, suffix, dataList.get(2));
+		String text = organizationPage.enterOrganizationDetails(dataList, "Other", "No",
+				"United States of America (+1)");
+		subscribePage.SubscriptionType(text, "Yes", null, "Non-profit");
+		secPoc.enterSecondaryPocDetails(dataList, prefix, suffix, "No", "United States of America (+1)");
+		additionalUsers.doneWithCreatingUsers();
+		providerStatement.providerStatementEnterNameDate2("FNProviderStatement");
+		checkOutPageCes.SubscriptionType(text);
+		Logging.logger.info("Total Amount is : " + paymntSuccesFullPageCes.amountPaid());
+		Object amount = paymntSuccesFullPageCes.amountPaid();
+		String reciptData = paymntSuccesFullPageCes.ClickonViewReceipt();
+		// Navigate to Fonteva app and make record renew eligible.
+		FontevaConnectionSOAP sessionID = new FontevaConnectionSOAP();
+		final String sID = sessionID.getSessionID();
+		driver.get("https://aia--testing.sandbox.my.salesforce.com/secur/frontdoor.jsp?sid=" + sID);
+		// driver.get(DataProviderFactory.getConfig().getValue("fonteva_endpoint"));
+		fontevaPage.changeTermDates(dataList.get(0) + " " + dataList.get(1));
+		// Navigate back to renew CES portal
+		driver.get(
+				"https://account-dev.aia.org/signin?redirectUrl=https%3A%2F%2Faia--testing.sandbox.my.site.com%2FProviders%2Fs%2Frenew");
+		driver.switchTo().alert().accept();
+		// Renew user
+		renew.renewMembership(dataList.get(5));
+		checkOutPageCes.enterECheckDetailsCes(userAccount.get(1), testData.testDataProvider().getProperty("bankName"),
+				testData.testDataProvider().getProperty("bankRoutingNo"),
+				testData.testDataProvider().getProperty("bankAccountNo"));
+		Object echeckamount = paymntSuccesFullPageCes.amountPaid();
+		Logging.logger.info("Total Amount is : " + echeckamount);
+		String renewreciptData = paymntSuccesFullPageCes.ClickonViewReceipt();
+		// Get Receipt number
+		String renewreciptNumber = util.getSubString(renewreciptData, "");
+		Reporter.log("LOG : INFO -Receipt Number is" + renewreciptNumber);
+		Reporter.log("LOG : INFO -Customer AIA Number is : " + userAccount.get(1));
+		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
+		// fontevaPage.changeTermDates(dataList.get(0) + " " + dataList.get(1));
+		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
+		ces_ContactPage.selectCreatedContact(dataList.get(0) + " " + dataList.get(1));
+		rapidOrderEntery.selectAccountName();
+		rapidOrderEntery.verifyAccountAssociatedtoPOC();
+	}
 }
