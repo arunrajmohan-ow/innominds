@@ -25,7 +25,6 @@ public class CES_RapidOrderEntry {
 	ConfigDataProvider data = new ConfigDataProvider();
 	CES_ContactPage contactPage;
 	SubscriptionPlanPrice subscriptionAPI = new SubscriptionPlanPrice(driver);
-	Organization org;
 	static Logger log = Logger.getLogger(ContactCreateUser.class);
 	Actions action;
 	JavascriptExecutor executor;
@@ -35,7 +34,6 @@ public class CES_RapidOrderEntry {
 		action = new Actions(driver);
 		executor = (JavascriptExecutor) driver;
 		contactPage = new CES_ContactPage(driver);
-		org = new Organization(driver);
 	}
 
 	@FindBy(xpath = "//p[text()='Account Name']//parent::div//div//a//span")
@@ -127,18 +125,13 @@ public class CES_RapidOrderEntry {
 	@FindBy(xpath = "//div[text()='Receipt']/parent::h1")
 	WebElement receiptElement;
 
-	//@FindBy(xpath = "//a/slot/span[contains(text(),'Points of contact')]")
-	//WebElement pointofContact;
-	
-	//@FindBy(xpath = "//*[contains(text(),'Open Points of contact')]")
-	@FindBy(xpath = "//*[contains(text(),'Open Supplemental dues')]/following::div[1]//a//span")
-	WebElement pointofContact;
+	// @FindBy(xpath = "//a/slot/span[contains(text(),'Points of contact')]")
+	// WebElement pointofContact;
+
+	// @FindBy(xpath = "//*[contains(text(),'Open Points of contact')]")
 
 	@FindBy(xpath = "//a[normalize-space()='Show All (10)']")
 	WebElement showallBtn;
-
-	@FindBy(xpath = "//table[@aria-label='Points of contact']//tbody//th//a")
-	WebElement selectContact;
 
 	/**
 	 * @param userFullname
@@ -174,9 +167,6 @@ public class CES_RapidOrderEntry {
 	public void cesRapidOrderEntry(String userFullname, String itemQuick, String quickElement)
 			throws InterruptedException, AWTException {
 		Thread.sleep(30000);
-		// contactPage.selectCreatedContact(userFullname);
-		util.waitUntilElement(driver, accountName);
-		executor.executeScript("arguments[0].click();", accountName);
 		util.waitUntilElement(driver, rapidOrderEnteryBtn);
 		rapidOrderEnteryBtn.click();
 		util.waitUntilElement(driver, quickItemSelect);
@@ -266,7 +256,7 @@ public class CES_RapidOrderEntry {
 		util.waitUntilElement(driver, accountName);
 		executor.executeScript("arguments[0].click();", accountName);
 	}
-	
+
 	public void selectAccount() throws InterruptedException {
 		util.waitUntilElement(driver, SelectAccount);
 		action.moveToElement(SelectAccount).click().perform();
@@ -424,20 +414,5 @@ public class CES_RapidOrderEntry {
 	public void verifyRecieptAfterROE() throws InterruptedException {
 		util.waitUntilElement(driver, receiptElement);
 		assertTrue(receiptElement.isDisplayed());
-	}
-
-	public void verifyAccountAssociatedtoPOC() throws InterruptedException {
-		util.waitUntilElement(driver, showallBtn);
-		action.moveToElement(showallBtn).click().perform();
-		Thread.sleep(10000);
-		util.waitUntilElement(driver, pointofContact);
-		//util.waitUntilElement(driver, pointofContact);
-		action.moveToElement(pointofContact).click().perform();
-		util.waitUntilElement(driver, selectContact);
-		action.moveToElement(selectContact).click().perform();
-		util.waitUntilElement(driver, accountName);
-		String accountNameValue = accountName.getText();
-		System.out.println("accountName is:" + accountNameValue);
-		assertTrue(accountNameValue.equalsIgnoreCase(org.orgName));
 	}
 }

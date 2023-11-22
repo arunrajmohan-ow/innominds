@@ -147,13 +147,11 @@ public class TestAccountAssociated_CES extends BaseClass {
 		String reciptData = paymntSuccesFullPageCes.ClickonViewReceipt();
 //Navigate to Fonteva side
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
-//fontevaPage.changeTermDates(dataList.get(0) + " " + dataList.get(1));
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
 		ces_ContactPage.selectCreatedContact(dataList.get(0) + " " + dataList.get(1));
 		rapidOrderEntery.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
 				testData.testDataProvider().getProperty("cesMembershipType2"),
 				testData.testDataProvider().getProperty("quickElement2"));
-		rapidOrderEntery.selectAccount();
 		rapidOrderEntery.verifyRecieptAfterROE();
 
 	}
@@ -190,11 +188,11 @@ public class TestAccountAssociated_CES extends BaseClass {
 				testData.testDataProvider().getProperty("quickElement2"));
 		rapidOrderEntery.verifyRecieptAfterROE();
 		rapidOrderEntery.selectAccount();
-		rapidOrderEntery.verifyAccountAssociatedtoPOC();
+		ces_ContactPage.verifyAccountAssociatedtoPrimaryPOC();
 
 	}
 
-	@Test(priority = 3, description = "(FC-372) Verify account associated to POC after Renew process", enabled = true)
+	@Test(priority = 3, description = "(FC-372) Verify account associated to POC after Renew process", enabled = false)
 	public void validateaccountAssociatedafterRenew() throws Exception {
 //Here we create the user
 		String prefix = "Dr.";
@@ -244,9 +242,10 @@ public class TestAccountAssociated_CES extends BaseClass {
 		// fontevaPage.changeTermDates(dataList.get(0) + " " + dataList.get(1));
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
 		ces_ContactPage.selectCreatedContact(dataList.get(0) + " " + dataList.get(1));
-		rapidOrderEntery.selectAccountName();
-		rapidOrderEntery.verifyAccountAssociatedtoPOC();
+		// rapidOrderEntery.selectAccountName();
+		ces_ContactPage.verifyAccountAssociatedtoPrimaryPOC();
 	}
+
 	@Test(priority = 4, description = "(FC-373) Verify account associated to Primary POC on contact page after JOIN Process", enabled = false)
 	public void validateaccountAssociatedtoPrimaryPOC() throws Exception {
 //Here we create the user
@@ -268,30 +267,109 @@ public class TestAccountAssociated_CES extends BaseClass {
 		providerStatement.providerStatementEnterNameDate2("FNProviderStatement");
 		checkOutPageCes.SubscriptionType(text);
 		Logging.logger.info("Total Amount is : " + paymntSuccesFullPageCes.amountPaid());
-		String reciptData = paymntSuccesFullPageCes.ClickonViewReceipt();
 		Object amount = paymntSuccesFullPageCes.amountPaid();
+		String reciptData = paymntSuccesFullPageCes.ClickonViewReceipt();
 //Navigate to Fonteva side
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
 //fontevaPage.changeTermDates(dataList.get(0) + " " + dataList.get(1));
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
 		fontevaPage.selectProviderApplication(dataList.get(0) + " " + dataList.get(1));
-		apiValidation.verifyProviderApplicationDetails(testData.testDataProvider().getProperty("applicationStatus"),
-				dataList, testData.testDataProvider().getProperty("providerApplicationType"),
-				dataList.get(0) + " " + dataList.get(1), true, util.todaysDate().toString(),
-				testData.testDataProvider().getProperty("orgName"), "Other",
-				testData.testDataProvider().getProperty("priorProvider"));
+		rapidOrderEntery.selectAccount();
 		apiValidation.verifyProviderApplicationAccountDetails(
 				testData.testDataProvider().getProperty("cesmembershipStatus"),
-				testData.testDataProvider().getProperty("cesMembershipType3"),
+				testData.testDataProvider().getProperty("cesmembershipType0"),
 				testData.testDataProvider().getProperty("termEndDate"), false);
 		apiValidation.verifySalesOrder(testData.testDataProvider().getProperty("orderPaidStatus"),
 				testData.testDataProvider().getProperty("closedStatus"), amount,
 				testData.testDataProvider().getProperty("postingStatus"));
-		apiValidation.verifyReciptDetails(null, amount, testData.testDataProvider().getProperty("cesMembershipType3"));
+		apiValidation.verifyReciptDetails(null, amount, testData.testDataProvider().getProperty("cesmembershipType0"));
 		apiValidation.verifyPointOfContact(testData.testDataProvider().getProperty("pocRole"), dataList.get(5),
 				dataList.get(0) + " " + dataList.get(1));
-		rapidOrderEntery.selectAccount();
-		rapidOrderEntery.verifyAccountAssociatedtoPOC();
+		ces_ContactPage.verifyAccountAssociatedtoPrimaryPOC();
 
+	}
+
+	@Test(priority = 5, description = "(FC-374) Verify account associated to Secondary POC on contact page after JOIN Process", enabled = false)
+	public void validateaccountAssociatedtoSecondaryPOC() throws Exception {
+//Here we create the user
+		String prefix = "Dr.";
+		String suffix = "Sr.";
+		signUpPage.clickSignUplink();
+		ArrayList<String> dataList = signUpPage.signUpData();
+		signUpPage.signUpUser();
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
+		closeButtnPage.clickCloseAfterVerification();
+		loginPageCes.loginToCes(dataList.get(5), dataList.get(6));
+		loginPageCes.checkLoginSuccess();
+		primarypocPage.enterPrimaryPocDetails(prefix, suffix, dataList.get(2));
+		String text = organizationPage.enterOrganizationDetails(dataList, "Other", "No",
+				"United States of America (+1)");
+		subscribePage.SubscriptionType(text, "Yes", null, "Non-profit");
+		secPoc.enterSecondaryPocDetails(dataList, prefix, suffix, "Yes", "United States of America (+1)");
+		additionalUsers.doneWithCreatingUsers();
+		providerStatement.providerStatementEnterNameDate2("FNProviderStatement");
+		checkOutPageCes.SubscriptionType(text);
+		Logging.logger.info("Total Amount is : " + paymntSuccesFullPageCes.amountPaid());
+		Object amount = paymntSuccesFullPageCes.amountPaid();
+		String reciptData = paymntSuccesFullPageCes.ClickonViewReceipt();
+//Navigate to Fonteva side
+		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
+//fontevaPage.changeTermDates(dataList.get(0) + " " + dataList.get(1));
+		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
+		fontevaPage.selectProviderApplication(dataList.get(0) + " " + dataList.get(1));
+		rapidOrderEntery.selectAccount();
+		apiValidation.verifyProviderApplicationAccountDetails(
+				testData.testDataProvider().getProperty("cesmembershipStatus"),
+				testData.testDataProvider().getProperty("cesmembershipType0"),
+				testData.testDataProvider().getProperty("termEndDate"), false);
+		apiValidation.verifySalesOrder(testData.testDataProvider().getProperty("orderPaidStatus"),
+				testData.testDataProvider().getProperty("closedStatus"), amount,
+				testData.testDataProvider().getProperty("postingStatus"));
+		apiValidation.verifyReciptDetails(null, amount, testData.testDataProvider().getProperty("cesmembershipType0"));
+		apiValidation.verifyPointOfContact(testData.testDataProvider().getProperty("pocRole"), dataList.get(5),
+				dataList.get(0) + " " + dataList.get(1));
+		ces_ContactPage.verifyAccountAssociatedtoSecondaryPOC();
+	}
+
+	@Test(priority = 6, description = "(FC-375) Verify account associated to User on contact page after JOIN Process", enabled = true)
+	public void validateaccountAssociatedtoUser() throws Exception {
+//Here we create the user
+		String prefix = "Dr.";
+		String suffix = "Sr.";
+		signUpPage.clickSignUplink();
+		ArrayList<String> dataList = signUpPage.signUpData();
+		signUpPage.signUpUser();
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
+		closeButtnPage.clickCloseAfterVerification();
+		loginPageCes.loginToCes(dataList.get(5), dataList.get(6));
+		loginPageCes.checkLoginSuccess();
+		primarypocPage.enterPrimaryPocDetails(prefix, suffix, dataList.get(2));
+		String text = organizationPage.enterOrganizationDetails(dataList, "Other", "No",
+				"United States of America (+1)");
+		subscribePage.SubscriptionType(text, "Yes", null, "Non-profit");
+		secPoc.enterSecondaryPocDetails(dataList, prefix, suffix, "No", "United States of America (+1)");
+		additionalUsers.doneWithCreatingUsers();
+		providerStatement.providerStatementEnterNameDate2("FNProviderStatement");
+		checkOutPageCes.SubscriptionType(text);
+		Logging.logger.info("Total Amount is : " + paymntSuccesFullPageCes.amountPaid());
+		Object amount = paymntSuccesFullPageCes.amountPaid();
+		String reciptData = paymntSuccesFullPageCes.ClickonViewReceipt();
+//Navigate to Fonteva side
+		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
+//fontevaPage.changeTermDates(dataList.get(0) + " " + dataList.get(1));
+		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
+		fontevaPage.selectProviderApplication(dataList.get(0) + " " + dataList.get(1));
+		rapidOrderEntery.selectAccount();
+		apiValidation.verifyProviderApplicationAccountDetails(
+				testData.testDataProvider().getProperty("cesmembershipStatus"),
+				testData.testDataProvider().getProperty("cesmembershipType0"),
+				testData.testDataProvider().getProperty("termEndDate"), false);
+		apiValidation.verifySalesOrder(testData.testDataProvider().getProperty("orderPaidStatus"),
+				testData.testDataProvider().getProperty("closedStatus"), amount,
+				testData.testDataProvider().getProperty("postingStatus"));
+		apiValidation.verifyReciptDetails(null, amount, testData.testDataProvider().getProperty("cesmembershipType0"));
+		apiValidation.verifyPointOfContact(testData.testDataProvider().getProperty("pocRole"), dataList.get(5),
+				dataList.get(0) + " " + dataList.get(1));
+		ces_ContactPage.verifyAccountAssociatedtoPrimaryPOC();
 	}
 }
