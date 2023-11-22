@@ -1,34 +1,27 @@
 package org.aia.pages.fonteva.ces;
 
-import static org.testng.Assert.assertTrue;
 
-import java.awt.AWTException;
-import java.awt.Robot;
-import java.awt.event.KeyEvent;
-import java.security.Key;
+import static org.testng.Assert.*;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.aia.pages.api.ces.SubscriptionPlanPrice;
 import org.aia.pages.fonteva.membership.ContactCreateUser;
 import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.Utility;
-import org.apache.commons.io.serialization.ValidatingObjectInputStream;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.log4j.Logger;
-import org.bouncycastle.asn1.eac.PublicKeyDataObject;
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.Select;
 
 /**
  * @author IM-RT-LP-1483 (Suhas)
@@ -38,6 +31,7 @@ public class CES_ContactPage {
 	WebDriver driver;
 	Utility util = new Utility(driver, 30);
 	ConfigDataProvider data = new ConfigDataProvider();
+	SubscriptionPlanPrice subscriptionAPI = new SubscriptionPlanPrice(driver);
 	static Logger log = Logger.getLogger(ContactCreateUser.class);
 	Actions action;
 	JavascriptExecutor executor;
@@ -57,8 +51,9 @@ public class CES_ContactPage {
 	@FindBy(xpath = "//a/span[@title='Name']")
 	WebElement tableheaderName;
 
-	//@FindBy(xpath = "//h1/span[text()='Contacts']/parent::h1/parent::div/parent::div//button")
-	
+	// @FindBy(xpath =
+	// "//h1/span[text()='Contacts']/parent::h1/parent::div/parent::div//button")
+
 	@FindBy(xpath = "//button[contains(@title,'Select a List View: Contacts')]")
 	WebElement contactallBtn;
 
@@ -236,15 +231,22 @@ public class CES_ContactPage {
 
 	// @FindBy(xpath = "//strong[text()='Item Quick
 	// Add']//parent::span//following-sibling::span//div//input")
-	@FindBy(xpath = "(//*[contains(@class,'selectize-control')]//div[@class='selectize-input items not-full']//input)[3]")
+	// (//strong[text()='Item Quick
+	// Add']/ancestor::div[@data-name='itemQuickAdd']//div[@data-name='quickAddItem']/div/div/div/input)
+	@FindBy(xpath = "//div[@data-name='itemQuickAdd']//div[@data-name='quickAddItem']/div/div/div/input")
 	WebElement quickItemSelect;
 
 	@FindBy(xpath = "//button[text()='Add to Order']")
 	WebElement addOrderBtn;
 
+
 	String quickItemNatinal = "(//span[text()='%s'])[1]";
 	
 	String providerApplication="(//b[text()='%s'])[1]";
+
+	//String quickItemNatinal = "(//span[text()='%s'])";
+
+	String discountCodeInput = "//span[text()='%s']";
 
 	@FindBy(xpath = "//button[text()='Go']") // (//button[normalize-space()='Go'])")
 	WebElement goBtn;
@@ -276,6 +278,18 @@ public class CES_ContactPage {
 	@FindBy(xpath = "//div[text()='Delete']")
 	WebElement DeleteBtn_chevrontype;
 
+	@FindBy(xpath = "//div[@data-label='Discount Code']//input")
+	WebElement discountCodeInputInROE;
+
+	@FindBy(xpath = "//p[@class='slideIn']")
+	WebElement discountAplliedPopUp;
+
+	@FindBy(xpath = "//button[@class='iziToast-close']")
+	WebElement popUpCloseButton;
+
+	@FindBy(xpath = "//button[text()='Apply']")
+	WebElement discontApplyBtn;
+
 	@FindBy(xpath = "//input[@name='referenceNumber']")
 	WebElement referenceNumber;
 
@@ -288,11 +302,12 @@ public class CES_ContactPage {
 	@FindBy(xpath = "//div/strong[text()='Items']/span")
 	WebElement itemsFees;
 	
-//	@FindBy(xpath="//button[@aria-haspopup='dialog']//span[text()='App Launcher']/..")
-//	WebElement appLauncher;
-//	
-//	@FindBy(xpath = "//button[contains(@title,'Select a List View: Provider Application')]")
-//	WebElement providerAppBtn;
+	@FindBy(xpath = "//div[text()='Receipt']/parent::h1")
+	WebElement receiptElement;
+	
+	@FindBy(xpath = "//span[text()= 'Account Name']/parent::div/parent::div//a//span")
+	WebElement account;
+
 
 	String fName;
 	String lName;
@@ -508,7 +523,6 @@ public class CES_ContactPage {
 		util.waitUntilElement(driver, showAll);
 		//action.moveToElement(showAll).click().perform();
 		showAll.click();
-		
 	}
 
 	/**
@@ -534,7 +548,7 @@ public class CES_ContactPage {
 	 * @throws AWTException
 	 */
 	public void selectRapidOrderEntry(String userFullname, String itemQuick, String quickElement)
-			throws InterruptedException, AWTException {
+			throws InterruptedException {
 		selectCreatedContact(userFullname);
 		util.waitUntilElement(driver, accountName);
 		executor.executeScript("arguments[0].click();", accountName);
@@ -559,7 +573,7 @@ public class CES_ContactPage {
 	}
 
 	public void cesRapidOrderEntry(String userFullname, String itemQuick, String quickElement)
-			throws InterruptedException, AWTException {
+			throws InterruptedException {
 		Thread.sleep(30000);
 		selectCreatedContact(userFullname);
 		util.waitUntilElement(driver, accountName);

@@ -29,13 +29,13 @@ import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 
-public class JoinCESAPIValidation 
-{
+public class JoinCESAPIValidation {
 	WebDriver driver;
-	public JoinCESAPIValidation(WebDriver Idriver) 
-	{
+
+	public JoinCESAPIValidation(WebDriver Idriver) {
 		this.driver = Idriver;
 	}
+
 	Utility util = new Utility(driver, 10);
 
 	String PARAMETERIZED_SEARCH_URI = DataProviderFactory.getConfig().getValue("parameterizedSearch_uri");
@@ -48,93 +48,98 @@ public class JoinCESAPIValidation
 	private static String accountID = null;
 	private static String providerID = null;
 	private static String receiptid = null;
-	
-	static FontevaConnection bt = new FontevaConnection(); 
-	//private static final String bearerToken = DataProviderFactory.getConfig().getValue("access_token");//bt.getbearerToken();;
+
+	static FontevaConnection bt = new FontevaConnection();
+	// private static final String bearerToken =
+	// DataProviderFactory.getConfig().getValue("access_token");//bt.getbearerToken();;
 	private static final String bearerToken = bt.getbearerToken();
-	
-	public String getProviderApplicationID(String owner) throws InterruptedException	{
+
+	/**
+	 * Here we are fetching account ID using api get call
+	 * 
+	 * @param memberAccount
+	 */
+	public void getAccountId(String memberAccount) {
+		// From this api we get the provider id
+		Response response = given().contentType(ContentType.JSON).accept(ContentType.JSON)
+				.header("Authorization", "Bearer " + bearerToken).header("Content-Type", ContentType.JSON)
+				.header("Accept", ContentType.JSON).param("q", memberAccount)
+				.param("sobject", "Provider_Application__c").when().get(PARAMETERIZED_SEARCH_URI).then().statusCode(200)
+				.extract().response();
+
+		jsonPathEval = response.jsonPath();
+		String providerId = jsonPathEval.getString("searchRecords[0].Id");
+		System.out.println("ProviderId  ID:" + providerId);
+
+		// From this api call we get account id using provider id
+		String providerUri = SOBJECT_URI + "/Provider_Application__c/" + providerId;
+		System.out.println("ProviderUrl:" + providerUri);
+		response = given().header("Authorization", "Bearer " + bearerToken).header("Content-Type", ContentType.JSON)
+				.header("Accept", ContentType.JSON).when().get(providerUri).then().statusCode(200).extract().response();
+		jsonPathEval = response.jsonPath();
+		accountID = jsonPathEval.getString("Account__c");
+		System.out.println("Account ID:" + accountID);
+	}
+
+	public String getProviderApplicationID(String owner) throws InterruptedException {
 		// Use Account ID to fetch account details.
 		String PA_CREATEDBY_URI = "https://aia--testing.sandbox.my.salesforce.com/services/data/v56.0/query";
-		
+
 		System.out.println("AIA Provider Application Type: " + PA_CREATEDBY_URI);
-		
-		Response paresponse = 
-		    	 given().
-				 header("Authorization", "Bearer " + bearerToken).
-				 header("Content-Type",ContentType.JSON).
-				 header("Accept",ContentType.JSON).
-				 param("q", "SELECT id,Name FROM Provider_Application__c WHERE CreatedBy.Name="+"'"+owner+"'").
-				 when().get(PA_CREATEDBY_URI).
-				 then().statusCode(200).extract().response();
+
+		Response paresponse = given().header("Authorization", "Bearer " + bearerToken)
+				.header("Content-Type", ContentType.JSON).header("Accept", ContentType.JSON)
+				.param("q", "SELECT id,Name FROM Provider_Application__c WHERE CreatedBy.Name=" + "'" + owner + "'")
+				.when().get(PA_CREATEDBY_URI).then().statusCode(200).extract().response();
 
 		jsonPathEval = paresponse.jsonPath();
 		providerID = jsonPathEval.getString("records[0].Id");
 		String providerName = jsonPathEval.getString("records[0].Name");
-		//Validate Provider application number is visible
+		// Validate Provider application number is visible
 		assertTrue(providerName.contains("PA"), "Provider Application field is not blank.");
 		return providerName;
 	}
-	
+
 	/*
 	 * Validate Provider Application Details of CES application.
+	 * 
 	 * @param: applicationType
+	 * 
 	 * @param: owner
 	 */
-	public void verifyProviderApplicationDetails(String applicationStatus, ArrayList<String> dataList, String applicationType, String owner, 
-			Boolean isAttestation, Object attestationdate, String orgName, String orgType, String priorProvider) 
-			throws InterruptedException	{
+	public void verifyProviderApplicationDetails(String applicationStatus, ArrayList<String> dataList,
+			String applicationType, String owner, Boolean isAttestation, Object attestationdate, String orgName,
+			String orgType, String priorProvider) throws InterruptedException {
 		// Use Account ID to fetch account details.
 		String PA_CREATEDBY_URI = "https://aia--testing.sandbox.my.salesforce.com/services/data/v56.0/query";
-		
-		System.out.println("AIA Provider Application Type: " + PA_CREATEDBY_URI);
-		
-		Response paresponse = 
-		    	 given().
-				 header("Authorization", "Bearer " + bearerToken).
-				 header("Content-Type",ContentType.JSON).
-				 header("Accept",ContentType.JSON).
-				 param("q", "SELECT id,Name FROM Provider_Application__c WHERE CreatedBy.Name="+"'"+owner+"'").
-				 when().get(PA_CREATEDBY_URI).
-				 then().statusCode(200).extract().response();
 
-		jsonPathEval = paresponse.jsonPath(); 
+		System.out.println("AIA Provider Application Type: " + PA_CREATEDBY_URI);
+
+		Response paresponse = given().header("Authorization", "Bearer " + bearerToken)
+				.header("Content-Type", ContentType.JSON).header("Accept", ContentType.JSON)
+				.param("q", "SELECT id,Name FROM Provider_Application__c WHERE CreatedBy.Name=" + "'" + owner + "'")
+				.when().get(PA_CREATEDBY_URI).then().statusCode(200).extract().response();
+
+		jsonPathEval = paresponse.jsonPath();
 		providerID = jsonPathEval.getString("records[0].Id");
 		String providerName = jsonPathEval.getString("records[0].Name");
-		//Validate Provider application number is visible
+		// Validate Provider application number is visible
 		assertTrue(providerName.contains("PA"), "Provider Application field is not blank.");
-		
-		//Provider application details : 
+
+		// Provider application details :
 		String PROVAPP_ID_URI = SOBJECT_URI + "/Provider_Application__c/" + providerID;
-		Response response2 = 
-		    	 given().
-				 header("Authorization", "Bearer " + bearerToken).
-				 header("Content-Type",ContentType.JSON).
-				 header("Accept",ContentType.JSON).
-				 param("fields", "Name, "
-				 		+ "Application_Stage__c, "
-				 		+ "Application_Type__c, "
-				 		+ "Primary_Contact_Name__c, "
-				 		+ "Electronic_Attestation__c, "
-				 		+ "Attestation_Date__c, "
-				 		+ "Organization_Name__c, "
-				 		+ "	Organization_Type__c, "
-				 		+ "Prior_Provider__c, "
-				 		+ "Former_CES_Provider_Number__c, "
-				 		+ "Website__c, "
-				 		+ "Street__c, "
-				 		+ "ZIP_Postal_Code__c, "
-				 		+ "City__c, "
-				 		+ "Country__c, "
-				 		+ "OwnerId, "
-				 		+ "LastModifiedById, "
-				 		+ "Telephone__c, "
-				 		+ "CreatedById").
-				 when().get(PROVAPP_ID_URI).
-				 then().statusCode(200).extract().response();
+		Response response2 = given().header("Authorization", "Bearer " + bearerToken)
+				.header("Content-Type", ContentType.JSON).header("Accept", ContentType.JSON)
+				.param("fields",
+						"Name, " + "Application_Stage__c, " + "Application_Type__c, " + "Primary_Contact_Name__c, "
+								+ "Electronic_Attestation__c, " + "Attestation_Date__c, " + "Organization_Name__c, "
+								+ "	Organization_Type__c, " + "Prior_Provider__c, " + "Former_CES_Provider_Number__c, "
+								+ "Website__c, " + "Street__c, " + "ZIP_Postal_Code__c, " + "City__c, " + "Country__c, "
+								+ "OwnerId, " + "LastModifiedById, " + "Telephone__c, " + "CreatedById")
+				.when().get(PROVAPP_ID_URI).then().statusCode(200).extract().response();
 
 		jsonPathEval = response2.jsonPath();
-		
+
 		String application_status = jsonPathEval.getString("Application_Stage__c");
 		String application_Type = jsonPathEval.getString("Application_Type__c");
 		String priOwner = jsonPathEval.getString("Primary_Contact_Name__c");
@@ -151,9 +156,9 @@ public class JoinCESAPIValidation
 		String streetAddress = jsonPathEval.getString("Street__c");
 		String phoneNo = jsonPathEval.getString("Telephone__c");
 		String website = jsonPathEval.getString("Website__c");
-		
-		//'Application Status , 'Application Status
-		
+
+		// 'Application Status , 'Application Status
+
 		System.out.println("AIA Provider Application Status: " + application_status);
 		Logging.logger.info("AIA Provider Application Type is:" + application_Type);
 		System.out.println("AIA Provider owner : " + priOwner);
@@ -167,136 +172,105 @@ public class JoinCESAPIValidation
 		System.out.println("AIA former CES street Address: " + streetAddress);
 		System.out.println("AIA former CES phone No: " + phoneNo);
 		System.out.println("AIA former CES website: " + website);
-		
+
 		assertEquals(application_status, applicationStatus);
 		assertEquals(application_Type, applicationType);
 		assertEquals(priOwner, owner);
 		assertEquals(electronic_Attestation, isAttestation);
 		assertEquals(electronic_Attestation_date, attestationdate);
 		assertEquals(account, orgName);
-		//assertEquals(organization_Type, orgType);
+		// assertEquals(organization_Type, orgType);
 		assertEquals(prior_Provider, priorProvider);
-		if(priorProvider.equalsIgnoreCase("Yes")) {
+		if (priorProvider.equalsIgnoreCase("Yes")) {
 			assertNotNull(former_CES_Provider_Number);
 		}
-		
-		//assertEquals(ownerId, lastModifiedById);
+
+		// assertEquals(ownerId, lastModifiedById);
 		assertEquals(ownerId, createdById);
 		assertEquals(phoneNo, dataList.get(2));
-		if(website != null) {
+		if (website != null) {
 			assertEquals(website, dataList.get(7));
 			assertEquals(zipCode, "055443");
 			assertEquals(streetAddress, "Street No-1");
 		}
 	}
-	
-	
-	public void verifyProviderApplicationAccountDetails(String cesproviderStatus, String cesmembershipType, String enddate,
-			Boolean isproviderRenewEligible) 
-			throws InterruptedException	{
+
+	public void verifyProviderApplicationAccountDetails(String cesproviderStatus, String cesmembershipType,
+			String enddate, Boolean isproviderRenewEligible) throws InterruptedException {
 		// Use Account ID to fetch account details.
 		String PROVAPP_URI = SOBJECT_URI + "/Provider_Application__c";
-		
-		Response response = 
-		    	 given().
-				 header("Authorization", "Bearer " + bearerToken).
-				 header("Content-Type",ContentType.JSON).
-				 header("Accept",ContentType.JSON).
-				 when().get(PROVAPP_URI).
-				 then().statusCode(200).extract().response();
+
+		Response response = given().header("Authorization", "Bearer " + bearerToken)
+				.header("Content-Type", ContentType.JSON).header("Accept", ContentType.JSON).when().get(PROVAPP_URI)
+				.then().statusCode(200).extract().response();
 
 		jsonPathEval = response.jsonPath();
 		providerID = jsonPathEval.getString("recentItems[0].Id");
 		String providerName = jsonPathEval.getString("recentItems[0].Name");
-		
-		//Validate Provider application number is visible
+
+		// Validate Provider application number is visible
 		assertTrue(providerName.contains("PA"), "Provider Application field is not blank.");
-		
-		//Provider application details : 
+
+		// Provider application details :
 		String PROVAPP_ID_URI = SOBJECT_URI + "/Provider_Application__c/" + providerID;
-		Response response2 = 
-		    	 given().
-				 header("Authorization", "Bearer " + bearerToken).
-				 header("Content-Type",ContentType.JSON).
-				 header("Accept",ContentType.JSON).
-				 param("fields", "Account__c").
-				 when().get(PROVAPP_ID_URI).
-				 then().statusCode(200).extract().response();
+		Response response2 = given().header("Authorization", "Bearer " + bearerToken)
+				.header("Content-Type", ContentType.JSON).header("Accept", ContentType.JSON)
+				.param("fields", "Account__c").when().get(PROVAPP_ID_URI).then().statusCode(200).extract().response();
 
 		jsonPathEval = response2.jsonPath();
 		accountID = jsonPathEval.getString("Account__c");
 
 		// Use Account ID to fetch account details.
-		if(accountID.isBlank()) {
+		if (accountID.isBlank()) {
 			System.out.println("No active account found!!!");
 		}
 		String ACCOUNT_URL = ACCOUNT_URI + "/" + accountID;
-		Response responseAcc = 
-		    	 given().
-				 header("Authorization", "Bearer " + bearerToken).
-				 header("Content-Type",ContentType.JSON).
-				 header("Accept",ContentType.JSON).
-				 param("fields", "AIA_CES_Provider_Status__c, "
-				 		+ "Membership_Type__c, "
-				 		+ "AIA_CES_Provider_Number__c, "
-				 		+ "CES_Provider_Renew_Eligible__c").
-				 when().get(ACCOUNT_URL).
-				 then().statusCode(200).extract().response();
+		Response responseAcc = given().header("Authorization", "Bearer " + bearerToken)
+				.header("Content-Type", ContentType.JSON).header("Accept", ContentType.JSON)
+				.param("fields",
+						"AIA_CES_Provider_Status__c, " + "Membership_Type__c, " + "AIA_CES_Provider_Number__c, "
+								+ "CES_Provider_Renew_Eligible__c")
+				.when().get(ACCOUNT_URL).then().statusCode(200).extract().response();
 
 		jsonPathEval = responseAcc.jsonPath();
-		
+
 		String providerStatus = jsonPathEval.getString("AIA_CES_Provider_Status__c");
 		String csemembershipType = jsonPathEval.getString("Membership_Type__c");
 		String providerNumber = jsonPathEval.getString("AIA_CES_Provider_Number__c");
 		Boolean providerRenewEligible = jsonPathEval.getBoolean("CES_Provider_Renew_Eligible__c");
-		
+
 		System.out.println("AIA Provider Application status: " + providerStatus);
 		System.out.println("AIA Provider Application membership Type is:" + csemembershipType);
 		System.out.println("AIA Provider Number : " + providerNumber);
 		System.out.println("AIA Provider electronic attestation : " + providerRenewEligible);
-		
+
 		assertEquals(providerStatus, cesproviderStatus);
 		assertEquals(csemembershipType, cesmembershipType);
 		assertNotNull(providerNumber);
 		assertEquals(providerRenewEligible, isproviderRenewEligible);
-		
+
 		String ACCOUNT_SUBS_URL = ACCOUNT_URI + "/" + accountID + "/OrderApi__Subscriptions__r";
-		Response responseAccSub = 
-		    	 given().
-				 header("Authorization", "Bearer " + bearerToken).
-				 header("Content-Type",ContentType.JSON).
-				 header("Accept",ContentType.JSON).
-				 when().get(ACCOUNT_SUBS_URL).
-				 then().statusCode(200).extract().response();
+		Response responseAccSub = given().header("Authorization", "Bearer " + bearerToken)
+				.header("Content-Type", ContentType.JSON).header("Accept", ContentType.JSON).when()
+				.get(ACCOUNT_SUBS_URL).then().statusCode(200).extract().response();
 
 		jsonPathEval = responseAccSub.jsonPath();
 		Thread.sleep(30000);
 		String providerSubscriptionID = jsonPathEval.getString("records[0].Id");
 		String providerSubscriptionName = jsonPathEval.getString("records[0].Name");
-		System.out.println("providerSubscriptionID:"+providerSubscriptionID);
-		String MEMBERSHIP_URL = SOBJECT_URI + "/OrderApi__Subscription__c" + "/" + providerSubscriptionID ;
-		 Thread.sleep(30000);
-		Response responseMembership = 
-		    	 given().
-				 header("Authorization", "Bearer " + bearerToken).
-				 header("Content-Type",ContentType.JSON).
-				 header("Accept",ContentType.JSON).
-				 param("fields", "Id, "
-				 		+ "Name, "
-				 		+ "AIA_Ecommerce_Renew_Link__c, "
-				 		+ "AIA_CES_Renew_Eligible__c, "
-				 		+ "AIA_CES_Subscription_Type__c, "
-				 		+ "Membership_Type__c, "
-				 		+ "OrderApi__Term_End_Date__c, "
-				 		+ "OrderApi__Paid_Through_Date__c, "
-				 		+ "OrderApi__Term_Start_Date__c, "
-				 		+ "OrderApi__Grace_Period_End_Date__c, "
-				 		+ "OrderApi__Days_To_Lapse__c").
-				 when().get(MEMBERSHIP_URL).
-				 then().statusCode(200).extract().response();
-        Thread.sleep(30000);
+		System.out.println("providerSubscriptionID:" + providerSubscriptionID);
+		String MEMBERSHIP_URL = SOBJECT_URI + "/OrderApi__Subscription__c" + "/" + providerSubscriptionID;
+		Thread.sleep(30000);
+		Response responseMembership = given().header("Authorization", "Bearer " + bearerToken)
+				.header("Content-Type", ContentType.JSON).header("Accept", ContentType.JSON)
+				.param("fields", "Id, " + "Name, " + "AIA_Ecommerce_Renew_Link__c, " + "AIA_CES_Renew_Eligible__c, "
+						+ "AIA_CES_Subscription_Type__c, " + "Membership_Type__c, " + "OrderApi__Term_End_Date__c, "
+						+ "OrderApi__Paid_Through_Date__c, " + "OrderApi__Term_Start_Date__c, "
+						+ "OrderApi__Grace_Period_End_Date__c, " + "OrderApi__Days_To_Lapse__c")
+				.when().get(MEMBERSHIP_URL).then().statusCode(200).extract().response();
+		Thread.sleep(30000);
 		jsonPathEval = responseMembership.jsonPath();
-		System.out.println("Member url:"+jsonPathEval.toString());
+		System.out.println("Member url:" + jsonPathEval.toString());
 		String memSubscriptionID = jsonPathEval.getString("Id");
 		String memSubscriptionName = jsonPathEval.getString("Name");
 		String ecommerce_Renew_Link = jsonPathEval.getString("AIA_Ecommerce_Renew_Link__c");
@@ -322,46 +296,39 @@ public class JoinCESAPIValidation
 		assertEquals(termEndDate, enddate);
 		assertEquals(termStartDate, java.time.LocalDate.now().toString());
 		assertEquals(isRenewEligible, isproviderRenewEligible);
-		
+
 		SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
 		String inputString1 = termStartDate;
 		String inputString2 = paidThroughDate;
 		Object days = null;
 		try {
-		    Date date1 = myFormat.parse(inputString1);
-		    Date date2 = myFormat.parse(inputString2);
-		    long diff = date2.getTime() - date1.getTime();
-		    days = Double.valueOf(TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS)); 
-		    System.out.println ("Days: " + TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS));
+			Date date1 = myFormat.parse(inputString1);
+			Date date2 = myFormat.parse(inputString2);
+			long diff = date2.getTime() - date1.getTime();
+			days = Double.valueOf(TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS));
+			System.out.println("Days: " + TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS));
 		} catch (ParseException e) {
-		    e.printStackTrace();
+			e.printStackTrace();
 		}
 		assertEquals(daysToLapse, days);
 	}
-	
-	
-	public void verifySalesOrder(String orderPaidStatus, String closed, Object dues, String posted) 
-			throws InterruptedException	{
+
+	public void verifySalesOrder(String orderPaidStatus, String closed, Object dues, String posted)
+			throws InterruptedException {
 		// Use Account ID to fetch account details.
 		String SALESORDER_URI = ACCOUNT_URI + "/" + accountID + "/OrderApi__Sales_Orders__r";
-		
-		Response response = 
-		    	 given().
-				 header("Authorization", "Bearer " + bearerToken).
-				 header("Content-Type",ContentType.JSON).
-				 header("Accept",ContentType.JSON).
-				 param("fields", "OrderApi__Sales_Order_Status__c,"
-				 		+ "OrderApi__Status__c,"
-				 		+ "OrderApi__Posting_Status__c,"
-				 		+ "OrderApi__Amount_Paid__c,"
-				 		+ "OrderApi__Date__c, "
-				 		+ "AIA_National_Subscription_Plan__c").
-				 when().get(SALESORDER_URI).
-				 then().statusCode(200).extract().response();
+
+		Response response = given().header("Authorization", "Bearer " + bearerToken)
+				.header("Content-Type", ContentType.JSON).header("Accept", ContentType.JSON)
+				.param("fields",
+						"OrderApi__Sales_Order_Status__c," + "OrderApi__Status__c," + "OrderApi__Posting_Status__c,"
+								+ "OrderApi__Amount_Paid__c," + "OrderApi__Date__c, "
+								+ "AIA_National_Subscription_Plan__c")
+				.when().get(SALESORDER_URI).then().statusCode(200).extract().response();
 
 		jsonPathEval = response.jsonPath();
 		int totalSalesOrderCount = jsonPathEval.getInt("totalSize");
-		
+
 		if (totalSalesOrderCount > 0) {
 			System.out.println("Number of Sales order : " + totalSalesOrderCount);
 			String closedStatus = jsonPathEval.getString("records[0].OrderApi__Status__c");
@@ -370,7 +337,7 @@ public class JoinCESAPIValidation
 			Object amountPaid = jsonPathEval.getDouble("records[0].OrderApi__Amount_Paid__c");
 			String salesOrderPaidDate = jsonPathEval.getString("records[0].OrderApi__Date__c");
 			String subscriptionPlan = jsonPathEval.getString("records[0].AIA_National_Subscription_Plan__c");
-	
+
 			System.out.println("=====================================");
 			System.out.println("Status :" + closedStatus);
 			System.out.println("Status of Sales orders :" + salesOrderStatus);
@@ -379,44 +346,36 @@ public class JoinCESAPIValidation
 			System.out.println("Sales orders date :" + salesOrderPaidDate);
 			System.out.println("Sales orders Subscription_Plan :" + subscriptionPlan);
 			System.out.println("=====================================");
-	
+
 			assertEquals(salesOrderStatus, orderPaidStatus);
 			assertEquals(closedStatus, closed);
 			assertEquals(postingStatus, posted);
 			assertEquals(amountPaid, dues);
 			assertEquals(salesOrderPaidDate, java.time.LocalDate.now().toString());
-			if(postingStatus.equalsIgnoreCase("unpaid")) {
+			if (postingStatus.equalsIgnoreCase("unpaid")) {
 				assertEquals(subscriptionPlan, "Dues Installment Plan - 6 Installments");
 			}
-			
-		} 
-		else {
+
+		} else {
 			System.out.println("No Sales order found!!!");
 		}
 	}
-	
-	public void verifyReciptDetails(String receipt, Object feePaid, String cesmembershipType) throws InterruptedException
-	{
+
+	public void verifyReciptDetails(String receipt, Object feePaid, String cesmembershipType)
+			throws InterruptedException {
 		// Use Account ID to fetch Receipts details.
 		String RECEIPTS_URI = ACCOUNT_URI + "/" + accountID + "/OrderApi__Receipts__r";
-		
-		Response response = 
-		    	 given().
-				 header("Authorization", "Bearer " + bearerToken).
-				 header("Content-Type",ContentType.JSON).
-				 header("Accept",ContentType.JSON).
-				 param("fields", "Name,"
-				 		+ "OrderApi__Total__c, "
-				 		+ "Id, "
-				 		+ "OrderApi__Posted_Date__c, "
-				 		+ "OrderApi__Payment_Type__c, "
-				 		+ "OrderApi__Payment_Method_Description__c").
-				 when().get(RECEIPTS_URI).
-				 then().statusCode(200).extract().response();
+
+		Response response = given().header("Authorization", "Bearer " + bearerToken)
+				.header("Content-Type", ContentType.JSON).header("Accept", ContentType.JSON)
+				.param("fields",
+						"Name," + "OrderApi__Total__c, " + "Id, " + "OrderApi__Posted_Date__c, "
+								+ "OrderApi__Payment_Type__c, " + "OrderApi__Payment_Method_Description__c")
+				.when().get(RECEIPTS_URI).then().statusCode(200).extract().response();
 
 		jsonPathEval = response.jsonPath();
 		int totalReciptCount = jsonPathEval.getInt("totalSize");
-		
+
 		if (totalReciptCount > 0) {
 			System.out.println("Number of Recipt : " + totalReciptCount);
 			String receiptNumber = jsonPathEval.getString("records[0].Name");
@@ -425,7 +384,7 @@ public class JoinCESAPIValidation
 			String postedDate = jsonPathEval.getString("records[0].OrderApi__Posted_Date__c");
 			String paymentType = jsonPathEval.getString("records[0].OrderApi__Payment_Type__c");
 			String paymentMethod = jsonPathEval.getString("records[0].OrderApi__Payment_Method_Description__c");
-	
+
 			System.out.println("=====================================");
 			System.out.println("Receipt number :" + receiptNumber);
 			System.out.println("Total fee paid :" + totalFeePaid);
@@ -433,38 +392,30 @@ public class JoinCESAPIValidation
 			System.out.println("Payment Type :" + paymentType);
 			System.out.println("Payment Method :" + paymentMethod);
 			System.out.println("=====================================");
-	
-			//assertTrue(receipt.contains(receiptNumber));
+
+			// assertTrue(receipt.contains(receiptNumber));
 			assertEquals(totalFeePaid, feePaid);
 			assertEquals(postedDate, java.time.LocalDate.now().toString());
-			if(paymentType.contains("Credit")) {
+			if (paymentType.contains("Credit")) {
 				assertTrue(paymentMethod.contains("1111"));
 				assertEquals(paymentType, "Credit Card");
-			} else if(paymentType.contains("eCheck")) {
+			} else if (paymentType.contains("eCheck")) {
 				assertTrue(paymentMethod.contains("3210"));
 				assertEquals(paymentType, "eCheck");
 			}
-		}
-		else {
+		} else {
 			System.out.println("No Recipt found!!!");
 		}
-		
+
 		// Use Account ID to fetch Receipts details.
-		String TRANSACTION_LINES_URI = SOBJECT_URI + "/OrderApi__Receipt__c/" + receiptid + "/OrderApi__Transaction_Lines__r";
-		Response transactionResponse = 
-		    	 given().
-				 header("Authorization", "Bearer " + bearerToken).
-				 header("Content-Type",ContentType.JSON).
-				 header("Accept",ContentType.JSON).
-				 param("fields", "Id, "
-				 		+ "Name, "
-				 		+ "OrderApi__Credit__c, "
-				 		+ "OrderApi__Date__c, "
-				 		+ "OrderApi__Debit__c, "
-				 		+ "OrderApi__GL_Account__c, "
-				 		+ "OrderApi__Memo__c").
-				 when().get(TRANSACTION_LINES_URI).
-				 then().statusCode(200).extract().response();
+		String TRANSACTION_LINES_URI = SOBJECT_URI + "/OrderApi__Receipt__c/" + receiptid
+				+ "/OrderApi__Transaction_Lines__r";
+		Response transactionResponse = given().header("Authorization", "Bearer " + bearerToken)
+				.header("Content-Type", ContentType.JSON).header("Accept", ContentType.JSON)
+				.param("fields",
+						"Id, " + "Name, " + "OrderApi__Credit__c, " + "OrderApi__Date__c, " + "OrderApi__Debit__c, "
+								+ "OrderApi__GL_Account__c, " + "OrderApi__Memo__c")
+				.when().get(TRANSACTION_LINES_URI).then().statusCode(200).extract().response();
 
 		jsonPathEval = transactionResponse.jsonPath();
 		int totalTransactionCount = jsonPathEval.getInt("totalSize");
@@ -477,7 +428,7 @@ public class JoinCESAPIValidation
 			String datePaid = jsonPathEval.getString("records[0].OrderApi__Date__c");
 			String transactionGL_Account = jsonPathEval.getString("records[0].OrderApi__GL_Account__c");
 			String transactionItemMemo = jsonPathEval.getString("records[0].OrderApi__Memo__c");
-			
+
 			System.out.println("=====================================");
 			System.out.println("Transaction ID:" + transactionID);
 			System.out.println("Transaction number:" + transactionNumber);
@@ -485,60 +436,51 @@ public class JoinCESAPIValidation
 			System.out.println("Transaction FeePaid :" + totalFeePaid);
 			System.out.println("Transaction GL Account :" + transactionGL_Account);
 			System.out.println("=====================================");
-			
+
 			assertNotNull(transactionCredit);
 			assertEquals(datePaid, java.time.LocalDate.now().toString());
 			assertEquals(totalFeePaid, feePaid);
 			assertNotNull(transactionGL_Account);
 			assertEquals(transactionItemMemo, cesmembershipType);
-			
+
 		}
 	}
-	
-	public void verifyPointOfContact(String role, String pocemail, String poc) throws InterruptedException
-	{
+
+	public void verifyPointOfContact(String role, String pocemail, String poc) throws InterruptedException {
 		// Use Account ID to fetch Receipts details.
 		String POC_URI = ACCOUNT_URI + "/" + accountID + "/AIA_Accounts_Points_of_contact__r";
-		
-		Response response = 
-		    	 given().
-				 header("Authorization", "Bearer " + bearerToken).
-				 header("Content-Type",ContentType.JSON).
-				 header("Accept",ContentType.JSON).
-				 param("fields", "Id, "
-				 		+ "Name, "
-				 		+ "AIA_Account_Role__c, "
-				 		+ "AIA_Contact_Email__c, "
-				 		+ "AIA_Contact_Phone__c, "
-				 		+ "AIA_FF_Contact__c").
-				 when().get(POC_URI).
-				 then().statusCode(200).extract().response();
+
+		Response response = given().header("Authorization", "Bearer " + bearerToken)
+				.header("Content-Type", ContentType.JSON).header("Accept", ContentType.JSON)
+				.param("fields",
+						"Id, " + "Name, " + "AIA_Account_Role__c, " + "AIA_Contact_Email__c, "
+								+ "AIA_Contact_Phone__c, " + "AIA_FF_Contact__c")
+				.when().get(POC_URI).then().statusCode(200).extract().response();
 
 		jsonPathEval = response.jsonPath();
 		int totalPOCCount = jsonPathEval.getInt("totalSize");
-		
-		if (totalPOCCount > 0 && totalPOCCount == 1 ) {
+
+		if (totalPOCCount > 0 && totalPOCCount == 1) {
 			System.out.println("Number of Recipt : " + totalPOCCount);
 			String pocID = jsonPathEval.getString("records[0].Id");
 			String pocName = jsonPathEval.getString("records[0].Name");
 			String pocRole = jsonPathEval.getString("records[0].AIA_Account_Role__c");
 			String pocContact = jsonPathEval.getString("records[0].AIA_FF_Contact__c");
 			String pocEmail = jsonPathEval.getString("records[0].AIA_Contact_Email__c");
-	
+
 			System.out.println("=====================================");
 			System.out.println("POC Name :" + pocName);
 			System.out.println("POC Role :" + pocRole);
 			System.out.println("POC Contact :" + pocContact);
 			System.out.println("POC mail :" + pocEmail);
 			System.out.println("=====================================");
-	
+
 			assertNotNull(pocName);
 			assertEquals(pocRole, role);
 			assertEquals(pocEmail, pocemail);
 			assertTrue(pocContact.contains(poc));
-			
-		} 
-		else {
+
+		} else {
 			System.out.println("No POC found!!!");
 		}
 	}

@@ -1,6 +1,7 @@
 package org.aia.pages.api.ces;
 
 import static io.restassured.RestAssured.given;
+
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
@@ -10,6 +11,7 @@ import org.aia.utility.DataProviderFactory;
 import org.aia.utility.Utility;
 import org.apache.xmlbeans.impl.xb.xsdschema.Public;
 import org.awaitility.core.Condition;
+import org.checkerframework.checker.index.qual.LessThan;
 import org.checkerframework.common.value.qual.StaticallyExecutable;
 import org.glassfish.jersey.message.internal.StringHeaderProvider;
 import org.openqa.selenium.WebDriver;
@@ -20,7 +22,6 @@ import io.restassured.response.Response;
 
 import org.awaitility.Awaitility;
 import org.awaitility.Awaitility.*;
-import org.awaitility.Duration.*;
 import java.util.concurrent.TimeUnit.*;
 import org.hamcrest.Matchers.*;
 import org.junit.Assert.*;
@@ -48,12 +49,13 @@ public class FontevaCESTermDateChangeAPI {
 	public void changeTermDateAPI(String memberAccount, String termDate, Object membershipIndex)
 			throws InterruptedException {
 		// From this api we get the provider id
-		membershipIndex = null;
+		//membershipIndex = null;
 		Response response = given().contentType(ContentType.JSON).accept(ContentType.JSON)
 				.header("Authorization", "Bearer " + bearerToken).header("Content-Type", ContentType.JSON)
 				.header("Accept", ContentType.JSON).param("q", memberAccount)
-				.param("sobject", "Provider_Application__c").when().get(PARAMETERIZED_SEARCH_URI).then().statusCode(200)
-				.extract().response();
+				.param("sobject", "Provider_Application__c").when().get(PARAMETERIZED_SEARCH_URI);
+		util.waitForResponse(response, 200);
+		response.then().statusCode(200).extract().response();
 
 		jsonPathEval = response.jsonPath();
 		providerId = jsonPathEval.getString("searchRecords[0].Id");
@@ -63,29 +65,36 @@ public class FontevaCESTermDateChangeAPI {
 		String providerUri = sObjectURI + "/Provider_Application__c/" + providerId;
 		System.out.println("ProviderUrl:" + providerUri);
 		response = given().header("Authorization", "Bearer " + bearerToken).header("Content-Type", ContentType.JSON)
-				.header("Accept", ContentType.JSON).when().get(providerUri).then().statusCode(200).extract().response();
+				.header("Accept", ContentType.JSON).when().get(providerUri);
+				util.waitForResponse(response, 200);
+				response.then().statusCode(200).extract().response();
 		jsonPathEval = response.jsonPath();
 		accountID = jsonPathEval.getString("Account__c");
 		System.out.println("Account ID:" + accountID);
 
 		// From this API we try to get membership ID
 		String SUBSCRIPTIONS_URI = ACCOUNT_URI + "/" + accountID + "/OrderApi__Subscriptions__r";
-		Thread.sleep(6000);
+		Thread.sleep(10000);
 
 //		Awaitility.await().atMost(60, TimeUnit.SECONDS).pollInterval(1, TimeUnit.SECONDS).until(() ->
 //		{
 		response = given().header("Authorization", "Bearer " + bearerToken).header("Content-Type", ContentType.JSON)
-				.header("Accept", ContentType.JSON).when().get(SUBSCRIPTIONS_URI).then().statusCode(200).extract()
+				.header("Accept", ContentType.JSON).when().get(SUBSCRIPTIONS_URI);
+				util.waitForResponse(response, 200);
+				response.then().statusCode(200).extract()
 				.response();
 		Thread.sleep(10000);
 		jsonPathEval = response.jsonPath();
-		membershipId = jsonPathEval.getString("records[1].Id");
+		membershipId = jsonPathEval.getString("records["+membershipIndex+"].Id");
 		System.out.println("Membership ID:" + membershipId);
 
 		// From this call we are getting the termID
 		String selectTermURI = sObjectURI + "/OrderApi__Subscription__c/" + membershipId + "/OrderApi__Renewals__r";
 		response = given().header("Authorization", "Bearer " + bearerToken).header("Content-Type", ContentType.JSON)
-				.header("Accept", ContentType.JSON).when().get(selectTermURI).then().statusCode(200).extract()
+				.header("Accept", ContentType.JSON).when().get(selectTermURI);
+			//	util.waitForResponse(response,200);
+		Thread.sleep(10000);
+				response.then().statusCode(200).extract()
 				.response();
 		jsonPathEval = response.jsonPath();
 		String termId = jsonPathEval.getString("records[0].Id");
@@ -98,7 +107,9 @@ public class FontevaCESTermDateChangeAPI {
 						+ "            },\r\n" + "             \"id\": \"" + termId + "\",\r\n"
 						+ "            \"OrderApi__Term_End_Date__c\": \"" + termDate + "\"\r\n" + "        }\r\n"
 						+ "    ]\r\n" + "}")
-				.patch(sObjectCompositeURI).then().statusCode(200).extract().response();
+				.patch(sObjectCompositeURI);
+				util.waitForResponse(response, 200);
+				response.then().statusCode(200).extract().response();
 
 	}
 
@@ -117,6 +128,7 @@ public class FontevaCESTermDateChangeAPI {
 		jsonPathEval = response.jsonPath();
 		String cesAccountStatus = jsonPathEval.getString("AIA_CES_Provider_Status__c");
 		String cesMembershipType = jsonPathEval.getString("Membership_Type__c");
+		//Boolean providerRenewEligible = jsonPathEval.getBoolean("CES_Provider_Renew_Eligible__c");
 		assertEquals(cesAccountStatus, expectedAccountStatus);
 		assertEquals(cesMembershipType, expectedMembershipType);
 		Thread.sleep(3000);
@@ -135,4 +147,17 @@ public class FontevaCESTermDateChangeAPI {
 		assertEquals(membershipStatus, actualmembershipStatus);
 
 	}
+	
+	public void validateisproviderRenewEligible(Boolean expectedisproviderRenewEligible) {
+		String AccountDetailsURI = ACCOUNT_URI + "/" + accountID;
+		Response response = given().header("Authorization", "Bearer " + bearerToken)
+				.header("Content-Type", ContentType.JSON).header("Accept", ContentType.JSON).when()
+				.get(AccountDetailsURI).then().statusCode(200).extract().response();
+		jsonPathEval = response.jsonPath();
+		Boolean providerRenewEligible = jsonPathEval.getBoolean("CES_Provider_Renew_Eligible__c");
+		assertEquals(providerRenewEligible,expectedisproviderRenewEligible);
+
+	}
+	
+	
 }
