@@ -123,7 +123,7 @@ public class TestAccountAssociated_CES extends BaseClass {
 
 	}
 
-	@Test(priority = 1, description = "(FC-370) Verify adding Membership through ROE", enabled = false)
+	@Test(priority = 1, description = "(FC-370) Verify adding Membership through ROE", enabled = true)
 	public void validateMembershipthroughROE() throws Exception {
 //Here we create the user
 		String prefix = "Dr.";
@@ -156,7 +156,7 @@ public class TestAccountAssociated_CES extends BaseClass {
 
 	}
 
-	@Test(priority = 2, description = "(FC-371) Verify account associated to POC after adding CES Membership through ROE", enabled = false)
+	@Test(priority = 2, description = "(FC-371) Verify account associated to POC after adding CES Membership through ROE", enabled = true)
 	public void validateaccountAssociatedROE() throws Exception {
 //Here we create the user
 		String prefix = "Dr.";
@@ -192,7 +192,7 @@ public class TestAccountAssociated_CES extends BaseClass {
 
 	}
 
-	@Test(priority = 3, description = "(FC-372) Verify account associated to POC after Renew process", enabled = false)
+	@Test(priority = 3, description = "(FC-372) Verify account associated to POC after Renew process", enabled = true)
 	public void validateaccountAssociatedafterRenew() throws Exception {
 //Here we create the user
 		String prefix = "Dr.";
@@ -246,7 +246,7 @@ public class TestAccountAssociated_CES extends BaseClass {
 		ces_ContactPage.verifyAccountAssociatedtoPrimaryPOC();
 	}
 
-	@Test(priority = 4, description = "(FC-373) Verify account associated to Primary POC on contact page after JOIN Process", enabled = false)
+	@Test(priority = 4, description = "(FC-373) Verify account associated to Primary POC on contact page after JOIN Process", enabled = true)
 	public void validateaccountAssociatedtoPrimaryPOC() throws Exception {
 //Here we create the user
 		String prefix = "Dr.";
@@ -289,7 +289,7 @@ public class TestAccountAssociated_CES extends BaseClass {
 
 	}
 
-	@Test(priority = 5, description = "(FC-374) Verify account associated to Secondary POC on contact page after JOIN Process", enabled = false)
+	@Test(priority = 5, description = "(FC-374) Verify account associated to Secondary POC on contact page after JOIN Process", enabled = true)
 	public void validateaccountAssociatedtoSecondaryPOC() throws Exception {
 //Here we create the user
 		String prefix = "Dr.";
