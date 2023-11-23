@@ -137,7 +137,7 @@ public class TestRenew_Membership extends BaseClass {
 		util.writeCsv(dataList.get(7), dataList.get(5));
 	}
 
-	@Test(priority = 2, description = "Validate Renew for architectural Firm Owner - supplemental Dues", enabled = false, groups = {
+	@Test(priority = 2, description = "Validate Renew for architectural Firm Owner - supplemental Dues", enabled = true, groups = {
 			"Smoke" },invocationCount = 2)
 	public void ValidateRenewWithSupplementalDuesAFO() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
@@ -197,7 +197,7 @@ public class TestRenew_Membership extends BaseClass {
 		util.writeCsv(dataList.get(7), dataList.get(5));
 	}
 
-	@Test(priority = 3, description = "Validate Renew for sole Practitioner - supplemental Dues", enabled = false,invocationCount = 2)
+	@Test(priority = 3, description = "Validate Renew for sole Practitioner - supplemental Dues", enabled = true,invocationCount = 2)
 	public void ValidateRenewWithSupplementalDuesSP() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
@@ -255,7 +255,7 @@ public class TestRenew_Membership extends BaseClass {
 		util.writeCsv(dataList.get(7), dataList.get(5));
 	}
 
-	@Test(priority = 4, description = "Validate Renew for architecture Firm Manager - supplemental Dues", enabled = false)
+	@Test(priority = 4, description = "Validate Renew for architecture Firm Manager - supplemental Dues", enabled = true)
 	public void ValidateRenewWithSupplementalDuesAFM() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
@@ -309,7 +309,7 @@ public class TestRenew_Membership extends BaseClass {
 		util.writeCsv(dataList.get(7), dataList.get(5));
 	}
 
-	@Test(priority = 5, description = "Validate Renew for not Sole Practitioner - supplemental Dues", enabled = false, groups = {
+	@Test(priority = 5, description = "Validate Renew for not Sole Practitioner - supplemental Dues", enabled = true, groups = {
 			"Smoke" },invocationCount = 3)
 	public void ValidateRenewWithSupplementalDuesNSP() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
@@ -411,7 +411,7 @@ public class TestRenew_Membership extends BaseClass {
 	 * 
 	 * @throws Exception
 	 */
-	@Test(priority = 7, description = "Validate visibility of download pdf button in renew  ", enabled = false)
+	@Test(priority = 7, description = "Validate visibility of download pdf button in renew  ", enabled = true)
 	public void validateVisibilityDownloadPdfBtn() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
