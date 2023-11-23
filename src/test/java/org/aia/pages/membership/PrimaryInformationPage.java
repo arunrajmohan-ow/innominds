@@ -13,15 +13,15 @@ public class PrimaryInformationPage {
 	WebDriver driver;
 	Utility util = new Utility(driver, 30);
 	ConfigDataProvider data = new ConfigDataProvider();
-	String zipCode = "411047";
+	String zipCode = "38671";
 	String licenseDate = "12/03/2021";
 	String graduateDate = "12/03/2021";
-	String address = "Pune, Maharashtra, India";
+	String address = "Main Street, Southaven, MS, USA";
 	String addressStreet = "Main St";
-	String addressCity = "Pune";
-	String addressState = "Maharashtra";
-	String addressCountry = "India";
-	String addressZipCode = "411047";
+	String addressCity = "Southaven";
+	String addressState = "MS";
+	String addressCountry = "United States";
+	String addressZipCode = "38671";
 	String CREDIT_CARD_NUMBER = "4111111111111111";
 	String CREDIT_CARD_EXP_MONTH = "02";
 	String CREDIT_CARD_EXP_YEAR = "2027";
@@ -35,6 +35,7 @@ public class PrimaryInformationPage {
 	String addressCitypac = "San Francisco";
 	String addressStatepac = "CA";
 	String addressZipCodepac = "94107";
+
 
 	public PrimaryInformationPage(WebDriver IDriver) {
 		this.driver = IDriver;
