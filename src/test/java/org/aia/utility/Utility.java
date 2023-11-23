@@ -443,8 +443,6 @@ public class Utility {
 	* Here we are using awaitility for waiting the response from api
 	*/
 	public void waitForResponse(final Response response, final int statusCode) {
-
-   //   Awaitility.await().atMost(10,TimeUnit.SECONDS).until(()->{return response.getStatusCode()==statusCode;});
       
       Awaitility.await().atMost(10,TimeUnit.SECONDS).until(new Callable<Boolean>() {
 		@Override
