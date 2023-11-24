@@ -122,7 +122,8 @@ public class Utility {
 		return myCustomDateFormat.format(date);
 	}
 
-	public boolean waitForWebElementDisappear(WebElement ele) {
+	public boolean waitForWebElementDisappear(WebDriver driver, WebElement ele) {
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(70));
 		return wait.until(ExpectedConditions.invisibilityOf(ele));
 	}
 
@@ -374,7 +375,7 @@ public class Utility {
 	}
 
 	public void waitForPageLoad(WebDriver driver) {
-
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(70));
 		wait.until(new Function<WebDriver, Boolean>() {
 			public Boolean apply(WebDriver driver) {
 				System.out.println("Current Window State       : "

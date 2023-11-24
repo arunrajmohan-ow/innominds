@@ -59,7 +59,7 @@ public class FontevaLoginPage {
 	@FindBy(xpath = "//label[text()='Subject']//following::input[@class='slds-input'][1]")
 	WebElement subject;
 	
-	@FindBy(xpath = "//button[@aria-label='Select a site, Select a Community Site...']")
+	@FindBy(xpath = "//lightning-base-combobox//button[@aria-label='Select a site, Select a Community Site...']")
 	WebElement selectACommunitySite;
 	
 	@FindBy(xpath = "//button[text()='Send Email']")
@@ -78,7 +78,8 @@ public class FontevaLoginPage {
 		util.waitForJavascript(driver, 6000, 1000);
 		util.waitUntilElement(driver, subject);
 		subject.click();
-		subject.sendKeys("Payment_For_Renewal");
+		subject.sendKeys("Payment_For_Renewal");	
+		util.waitForJavascript(driver, 6000, 1000);		
 		util.waitUntilElement(driver, selectACommunitySite);
 		selectACommunitySite.click();
 		selectACommunitySite.sendKeys(Keys.ENTER);

@@ -100,7 +100,7 @@ public class TestArchitectureBillingIndex extends BaseClass {
 	@BeforeMethod(alwaysRun = true)
 	public void setUp() throws Exception {
 		System.out.println("@BeforeMethod");
-		// VideoRecorder.startRecording("Test");
+		VideoRecorder.startRecording("Test");
 		sessionID = new FontevaConnectionSOAP();
 		driver = BrowserSetup.startApplication(driver, DataProviderFactory.getConfig().getValue("browser"),
 				DataProviderFactory.getConfig().getValue("devstagingurl_abi"));
@@ -160,7 +160,7 @@ public class TestArchitectureBillingIndex extends BaseClass {
 	public void SubscribeToABIAsGuest(ITestContext context, String addressType, String address) throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		abisignUpPage = PageFactory.initElements(driver, ABISignUpPage.class);
-		abisignUpPage.continueToCheckOut();
+		abisignUpPage.continueToCheckOutAsGuest();
 		abisignUpPage.continueAsGuest(dataList.get(0), dataList.get(1), dataList.get(5));
 		pdfDetails=abisignUpPage.subscribeToABI(dataList.get(0)+" "+dataList.get(1), String.valueOf(address));	
 		context.setAttribute("salesOrderId", pdfDetails.get(0).substring(13));
@@ -170,7 +170,6 @@ public class TestArchitectureBillingIndex extends BaseClass {
 		fontevaLoginPage.viewSalesOrder((String) context.getAttribute("contactName"),
 				(String) context.getAttribute("salesOrderId"));
 		abisignUpPage.validateSubscriptionDetails(pdfDetails);
- 
 	}
 	
 	@DataProvider(name = "Address")
@@ -183,7 +182,7 @@ public class TestArchitectureBillingIndex extends BaseClass {
 	@AfterMethod(alwaysRun = true)
 	public void teardown() throws IOException {
 		BrowserSetup.closeBrowser(driver);
- 
+		VideoRecorder.stopRecording(); 
 	}
  
 }
