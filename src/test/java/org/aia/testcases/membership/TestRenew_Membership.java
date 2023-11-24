@@ -76,7 +76,7 @@ public class TestRenew_Membership extends BaseClass {
 		termDateChangeAPI=PageFactory.initElements(driver, FontevaMemTermDateChangeAPI.class);
 	}
 
-	@Test(priority = 1, description = "Validate Renew without supplemental dues", enabled = true)
+	@Test(priority = 1, description = "Validate Renew without supplemental dues", enabled = false)
 	public void ValidateRenew() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
@@ -137,7 +137,7 @@ public class TestRenew_Membership extends BaseClass {
 		util.writeCsv(dataList.get(7), dataList.get(5));
 	}
 
-	@Test(priority = 2, description = "Validate Renew for architectural Firm Owner - supplemental Dues", enabled = false, groups = {
+	@Test(priority = 2, description = "Validate Renew for architectural Firm Owner - supplemental Dues", enabled = true, groups = {
 			"Smoke" },invocationCount = 2)
 	public void ValidateRenewWithSupplementalDuesAFO() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
