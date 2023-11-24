@@ -131,6 +131,7 @@ public class Subscription {
 	 * 
 	 * @param : orgType
 	 */
+
 	public void SubscriptionType(String text, String isFirmSubscription, String aiaMemberNumber, String orgType)
 			throws InterruptedException {
 		if (text.contentEquals("Architecture Firm") || text.contentEquals("Architecture - Single Discipline")
