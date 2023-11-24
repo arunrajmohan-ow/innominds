@@ -2,7 +2,6 @@ package org.aia.pages.ces;
 
 import static org.testng.Assert.assertTrue;
 
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -26,8 +25,7 @@ public class FontevaCES {
 	WebDriver driver;
 	Actions action;
 
-	public FontevaCES(WebDriver Idriver) 
-	{
+	public FontevaCES(WebDriver Idriver) {
 		this.driver = Idriver;
 		action = new Actions(driver);
 	}
@@ -116,12 +114,6 @@ public class FontevaCES {
 
 	// @FindBy(xpath="//span[text()='Term End
 	// Date']/parent::div/following-sibling::div//button") WebElement editBtn;
-
-	@FindBy(xpath = "//button[@title='Edit Term End Date']/span")
-	WebElement editBtn;
-
-	@FindBy(xpath = "//a[contains(text(),'Show')]")
-	WebElement showallBtn;
 
 	// @FindBy(xpath="//a[contains(text(),'Show All (1')]") WebElement showallBtn;
 
@@ -219,12 +211,27 @@ public class FontevaCES {
 	@FindBy(xpath = "//button[@title='Edit Application Status']")
 	WebElement editApplicationStatus;
 
+	// @FindBy(xpath="//span[text()='Term End
+	// Date']/parent::div/following-sibling::div//button") WebElement editBtn;
+
+	@FindBy(xpath = "//button[@title='Edit Term End Date']/span")
+	WebElement editBtn;
+
+	// @FindBy(xpath="//a[contains(text(),'Show')]") WebElement showallBtn;
+
+	@FindBy(xpath = "//a[contains(text(),'Show All (1')]")
+	WebElement showallBtn;
+
+	// @FindBy(xpath="//lst-related-list-quick-links-grid//div//div[@class='slds-card__body
+	// slds-card__body--inner']//div[@class='rlql-toggle
+	// slds-text-align_center']//a[contains(text(),'Show All')]") WebElement
+	// showallBtn;
 	String startLocator = "//div[@class='uiVirtualDataTable indicator']/following-sibling::table/tbody//a[text()='";
 	String endLocator = "']";
 	String appName = "Provider Application";
 
-	public void changeProviderApplicationStatus(String fullName, String providerID, String providerStatus)
-			throws InterruptedException {
+	public void changeProviderApplicationStatus(String fullName, String providerID, String providerStatus) throws InterruptedException 
+	{
 		/*
 		 * util.waitUntilElement(driver, userName);
 		 * userName.sendKeys("sgopisetty@innominds.com.aia.testing");
@@ -351,7 +358,6 @@ public class FontevaCES {
 		assertTrue(noItemHeading.isDisplayed());
 	}
 
-	/** Selects Provider application with ID **/
 	public void selectProviderApplication(String user) throws InterruptedException {
 		Actions actions = new Actions(driver);
 		util.waitUntilElement(driver, appLauncherIcn);
@@ -374,6 +380,5 @@ public class FontevaCES {
 		actions.sendKeys(Keys.ENTER).build().perform();
 		util.waitUntilElement(driver, selectPId);
 		selectPId.click();
-
 	}
 }

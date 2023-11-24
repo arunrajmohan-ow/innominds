@@ -95,8 +95,6 @@ public class CES_Memberships {
 	@FindBy(xpath = "//div[@class='uiVirtualDataTable indicator']")
 	WebElement tableDiv;
 
-	// @FindBy(xpath="//a/slot/span[contains(text(),'Memberships')]") WebElement
-	// memberShip;
 	@FindBy(xpath = "//a/slot/span[contains(text(),'Memberships')]//ancestor::a")
 	WebElement memberShip;
 
