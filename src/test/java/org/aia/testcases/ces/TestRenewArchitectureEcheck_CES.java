@@ -96,7 +96,7 @@ public class TestRenewArchitectureEcheck_CES extends BaseClass {
 		termDateChangeAPICall = PageFactory.initElements(driver, FontevaCESTermDateChangeAPI.class);
 	}
 
-	@Test(priority = 1, description = "Renew Online Architecture Firm (E-check).", enabled = false, groups= {"Smoke"})
+	@Test(priority = 1, description = "Renew Online Architecture Firm (E-check).", enabled = true, groups= {"Smoke"})
 	public void ValidateRenewECheckArchitecture() throws Exception {
 		String prefix = "Dr.";
 		String suffix = "Sr.";

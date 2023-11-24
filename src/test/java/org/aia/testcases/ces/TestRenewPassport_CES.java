@@ -95,7 +95,7 @@ public class TestRenewPassport_CES extends BaseClass {
 		termDateChangeAPICall = PageFactory.initElements(driver, FontevaCESTermDateChangeAPI.class);
 	}
 	
-	@Test(priority=1, description="Validate Renew Online passport credit card.", enabled=true)
+	@Test(priority=1, description="Validate Renew Online passport credit card.", enabled = true)
 	public void ValidatePassportRenew() throws Exception
 	{
 		String prefix = "Dr.";

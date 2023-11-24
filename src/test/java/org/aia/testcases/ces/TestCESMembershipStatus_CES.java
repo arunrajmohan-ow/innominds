@@ -120,7 +120,7 @@ public class TestCESMembershipStatus_CES extends BaseClass {
 
 	}
 
-	@Test(priority = 1, description = "(FC-331) validate Term creation for $0 CES Membership type", enabled = false)
+	@Test(priority = 1, description = "(FC-331) validate Term creation for $0 CES Membership type", enabled = true)
 	public void validateTermCreation$0CESMembershipType() throws Exception {
 		String prefix = "Dr.";
 		String suffix = "Sr.";
