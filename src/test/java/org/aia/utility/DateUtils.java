@@ -274,6 +274,23 @@ public final class DateUtils {
     	
     }
     
+    public static String setFutureDAte() {
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+ 
+        Calendar calendar = Calendar.getInstance();
+        Date currentDate = calendar.getTime();
+ 
+        // Calculate future date (e.g., add 3 days)
+        calendar.add(Calendar.DAY_OF_MONTH, 3);
+        Date futureDate = calendar.getTime();
+ 
+        String formattedFutureDate = sdf.format(futureDate);
+ 
+        System.out.println("Current Date: " + sdf.format(currentDate));
+        System.out.println("Future Date (after 7 days): " + formattedFutureDate);
+        return formattedFutureDate;
+    }
+    
     
 }
 

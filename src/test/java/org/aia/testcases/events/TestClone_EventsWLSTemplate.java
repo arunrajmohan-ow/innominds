@@ -187,16 +187,12 @@ public class TestClone_EventsWLSTemplate extends BaseClass {
 			eventRegistration.clickRegistrationButton();
 			eventRegistration.validateRegisterReq();
 			eventRegistration.agendaModule();
-
+			eventRegistration.totalPaymentamountInCheckout();
 			// Here we getting receipt data from UI and storing in ArrayList
 			eventRegistration.paymentDataIncheckoutModule();
-
 			eventRegistration.biilingaddressInCheckoutModule();
-
 			eventRegistration.paymentProcessButton();
-
 			ArrayList<Object> receiptData = eventRegistration.clickReceiptInChecout();
-
 			util.waitForJavascript(driver, 90000, 5000);
 
 			// Here we validate PDF data

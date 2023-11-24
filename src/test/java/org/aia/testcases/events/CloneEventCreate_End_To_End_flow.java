@@ -244,6 +244,7 @@ public class CloneEventCreate_End_To_End_flow extends BaseClass {
 		eventInfoModule.clickEventUrl();
 		// AIA application
 		util.switchToTabs(driver, 3);
+		eventRegistration.speakersButtonInAIA();
 		eventRegistration.detailsNavButton();
 		eventRegistration.validateEventOverView();
 		eventRegistration.agendaNavigationButtonInAIA();

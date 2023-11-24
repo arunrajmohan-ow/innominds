@@ -487,17 +487,24 @@ public class EventRegistration {
 		util.clickUsingJS(driver, continueButtonInAgenda);
 		log.info("Continue button is clicked in agenda");
 	}
+	
+	public ArrayList<Object> totalPaymentamountInCheckout() throws InterruptedException{
+		Utility.waitForWebElement(driver, totalAmountInCheckout, 0);
+		totalAmount = totalAmountInCheckout.getText();
+		if(totalAmount.equals("Free")) {
+			totalAmount = "$0.00";
+		}
+		receiptData.add(0, totalAmount);
+		log.info("Total Amount in checkout" + totalAmount);
+		Thread.sleep(14000);
+		return receiptData;
+	}
 
 	/**
 	 * @return
 	 * @throws Throwable
 	 */
-	public ArrayList<Object> paymentDataIncheckoutModule() throws Throwable {
-		Utility.waitForWebElement(driver, totalAmountInCheckout, 0);
-		totalAmount = totalAmountInCheckout.getText();
-		receiptData.add(0, totalAmount);
-		log.info("Total Amount in checkout" + totalAmount);
-		Thread.sleep(14000);
+	public void paymentDataIncheckoutModule() throws Throwable {
 		util.waitUntilElement(driver, cardHolderName);
 		Utility.highLightElement(driver, cardHolderName);
 		userName = cardHolderName.getAttribute("value");
@@ -516,8 +523,6 @@ public class EventRegistration {
 		log.info("ExpMonth selected as" + testData.testDataProvider().getProperty("CREDIT_CARD_EXP_MONTH"));
 		util.selectDropDownByText(expYear, testData.testDataProvider().getProperty("CREDIT_CARD_EXP_YEAR"));
 		log.info("ExpMonth selected as" + testData.testDataProvider().getProperty("CREDIT_CARD_EXP_YEAR"));
-		return receiptData;
-
 	}
 
 	public void paymentProcessButton() throws Throwable {
@@ -595,12 +600,14 @@ public class EventRegistration {
 		return receiptData;
 	}
 	
-	public void detailsNavButton() {
+	public void detailsNavButton() throws InterruptedException {
+		Thread.sleep(5000);
 		Utility.waitForWebElement(driver, detailsNavigationButton, 0);
 		detailsNavigationButton.click();
 	}
 	
-	public void validateEventOverView() {
+	public void validateEventOverView() throws InterruptedException {
+		Thread.sleep(9000);
 		Utility.waitForWebElement(driver, eventOverviewText, 0);
 		Assert.assertTrue(eventOverviewText.getText().contains(EventConfig.eventOverView));
 	}
@@ -611,7 +618,7 @@ public class EventRegistration {
 	}
 
 	public void validateSpeakerInAIA() throws InterruptedException {
-		Thread.sleep(5000);
+		Thread.sleep(9000);
 		WebElement speaker = driver.findElement(By.xpath(EventRegistration.speakerName(EventConfig.speakerNameInputField)));
 		log.info(speaker.getText());
 		Assert.assertTrue(speaker.isDisplayed());
@@ -623,7 +630,7 @@ public class EventRegistration {
 	}
 
 	public void validateScheduleInAgenda() throws InterruptedException {
-		Thread.sleep(5000);
+		Thread.sleep(9000);
 		WebElement scheduleName = driver.findElement(By.xpath(EventRegistration.scheduleNameInAgenda(EventConfig.scheduleDisplayNameInputFieldInAgenda)));
 		Assert.assertTrue(scheduleName.isDisplayed());
 	}
