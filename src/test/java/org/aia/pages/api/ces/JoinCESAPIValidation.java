@@ -260,6 +260,7 @@ public class JoinCESAPIValidation {
 		String providerSubscriptionName = jsonPathEval.getString("records[0].Name");
 		System.out.println("providerSubscriptionID:" + providerSubscriptionID);
 		String MEMBERSHIP_URL = SOBJECT_URI + "/OrderApi__Subscription__c" + "/" + providerSubscriptionID;
+		Thread.sleep(30000);
 		Response responseMembership = given().header("Authorization", "Bearer " + bearerToken)
 				.header("Content-Type", ContentType.JSON).header("Accept", ContentType.JSON)
 				.param("fields", "Id, " + "Name, " + "AIA_Ecommerce_Renew_Link__c, " + "AIA_CES_Renew_Eligible__c, "

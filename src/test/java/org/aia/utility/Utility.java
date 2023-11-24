@@ -119,6 +119,7 @@ public class Utility {
 		} 
 		return newBase;
 	}
+	
 
 	public static String getCurrentDateTime() {
 
@@ -129,7 +130,8 @@ public class Utility {
 		return myCustomDateFormat.format(date);
 	}
 
-	public boolean waitForWebElementDisappear(WebElement ele) {
+	public boolean waitForWebElementDisappear(WebDriver driver, WebElement ele) {
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(70));
 		return wait.until(ExpectedConditions.invisibilityOf(ele));
 	}
 
@@ -338,6 +340,20 @@ public class Utility {
 		return localDate;
 	}
 
+	/**
+	 * Here we switching to new tab using below params
+	 * 
+	 * @param driver
+	 * @param link
+	 */
+	public void createNewWindow(WebDriver driver, String link) {
+		((JavascriptExecutor) driver).executeScript("window.open()");
+		ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
+		driver.switchTo().window(tabs.get(1));
+		driver.get(link);
+
+	}
+
 	public WebDriver switchToTabs(WebDriver driver, int tab) {
 		ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
 		driver.switchTo().window(tabs.get(tab));
@@ -385,7 +401,7 @@ public class Utility {
 	}
 
 	public void waitForPageLoad(WebDriver driver) {
-
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(70));
 		wait.until(new Function<WebDriver, Boolean>() {
 			public Boolean apply(WebDriver driver) {
 				System.out.println("Current Window State       : "
@@ -455,6 +471,7 @@ public class Utility {
 		}
 		return sb.toString();
 	}
+<<<<<<< HEAD
 
 	public void mosueOverUsingAction(WebDriver driver, WebElement element) {
 		action = new Actions(driver);
@@ -499,6 +516,27 @@ public class Utility {
 		});
 	}
 
+=======
+
+	public void mosueOverUsingAction(WebDriver driver, WebElement element) {
+		action = new Actions(driver);
+		action.moveToElement(element).perform();
+	}
+
+	/**
+	 * Here we are using awaitility for waiting the response from api
+	 */
+
+	public void waitForResponse(final Response response, final int statusCode) {
+    //  Awaitility.await().atMost(10,TimeUnit.SECONDS).until(()->{return response.getStatusCode()==statusCode;});
+      Awaitility.await().atMost(10,TimeUnit.SECONDS).until(new Callable<Boolean>() {
+		@Override
+		public Boolean call() throws Exception {return response.getStatusCode()==statusCode;}
+	});
+
+	}
+
+>>>>>>> 138f089845c83e9a9cccea3bd4184ef8490ee5e5
 	public static void takeScreenShotAfterFail(WebDriver driver, ITestResult result) {
 		TakesScreenshot ts = (TakesScreenshot) driver;
 		File screenshot = ts.getScreenshotAs(OutputType.FILE);

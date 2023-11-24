@@ -73,8 +73,8 @@ public class MailinatorAPI {
 		driver.switchTo().window(tabs.get(0));
 
 	}
-	
-	public String GetLinks(String emailprefix, String pattern) 
+
+	public String GetLinks(String emailprefix, String subject, String pattern) 
 	{
 		String URI = "https://mailinator.com/api/v2/domains/"+domain+"/inboxes/";		
 		String token = "13779f35d3cc4108a0cf41ef417d183f";
@@ -88,7 +88,7 @@ public class MailinatorAPI {
 		 System.out.println("MSGS is " + msgs);
 		
 		    for (HashMap<String, Object> singleObject : msgs) {
-		        if (singleObject.get("to").equals(emailprefix)&&singleObject.get("subject").equals("Sandbox: Payment_For_Renewal")) {
+		        if (singleObject.get("to").equals(emailprefix)&&singleObject.get("subject").equals(subject)) {
 		            System.out.println("****To******: "+singleObject.get("id"));
 		            msgId = singleObject.get("id").toString();
 		            System.out.println("MessageId: "+msgId);

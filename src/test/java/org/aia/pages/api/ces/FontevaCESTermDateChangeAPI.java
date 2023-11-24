@@ -1,7 +1,6 @@
 package org.aia.pages.api.ces;
 
 import static io.restassured.RestAssured.given;
-
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
@@ -23,6 +22,7 @@ import io.restassured.response.Response;
 
 import org.awaitility.Awaitility;
 import org.awaitility.Awaitility.*;
+import org.awaitility.Duration.*;
 import java.util.concurrent.TimeUnit.*;
 import org.hamcrest.Matchers.*;
 import org.junit.Assert.*;
@@ -49,6 +49,10 @@ public class FontevaCESTermDateChangeAPI {
 
 	public static void changeTermDateAPI(String memberAccount, String termDate) throws InterruptedException {
 		// From this api we get the provider id
+<<<<<<< HEAD
+=======
+		//membershipIndex = null;
+>>>>>>> 138f089845c83e9a9cccea3bd4184ef8490ee5e5
 		Response response = given().contentType(ContentType.JSON).accept(ContentType.JSON)
 				.header("Authorization", "Bearer " + bearerToken).header("Content-Type", ContentType.JSON)
 				.header("Accept", ContentType.JSON).param("q", memberAccount).param("sobject", "Account").when()
@@ -72,6 +76,10 @@ public class FontevaCESTermDateChangeAPI {
 
 		// From this API we try to get membership ID
 		String SUBSCRIPTIONS_URI = ACCOUNT_URI + "/" + accountID + "/OrderApi__Subscriptions__r";
+<<<<<<< HEAD
+=======
+		Thread.sleep(10000);
+>>>>>>> 138f089845c83e9a9cccea3bd4184ef8490ee5e5
 
 //		Awaitility.await().atMost(60, TimeUnit.SECONDS).pollInterval(1, TimeUnit.SECONDS).until(() ->
 //		{
@@ -80,13 +88,20 @@ public class FontevaCESTermDateChangeAPI {
 		response.then().statusCode(200).extract().response();
 		Thread.sleep(10000);
 		jsonPathEval = response.jsonPath();
-		membershipId = jsonPathEval.getString("records[1].Id");
+		membershipId = jsonPathEval.getString("records["+membershipIndex+"].Id");
 		System.out.println("Membership ID:" + membershipId);
 
 		// From this call we are getting the termID
 		String selectTermURI = sObjectURI + "/OrderApi__Subscription__c/" + membershipId + "/OrderApi__Renewals__r";
 		response = given().header("Authorization", "Bearer " + bearerToken).header("Content-Type", ContentType.JSON)
+<<<<<<< HEAD
 				.header("Accept", ContentType.JSON).when().get(selectTermURI).then().statusCode(200).extract()
+=======
+				.header("Accept", ContentType.JSON).when().get(selectTermURI);
+			//	util.waitForResponse(response,200);
+		Thread.sleep(10000);
+				response.then().statusCode(200).extract()
+>>>>>>> 138f089845c83e9a9cccea3bd4184ef8490ee5e5
 				.response();
 		jsonPathEval = response.jsonPath();
 		String termId = jsonPathEval.getString("records[0].Id");
@@ -118,6 +133,7 @@ public class FontevaCESTermDateChangeAPI {
 		jsonPathEval = response.jsonPath();
 		String cesAccountStatus = jsonPathEval.getString("AIA_CES_Provider_Status__c");
 		String cesMembershipType = jsonPathEval.getString("Membership_Type__c");
+		//Boolean providerRenewEligible = jsonPathEval.getBoolean("CES_Provider_Renew_Eligible__c");
 		assertEquals(cesAccountStatus, expectedAccountStatus);
 		assertEquals(cesMembershipType, expectedMembershipType);
 		Thread.sleep(3000);
@@ -136,8 +152,24 @@ public class FontevaCESTermDateChangeAPI {
 		assertEquals(membershipStatus, actualmembershipStatus);
 
 	}
+<<<<<<< HEAD
 
 	public static void main(String[] args) throws InterruptedException {
 		changeTermDateAPI("auto_uddh11032023", "12-31-2022");
 	}
+=======
+	
+	public void validateisproviderRenewEligible(Boolean expectedisproviderRenewEligible) {
+		String AccountDetailsURI = ACCOUNT_URI + "/" + accountID;
+		Response response = given().header("Authorization", "Bearer " + bearerToken)
+				.header("Content-Type", ContentType.JSON).header("Accept", ContentType.JSON).when()
+				.get(AccountDetailsURI).then().statusCode(200).extract().response();
+		jsonPathEval = response.jsonPath();
+		Boolean providerRenewEligible = jsonPathEval.getBoolean("CES_Provider_Renew_Eligible__c");
+		assertEquals(providerRenewEligible,expectedisproviderRenewEligible);
+
+	}
+	
+	
+>>>>>>> 138f089845c83e9a9cccea3bd4184ef8490ee5e5
 }

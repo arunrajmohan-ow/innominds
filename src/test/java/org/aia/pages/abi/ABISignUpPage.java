@@ -61,11 +61,19 @@ public class ABISignUpPage {
 
 	@FindBy(xpath = "//button[text()='Continue']")
 	WebElement continueBtn;
+	
+	@FindBy(xpath = "//h1[text()='AIA/Deltek Architecture Billing Index (ABI) Company Subscription - 3 Users']")
+	WebElement abiHeading;
+	
+	@FindBy(xpath = "//div[@class='slds-modal__header']")
+	WebElement modalHeader;
 
-	@FindBy(xpath = "//button[@class='slds-button slds-button_brand pfm-button']")
+	@FindBy(xpath = "//div[@data-name='nextButton']//button[text()='Add to Cart']")
 	WebElement addToCart;
 
-	@FindBy(xpath = "//div[@data-aura-class='LTEShoppingCartIcon']")
+	@FindBy(xpath = "//div[@data-aura-class='LTEShoppingCartIcon']//button[starts-with(@class,'pfm-shopping-cart')]")
+	//@FindBy(xpath = "//lightning-icon[@icon-name='utility:cart']")
+	
 	WebElement cartIcon;
 
 	@FindBy(xpath = "//button[text()='View Cart']")
@@ -113,6 +121,18 @@ public class ABISignUpPage {
 	
 	@FindBy(xpath = "//button[text()='Login']")
 	WebElement pymtLoginBtn;
+	
+	@FindBy(xpath = "//div[@data-name='FirstName']//input")
+	WebElement gFirstNameTxt;
+	
+	@FindBy(xpath = "//div[@data-name='LastName']//input")
+	WebElement gLastNameTxt;
+	
+	@FindBy(xpath = "//div[@data-name='Email']//input")
+	WebElement gEmailTxt;
+	
+	@FindBy(xpath = "//div[@class='pfm-login_action slds-p-vertical_small']/button")
+	WebElement continueAsGuestBtn;
 
 	public void clickLoginLink() throws Exception {
 		util.waitUntilElement(driver, loginBtn);
@@ -134,9 +154,22 @@ public class ABISignUpPage {
 		passwordTxt.sendKeys(password);
 		util.waitForWebElement(driver, signInBtn, 3000);
 		signInBtn.click();
-		util.waitForPageLoad(driver);
+		//util.waitForPageLoad(driver);
         }
 
+	@SuppressWarnings("static-access")
+	public void continueAsGuest(String firstName, String lastName, String email) throws Exception {
+		util.waitUntilElement(driver, gFirstNameTxt);
+		gFirstNameTxt.sendKeys(firstName);
+		util.waitUntilElement(driver, gLastNameTxt);
+		gLastNameTxt.sendKeys(lastName);
+		util.waitUntilElement(driver, gEmailTxt);
+		gEmailTxt.sendKeys(email);
+		util.waitUntilElement(driver, continueAsGuestBtn);
+		util.mosueOverUsingAction(driver, continueAsGuestBtn);
+		util.clickUsingJS(driver, continueAsGuestBtn);
+		//util.waitForPageLoad(driver);
+        }
 	@SuppressWarnings("static-access")
 	public ArrayList<String> getPDFContent() throws URISyntaxException, InterruptedException, IOException {
 		List<String> pdfDetails=new ArrayList<String>();
@@ -184,62 +217,85 @@ public class ABISignUpPage {
 							}
 						return (ArrayList<String>) pdfDetails;
 						}
-	
-	
-	@SuppressWarnings({ "static-access", "null" })
-	public ArrayList<String> subscribeToABI(String user, String address ) throws InterruptedException, URISyntaxException, IOException {
-		util.waitForWebElement(driver, abiImage, 5000);
+	public void continueToCheckOutAsGuest() throws InterruptedException {
+		util.waitUntilElement(driver, abiImage);
 		abiImage.click();
-		util.waitForWebElement(driver, autoRenewChkBx, 5000);
-		util.waitForWebElement(driver, continueBtn, 5000);
-		continueBtn.click();
+		util.waitUntilElement(driver, autoRenewChkBx);
+		Thread.sleep(5000);
+		util.waitUntilElement(driver, continueBtn);
+		util.clickUsingJS(driver, continueBtn);
+		util.waitForPageLoad(driver);
 		Thread.sleep(10000);
-		util.waitForWebElement(driver, addToCart, 5000);
-		addToCart.click();
-		Thread.sleep(10000);	
-		util.waitForWebElement(driver, cartIcon, 5000); 
-		cartIcon.click();
+		//util.waitForWebElementDisappear(driver, modalHeader);
+		util.waitUntilElement(driver, cartIcon); 
+		util.mosueOverUsingAction(driver, cartIcon);
 		/*
 		 * util.waitForWebElement(driver, cartIcon, 5000); cartIcon.click();
 		 * util.waitForWebElement(driver, viewCart, 5000); viewCart.click();
 		 * util.waitForWebElement(driver, addToCart, 5000); addToCart.click();
 		 */
-		util.waitForWebElement(driver, checkOut, 5000);
-		checkOut.click();
-		util.waitForWebElement(driver, createAddress, 5000);
+		util.waitUntilElement(driver, checkOut);
+		util.clickUsingJS(driver, checkOut);
+	}
+	public void continueToCheckOut() throws InterruptedException {
+		util.waitUntilElement(driver, abiImage);
+		abiImage.click();
+		util.waitUntilElement(driver, autoRenewChkBx);
+		Thread.sleep(5000);
+		util.waitUntilElement(driver, continueBtn);
+		util.clickUsingJS(driver, continueBtn);
+		Thread.sleep(10000);
+		util.waitUntilElement(driver, abiHeading);
+		util.waitUntilElement(driver, addToCart);
+		util.clickUsingJS(driver, addToCart);
+		Thread.sleep(10000);	
+		util.waitUntilElement(driver, cartIcon); 
+		util.mosueOverUsingAction(driver, cartIcon);
+		/*
+		 * util.waitForWebElement(driver, cartIcon, 5000); cartIcon.click();
+		 * util.waitForWebElement(driver, viewCart, 5000); viewCart.click();
+		 * util.waitForWebElement(driver, addToCart, 5000); addToCart.click();
+		 */
+		util.waitUntilElement(driver, checkOut);
+		
+		util.clickUsingJS(driver, checkOut);
+	}
+	
+	public ArrayList<String> subscribeToABI(String user, String address ) throws InterruptedException, URISyntaxException, IOException {
+		util.waitUntilElement(driver, createAddress);
 		createAddress.click();
-		util.waitForWebElement(driver, name, 5000);
+		util.waitUntilElement(driver, name);
 		name.sendKeys(user);
-		util.waitForWebElement(driver, type, 5000);
+		util.waitUntilElement(driver, type);
 		util.selectDrp(type).selectByValue("Home");
-		util.waitForWebElement(driver, addresstxt, 5000);
+		util.waitUntilElement(driver, addresstxt);
 		// 1735 York Avenue, NewYork, NY, USA
-		addresstxt.sendKeys(address+Keys.ENTER);
+		addresstxt.sendKeys(address+Keys.ARROW_DOWN);
 		Thread.sleep(3000);
 		addresstxt.sendKeys(Keys.ENTER);
-		util.waitForWebElement(driver, saveBtn, 5000);
-		saveBtn.click();
-		util.waitForWebElement(driver, proceedToCheckOut, 5000);
-		proceedToCheckOut.click();
+		util.waitUntilElement(driver, saveBtn);
+		util.clickUsingJS(driver, saveBtn);
+		util.waitUntilElement(driver, proceedToCheckOut);
+		util.clickUsingJS(driver, proceedToCheckOut);
 		
 		Thread.sleep(3000);
-		util.waitForWebElement(driver, iFrame1, 5000);
+		util.waitUntilElement(driver, iFrame1);
 		driver.switchTo().frame(iFrame1);
 		
-		util.waitForWebElement(driver, iFrame2, 5000);
+		util.waitUntilElement(driver, iFrame2);
 		driver.switchTo().frame(iFrame2);
 		
-		util.waitForWebElement(driver, ccNumberTxt, 5000);
+		util.waitUntilElement(driver, ccNumberTxt);
 		ccNumberTxt.sendKeys(DataProviderFactory.getConfig().getValue("ccNumber"));
 		Thread.sleep(3000);
 		driver.switchTo().defaultContent();
 		
-		util.waitForWebElement(driver, expYear, 5000);
+		util.waitUntilElement(driver, expYear);
 		util.selectDrp(expYear).selectByValue("2024");
 		Thread.sleep(3000);
 
-		util.waitForWebElement(driver, processPymtBtn, 5000);
-		processPymtBtn.click();
+		util.waitUntilElement(driver, processPymtBtn);
+		util.clickUsingJS(driver, processPymtBtn);
 		Thread.sleep(3000);
 
 		ArrayList<String> salesOrderDetails=getPDFContent();
@@ -281,7 +337,7 @@ public class ABISignUpPage {
 		util.waitForWebElement(driver, proceedToCheckOut, 5000);
 		proceedToCheckOut.click();
 		
-		util.waitForPageLoad(driver);
+		//util.waitForPageLoad(driver);
 		util.waitForWebElement(driver, iFrame1, 5000);
 		driver.switchTo().frame(iFrame1);
 		
@@ -316,8 +372,10 @@ public class ABISignUpPage {
 								}
 	@SuppressWarnings("static-access")
 	public void processPayment(String email) throws Exception {
-		String pymntURL=mailinator.GetLinks(email.substring(0,email.indexOf("@")), "public-store#");
-		driver.navigate().to(pymntURL);
+		util.waitForJavascript(driver, 6000, 1000);
+		Thread.sleep(10000);
+		String pymntURL=mailinator.GetLinks(email.substring(0,email.indexOf("@")), "Sandbox: Payment_For_Renewal", "public-store#");
+		util.navigateToURl(driver, pymntURL);
 		//util.waitForPageLoad(driver);
 		util.waitForWebElement(driver, pymtLoginBtn, 5000);
 		util.clickUsingJS(driver, pymtLoginBtn);

@@ -280,7 +280,9 @@ public class MailinatorCESAPI {
 		
 		String finallink;
 		finallink = (String) links.get(0);
+		System.out.println("final link:"+finallink);
 		return finallink;
+	
 	}
 	
 	public String cesProviderApprovedNewProviders(ArrayList<String> dataList) throws InterruptedException {

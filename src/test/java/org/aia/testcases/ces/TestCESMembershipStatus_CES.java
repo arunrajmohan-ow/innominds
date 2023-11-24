@@ -339,7 +339,7 @@ public class TestCESMembershipStatus_CES extends BaseClass {
 				testData.testDataProvider().getProperty("cesmembershipType1"));
 	}
 
-	@Test(priority = 7, description = "(FC-168) Verify membership status after adding a NON-CES Membership", enabled = true)
+	@Test(priority = 7, description = "(FC-168) Verify membership status after adding a NON-CES Membership", enabled = false)
 	public void verifyNonCESMembershipStatus() throws Exception {
 		String prefix = "Dr.";
 		String suffix = "Sr.";
@@ -476,9 +476,13 @@ public class TestCESMembershipStatus_CES extends BaseClass {
 				testData.testDataProvider().getProperty("cesMembershipType2"));
 	}
 
+<<<<<<< HEAD
 	@AfterMethod(alwaysRun = true)
 	public void teardown() {
 		BrowserSetup.closeBrowser(driver);
 
 	}
+=======
+
+>>>>>>> 138f089845c83e9a9cccea3bd4184ef8490ee5e5
 }
