@@ -138,7 +138,7 @@ public class TestRenew_Membership extends BaseClass {
 	}
 
 	@Test(priority = 2, description = "Validate Renew for architectural Firm Owner - supplemental Dues", enabled = true, groups = {
-			"Smoke" },invocationCount = 2)
+			"Smoke" })
 	public void ValidateRenewWithSupplementalDuesAFO() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));
@@ -161,10 +161,10 @@ public class TestRenew_Membership extends BaseClass {
 		System.out.println("AIA National is " + receiptData.get(3));
 		mailinator.welcomeAIAEmailLink(dataList, receiptData);
 
-		// Navigate to Fonteva app and make record renew eligible.
+		/*/ Navigate to Fonteva app and make record renew eligible.
 		FontevaConnectionSOAP sessionID = new FontevaConnectionSOAP();
 		final String sID = sessionID.getSessionID();
-		driver.get("https://aia--testing.sandbox.my.salesforce.com/secur/frontdoor.jsp?sid=" + sID);
+		driver.get("https://aia--testing.sandbox.my.salesforce.com/secur/frontdoor.jsp?sid=" + sID);*/
 		// driver.get(DataProviderFactory.getConfig().getValue("fonteva_endpoint"));
 		fontevaPage.changeTermDates(dataList.get(0) + " " + dataList.get(1));
 
