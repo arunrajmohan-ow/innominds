@@ -144,9 +144,9 @@ public class TestRenewEligibleFields_CES extends BaseClass {
 		ces_ContactPage.selectCreatedContact(dataList.get(0) + " " + dataList.get(1));
 		ces_membership.selectMembership();
 		ces_membership.changePreAndPostTermRenewalDays("1", "0");
-		String changetermDate = dateUtils.getDate(1, "yyyy-MM-dd");
+		String changetermDate = DateUtils.getDate(1, "yyyy-MM-dd");
 		System.out.println("changetermDate to:" + changetermDate);
-		termDateChangeApi.changeTermDateAPI(dataList.get(3), changetermDate, 0);
+		FontevaCESTermDateChangeAPI.changeTermDateAPI(dataList.get(3), changetermDate);
 		cesTermDateChangeAPI.validateisproviderRenewEligible(true);
 		ces_membership.changePreAndPostTermRenewalDays(
 				testData.testDataProvider().getProperty("setPreviousPreRenwalDays"),
@@ -182,9 +182,9 @@ public class TestRenewEligibleFields_CES extends BaseClass {
 		ces_ContactPage.selectCreatedContact(dataList.get(0) + " " + dataList.get(1));
 		ces_membership.selectMembership();
 		ces_membership.changePreAndPostTermRenewalDays("1", "0");
-		String changetermDate = dateUtils.getDate(0, "yyyy-MM-dd");
+		String changetermDate = DateUtils.getDate(0, "yyyy-MM-dd");
 		System.out.println("changetermDate to:" + changetermDate);
-		termDateChangeApi.changeTermDateAPI(dataList.get(3), changetermDate, 0);
+		FontevaCESTermDateChangeAPI.changeTermDateAPI(dataList.get(3), changetermDate);
 		cesTermDateChangeAPI.validateisproviderRenewEligible(true);
 		ces_membership.changePreAndPostTermRenewalDays(
 				testData.testDataProvider().getProperty("setPreviousPreRenwalDays"),
@@ -220,9 +220,9 @@ public class TestRenewEligibleFields_CES extends BaseClass {
 		ces_ContactPage.selectCreatedContact(dataList.get(0) + " " + dataList.get(1));
 		ces_membership.selectMembership();
 		ces_membership.changePreAndPostTermRenewalDays("1", "0");
-		String changetermDate = dateUtils.getDate(-1, "yyyy-MM-dd");
+		String changetermDate = DateUtils.getDate(-1, "yyyy-MM-dd");
 		System.out.println("changetermDate to:" + changetermDate);
-		termDateChangeApi.changeTermDateAPI(dataList.get(3), changetermDate, 0);
+		FontevaCESTermDateChangeAPI.changeTermDateAPI(dataList.get(3), changetermDate);
 		cesTermDateChangeAPI.validateisproviderRenewEligible(false);
 		ces_membership.changePreAndPostTermRenewalDays(
 				testData.testDataProvider().getProperty("setPreviousPreRenwalDays"),
@@ -258,9 +258,9 @@ public class TestRenewEligibleFields_CES extends BaseClass {
 		ces_ContactPage.selectCreatedContact(dataList.get(0) + " " + dataList.get(1));
 		ces_membership.selectMembership();
 		ces_membership.changePreAndPostTermRenewalDays("0", "1");
-		String changetermDate = dateUtils.getDate(-1, "yyyy-MM-dd");
+		String changetermDate = DateUtils.getDate(-1, "yyyy-MM-dd");
 		System.out.println("changetermDate to:" + changetermDate);
-		termDateChangeApi.changeTermDateAPI(dataList.get(3), changetermDate, 0);
+		FontevaCESTermDateChangeAPI.changeTermDateAPI(dataList.get(3), changetermDate);
 		cesTermDateChangeAPI.validateisproviderRenewEligible(true);
 		ces_membership.changePreAndPostTermRenewalDays(
 				testData.testDataProvider().getProperty("setPreviousPreRenwalDays"),
@@ -296,9 +296,9 @@ public class TestRenewEligibleFields_CES extends BaseClass {
 		ces_ContactPage.selectCreatedContact(dataList.get(0) + " " + dataList.get(1));
 		ces_membership.selectMembership();
 		ces_membership.changePreAndPostTermRenewalDays("0", "1");
-		String changetermDate = dateUtils.getDate(0, "yyyy-MM-dd");
+		String changetermDate = DateUtils.getDate(0, "yyyy-MM-dd");
 		System.out.println("changetermDate to:" + changetermDate);
-		termDateChangeApi.changeTermDateAPI(dataList.get(3), changetermDate, 0);
+		FontevaCESTermDateChangeAPI.changeTermDateAPI(dataList.get(3), changetermDate);
 		cesTermDateChangeAPI.validateisproviderRenewEligible(true);
 		ces_membership.changePreAndPostTermRenewalDays(
 				testData.testDataProvider().getProperty("setPreviousPreRenwalDays"),
@@ -334,9 +334,9 @@ public class TestRenewEligibleFields_CES extends BaseClass {
 		ces_ContactPage.selectCreatedContact(dataList.get(0) + " " + dataList.get(1));
 		ces_membership.selectMembership();
 		ces_membership.changePreAndPostTermRenewalDays("0", "1");
-		String changetermDate = dateUtils.getDate(1, "yyyy-MM-dd");
+		String changetermDate = DateUtils.getDate(1, "yyyy-MM-dd");
 		System.out.println("changetermDate to:" + changetermDate);
-		termDateChangeApi.changeTermDateAPI(dataList.get(3), changetermDate, 0);
+		FontevaCESTermDateChangeAPI.changeTermDateAPI(dataList.get(3), changetermDate);
 		cesTermDateChangeAPI.validateisproviderRenewEligible(false);
 		ces_membership.changePreAndPostTermRenewalDays(
 				testData.testDataProvider().getProperty("setPreviousPreRenwalDays"),

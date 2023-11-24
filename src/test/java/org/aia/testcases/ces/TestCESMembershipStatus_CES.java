@@ -148,7 +148,7 @@ public class TestCESMembershipStatus_CES extends BaseClass {
 				testData.testDataProvider().getProperty("quickElement1"));
 		rapidOrderEntery.validateDeleteCESMembership();
 		// ces_ContactPage.validateAvailableMemType();
-		termDateChangeApi.changeTermDateAPI(dataList.get(3),
+		FontevaCESTermDateChangeAPI.changeTermDateAPI(dataList.get(3),
 				(testData.testDataProvider().getProperty("changeTermDate")));
 		// Validate Provider Application & CES Provider account details - Fonteva API
 		// validations
@@ -191,7 +191,7 @@ public class TestCESMembershipStatus_CES extends BaseClass {
 		rapidOrderEntery.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
 				testData.testDataProvider().getProperty("cesmembershipType1"),
 				testData.testDataProvider().getProperty("quickElement1"));
-		termDateChangeApi.changeTermDateAPI(dataList.get(3), testData.testDataProvider().getProperty("termEndDate"));
+		FontevaCESTermDateChangeAPI.changeTermDateAPI(dataList.get(3), testData.testDataProvider().getProperty("termEndDate"));
 		termDateChangeApi.getCESAccountDetails(testData.testDataProvider().getProperty("membershipStatus"),
 				testData.testDataProvider().getProperty("cesmembershipType1"));
 
@@ -227,7 +227,7 @@ public class TestCESMembershipStatus_CES extends BaseClass {
 		rapidOrderEntery.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
 				testData.testDataProvider().getProperty("cesmembershipType1"),
 				testData.testDataProvider().getProperty("quickElement1"));
-		termDateChangeApi.changeTermDateAPI(dataList.get(3), testData.testDataProvider().getProperty("termEndDate"));
+		FontevaCESTermDateChangeAPI.changeTermDateAPI(dataList.get(3), testData.testDataProvider().getProperty("termEndDate"));
 		termDateChangeApi.getCESAccountDetails(testData.testDataProvider().getProperty("membershipStatus"),
 				testData.testDataProvider().getProperty("cesmembershipType1"));
 	}
@@ -258,7 +258,7 @@ public class TestCESMembershipStatus_CES extends BaseClass {
 		rapidOrderEntery.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
 				testData.testDataProvider().getProperty("nonCESMembershipType0"),
 				testData.testDataProvider().getProperty("quickElement1"));
-		termDateChangeApi.changeTermDateAPI(dataList.get(3), testData.testDataProvider().getProperty("termEndDate"));
+		FontevaCESTermDateChangeAPI.changeTermDateAPI(dataList.get(3), testData.testDataProvider().getProperty("termEndDate"));
 		termDateChangeApi.getCESAccountDetails(testData.testDataProvider().getProperty("membershipStatus"),
 				testData.testDataProvider().getProperty("cesmembershipType0"));
 	}
@@ -296,7 +296,7 @@ public class TestCESMembershipStatus_CES extends BaseClass {
 		rapidOrderEntery.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
 				testData.testDataProvider().getProperty("cesMembershipType2"),
 				testData.testDataProvider().getProperty("quickElement2"));
-		termDateChangeApi.changeTermDateAPI(dataList.get(3), testData.testDataProvider().getProperty("termEndDate"));
+		FontevaCESTermDateChangeAPI.changeTermDateAPI(dataList.get(3), testData.testDataProvider().getProperty("termEndDate"));
 		termDateChangeApi.getCESAccountDetails(testData.testDataProvider().getProperty("membershipStatus"),
 				testData.testDataProvider().getProperty("cesmembershipType1"));
 	}
@@ -334,7 +334,7 @@ public class TestCESMembershipStatus_CES extends BaseClass {
 		rapidOrderEntery.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
 				testData.testDataProvider().getProperty("cesMembershipType2"),
 				testData.testDataProvider().getProperty("quickElement2"));
-		termDateChangeApi.changeTermDateAPI(dataList.get(3), testData.testDataProvider().getProperty("termEndDate"));
+		FontevaCESTermDateChangeAPI.changeTermDateAPI(dataList.get(3), testData.testDataProvider().getProperty("termEndDate"));
 		termDateChangeApi.getCESAccountDetails(testData.testDataProvider().getProperty("membershipStatus"),
 				testData.testDataProvider().getProperty("cesmembershipType1"));
 	}
@@ -365,7 +365,7 @@ public class TestCESMembershipStatus_CES extends BaseClass {
 		rapidOrderEntery.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
 				testData.testDataProvider().getProperty("nonCESMembershipType0"),
 				testData.testDataProvider().getProperty("quickElement1"));
-		termDateChangeApi.changeTermDateAPI(dataList.get(3), testData.testDataProvider().getProperty("termEndDate"));
+		FontevaCESTermDateChangeAPI.changeTermDateAPI(dataList.get(3), testData.testDataProvider().getProperty("termEndDate"));
 		termDateChangeApi.getCESAccountDetails(testData.testDataProvider().getProperty("membershipStatus"),
 				testData.testDataProvider().getProperty("cesmembershipType0"));
 	}
@@ -395,7 +395,7 @@ public class TestCESMembershipStatus_CES extends BaseClass {
 		rapidOrderEntery.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
 				testData.testDataProvider().getProperty("nonCESMembershipType0"),
 				testData.testDataProvider().getProperty("quickElement1"));
-		termDateChangeApi.changeTermDateAPI(dataList.get(3), testData.testDataProvider().getProperty("termEndDate"));
+		FontevaCESTermDateChangeAPI.changeTermDateAPI(dataList.get(3), testData.testDataProvider().getProperty("termEndDate"));
 		termDateChangeApi.getCESAccountDetails(testData.testDataProvider().getProperty("membershipStatus"),
 				testData.testDataProvider().getProperty("cesmembershipType0"));
 	}
@@ -433,7 +433,7 @@ public class TestCESMembershipStatus_CES extends BaseClass {
 		rapidOrderEntery.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
 				testData.testDataProvider().getProperty("cesMembershipType2"),
 				testData.testDataProvider().getProperty("quickElement2"));
-		termDateChangeApi.changeTermDateAPI(dataList.get(3), testData.testDataProvider().getProperty("termEndDate"));
+		FontevaCESTermDateChangeAPI.changeTermDateAPI(dataList.get(3), testData.testDataProvider().getProperty("termEndDate"));
 		termDateChangeApi.getCESAccountDetails(testData.testDataProvider().getProperty("membershipStatus"),
 				testData.testDataProvider().getProperty("cesmembershipType1"));
 	}
@@ -471,18 +471,14 @@ public class TestCESMembershipStatus_CES extends BaseClass {
 		rapidOrderEntery.cesRapidOrderEntry(dataList.get(0) + " " + dataList.get(1),
 				testData.testDataProvider().getProperty("cesmembershipType1"),
 				testData.testDataProvider().getProperty("quickElement1"));
-		termDateChangeApi.changeTermDateAPI(dataList.get(3), testData.testDataProvider().getProperty("termEndDate"));
+		FontevaCESTermDateChangeAPI.changeTermDateAPI(dataList.get(3), testData.testDataProvider().getProperty("termEndDate"));
 		termDateChangeApi.getCESAccountDetails(testData.testDataProvider().getProperty("membershipStatus"),
 				testData.testDataProvider().getProperty("cesMembershipType2"));
 	}
 
-<<<<<<< HEAD
 	@AfterMethod(alwaysRun = true)
 	public void teardown() {
 		BrowserSetup.closeBrowser(driver);
 
 	}
-=======
-
->>>>>>> 138f089845c83e9a9cccea3bd4184ef8490ee5e5
 }

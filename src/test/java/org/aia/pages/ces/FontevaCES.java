@@ -230,36 +230,6 @@ public class FontevaCES {
 	String endLocator = "']";
 	String appName = "Provider Application";
 
-<<<<<<< HEAD
-	//@FindBy(xpath="//span[text()='Term End Date']/parent::div/following-sibling::div//button") WebElement editBtn;
-	
-	@FindBy(xpath="//button[@title='Edit Term End Date']/span") WebElement editBtn;
-	
-
-	@FindBy(xpath="//a[contains(text(),'Show')]") WebElement showallBtn;
-	
-	//@FindBy(xpath="//a[contains(text(),'Show All (1')]") WebElement showallBtn;
-	
-	//@FindBy(xpath="//lst-related-list-quick-links-grid//div//div[@class='slds-card__body slds-card__body--inner']//div[@class='rlql-toggle slds-text-align_center']//a[contains(text(),'Show All')]") WebElement showallBtn;
-	
-	@FindBy(xpath="//h1/span[text()='Contacts']/parent::h1/parent::div/parent::div//button") WebElement contactallBtn;
-	
-	@FindBy(xpath="//li[contains(@class,'forceVirtualAutocompleteMenuOption')]//span[text()='All Contacts'][1]") WebElement contactallLink;
-	
-	@FindBy(xpath="//div[text()='Contact']") WebElement contactTitle;
-	
-	@FindBy(xpath = "//input[@placeholder='Search this list...']") WebElement searchBox;
-	
-	@FindBy(xpath = "//span[text()='No items to display.']") WebElement noItemHeading;
-	
-	@FindBy(xpath = "//p[text()='Account Name']//parent::div//div//a") WebElement accountName;
-	
-	String  startLocator = "//div[@class='uiVirtualDataTable indicator']/following-sibling::table/tbody//a[text()='";
-	String  endLocator = "']";
-	String  appName = "Provider Application";
-	
-=======
->>>>>>> 138f089845c83e9a9cccea3bd4184ef8490ee5e5
 	public void changeProviderApplicationStatus(String fullName, String providerID, String providerStatus) throws InterruptedException 
 	{
 		/*

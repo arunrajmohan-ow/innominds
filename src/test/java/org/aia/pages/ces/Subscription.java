@@ -69,21 +69,6 @@ public class Subscription {
 	@FindBy(xpath = "//button[@title='Delete Document']")
 	WebElement pofessionalDeleteBtn;
 
-<<<<<<< HEAD
-	@FindBy(xpath="//select[@name='s_your_organization_any_of_the_following']") WebElement profQualifyingQues;
-	
-	@FindBy(xpath="//*[text()='Upload Files']") WebElement profUploadFile;
-	
-	@FindBy(xpath = "//input[@name='uploadFile']") WebElement pdfUploadElement;
-	
-	@FindBy(xpath="//span[text()='Done'] | //span[text()='Done']//parent::button") WebElement pofessionalFileUplaodDoneButton;
-	
-	//@FindBy(xpath="//span[text()='Done']//parent::button") WebElement pofessionalFileUplaodDoneButton;
-	
-	@FindBy(xpath="//button[@title='Delete Document']") WebElement pofessionalDeleteBtn;
-	
-=======
->>>>>>> 138f089845c83e9a9cccea3bd4184ef8490ee5e5
 	// Alert : Your company doesn't support the following file types: .txt
 	@FindBy(xpath = "//div[contains(@id,'help-message')]")
 	WebElement pofessionalUnsupportedFilTypes;

@@ -1,7 +1,7 @@
 package org.aia.testcases.abi;
- 
+
 import static io.restassured.RestAssured.given;
- 
+
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
- 
+
 import org.aia.pages.BaseClass;
 import org.aia.pages.abi.ABISignUpPage;
 import org.aia.pages.abi.PaymentSuccessFullPageABI;
@@ -62,21 +62,15 @@ import org.testng.annotations.Listeners;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
- 
+
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
- 
+
 import io.netty.util.internal.SystemPropertyUtil;
 import io.restassured.http.ContentType;
-<<<<<<< HEAD
 
 public class TestArchitectureBillingIndex extends BaseClass {
 
-=======
- 
-public class TestArchitectureBillingIndex extends BaseClass {
- 
->>>>>>> 138f089845c83e9a9cccea3bd4184ef8490ee5e5
 	SignUpPage signUpPage;
 	ABISignUpPage abisignUpPage;
 	SignInPage signInpage;
@@ -94,7 +88,7 @@ public class TestArchitectureBillingIndex extends BaseClass {
 	PaymentSuccessFullPageABI paymentSuccessfullPage;
 	ABIAPIValidation apiValidation;
 	FontevaLoginPage fontevaLoginPage;
- 
+
 	public ExtentReports extent;
 	public ExtentTest extentTest;
 	public String inbox;
@@ -102,11 +96,7 @@ public class TestArchitectureBillingIndex extends BaseClass {
 	public static ArrayList<String> pdfDetails = new ArrayList<String>();
 	protected FontevaConnectionSOAP sessionID;
 	public VideoRecorder recorder;
-<<<<<<< HEAD
 
-=======
- 
->>>>>>> 138f089845c83e9a9cccea3bd4184ef8490ee5e5
 	@BeforeMethod(alwaysRun = true)
 	public void setUp() throws Exception {
 		System.out.println("@BeforeMethod");
@@ -125,23 +115,13 @@ public class TestArchitectureBillingIndex extends BaseClass {
 		paymentSuccessfullPage = PageFactory.initElements(driver, PaymentSuccessFullPageABI.class);
 		finalPage = PageFactory.initElements(driver, FinalPageThankYou.class);
 		fontevaLoginPage = PageFactory.initElements(driver, FontevaLoginPage.class);
-<<<<<<< HEAD
-
-=======
- 
->>>>>>> 138f089845c83e9a9cccea3bd4184ef8490ee5e5
 		// apiValidation = PageFactory.initElements(driver,
 		// ArchitectureBillingIndexAPIValidation.class);
 		Logging.configure();
 	}
-<<<<<<< HEAD
 
-	@Test(groups = { "Smoke" }, description = " To subscribe for ABI", enabled = true, dataProvider = "Address") // ,
+	@Test(groups = { "Smoke" }, description = " To subscribe for ABI", enabled = true, dataProvider = "Address") // , //
 																													// FailedTestRun.class
-=======
- 
-	@Test(groups = { "Smoke" }, description = " To subscribe for ABI", enabled = true, dataProvider = "Address") // ,																									// FailedTestRun.class
->>>>>>> 138f089845c83e9a9cccea3bd4184ef8490ee5e5
 	public void SubscribeToABI(ITestContext context, String addressType, String address) throws Exception {
 		System.out.println("Subscription");
 		ArrayList<String> dataList = signUpPage.signUpData();
@@ -150,84 +130,67 @@ public class TestArchitectureBillingIndex extends BaseClass {
 		mailinator.verifyEmailForAccountSetup(dataList.get(3));
 		closeButtnPage.clickCloseAfterVerification();
 		signInpage.login(dataList.get(5), dataList.get(6));
-<<<<<<< HEAD
-=======
 		abisignUpPage.continueToCheckOut();
->>>>>>> 138f089845c83e9a9cccea3bd4184ef8490ee5e5
 		pdfDetails = abisignUpPage.subscribeToABI(dataList.get(0) + " " + dataList.get(1), String.valueOf(address));
 		// report.logTestInfo((String)context.getAttribute("contactName"));
 		// report.logTestInfo((String)addressType+"-"+(String)address);
 		context.setAttribute("salesOrderId", pdfDetails.get(0).substring(13));
 		context.setAttribute("contactName", dataList.get(0) + " " + dataList.get(1));
 		users.put(dataList.get(0) + " " + dataList.get(1), dataList.get(5));
-<<<<<<< HEAD
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
 		fontevaLoginPage.viewSalesOrder((String) context.getAttribute("contactName"),
 				(String) context.getAttribute("salesOrderId"));
 		abisignUpPage.validateSubscriptionDetails(pdfDetails);
 
-	}
-
-	@DataProvider(name = "Address")
-	public Object[][] getAddress(ITestContext context) {
-		return new Object[][] { { "US Taxable Address", "1735 york avenue, New york" } };
-	}
-
-	@AfterMethod(alwaysRun = true)
-	public void teardown() throws IOException {
-		BrowserSetup.closeBrowser(driver);
-
-	}
-
-}
-=======
-		util.navigateToURl(driver, DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
+		util.navigateToURl(driver,
+				DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
 		fontevaLoginPage.viewSalesOrder((String) context.getAttribute("contactName"),
 				(String) context.getAttribute("salesOrderId"));
 		abisignUpPage.validateSubscriptionDetails(pdfDetails);
- 
+
 	}
-	
-	@Test(groups={"Smoke"}, description=" To renew ABI subscription", enabled=true, dependsOnMethods={"SubscribeToABI"})
+
+	@Test(groups = { "Smoke" }, description = " To renew ABI subscription", enabled = true, dependsOnMethods = {
+			"SubscribeToABI" })
 	public void RenewABISubscription(ITestContext context) throws Exception {
-		  	for(Map.Entry<String,String> e:users.entrySet()) {	
-		  	util.navigateToURl(driver, DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
+		for (Map.Entry<String, String> e : users.entrySet()) {
+			util.navigateToURl(driver,
+					DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
 			fontevaLoginPage.viewSubscriptionOrder(e.getKey());
 			fontevaLoginPage.renewABI(e.getKey());
 			abisignUpPage.processPayment(e.getValue());
-			pdfDetails=abisignUpPage.proceedToCheckOut();
-		  	}
+			pdfDetails = abisignUpPage.proceedToCheckOut();
+		}
 	}
- 
-	
-	@Test(groups={"Smoke"}, description=" To renew ABI subscription as Guest", enabled=true, dataProvider="Address")
+
+	@Test(groups = {
+			"Smoke" }, description = " To renew ABI subscription as Guest", enabled = true, dataProvider = "Address")
 	public void SubscribeToABIAsGuest(ITestContext context, String addressType, String address) throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		abisignUpPage = PageFactory.initElements(driver, ABISignUpPage.class);
 		abisignUpPage.continueToCheckOutAsGuest();
 		abisignUpPage.continueAsGuest(dataList.get(0), dataList.get(1), dataList.get(5));
-		pdfDetails=abisignUpPage.subscribeToABI(dataList.get(0)+" "+dataList.get(1), String.valueOf(address));	
+		pdfDetails = abisignUpPage.subscribeToABI(dataList.get(0) + " " + dataList.get(1), String.valueOf(address));
 		context.setAttribute("salesOrderId", pdfDetails.get(0).substring(13));
 		context.setAttribute("contactName", dataList.get(0) + " " + dataList.get(1));
 		users.put(dataList.get(0) + " " + dataList.get(1), dataList.get(5));
-		util.navigateToURl(driver, DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
+		util.navigateToURl(driver,
+				DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
 		fontevaLoginPage.viewSalesOrder((String) context.getAttribute("contactName"),
 				(String) context.getAttribute("salesOrderId"));
 		abisignUpPage.validateSubscriptionDetails(pdfDetails);
 	}
-	
+
 	@DataProvider(name = "Address")
 	public Object[][] getAddress(ITestContext context) {
-		return new Object[][] { { "US Taxable Address", "1735 york avenue, New york" }
-		, {"US Non- Taxable Address", "115 E 3rd Ave, Anchorage, AK 99501, United States"}
-		};
+		return new Object[][] { { "US Taxable Address", "1735 york avenue, New york" },
+				{ "US Non- Taxable Address", "115 E 3rd Ave, Anchorage, AK 99501, United States" } };
 	}
- 
+
 	@AfterMethod(alwaysRun = true)
 	public void teardown() throws IOException {
 		BrowserSetup.closeBrowser(driver);
-		VideoRecorder.stopRecording(); 
+		VideoRecorder.stopRecording();
 	}
- 
+
 }
->>>>>>> 138f089845c83e9a9cccea3bd4184ef8490ee5e5

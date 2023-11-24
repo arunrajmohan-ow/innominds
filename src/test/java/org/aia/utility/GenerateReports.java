@@ -68,14 +68,8 @@ public class GenerateReports {
 		logger.log(Status.INFO, message);
 	}
 	
-<<<<<<< HEAD
 	public void logTestpassed(String testcaseName) {
 		logger.log(Status.PASS, MarkupHelper.createLabel(testcaseName + "is passTest", ExtentColor.GREEN));
-=======
-	public void logTestpassed(String methodName) {
-		node=logger.createNode(methodName);
-		node.log(Status.PASS, MarkupHelper.createLabel(methodName+" is a passTest", ExtentColor.GREEN));
->>>>>>> 138f089845c83e9a9cccea3bd4184ef8490ee5e5
 	}
 
 	public void logTestFailed(String testcaseName, String string) {

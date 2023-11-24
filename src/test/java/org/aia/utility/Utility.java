@@ -471,12 +471,7 @@ public class Utility {
 		}
 		return sb.toString();
 	}
-<<<<<<< HEAD
 
-	public void mosueOverUsingAction(WebDriver driver, WebElement element) {
-		action = new Actions(driver);
-		action.moveToElement(element).perform();
-	}
 
 	/**
 	 * Writing csv
@@ -507,16 +502,7 @@ public class Utility {
 	 * Here we are using awaitility for waiting the response from api
 	 */
 
-	public void waitForResponse(final Response response, final int statusCode) {
-		Awaitility.await().atMost(10, TimeUnit.SECONDS).until(new Callable<Boolean>() {
-			@Override
-			public Boolean call() throws Exception {
-				return response.getStatusCode() == statusCode;
-			}
-		});
-	}
 
-=======
 
 	public void mosueOverUsingAction(WebDriver driver, WebElement element) {
 		action = new Actions(driver);
@@ -536,7 +522,6 @@ public class Utility {
 
 	}
 
->>>>>>> 138f089845c83e9a9cccea3bd4184ef8490ee5e5
 	public static void takeScreenShotAfterFail(WebDriver driver, ITestResult result) {
 		TakesScreenshot ts = (TakesScreenshot) driver;
 		File screenshot = ts.getScreenshotAs(OutputType.FILE);
