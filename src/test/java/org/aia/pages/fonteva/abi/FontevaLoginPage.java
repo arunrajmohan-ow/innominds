@@ -26,10 +26,10 @@ public class FontevaLoginPage {
 		executor = (JavascriptExecutor) driver;
 	}
 
-	@FindBy(xpath = "//button[@aria-label='Search']")
+	@FindBy(xpath = "//button[@aria-label='Search' and @type='button']")
 	WebElement search;
 	
-	@FindBy(xpath = "//input[@placeholder='Search...']")
+	@FindBy(xpath = "//div[@class='forceSearchAssistantDialog']//input[@type='search']")
 	WebElement searchInput;
 	
 	@FindBy(xpath = "//ul[starts-with(@class,'scopesListSection slds-has-block-links--space')]//a[@title='Sales Orders']")
@@ -41,7 +41,7 @@ public class FontevaLoginPage {
 	@FindBy(xpath = "//ul[starts-with(@class,'scopesListSection slds-has-block-links--space')]//a[@title='Memberships']")
 	WebElement memberships;
 	
-	@FindBy(xpath = "//th[@title='Subscription ID']")
+	@FindBy(xpath = "//tbody//th//a")
 	WebElement subscriptionID;
 	
 	@FindBy(xpath = "//button[text()='Renew']")
@@ -56,7 +56,7 @@ public class FontevaLoginPage {
 	@FindBy(xpath = "//ul[@class='slds-button-group-list']//li[9]//span[text()='Send Public Proforma Invoice']")
 	WebElement sendPPInvoice;
 	
-	@FindBy(xpath = "//div[@class='slds-modal__content']//input[@class='slds-input' and starts-with(@aria-describedby,'input-text-label')]")
+	@FindBy(xpath = "//label[text()='Subject']//following::input[@class='slds-input'][1]")
 	WebElement subject;
 	
 	@FindBy(xpath = "//lightning-base-combobox//button[@aria-label='Select a site, Select a Community Site...']")
@@ -65,7 +65,43 @@ public class FontevaLoginPage {
 	@FindBy(xpath = "//button[text()='Send Email']")
 	WebElement sendEmailBtn;
 	
-	public void renewABI(String user) {
+	public void renewABI(String user) throws InterruptedException {
+		util.waitUntilElement(driver, renewBtn);
+		util.clickUsingJS(driver, renewBtn);
+		util.waitUntilElement(driver, ready4Pymt);
+		ready4Pymt.click();
+		util.waitUntilElement(driver, dropDown);
+		dropDown.click();
+		util.waitForJavascript(driver, 6000, 1000);
+		util.waitUntilElement(driver, sendPPInvoice);
+		sendPPInvoice.click();
+		util.waitForJavascript(driver, 6000, 1000);
+		util.waitUntilElement(driver, subject);
+		subject.click();
+		subject.sendKeys("Payment_For_Renewal");	
+		util.waitForJavascript(driver, 6000, 1000);		
+		util.waitUntilElement(driver, selectACommunitySite);
+		selectACommunitySite.click();
+		selectACommunitySite.sendKeys(Keys.ENTER);
+		util.waitUntilElement(driver, sendEmailBtn);
+		util.clickUsingJS(driver, sendEmailBtn);
+	}
+	
+	public void viewSalesOrder(String user, String Id) {
+		util.waitForJavascript(driver, 6000, 1000);
+		util.waitUntilElement(driver, search);
+		util.clickUsingJS(driver, search);
+		util.waitUntilElement(driver, searchInput);
+		util.clickUsingJS(driver, searchInput);
+		searchInput.sendKeys(user+Keys.ENTER);
+		util.waitUntilElement(driver, salesOrders);
+		salesOrders.click();
+		util.waitUntilElement(driver, salesOrderID);
+		salesOrderID.click();				
+	}
+	
+	public void viewSubscriptionOrder(String user) {
+		util.waitForJavascript(driver, 6000, 1000);
 		util.waitUntilElement(driver, search);
 		search.click();
 		util.waitUntilElement(driver, searchInput);
@@ -74,35 +110,6 @@ public class FontevaLoginPage {
 		util.waitUntilElement(driver, memberships);
 		memberships.click();
 		util.waitUntilElement(driver, subscriptionID);
-		subscriptionID.click();
-		util.waitUntilElement(driver, renewBtn);
-		renewBtn.click();
-		util.waitUntilElement(driver, ready4Pymt);
-		ready4Pymt.click();
-		util.waitUntilElement(driver, dropDown);
-		dropDown.click();
-		util.waitUntilElement(driver, sendPPInvoice);
-		sendPPInvoice.click();
-		util.waitUntilElement(driver, subject);
-		subject.click();
-		subject.sendKeys("Test_Subject");
-		util.waitUntilElement(driver, selectACommunitySite);
-		selectACommunitySite.click();
-		selectACommunitySite.sendKeys(Keys.ENTER);
-		util.waitUntilElement(driver, sendEmailBtn);
-		sendEmailBtn.click();
-	}
-	
-	public void viewSalesOrder(String user, String Id) {
-		util.waitUntilElement(driver, search);
-		util.clickUsingJS(driver, search);
-		util.waitUntilElement(driver, searchInput);
-		util.clickUsingJS(driver, searchInput);
-		searchInput.sendKeys(user+Keys.ENTER);
-		util.waitUntilElement(driver, salesOrders);
-		util.clickUsingJS(driver, salesOrders);
-		util.waitUntilElement(driver, salesOrderID);
-		util.clickUsingJS(driver, salesOrderID);
-				
+		subscriptionID.click();				
 	}
 }
