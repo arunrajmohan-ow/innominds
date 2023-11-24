@@ -41,10 +41,10 @@ import org.openqa.selenium.io.FileHandler;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
 import org.testng.ITestResult;
 
 import io.restassured.response.Response;
-
 
 public class Utility {
 
@@ -53,7 +53,7 @@ public class Utility {
 	Actions action;
 
 	public Utility(WebDriver driver, int time) {
-	
+
 	}
 
 	public void acceptAlert() {
@@ -331,6 +331,20 @@ public class Utility {
 		return localDate;
 	}
 
+	/**
+	 * Here we switching to new tab using below params
+	 * 
+	 * @param driver
+	 * @param link
+	 */
+	public void createNewWindow(WebDriver driver, String link) {
+		((JavascriptExecutor) driver).executeScript("window.open()");
+		ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
+		driver.switchTo().window(tabs.get(1));
+		driver.get(link);
+
+	}
+
 	public WebDriver switchToTabs(WebDriver driver, int tab) {
 		ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
 		driver.switchTo().window(tabs.get(tab));
@@ -354,6 +368,10 @@ public class Utility {
 
 	public void navigateToURl(WebDriver driver, String url) {
 		driver.navigate().to(url);
+	}
+
+	public void navigateToBack(WebDriver driver) {
+		driver.navigate().back();
 	}
 
 	public void waitForJavascript(WebDriver driver, int maxWaitMillis, int pollDelimiter) {
@@ -385,7 +403,6 @@ public class Utility {
 		});
 	}
 
-
 	public List<String> getAllElementsText(WebDriver driver, String xpath) {
 		List<WebElement> elements = driver.findElements(By.xpath(xpath));
 		List<String> allElementText = new ArrayList<>();
@@ -393,7 +410,6 @@ public class Utility {
 			allElementText.add(elements.get(i).getText());
 		}
 		return allElementText;
-
 	}
 
 	public void fileUploadThroughKeyBoardActions(WebDriver driver, WebElement element, String filepath) {
@@ -429,22 +445,25 @@ public class Utility {
 		}
 		return sb.toString();
 	}
-	
+
 	public void mosueOverUsingAction(WebDriver driver, WebElement element) {
-	action = new Actions(driver);
-	action.moveToElement(element).perform();
+		action = new Actions(driver);
+		action.moveToElement(element).perform();
 	}
 
 	/**
-	* Here we are using awaitility for waiting the response from api
-	*/
+	 * Here we are using awaitility for waiting the response from api
+	 */
+
 	public void waitForResponse(final Response response, final int statusCode) {
+    //  Awaitility.await().atMost(10,TimeUnit.SECONDS).until(()->{return response.getStatusCode()==statusCode;});
       Awaitility.await().atMost(10,TimeUnit.SECONDS).until(new Callable<Boolean>() {
 		@Override
 		public Boolean call() throws Exception {return response.getStatusCode()==statusCode;}
 	});
+
 	}
-	
+
 	public static void takeScreenShotAfterFail(WebDriver driver, ITestResult result) {
 		TakesScreenshot ts = (TakesScreenshot) driver;
 		File screenshot = ts.getScreenshotAs(OutputType.FILE);

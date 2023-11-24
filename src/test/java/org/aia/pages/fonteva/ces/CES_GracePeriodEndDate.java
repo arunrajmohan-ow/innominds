@@ -1,4 +1,4 @@
-package org.aia.pages.ces;
+package org.aia.pages.fonteva.ces;
 
 import static org.testng.Assert.assertTrue;
 
@@ -6,7 +6,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.aia.utility.ConfigDataProvider;
-
 import org.aia.utility.DateUtils;
 import org.aia.utility.Utility;
 import org.openqa.selenium.By;
@@ -20,12 +19,13 @@ import org.openqa.selenium.support.FindBy;
 
 import io.cucumber.java.it.Data;
 
-public class FontevaCES {
+public class CES_GracePeriodEndDate {
 
 	WebDriver driver;
 	Actions action;
 
-	public FontevaCES(WebDriver Idriver) {
+	public CES_GracePeriodEndDate(WebDriver Idriver) {
+
 		this.driver = Idriver;
 		action = new Actions(driver);
 	}
@@ -83,8 +83,6 @@ public class FontevaCES {
 	@FindBy(xpath = "//div[@class='uiVirtualDataTable indicator']")
 	WebElement tableDiv;
 
-	// @FindBy(xpath="//a/slot/span[contains(text(),'Memberships')]") WebElement
-	// memberShip;
 	@FindBy(xpath = "//a/slot/span[contains(text(),'Memberships')]//ancestor::a")
 	WebElement memberShip;
 
@@ -112,15 +110,11 @@ public class FontevaCES {
 	@FindBy(xpath = "//div[@class='uiVirtualDataTable indicator']/following-sibling::table/tbody/tr/th")
 	WebElement Name;
 
-	// @FindBy(xpath="//span[text()='Term End
-	// Date']/parent::div/following-sibling::div//button") WebElement editBtn;
+	@FindBy(xpath = "//button[@title='Edit Term End Date']/span")
+	WebElement editBtn;
 
-	// @FindBy(xpath="//a[contains(text(),'Show All (1')]") WebElement showallBtn;
-
-	// @FindBy(xpath="//lst-related-list-quick-links-grid//div//div[@class='slds-card__body
-	// slds-card__body--inner']//div[@class='rlql-toggle
-	// slds-text-align_center']//a[contains(text(),'Show All')]") WebElement
-	// showallBtn;
+	@FindBy(xpath = "//a[contains(text(),'Show')]")
+	WebElement showallBtn;
 
 	@FindBy(xpath = "//h1/span[text()='Contacts']/parent::h1/parent::div/parent::div//button")
 	WebElement contactallBtn;
@@ -158,8 +152,6 @@ public class FontevaCES {
 	@FindBy(xpath = "//span[text()='Attestation Date']/parent::div/parent::div//div//span//slot/*[@slot='outputField']")
 	WebElement attestationDate;
 
-	// @FindBy(xpath="//span[text()='Account']/parent::div/parent::div//div//span//slot/*[@slot='outputField']")WebElement
-	// accounttxt;
 	@FindBy(xpath = "//span[text()= 'Account']/parent::div/parent::div//a//span")
 	WebElement accounttxt;
 
@@ -211,98 +203,28 @@ public class FontevaCES {
 	@FindBy(xpath = "//button[@title='Edit Application Status']")
 	WebElement editApplicationStatus;
 
-	// @FindBy(xpath="//span[text()='Term End
-	// Date']/parent::div/following-sibling::div//button") WebElement editBtn;
+	@FindBy(xpath = "//span[text()= 'Account']/parent::div/parent::div//a//span")
+	WebElement selectAccount;
 
-	@FindBy(xpath = "//button[@title='Edit Term End Date']/span")
-	WebElement editBtn;
+	@FindBy(xpath = "//div[contains(text(),'Your entry does not match the allowed format M/d/yyyy.')]")
+	WebElement dateFormatError;
 
-	// @FindBy(xpath="//a[contains(text(),'Show')]") WebElement showallBtn;
-
-	@FindBy(xpath = "//a[contains(text(),'Show All (1')]")
-	WebElement showallBtn;
-
-	// @FindBy(xpath="//lst-related-list-quick-links-grid//div//div[@class='slds-card__body
-	// slds-card__body--inner']//div[@class='rlql-toggle
-	// slds-text-align_center']//a[contains(text(),'Show All')]") WebElement
-	// showallBtn;
 	String startLocator = "//div[@class='uiVirtualDataTable indicator']/following-sibling::table/tbody//a[text()='";
 	String endLocator = "']";
 	String appName = "Provider Application";
 
-	public void changeProviderApplicationStatus(String fullName, String providerID, String providerStatus) throws InterruptedException 
-	{
-		/*
-		 * util.waitUntilElement(driver, userName);
-		 * userName.sendKeys("sgopisetty@innominds.com.aia.testing");
-		 * password.sendKeys("Harshi@437"); loginBtn.click();
-		 */
-		util.waitUntilElement(driver, appLauncherIcn);
-		Thread.sleep(10000);
-		appLauncherIcn.click();
-		util.waitUntilElement(driver, appSearchtxtbx);
-		util.enterText(driver, appSearchtxtbx, appName);
-		util.waitUntilElement(driver, searchedAppPA);
-		WebElement provAppElement = Utility.waitForWebElement(driver, "//b[text()='" + appName + "']", 10);
-		provAppElement.click();
-		Thread.sleep(2000);
-		util.waitUntilElement(driver, tableProviderApp);
-		util.waitUntilElement(driver, selectList);
-		selectList.click();
-		util.waitUntilElement(driver, allBtn);
-		allBtn.click();
-		WebElement provAppIDElement = Utility.waitForWebElement(driver,
-				"//table[@aria-label='All']/tbody//a[@title='" + providerID + "']", 10);
-		provAppIDElement.click();
-		Thread.sleep(2000);
-		Actions act = new Actions(driver);
-		act.scrollToElement(editAppStatusIon);
-		util.waitUntilElement(driver, editAppStatusIon);
-		editAppStatusIon.click();
-		util.waitUntilElement(driver, appStatusBtnDrpdwn);
-		appStatusBtnDrpdwn.click();
-		WebElement provStatusElement = Utility.waitForWebElement(driver, "//span[@title='" + providerStatus + "']", 10);
-		provStatusElement.click();
-		saveBtn.click();
-		Thread.sleep(1000);
-		act.sendKeys(Keys.F5);
-		Thread.sleep(5000);
-	}
+	/**
+	 * Here ,we verify GracePeriodEndDate after changing termEndDate
+	 * 
+	 * @throws InterruptedException
+	 */
 
-	public void changeTermDates(String fullName) throws InterruptedException {
-		Actions actions = new Actions(driver);
+	public void validateGracePeriodEndDate() throws InterruptedException {
 		JavascriptExecutor js = (JavascriptExecutor) driver;
-		util.waitUntilElement(driver, contacts);
-		contactsDiv.click();
-		// driver.navigate().refresh();
-		util.waitUntilElement(driver, tableheaderName);
-		Thread.sleep(5000);
-		util.waitUntilElement(driver, contactallBtn);
-		contactallBtn.click();
-		util.waitUntilElement(driver, contactallLink);
-		contactallLink.click();
-		Thread.sleep(15000);
-		driver.findElement(By.xpath(startLocator + fullName + endLocator)).click();
-		util.waitUntilElement(driver, accountName);
-		js.executeScript("arguments[0].click();", accountName);
-		// accountName.click();
-		util.waitUntilElement(driver, showallBtn);
-		Thread.sleep(5000);
-		actions.sendKeys(Keys.ARROW_DOWN).build().perform();
-		actions.sendKeys(Keys.ARROW_DOWN).build().perform();
-		actions.moveToElement(showallBtn).build().perform();
-		showallBtn.click();
-		Thread.sleep(2000);
 		util.waitUntilElement(driver, memberShip);
-		// Instantiating Actions class
-		// Actions actions = new Actions(driver);
-		// Hovering on main menu
-		// actions.moveToElement(contactTitle);
-		actions.sendKeys(Keys.ARROW_DOWN).build().perform();
-		actions.sendKeys(Keys.ARROW_DOWN).build().perform();
-		Thread.sleep(5000);
-		util.waitUntilElement(driver, memberShip);
-		memberShip.click();
+		action.moveToElement(memberShip).click().perform();
+		System.out.println("Memberships clicked");
+		driver.navigate().refresh();
 		util.waitUntilElement(driver, tableSubscriptionId);
 		Thread.sleep(1000);
 		tableSubscriptionId.click();
@@ -314,71 +236,117 @@ public class FontevaCES {
 		Thread.sleep(5000);
 		util.waitUntilElement(driver, editBtn);
 		Thread.sleep(5000);
-		Actions act = new Actions(driver);
-		act.scrollToElement(editBtn);
-		// JavascriptExecutor js = (JavascriptExecutor) driver;
+		action.scrollToElement(editBtn);
 		js.executeScript("window.scrollBy(0,200)", editBtn);
 		editBtn.click();
 		util.waitUntilElement(driver, inputTermEndDate);
 		inputTermEndDate.clear();
-		inputTermEndDate.sendKeys("12/31/2023");
+		String inputTermEndDateValue = inputTermEndDate.getText();
+		System.out.println("Input TermEndDate Value is: " + inputTermEndDateValue);
 		util.waitUntilElement(driver, inputTermGraceDate);
-		inputTermGraceDate.clear();
-		inputTermGraceDate.sendKeys("4/4/2024");
-		saveBtn.click();
-		Thread.sleep(1000);
-		act.sendKeys(Keys.F5);
-		Thread.sleep(2000);
+		String inputTermGraceDateValue = inputTermGraceDate.getText();
+		System.out.println("Input TermGraceDate Value is:" + inputTermGraceDateValue);
+		assertTrue(inputTermGraceDateValue.equalsIgnoreCase(inputTermEndDateValue));
+
 	}
 
 	/**
+	 * Here, we verify the dateFormatError
+	 * 
 	 * @throws InterruptedException
 	 */
-	public void checkUserInProviderApplication(String user) throws InterruptedException {
-		Actions actions = new Actions(driver);
-		util.waitUntilElement(driver, appLauncherIcn);
-		Thread.sleep(10000);
-		appLauncherIcn.click();
-		util.waitUntilElement(driver, appSearchtxtbx);
-		util.enterText(driver, appSearchtxtbx, appName);
-		util.waitUntilElement(driver, searchedAppPA);
-		WebElement provAppElement = Utility.waitForWebElement(driver, "//b[text()='" + appName + "']", 10);
-		provAppElement.click();
+	public void validateDateFormatError() throws InterruptedException {
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		util.waitUntilElement(driver, memberShip);
+		action.moveToElement(memberShip).click().perform();
+		System.out.println("Memberships clicked");
+		driver.navigate().refresh();
+		util.waitUntilElement(driver, tableSubscriptionId);
+		Thread.sleep(1000);
+		tableSubscriptionId.click();
+		util.waitUntilElement(driver, Terms);
+		Terms.click();
+		util.waitUntilElement(driver, termId);
+		js.executeScript("arguments[0].click();", termId);
+		// termId.click();
+		Thread.sleep(5000);
+		util.waitUntilElement(driver, editBtn);
+		Thread.sleep(5000);
+		action.scrollToElement(editBtn);
+		js.executeScript("window.scrollBy(0,200)", editBtn);
+		editBtn.click();
+		util.waitUntilElement(driver, inputTermEndDate);
+		inputTermEndDate.clear();
+		inputTermEndDate.sendKeys(data.testDataProvider().getProperty("incorrectDateFormat"));
+		saveBtn.click();
+		Thread.sleep(1000);
+		action.sendKeys(Keys.F5);
 		Thread.sleep(2000);
-		util.waitUntilElement(driver, tableProviderApp);
-		util.waitUntilElement(driver, selectList);
-		selectList.click();
-		util.waitUntilElement(driver, allBtn);
-		allBtn.click();
-		util.waitUntilElement(driver, searchBox);
-		searchBox.click();
-		searchBox.sendKeys(user);
-		actions.sendKeys(Keys.ENTER).build().perform();
-		util.waitUntilElement(driver, noItemHeading);
-		assertTrue(noItemHeading.isDisplayed());
+		util.waitUntilElement(driver, dateFormatError);
+		String dateFormatErrorValue = dateFormatError.getText();
+		assertTrue(dateFormatErrorValue.equalsIgnoreCase(data.testDataProvider().getProperty("dateFormatErrorMsg")));
+
 	}
 
-	public void selectProviderApplication(String user) throws InterruptedException {
-		Actions actions = new Actions(driver);
-		util.waitUntilElement(driver, appLauncherIcn);
-		Thread.sleep(10000);
-		appLauncherIcn.click();
-		util.waitUntilElement(driver, appSearchtxtbx);
-		util.enterText(driver, appSearchtxtbx, appName);
-		util.waitUntilElement(driver, searchedAppPA);
-		WebElement provAppElement = Utility.waitForWebElement(driver, "//b[text()='" + appName + "']", 10);
-		provAppElement.click();
-		Thread.sleep(2000);
-		util.waitUntilElement(driver, tableProviderApp);
-		util.waitUntilElement(driver, selectList);
-		selectList.click();
-		util.waitUntilElement(driver, allBtn);
-		allBtn.click();
-		util.waitUntilElement(driver, searchBox);
-		searchBox.click();
-		searchBox.sendKeys(user);
-		actions.sendKeys(Keys.ENTER).build().perform();
-		util.waitUntilElement(driver, selectPId);
-		selectPId.click();
+	/**
+	 * Here, termEndDate and GracePeriodEndDates will be modified. termEndDate is
+	 * >32 days GracePeriodEndDate will be today's date
+	 * 
+	 * @throws InterruptedException
+	 */
+
+	public void changeTermandGracePeriodDates() throws InterruptedException {
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		util.waitUntilElement(driver, memberShip);
+		action.moveToElement(memberShip).click().perform();
+		System.out.println("Memberships clicked");
+		driver.navigate().refresh();
+		util.waitUntilElement(driver, tableSubscriptionId);
+		Thread.sleep(1000);
+		tableSubscriptionId.click();
+		util.waitUntilElement(driver, Terms);
+		Terms.click();
+		util.waitUntilElement(driver, termId);
+		js.executeScript("arguments[0].click();", termId);
+		// termId.click();
+		Thread.sleep(5000);
+		util.waitUntilElement(driver, editBtn);
+		Thread.sleep(5000);
+		action.scrollToElement(editBtn);
+		js.executeScript("window.scrollBy(0,200)", editBtn);
+		editBtn.click();
+		util.waitUntilElement(driver, inputTermEndDate);
+		inputTermEndDate.clear();
+		DateUtils dateUtils = new DateUtils();
+		String previousDate = dateUtils.getDate(-32, "MM/dd/yyyy");
+		System.out.println("date before -32 is: " + previousDate);
+		inputTermEndDate.sendKeys(previousDate);
+		util.waitUntilElement(driver, inputTermGraceDate);
+		inputTermGraceDate.clear();
+		String todaysDate = dateUtils.getDate(0, "MM/dd/yyyy");
+		System.out.println("today's Date is: " + todaysDate);
+		inputTermGraceDate.sendKeys(todaysDate);
+		saveBtn.click();
+		Thread.sleep(1000);
+		action.sendKeys(Keys.F5);
+		Thread.sleep(3000);
+	}
+
+	/**
+	 * Here, on the account page, we verify the CESProviderStatus.
+	 *
+	 **/
+	public void validateCESProviderStatus() throws InterruptedException {
+		driver.navigate().refresh();
+		driver.switchTo().alert().accept();
+		Thread.sleep(3000);
+		util.waitUntilElement(driver, selectAccount);
+		selectAccount.click();
+		Thread.sleep(3000);
+		System.out.println("Account selected");
+		util.waitUntilElement(driver, cesProviderStatus);
+		String cesProviderStatusValue = cesProviderStatus.getText();
+		System.out.println("CES Provider Status Value is:" + cesProviderStatusValue);
+		assertTrue(cesProviderStatusValue.equalsIgnoreCase(data.testDataProvider().getProperty("cesProviderStatus")));
 	}
 }
