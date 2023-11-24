@@ -41,10 +41,10 @@ import org.openqa.selenium.io.FileHandler;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
 import org.testng.ITestResult;
 
 import io.restassured.response.Response;
-
 
 public class Utility {
 
@@ -53,7 +53,7 @@ public class Utility {
 	Actions action;
 
 	public Utility(WebDriver driver, int time) {
-	
+
 	}
 
 	public void acceptAlert() {
@@ -96,22 +96,27 @@ public class Utility {
 		return path;
 	}
 
-	public static String captureScreenshotFromBase64(WebDriver driver) {
+	public static String captureScreenshotFromBase64(WebDriver driver)
+	{  
 		String newBase = null;
-		TakesScreenshot ts = (TakesScreenshot) driver;
-		try {
+		TakesScreenshot ts=(TakesScreenshot)driver;
+		try 
+		{
 
-			File mybase = ts.getScreenshotAs(OutputType.FILE);
-
-			newBase = "data:image/png;base64," + mybase.toString();
-
+			String mybase=	ts.getScreenshotAs(OutputType.BASE64);
+				
+			 newBase="data:image/png;base64,"+mybase;
+			
 			System.out.println(mybase);
-
-		} catch (WebDriverException e) {
-			System.out.println("Unable to capture screenshots " + e.getMessage());
-		}
+	
+		} 
+		catch (WebDriverException e) 
+		{
+			System.out.println("Unable to capture screenshots "+e.getMessage());
+		} 
 		return newBase;
 	}
+	
 
 	public static String getCurrentDateTime() {
 
@@ -332,6 +337,20 @@ public class Utility {
 		return localDate;
 	}
 
+	/**
+	 * Here we switching to new tab using below params
+	 * 
+	 * @param driver
+	 * @param link
+	 */
+	public void createNewWindow(WebDriver driver, String link) {
+		((JavascriptExecutor) driver).executeScript("window.open()");
+		ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
+		driver.switchTo().window(tabs.get(1));
+		driver.get(link);
+
+	}
+
 	public WebDriver switchToTabs(WebDriver driver, int tab) {
 		ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
 		driver.switchTo().window(tabs.get(tab));
@@ -355,6 +374,10 @@ public class Utility {
 
 	public void navigateToURl(WebDriver driver, String url) {
 		driver.navigate().to(url);
+	}
+
+	public void navigateToBack(WebDriver driver) {
+		driver.navigate().back();
 	}
 
 	public void waitForJavascript(WebDriver driver, int maxWaitMillis, int pollDelimiter) {
@@ -386,7 +409,6 @@ public class Utility {
 		});
 	}
 
-
 	public List<String> getAllElementsText(WebDriver driver, String xpath) {
 		List<WebElement> elements = driver.findElements(By.xpath(xpath));
 		List<String> allElementText = new ArrayList<>();
@@ -394,7 +416,6 @@ public class Utility {
 			allElementText.add(elements.get(i).getText());
 		}
 		return allElementText;
-
 	}
 
 	public void fileUploadThroughKeyBoardActions(WebDriver driver, WebElement element, String filepath) {
@@ -430,22 +451,25 @@ public class Utility {
 		}
 		return sb.toString();
 	}
-	
+
 	public void mosueOverUsingAction(WebDriver driver, WebElement element) {
-	action = new Actions(driver);
-	action.moveToElement(element).perform();
+		action = new Actions(driver);
+		action.moveToElement(element).perform();
 	}
 
 	/**
-	* Here we are using awaitility for waiting the response from api
-	*/
+	 * Here we are using awaitility for waiting the response from api
+	 */
+
 	public void waitForResponse(final Response response, final int statusCode) {
+    //  Awaitility.await().atMost(10,TimeUnit.SECONDS).until(()->{return response.getStatusCode()==statusCode;});
       Awaitility.await().atMost(10,TimeUnit.SECONDS).until(new Callable<Boolean>() {
 		@Override
 		public Boolean call() throws Exception {return response.getStatusCode()==statusCode;}
 	});
+
 	}
-	
+
 	public static void takeScreenShotAfterFail(WebDriver driver, ITestResult result) {
 		TakesScreenshot ts = (TakesScreenshot) driver;
 		File screenshot = ts.getScreenshotAs(OutputType.FILE);

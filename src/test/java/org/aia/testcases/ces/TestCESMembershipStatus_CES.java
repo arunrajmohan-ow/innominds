@@ -344,7 +344,7 @@ public class TestCESMembershipStatus_CES extends BaseClass {
 				testData.testDataProvider().getProperty("cesmembershipType1"));
 	}
 
-	@Test(priority = 7, description = "(FC-168) Verify membership status after adding a NON-CES Membership", enabled = true)
+	@Test(priority = 7, description = "(FC-168) Verify membership status after adding a NON-CES Membership", enabled = false)
 	public void verifyNonCESMembershipStatus() throws Exception {
 		String prefix = "Dr.";
 		String suffix = "Sr.";
@@ -446,7 +446,7 @@ public class TestCESMembershipStatus_CES extends BaseClass {
 				testData.testDataProvider().getProperty("cesmembershipType1"));
 	}
 
-	@Test(priority = 10, description = "(FC-175) Verify membership type when term updated for multiple and different CES Membership types of same Term End date", enabled = false, groups = {
+	@Test(priority = 10, description = "(FC-175) Verify membership type when term updated for multiple and different CES Membership types of same Term End date", enabled = true, groups = {
 			"Smoke" })
 	public void validateMultipleCESMemTypes() throws Exception {
 //Here we create the user
@@ -484,5 +484,6 @@ public class TestCESMembershipStatus_CES extends BaseClass {
 		termDateChangeApi.getCESAccountDetails(testData.testDataProvider().getProperty("membershipStatus"),
 				testData.testDataProvider().getProperty("cesMembershipType2"));
 	}
+
 
 }

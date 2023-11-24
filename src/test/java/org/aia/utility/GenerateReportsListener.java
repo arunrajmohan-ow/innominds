@@ -60,10 +60,9 @@ public class GenerateReportsListener implements ITestListener{
 	public void onTestFailure(ITestResult result){
 		count_failedTCs = count_failedTCs + 1;
 		String exceptionMessage = Arrays.toString(result.getThrowable().getStackTrace());
-		driver = BaseClass.getDriverInstance();
+		WebDriver driver = BaseClass.getDriverInstance();
 		String screenshotPath2 =Utility.captureScreenshotFromBase64(driver);
-		//report.logTestFailed("<span class='label failure'>" + result.getMethod().getMethodName() + "</span>", "<pre>Results = " + result.getThrowable().getCause() + "\n\n GET MESSAGE : " + result.getThrowable().getMessage() + "</pre>");
-		report.logTestFailed(result.getMethod().getMethodName(), "<span class='label failure'> </span>"+ "<pre>Results = " + result.getThrowable().getCause() + "\n\n GET MESSAGE : " + result.getThrowable().getMessage() + "</pre>");
+		report.logTestFailed("<span class='label failure'>" + result.getMethod().getMethodName() + "</span>", "<pre>Results = " + result.getThrowable().getCause() + "\n\n GET MESSAGE : " + result.getThrowable().getMessage() + "</pre>");
 		try {
 			report.attachScreeshot(screenshotPath2);
 		} catch (IOException e) {
