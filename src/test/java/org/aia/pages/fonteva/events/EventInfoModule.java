@@ -32,7 +32,7 @@ public class EventInfoModule {
 	static Logger log = Logger.getLogger(EventInfoModule.class);
 	public String salesOrder = "";
 	public String aiaNumber = "";
-	public String futureDate="";
+	public static String futureDate="";
 
 	public EventInfoModule(WebDriver IDriver) {
 		this.driver = IDriver;

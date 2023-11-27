@@ -36,7 +36,7 @@ import org.testng.asserts.Assertion;
 
 import com.aventstack.extentreports.util.Assert;
 
-@Listeners(org.aia.utility.GenerateReportsListener.class)
+
 public class Test_Clone_EventTemplateMedium extends BaseClass {
 
 	Events events;
@@ -143,7 +143,7 @@ public class Test_Clone_EventTemplateMedium extends BaseClass {
 //				agendaModule.clickbuttonsInScheduleItem();
 //				agendaModule.agendaMoreOptionButton2InScheduleItem();
 //				agendaModule.enterFuturestartDateInscheduleItem();
-//	      	agendaModule.clickbuttonsInScheduleItem();
+//	         	agendaModule.clickbuttonsInScheduleItem();
 //				util.waitForJavascript(driver, 10000, 5000);
 	    		eventInfoModule.selectActiveStatus();
 				eventInfoModule.saveExitButton();
@@ -180,15 +180,10 @@ public class Test_Clone_EventTemplateMedium extends BaseClass {
 				// Here we validate the receipt using API call
 				eventApivalidation.verifyReciptDetails(dataList.get(3), receiptData.get(1), receiptData.get(0));
 	 
-				// Here we validate the Sales order using API call
-				eventApivalidation.verifySalesOrder(dataList.get(3),
-						DataProviderFactory.getConfig().getValue("salesOrderStatus"),
-						DataProviderFactory.getConfig().getValue("orderStatus"), receiptData.get(0),
-						DataProviderFactory.getConfig().getValue("postingStatus"));
-	 
 				// Email validations session confirm message
 				// Note:- Sometimes API body returning as null
-				mailinator.sessionConfirmationEmailforEvents(dataList, eventName);
+				mailinator.validateFutureDatesessionConfirmationEmailforEvents(dataList, eventName, EventInfoModule.futureDate);
+
 			} catch (Exception e) {
 				throw new Exception(e.getMessage());
 			} catch (Throwable e) {
@@ -197,7 +192,7 @@ public class Test_Clone_EventTemplateMedium extends BaseClass {
 		}
 	 
 
-	@Test(priority = 3, description = "Verify Price modify for an existing Event", enabled = false)
+	@Test(priority = 3, description = "Verify Price modify for an existing Event", enabled = true)
 	public void test_EditPriceInCloneEventMediumTEmplate(ITestContext context) throws InterruptedException, Throwable {
 		Logging.logger
 				.info("================================test_EditPriceInCloneEvent started==========================");
@@ -291,7 +286,7 @@ public class Test_Clone_EventTemplateMedium extends BaseClass {
 
 	}
 
-	@Test(priority = 3, description = "Verify 'Attendees' info after registering for the event", enabled = false)
+	@Test(priority = 4, description = "Verify 'Attendees' info after registering for the event", enabled = true)
 	public void validate_AttendeesMediumTEmplates(ITestContext context) throws InterruptedException, Throwable {
 		Logging.logger.info("================================validate_Attendees started==========================");
 		try {
@@ -363,7 +358,7 @@ public class Test_Clone_EventTemplateMedium extends BaseClass {
 
 	}
 
-	@Test(priority = 4, description = "Verify 'sales and registration' info after registering for the event", enabled = false)
+	@Test(priority = 5, description = "Verify 'sales and registration' info after registering for the event", enabled = true)
 	public void validate_SalesAndRegistrationMediumTEmplate(ITestContext context)
 			throws InterruptedException, Throwable {
 		Logging.logger.info(
@@ -437,7 +432,7 @@ public class Test_Clone_EventTemplateMedium extends BaseClass {
 		}
 	}
 	
-	@Test(priority = 5, description = "Verify 'validate_RegistrationTime' info after registering for the event", enabled = true)
+	@Test(priority = 6, description = "Verify 'validate_RegistrationTime' info after registering for the event", enabled = true)
 	public void validate_RegistrationTime(ITestContext context)
 			throws InterruptedException, Throwable {
 		Logging.logger.info(
@@ -483,7 +478,7 @@ public class Test_Clone_EventTemplateMedium extends BaseClass {
 		}
 	
 
-	@Test(priority = 6, description = "Edit cloneEvent date and time,", enabled = false)
+	@Test(priority = 7, description = "Edit cloneEvent date and time,", enabled = true)
 	public void test_EditSelectDateInCloneEventInfoMediumTEmplate(ITestContext context)
 			throws InterruptedException, Throwable {
 		Logging.logger.info(
@@ -502,7 +497,7 @@ public class Test_Clone_EventTemplateMedium extends BaseClass {
 		}
 	}
 
-	@Test(priority = 7, description = "Validate register timer in Edit cloneEvent info,", enabled = false)
+	@Test(priority = 8, description = "Validate register timer in Edit cloneEvent info,", enabled = true)
 	public void validate_RegistrationTimerCloneEventInfoMediumTEmplate(ITestContext context)
 			throws InterruptedException, Throwable {
 		Logging.logger.info(

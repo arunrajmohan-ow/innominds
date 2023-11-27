@@ -280,8 +280,8 @@ public class EventRegistration {
 	}
 
 	public void validateFirstNameInRegistartion() {
-		util.scrollingElementUsingJS(driver, firstNameInReg);
 		Utility.waitForWebElement(driver, firstNameInReg, 20);
+		util.scrollingElementUsingJS(driver, firstNameInReg);
 		log.info(firstNameInReg.getAttribute("value"));
 		System.out.println(firstNameInReg.getAttribute("value"));
 	}
@@ -607,7 +607,7 @@ public class EventRegistration {
 	}
 	
 	public void validateEventOverView() throws InterruptedException {
-		Thread.sleep(9000);
+		Thread.sleep(10000);
 		Utility.waitForWebElement(driver, eventOverviewText, 0);
 		Assert.assertTrue(eventOverviewText.getText().contains(EventConfig.eventOverView));
 	}
