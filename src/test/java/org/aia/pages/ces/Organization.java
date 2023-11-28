@@ -11,7 +11,7 @@ import org.openqa.selenium.support.FindBy;
 public class Organization {
 	
 	WebDriver driver;
-	String orgName = "AutomationOrg";
+ public	String orgName = "AutomationOrg";
 	String orgStreet = "Street No-1";
 	String orgCity = "New York.";
 	String orgState = "Arizona";

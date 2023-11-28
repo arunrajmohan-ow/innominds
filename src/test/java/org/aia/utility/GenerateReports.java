@@ -71,7 +71,7 @@ public class GenerateReports {
 	}
 	
 	public void logTestpassed(String methodName) {
-		node = logger.createNode(methodName);
+		node=logger.createNode(methodName);
 		node.log(Status.PASS, MarkupHelper.createLabel(methodName+" is a passTest", ExtentColor.GREEN));
 	}
 

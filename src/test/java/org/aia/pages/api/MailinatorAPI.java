@@ -73,8 +73,8 @@ public class MailinatorAPI {
 		driver.switchTo().window(tabs.get(0));
 
 	}
-	
-	public String GetLinks(String emailprefix, String pattern) 
+
+	public String GetLinks(String emailprefix, String subject, String pattern) 
 	{
 		String URI = "https://mailinator.com/api/v2/domains/"+domain+"/inboxes/";		
 		String token = "13779f35d3cc4108a0cf41ef417d183f";
@@ -88,7 +88,7 @@ public class MailinatorAPI {
 		 System.out.println("MSGS is " + msgs);
 		
 		    for (HashMap<String, Object> singleObject : msgs) {
-		        if (singleObject.get("to").equals(emailprefix)&&singleObject.get("subject").equals("Sandbox: Payment_For_Renewal")) {
+		        if (singleObject.get("to").equals(emailprefix)&&singleObject.get("subject").equals(subject)) {
 		            System.out.println("****To******: "+singleObject.get("id"));
 		            msgId = singleObject.get("id").toString();
 		            System.out.println("MessageId: "+msgId);
@@ -305,8 +305,8 @@ public class MailinatorAPI {
 		try {
 		String inbox = dataList.get(3);
 		JsonPath jsonPathEval = null;
+		util.waitForJavascript(driver, 90000, 2000);
 		String mailinator_uri = MAILINATOR_API + inbox;
-		Thread.sleep(10000);
 		Response response =  RestAssured.given().headers("Content-Type",
 				ContentType.JSON, "Accept",
 				ContentType.JSON,"Authorization",
@@ -340,9 +340,9 @@ public class MailinatorAPI {
 		String inbox = dataList.get(3);
 
 		JsonPath jsonPathEval = null;
-
+		util.waitForJavascript(driver, 90000, 2000);
 		String mailinator_uri = MAILINATOR_API + inbox;
-		Thread.sleep(10000);	
+			
 		 Response response =  RestAssured.given().headers("Content-Type",
 				ContentType.JSON, "Accept",
 				ContentType.JSON,"Authorization",
@@ -368,5 +368,36 @@ public class MailinatorAPI {
 		//Assert.assertTrue(value.contains(scheduleName));
 		Assert.assertTrue(value.contains(dataList.get(0)));
 	}
-
+	
+	public void registrationConfirmationEmailforEmailAttendees(ArrayList<String> emailList, String eventName) throws Throwable {
+		System.out.println("hjdf");
+		for (int i = 0; i < emailList.size(); i++) {
+		String inbox = emailList.get(i);
+		JsonPath jsonPathEval = null;
+		String mailinator_uri = MAILINATOR_API + inbox;
+			
+		 Response response =  RestAssured.given().headers("Content-Type",
+				ContentType.JSON, "Accept",
+				ContentType.JSON,"Authorization",
+				bearerToken).
+				when().
+				get(mailinator_uri).
+				then().
+				extract().response();
+		System.out.println(response.getBody().asPrettyString());
+		jsonPathEval = response.jsonPath();
+		String messageId = jsonPathEval.getString("msgs[0].id");
+		System.out.println("Message Id is "+messageId);
+		String message_uri = MAILINATOR_INBOS_ENDPOINT + inbox + "/messages/" + messageId ;
+		Thread.sleep(10000);
+		 response =  RestAssured.given().
+				 headers("Content-Type", ContentType.JSON, "Accept", ContentType.JSON,"Authorization",bearerToken).when().get(message_uri).then().extract().response();
+		jsonPathEval = response.jsonPath();
+		Thread.sleep(5000);
+		System.out.println(response.getBody().asPrettyString());
+		String value = jsonPathEval.getString("parts[1].body");
+		System.out.println("body is " + value);
+		Assert.assertTrue(value.contains(eventName));
+		}
+	}
 }
