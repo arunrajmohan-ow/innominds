@@ -1,6 +1,4 @@
 package org.aia.pages.fonteva.chapterPortal;
-
-import java.util.Iterator;
 import java.util.List;
 
 import org.aia.utility.Utility;
@@ -11,9 +9,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
-
-import groovy.transform.Final;
 
 public class NavigateToChapterPortal {
 	WebDriver driver;
@@ -46,15 +41,10 @@ public class NavigateToChapterPortal {
 	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//span[text()='Show more actions']/parent::button[@part='button button-icon']")
 	WebElement dropDownButtonActionContainer;
 
-	// @FindBy(xpath =
-	// "//runtime_platform_actions-action-renderer[@apiname='LoginToNetworkAsUser']//a")
-
 	@FindAll(value = {
 			@FindBy(xpath = "//div[@class='slds-dropdown slds-dropdown_right']//runtime_platform_actions-action-renderer") })
 	List<WebElement> showAllOptionInActionContainer;
-	// innerText: "Log in to Experience as User"
 
-	// innerText: "Chapters"
 	@FindAll(value = { @FindBy(xpath = "//div[@class='forceCommunityShowPortalUserMemberList']/ul/li") })
 	List<WebElement> portalUserMemberList;
 
@@ -126,16 +116,6 @@ public class NavigateToChapterPortal {
 				break;
 			}
 		}
-		/*
-		 * if (option.equalsIgnoreCase("Log in to Experience as User")) {
-		 * log.info("Log in to Experience as User is clicked");
-		 * log.info(portalUserMemberList.size()); for (int j = 0; j <
-		 * portalUserMemberList.size(); j++) { if
-		 * (portalUserMemberList.get(i).getText().equalsIgnoreCase("Chapters")) {
-		 * log.info("chaptersPortal is clicked successfully"); Thread.sleep(10000); }
-		 * else { log.info("chaptersPortal is not clicked successfully"); } } } else {
-		 * log.info("Log in to Experience as User is not clicked"); } }
-		 */
 	}
 
 	public void clickMyChapterTab() {

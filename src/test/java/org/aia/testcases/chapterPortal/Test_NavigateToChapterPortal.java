@@ -24,8 +24,6 @@ import org.testng.annotations.Test;
 public class Test_NavigateToChapterPortal extends BaseClass {
 	boolean recording;
 	NavigateToChapterPortal naToChapterPortal;
-	
-
 
 	@BeforeMethod(alwaysRun = true)
 	public void setUp() throws Exception {
@@ -37,7 +35,7 @@ public class Test_NavigateToChapterPortal extends BaseClass {
 		naToChapterPortal = PageFactory.initElements(driver, NavigateToChapterPortal.class);
 		Logging.configure();
 	}
-	
+
 	@Test(description = "FM-421: My chapters page and community group name verification", enabled = true, priority = 1)
 	public void test_navigationToCP(ITestContext context) throws InterruptedException, Throwable {
 		if (recording) {
@@ -52,7 +50,7 @@ public class Test_NavigateToChapterPortal extends BaseClass {
 		naToChapterPortal.clickMyChapterTab();
 		naToChapterPortal.getComunityGroup();
 	}
-	
+
 	@AfterMethod(alwaysRun = true)
 	public void teardown(ITestResult result) throws IOException {
 		if (recording) {
@@ -64,10 +62,5 @@ public class Test_NavigateToChapterPortal extends BaseClass {
 		}
 		BrowserSetup.closeBrowser(driver);
 	}
-	
-	
-	
+
 }
-
-
-
