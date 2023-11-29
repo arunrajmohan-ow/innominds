@@ -12,6 +12,7 @@ import org.aia.pages.api.ces.SubscriptionPlanPrice;
 import org.aia.pages.ces.Organization;
 import org.aia.pages.fonteva.membership.ContactCreateUser;
 import org.aia.utility.ConfigDataProvider;
+import org.aia.utility.DateUtils;
 import org.aia.utility.Utility;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.log4j.Logger;
@@ -36,12 +37,15 @@ public class CES_ContactPage {
 	static Logger log = Logger.getLogger(ContactCreateUser.class);
 	Actions action;
 	JavascriptExecutor executor;
+	DateUtils dateUtils;
 
 	public CES_ContactPage(WebDriver Idriver) {
 		this.driver = Idriver;
 		action = new Actions(driver);
 		executor = (JavascriptExecutor) driver;
 		org = new Organization(driver);
+		dateUtils = new DateUtils();
+		
 	}
 
 	@FindBy(xpath = "//*[@title='Contacts']/span")
@@ -241,12 +245,11 @@ public class CES_ContactPage {
 	@FindBy(xpath = "//button[text()='Add to Order']")
 	WebElement addOrderBtn;
 
-
 	String quickItemNatinal = "(//span[text()='%s'])[1]";
-	
-	String providerApplication="(//b[text()='%s'])[1]";
 
-	//String quickItemNatinal = "(//span[text()='%s'])";
+	String providerApplication = "(//b[text()='%s'])[1]";
+
+	// String quickItemNatinal = "(//span[text()='%s'])";
 
 	String discountCodeInput = "//span[text()='%s']";
 
@@ -321,7 +324,21 @@ public class CES_ContactPage {
 
 	@FindBy(xpath = "//*[contains(text(),'Open Supplemental dues')]/following::div[1]//a//span")
 	WebElement pointofContact;
+	/// Deceased marking Process
+	@FindBy(xpath = "//span[text()='Contact']/parent::div/parent::div//slot/span")
+	WebElement selectContactonReceipt;
 
+	@FindBy(xpath = "//button[contains(text(),'Renew')]/following::span[contains(text(),'Show more actions')]")
+	WebElement showMoreActionsBtn;
+
+	@FindBy(xpath = "//a//span[contains(text(),'Deceased')]")
+	WebElement deceasedOption;
+	
+	@FindBy(xpath="//input[@name='DonorApi__Deceased__c']")
+	WebElement deceasedCheckbox;
+	
+	@FindBy(xpath="//input[@name='DonorApi__Deceased__c']")
+	WebElement deceasedDate;
 
 	String fName;
 	String lName;
@@ -535,7 +552,7 @@ public class CES_ContactPage {
 		executor.executeScript("arguments[0].click();",
 				util.getCustomizedWebElement(driver, contactName, userFullname));
 		util.waitUntilElement(driver, showAll);
-		//action.moveToElement(showAll).click().perform();
+		// action.moveToElement(showAll).click().perform();
 		showAll.click();
 	}
 
@@ -663,7 +680,7 @@ public class CES_ContactPage {
 				AvailableMemType.getText().equalsIgnoreCase(data.testDataProvider().getProperty("availableMemType")));
 
 	}
-	
+
 //	public void selectProviderApp(String userFullname,String quickElement)throws InterruptedException, AWTException {
 //		Thread.sleep(10000);
 //		util.waitUntilElement(driver, appLauncherIcn);
@@ -688,7 +705,7 @@ public class CES_ContactPage {
 //}
 	/*
 	 * @throws InterruptedException selects the Primary contact from POC and checks
-	 *                              the account associated to contact
+	 * the account associated to contact
 	 */
 	public void verifyAccountAssociatedtoPrimaryPOC() throws InterruptedException {
 		util.waitUntilElement(driver, showallBtn);
@@ -720,5 +737,35 @@ public class CES_ContactPage {
 		String accountNameValue = accountName.getText();
 		System.out.println("accountName is:" + accountNameValue);
 		assertTrue(accountNameValue.equalsIgnoreCase(org.orgName));
+	}
+
+	/**
+	 * @throws InterruptedException
+	 * makes the member Deceased and checks the Deceased checkbox and date is displayed or not
+	 */
+	public void verifyDeceasedMarkingProcess() throws InterruptedException {
+		util.waitUntilElement(driver, showMoreActionsBtn);
+		action.moveToElement(showMoreActionsBtn).click().perform();
+		util.waitUntilElement(driver, deceasedOption);
+		action.moveToElement(deceasedOption).click().perform();
+		util.waitUntilElement(driver, nextBtn);
+		nextBtn.isDisplayed();
+		action.moveToElement(nextBtn).click().perform();
+		util.waitUntilElement(driver, deceasedCheckbox);
+		deceasedCheckbox.isEnabled();
+		util.waitUntilElement(driver, deceasedDate);
+		String deceasedDateValue=deceasedDate.getText();
+		System.out.println("deceasedDateValue:"+deceasedDateValue);
+		String todaysDate = dateUtils.getDate(0, "MM/dd/yyyy");
+		System.out.println("today's Date is: " + todaysDate);
+		assertTrue(deceasedDateValue.equalsIgnoreCase(todaysDate));			
+	}
+
+	/**
+	 * @throws InterruptedException selects Contact on the Receipt Page
+	 */
+	public void selectContactonReceiptPage() throws InterruptedException {
+		util.waitUntilElement(driver, selectContactonReceipt);
+		action.moveToElement(selectContactonReceipt).click().perform();
 	}
 }
