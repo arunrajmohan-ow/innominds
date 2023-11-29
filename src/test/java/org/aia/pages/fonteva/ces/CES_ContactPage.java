@@ -337,7 +337,7 @@ public class CES_ContactPage {
 	@FindBy(xpath="//input[@name='DonorApi__Deceased__c']")
 	WebElement deceasedCheckbox;
 	
-	@FindBy(xpath="//input[@name='DonorApi__Deceased__c']")
+	@FindBy(xpath="//span[text()='Deceased Date']/parent::div/parent::div//slot/..")
 	WebElement deceasedDate;
 
 	String fName;

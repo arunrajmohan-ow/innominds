@@ -53,7 +53,7 @@ public class TestDeceasedMarkingProcess_Membership extends BaseClass {
 	}
 
 	@Test(priority = 1, description = "(FM-364) Deceased Marking Process(Fovteva)", enabled = true)
-	public void membershipTransferApplicationProcess() throws InterruptedException {
+	public void verifyDeceasedMarkingProcess() throws InterruptedException {
 		ArrayList<String> dataList = fontevaJoin.userData();
 		fontevaJoin.createUserInFonteva();
 		fontevaJoin.joinCreatedUser(testData.testDataProvider().getProperty("membershipType"),
