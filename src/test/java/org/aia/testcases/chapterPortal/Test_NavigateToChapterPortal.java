@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.aia.pages.BaseClass;
 import org.aia.pages.api.membership.FontevaConnectionSOAP;
+import org.aia.pages.fonteva.chapterPortal.MemberShipInChapterPortal;
 import org.aia.pages.fonteva.chapterPortal.NavigateToChapterPortal;
 import org.aia.utility.BrowserSetup;
 import org.aia.utility.ConfigDataProvider;
@@ -24,6 +25,7 @@ import org.testng.annotations.Test;
 public class Test_NavigateToChapterPortal extends BaseClass {
 	boolean recording;
 	NavigateToChapterPortal naToChapterPortal;
+	MemberShipInChapterPortal memChapterPortal;
 
 	@BeforeMethod(alwaysRun = true)
 	public void setUp() throws Exception {
@@ -33,11 +35,12 @@ public class Test_NavigateToChapterPortal extends BaseClass {
 				testData.getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
 		recording = Boolean.parseBoolean(testData.testDataProvider().getProperty("videoRecording"));
 		naToChapterPortal = PageFactory.initElements(driver, NavigateToChapterPortal.class);
+		memChapterPortal= PageFactory.initElements(driver, MemberShipInChapterPortal.class);
 		Logging.configure();
 	}
 
 	@Test(description = "FM-421: My chapters page and community group name verification", enabled = true, priority = 1)
-	public void test_navigationToCP(ITestContext context) throws InterruptedException, Throwable {
+	public void test_NavigationToCP(ITestContext context) throws InterruptedException, Throwable {
 		if (recording) {
 			VideoRecorder.startRecording("test_navigationToCP");
 		}
@@ -49,6 +52,25 @@ public class Test_NavigateToChapterPortal extends BaseClass {
 		naToChapterPortal.optionsInactionContainer();
 		naToChapterPortal.clickMyChapterTab();
 		naToChapterPortal.getComunityGroup();
+	}
+	
+	@Test(description = "FM-422: Tab's verification on My Chapters page", enabled = true, priority = 2)
+	public void test_VerificationTabsInCP(ITestContext context) throws InterruptedException, Throwable {
+		if (recording) {
+			VideoRecorder.startRecording("test_navigationToCP");
+		}
+		naToChapterPortal.clickContactsModule();
+		naToChapterPortal.clickContactsCPAccess();
+		naToChapterPortal.showAllInRealtedQuickLinks();
+		naToChapterPortal.getPortalAccessCount();
+		naToChapterPortal.clickDropDownInActionContainer();
+		naToChapterPortal.optionsInactionContainer();
+		naToChapterPortal.clickMyChapterTab();
+		naToChapterPortal.getComunityGroup();
+		memChapterPortal.clickRetentionTab();
+		memChapterPortal.clickFinanceTab();
+		memChapterPortal.clickChapterInfoTab();
+		memChapterPortal.clickCallForDuesInfoTab();
 	}
 
 	@AfterMethod(alwaysRun = true)
