@@ -828,7 +828,7 @@ public class CES_ContactPage {
 	}
 	/**
 	 * @throws InterruptedException
-	 * selects Contact on the
+	 * selects Contact on the Receipt Page
 	 */
 	public void selectContactonReceiptPage() throws InterruptedException {
 		util.waitUntilElement(driver, selectContactonReceipt);
