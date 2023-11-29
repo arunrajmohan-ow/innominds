@@ -72,7 +72,24 @@ public class Test_NavigateToChapterPortal extends BaseClass {
 		memChapterPortal.clickChapterInfoTab();
 		memChapterPortal.clickCallForDuesInfoTab();
 	}
-
+	
+	@Test(description = "FM-425: Membership Tab page and its section's verification", enabled = true, priority = 3)
+	public void test_ValidateMembersShipTabSections(ITestContext context) throws InterruptedException, Throwable {
+		if (recording) {
+			VideoRecorder.startRecording("test_ValidateMembersShipTabSections");
+		}
+		naToChapterPortal.clickContactsModule();
+		naToChapterPortal.clickContactsCPAccess();
+		naToChapterPortal.showAllInRealtedQuickLinks();
+		naToChapterPortal.getPortalAccessCount();
+		naToChapterPortal.clickDropDownInActionContainer();
+		naToChapterPortal.optionsInactionContainer();
+		naToChapterPortal.clickMyChapterTab();
+		naToChapterPortal.getComunityGroup();
+		memChapterPortal.validateMemberShipTabSections();
+		memChapterPortal.validateMemberShipPiecharts();
+	}
+	
 	@AfterMethod(alwaysRun = true)
 	public void teardown(ITestResult result) throws IOException {
 		if (recording) {
