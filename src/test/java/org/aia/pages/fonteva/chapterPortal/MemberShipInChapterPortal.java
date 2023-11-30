@@ -24,8 +24,6 @@ public class MemberShipInChapterPortal {
 	JavascriptExecutor executor;
 	Actions act;
 	static Logger log = Logger.getLogger(MemberShipInChapterPortal.class);
-	public String salesOrder = "";
-	public String aiaNumber = "";
 
 	public MemberShipInChapterPortal(WebDriver IDriver) {
 		this.driver = IDriver;
@@ -124,7 +122,7 @@ public class MemberShipInChapterPortal {
 		Assert.assertTrue(architectsLicensedTenyearsTab.isDisplayed());	
 	}
 	
-	public void validateMemberShipPiecharts() {
+	public void validateMemberShipPiecharts() throws Throwable {
 		int count = 4;
 		log.info(memberShipPiiCharts.size());
 		for (int i = 0; i < memberShipPiiCharts.size(); i++) {
@@ -132,6 +130,7 @@ public class MemberShipInChapterPortal {
 			log.info(pieChartText);
 			System.out.println(pieChartText);
 		}
+		Thread.sleep(4000);
 		for (int i = 0; i < count; i++) {
 			WebElement pieChart = driver.findElement(By.xpath("//div[@data-ngname='chart_"+i+"']"));
 			log.info(pieChart+" "+i);
