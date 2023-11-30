@@ -44,7 +44,6 @@ public class GenerateReportsListener implements ITestListener{
 		count_passedTCs = count_passedTCs + 1;
 		//String logText = "<b>" + "TEST CASE:- " + result.getMethod().getMethodName().toUpperCase() + " PASSED" + "</b>";
 		System.out.println(" Inside onTestSuccess Listener method");
-		report.startTestReport(result.getMethod().getRealClass().getCanonicalName() + "@TestCase :" + result.getMethod().getMethodName());
 		report.logTestpassed(result.getMethod().getMethodName());
 	}
 
@@ -63,7 +62,6 @@ public class GenerateReportsListener implements ITestListener{
 		String exceptionMessage = Arrays.toString(result.getThrowable().getStackTrace());
 		WebDriver driver = BaseClass.getDriverInstance();
 		String screenshotPath2 =Utility.captureScreenshotFromBase64(driver);
-		report.startTestReport("<span class='label failure'>\" + result.getMethod().getMethodName() + \"</span>\"");
 		report.logTestFailed("<span class='label failure'>" + result.getMethod().getMethodName() + "</span>", "<pre>Results = " + result.getThrowable().getCause() + "\n\n GET MESSAGE : " + result.getThrowable().getMessage() + "</pre>");
 		try {
 			report.attachScreeshot(screenshotPath2);
