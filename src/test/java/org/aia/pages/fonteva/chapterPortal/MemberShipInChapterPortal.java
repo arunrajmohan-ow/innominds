@@ -5,10 +5,12 @@ import org.testng.AssertJUnit;
 
 import groovy.transform.Final;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.aia.utility.Utility;
 import org.apache.log4j.Logger;
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -123,12 +125,20 @@ public class MemberShipInChapterPortal {
 	}
 	
 	public void validateMemberShipPiecharts() {
+		int count = 4;
 		log.info(memberShipPiiCharts.size());
 		for (int i = 0; i < memberShipPiiCharts.size(); i++) {
-			String pieChart = memberShipPiiCharts.get(i).getText();
-			log.info(pieChart);
-			System.out.println(pieChart);
+			String pieChartText = memberShipPiiCharts.get(i).getText();
+			log.info(pieChartText);
+			System.out.println(pieChartText);
 		}
+		for (int i = 0; i < count; i++) {
+			WebElement pieChart = driver.findElement(By.xpath("//div[@data-ngname='chart_"+i+"']"));
+			log.info(pieChart+" "+i);
+			Assert.assertTrue(pieChart.isDisplayed());
+			log.info(pieChart+" "+ i +"is dsipalyed");
+		}
+		
 	}
 
 }

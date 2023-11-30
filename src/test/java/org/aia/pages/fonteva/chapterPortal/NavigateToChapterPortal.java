@@ -79,7 +79,6 @@ public class NavigateToChapterPortal {
 	}
 
 	public void getPortalAccessCount() {
-		System.out.println("hjg");
 		Utility.waitForWebElement(driver, portalAccessCount, 0);
 		System.out.println(portalAccessCount.getText());
 	}

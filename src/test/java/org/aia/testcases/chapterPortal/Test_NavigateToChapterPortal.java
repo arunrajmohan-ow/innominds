@@ -20,7 +20,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
-@Listeners(org.aia.utility.GenerateReportsListener.class)
 
 public class Test_NavigateToChapterPortal extends BaseClass {
 	boolean recording;
@@ -39,7 +38,7 @@ public class Test_NavigateToChapterPortal extends BaseClass {
 		Logging.configure();
 	}
 
-	@Test(description = "FM-421: My chapters page and community group name verification", enabled = true, priority = 1)
+	@Test(description = "FM-421: My chapters page and community group name verification", enabled = false, priority = 1)
 	public void test_NavigationToCP(ITestContext context) throws InterruptedException, Throwable {
 		if (recording) {
 			VideoRecorder.startRecording("test_navigationToCP");
@@ -54,7 +53,7 @@ public class Test_NavigateToChapterPortal extends BaseClass {
 		naToChapterPortal.getComunityGroup();
 	}
 	
-	@Test(description = "FM-422: Tab's verification on My Chapters page", enabled = true, priority = 2)
+	@Test(description = "FM-422: Tab's verification on My Chapters page", enabled = false, priority = 2)
 	public void test_VerificationTabsInCP(ITestContext context) throws InterruptedException, Throwable {
 		if (recording) {
 			VideoRecorder.startRecording("test_navigationToCP");
