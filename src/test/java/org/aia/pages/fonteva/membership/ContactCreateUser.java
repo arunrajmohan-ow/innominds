@@ -11,6 +11,7 @@ import java.util.List;
 import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.DataProviderFactory;
 import org.aia.utility.Utility;
+import org.apache.commons.io.serialization.ValidatingObjectInputStream;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
@@ -101,8 +102,8 @@ public class ContactCreateUser {
 	WebElement licenseStateDrp;
 
 	String state = "//span[text()='%s']";
-	
-	String country="//span[text()='%s']";
+
+	String country = "//span[text()='%s']";
 
 	@FindBy(xpath = "//input[contains(@name,'License_Date')]")
 	WebElement licenseStartDate;
@@ -118,8 +119,8 @@ public class ContactCreateUser {
 
 	@FindBy(xpath = "//span[contains(@title,'Payment in Full')]")
 	WebElement selectDeusOpt;
-	
-	@FindBy(xpath="//span[contains(@title,'Dues Installment Plan ')]")
+
+	@FindBy(xpath = "//span[contains(@title,'Dues Installment Plan ')]")
 	WebElement selectPayInInsatllmentElement;
 
 	@FindBy(xpath = "//button[contains(text(),'Create sales order')]")
@@ -183,16 +184,36 @@ public class ContactCreateUser {
 
 	@FindBy(xpath = "//a/span[@title='Name']")
 	WebElement tableheaderName;
-	
-	@FindBy(xpath="//span[contains(text(),'Member Value')]//ancestor::a")
+
+	@FindBy(xpath = "//span[contains(text(),'Member Value')]//ancestor::a")
 	WebElement mvoTab;
-	
-	@FindBy(xpath="//button[text()='New']")
+
+	@FindBy(xpath = "//button[text()='New']")
 	WebElement mvoNewBtn;
-	
+
 	String contact = "//span[text()='%s']//ancestor::a";
-	@FindBy(xpath="//button[contains(@aria-label,'Join License Country')]")
+	@FindBy(xpath = "//button[contains(@aria-label,'Join License Country')]")
 	WebElement licenseCountryDrp;
+
+	@FindBy(xpath = "//span[text()='Show more actions']/ancestor::button")
+	WebElement chevronButton;
+
+	@FindBy(xpath = "//span[text()='Upgrade']/parent::a")
+	WebElement upgradeBtn;
+
+	@FindBy(xpath = "//div[@class='quick-actions-panel']")
+	WebElement upgradeDevPopUp;
+
+	@FindBy(xpath = "//button[@name='AIA_Membership_Type__c']")
+	WebElement membershipTypeDrp;
+
+	String membershipTypeSelect = "//lightning-base-combobox-item/span/span[text()='%s']";
+
+	@FindBy(xpath = "//button[text()='Upgrade']")
+	WebElement upgradeMemBtn;
+	
+	@FindBy(xpath = "//input[@name='AIA_Join_Supervisor__c']")
+	WebElement supervisorName;
 
 	String fName;
 	String lName;
@@ -298,7 +319,8 @@ public class ContactCreateUser {
 		util.enterText(driver, enterLicenseNumber, data.testDataProvider().getProperty("LICENSE_NUMBER"));
 		util.waitUntilElement(driver, licenseCountryDrp);
 		licenseCountryDrp.click();
-		executor.executeScript("arguments[0].click();", util.getCustomizedWebElement(driver, country, data.testDataProvider().getProperty("LICENSE_COUNTRY")));
+		executor.executeScript("arguments[0].click();",
+				util.getCustomizedWebElement(driver, country, data.testDataProvider().getProperty("LICENSE_COUNTRY")));
 		licenseStateDrp.click();
 		WebElement enterState = driver
 				.findElement(By.xpath(String.format(state, data.testDataProvider().getProperty("LICENSE_STATE"))));
@@ -367,6 +389,8 @@ public class ContactCreateUser {
 		util.waitUntilElement(driver, expYear);
 		util.selectDrp(expYear).selectByValue(data.testDataProvider().getProperty("CREDIT_CARD_EXP_YEAR"));
 		processPaymentBtn.click();
+		driver.switchTo().defaultContent(); // Switching iframe to default content
+
 	}
 
 	/**
@@ -405,22 +429,24 @@ public class ContactCreateUser {
 		contactallLink.click();
 		Thread.sleep(14000);
 		util.waitUntilElement(driver, util.getCustomizedWebElement(driver, contactName, userFullname));
-		executor.executeScript("arguments[0].scrollIntoView(true);", util.getCustomizedWebElement(driver, contactName, userFullname));
+		executor.executeScript("arguments[0].scrollIntoView(true);",
+				util.getCustomizedWebElement(driver, contactName, userFullname));
 		util.waitUntilElement(driver, util.getCustomizedWebElement(driver, contactName, userFullname));
 		executor.executeScript("arguments[0].click();",
 				util.getCustomizedWebElement(driver, contactName, userFullname));
 		util.waitUntilElement(driver, showAll);
 		showAll.click();
 	}
-	
+
 	/**
-	 * @param fullName 
-	 * @throws InterruptedException 
+	 * @param fullName
+	 * @throws InterruptedException
 	 * 
 	 */
 	public void savingNewMVO(String fullName) throws InterruptedException {
 		Thread.sleep(30000);
-		executor.executeScript("arguments[0].scrollIntoView(true);", util.getCustomizedWebElement(driver, contact, fullName));
+		executor.executeScript("arguments[0].scrollIntoView(true);",
+				util.getCustomizedWebElement(driver, contact, fullName));
 		WebElement selectContact = util.getCustomizedWebElement(driver, contact, fullName);
 		executor.executeScript("arguments[0].click();", selectContact);
 		util.waitUntilElement(driver, mvoTab);
@@ -430,8 +456,8 @@ public class ContactCreateUser {
 		mvoNewBtn.click();
 	}
 
-	 /* 
-	 */
+	/* 
+	*/
 	public void createSaleorderinInstallments() {
 		util.waitUntilElement(driver, selectDuesDrp);
 		selectDuesDrp.click();
@@ -440,5 +466,33 @@ public class ContactCreateUser {
 		createSalesOrder.click();
 		assertTrue(driver.getTitle().contains(data.testDataProvider().getProperty("salesorderPage")));
 	}
-	
+
+	/**
+	 * Clicking chevron button
+	 */
+	public void clickChevronBtn() {
+		util.waitUntilElement(driver, chevronButton);
+		chevronButton.click();
+	}
+
+	public void upgradeMembership(String upgradeMembershipType) {
+		util.waitUntilElement(driver, upgradeBtn);
+		upgradeBtn.click();
+		util.waitUntilElement(driver, upgradeDevPopUp);
+		upgradeDevPopUp.isDisplayed();
+		util.waitUntilElement(driver, membershipTypeDrp);
+		membershipTypeDrp.click();
+		util.getCustomizedWebElement(driver, membershipTypeSelect, upgradeMembershipType).click();
+		executor.executeScript("arguments[0].scrollIntoView(true);", upgradeMemBtn);
+		util.waitUntilElement(driver, upgradeMemBtn);
+		upgradeMemBtn.click();
+	}
+
+	public void clickNextBtn() {
+		util.waitUntilElement(driver, supervisorName);
+		executor.executeScript("arguments[0].scrollIntoView(true);", supervisorName);
+		executor.executeScript("arguments[0].scrollIntoView(true);", nextBtn);
+		util.waitUntilElement(driver, nextBtn);
+		executor.executeScript("arguments[0].click();", nextBtn);
+	}
 }
