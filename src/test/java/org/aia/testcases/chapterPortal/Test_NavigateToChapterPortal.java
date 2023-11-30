@@ -9,6 +9,8 @@ import org.aia.pages.fonteva.chapterPortal.FullMemberRoster;
 import org.aia.pages.fonteva.chapterPortal.LapsedMembers;
 import org.aia.pages.fonteva.chapterPortal.MemberShipInChapterPortal;
 import org.aia.pages.fonteva.chapterPortal.NavigateToChapterPortal;
+import org.aia.pages.fonteva.chapterPortal.UpgradeToArchitect;
+import org.aia.pages.fonteva.chapterPortal.UpgradeToEmeritus;
 import org.aia.utility.BrowserSetup;
 import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.DataProviderFactory;
@@ -31,6 +33,8 @@ public class Test_NavigateToChapterPortal extends BaseClass {
 	FullMemberRoster fullMemberRoster;
 	ActiveMemberRoster activeMemberRoster;
 	LapsedMembers lapsedMembers;
+	UpgradeToArchitect upgradeToArchitect;
+	UpgradeToEmeritus upgradeToEmeritus; 
 
 	@BeforeMethod(alwaysRun = true)
 	public void setUp() throws Exception {
@@ -44,6 +48,8 @@ public class Test_NavigateToChapterPortal extends BaseClass {
 		fullMemberRoster=PageFactory.initElements(driver, FullMemberRoster.class);
 		activeMemberRoster = PageFactory.initElements(driver, ActiveMemberRoster.class);
 		lapsedMembers=PageFactory.initElements(driver, LapsedMembers.class);
+		upgradeToArchitect = PageFactory.initElements(driver, UpgradeToArchitect.class);
+		upgradeToEmeritus= PageFactory.initElements(driver, UpgradeToEmeritus.class);
 		Logging.configure();
 	}
 
@@ -153,6 +159,42 @@ public class Test_NavigateToChapterPortal extends BaseClass {
 		lapsedMembers.clickLapsedMemberRosterTab();
 		lapsedMembers.getLapsedMemberRosterRecordsCount();
 		lapsedMembers.getLapsedMembersRecordsData();
+	}
+	
+	@Test(description = "FM-439: Upgrade to Architect report page", enabled = true, priority = 7)
+	public void test_ValidateUpgradeToArchitect(ITestContext context) throws InterruptedException, Throwable {
+		if (recording) {
+			VideoRecorder.startRecording("test_ValidateUpgradeToArchitect");
+		}
+		naToChapterPortal.clickContactsModule();
+		naToChapterPortal.clickContactsCPAccess();
+		naToChapterPortal.showAllInRealtedQuickLinks();
+		naToChapterPortal.getPortalAccessCount();
+		naToChapterPortal.clickDropDownInActionContainer();
+		naToChapterPortal.optionsInactionContainer();
+		naToChapterPortal.clickMyChapterTab();
+		naToChapterPortal.getComunityGroup();
+		memChapterPortal.validateMemberShipTabSections();
+		upgradeToArchitect.clicupgradeToArchitectTab();
+		upgradeToArchitect.getUpgradeToArchitectTabRecordsCount();
+	}
+	
+	@Test(description = "FM-440: Upgrade to Emeritus report page", enabled = true, priority = 8)
+	public void test_ValidateUpgradeToEmeritus(ITestContext context) throws InterruptedException, Throwable {
+		if (recording) {
+			VideoRecorder.startRecording("test_ValidateUpgradeToEmeritus");
+		}
+		naToChapterPortal.clickContactsModule();
+		naToChapterPortal.clickContactsCPAccess();
+		naToChapterPortal.showAllInRealtedQuickLinks();
+		naToChapterPortal.getPortalAccessCount();
+		naToChapterPortal.clickDropDownInActionContainer();
+		naToChapterPortal.optionsInactionContainer();
+		naToChapterPortal.clickMyChapterTab();
+		naToChapterPortal.getComunityGroup();
+		memChapterPortal.validateMemberShipTabSections();
+		upgradeToEmeritus.clicUpgradeToEmeritusTab();
+		upgradeToEmeritus.getUpgradeToEmeritusTabRecordsCount();
 	}
 	
 	@AfterMethod(alwaysRun = true)
