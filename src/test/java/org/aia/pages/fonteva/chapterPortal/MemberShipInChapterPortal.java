@@ -120,6 +120,7 @@ public class MemberShipInChapterPortal {
 		Assert.assertTrue(firmDetailsTab.isDisplayed());
 		Assert.assertTrue(associatesPathtoLicensureTab.isDisplayed());
 		Assert.assertTrue(architectsLicensedTenyearsTab.isDisplayed());	
+		Thread.sleep(5000);
 	}
 	
 	public void validateMemberShipPiecharts() throws Throwable {

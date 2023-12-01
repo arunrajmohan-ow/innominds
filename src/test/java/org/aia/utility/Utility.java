@@ -482,5 +482,16 @@ public class Utility {
 			e.printStackTrace();
 		}
 	}
+	
+	public static String getfileNameFromFolder(File[] a, String expectedFileName) {
+		String fileName = null;
+		for (int i = 0; i < a.length; i++) {
+			if(a[i].getName().startsWith(expectedFileName)) {
+				fileName=a[i].getName();
+				break;
+			}
+		}
+		return fileName;
+	}
 
 }

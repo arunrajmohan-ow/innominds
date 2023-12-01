@@ -9,6 +9,7 @@ import org.aia.pages.fonteva.chapterPortal.FullMemberRoster;
 import org.aia.pages.fonteva.chapterPortal.LapsedMembers;
 import org.aia.pages.fonteva.chapterPortal.MemberShipInChapterPortal;
 import org.aia.pages.fonteva.chapterPortal.NavigateToChapterPortal;
+import org.aia.pages.fonteva.chapterPortal.TerminatedMembers;
 import org.aia.pages.fonteva.chapterPortal.UpgradeToArchitect;
 import org.aia.pages.fonteva.chapterPortal.UpgradeToEmeritus;
 import org.aia.utility.BrowserSetup;
@@ -33,8 +34,10 @@ public class Test_NavigateToChapterPortal extends BaseClass {
 	FullMemberRoster fullMemberRoster;
 	ActiveMemberRoster activeMemberRoster;
 	LapsedMembers lapsedMembers;
+	TerminatedMembers terminatedMembers;
 	UpgradeToArchitect upgradeToArchitect;
 	UpgradeToEmeritus upgradeToEmeritus; 
+	
 
 	@BeforeMethod(alwaysRun = true)
 	public void setUp() throws Exception {
@@ -50,6 +53,7 @@ public class Test_NavigateToChapterPortal extends BaseClass {
 		lapsedMembers=PageFactory.initElements(driver, LapsedMembers.class);
 		upgradeToArchitect = PageFactory.initElements(driver, UpgradeToArchitect.class);
 		upgradeToEmeritus= PageFactory.initElements(driver, UpgradeToEmeritus.class);
+		terminatedMembers = PageFactory.initElements(driver, TerminatedMembers.class);
 		Logging.configure();
 	}
 
@@ -142,7 +146,49 @@ public class Test_NavigateToChapterPortal extends BaseClass {
 		activeMemberRoster.getActiveMembersRecordsData();
 	}
 	
-	@Test(description = "FM-438: Lapsed Members report page", enabled = true, priority = 6)
+	@Test(description = "FM-428: Export functionality  Active Member Roaster report page ", enabled = true, priority = 6)
+	public void test_ExportfuncActiveMemberRoster(ITestContext context) throws InterruptedException, Throwable {
+		if (recording) {
+			VideoRecorder.startRecording("test_ExportfuncActiveMemberRoster");
+		}
+		naToChapterPortal.clickContactsModule();
+		naToChapterPortal.clickContactsCPAccess();
+		naToChapterPortal.showAllInRealtedQuickLinks();
+		naToChapterPortal.getPortalAccessCount();
+		naToChapterPortal.clickDropDownInActionContainer();
+		naToChapterPortal.optionsInactionContainer();
+		naToChapterPortal.clickMyChapterTab();
+		naToChapterPortal.getComunityGroup();
+		memChapterPortal.validateMemberShipTabSections();
+		activeMemberRoster.clickActiveMemberRosterTab();
+		String recordCount = activeMemberRoster.getActiveMemberRosterRecordsCount();
+		activeMemberRoster.getActiveMembersRecordsData();
+		activeMemberRoster.clickExportButton();
+		activeMemberRoster.selectExportView("Formatted");
+		activeMemberRoster.clickExportButtonInexportPopup("Export");
+		activeMemberRoster.validateDownloafFileDataAndApplicationdata(recordCount);
+	}
+	
+	@Test(description = "FM-437: Terminated Members report page", enabled = true, priority = 7)
+	public void test_ValidateTerminatedMemberRoster(ITestContext context) throws InterruptedException, Throwable {
+		if (recording) {
+			VideoRecorder.startRecording("test_ValidateTerminatedMemberRoster");
+		}
+		naToChapterPortal.clickContactsModule();
+		naToChapterPortal.clickContactsCPAccess();
+		naToChapterPortal.showAllInRealtedQuickLinks();
+		naToChapterPortal.getPortalAccessCount();
+		naToChapterPortal.clickDropDownInActionContainer();
+		naToChapterPortal.optionsInactionContainer();
+		naToChapterPortal.clickMyChapterTab();
+		naToChapterPortal.getComunityGroup();
+		memChapterPortal.validateMemberShipTabSections();
+		terminatedMembers.clickTerminatedMemberRosterTab();
+		terminatedMembers.getTerminatedMemberRosterRecordsCount();
+		terminatedMembers.getTerminatedMembersRecordsData();
+	}
+	
+	@Test(description = "FM-438: Lapsed Members report page", enabled = true, priority = 8)
 	public void test_ValidateLapsedMemberRoster(ITestContext context) throws InterruptedException, Throwable {
 		if (recording) {
 			VideoRecorder.startRecording("test_ValidateLapsedMemberRoster");
@@ -161,7 +207,7 @@ public class Test_NavigateToChapterPortal extends BaseClass {
 		lapsedMembers.getLapsedMembersRecordsData();
 	}
 	
-	@Test(description = "FM-439: Upgrade to Architect report page", enabled = true, priority = 7)
+	@Test(description = "FM-439: Upgrade to Architect report page", enabled = true, priority = 9)
 	public void test_ValidateUpgradeToArchitect(ITestContext context) throws InterruptedException, Throwable {
 		if (recording) {
 			VideoRecorder.startRecording("test_ValidateUpgradeToArchitect");
@@ -179,7 +225,7 @@ public class Test_NavigateToChapterPortal extends BaseClass {
 		upgradeToArchitect.getUpgradeToArchitectTabRecordsCount();
 	}
 	
-	@Test(description = "FM-440: Upgrade to Emeritus report page", enabled = true, priority = 8)
+	@Test(description = "FM-440: Upgrade to Emeritus report page", enabled = true, priority = 10)
 	public void test_ValidateUpgradeToEmeritus(ITestContext context) throws InterruptedException, Throwable {
 		if (recording) {
 			VideoRecorder.startRecording("test_ValidateUpgradeToEmeritus");

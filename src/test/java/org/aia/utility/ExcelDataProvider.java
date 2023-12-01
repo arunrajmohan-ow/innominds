@@ -30,6 +30,23 @@ public class ExcelDataProvider {
 		}
 	}
 	
+	public ExcelDataProvider(String expFileName)
+	{
+		try 
+		{
+			String fileName = Utility.getfileNameFromFolder(new File(System.getProperty("user.dir")+"\\DownloadFiles").listFiles(), expFileName);
+			wb=new XSSFWorkbook(new FileInputStream(new File(System.getProperty("user.dir")+"\\DownloadFiles"+File.separator+fileName)));
+			
+			Reporter.log("LOG : INFO -Data File loaded", true);
+
+			
+		}  catch (IOException e) {
+			
+			Reporter.log("LOG : FAIL-Failed to load excel files", true);
+			
+		}
+	}
+	
 	public int getNumberOfRows(String sheetName)
 	{
 		return wb.getSheet(sheetName).getPhysicalNumberOfRows();
