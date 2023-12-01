@@ -486,6 +486,12 @@ public class ContactCreateUser {
 		executor.executeScript("arguments[0].scrollIntoView(true);", upgradeMemBtn);
 		util.waitUntilElement(driver, upgradeMemBtn);
 		upgradeMemBtn.click();
+		try {
+			Thread.sleep(60000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void clickNextBtn() {

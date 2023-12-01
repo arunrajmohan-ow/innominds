@@ -63,10 +63,10 @@ public class TestMembershipUpgradeRequest extends BaseClass {
 		fontevaJoin.selectContact(dataList.get(0) + " " + dataList.get(1));
 		fontevaJoin.clickChevronBtn();
 		fontevaJoin.upgradeMembership(testData.testDataProvider().getProperty("membershipType"));
-		offlinUpgradeMembershipApiValidation.verifyMemebershipCreation(dataList.get(2),"Membership Upgrade");
-		// Validate sales order is created or not
-		
-
+		offlinUpgradeMembershipApiValidation.verifyMemebershipCreation(dataList.get(2),
+				testData.testDataProvider().getProperty("memCancelledResone"),
+				testData.testDataProvider().getProperty("upgradedMem"),
+				testData.testDataProvider().getProperty("termEndDate"));
 	}
 
 	@AfterMethod(alwaysRun = true)

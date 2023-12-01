@@ -20,7 +20,7 @@ public class FontevaConnectionSOAP {
 					.accept(ContentType.JSON).header("Content-type", "text/xml").header("SOAPAction", "Define")
 					.body(requestBody).when().post("https://aia--testing.sandbox.my.salesforce.com/services/Soap/u/35.0")
 					.then().extract().response();
-			//System.out.println(paresponse.prettyPrint());
+			System.out.println(paresponse.prettyPrint());
 
 			// next we get the xmlPath of the response
 			XmlPath xmlPath = paresponse.xmlPath();
@@ -31,9 +31,5 @@ public class FontevaConnectionSOAP {
 		}catch(Exception e) {
 			throw new Exception(e.getMessage());
 		}
-	}
-	public static void main(String args[]) throws Exception {
-		FontevaConnectionSOAP fc=new FontevaConnectionSOAP();
-		System.out.println("sessionID: "+fc.getSessionID());
 	}
 }

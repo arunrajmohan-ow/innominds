@@ -25,7 +25,6 @@ public class UpgradeMembershipAPIValidation {
 	String ACCOUNT_URI = DataProviderFactory.getConfig().getValue("account_uri");
 	String SOBJECT_URI = DataProviderFactory.getConfig().getValue("sobject_uri");
 	String RECCIPT_URI = DataProviderFactory.getConfig().getValue("account_uri");
-	int totalMembershipCount = 0;
 	JsonPath jsonPathEval = null;
 	JsonPath jsonPath = null;
 	int retryCount = 0;
@@ -36,10 +35,9 @@ public class UpgradeMembershipAPIValidation {
 	// DataProviderFactory.getConfig().getValue("access_token");//bt.getbearerToken();;
 	private static final String bearerToken = bt.getbearerToken();
 
-	public void verifyMemebershipCreation(String memberAccount, String membershipCancelledreson)
+	public void verifyMemebershipCreation(String memberAccount, String membershipCancelledreson, String currentActiveMem, String termEndDate)
 			throws InterruptedException {
 		// GET Account ID
-		while ((totalMembershipCount == 0) && retryCount < 10) {
 			Response response = given().contentType(ContentType.JSON).accept(ContentType.JSON)
 					.header("Authorization", "Bearer " + bearerToken).header("Content-Type", ContentType.JSON)
 					.header("Accept", ContentType.JSON).param("q", memberAccount).param("sobject", "Account").when()
@@ -53,15 +51,14 @@ public class UpgradeMembershipAPIValidation {
 			response = given().header("Authorization", "Bearer " + bearerToken).header("Content-Type", ContentType.JSON)
 					.header("Accept", ContentType.JSON).when().get(SUBSCRIPTIONS_URI).then().statusCode(200).extract()
 					.response();
+			Thread.sleep(30000);
 			jsonPath = response.jsonPath();
-			totalMembershipCount = jsonPath.getInt("totalSize");
 			Thread.sleep(10000);
 			retryCount = retryCount + 1;
-			//verifyActiveMembership();
+			verifyActiveMembership(currentActiveMem,termEndDate);
 			verifyCanclledMembership(membershipCancelledreson);
 			
 		}
-	}
 
 	public void verifyCanclledMembership(String membershipCancelledreson) {
 		String cancelledMemId = jsonPath.getString("records[0].Id");
@@ -87,13 +84,15 @@ public class UpgradeMembershipAPIValidation {
 		assertEquals(membershipCancelledReason, membershipCancelledreson);
 	}
 
-	public void verifyActiveMembership() {
+	public void verifyActiveMembership(String currentActiveMem, String termEndDate) {
 		String activeMemId = jsonPath.getString("records[1].Id");
 		String membershipUri = SOBJECT_URI + "/OrderApi__Subscription__c/" + activeMemId;
 		Response response = given().header("Authorization", "Bearer " + bearerToken)
 				.header("Content-Type", ContentType.JSON).header("Accept", ContentType.JSON).when().get(membershipUri)
 				.then().statusCode(200).extract().response();
 		jsonPathEval = response.jsonPath();
+		String activeTermstartDate=jsonPathEval.getString("OrderApi__Term_Start_Date__c");
+		String activeTermEndDate=jsonPathEval.getString("OrderApi__Term_End_Date__c");
 		String membershipTypeId = jsonPathEval.getString("OrderApi__Item__c");
 		// Get MembershipType
 		String membershipTyepeUri = SOBJECT_URI + "/OrderApi__Item__c/" + membershipTypeId;
@@ -102,6 +101,10 @@ public class UpgradeMembershipAPIValidation {
 				.response();
 		jsonPathEval = response.jsonPath();
 		String membershipName = jsonPathEval.getString("Name");
-		assertEquals("Architect - National", membershipName);
+		assertEquals(membershipName,currentActiveMem);
+		assertEquals(activeTermstartDate, java.time.LocalDate.now().toString());
+		assertEquals(activeTermEndDate, termEndDate);
+		
 	}
+	
 }
