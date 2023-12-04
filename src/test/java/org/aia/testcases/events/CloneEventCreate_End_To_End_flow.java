@@ -85,7 +85,7 @@ public class CloneEventCreate_End_To_End_flow extends BaseClass {
 		Logging.configure();
 	}
 
-	@Test(description = "Create a Valid Clone event (End to End Process)", enabled = true, priority = 1)
+	@Test(priority = 1, description = "Create a Valid Clone event (End to End Process)", enabled = true)
 	public void CreateCloneEvent_End_To_End_Flow(ITestContext context) throws InterruptedException, Throwable {
 		if (recording) {
 			VideoRecorder.startRecording("CreateCloneEvent_End_To_End_Flow");
@@ -257,6 +257,7 @@ public class CloneEventCreate_End_To_End_flow extends BaseClass {
 		eventRegistration.selectTicketQuantity();
 		eventRegistration.clickRegisterButton();
 		eventRegistration.validateRegisterReq();
+		eventRegistration.clickRegistrationButton();
 		eventRegistration.clickRegistrationButton();
 		eventRegistration.getScheduleDetailsInAgenda();
 		eventRegistration.agendaModule();

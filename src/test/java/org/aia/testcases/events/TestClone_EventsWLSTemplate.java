@@ -153,7 +153,6 @@ public class TestClone_EventsWLSTemplate extends BaseClass {
 			eventInfoModule.editEventVenues();
 			eventInfoModule.editEventAccessPermissions();
 			speakersModule.eventSpeakersTab();
-			;
 			agendaModule.clickEventAgenda();
 			// String scheduleName = editCloneEvent.getSceduleItemsInAgenda();
 			eventInfoModule.editEventSponsorPackages();
@@ -186,6 +185,7 @@ public class TestClone_EventsWLSTemplate extends BaseClass {
 			eventRegistration.rigisterRequiredInfo();
 			eventRegistration.clickRegistrationButton();
 			eventRegistration.validateRegisterReq();
+			eventRegistration.clickRegistrationButton();
 			eventRegistration.agendaModule();
 			eventRegistration.totalPaymentamountInCheckout();
 			// Here we getting receipt data from UI and storing in ArrayList
@@ -258,6 +258,7 @@ public class TestClone_EventsWLSTemplate extends BaseClass {
 			eventRegistration.rigisterRequiredInfo();
 			eventRegistration.clickRegistrationButton();
 			eventRegistration.validateRegisterReq();
+			eventRegistration.clickRegistrationButton();
 			eventRegistration.agendaModule();
 			eventRegistration.totalPaymentamountInCheckout();
 			// Here we getting receipt data from UI and storing in ArrayList
@@ -327,6 +328,7 @@ public class TestClone_EventsWLSTemplate extends BaseClass {
 			eventRegistration.rigisterRequiredInfo();
 			eventRegistration.clickRegistrationButton();
 			eventRegistration.validateRegisterReq();
+			eventRegistration.clickRegistrationButton();
 			eventRegistration.agendaModule();
 			eventRegistration.totalPaymentamountInCheckout();
 			// Here we getting receipt data from UI and storing in ArrayList

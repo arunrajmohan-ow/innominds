@@ -460,8 +460,6 @@ public class EventRegistration {
 		log.info(lastName.getAttribute("value"));
 		System.out.println(email.getAttribute("value"));
 		log.info(email.getAttribute("value"));
-		Utility.waitForWebElement(driver, continueButtonInRegistration, 0);
-		continueButtonInRegistration.click();
 	}
 	
 	public void getScheduleDetailsInAgenda() throws InterruptedException{
