@@ -1,5 +1,6 @@
 package org.aia.pages.fonteva.events;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -83,7 +84,8 @@ public class EventConfig {
 		address.put("pincode", "530032");
 	}
 
-	public static String venueImageURLInput = System.getProperty("user.dir") + "\\UploadFiles\\screenshoot.jpg";
+	public static String venueImageURLInput = System.getProperty("user.dir") + File.separator + "UploadFiles"
+			+ File.separator + "screenshoot.jpg";
 
 	public static String getVenueRecordsCount;
 	public static String getVenueRecordsCount2;
