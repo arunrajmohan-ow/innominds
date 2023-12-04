@@ -89,7 +89,7 @@ public class TestORGTab_CES extends BaseClass {
 	 * @throws Exception
 	 */
 	
-	@Test(priority = 1, description = "Validate Primary point of contact tab", enabled = false)
+	@Test(priority = 1, description = "Validate Primary point of contact tab", enabled = true)
 	public void validatePrimaryPOCTab() throws Exception {
 		String prefix = "Dr.";
 		String suffix = "Sr.";
@@ -109,7 +109,7 @@ public class TestORGTab_CES extends BaseClass {
 	 * @throws Exception
 	 */
 	
-	@Test(priority = 2, description = "Validate Error Message without entering values on Organizataion Tab", enabled = false)
+	@Test(priority = 2, description = "Validate Error Message without entering values on Organizataion Tab", enabled = true)
 	public void validateErrorMsgAllDetailsOrgTab() throws Exception {
 		String prefix = "Dr.";
 		String suffix = "Sr.";
@@ -131,7 +131,7 @@ public class TestORGTab_CES extends BaseClass {
 	 * @throws Exception
 	 */
     
-	@Test(priority = 3, description = "Validate Subscription Tab", enabled = false)
+	@Test(priority = 3, description = "Validate Subscription Tab", enabled = true)
 	public void validateSubscriptionTab() throws Exception {
 		String prefix = "Dr.";
 		String suffix = "Sr.";
@@ -154,7 +154,7 @@ public class TestORGTab_CES extends BaseClass {
 	 * @throws Exception
 	 */
 	
-	@Test(priority = 4, description = "Validate error for all the details in Organization tab except Organization Name", enabled = false)
+	@Test(priority = 4, description = "Validate error for all the details in Organization tab except Organization Name", enabled = true)
 	public void validateErrorORGNameInOrg() throws Exception {
 		String prefix = "Dr.";
 		String suffix = "Sr.";
@@ -181,7 +181,7 @@ public class TestORGTab_CES extends BaseClass {
 	 * @throws Exception
 	 */
 
-	@Test(priority = 5, description = "Validate error for all the details in Organization tab except Organization Type", enabled = false)
+	@Test(priority = 5, description = "Validate error for all the details in Organization tab except Organization Type", enabled = true)
 	public void validateErrorORGTypeInOrg() throws Exception {
 		String prefix = "Dr.";
 		String suffix = "Sr.";
@@ -209,7 +209,7 @@ public class TestORGTab_CES extends BaseClass {
 	 * @throws Exception
 	 */
 	
-	@Test(priority = 6, description = "Validate error for all the details in Organization tab except Prior Provider", enabled = false)
+	@Test(priority = 6, description = "Validate error for all the details in Organization tab except Prior Provider", enabled = true)
 	public void validatePriorProviderErrorOrg() throws Exception {
 		String prefix = "Dr.";
 		String suffix = "Sr.";
@@ -234,7 +234,7 @@ public class TestORGTab_CES extends BaseClass {
 	}
 	
 	
-	@Test(priority = 7, description = "Enter all the details in Organization tab and Select 'Work phone country'other than  'United States of America' or 'Canada", enabled = false)
+	@Test(priority = 7, description = "Enter all the details in Organization tab and Select 'Work phone country'other than  'United States of America' or 'Canada", enabled = true)
 	public void validateWorkPhoneCountryInOrg() throws Exception {
 		String prefix = "Dr.";
 		String suffix = "Sr.";
@@ -258,7 +258,7 @@ public class TestORGTab_CES extends BaseClass {
        
 }
 	
-	@Test(priority = 8, description = "Validate 'Next' without providing any details for 'Work phone country' and 'Work phone'", enabled = false)
+	@Test(priority = 8, description = "Validate 'Next' without providing any details for 'Work phone country' and 'Work phone'", enabled = true)
 	public void validateWorkPhoenCountryErrorInOrgTab() throws Exception {
 		String prefix = "Dr.";
 		String suffix = "Sr.";
@@ -280,7 +280,7 @@ public class TestORGTab_CES extends BaseClass {
 	
 	}
 	
-	@Test(priority = 9, description = "Validate 'Next' without providing any details for 'Work phone country' and 'Work phone'", enabled = false)
+	@Test(priority = 9, description = "Validate 'Next' without providing any details for 'Work phone country' and 'Work phone'", enabled = true)
 	public void validateWorkPhoneErrorORGTab() throws Exception {
 		String prefix = "Dr.";
 		String suffix = "Sr.";

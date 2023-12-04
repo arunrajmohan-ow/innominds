@@ -104,7 +104,7 @@ public class TestSubscriptionTab_CES extends BaseClass {
 		organizationPage.enterOrganizationDetails(dataList, "Other", "No", "United States of America (+1)");
 		subscribePage.verifySubscriptionTabText();
 		subscribePage.refreshFunction();
-		primarypocPage.verifyPrimayPOCTab();
+		primarypocPage.verifyPrimaryPOCTab();
 		FontevaConnectionSOAP sessionID = new FontevaConnectionSOAP();
 		System.out.println("sessionID is :" + sessionID);
 		final String sID = sessionID.getSessionID();
@@ -113,7 +113,7 @@ public class TestSubscriptionTab_CES extends BaseClass {
 		fontevaPage.checkUserInProviderApplication(sID);
 	}
 
-	@Test(priority = 1, description = "(FC- 305) Validate Secondary POC Refresh Tab", enabled = true)
+	@Test(priority = 2, description = "(FC- 305) Validate Secondary POC Refresh Tab", enabled = true)
 	public void validateSecondaryPOCRefreshTab() throws Exception {
 		String prefix = "Dr.";
 		String suffix = "Sr.";
@@ -130,7 +130,7 @@ public class TestSubscriptionTab_CES extends BaseClass {
 				"United States of America (+1)");
 		subscribePage.SubscriptionType(subType, "Yes", null, "Non-profit");
 		secPoc.secondaryPOCTabRefresh();
-		primarypocPage.verifyPrimayPOCTab();
+		primarypocPage.verifyPrimaryPOCTab();
 		FontevaConnectionSOAP sessionID = new FontevaConnectionSOAP();
 		System.out.println("sessionID is :" + sessionID);
 		final String sID = sessionID.getSessionID();
@@ -139,7 +139,7 @@ public class TestSubscriptionTab_CES extends BaseClass {
 		fontevaPage.checkUserInProviderApplication(sID);
 	}
 
-	@Test(priority = 2, description = "(FC-301) Verify secondary POC tab", enabled = true)
+	@Test(priority = 3, description = "(FC-301) Verify secondary POC tab", enabled = true)
 	public void validateSecondaryPOCTab() throws Exception {
 
 		String prefix = "Dr.";
@@ -161,7 +161,7 @@ public class TestSubscriptionTab_CES extends BaseClass {
 
 	}
 
-	@Test(priority = 3, description = "(FC-302) Verify 'Work phone country' in secondary POC tab", enabled = true)
+	@Test(priority = 4, description = "(FC-302) Verify 'Work phone country' in secondary POC tab", enabled = true)
 	public void validateWorkPhoneSecondaryPOCTab() throws Exception {
 
 		String prefix = "Dr.";
@@ -182,7 +182,7 @@ public class TestSubscriptionTab_CES extends BaseClass {
 
 	}
 
-	@Test(priority = 3, description = "(FC-303) Verify 'Work phone country' in secondary POC tab", enabled = true)
+	@Test(priority = 5, description = "(FC-303) Verify 'Work phone country' in secondary POC tab", enabled = true)
 	public void validateWorkPhoneCountrySecondaryPOCTab() throws Exception {
 
 		String prefix = "Dr.";
@@ -203,7 +203,7 @@ public class TestSubscriptionTab_CES extends BaseClass {
 		secPoc.enterDetailsWithoutWorkCountry(dataList);
 	}
 
-	@Test(priority = 3, description = "(FC-304)Validating the 'Work phone country'without US or Canada", enabled = true)
+	@Test(priority = 6, description = "(FC-304)Validating the 'Work phone country'without US or Canada", enabled = true)
 	public void validateOtherWorkPhoneCountry() throws Exception {
 
 		String prefix = "Dr.";
@@ -226,7 +226,7 @@ public class TestSubscriptionTab_CES extends BaseClass {
 
 	}
 
-	@Test(priority = 3, description = "(FC-336)Verify the 'Mobile phone country' in secondary POC tab ", enabled = true)
+	@Test(priority = 7, description = "(FC-336)Verify the 'Mobile phone country' in secondary POC tab ", enabled = true)
 	public void validateOtherMobilePhoneCountry() throws Exception {
 
 		String prefix = "Dr.";
@@ -247,7 +247,7 @@ public class TestSubscriptionTab_CES extends BaseClass {
 
 	}
 
-	@Test(priority = 3, description = "(FC-337)Verify Validating the 'Mobile phone'secondary POCTab", enabled = true)
+	@Test(priority = 8, description = "(FC-337)Verify Validating the 'Mobile phone'secondary POCTab", enabled = true)
 	public void validateMobileCountryError() throws Exception {
 
 		String prefix = "Dr.";

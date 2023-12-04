@@ -1,6 +1,10 @@
 package org.aia.pages.ces;
 
-import static org.junit.Assert.*;
+
+
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 import java.util.ArrayList;
 
@@ -242,7 +246,7 @@ public class PrimaryPointOfContact {
 		assertEquals(pocWorkPhoneCountryDrp.getAttribute("data-value"), newCountry);
 	}
 	
-	public void verifyPrimayPOCTab() {
+	public void verifyPrimaryPOCTab() {
 		util.waitUntilElement(driver, tabTitlePrimarypoc);
 		assertTrue(tabTitlePrimarypoc.isDisplayed());
 	}
