@@ -291,6 +291,28 @@ public final class DateUtils {
         return formattedFutureDate;
     }
     
+    public static String formatDate(String inputDateString) {
+    	String outputDateString = null;
+    	SimpleDateFormat inputDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        SimpleDateFormat outputDateFormat = new SimpleDateFormat("MMMM d, yyyy");
+
+        try {
+            // Parse the input string to a Date object
+            Date date = inputDateFormat.parse(inputDateString);
+
+            // Format the Date object to the desired output format
+             outputDateString = outputDateFormat.format(date);
+
+            // Print the converted date string
+            System.out.println("Converted Date: " + outputDateString);
+        } catch (ParseException e) {
+            // Handle the parsing exception if the format is incorrect
+            System.out.println("Error parsing the date: " + e.getMessage());
+        }
+		return outputDateString;
+    
+    }
+    
     
 }
 

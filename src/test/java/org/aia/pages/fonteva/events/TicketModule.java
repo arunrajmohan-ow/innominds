@@ -252,6 +252,7 @@ public class TicketModule {
 	 * @throws Throwable
 	 */
 	public void editEventTicket(Boolean editTicket) throws Throwable {
+		Thread.sleep(5000);
 		String option;
 		if (editTicket == true) {
 			actionsColoumnInTicketTypes.click();
@@ -458,10 +459,11 @@ public class TicketModule {
 		util.enterText(driver, attendeeRegistration, "260");
 	}
 
-	public String VerifyEventTicketCapacity() {
+	public String VerifyEventTicketCapacity() throws InterruptedException {
 		String aiaMemberPrice = attendeeRegistration.getAttribute("value");
 		editEventTicketCapacity = Integer.parseInt(aiaMemberPrice);
 		saveTicketButton.click();
+		Thread.sleep(4000);
 		util.waitUntilElement(driver, eventinfo);
 		eventinfo.click();
 		util.waitUntilElement(driver, EventCapacityInEventInfo);

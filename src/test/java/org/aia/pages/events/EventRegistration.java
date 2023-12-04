@@ -256,7 +256,7 @@ public class EventRegistration {
 	//overveiw
 	@FindBy(xpath = "//div[@id='navEventMenuItems']//button[@data-title='Details']") WebElement detailsNavigationButton;
 	
-	@FindBy(css = "lightning-formatted-rich-text[class='event-rich-text slds-rich-text-editor__output']") WebElement eventOverviewText;
+	@FindBy(xpath  = "//lightning-formatted-rich-text[@class='event-rich-text slds-rich-text-editor__output']/parent::div") WebElement eventOverviewText;
 
 	// speakers
 	@FindBy(css = "div[id='navEventMenuItems'] button[data-title='Speakers']")
@@ -586,7 +586,6 @@ public class EventRegistration {
 	}
 
 	public ArrayList<Object> clickReceiptInChecout() {
-
 		receiptNum = receiptNumber.getText();
 		receiptData.add(1, receiptNum);
 		log.info("Receipt Number" + receiptNum);
@@ -608,6 +607,7 @@ public class EventRegistration {
 	
 	public void validateEventOverView() throws InterruptedException {
 		Thread.sleep(10000);
+		util.scrollingElementUsingJS(driver, eventOverviewText);
 		Utility.waitForWebElement(driver, eventOverviewText, 0);
 		Assert.assertTrue(eventOverviewText.getText().contains(EventConfig.eventOverView));
 	}

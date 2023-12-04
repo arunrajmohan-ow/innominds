@@ -258,6 +258,7 @@ public class VenuesEvent {
 				break;
 			}
 		}
+		Thread.sleep(5000);
 		Assert.assertTrue(value,
 				"Assert failure:- " + EventConfig.venueNameInputField + " is not dispayed in the venue listing screen");
 	}
@@ -273,7 +274,7 @@ public class VenuesEvent {
 	}
 
 	public void editCreatedVenueNameAndVerifyIt() throws InterruptedException {
-
+        Thread.sleep(5000);
 		System.out.println("edit event Name: " + EventConfig.venueNameInputField);
 
 		util.scrollingElementUsingJS(driver,

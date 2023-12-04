@@ -260,40 +260,31 @@ public class CloneEventCreate_End_To_End_flow extends BaseClass {
 		eventRegistration.clickRegistrationButton();
 		eventRegistration.getScheduleDetailsInAgenda();
 		eventRegistration.agendaModule();
-
+		util.waitForJavascript(driver, 10000, 2000);
+		eventRegistration.totalPaymentamountInCheckout();
 		// Here we getting receipt data from UI and storing in ArrayList
 		eventRegistration.paymentDataIncheckoutModule();
-
 		eventRegistration.biilingaddressInCheckoutModule();
-
 		eventRegistration.paymentProcessButton();
-
 		ArrayList<Object> receiptData = eventRegistration.clickReceiptInChecout();
-
 		util.waitForJavascript(driver, 90000, 5000);
-
 		// Here we validate PDF data
 		String paymentType = testData.testDataProvider().getProperty("PaymentType");
 		String paymentMethodDescr = testData.testDataProvider().getProperty("PaymentMethodDescription");
 		viewReceipts.viewReceiptValidationsForEvents(receiptData.get(1), receiptData.get(0), paymentType,
 				paymentMethodDescr, aiaNumber);
-
 		// Here we validate the receipt using API call
 		eventApivalidation.verifyReciptDetails(dataList.get(3), receiptData.get(1), receiptData.get(0));
-
 		// Here we validate the Sales order using API call
 		eventApivalidation.verifySalesOrder(dataList.get(3),
 				DataProviderFactory.getConfig().getValue("salesOrderStatus"),
 				DataProviderFactory.getConfig().getValue("orderStatus"), receiptData.get(0),
 				DataProviderFactory.getConfig().getValue("postingStatus"));
-
 		// Email validations session confirm message
 		mailinator.sessionConfirmationEmailforEvents(dataList, eventName);
-
 		// Email validations registration confirm message
 		// Note:- Sometimes API body returning as null
 		mailinator.registrationConfirmationEmailforEvents(dataList, eventName);
-
 	}
 
 	@AfterMethod(alwaysRun = true)
