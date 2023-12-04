@@ -42,10 +42,10 @@ public class UpgradeToArchitect {
 	
 	@FindBy(xpath  = "//div[@class='report-table-widget-noData']") WebElement upgradeNoDataMSg;
 	
-	@FindAll(value = {@FindBy(xpath = "//table[@class='data-grid-table data-grid-full-table']//tr[contains(@class,'data-grid-table-row')]")}) List<WebElement> lapsedMemberRecordsData;
+	@FindAll(value = {@FindBy(xpath = "//table[@class='data-grid-table data-grid-full-table']//tr[contains(@class,'data-grid-table-row')]")}) List<WebElement> upgradeToArchitectRecordsData;
 	
 	
-	public void clicupgradeToArchitectTab() throws Throwable {
+	public void clickUpgradeToArchitectTab() throws Throwable {
 		upgradeToArchitectTab.click();
 		util.waitUntilElement(driver, selectReportDatePopUp);
 		Assert.assertTrue(selectReportDatePopUp.isDisplayed());

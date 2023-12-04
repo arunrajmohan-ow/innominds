@@ -221,7 +221,7 @@ public class Test_NavigateToChapterPortal extends BaseClass {
 		naToChapterPortal.clickMyChapterTab();
 		naToChapterPortal.getComunityGroup();
 		memChapterPortal.validateMemberShipTabSections();
-		upgradeToArchitect.clicupgradeToArchitectTab();
+		upgradeToArchitect.clickUpgradeToArchitectTab();
 		upgradeToArchitect.getUpgradeToArchitectTabRecordsCount();
 	}
 	

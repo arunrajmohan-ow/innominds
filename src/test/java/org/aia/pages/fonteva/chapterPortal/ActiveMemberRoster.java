@@ -1,5 +1,6 @@
 package org.aia.pages.fonteva.chapterPortal;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,8 +59,7 @@ public class ActiveMemberRoster {
 	public void selectExportView(String option) throws Throwable {
 		switch (option) {
 		case "Formatted":
-			Thread.sleep(5000);
-			System.out.println("khd");
+			Thread.sleep(7000);
 			WebElement formatElem = driver.findElement(By.cssSelector("label[for='formatted-export']"));
 			Assert.assertTrue(formatElem.isDisplayed());
 			formatElem.click();
@@ -94,15 +94,6 @@ public class ActiveMemberRoster {
 		return count;
 	}
 	
-	public void validateDownloafFileDataAndApplicationdata(String uiActiveMemRecordCount) {
-		excelDataProvider = new ExcelDataProvider("Portal Active Member Roster");
-		ArrayList<String> excelData = new ArrayList<String>();
-		for (int i = 16; i < 46; i++) {
-			 excelData .add(excelDataProvider.getCellData("Portal Active Member Roster", i, 1));
-		}
-		Assert.assertEquals(excelData.size(),Integer.parseInt(uiActiveMemRecordCount));
-	}
-	
 	public void getActiveMembersRecordsData() throws Throwable {
 		Thread.sleep(8000);
 		System.out.println(activeMemberRecordsData.size());
@@ -112,6 +103,18 @@ public class ActiveMemberRoster {
 		log.info(recordsData.replace("\n", ""));
 		System.out.println("records count"+i);
 		}
+	}
+	
+	public void validateDownloafFileDataAndApplicationdata(String uiActiveMemRecordCount) {
+		excelDataProvider = new ExcelDataProvider("Portal Active Member Roster");
+		String recordCount = excelDataProvider.getCellData("Portal Active Member Roster", 46, 3);
+		double value = Double.parseDouble(recordCount);
+		double uiValue = Double.parseDouble(uiActiveMemRecordCount);
+		DecimalFormat decimalFormat = new DecimalFormat("0.00");
+	    String formattedRecordCount = decimalFormat.format(value);
+	    String uiRecordCount = decimalFormat.format(uiValue);
+		System.out.println(formattedRecordCount);
+		Assert.assertEquals(formattedRecordCount,uiRecordCount);
 	}
 
 }
