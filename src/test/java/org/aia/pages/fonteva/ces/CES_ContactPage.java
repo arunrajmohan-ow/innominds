@@ -324,12 +324,10 @@ public class CES_ContactPage {
 
 	@FindBy(xpath = "//*[contains(text(),'Open Supplemental dues')]/following::div[1]//a//span")
 	WebElement pointofContact;
+	
 	/// Deceased marking Process
 	@FindBy(xpath = "//span[text()='Contact']/parent::div/parent::div//slot/span")
 	WebElement selectContactonReceipt;
-
-	@FindBy(xpath = "//button[contains(text(),'Renew')]/following::span[contains(text(),'Show more actions')]")
-	WebElement showMoreActionsBtn;
 
 	@FindBy(xpath = "//a//span[contains(text(),'Deceased')]")
 	WebElement deceasedOption;
@@ -339,6 +337,60 @@ public class CES_ContactPage {
 	
 	@FindBy(xpath="//span[text()='Deceased Date']/parent::div/parent::div//slot/..")
 	WebElement deceasedDate;
+
+	/// transfer request
+	// **********************
+	@FindBy(xpath = "//button[contains(text(),'Renew')]/following::span[contains(text(),'Show more actions')]")
+	WebElement showMoreActionsBtn;
+
+	@FindBy(xpath = "//*[contains(text(),'New Transfer Request')]")
+	WebElement newTransferRequestOptn;
+
+	@FindBy(xpath = "//span[contains(text(),'If you have moved and need to')]")
+	WebElement transferRequestPopupMsg;
+
+	@FindBy(xpath = "//p[contains(text(),'Thank you for your interest in transferring your AIA membership.')]")
+	WebElement transferRequestThankYouMsg;
+	
+	@FindBy(xpath = "//p[contains(text(),'Please tell us your new address')]")
+	WebElement tellYourNewAddressMsg;
+
+	@FindBy(xpath = "//select[@name='Address_Type']")
+	WebElement addressType;
+
+	String adressTypeOptn = "//option[@value='%s']";
+
+	String countryOptn = "//option[contains(text(),'%s')]";
+
+	@FindBy(xpath = "//option[@value='Home']")
+	WebElement homeOptn;
+
+	@FindBy(xpath = "//option[@value='Work']")
+	WebElement workOptn;
+
+	@FindBy(xpath = "//label[contains(text(),'Country')]/following::select")
+	WebElement selectCountry;
+
+	@FindBy(xpath = "//input[@name='Street_Address']")
+	WebElement streetAddress;
+
+	@FindBy(xpath = "//input[@name='City']")
+	WebElement city;
+
+	@FindBy(xpath = "//input[@name='Postal_Code']")
+	WebElement postalCode;
+
+	@FindBy(xpath = "//div[contains(text(),'Membership Transfer')]")
+	WebElement membershipTransferHeading;
+
+	@FindBy(xpath = "//a[contains(text(),'Contact Details')]")
+	WebElement contactDetails;
+
+	@FindBy(xpath = "//a[contains(text(),'Current Membership Assignments')]")
+	WebElement currentMembershipAssignments;
+
+	@FindBy(xpath = "//a[contains(text(),'Application Details')]")
+	WebElement applicationDetails;
 
 	String fName;
 	String lName;
@@ -756,13 +808,65 @@ public class CES_ContactPage {
 		util.waitUntilElement(driver, deceasedDate);
 		String deceasedDateValue=deceasedDate.getText();
 		System.out.println("deceasedDateValue:"+deceasedDateValue);
-		String todaysDate = dateUtils.getDate(0, "MM/dd/yyyy");
-		System.out.println("today's Date is: " + todaysDate);
-		assertTrue(deceasedDateValue.equalsIgnoreCase(todaysDate));			
+		String todaysDate = dateUtils.getDate(0, "M/d/yyyy");
+		System.out.println("today's Date is: " +todaysDate);
+		assertEquals(deceasedDateValue, todaysDate);
 	}
 
 	/**
 	 * @throws InterruptedException selects Contact on the Receipt Page
+	 * @param addressTypevalue
+	 * @param countryValue
+	 * @throws InterruptedException
+	 */
+	public void verifyMemTransferApplicationProcess(String addressTypevalue, String countryValue)
+			throws InterruptedException {
+		util.waitUntilElement(driver, showMoreActionsBtn);
+		action.moveToElement(showMoreActionsBtn).click().perform();
+		util.waitUntilElement(driver, newTransferRequestOptn);
+		action.moveToElement(newTransferRequestOptn).click().perform();
+		util.waitUntilElement(driver, transferRequestPopupMsg);
+		String transferRequestPopuptext = transferRequestPopupMsg.getText();
+		System.out.println("popUpTxtValue:" + transferRequestPopuptext);
+		assertTrue(transferRequestPopuptext
+				.equalsIgnoreCase(data.testDataProvider().getProperty("transferRequestPopupMessage")));
+		util.waitUntilElement(driver, nextBtn);
+		nextBtn.isDisplayed();
+		action.moveToElement(nextBtn).click().perform();
+		util.waitUntilElement(driver, transferRequestThankYouMsg);
+		String transferRequestThankYouMsgValue = transferRequestThankYouMsg.getText();
+		System.out.println("transferRequestThankYouMsgValue:" + transferRequestThankYouMsgValue);
+		assertTrue(transferRequestThankYouMsgValue
+				.equalsIgnoreCase(data.testDataProvider().getProperty("transferRequestThankYouMessage")));
+		util.waitUntilElement(driver, tellYourNewAddressMsg);
+		String tellYourNewAddressMsgValue = tellYourNewAddressMsg.getText();
+		System.out.println("tellYourNewAddressMsgValue:" + tellYourNewAddressMsgValue);
+		assertTrue(tellYourNewAddressMsgValue
+				.equalsIgnoreCase(data.testDataProvider().getProperty("tellYourNewAddressMessage")));
+		util.waitUntilElement(driver, addressType);
+		action.moveToElement(addressType).click().perform();
+		util.getCustomizedWebElement(driver, adressTypeOptn, addressTypevalue).click();
+		util.getCustomizedWebElement(driver, countryOptn, countryValue).click();
+		util.waitUntilElement(driver, streetAddress);
+		streetAddress.sendKeys("Australia");
+		util.waitUntilElement(driver, city);
+		city.sendKeys("new street");
+		util.waitUntilElement(driver, postalCode);
+		postalCode.sendKeys("4321");
+		util.waitUntilElement(driver, nextBtn);
+		action.moveToElement(nextBtn).click().perform();
+		util.waitUntilElement(driver, membershipTransferHeading);
+		membershipTransferHeading.isDisplayed();
+		util.waitUntilElement(driver, contactDetails);
+		contactDetails.isDisplayed();
+		util.waitUntilElement(driver, currentMembershipAssignments);
+		currentMembershipAssignments.isDisplayed();
+		util.waitUntilElement(driver, applicationDetails);
+		applicationDetails.isDisplayed();
+	}
+	/**
+	 * @throws InterruptedException
+	 * selects Contact on the Receipt Page
 	 */
 	public void selectContactonReceiptPage() throws InterruptedException {
 		util.waitUntilElement(driver, selectContactonReceipt);

@@ -85,7 +85,7 @@ public class CloneEventCreate_End_To_End_flow extends BaseClass {
 		Logging.configure();
 	}
 
-	@Test(description = "Create a Valid Clone event (End to End Process)", enabled = true, priority = 4)
+	@Test(priority = 1, description = "Create a Valid Clone event (End to End Process)", enabled = true)
 	public void CreateCloneEvent_End_To_End_Flow(ITestContext context) throws InterruptedException, Throwable {
 		if (recording) {
 			VideoRecorder.startRecording("CreateCloneEvent_End_To_End_Flow");
@@ -228,6 +228,15 @@ public class CloneEventCreate_End_To_End_flow extends BaseClass {
 		util.waitForJavascript(driver, 30000, 5000);
 		eventInfoModule.clickEventUrl();
 		util.waitForJavascript(driver, 30000, 5000);
+		// AIA application
+		util.switchToTabs(driver, 1);
+		eventRegistration.speakersButtonInAIA();
+		eventRegistration.detailsNavButton();
+		eventRegistration.validateEventOverView();
+		eventRegistration.agendaNavigationButtonInAIA();
+		eventRegistration.validateScheduleInAgenda();
+		eventRegistration.speakersButtonInAIA();
+		eventRegistration.validateSpeakerInAIA();
 		// sometimes Register link is not clicked in AIA application
 		eventRegistration.RegisterLink(1);
 		util.waitForJavascript(driver, 30000, 5000);
@@ -242,14 +251,6 @@ public class CloneEventCreate_End_To_End_flow extends BaseClass {
 		String aiaNumber = eventRegistration.getAIAData();
 		util.switchToTabs(driver, 0);
 		eventInfoModule.clickEventUrl();
-		// AIA application
-		util.switchToTabs(driver, 3);
-		eventRegistration.detailsNavButton();
-		eventRegistration.validateEventOverView();
-		eventRegistration.agendaNavigationButtonInAIA();
-		eventRegistration.validateScheduleInAgenda();
-		eventRegistration.speakersButtonInAIA();
-		eventRegistration.validateSpeakerInAIA();
 		// sometimes Register link is not clicked in AIA application
 		eventRegistration.RegisterLink(3);
 		util.waitForJavascript(driver, 30000, 5000);
@@ -257,42 +258,34 @@ public class CloneEventCreate_End_To_End_flow extends BaseClass {
 		eventRegistration.clickRegisterButton();
 		eventRegistration.validateRegisterReq();
 		eventRegistration.clickRegistrationButton();
+		eventRegistration.clickRegistrationButton();
 		eventRegistration.getScheduleDetailsInAgenda();
 		eventRegistration.agendaModule();
-
+		util.waitForJavascript(driver, 10000, 2000);
+		eventRegistration.totalPaymentamountInCheckout();
 		// Here we getting receipt data from UI and storing in ArrayList
 		eventRegistration.paymentDataIncheckoutModule();
-
 		eventRegistration.biilingaddressInCheckoutModule();
-
 		eventRegistration.paymentProcessButton();
-
 		ArrayList<Object> receiptData = eventRegistration.clickReceiptInChecout();
-
 		util.waitForJavascript(driver, 90000, 5000);
-
 		// Here we validate PDF data
 		String paymentType = testData.testDataProvider().getProperty("PaymentType");
 		String paymentMethodDescr = testData.testDataProvider().getProperty("PaymentMethodDescription");
 		viewReceipts.viewReceiptValidationsForEvents(receiptData.get(1), receiptData.get(0), paymentType,
 				paymentMethodDescr, aiaNumber);
-
 		// Here we validate the receipt using API call
 		eventApivalidation.verifyReciptDetails(dataList.get(3), receiptData.get(1), receiptData.get(0));
-
 		// Here we validate the Sales order using API call
 		eventApivalidation.verifySalesOrder(dataList.get(3),
 				DataProviderFactory.getConfig().getValue("salesOrderStatus"),
 				DataProviderFactory.getConfig().getValue("orderStatus"), receiptData.get(0),
 				DataProviderFactory.getConfig().getValue("postingStatus"));
-
 		// Email validations session confirm message
 		mailinator.sessionConfirmationEmailforEvents(dataList, eventName);
-
 		// Email validations registration confirm message
 		// Note:- Sometimes API body returning as null
 		mailinator.registrationConfirmationEmailforEvents(dataList, eventName);
-
 	}
 
 	@AfterMethod(alwaysRun = true)
