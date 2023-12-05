@@ -45,6 +45,7 @@ public class ActiveMemberRoster {
 	
 	
 	public void clickActiveMemberRosterTab() throws Throwable {
+		Utility.waitForWebElement(driver, activeMemberRoasterTab, 0);
 		activeMemberRoasterTab.click();
 		Thread.sleep(10000);
 		util.switchToTabs(driver, 1);

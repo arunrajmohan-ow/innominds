@@ -41,7 +41,8 @@ public class FullMemberRoster {
 		util.switchToTabs(driver, 1);
 	}
 	
-	public void getFullMemberRosterRecordsCount() {
+	public void getFullMemberRosterRecordsCount() throws InterruptedException {
+		Thread.sleep(4000);
 		util.waitForJavascript(driver, 10000, 2000);
 		util.switchToFrameUsingWebElement(driver, fullMemberRosterFrame);
 		Utility.waitForWebElement(driver, fullMemberRosterRecords, 0);

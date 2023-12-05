@@ -71,7 +71,7 @@ public class MemberShipInChapterPortal {
 	
 	@FindBy(xpath = "//button[text()='Architects Licensed =/<10 years']") WebElement architectsLicensedTenyearsTab;
 	
-	@FindAll(value = {@FindBy(xpath = "//div[@id='reportChartFrameWrapper']")}) List<WebElement> memberShipPiiCharts;
+	@FindAll(value = {@FindBy(xpath = "//div[@id='reportChartFrameWrapper']")}) List<WebElement> memberShipPieCharts;
 	
 	
 	public void clickRetentionTab() {
@@ -103,7 +103,7 @@ public class MemberShipInChapterPortal {
 	}
 	
 	public void validateMemberShipTabSections() throws Throwable {
-		Thread.sleep(2000);
+		Thread.sleep(5000);
 		Assert.assertTrue(fullMemberRoasterTab.isDisplayed());
 		Assert.assertTrue(activeMemberRoasterTab.isDisplayed());
 		Assert.assertTrue(lapsedMEmbersTab.isDisplayed());
@@ -125,9 +125,9 @@ public class MemberShipInChapterPortal {
 	
 	public void validateMemberShipPiecharts() throws Throwable {
 		int count = 4;
-		log.info(memberShipPiiCharts.size());
-		for (int i = 0; i < memberShipPiiCharts.size(); i++) {
-			String pieChartText = memberShipPiiCharts.get(i).getText();
+		log.info(memberShipPieCharts.size());
+		for (int i = 0; i < memberShipPieCharts.size(); i++) {
+			String pieChartText = memberShipPieCharts.get(i).getText();
 			log.info(pieChartText);
 			System.out.println(pieChartText);
 		}
