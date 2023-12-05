@@ -153,7 +153,6 @@ public class TestClone_EventsWLSTemplate extends BaseClass {
 			eventInfoModule.editEventVenues();
 			eventInfoModule.editEventAccessPermissions();
 			speakersModule.eventSpeakersTab();
-			;
 			agendaModule.clickEventAgenda();
 			// String scheduleName = editCloneEvent.getSceduleItemsInAgenda();
 			eventInfoModule.editEventSponsorPackages();
@@ -186,17 +185,14 @@ public class TestClone_EventsWLSTemplate extends BaseClass {
 			eventRegistration.rigisterRequiredInfo();
 			eventRegistration.clickRegistrationButton();
 			eventRegistration.validateRegisterReq();
+			eventRegistration.clickRegistrationButton();
 			eventRegistration.agendaModule();
-
+			eventRegistration.totalPaymentamountInCheckout();
 			// Here we getting receipt data from UI and storing in ArrayList
 			eventRegistration.paymentDataIncheckoutModule();
-
 			eventRegistration.biilingaddressInCheckoutModule();
-
 			eventRegistration.paymentProcessButton();
-
 			ArrayList<Object> receiptData = eventRegistration.clickReceiptInChecout();
-
 			util.waitForJavascript(driver, 90000, 5000);
 
 			// Here we validate PDF data
@@ -262,38 +258,31 @@ public class TestClone_EventsWLSTemplate extends BaseClass {
 			eventRegistration.rigisterRequiredInfo();
 			eventRegistration.clickRegistrationButton();
 			eventRegistration.validateRegisterReq();
+			eventRegistration.clickRegistrationButton();
 			eventRegistration.agendaModule();
-
+			eventRegistration.totalPaymentamountInCheckout();
 			// Here we getting receipt data from UI and storing in ArrayList
 			eventRegistration.paymentDataIncheckoutModule();
-
 			eventRegistration.biilingaddressInCheckoutModule();
-
 			eventRegistration.paymentProcessButton();
-
 			ArrayList<Object> receiptData = eventRegistration.clickReceiptInChecout();
-
 			util.waitForJavascript(driver, 90000, 5000);
-
 			// Here we validate PDF data
 			String paymentType = testData.testDataProvider().getProperty("PaymentType");
 			String paymentMethodDescr = testData.testDataProvider().getProperty("PaymentMethodDescription");
 			viewReceipts.viewReceiptValidationsForEvents(receiptData.get(1), receiptData.get(0), paymentType,
 					paymentMethodDescr, aiaNumber);
-
 			util.switchToTabs(driver, 0);
 			events.eventsTab();
 			events.eventsSearch(eventName);
 			String eventID = cloneEventpage.getEventId();
 			ArrayList<String> afterRegistrationsalesandTotal = events.validateAfterRegistrationData();
 			linksInEvents.clickAttendees();
-
 			// Registered attendees count
 			linksInEvents.getAttendeesSize();
 			context.setAttribute("eventName", eventName);
 			context.setAttribute("attendees", afterRegistrationsalesandTotal.get(0));
 			context.setAttribute("eventId", eventID);
-
 			// Here we validate Attendees totals using api call
 			eventApivalidation.verifyAttendees(context);
 		} catch (Exception e) {
@@ -339,25 +328,20 @@ public class TestClone_EventsWLSTemplate extends BaseClass {
 			eventRegistration.rigisterRequiredInfo();
 			eventRegistration.clickRegistrationButton();
 			eventRegistration.validateRegisterReq();
+			eventRegistration.clickRegistrationButton();
 			eventRegistration.agendaModule();
-
+			eventRegistration.totalPaymentamountInCheckout();
 			// Here we getting receipt data from UI and storing in ArrayList
 			eventRegistration.paymentDataIncheckoutModule();
-
 			eventRegistration.biilingaddressInCheckoutModule();
-
 			eventRegistration.paymentProcessButton();
-
 			ArrayList<Object> receiptData = eventRegistration.clickReceiptInChecout();
-
 			util.waitForJavascript(driver, 90000, 5000);
-
 			// Here we validate PDF data
 			String paymentType = testData.testDataProvider().getProperty("PaymentType");
 			String paymentMethodDescr = testData.testDataProvider().getProperty("PaymentMethodDescription");
 			viewReceipts.viewReceiptValidationsForEvents(receiptData.get(1), receiptData.get(0), paymentType,
 					paymentMethodDescr, aiaNumber);
-
 			util.switchToTabs(driver, 0);
 			events.eventsTab();
 			events.eventsSearch(eventName);
