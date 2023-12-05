@@ -74,7 +74,10 @@ public class CES_RapidOrderEntry {
 	@FindBy(xpath = "//*[contains(text(),'Open Memberships')]")
 	WebElement Membershipslnk;
 
-	@FindBy(xpath = "//span[text()= 'Account']/../..//span//a")
+//	@FindBy(xpath = "//span[text()= 'Account']/../..//span//a")
+//	WebElement SelectAccount;
+	
+	@FindBy(xpath = "//span[text()='Account']/parent::div/parent::div//slot/span")
 	WebElement SelectAccount;
 
 	@FindBy(xpath = "//*[@role = 'table']//tbody//tr")

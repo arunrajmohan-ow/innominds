@@ -32,6 +32,7 @@ public class EventInfoModule {
 	static Logger log = Logger.getLogger(EventInfoModule.class);
 	public String salesOrder = "";
 	public String aiaNumber = "";
+	public static String futureDate="";
 
 	public EventInfoModule(WebDriver IDriver) {
 		this.driver = IDriver;
@@ -467,5 +468,11 @@ public class EventInfoModule {
 			Utility.waitForWebElement(driver, timeZoneIneventInfo, 0);
 			util.selectDropDownByText(timeZoneIneventInfo, timeZone);
 			log.info("time zone in event info selected");
+		}
+		
+		public void enterStartDateInEventInfo() {
+		    futureDate = DateUtils.setFutureDAte();
+			Utility.waitForWebElement(driver, eventStartDate, 0);
+			util.enterText(driver, eventStartDate, futureDate);
 		}
 }

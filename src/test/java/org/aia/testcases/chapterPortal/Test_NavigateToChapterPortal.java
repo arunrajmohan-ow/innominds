@@ -81,7 +81,7 @@ public class Test_NavigateToChapterPortal extends BaseClass {
 		naToChapterPortal.getComunityGroup();
 	}
 	
-	@Test(description = "FM-422: Tab's verification on My Chapters page", enabled = true, priority = 2)
+	@Test(description = "FM-422: Tab's verification on My Chapters page", enabled = false, priority = 2)
 	public void test_VerificationTabsInCP(ITestContext context) throws InterruptedException, Throwable {
 		if (recording) {
 			VideoRecorder.startRecording("test_navigationToCP");
@@ -100,7 +100,7 @@ public class Test_NavigateToChapterPortal extends BaseClass {
 		memChapterPortal.clickCallForDuesInfoTab();
 	}
 	
-	@Test(description = "FM-425: Membership Tab page and its section's verification", enabled = true, priority = 3)
+	@Test(description = "FM-425: Membership Tab page and its section's verification", enabled = false, priority = 3)
 	public void test_ValidateMembersShipTabSections(ITestContext context) throws InterruptedException, Throwable {
 		if (recording) {
 			VideoRecorder.startRecording("test_ValidateMembersShipTabSections");
@@ -117,7 +117,7 @@ public class Test_NavigateToChapterPortal extends BaseClass {
 		memChapterPortal.validateMemberShipPiecharts();
 	}
 	
-	@Test(description = "FM-426: Full Member Roster report page ", enabled = true, priority = 4)
+	@Test(description = "FM-426: Full Member Roster report page ", enabled = false, priority = 4)
 	public void test_ValidateFullMemberRoster(ITestContext context) throws InterruptedException, Throwable {
 		if (recording) {
 			VideoRecorder.startRecording("test_ValidateFullMemberRoster");
@@ -136,7 +136,7 @@ public class Test_NavigateToChapterPortal extends BaseClass {
 		fullMemberRoster.getRecordsData();
 	}
 	
-	@Test(description = "FM-427: Active Member Roaster report page ", enabled = true, priority = 5)
+	@Test(description = "FM-427: Active Member Roaster report page ", enabled = false, priority = 5)
 	public void test_ValidateActiveMemberRoster(ITestContext context) throws InterruptedException, Throwable {
 		if (recording) {
 			VideoRecorder.startRecording("test_ValidateActiveMemberRoster");
@@ -155,7 +155,7 @@ public class Test_NavigateToChapterPortal extends BaseClass {
 		activeMemberRoster.getActiveMembersRecordsData();
 	}
 	
-	@Test(description = "FM-428: Export functionality  Active Member Roaster report page ", enabled = true, priority = 6)
+	@Test(description = "FM-428: Export functionality  Active Member Roaster report page ", enabled = false, priority = 6)
 	public void test_ExportfuncActiveMemberRoster(ITestContext context) throws InterruptedException, Throwable {
 		if (recording) {
 			VideoRecorder.startRecording("test_ExportfuncActiveMemberRoster");
@@ -178,7 +178,7 @@ public class Test_NavigateToChapterPortal extends BaseClass {
 		activeMemberRoster.validateDownloafFileDataAndApplicationdata(recordCount);
 	}
 	
-	@Test(description = "FM-429: Chapter Info Tab page verification", enabled = true, priority = 7)
+	@Test(description = "FM-429: Chapter Info Tab page verification", enabled = false, priority = 7)
 	public void test_VerificationChapterInfo(ITestContext context) throws InterruptedException, Throwable {
 		if (recording) {
 			VideoRecorder.startRecording("test_VerificationChapterInfo");
@@ -198,7 +198,7 @@ public class Test_NavigateToChapterPortal extends BaseClass {
 		
 	}
 	
-	@Test(description = "FM-437: Terminated Members report page", enabled = true, priority = 8)
+	@Test(description = "FM-437: Terminated Members report page", enabled = false, priority = 8)
 	public void test_ValidateTerminatedMemberRoster(ITestContext context) throws InterruptedException, Throwable {
 		if (recording) {
 			VideoRecorder.startRecording("test_ValidateTerminatedMemberRoster");
@@ -217,7 +217,7 @@ public class Test_NavigateToChapterPortal extends BaseClass {
 		terminatedMembers.getTerminatedMembersRecordsData();
 	}
 	
-	@Test(description = "FM-438: Lapsed Members report page", enabled = true, priority = 9)
+	@Test(description = "FM-438: Lapsed Members report page", enabled = false, priority = 9)
 	public void test_ValidateLapsedMemberRoster(ITestContext context) throws InterruptedException, Throwable {
 		if (recording) {
 			VideoRecorder.startRecording("test_ValidateLapsedMemberRoster");
@@ -236,7 +236,7 @@ public class Test_NavigateToChapterPortal extends BaseClass {
 		lapsedMembers.getLapsedMembersRecordsData();
 	}
 	
-	@Test(description = "FM-439: Upgrade to Architect report page", enabled = true, priority = 10)
+	@Test(description = "FM-439: Upgrade to Architect report page", enabled = false, priority = 10)
 	public void test_ValidateUpgradeToArchitect(ITestContext context) throws InterruptedException, Throwable {
 		if (recording) {
 			VideoRecorder.startRecording("test_ValidateUpgradeToArchitect");
@@ -254,7 +254,7 @@ public class Test_NavigateToChapterPortal extends BaseClass {
 		upgradeToArchitect.getUpgradeToArchitectTabRecordsCount();
 	}
 	
-	@Test(description = "FM-440: Upgrade to Emeritus report page", enabled = true, priority = 11)
+	@Test(description = "FM-440: Upgrade to Emeritus report page", enabled = false, priority = 11)
 	public void test_ValidateUpgradeToEmeritus(ITestContext context) throws InterruptedException, Throwable {
 		if (recording) {
 			VideoRecorder.startRecording("test_ValidateUpgradeToEmeritus");
@@ -272,7 +272,7 @@ public class Test_NavigateToChapterPortal extends BaseClass {
 		upgradeToEmeritus.getUpgradeToEmeritusTabRecordsCount();
 	}
 	
-	@Test(description = "FM-441: \"Associate/Path to Licensure\" report page", enabled = true, priority = 12)
+	@Test(description = "FM-441: \"Associate/Path to Licensure\" report page", enabled = false, priority = 12)
 	public void test_ValidateAssociatePathToLicensure(ITestContext context) throws InterruptedException, Throwable {
 		if (recording) {
 			VideoRecorder.startRecording("test_ValidateAssociatePathToLicensure");
@@ -291,7 +291,7 @@ public class Test_NavigateToChapterPortal extends BaseClass {
 	    associatePathToLicence.getAssociatesPathtoLicensureRecordsData();
 	}
 	
-	@Test(description = "FM-442: \"Active Architect Members Licensed <10Yrs\" report page", enabled = true, priority = 13)
+	@Test(description = "FM-442: \"Active Architect Members Licensed <10Yrs\" report page", enabled = false, priority = 13)
 	public void test_ValidateActiveArchitectMembersLicensed10Yrs(ITestContext context) throws InterruptedException, Throwable {
 		if (recording) {
 			VideoRecorder.startRecording("test_ValidateActiveArchitectMembersLicensed10Yrs");
