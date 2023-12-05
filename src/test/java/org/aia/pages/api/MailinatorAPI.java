@@ -250,7 +250,7 @@ public class MailinatorAPI {
 		String inbox=emailPrefix;
 		JsonPath jsonPathEval = null;
 		String mailinator_uri = MAILINATOR_API + inbox;
-		Thread.sleep(7000);
+		Thread.sleep(10000);
 		Response response =  RestAssured.given().headers("Content-Type",
 				ContentType.JSON, "Accept",
 				ContentType.JSON,"Authorization",
@@ -268,7 +268,8 @@ public class MailinatorAPI {
 				 headers("Content-Type", ContentType.JSON, "Accept", ContentType.JSON,"Authorization",bearerToken).when().get(message_uri).then().extract().response();
 
 		jsonPathEval = response.jsonPath();
-		Thread.sleep(5000);
+		System.out.println("link response:"+response.getBody().asPrettyString());
+		Thread.sleep(7000);
 		String msgBody = response.path("parts[0].body").toString();
 		System.out.println("body is " + msgBody);
 		Assert.assertTrue(msgBody.contains(data.testDataProvider().getProperty("thankyouJoinMail")));

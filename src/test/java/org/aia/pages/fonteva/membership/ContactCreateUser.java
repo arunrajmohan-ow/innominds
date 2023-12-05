@@ -119,6 +119,9 @@ public class ContactCreateUser {
 	@FindBy(xpath = "//span[contains(@title,'Payment in Full')]")
 	WebElement selectDeusOpt;
 	
+	@FindBy(xpath = "//span[contains(@title,'Dues Installment Plan - 6 Installments')]")
+	WebElement selectDueDip;
+	
 	@FindBy(xpath="//span[contains(@title,'Dues Installment Plan ')]")
 	WebElement selectPayInInsatllmentElement;
 
@@ -323,6 +326,32 @@ public class ContactCreateUser {
 		selectDuesDrp.click();
 		// executor.executeScript("arguments[0].click();", selectDeusOpt);
 		selectDeusOpt.click();
+		createSalesOrder.click();
+		util.waitUntilElement(driver, readyForPaymentBtn);
+		readyForPaymentBtn.click();
+		util.waitUntilElement(driver, applyPayment);
+		applyPayment.click();
+		Thread.sleep(10000);
+		// check wait
+		driver.switchTo().frame(drpIframe);
+		Thread.sleep(60000);
+		// check wait
+		List<WebElement> options = driver.findElements(By.xpath("//select[@aria-label='Payment Type']/option"));
+		for (WebElement drpOption : options) {
+			System.out.println(drpOption.getText());
+			if (drpOption.getText().equalsIgnoreCase(paymentOpt)) {
+				drpOption.click();
+			}
+		}
+		util.waitUntilElement(driver, applyLastPayment);
+		applyLastPayment.click();
+	}
+	
+	public void createDipSalesOrder(String paymentOpt) throws InterruptedException {
+		util.waitUntilElement(driver, selectDuesDrp);
+		selectDuesDrp.click();
+		// executor.executeScript("arguments[0].click();", selectDeusOpt);
+		selectDueDip.click();
 		createSalesOrder.click();
 		util.waitUntilElement(driver, readyForPaymentBtn);
 		readyForPaymentBtn.click();
