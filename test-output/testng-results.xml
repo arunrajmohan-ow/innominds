@@ -26,41 +26,26 @@
       <![CDATA[LOG : INFO -Config File loaded]]>
     </line>
     <line>
-      <![CDATA[LOG : INFO -Config File loaded]]>
-    </line>
-    <line>
-      <![CDATA[LOG : INFO -Config File loaded]]>
-    </line>
-    <line>
-      <![CDATA[LOG : INFO -Config File loaded]]>
-    </line>
-    <line>
-      <![CDATA[LOG : INFO -Config File loaded]]>
-    </line>
-    <line>
       <![CDATA[LOG: INFO : Closing browser instances]]>
     </line>
     <line>
       <![CDATA[LOG: INFO : Browser instances closed]]>
     </line>
   </reporter-output>
-  <suite started-at="2023-12-06T11:07:40 IST" name="Default suite" finished-at="2023-12-06T11:14:13 IST" duration-ms="393115">
+  <suite started-at="2023-12-06T11:49:04 IST" name="Default suite" finished-at="2023-12-06T11:52:38 IST" duration-ms="213633">
     <groups>
-      <group name="Smoke">
-        <method signature="TestDIPOfflineRenew_Membership.offlineRenewProcessDIP()[pri:1, instance:org.aia.testcases.membership.TestDIPOfflineRenew_Membership@5e600dd5]" name="offlineRenewProcessDIP" class="org.aia.testcases.membership.TestDIPOfflineRenew_Membership"/>
-      </group> <!-- Smoke -->
     </groups>
-    <test started-at="2023-12-06T11:07:40 IST" name="Default test" finished-at="2023-12-06T11:14:13 IST" duration-ms="393115">
-      <class name="org.aia.testcases.membership.TestDIPOfflineRenew_Membership">
-        <test-method is-config="true" signature="setup()[pri:0, instance:org.aia.testcases.membership.TestDIPOfflineRenew_Membership@5e600dd5]" started-at="2023-12-06T11:07:40 IST" name="setup" finished-at="2023-12-06T11:07:40 IST" duration-ms="11" status="PASS">
+    <test started-at="2023-12-06T11:49:04 IST" name="Default test" finished-at="2023-12-06T11:52:38 IST" duration-ms="213633">
+      <class name="org.aia.testcases.membership.TestDIPOfflineJoin_Membership">
+        <test-method is-config="true" signature="setup()[pri:0, instance:org.aia.testcases.membership.TestDIPOfflineJoin_Membership@1530c739]" started-at="2023-12-06T11:49:04 IST" name="setup" finished-at="2023-12-06T11:49:04 IST" duration-ms="7" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setup -->
-        <test-method is-config="true" signature="initialTestSetup()[pri:0, instance:org.aia.testcases.membership.TestDIPOfflineRenew_Membership@5e600dd5]" started-at="2023-12-06T11:07:40 IST" name="initialTestSetup" finished-at="2023-12-06T11:07:40 IST" duration-ms="3" status="PASS">
+        <test-method is-config="true" signature="initialTestSetup()[pri:0, instance:org.aia.testcases.membership.TestDIPOfflineJoin_Membership@1530c739]" started-at="2023-12-06T11:49:04 IST" name="initialTestSetup" finished-at="2023-12-06T11:49:04 IST" duration-ms="1" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- initialTestSetup -->
-        <test-method is-config="true" signature="setupBrowser()[pri:0, instance:org.aia.testcases.membership.TestDIPOfflineRenew_Membership@5e600dd5]" started-at="2023-12-06T11:07:40 IST" name="setupBrowser" finished-at="2023-12-06T11:07:40 IST" duration-ms="4" status="PASS">
+        <test-method is-config="true" signature="setupBrowser()[pri:0, instance:org.aia.testcases.membership.TestDIPOfflineJoin_Membership@1530c739]" started-at="2023-12-06T11:49:04 IST" name="setupBrowser" finished-at="2023-12-06T11:49:04 IST" duration-ms="2" status="PASS">
           <reporter-output>
             <line>
               <![CDATA[LOG: INFO : Creating browser instances]]>
@@ -70,20 +55,8 @@
             </line>
           </reporter-output>
         </test-method> <!-- setupBrowser -->
-        <test-method is-config="true" signature="setUp()[pri:0, instance:org.aia.testcases.membership.TestDIPOfflineRenew_Membership@5e600dd5]" started-at="2023-12-06T11:07:40 IST" name="setUp" finished-at="2023-12-06T11:08:09 IST" duration-ms="28839" status="PASS">
+        <test-method is-config="true" signature="setUp()[pri:0, instance:org.aia.testcases.membership.TestDIPOfflineJoin_Membership@1530c739]" started-at="2023-12-06T11:49:04 IST" name="setUp" finished-at="2023-12-06T11:49:23 IST" duration-ms="19047" status="PASS">
           <reporter-output>
-            <line>
-              <![CDATA[LOG : INFO -Config File loaded]]>
-            </line>
-            <line>
-              <![CDATA[LOG : INFO -Config File loaded]]>
-            </line>
-            <line>
-              <![CDATA[LOG : INFO -Config File loaded]]>
-            </line>
-            <line>
-              <![CDATA[LOG : INFO -Config File loaded]]>
-            </line>
             <line>
               <![CDATA[LOG : INFO -Config File loaded]]>
             </line>
@@ -104,26 +77,22 @@
             </line>
           </reporter-output>
         </test-method> <!-- setUp -->
-        <test-method signature="offlineRenewProcessDIP()[pri:1, instance:org.aia.testcases.membership.TestDIPOfflineRenew_Membership@5e600dd5]" started-at="2023-12-06T11:08:09 IST" name="offlineRenewProcessDIP" description="(FM-383) Membership Offline Renew DIP Process" finished-at="2023-12-06T11:14:13 IST" duration-ms="364213" status="PASS">
+        <test-method signature="verifyDIPOfflineJoin()[pri:1, instance:org.aia.testcases.membership.TestDIPOfflineJoin_Membership@1530c739]" started-at="2023-12-06T11:49:23 IST" name="verifyDIPOfflineJoin" description="(FM-382) Membership Offline Join DIP Process" finished-at="2023-12-06T11:52:38 IST" duration-ms="194299" status="PASS">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- offlineRenewProcessDIP -->
-        <test-method is-config="true" signature="tearDown(org.testng.ITestResult)[pri:0, instance:org.aia.testcases.membership.TestDIPOfflineRenew_Membership@5e600dd5]" started-at="2023-12-06T11:14:13 IST" name="tearDown" finished-at="2023-12-06T11:14:13 IST" duration-ms="0" status="PASS">
+        </test-method> <!-- verifyDIPOfflineJoin -->
+        <test-method is-config="true" signature="tearDown(org.testng.ITestResult)[pri:0, instance:org.aia.testcases.membership.TestDIPOfflineJoin_Membership@1530c739]" started-at="2023-12-06T11:52:38 IST" name="tearDown" finished-at="2023-12-06T11:52:38 IST" duration-ms="2" status="PASS">
           <params>
             <param index="0">
               <value>
-                <![CDATA[[TestResult name=offlineRenewProcessDIP status=SUCCESS method=TestDIPOfflineRenew_Membership.offlineRenewProcessDIP()[pri:1, instance:org.aia.testcases.membership.TestDIPOfflineRenew_Membership@5e600dd5] output={null}]]]>
+                <![CDATA[[TestResult name=verifyDIPOfflineJoin status=SUCCESS method=TestDIPOfflineJoin_Membership.verifyDIPOfflineJoin()[pri:1, instance:org.aia.testcases.membership.TestDIPOfflineJoin_Membership@1530c739] output={null}]]]>
               </value>
             </param>
           </params>
           <reporter-output>
           </reporter-output>
         </test-method> <!-- tearDown -->
-        <test-method is-config="true" signature="teardown()[pri:0, instance:org.aia.testcases.membership.TestDIPOfflineRenew_Membership@5e600dd5]" started-at="2023-12-06T11:14:13 IST" name="teardown" finished-at="2023-12-06T11:14:13 IST" duration-ms="0" status="PASS">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- teardown -->
-        <test-method is-config="true" signature="tearDown()[pri:0, instance:org.aia.testcases.membership.TestDIPOfflineRenew_Membership@5e600dd5]" started-at="2023-12-06T11:14:13 IST" name="tearDown" finished-at="2023-12-06T11:14:13 IST" duration-ms="0" status="PASS">
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:org.aia.testcases.membership.TestDIPOfflineJoin_Membership@1530c739]" started-at="2023-12-06T11:52:38 IST" name="tearDown" finished-at="2023-12-06T11:52:38 IST" duration-ms="245" status="PASS">
           <reporter-output>
             <line>
               <![CDATA[LOG: INFO : Closing browser instances]]>
@@ -133,11 +102,11 @@
             </line>
           </reporter-output>
         </test-method> <!-- tearDown -->
-        <test-method is-config="true" signature="finalTestTearDown()[pri:0, instance:org.aia.testcases.membership.TestDIPOfflineRenew_Membership@5e600dd5]" started-at="2023-12-06T11:14:13 IST" name="finalTestTearDown" finished-at="2023-12-06T11:14:13 IST" duration-ms="0" status="PASS">
+        <test-method is-config="true" signature="finalTestTearDown()[pri:0, instance:org.aia.testcases.membership.TestDIPOfflineJoin_Membership@1530c739]" started-at="2023-12-06T11:52:38 IST" name="finalTestTearDown" finished-at="2023-12-06T11:52:38 IST" duration-ms="0" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- finalTestTearDown -->
-      </class> <!-- org.aia.testcases.membership.TestDIPOfflineRenew_Membership -->
+      </class> <!-- org.aia.testcases.membership.TestDIPOfflineJoin_Membership -->
     </test> <!-- Default test -->
   </suite> <!-- Default suite -->
 </testng-results>
