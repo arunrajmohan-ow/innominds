@@ -164,11 +164,11 @@ public class ContactCreateUser {
 	@FindBy(xpath = "//span[text()='Process Payment']/parent::button")
 	WebElement processPaymentBtn;
 
-	@FindBy(xpath = "//lightning-formatted-text[@slot='primaryField']")
+	//@FindBy(xpath = "//lightning-formatted-text[@slot='primaryField']")
+	 // WebElement receiptNo;
+	
+	@FindBy(xpath = "//img[@title='Receipt']/following::div//slot[@name='primaryField']")
 	WebElement receiptNo;
-//	
-//	@FindBy(xpath = "//slot[@name='primaryField']")
-//	WebElement receiptNo;
 
 	@FindBy(xpath = "(//a[contains(@href,'OrderApi__Sales_Order__c')])[2]/slot/slot/span")
 	WebElement aiaNumber;
@@ -409,6 +409,7 @@ public class ContactCreateUser {
 	 */
 	public ArrayList<Object> getPaymentReceiptData() throws InterruptedException {
 		ArrayList<Object> receiptData = new ArrayList<Object>();
+		driver.navigate().refresh();
 		util.waitUntilElement(driver, receiptNo);
 		String receiptNumber = receiptNo.getText();
 		receiptData.add(0, receiptNumber);

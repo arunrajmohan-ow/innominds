@@ -36,7 +36,7 @@ public class TestDIPOfflineJoin_Membership extends BaseClass {
 	ContactCreateUser fontevaJoin;
 	CES_ContactPage ces_ContactPage;
 	public String inbox;
-	static Logger log = Logger.getLogger(TestReJoin_Membership.class);
+	static Logger log = Logger.getLogger(TestDIPOfflineJoin_Membership.class);
 
 	@BeforeMethod
 	public void setUp() throws Exception {
