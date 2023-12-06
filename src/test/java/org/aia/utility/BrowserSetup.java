@@ -1,6 +1,7 @@
 package org.aia.utility;
 //org - AIA
 
+import java.io.File;
 import java.net.MalformedURLException;
 
 
@@ -26,6 +27,7 @@ public class BrowserSetup {
 			Map<String, Object> pref = new HashMap<String, Object>();
 			pref.put("profile.default_content_settings.popups", false);
 			pref.put("autofill.profile_enabled", false);
+			pref.put("download.default_directory", System.getProperty("user.dir")+File.separator+"DownloadFiles");
 			// System.setProperty("webdriver.chrome.driver",System.getProperty("user.dir")+"\\Drivers\\chromedriver.exe");
 			ChromeOptions options = new ChromeOptions();
 			options.setExperimentalOption("prefs", pref);
