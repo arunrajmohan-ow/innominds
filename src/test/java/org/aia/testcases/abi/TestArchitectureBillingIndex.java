@@ -174,10 +174,13 @@ public class TestArchitectureBillingIndex extends BaseClass {
 	
 	@DataProvider(name = "Address")
 	public Object[][] getAddress(ITestContext context) {
-		return new Object[][] { { "US Taxable Address", "1735 york avenue, New york" }
-		, {"US Non- Taxable Address", "115 E 3rd Ave, Anchorage, AK 99501, United States"}
-		};
-	}
+		return new Object[][] { 
+		{ "US Taxable Address", "1735 york avenue, New york" }
+			, {"US Non- Taxable Address", "115 E 3rd Ave, Anchorage, AK 99501, United States"}
+			, {"Non US Address", "Survey No.115 (Part), Waverock, TSIIC IT / ITES SEZ, Nanakramguda Village,Serilingampally Mandal, Hyderabad – 500032"}
+			, {"International Address", "Innominds Software Pvt. Ltd., 3rd Floor, Anand Bhavan, #9, Netkallappa Circle, Basavanagudi, Bengaluru-560004"}
+								};
+		}
  
 	@AfterMethod(alwaysRun = true)
 	public void teardown() throws IOException {
