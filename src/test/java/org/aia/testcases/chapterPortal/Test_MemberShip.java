@@ -1,0 +1,465 @@
+package org.aia.testcases.chapterPortal;
+
+import java.io.IOException;
+
+import org.aia.pages.BaseClass;
+import org.aia.pages.api.membership.FontevaConnectionSOAP;
+import org.aia.pages.fonteva.chapterPortal.ActiveMemberRoster;
+import org.aia.pages.fonteva.chapterPortal.ArchitectsLicenced;
+import org.aia.pages.fonteva.chapterPortal.AssociatePathToLicence;
+import org.aia.pages.fonteva.chapterPortal.ChapterInfo;
+import org.aia.pages.fonteva.chapterPortal.Deceased;
+import org.aia.pages.fonteva.chapterPortal.EmailChangeLog;
+import org.aia.pages.fonteva.chapterPortal.FirmDetails;
+import org.aia.pages.fonteva.chapterPortal.FullMemberRoster;
+import org.aia.pages.fonteva.chapterPortal.InterestAreas;
+import org.aia.pages.fonteva.chapterPortal.JoinReJoin;
+import org.aia.pages.fonteva.chapterPortal.LapsedMembers;
+import org.aia.pages.fonteva.chapterPortal.MemberShipInChapterPortal;
+import org.aia.pages.fonteva.chapterPortal.MembersInCESAudit;
+import org.aia.pages.fonteva.chapterPortal.NavigateToChapterPortal;
+import org.aia.pages.fonteva.chapterPortal.NewGrad;
+import org.aia.pages.fonteva.chapterPortal.TerminatedMembers;
+import org.aia.pages.fonteva.chapterPortal.TransfersIn;
+import org.aia.pages.fonteva.chapterPortal.TransfersOut;
+import org.aia.pages.fonteva.chapterPortal.UpgradeToArchitect;
+import org.aia.pages.fonteva.chapterPortal.UpgradeToEmeritus;
+import org.aia.utility.BrowserSetup;
+import org.aia.utility.ConfigDataProvider;
+import org.aia.utility.DataProviderFactory;
+import org.aia.utility.Logging;
+import org.aia.utility.Utility;
+import org.aia.utility.VideoRecorder;
+import org.openqa.selenium.support.PageFactory;
+import org.testng.ITestContext;
+import org.testng.ITestResult;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+public class Test_MemberShip extends BaseClass {
+	boolean recording;
+	NavigateToChapterPortal naToChapterPortal;
+	MemberShipInChapterPortal memChapterPortal;
+	FullMemberRoster fullMemberRoster;
+	ActiveMemberRoster activeMemberRoster;
+	LapsedMembers lapsedMembers;
+	TerminatedMembers terminatedMembers;
+	UpgradeToArchitect upgradeToArchitect;
+	UpgradeToEmeritus upgradeToEmeritus; 
+	ChapterInfo chapterInfo;
+	AssociatePathToLicence associatePathToLicence;
+	ArchitectsLicenced architectsLicenced;
+	NewGrad newGrad;
+	TransfersIn transfersIn;
+	TransfersOut transfersOut;
+	FirmDetails firmDetails;
+	EmailChangeLog emailChangeLog;
+	InterestAreas interestAreas;
+	Deceased deceased;
+	MembersInCESAudit membersInCESAudit;
+	JoinReJoin joinReJoin;
+
+	@BeforeMethod(alwaysRun = true)
+	public void setUp() throws Exception {
+		testData = new ConfigDataProvider();
+		sessionID = new FontevaConnectionSOAP();
+		driver = BrowserSetup.startApplication(driver, DataProviderFactory.getConfig().getValue("browser"),
+				testData.getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
+		recording = Boolean.parseBoolean(testData.testDataProvider().getProperty("videoRecording"));
+		naToChapterPortal = PageFactory.initElements(driver, NavigateToChapterPortal.class);
+		memChapterPortal= PageFactory.initElements(driver, MemberShipInChapterPortal.class);
+		fullMemberRoster=PageFactory.initElements(driver, FullMemberRoster.class);
+		activeMemberRoster = PageFactory.initElements(driver, ActiveMemberRoster.class);
+		lapsedMembers=PageFactory.initElements(driver, LapsedMembers.class);
+		upgradeToArchitect = PageFactory.initElements(driver, UpgradeToArchitect.class);
+		upgradeToEmeritus= PageFactory.initElements(driver, UpgradeToEmeritus.class);
+		terminatedMembers = PageFactory.initElements(driver, TerminatedMembers.class);
+		chapterInfo = PageFactory.initElements(driver, ChapterInfo.class);
+		associatePathToLicence =PageFactory.initElements(driver, AssociatePathToLicence.class);
+		architectsLicenced = PageFactory.initElements(driver, ArchitectsLicenced.class);
+		newGrad=PageFactory.initElements(driver, NewGrad.class);
+		transfersIn=PageFactory.initElements(driver, TransfersIn.class);
+		transfersOut=PageFactory.initElements(driver, TransfersOut.class);
+		firmDetails=PageFactory.initElements(driver, FirmDetails.class);
+		emailChangeLog=PageFactory.initElements(driver, EmailChangeLog.class);
+		interestAreas=PageFactory.initElements(driver, InterestAreas.class);
+		deceased=PageFactory.initElements(driver, Deceased.class);
+		membersInCESAudit=PageFactory.initElements(driver, MembersInCESAudit.class);
+        joinReJoin=PageFactory.initElements(driver, JoinReJoin.class);
+		Logging.configure();
+	}
+	
+	@Test(description = "FM-425: Membership Tab page and its section's verification", enabled = true, priority = 1)
+	public void test_ValidateMembersShipTabSections(ITestContext context) throws InterruptedException, Throwable {
+		if (recording) {
+			VideoRecorder.startRecording("test_ValidateMembersShipTabSections");
+		}
+		naToChapterPortal.clickContactsModule();
+		naToChapterPortal.clickContactsCPAccess();
+		naToChapterPortal.showAllInRealtedQuickLinks();
+		naToChapterPortal.getPortalAccessCount();
+		naToChapterPortal.clickDropDownInActionContainer();
+		naToChapterPortal.optionsInactionContainer();
+		naToChapterPortal.clickMyChapterTab();
+		naToChapterPortal.getComunityGroup();
+		memChapterPortal.validateMemberShipTabSections();
+		memChapterPortal.validateMemberShipPiecharts();
+	}
+	
+	@Test(description = "FM-426: Full Member Roster report page ", enabled = true, priority = 2)
+	public void test_ValidateFullMemberRoster(ITestContext context) throws InterruptedException, Throwable {
+		if (recording) {
+			VideoRecorder.startRecording("test_ValidateFullMemberRoster");
+		}
+		naToChapterPortal.clickContactsModule();
+		naToChapterPortal.clickContactsCPAccess();
+		naToChapterPortal.showAllInRealtedQuickLinks();
+		naToChapterPortal.getPortalAccessCount();
+		naToChapterPortal.clickDropDownInActionContainer();
+		naToChapterPortal.optionsInactionContainer();
+		naToChapterPortal.clickMyChapterTab();
+		naToChapterPortal.getComunityGroup();
+		memChapterPortal.validateMemberShipTabSections();
+		fullMemberRoster.clickFullMemberRosterTab();
+		fullMemberRoster.getFullMemberRosterRecordsCount();
+		fullMemberRoster.getRecordsData();
+	}
+	
+	@Test(description = "FM-427: Active Member Roaster report page ", enabled = true, priority = 3)
+	public void test_ValidateActiveMemberRoster(ITestContext context) throws InterruptedException, Throwable {
+		if (recording) {
+			VideoRecorder.startRecording("test_ValidateActiveMemberRoster");
+		}
+		naToChapterPortal.clickContactsModule();
+		naToChapterPortal.clickContactsCPAccess();
+		naToChapterPortal.showAllInRealtedQuickLinks();
+		naToChapterPortal.getPortalAccessCount();
+		naToChapterPortal.clickDropDownInActionContainer();
+		naToChapterPortal.optionsInactionContainer();
+		naToChapterPortal.clickMyChapterTab();
+		naToChapterPortal.getComunityGroup();
+		memChapterPortal.validateMemberShipTabSections();
+		activeMemberRoster.clickActiveMemberRosterTab();
+		activeMemberRoster.getActiveMemberRosterRecordsCount();
+		activeMemberRoster.getActiveMembersRecordsData();
+	}
+	
+	@Test(description = "FM-428: Export functionality  Active Member Roaster report page ", enabled = true, priority = 4)
+	public void test_ExportfuncActiveMemberRoster(ITestContext context) throws InterruptedException, Throwable {
+		if (recording) {
+			VideoRecorder.startRecording("test_ExportfuncActiveMemberRoster");
+		}
+		naToChapterPortal.clickContactsModule();
+		naToChapterPortal.clickContactsCPAccess();
+		naToChapterPortal.showAllInRealtedQuickLinks();
+		naToChapterPortal.getPortalAccessCount();
+		naToChapterPortal.clickDropDownInActionContainer();
+		naToChapterPortal.optionsInactionContainer();
+		naToChapterPortal.clickMyChapterTab();
+		naToChapterPortal.getComunityGroup();
+		memChapterPortal.validateMemberShipTabSections();
+		activeMemberRoster.clickActiveMemberRosterTab();
+		String recordCount = activeMemberRoster.getActiveMemberRosterRecordsCount();
+		activeMemberRoster.getActiveMembersRecordsData();
+		activeMemberRoster.clickExportButton();
+		activeMemberRoster.selectExportView("Formatted");
+		activeMemberRoster.clickExportButtonInexportPopup("Export");
+		activeMemberRoster.validateDownloafFileDataAndApplicationdata(recordCount);
+	}
+	
+	
+	
+	@Test(description = "FM-437: Terminated Members report page", enabled = true, priority = 5)
+	public void test_ValidateTerminatedMemberRoster(ITestContext context) throws InterruptedException, Throwable {
+		if (recording) {
+			VideoRecorder.startRecording("test_ValidateTerminatedMemberRoster");
+		}
+		naToChapterPortal.clickContactsModule();
+		naToChapterPortal.clickContactsCPAccess();
+		naToChapterPortal.showAllInRealtedQuickLinks();
+		naToChapterPortal.getPortalAccessCount();
+		naToChapterPortal.clickDropDownInActionContainer();
+		naToChapterPortal.optionsInactionContainer();
+		naToChapterPortal.clickMyChapterTab();
+		naToChapterPortal.getComunityGroup();
+		memChapterPortal.validateMemberShipTabSections();
+		terminatedMembers.clickTerminatedMemberRosterTab();
+		terminatedMembers.getTerminatedMemberRosterRecordsCount();
+		terminatedMembers.getTerminatedMembersRecordsData();
+	}
+	
+	@Test(description = "FM-438: Lapsed Members report page", enabled = true, priority = 6)
+	public void test_ValidateLapsedMemberRoster(ITestContext context) throws InterruptedException, Throwable {
+		if (recording) {
+			VideoRecorder.startRecording("test_ValidateLapsedMemberRoster");
+		}
+		naToChapterPortal.clickContactsModule();
+		naToChapterPortal.clickContactsCPAccess();
+		naToChapterPortal.showAllInRealtedQuickLinks();
+		naToChapterPortal.getPortalAccessCount();
+		naToChapterPortal.clickDropDownInActionContainer();
+		naToChapterPortal.optionsInactionContainer();
+		naToChapterPortal.clickMyChapterTab();
+		naToChapterPortal.getComunityGroup();
+		memChapterPortal.validateMemberShipTabSections();
+		lapsedMembers.clickLapsedMemberRosterTab();
+		lapsedMembers.getLapsedMemberRosterRecordsCount();
+		lapsedMembers.getLapsedMembersRecordsData();
+	}
+	
+	@Test(description = "FM-439: Upgrade to Architect report page", enabled = true, priority = 7)
+	public void test_ValidateUpgradeToArchitect(ITestContext context) throws InterruptedException, Throwable {
+		if (recording) {
+			VideoRecorder.startRecording("test_ValidateUpgradeToArchitect");
+		}
+		naToChapterPortal.clickContactsModule();
+		naToChapterPortal.clickContactsCPAccess();
+		naToChapterPortal.showAllInRealtedQuickLinks();
+		naToChapterPortal.getPortalAccessCount();
+		naToChapterPortal.clickDropDownInActionContainer();
+		naToChapterPortal.optionsInactionContainer();
+		naToChapterPortal.clickMyChapterTab();
+		naToChapterPortal.getComunityGroup();
+		memChapterPortal.validateMemberShipTabSections();
+		upgradeToArchitect.clickUpgradeToArchitectTab();
+		upgradeToArchitect.getUpgradeToArchitectTabRecordsCount();
+	}
+	
+	@Test(description = "FM-440: Upgrade to Emeritus report page", enabled = true, priority = 8)
+	public void test_ValidateUpgradeToEmeritus(ITestContext context) throws InterruptedException, Throwable {
+		if (recording) {
+			VideoRecorder.startRecording("test_ValidateUpgradeToEmeritus");
+		}
+		naToChapterPortal.clickContactsModule();
+		naToChapterPortal.clickContactsCPAccess();
+		naToChapterPortal.showAllInRealtedQuickLinks();
+		naToChapterPortal.getPortalAccessCount();
+		naToChapterPortal.clickDropDownInActionContainer();
+		naToChapterPortal.optionsInactionContainer();
+		naToChapterPortal.clickMyChapterTab();
+		naToChapterPortal.getComunityGroup();
+		memChapterPortal.validateMemberShipTabSections();
+		upgradeToEmeritus.clickUpgradeToEmeritusTab();
+		upgradeToEmeritus.getUpgradeToEmeritusTabRecordsCount();
+	}
+	
+	@Test(description = "FM-441: \"Associate/Path to Licensure\" report page", enabled = true, priority = 9)
+	public void test_ValidateAssociatePathToLicensure(ITestContext context) throws InterruptedException, Throwable {
+		if (recording) {
+			VideoRecorder.startRecording("test_ValidateAssociatePathToLicensure");
+		}
+		naToChapterPortal.clickContactsModule();
+		naToChapterPortal.clickContactsCPAccess();
+		naToChapterPortal.showAllInRealtedQuickLinks();
+		naToChapterPortal.getPortalAccessCount();
+		naToChapterPortal.clickDropDownInActionContainer();
+		naToChapterPortal.optionsInactionContainer();
+		naToChapterPortal.clickMyChapterTab();
+		naToChapterPortal.getComunityGroup();
+		memChapterPortal.validateMemberShipTabSections();
+	    associatePathToLicence.clickAssociatesPathtoLicensureTab();
+	    associatePathToLicence.getAssociatesPathtoLicensureRecordsCount();
+	    associatePathToLicence.getAssociatesPathtoLicensureRecordsData();
+	}
+	
+	@Test(description = "FM-442: \"Active Architect Members Licensed <10Yrs\" report page", enabled = true, priority = 10)
+	public void test_ValidateActiveArchitectMembersLicensed10Yrs(ITestContext context) throws InterruptedException, Throwable {
+		if (recording) {
+			VideoRecorder.startRecording("test_ValidateActiveArchitectMembersLicensed10Yrs");
+		}
+		naToChapterPortal.clickContactsModule();
+		naToChapterPortal.clickContactsCPAccess();
+		naToChapterPortal.showAllInRealtedQuickLinks();
+		naToChapterPortal.getPortalAccessCount();
+		naToChapterPortal.clickDropDownInActionContainer();
+		naToChapterPortal.optionsInactionContainer();
+		naToChapterPortal.clickMyChapterTab();
+		naToChapterPortal.getComunityGroup();
+		memChapterPortal.validateMemberShipTabSections();
+		architectsLicenced.clickArchitectsLicensedTenyearsTab();
+		architectsLicenced.getArchitectsLicensedTenyearsRecordsCount();
+		architectsLicenced.getArchitectsLicensedTenyearsRecordsData();
+	}
+	
+	@Test(description = "FM-446: Firm Details report page", enabled = true, priority = 11)
+	public void test_ValidateFirmDetails(ITestContext context) throws InterruptedException, Throwable {
+		if (recording) {
+			VideoRecorder.startRecording("test_ValidateFirmDetails");
+		}
+		naToChapterPortal.clickContactsModule();
+		naToChapterPortal.clickContactsCPAccess();
+		naToChapterPortal.showAllInRealtedQuickLinks();
+		naToChapterPortal.getPortalAccessCount();
+		naToChapterPortal.clickDropDownInActionContainer();
+		naToChapterPortal.optionsInactionContainer();
+		naToChapterPortal.clickMyChapterTab();
+		naToChapterPortal.getComunityGroup();
+		memChapterPortal.validateMemberShipTabSections();
+		firmDetails.clickFirmDetailsTab();
+		firmDetails.getFirmDetailsTabRecordsCount();
+	}
+	
+	@Test(description = "FM-447: Email Change Log report page", enabled = true, priority = 12)
+	public void test_ValidateEmailChangeLog(ITestContext context) throws InterruptedException, Throwable {
+		if (recording) {
+			VideoRecorder.startRecording("test_ValidateEmailChangeLog");
+		}
+		naToChapterPortal.clickContactsModule();
+		naToChapterPortal.clickContactsCPAccess();
+		naToChapterPortal.showAllInRealtedQuickLinks();
+		naToChapterPortal.getPortalAccessCount();
+		naToChapterPortal.clickDropDownInActionContainer();
+		naToChapterPortal.optionsInactionContainer();
+		naToChapterPortal.clickMyChapterTab();
+		naToChapterPortal.getComunityGroup();
+		memChapterPortal.validateMemberShipTabSections();
+		emailChangeLog.clickEmailChangeLogTab();
+		emailChangeLog.selectDateReportPopup("2/10/2023");
+		emailChangeLog.getEmailChangeLogTabRecordsCount();
+	}
+	
+	@Test(description = "FM-449: Interest Areas report page", enabled = true, priority = 13)
+	public void test_ValidateInterestAreas(ITestContext context) throws InterruptedException, Throwable {
+		if (recording) {
+			VideoRecorder.startRecording("test_ValidateInterestAreas");
+		}
+		naToChapterPortal.clickContactsModule();
+		naToChapterPortal.clickContactsCPAccess();
+		naToChapterPortal.showAllInRealtedQuickLinks();
+		naToChapterPortal.getPortalAccessCount();
+		naToChapterPortal.clickDropDownInActionContainer();
+		naToChapterPortal.optionsInactionContainer();
+		naToChapterPortal.clickMyChapterTab();
+		naToChapterPortal.getComunityGroup();
+		memChapterPortal.validateMemberShipTabSections();
+		interestAreas.clickInterestAreasTab();
+		interestAreas.getInterestAreasTabRecordsCount();
+	}
+	
+	@Test(description = "FM-450: Deceased report page", enabled = true, priority = 14)
+	public void test_ValidateDeceased(ITestContext context) throws InterruptedException, Throwable {
+		if (recording) {
+			VideoRecorder.startRecording("test_ValidateDeceased");
+		}
+		naToChapterPortal.clickContactsModule();
+		naToChapterPortal.clickContactsCPAccess();
+		naToChapterPortal.showAllInRealtedQuickLinks();
+		naToChapterPortal.getPortalAccessCount();
+		naToChapterPortal.clickDropDownInActionContainer();
+		naToChapterPortal.optionsInactionContainer();
+		naToChapterPortal.clickMyChapterTab();
+		naToChapterPortal.getComunityGroup();
+		memChapterPortal.validateMemberShipTabSections();
+		deceased.clickDeceasedTab();
+		deceased.selectDateReportPopup("2/10/2023");
+		deceased.getDeceasedTabRecordsCount();
+	}
+	
+	@Test(description = "FM-451: Members in CES Audit report page", enabled = true, priority = 15)
+	public void test_ValidateMembersInCESAudit(ITestContext context) throws InterruptedException, Throwable {
+		if (recording) {
+			VideoRecorder.startRecording("test_ValidateMembersInCESAudit");
+		}
+		naToChapterPortal.clickContactsModule();
+		naToChapterPortal.clickContactsCPAccess();
+		naToChapterPortal.showAllInRealtedQuickLinks();
+		naToChapterPortal.getPortalAccessCount();
+		naToChapterPortal.clickDropDownInActionContainer();
+		naToChapterPortal.optionsInactionContainer();
+		naToChapterPortal.clickMyChapterTab();
+		naToChapterPortal.getComunityGroup();
+		memChapterPortal.validateMemberShipTabSections();
+		membersInCESAudit.clickMembersInCESAuditTab();
+		membersInCESAudit.getMembersInCESAuditTabRecordsCount();
+	}
+	
+	@Test(description = "FM-451: Join/ReJoin report page", enabled = true, priority = 16)
+	public void test_ValidateJoinReJoin(ITestContext context) throws InterruptedException, Throwable {
+		if (recording) {
+			VideoRecorder.startRecording("test_ValidateMembersInCESAudit");
+		}
+		naToChapterPortal.clickContactsModule();
+		naToChapterPortal.clickContactsCPAccess();
+		naToChapterPortal.showAllInRealtedQuickLinks();
+		naToChapterPortal.getPortalAccessCount();
+		naToChapterPortal.clickDropDownInActionContainer();
+		naToChapterPortal.optionsInactionContainer();
+		naToChapterPortal.clickMyChapterTab();
+		naToChapterPortal.getComunityGroup();
+		memChapterPortal.validateMemberShipTabSections();
+		joinReJoin.clickJoinReJoinTabTab();
+		joinReJoin.selectDateReportPopup("2/10/2023");
+		joinReJoin.getJoinReJoinTabRecordsCount();
+	}
+	
+	@Test(description = "FM-458: Transfers Out report page", enabled = true, priority = 17)
+	public void test_ValidateTransfersOutReport(ITestContext context) throws InterruptedException, Throwable {
+		if (recording) {
+			VideoRecorder.startRecording("test_ValidateTransfersOutReport");
+		}
+		naToChapterPortal.clickContactsModule();
+		naToChapterPortal.clickContactsCPAccess();
+		naToChapterPortal.showAllInRealtedQuickLinks();
+		naToChapterPortal.getPortalAccessCount();
+		naToChapterPortal.clickDropDownInActionContainer();
+		naToChapterPortal.optionsInactionContainer();
+		naToChapterPortal.clickMyChapterTab();
+		naToChapterPortal.getComunityGroup();
+		memChapterPortal.validateMemberShipTabSections();
+		transfersOut.clickTransfersOutTab();
+		transfersOut.selectDateReportPopup("2/10/2023");
+		transfersOut.getTransfersOutTabRecordsCount();
+	}
+	
+	@Test(description = "FM-459: Transfers In report page", enabled = true, priority = 18)
+	public void test_ValidateTransfersInReport(ITestContext context) throws InterruptedException, Throwable {
+		if (recording) {
+			VideoRecorder.startRecording("test_ValidateTransfersInReport");
+		}
+		naToChapterPortal.clickContactsModule();
+		naToChapterPortal.clickContactsCPAccess();
+		naToChapterPortal.showAllInRealtedQuickLinks();
+		naToChapterPortal.getPortalAccessCount();
+		naToChapterPortal.clickDropDownInActionContainer();
+		naToChapterPortal.optionsInactionContainer();
+		naToChapterPortal.clickMyChapterTab();
+		naToChapterPortal.getComunityGroup();
+		memChapterPortal.validateMemberShipTabSections();
+		transfersIn.clickTransfersInTab();
+		transfersIn.selectDateReportPopup("2/10/2023");
+		transfersIn.getTransfersInTabRecordsCount();
+	}
+	
+	@Test(description = "FM-461: New Grad report page report page", enabled = true, priority = 19)
+	public void test_ValidateNewGradReport(ITestContext context) throws InterruptedException, Throwable {
+		if (recording) {
+			VideoRecorder.startRecording("test_ValidateNewGradReport");
+		}
+		naToChapterPortal.clickContactsModule();
+		naToChapterPortal.clickContactsCPAccess();
+		naToChapterPortal.showAllInRealtedQuickLinks();
+		naToChapterPortal.getPortalAccessCount();
+		naToChapterPortal.clickDropDownInActionContainer();
+		naToChapterPortal.optionsInactionContainer();
+		naToChapterPortal.clickMyChapterTab();
+		naToChapterPortal.getComunityGroup();
+		memChapterPortal.validateMemberShipTabSections();
+		newGrad.clicknewGradTab();
+		newGrad.selectDateReportPopup("2/10/2023");
+		newGrad.getnewGradTabRecordsCount();;
+	}
+	
+	@AfterMethod(alwaysRun = true)
+	public void teardown(ITestResult result) throws IOException {
+		if (recording) {
+			VideoRecorder.stopRecording();
+		}
+		if (result.getStatus() == ITestResult.FAILURE) {
+			System.out.println("LOG : FAIL Test failed to executed");
+			Utility.takeScreenShotAfterFail(driver, result);
+		}
+		BrowserSetup.closeBrowser(driver);
+	}
+
+}

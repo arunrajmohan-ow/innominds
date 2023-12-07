@@ -46,7 +46,11 @@ public class UpgradeToArchitect {
 	
 	
 	public void clickUpgradeToArchitectTab() throws Throwable {
+		util.waitUntilElement(driver, upgradeToArchitectTab);
 		upgradeToArchitectTab.click();
+	}
+	
+	public void selectDateReportPopup(String postDate) {
 		util.waitUntilElement(driver, selectReportDatePopUp);
 		Assert.assertTrue(selectReportDatePopUp.isDisplayed());
 		String fromDate = upgradeFromDate.getAttribute("value");

@@ -59,7 +59,7 @@ public class MemberShipInChapterPortal {
 	
 	@FindBy(xpath = "//button[text()='Members in CES Audit']") WebElement membersInCESAuditTab;
 	
-	@FindBy(xpath = "//button[text()='Deceased']") WebElement DeceasedTab;
+	@FindBy(xpath = "//button[text()='Deceased']") WebElement deceasedTab;
 	
 	@FindBy(xpath = "//button[text()='Interest Areas']") WebElement interestAreasTab;
 	
@@ -114,7 +114,7 @@ public class MemberShipInChapterPortal {
 		Assert.assertTrue(transferOutTab.isDisplayed());
 		Assert.assertTrue(upgradeToArchitectTab.isDisplayed());
 		Assert.assertTrue(membersInCESAuditTab.isDisplayed());
-		Assert.assertTrue(DeceasedTab.isDisplayed());
+		Assert.assertTrue(deceasedTab.isDisplayed());
 		Assert.assertTrue(interestAreasTab.isDisplayed());
 		Assert.assertTrue(emailChangeLogTab.isDisplayed());
 		Assert.assertTrue(firmDetailsTab.isDisplayed());
