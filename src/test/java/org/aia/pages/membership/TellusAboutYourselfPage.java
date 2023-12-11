@@ -83,14 +83,9 @@ public class TellusAboutYourselfPage {
 	@FindBy(xpath = "//label[text()='State']/parent::div/following-sibling::lightning-combobox//div[@role='listbox']//lightning-base-combobox-item//span//span[text()='California']")
 	WebElement californiaStateTellpage;
 
-<<<<<<< HEAD
 	@FindBy(xpath = "//lightning-base-combobox//span[@title='California']")
-=======
 //	@FindBy(xpath = "//label[text()='State of license']/following-sibling::lightning-input-field//lightning-base-combobox/div/div[2]//span[@title='California']")
 //	WebElement californiaStateLicenceTellpage;
-	
-	@FindBy(xpath = "//span[@title='California']")
->>>>>>> da7564750d9e59f9c8e9570b50ec40d46cae038f
 	WebElement californiaStateLicenceTellpage;
 
 	@FindBy(xpath = "//label[text()='Country of license']/following-sibling::lightning-input-field")

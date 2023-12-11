@@ -183,12 +183,7 @@ public class TestArchitectureBillingIndex extends BaseClass {
 
 	@DataProvider(name = "Address")
 	public Object[][] getAddress(ITestContext context) {
-<<<<<<< HEAD
-		return new Object[][] { { "US Taxable Address", "1735 york avenue, New york" },
-				{ "US Non- Taxable Address", "115 E 3rd Ave, Anchorage, AK 99501, United States" } };
-	}
 
-=======
 		return new Object[][] { 
 		{ "US Taxable Address", "1735 york avenue, New york" }
 			, {"US Non- Taxable Address", "115 E 3rd Ave, Anchorage, AK 99501, United States"}
@@ -197,7 +192,6 @@ public class TestArchitectureBillingIndex extends BaseClass {
 								};
 		}
  
->>>>>>> da7564750d9e59f9c8e9570b50ec40d46cae038f
 	@AfterMethod(alwaysRun = true)
 	public void teardown() throws IOException {
 		BrowserSetup.closeBrowser(driver);

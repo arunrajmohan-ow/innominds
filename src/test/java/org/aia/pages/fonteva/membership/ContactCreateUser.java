@@ -374,11 +374,8 @@ public class ContactCreateUser {
 		util.waitUntilElement(driver, expYear);
 		util.selectDrp(expYear).selectByValue(data.testDataProvider().getProperty("CREDIT_CARD_EXP_YEAR"));
 		processPaymentBtn.click();
-<<<<<<< HEAD
 		driver.switchTo().defaultContent();
-=======
 		Thread.sleep(20000);
->>>>>>> da7564750d9e59f9c8e9570b50ec40d46cae038f
 	}
 
 	/**
