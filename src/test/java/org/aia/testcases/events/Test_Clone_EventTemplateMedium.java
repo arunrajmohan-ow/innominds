@@ -36,6 +36,10 @@ import org.testng.asserts.Assertion;
 
 import com.aventstack.extentreports.util.Assert;
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> da7564750d9e59f9c8e9570b50ec40d46cae038f
 public class Test_Clone_EventTemplateMedium extends BaseClass {
 
 	Events events;
@@ -52,6 +56,7 @@ public class Test_Clone_EventTemplateMedium extends BaseClass {
 	QuickLinksInEvents linksInEvents;
 	TicketModule ticketModule;
 	boolean recording;
+	ArrayList<Object> receiptData;
 
 	@BeforeMethod(alwaysRun = true)
 	public void setUp() throws Exception {
@@ -163,8 +168,12 @@ public class Test_Clone_EventTemplateMedium extends BaseClass {
 			util.navigateToURl(driver, DataProviderFactory.getConfig().getValue("fonteva_sign_in"));
 			signInpage.login(dataList.get(5), dataList.get(6));
 			util.waitForJavascript(driver, 20000, 2000);
-			String aiaNumber = eventRegistration.getAIAData();
+			//String aiaNumber = eventRegistration.getAIAData();
 			util.switchToTabs(driver, 0);
+			events.globalSearch(dataList.get(5));
+			String aiaNumber  =events.clickContactsInGlobalSearch();
+			events.eventsTab();
+			events.eventsSearch(EventConfig.getEventName);
 			eventInfoModule.clickEventUrl();
 			// sometimes Register link is not clicked in AIA application
 			eventRegistration.RegisterLink(3);
@@ -174,6 +183,8 @@ public class Test_Clone_EventTemplateMedium extends BaseClass {
 			eventRegistration.ValidateEmailInRegistartion();
 			eventRegistration.singleticketRegistratioButton();
 			eventRegistration.agendaModule();
+			util.waitForJavascript(driver, 10000, 2000);
+			eventRegistration.totalPaymentamountInCheckout();
 			// Here we getting receipt data from UI and storing in ArrayList
 			eventRegistration.paymentDataIncheckoutModule();
 			eventRegistration.biilingaddressInCheckoutModule();
@@ -211,8 +222,84 @@ public class Test_Clone_EventTemplateMedium extends BaseClass {
 		}
 
 	}
+	
+	@Test(priority = 3, description = "Verify Future date modify for an existing Event", enabled = true)
+	public void test_EditFutureDateCloneEventMediumTEmplate(ITestContext context) throws InterruptedException, Throwable {
+		Logging.logger
+				.info("================================test_EditFutureDateCloneEventMediumTEmplate started==========================");
+		try {
+			if (recording) {
+				VideoRecorder.startRecording("test_EditFutureDateCloneEventMediumTEmplate");
+			}
+			events.eventsTab();
+			util.waitForJavascript(driver, 20000, 5000);
+			String eventName = events.clickCreatedEvent("RecentEvents");
+			eventInfoModule.clickEditButton();
+			eventInfoModule.enterStartDateInEventInfo();
+			//fec-194
+			//enter future date in schedule itms in agenda module
+//			agendaModule.clickEventAgenda();
+//			util.waitForJavascript(driver, 30000, 5000);
+//			agendaModule.agendaMoreOptionButton1InScheduleItem();
+//			agendaModule.enterFuturestartDateInscheduleItem();
+//			agendaModule.clickbuttonsInScheduleItem();
+//			agendaModule.agendaMoreOptionButton2InScheduleItem();
+//			agendaModule.enterFuturestartDateInscheduleItem();
+//         	agendaModule.clickbuttonsInScheduleItem();
+//			util.waitForJavascript(driver, 10000, 5000);
+			eventInfoModule.saveExitButton();
+			util.waitForJavascript(driver, 30000, 5000);
+			eventInfoModule.clickEventUrl();
+			util.waitForJavascript(driver, 30000, 5000);
+			// sometimes Register link is not clicked in AIA application
+			eventRegistration.RegisterLink(1);
+			util.waitForJavascript(driver, 90000, 5000);
+			signInpage.signUp();
+			ArrayList<String> dataList = signUpPage.signUpData();
+			signUpPage.signUpUser();
+			mailinator.verifyEmailForAccountSetup(dataList.get(3));
+			util.switchToTabs(driver, 1);
+			util.navigateToURl(driver, DataProviderFactory.getConfig().getValue("fonteva_sign_in"));
+			signInpage.login(dataList.get(5), dataList.get(6));
+			util.waitForJavascript(driver, 20000, 2000);
+			util.switchToTabs(driver, 0);
+			eventInfoModule.clickEventUrl();
+			util.switchToTabs(driver, 3);
+			// sometimes Register link is not clicked in AIA application
+			eventRegistration.RegisterLink(3);
+			util.waitForJavascript(driver, 30000, 5000);
+			eventRegistration.validateFirstNameInRegistartion();
+			eventRegistration.validateLastNameInRegistartion();
+			eventRegistration.ValidateEmailInRegistartion();
+			eventRegistration.singleticketRegistratioButton();
+			eventRegistration.agendaModule();
+			util.waitForJavascript(driver, 10000, 2000);
+			eventRegistration.totalPaymentamountInCheckout();
+			eventRegistration.paymentDataIncheckoutModule();
+			eventRegistration.biilingaddressInCheckoutModule();
+			eventRegistration.paymentProcessButton();
+			ArrayList<Object> receiptData = eventRegistration.clickReceiptInChecout();
+			util.waitForJavascript(driver, 90000, 5000);
+			// Here we validate the receipt using API call
+			eventApivalidation.verifyReciptDetails(dataList.get(3), receiptData.get(1), receiptData.get(0));
+ 
+			// Email validations session confirm message
+			// Note:- Sometimes API body returning as null
+			mailinator.validateFutureDatesessionConfirmationEmailforEvents(dataList, eventName, EventInfoModule.futureDate);
 
+<<<<<<< HEAD
 	@Test(priority = 3, description = "Verify 'Attendees' info after registering for the event", enabled = true)
+=======
+		} catch (Exception e) {
+			throw new Exception(e.getMessage());
+		} catch (Throwable e) {
+			throw new AssertionError(e.getMessage());
+		}
+	}
+
+
+	@Test(priority = 4, description = "Verify 'Attendees' info after registering for the event", enabled = true)
+>>>>>>> da7564750d9e59f9c8e9570b50ec40d46cae038f
 	public void validate_AttendeesMediumTEmplates(ITestContext context) throws InterruptedException, Throwable {
 		Logging.logger.info("================================validate_Attendees started==========================");
 		try {
@@ -247,19 +334,15 @@ public class Test_Clone_EventTemplateMedium extends BaseClass {
 			eventRegistration.ValidateEmailInRegistartion();
 			eventRegistration.singleticketRegistratioButton();
 			eventRegistration.agendaModule();
-
+			util.waitForJavascript(driver, 10000, 2000);
+			eventRegistration.totalPaymentamountInCheckout();
 			// Here we getting receipt data from UI and storing in ArrayList
-
-			// eventRegistration.confirmOrderIncheckout();
-
 			eventRegistration.paymentDataIncheckoutModule();
 			eventRegistration.biilingaddressInCheckoutModule();
 			eventRegistration.paymentProcessButton();
-
 			util.waitForJavascript(driver, 10000, 5000);
 			ArrayList<Object> receiptData = eventRegistration.clickReceiptInChecout();
 			util.waitForJavascript(driver, 30000, 5000);
-
 			// Here we validate PDF data
 			String paymentType = testData.testDataProvider().getProperty("PaymentType");
 			String paymentMethodDescr = testData.testDataProvider().getProperty("PaymentMethodDescription");
@@ -289,7 +372,11 @@ public class Test_Clone_EventTemplateMedium extends BaseClass {
 
 	}
 
+<<<<<<< HEAD
 	@Test(priority = 4, description = "Verify 'sales and registration' info after registering for the event", enabled = true)
+=======
+	@Test(priority = 5, description = "Verify 'sales and registration' info after registering for the event", enabled = true)
+>>>>>>> da7564750d9e59f9c8e9570b50ec40d46cae038f
 	public void validate_SalesAndRegistrationMediumTEmplate(ITestContext context)
 			throws InterruptedException, Throwable {
 		Logging.logger.info(
@@ -326,10 +413,8 @@ public class Test_Clone_EventTemplateMedium extends BaseClass {
 			eventRegistration.ValidateEmailInRegistartion();
 			eventRegistration.singleticketRegistratioButton();
 			eventRegistration.agendaModule();
-
+			eventRegistration.totalPaymentamountInCheckout();
 			// Here we getting receipt data from UI and storing in ArrayList
-			// eventRegistration.confirmOrderIncheckout();
-
 			eventRegistration.paymentDataIncheckoutModule();
 			eventRegistration.biilingaddressInCheckoutModule();
 			eventRegistration.paymentProcessButton();
@@ -365,7 +450,7 @@ public class Test_Clone_EventTemplateMedium extends BaseClass {
 		}
 	}
 	
-	@Test(priority = 5, description = "Verify 'validate_RegistrationTime' info after registering for the event", enabled = true)
+	@Test(priority = 6, description = "Verify 'validate_RegistrationTime' info after registering for the event", enabled = true)
 	public void validate_RegistrationTime(ITestContext context)
 			throws InterruptedException, Throwable {
 		Logging.logger.info(
@@ -411,7 +496,11 @@ public class Test_Clone_EventTemplateMedium extends BaseClass {
 		}
 	
 
+<<<<<<< HEAD
 	@Test(priority = 6, description = "Edit cloneEvent date and time,", enabled = true)
+=======
+	@Test(priority = 7, description = "Edit cloneEvent date and time,", enabled = true)
+>>>>>>> da7564750d9e59f9c8e9570b50ec40d46cae038f
 	public void test_EditSelectDateInCloneEventInfoMediumTEmplate(ITestContext context)
 			throws InterruptedException, Throwable {
 		Logging.logger.info(
@@ -430,7 +519,11 @@ public class Test_Clone_EventTemplateMedium extends BaseClass {
 		}
 	}
 
+<<<<<<< HEAD
 	@Test(priority = 7, description = "Validate register timer in Edit cloneEvent info,", enabled = true)
+=======
+	@Test(priority = 8, description = "Validate register timer in Edit cloneEvent info,", enabled = true)
+>>>>>>> da7564750d9e59f9c8e9570b50ec40d46cae038f
 	public void validate_RegistrationTimerCloneEventInfoMediumTEmplate(ITestContext context)
 			throws InterruptedException, Throwable {
 		Logging.logger.info(

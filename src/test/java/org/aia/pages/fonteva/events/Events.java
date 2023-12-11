@@ -78,6 +78,8 @@ public class Events {
 	// created event
 	@FindBy(xpath = "//tbody/tr[1]/th[1]/span[1]/a")
 	WebElement createdEvent;
+	
+	@FindBy(xpath = "//table/tbody/tr/td[2]/span/span") WebElement aiaNumberInContact;
 
 	@FindBy(xpath = "//table//a[text()='TestQAMedium11032023131804']")
 	WebElement createdActiveEvent;
@@ -199,10 +201,12 @@ public class Events {
 		log.info("Clone Event pop is displayed");
 	}
 
-	public void clickContactsInGlobalSearch() {
+	public String clickContactsInGlobalSearch() {
 		Utility.waitForWebElement(driver, contactsInGlobalSearch, 10);
 		contactsInGlobalSearch.click();
-		util.waitForJavascript(driver, 7000, 2000);
+		Utility.waitForWebElement(driver, aiaNumberInContact, 0);
+		 String aiaNumber = aiaNumberInContact.getText();
+		 return aiaNumber;
 	}
 
 	/**

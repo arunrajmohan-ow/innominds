@@ -1,4 +1,4 @@
-package org.aia.pages.api.ces;
+package org.aia.testcases.events;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;

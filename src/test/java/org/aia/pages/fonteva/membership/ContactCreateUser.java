@@ -167,6 +167,9 @@ public class ContactCreateUser {
 
 	@FindBy(xpath = "//lightning-formatted-text[@slot='primaryField']")
 	WebElement receiptNo;
+//	
+//	@FindBy(xpath = "//slot[@name='primaryField']")
+//	WebElement receiptNo;
 
 	@FindBy(xpath = "(//a[contains(@href,'OrderApi__Sales_Order__c')])[2]/slot/slot/span")
 	WebElement aiaNumber;
@@ -371,14 +374,19 @@ public class ContactCreateUser {
 		util.waitUntilElement(driver, expYear);
 		util.selectDrp(expYear).selectByValue(data.testDataProvider().getProperty("CREDIT_CARD_EXP_YEAR"));
 		processPaymentBtn.click();
+<<<<<<< HEAD
 		driver.switchTo().defaultContent();
+=======
+		Thread.sleep(20000);
+>>>>>>> da7564750d9e59f9c8e9570b50ec40d46cae038f
 	}
 
 	/**
 	 * @return
+	 * @throws InterruptedException 
 	 * 
 	 */
-	public ArrayList<Object> getPaymentReceiptData() {
+	public ArrayList<Object> getPaymentReceiptData() throws InterruptedException {
 		ArrayList<Object> receiptData = new ArrayList<Object>();
 		util.waitUntilElement(driver, receiptNo);
 		String receiptNumber = receiptNo.getText();
