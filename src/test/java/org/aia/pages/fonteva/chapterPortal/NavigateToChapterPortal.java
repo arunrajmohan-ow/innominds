@@ -1,4 +1,5 @@
 package org.aia.pages.fonteva.chapterPortal;
+import org.testng.Assert;
 import java.util.List;
 
 import org.aia.utility.Utility;
@@ -37,6 +38,12 @@ public class NavigateToChapterPortal {
 	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//a/slot/span[contains(text(),'Portal access')]")
 	WebElement portalAccessCount;
 	// innerText: "Portal access (10+)"
+	
+	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//a/slot/span[contains(text(),'Memberships')]")
+	WebElement memebershipCountInRLQL;
+	
+	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//a/slot/span[contains(text(),'Sales Orders')]")
+	WebElement salesOrderCountInRLQL;
 
 	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//span[text()='Show more actions']/parent::button[@part='button button-icon']")
 	WebElement dropDownButtonActionContainer;
@@ -78,9 +85,14 @@ public class NavigateToChapterPortal {
 		showAllLink.click();
 	}
 
-	public void getPortalAccessCount() {
+	public void getPortalAccessCount() throws Throwable {
+		Utility.waitForWebElement(driver, memebershipCountInRLQL, 0);
+	    System.out.println(memebershipCountInRLQL.getText());
+	    Thread.sleep(2000);
+	    System.out.println(salesOrderCountInRLQL.getText());
 		Utility.waitForWebElement(driver, portalAccessCount, 0);
 		System.out.println(portalAccessCount.getText());
+		Assert.assertTrue(portalAccessCount.getText()!="0");
 	}
 
 	public void clickDropDownInActionContainer() {
@@ -122,10 +134,11 @@ public class NavigateToChapterPortal {
 		myChapterTab.click();
 	}
 
-	public void getComunityGroup() {
+	public void getComunityGroup() throws Throwable {
 		Utility.waitForWebElement(driver, comunityGroupName, 0);
 		log.info(comunityGroupName.getText());
 		comunityGroupName.click();
+		Thread.sleep(6000);
 		Utility.waitForWebElement(driver, memberShipButtonInCP, 0);
 		if (memberShipButtonInCP.isDisplayed()) {
 			log.info("memberShip button is displayed");
