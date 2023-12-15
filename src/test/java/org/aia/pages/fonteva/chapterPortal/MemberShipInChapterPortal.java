@@ -137,8 +137,7 @@ public class MemberShipInChapterPortal {
 			log.info(pieChart+" "+i);
 			Assert.assertTrue(pieChart.isDisplayed());
 			log.info(pieChart+" "+ i +"is dsipalyed");
-		}
-		
+		}	
 	}
 
 }

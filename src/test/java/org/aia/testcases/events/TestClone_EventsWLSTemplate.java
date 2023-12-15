@@ -211,11 +211,12 @@ public class TestClone_EventsWLSTemplate extends BaseClass {
 					DataProviderFactory.getConfig().getValue("postingStatus"));
 
 			// Email validations session confirm message
+			// Note:- Sometimes API body returning as null
 			mailinator.sessionConfirmationEmailforEvents(dataList, eventName);
 
 			// Email validations registration confirm message
 			// Note:- Sometimes API body returning as null
-			mailinator.registrationConfirmationEmailforEvents(dataList, eventName);
+		   mailinator.registrationConfirmationEmailforEvents(dataList, eventName);
 		} catch (Exception e) {
 			throw new Exception(e.getMessage());
 		} catch (Throwable e) {

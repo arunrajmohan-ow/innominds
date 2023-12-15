@@ -396,8 +396,7 @@ public class EventInfoModule {
 				if (!exactTotalElementText.contains(values.get(i))) {
 					value = false;
 					break;
-				}
-				;
+				};
 			}
 		}
 		Assert.assertTrue(value, "Assert failure:- giving date duration is wrong");

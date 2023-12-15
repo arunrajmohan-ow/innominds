@@ -1,5 +1,6 @@
 package org.aia.pages.fonteva.chapterPortal;
 import org.testng.Assert;
+import org.testng.AssertJUnit;
 import java.util.List;
 
 import org.aia.utility.Utility;

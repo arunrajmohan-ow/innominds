@@ -31,9 +31,9 @@ public class AssociatePathToLicence {
 	}
 	
 	
-   @FindBy(xpath = "//button[text()='Associates / Path to Licensure']") WebElement associatesPathtoLicensureTab;
+    @FindBy(xpath = "//button[text()='Associates / Path to Licensure']") WebElement associatesPathtoLicensureTab;
 	
-   @FindBy(xpath = "//iframe[@title='Report Viewer']") WebElement associatesPathtoLicensureFrame;
+    @FindBy(xpath = "//iframe[@title='Report Viewer']") WebElement associatesPathtoLicensureFrame;
 	
 	@FindBy(xpath = "//div[@title='Total Records']/parent::li") WebElement associatesPathtoLicensureRecords;
 	

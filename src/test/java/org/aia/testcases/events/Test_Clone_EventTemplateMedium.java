@@ -210,7 +210,6 @@ public class Test_Clone_EventTemplateMedium extends BaseClass {
 			mailinator.sessionConfirmationEmailforEvents(dataList, eventName);
 
 			// Email validations registration confirm message
-
 			mailinator.registrationConfirmationEmailforEvents(dataList, eventName);
 		} catch (Exception e) {
 			throw new Exception(e.getMessage());

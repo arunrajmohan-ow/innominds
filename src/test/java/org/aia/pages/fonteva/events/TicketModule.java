@@ -262,12 +262,12 @@ public class TicketModule {
 					actionOptions.get(i).click();
 				}
 				System.out.println(option);
-			}
-			;
+			};
 		}
 	}
 
-	public void validateEditTicketTypeHeader() {
+	public void validateEditTicketTypeHeader() throws Throwable {
+		Thread.sleep(5000);
 		util.waitUntilElement(driver, ediTicketTypeHeader);
 		Assert.assertTrue(ediTicketTypeHeader.isDisplayed());
 	}
@@ -288,7 +288,6 @@ public class TicketModule {
 			log.info("IsActive CheckBox is clicked");
 			util.enterText(driver, miniQuantityInCreateTicketType, "1");
 			util.enterText(driver, maxQuantityInCreateTicketType, "1");
-
 		}
 	}
 

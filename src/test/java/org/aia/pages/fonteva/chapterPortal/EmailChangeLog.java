@@ -51,7 +51,6 @@ public class EmailChangeLog {
 	public void clickEmailChangeLogTab() throws Throwable {
 		Utility.waitForWebElement(driver, emailChangeLogTab, 0);
 		emailChangeLogTab.click();
-		
 	}
 	
 	public void selectDateReportPopup(String pastDate) {
