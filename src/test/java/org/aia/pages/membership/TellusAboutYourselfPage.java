@@ -9,9 +9,11 @@ import org.openqa.selenium.support.FindBy;
 
 public class TellusAboutYourselfPage {
 	WebDriver driver;
+	Actions action;
 
 	public TellusAboutYourselfPage(WebDriver Idriver) {
 		this.driver = Idriver;
+		action = new Actions(driver);
 	}
 
 	Utility util = new Utility(driver, 10);
@@ -41,7 +43,8 @@ public class TellusAboutYourselfPage {
 	WebElement noneSelectedCarTypTellpage;
 
 	//@FindBy(xpath = "//label[contains(text(),'I currently do not')]/preceding-sibling::lightning-input/div/span")
-	@FindBy(xpath = "//label[contains(text(),'I currently do not')]/preceding-sibling::lightning-input/div/span//input")
+	//@FindBy(xpath = "//label[contains(text(),'I currently do not')]/preceding-sibling::lightning-input/div/span//input")
+	@FindBy(xpath = "//label[contains(text(),'I currently do not')]/preceding::input[1]")
 	WebElement workBusinesChckboxTellpage;
 
 	@FindBy(css = "body > div.siteforceStarterBody > div.cCenterPanel.slds-m-top--x-large.slds-p-horizontal--medium > div > div > div > div > div.cb-section_row.slds-grid.slds-wrap.slds-large-nowrap > div > div > div > c-a-i-a-join-additional-info > div.scrollable > div > lightning-record-edit-form > lightning-record-edit-form-edit > form > slot > slot > div:nth-child(4) > div.slds-p-horizontal_x-large > div:nth-child(2) > lightning-input")
@@ -150,7 +153,13 @@ public class TellusAboutYourselfPage {
 			enterLicenseDetails();
 			clickonChckBox();
 			Thread.sleep(7000);
-			enterdetails(homecountryUnitedStates2Tellpage);
+			JavascriptExecutor js = (JavascriptExecutor) driver;
+			util.waitUntilElement(driver, homecountryTellpage2);
+			js.executeScript("window.scrollBy(0,300)", homecountryTellpage2);
+			homecountryTellpage2.click();
+			js.executeScript("window.scrollBy(0,50)", homecountryUnitedStates2Tellpage);
+			Thread.sleep(7000);
+			action.moveToElement(homecountryUnitedStates2Tellpage).click().build().perform();
 		} else if (text.contentEquals("activeNonUSLicense")) {
 			Thread.sleep(3000);
 			entercareerType(careerType);
@@ -280,6 +289,7 @@ public class TellusAboutYourselfPage {
 
 		Thread.sleep(1000);
 		js.executeScript("window.scrollBy(0,500)", workBusinesChckboxTellpage);
+		act.moveToElement(workBusinesChckboxTellpage).click().build().perform();
 	}
 
 	public void enterLicenseDetailsNonUS() throws InterruptedException {
