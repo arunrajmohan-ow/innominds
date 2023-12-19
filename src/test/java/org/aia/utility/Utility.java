@@ -1,11 +1,13 @@
 package org.aia.utility;
 
 import java.awt.AWTException;
+
 import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
@@ -29,6 +31,7 @@ import org.awaitility.Awaitility;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.junit.validator.PublicClassValidator;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
@@ -41,7 +44,7 @@ import org.openqa.selenium.io.FileHandler;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
+import com.opencsv.CSVWriter;
 import org.testng.ITestResult;
 
 import io.restassured.response.Response;
@@ -409,6 +412,23 @@ public class Utility {
 		});
 	}
 
+	public void domLoading(WebDriver driver, int maxWaitMillis, int pollDelimiter) {
+		double startTime = System.currentTimeMillis();
+		while (System.currentTimeMillis() < startTime + maxWaitMillis) {
+			String prevState = driver.getPageSource();
+			try {
+				Thread.sleep(pollDelimiter);
+				System.out.println("Waiting for Javascript Page loads!!!");
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} // <-- would need to wrap in a try catch
+			if (prevState.equals(driver.getPageSource())) {
+				return;
+			}
+		}
+	}
+
 	public List<String> getAllElementsText(WebDriver driver, String xpath) {
 		List<WebElement> elements = driver.findElements(By.xpath(xpath));
 		List<String> allElementText = new ArrayList<>();
@@ -451,6 +471,38 @@ public class Utility {
 		}
 		return sb.toString();
 	}
+
+
+	/**
+	 * Writing csv
+	 * 
+	 * @param userEmail
+	 * @param userName
+	 * 
+	 * @throws IOException
+	 */
+	public void writeCsv(String userName, String userEmail) throws IOException {
+		File file = new File(System.getProperty("user.dir") + "/" + "User.csv");
+		FileWriter outputfile = new FileWriter(file);
+		CSVWriter writer = new CSVWriter(outputfile);
+		// adding header to csv
+		String[] header = { "Name", "Email" };
+		writer.writeNext(header);
+		List<String[]> userData = new ArrayList<>();
+		String[] userCreated = { userName, userEmail };
+		userData.add(userCreated);
+		for (String[] user : userData) {
+			writer.writeNext(user);
+		}
+
+		writer.close();
+	}
+
+	/**
+	 * Here we are using awaitility for waiting the response from api
+	 */
+
+
 
 	public void mosueOverUsingAction(WebDriver driver, WebElement element) {
 		action = new Actions(driver);

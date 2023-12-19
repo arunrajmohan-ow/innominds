@@ -1,6 +1,8 @@
 package org.aia.testcases.events;
 
 import java.util.ArrayList;
+
+
 import org.aia.pages.BaseClass;
 import org.aia.pages.api.MailinatorAPI;
 import org.aia.pages.api.events.EventAPIValidations;
@@ -19,10 +21,12 @@ import org.aia.pages.fonteva.events.TicketModule;
 import org.aia.pages.membership.CheckYourEmailPage;
 import org.aia.pages.membership.SignInPage;
 import org.aia.pages.membership.SignUpPage;
+import org.aia.testcases.ces.TestCESMembershipStatus_CES;
 import org.aia.utility.BrowserSetup;
 import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.DataProviderFactory;
 import org.aia.utility.Logging;
+import org.apache.log4j.Logger;
 import org.aia.utility.Utility;
 import org.aia.utility.VideoRecorder;
 import org.openqa.selenium.support.PageFactory;
@@ -33,7 +37,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
-@Listeners(org.aia.utility.GenerateReportsListener.class)
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.ExtentTest;
 
 public class TestClone_EventsWLSTemplate extends BaseClass {
 
@@ -49,6 +54,9 @@ public class TestClone_EventsWLSTemplate extends BaseClass {
 	ViewRecipts viewReceipts;
 	EventAPIValidations eventApivalidation;
 	QuickLinksInEvents linksInEvents;
+	public ExtentReports extent;
+	public ExtentTest extentTest;
+	final static Logger logger = Logger.getLogger(TestClone_EventsWLSTemplate.class);
 	TicketModule ticketModule;
 	SpeakersModule speakersModule;
 	AgendaModule agendaModule;

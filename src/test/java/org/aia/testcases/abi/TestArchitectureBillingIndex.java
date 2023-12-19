@@ -1,9 +1,11 @@
 package org.aia.testcases.abi;
- 
+import static io.restassured.RestAssured.given;
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 import org.aia.pages.BaseClass;
 import org.aia.pages.abi.ABISignUpPage;
 import org.aia.pages.abi.PaymentSuccessFullPageABI;
@@ -36,12 +38,13 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
- 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
- 
+import io.netty.util.internal.SystemPropertyUtil;
+import io.restassured.http.ContentType;
+
 public class TestArchitectureBillingIndex extends BaseClass {
- 
+
 	SignUpPage signUpPage;
 	ABISignUpPage abisignUpPage;
 	SignInPage signInpage;
@@ -59,7 +62,7 @@ public class TestArchitectureBillingIndex extends BaseClass {
 	PaymentSuccessFullPageABI paymentSuccessfullPage;
 	ABIAPIValidation apiValidation;
 	FontevaLoginPage fontevaLoginPage;
- 
+
 	public ExtentReports extent;
 	public ExtentTest extentTest;
 	public String inbox;
@@ -67,11 +70,10 @@ public class TestArchitectureBillingIndex extends BaseClass {
 	public static ArrayList<String> pdfDetails = new ArrayList<String>();
 	protected FontevaConnectionSOAP sessionID;
 	public VideoRecorder recorder;
- 
+
 	@BeforeMethod(alwaysRun = true)
 	public void setUp() throws Exception {
 		System.out.println("@BeforeMethod");
-		//VideoRecorder.startRecording("Test");
 		sessionID = new FontevaConnectionSOAP();
 		driver = BrowserSetup.startApplication(driver, DataProviderFactory.getConfig().getValue("browser"),
 				DataProviderFactory.getConfig().getValue("devstagingurl_abi"));
@@ -86,13 +88,12 @@ public class TestArchitectureBillingIndex extends BaseClass {
 		paymentSuccessfullPage = PageFactory.initElements(driver, PaymentSuccessFullPageABI.class);
 		finalPage = PageFactory.initElements(driver, FinalPageThankYou.class);
 		fontevaLoginPage = PageFactory.initElements(driver, FontevaLoginPage.class);
- 
 		// apiValidation = PageFactory.initElements(driver,
 		// ArchitectureBillingIndexAPIValidation.class);
 		Logging.configure();
 	}
  
-	@Test(groups={"Smoke"}, description=" To subscribe for ABI", enabled=true, dataProvider="Address")																								// FailedTestRun.class
+	@Test(groups={"Smoke"}, description=" To subscribe for ABI", enabled=true, dataProvider="Address")																								
 	public void SubscribeToABI(ITestContext context, String addressType, String address) throws Exception {
 		System.out.println("Subscription");
 		ArrayList<String> dataList = signUpPage.signUpData();
@@ -108,22 +109,30 @@ public class TestArchitectureBillingIndex extends BaseClass {
 		context.setAttribute("salesOrderId", pdfDetails.get(0).substring(13));
 		context.setAttribute("contactName", dataList.get(0) + " " + dataList.get(1));
 		users.put(dataList.get(0) + " " + dataList.get(1), dataList.get(5));
-		util.navigateToURl(driver, DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
+		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
 		fontevaLoginPage.viewSalesOrder((String) context.getAttribute("contactName"),
 				(String) context.getAttribute("salesOrderId"));
 		abisignUpPage.validateSubscriptionDetails(pdfDetails);
- 
+
+		util.navigateToURl(driver,
+				DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
+		fontevaLoginPage.viewSalesOrder((String) context.getAttribute("contactName"),
+				(String) context.getAttribute("salesOrderId"));
+		abisignUpPage.validateSubscriptionDetails(pdfDetails);
+
 	}
-	
-	@Test(groups={"Smoke"}, description=" To renew ABI subscription", enabled=true, dependsOnMethods={"SubscribeToABI"})
+
+	@Test(groups = { "Smoke" }, description = " To renew ABI subscription", enabled = true, dependsOnMethods = {
+			"SubscribeToABI" })
 	public void RenewABISubscription(ITestContext context) throws Exception {
-		  	for(Map.Entry<String,String> e:users.entrySet()) {	
-		  	util.navigateToURl(driver, DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
+		for (Map.Entry<String, String> e : users.entrySet()) {
+			util.navigateToURl(driver,
+					DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
 			fontevaLoginPage.viewSubscriptionOrder(e.getKey());
 			fontevaLoginPage.renewABI(e.getKey());
 			abisignUpPage.processPayment(e.getValue());
-			pdfDetails=abisignUpPage.proceedToCheckOut();
-		  	}
+			pdfDetails = abisignUpPage.proceedToCheckOut();
+		}
 	}
 	
 	@Test(groups={"Smoke"}, description=" To renew ABI subscription as Guest", enabled=true, dataProvider="Address")
@@ -132,19 +141,19 @@ public class TestArchitectureBillingIndex extends BaseClass {
 		abisignUpPage = PageFactory.initElements(driver, ABISignUpPage.class);
 		abisignUpPage.continueToCheckOutAsGuest();
 		abisignUpPage.continueAsGuest(dataList.get(0), dataList.get(1), dataList.get(5));
-		pdfDetails=abisignUpPage.subscribeToABI(dataList.get(0)+" "+dataList.get(1), String.valueOf(address));	
+		pdfDetails = abisignUpPage.subscribeToABI(dataList.get(0) + " " + dataList.get(1), String.valueOf(address));
 		context.setAttribute("salesOrderId", pdfDetails.get(0).substring(13));
 		context.setAttribute("contactName", dataList.get(0) + " " + dataList.get(1));
 		users.put(dataList.get(0) + " " + dataList.get(1), dataList.get(5));
 		util.navigateToURl(driver, DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
-	
 		fontevaLoginPage.viewSalesOrder((String) context.getAttribute("contactName"),
 				(String) context.getAttribute("salesOrderId"));
 		abisignUpPage.validateSubscriptionDetails(pdfDetails);
 	}
-	
+
 	@DataProvider(name = "Address")
 	public Object[][] getAddress(ITestContext context) {
+
 		return new Object[][] { 
 			{ "US Taxable Address", "1735 york avenue, New york" }
 			, {"US Non- Taxable Address", "115 E 3rd Ave, Anchorage, AK 99501, United States"}
@@ -157,6 +166,8 @@ public class TestArchitectureBillingIndex extends BaseClass {
 	@AfterMethod(alwaysRun = true)
 	public void teardown() throws IOException {
 		BrowserSetup.closeBrowser(driver);
-		//VideoRecorder.stopRecording(); 
 	}
+}
+	}
+
 }
