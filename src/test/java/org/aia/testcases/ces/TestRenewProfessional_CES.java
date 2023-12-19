@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import org.aia.pages.BaseClass;
 import org.aia.pages.api.MailinatorAPI;
 import org.aia.pages.api.MailinatorCESAPI;
+import org.aia.pages.api.ces.FontevaCESTermDateChangeAPI;
 import org.aia.pages.api.ces.FontevaConnection;
 import org.aia.pages.api.ces.FontevaConnectionSOAP;
 import org.aia.pages.api.ces.JoinCESAPIValidation;
@@ -64,6 +65,7 @@ public class TestRenewProfessional_CES extends BaseClass {
 	RenewCESAPIValidation apiValidation;
 	FontevaCES fontevaPage;
 	RenewCESPage renew;
+	FontevaCESTermDateChangeAPI termDateChangeAPICall;
 
 	public ExtentReports extent;
 	public ExtentTest extentTest;
@@ -91,6 +93,7 @@ public class TestRenewProfessional_CES extends BaseClass {
 		apiValidation = PageFactory.initElements(driver, RenewCESAPIValidation.class);
 		fontevaPage = PageFactory.initElements(driver, FontevaCES.class);
 		renew = PageFactory.initElements(driver, RenewCESPage.class);
+		termDateChangeAPICall = PageFactory.initElements(driver, FontevaCESTermDateChangeAPI.class);
 	}
 
 	@Test(priority = 1, description = "Renew Online Professional Credit card.", enabled = true, groups= {"Smoke"})
@@ -151,11 +154,11 @@ public class TestRenewProfessional_CES extends BaseClass {
 		
 		// Navigate to Fonteva app and make record renew eligible.
 		driver.get("https://aia--testing.sandbox.my.salesforce.com/secur/frontdoor.jsp?sid=" + sID);
-		fontevaPage.changeTermDates(dataList.get(0)+" "+dataList.get(1));
+		termDateChangeAPICall.changeTermDateAPI(dataList.get(3), "2023-12-31");
 		
 		// Navigate back to renew CES portal
 		driver.get("https://account-dev.aia.org/signin?redirectUrl=https%3A%2F%2Faia--testing.sandbox.my.site.com%2FProviders%2Fs%2Frenew");
-		driver.switchTo().alert().accept();
+		//driver.switchTo().alert().accept();
 		
 		//Renew user
 		renew.renewMembership(dataList.get(5));

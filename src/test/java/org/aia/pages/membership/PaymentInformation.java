@@ -94,15 +94,15 @@ public class PaymentInformation {
 		{
 			//util.waitUntilElement(driver, completeOrder);
 			aiaNatnl =	enterCrditCardDetails();
-			Thread.sleep(30000);
+		//	Thread.sleep(30000);
 			//completeOrder.click();
-			Thread.sleep(30000);
+		//	Thread.sleep(30000);
 		}
 		else if(text.contentEquals("activeUSLicense")||text.contentEquals("activeNonUSLicense")||text.contentEquals("supervision")||text.contentEquals("faculty")
 				||text.contentEquals("allied")) {
 		 aiaNatnl =	enterCrditCardDetails();
 
-			Thread.sleep(10000);
+			//Thread.sleep(10000);
 		}
 		
 		return aiaNatnl;

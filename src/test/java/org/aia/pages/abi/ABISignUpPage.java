@@ -1,5 +1,6 @@
 package org.aia.pages.abi;
 
+import java.awt.AWTException;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -62,13 +63,13 @@ public class ABISignUpPage {
 	@FindBy(xpath = "//button[text()='Continue']")
 	WebElement continueBtn;
 	
-	@FindBy(xpath = "//h1[text()='AIA/Deltek Architecture Billing Index (ABI) Company Subscription - 3 Users']")
-	WebElement abiHeading;
+	@FindBy(xpath = "//div[@class='slds-grid slds-grid_align-spread slds-wrap']")
+	WebElement assignMembers;
 	
-	@FindBy(xpath = "//div[@class='slds-modal__header']")
-	WebElement modalHeader;
+	@FindBy(xpath = "//div[@class='addToCartModal']")
+	WebElement cartModal;
 
-	@FindBy(xpath = "//div[@data-name='nextButton']//button[text()='Add to Cart']")
+	@FindBy(xpath = "//button[contains(text(),'Add to Cart')]")
 	WebElement addToCart;
 
 	@FindBy(xpath = "//div[@data-aura-class='LTEShoppingCartIcon']//button[starts-with(@class,'pfm-shopping-cart')]")
@@ -93,11 +94,14 @@ public class ABISignUpPage {
 
 	@FindBy(xpath = "//input[@aria-label='Enter your address']")
 	WebElement addresstxt;
-
-	@FindBy(xpath = "//h2[text()='New Address']//parent::div//following-sibling::div[contains(@class,'l__footer')]//button[text()='Save']")
+	
+	@FindBy(xpath = "//h2[text()='New Address']")
+	WebElement h2Heading;
+	
+	@FindBy(xpath = "//h2[text()='New Address']//parent::div//following-sibling::div[contains(@class,'modal__footer')]//button[text()='Save']")
 	WebElement saveBtn;
 
-	@FindBy(xpath = "//button[text()='Proceed to Checkout']")
+	@FindBy(xpath = "//button[@data-name='proceedtoCheckout']")
 	WebElement proceedToCheckOut;
 	
 	@FindBy(xpath = "//iframe[@title='Credit Card Input Frame']")
@@ -113,7 +117,7 @@ public class ABISignUpPage {
 	@FindBy(xpath = "//select[@name='Exp year']")
 	WebElement expYear;
 
-	@FindBy(xpath = "//button[@aria-label='Process payment']")
+	@FindBy(xpath = "//button[@data-name='processBtn']")
 	WebElement processPymtBtn;
 
 	@FindBy(xpath = "//span[text()='View Receipt']")
@@ -131,7 +135,7 @@ public class ABISignUpPage {
 	@FindBy(xpath = "//div[@data-name='Email']//input")
 	WebElement gEmailTxt;
 	
-	@FindBy(xpath = "//div[@class='pfm-login_action slds-p-vertical_small']/button")
+	@FindBy(xpath = "//div[@class='pfm-login_action slds-p-vertical_small']//button[@data-name='guestRegistrationButton']")
 	WebElement continueAsGuestBtn;
 
 	public void clickLoginLink() throws Exception {
@@ -165,10 +169,11 @@ public class ABISignUpPage {
 		gLastNameTxt.sendKeys(lastName);
 		util.waitUntilElement(driver, gEmailTxt);
 		gEmailTxt.sendKeys(email);
+		Thread.sleep(5000);		
 		util.waitUntilElement(driver, continueAsGuestBtn);
-		util.mosueOverUsingAction(driver, continueAsGuestBtn);
+		//util.mosueOverUsingAction(driver, continueAsGuestBtn);
 		util.clickUsingJS(driver, continueAsGuestBtn);
-		//util.waitForPageLoad(driver);
+		util.waitForPageLoad(driver);
         }
 	@SuppressWarnings("static-access")
 	public ArrayList<String> getPDFContent() throws URISyntaxException, InterruptedException, IOException {
@@ -217,6 +222,7 @@ public class ABISignUpPage {
 							}
 						return (ArrayList<String>) pdfDetails;
 						}
+	@SuppressWarnings("static-access")
 	public void continueToCheckOutAsGuest() throws InterruptedException {
 		util.waitUntilElement(driver, abiImage);
 		abiImage.click();
@@ -224,10 +230,10 @@ public class ABISignUpPage {
 		Thread.sleep(5000);
 		util.waitUntilElement(driver, continueBtn);
 		util.clickUsingJS(driver, continueBtn);
-		util.waitForPageLoad(driver);
 		Thread.sleep(10000);
-		//util.waitForWebElementDisappear(driver, modalHeader);
-		util.waitUntilElement(driver, cartIcon); 
+		util.waitForWebElementDisappear(driver, cartModal);
+		Thread.sleep(10000);
+		util.waitForWebElement(driver, cartIcon, 5000); 
 		util.mosueOverUsingAction(driver, cartIcon);
 		/*
 		 * util.waitForWebElement(driver, cartIcon, 5000); cartIcon.click();
@@ -237,6 +243,8 @@ public class ABISignUpPage {
 		util.waitUntilElement(driver, checkOut);
 		util.clickUsingJS(driver, checkOut);
 	}
+	
+	@SuppressWarnings("static-access")
 	public void continueToCheckOut() throws InterruptedException {
 		util.waitUntilElement(driver, abiImage);
 		abiImage.click();
@@ -245,10 +253,11 @@ public class ABISignUpPage {
 		util.waitUntilElement(driver, continueBtn);
 		util.clickUsingJS(driver, continueBtn);
 		Thread.sleep(10000);
-		util.waitUntilElement(driver, abiHeading);
-		util.waitUntilElement(driver, addToCart);
-		util.clickUsingJS(driver, addToCart);
-		Thread.sleep(10000);	
+		util.waitUntilElement(driver, assignMembers); 
+		util.waitUntilElement(driver, addToCart); 
+		util.clickUsingJS(driver, addToCart); 
+		Thread.sleep(10000); 
+		util.waitForWebElementDisappear(driver, cartModal);
 		util.waitUntilElement(driver, cartIcon); 
 		util.mosueOverUsingAction(driver, cartIcon);
 		/*
@@ -256,26 +265,62 @@ public class ABISignUpPage {
 		 * util.waitForWebElement(driver, viewCart, 5000); viewCart.click();
 		 * util.waitForWebElement(driver, addToCart, 5000); addToCart.click();
 		 */
-		util.waitUntilElement(driver, checkOut);
-		
+		util.waitForWebElement(driver, checkOut, 5000);
 		util.clickUsingJS(driver, checkOut);
 	}
 	
-	public ArrayList<String> subscribeToABI(String user, String address ) throws InterruptedException, URISyntaxException, IOException {
+	public void addSelectAddress(String user, String address) throws InterruptedException {
 		util.waitUntilElement(driver, createAddress);
-		createAddress.click();
+		util.clickUsingJS(driver, createAddress);
 		util.waitUntilElement(driver, name);
 		name.sendKeys(user);
 		util.waitUntilElement(driver, type);
 		util.selectDrp(type).selectByValue("Home");
 		util.waitUntilElement(driver, addresstxt);
 		// 1735 York Avenue, NewYork, NY, USA
-		addresstxt.sendKeys(address+Keys.ARROW_DOWN);
-		Thread.sleep(3000);
+		addresstxt.sendKeys(address);
+		Thread.sleep(2000);
+		addresstxt.sendKeys(Keys.ARROW_DOWN);
 		addresstxt.sendKeys(Keys.ENTER);
-		util.waitUntilElement(driver, saveBtn);
+		Thread.sleep(5000);
+		addresstxt.sendKeys(Keys.TAB, Keys.TAB, Keys.TAB, Keys.TAB, Keys.TAB);
+		Thread.sleep(5000);
+
+		//util.waitForWebElement(driver, h2Heading, 5000);
+		//h2Heading.click();
+		//Thread.sleep(5000);
+		//util.waitForWebElement(driver, saveBtn, 5000);
+		while(saveBtn.isDisplayed()) {
 		util.clickUsingJS(driver, saveBtn);
-		util.waitUntilElement(driver, proceedToCheckOut);
+		Thread.sleep(5000);}
+	}
+	
+	@SuppressWarnings("static-access")
+	public ArrayList<String> subscribeToABI(String user, String address ) throws InterruptedException, URISyntaxException, IOException, AWTException {
+		util.waitUntilElement(driver, createAddress);
+		util.clickUsingJS(driver, createAddress);
+		util.waitUntilElement(driver, name);
+		name.sendKeys(user);
+		util.waitUntilElement(driver, type);
+		util.selectDrp(type).selectByValue("Home");
+		util.waitUntilElement(driver, addresstxt);
+		// 1735 York Avenue, NewYork, NY, USA
+		addresstxt.sendKeys(address);
+		Thread.sleep(2000);
+		addresstxt.sendKeys(Keys.ARROW_DOWN);
+		addresstxt.sendKeys(Keys.ENTER);
+		//Thread.sleep(5000);
+		//addresstxt.sendKeys(Keys.TAB, Keys.TAB, Keys.TAB, Keys.TAB, Keys.TAB);
+		//Thread.sleep(5000);
+
+		util.waitForWebElement(driver, h2Heading, 5000);
+		h2Heading.click();
+		//Thread.sleep(5000);
+		//util.waitForWebElement(driver, saveBtn, 5000);
+		while(saveBtn.isDisplayed()) {
+		util.clickUsingJS(driver, saveBtn);
+		Thread.sleep(5000);}
+		util.waitForWebElement(driver, proceedToCheckOut, 5000);
 		util.clickUsingJS(driver, proceedToCheckOut);
 		
 		Thread.sleep(3000);
@@ -293,8 +338,8 @@ public class ABISignUpPage {
 		util.waitUntilElement(driver, expYear);
 		util.selectDrp(expYear).selectByValue("2024");
 		Thread.sleep(3000);
-
-		util.waitUntilElement(driver, processPymtBtn);
+		util.waitForPageLoad(driver);
+		util.waitForWebElement(driver, processPymtBtn, 3000);
 		util.clickUsingJS(driver, processPymtBtn);
 		Thread.sleep(3000);
 
