@@ -168,6 +168,4 @@ public class TestArchitectureBillingIndex extends BaseClass {
 		BrowserSetup.closeBrowser(driver);
 	}
 }
-	}
-
 }
