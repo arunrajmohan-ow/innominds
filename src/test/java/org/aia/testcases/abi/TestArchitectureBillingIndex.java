@@ -27,6 +27,7 @@ import org.aia.utility.BrowserSetup;
 import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.DataProviderFactory;
 import org.aia.utility.Logging;
+import org.aia.utility.RetryListenerClass;
 import org.aia.utility.Utility;
 import org.aia.utility.VideoRecorder;
 import org.openqa.selenium.support.PageFactory;
@@ -70,7 +71,7 @@ public class TestArchitectureBillingIndex extends BaseClass {
 	@BeforeMethod(alwaysRun = true)
 	public void setUp() throws Exception {
 		System.out.println("@BeforeMethod");
-		VideoRecorder.startRecording("Test");
+		//VideoRecorder.startRecording("Test");
 		sessionID = new FontevaConnectionSOAP();
 		driver = BrowserSetup.startApplication(driver, DataProviderFactory.getConfig().getValue("browser"),
 				DataProviderFactory.getConfig().getValue("devstagingurl_abi"));
@@ -91,7 +92,7 @@ public class TestArchitectureBillingIndex extends BaseClass {
 		Logging.configure();
 	}
  
-	@Test(groups = { "Smoke" }, description = " To subscribe for ABI", enabled = true, dataProvider = "Address") // ,																									// FailedTestRun.class
+	@Test(groups={"Smoke"}, description=" To subscribe for ABI", enabled=true, dataProvider="Address")																								// FailedTestRun.class
 	public void SubscribeToABI(ITestContext context, String addressType, String address) throws Exception {
 		System.out.println("Subscription");
 		ArrayList<String> dataList = signUpPage.signUpData();
@@ -146,9 +147,9 @@ public class TestArchitectureBillingIndex extends BaseClass {
 	public Object[][] getAddress(ITestContext context) {
 		return new Object[][] { 
 			{ "US Taxable Address", "1735 york avenue, New york" }
-			//, {"US Non- Taxable Address", "115 E 3rd Ave, Anchorage, AK 99501, United States"}
-			//,{"International Address", "9, Netkallappa Circle, Basavanagudi, Bengaluru, Karnataka, India"}
-			//,{"Non US Address", "WAVEROCK SEZ, Road Number 2, Financial District"}
+			, {"US Non- Taxable Address", "115 E 3rd Ave, Anchorage, AK 99501, United States"}
+			,{"International Address", "9, Netkallappa Circle, Basavanagudi, Bengaluru, Karnataka, India"}
+			,{"Non US Address", "WAVEROCK SEZ, Road Number 2, Financial District"}
 		 };
 		}
 	
@@ -156,6 +157,6 @@ public class TestArchitectureBillingIndex extends BaseClass {
 	@AfterMethod(alwaysRun = true)
 	public void teardown() throws IOException {
 		BrowserSetup.closeBrowser(driver);
-		VideoRecorder.stopRecording(); 
+		//VideoRecorder.stopRecording(); 
 	}
 }
