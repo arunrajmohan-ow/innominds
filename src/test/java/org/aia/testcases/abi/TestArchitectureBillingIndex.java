@@ -1,29 +1,17 @@
 package org.aia.testcases.abi;
-
 import static io.restassured.RestAssured.given;
-
 import java.io.BufferedInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-import java.net.URI;
-import java.net.URL;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-
 import org.aia.pages.BaseClass;
 import org.aia.pages.abi.ABISignUpPage;
 import org.aia.pages.abi.PaymentSuccessFullPageABI;
 import org.aia.pages.api.MailinatorAPI;
 import org.aia.pages.api.abi.ABIAPIValidation;
-import org.aia.pages.api.abi.ABIAPIValidation;
 import org.aia.pages.api.membership.FontevaConnectionSOAP;
-import org.aia.pages.api.membership.JoinAPIValidation;
 import org.aia.pages.fonteva.abi.FontevaLoginPage;
 import org.aia.pages.fonteva.membership.ContactCreateUser;
 import org.aia.pages.fonteva.membership.SalesOrder;
@@ -40,32 +28,18 @@ import org.aia.pages.membership.TellusAboutYourselfPage;
 import org.aia.utility.BrowserSetup;
 import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.DataProviderFactory;
-import org.aia.utility.FailedTestRun;
-import org.aia.utility.GenerateReportsListener;
 import org.aia.utility.Logging;
+import org.aia.utility.RetryListenerClass;
 import org.aia.utility.Utility;
 import org.aia.utility.VideoRecorder;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.text.PDFTextStripper;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
-import org.testng.Assert;
 import org.testng.ITestContext;
-import org.testng.ITestResult;
-import org.testng.Reporter;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
-import org.testng.annotations.Listeners;
 import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
-
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
-
 import io.netty.util.internal.SystemPropertyUtil;
 import io.restassured.http.ContentType;
 
@@ -100,7 +74,6 @@ public class TestArchitectureBillingIndex extends BaseClass {
 	@BeforeMethod(alwaysRun = true)
 	public void setUp() throws Exception {
 		System.out.println("@BeforeMethod");
-		// VideoRecorder.startRecording("Test");
 		sessionID = new FontevaConnectionSOAP();
 		driver = BrowserSetup.startApplication(driver, DataProviderFactory.getConfig().getValue("browser"),
 				DataProviderFactory.getConfig().getValue("devstagingurl_abi"));
@@ -119,9 +92,8 @@ public class TestArchitectureBillingIndex extends BaseClass {
 		// ArchitectureBillingIndexAPIValidation.class);
 		Logging.configure();
 	}
-
-	@Test(groups = { "Smoke" }, description = " To subscribe for ABI", enabled = true, dataProvider = "Address") // , //
-																													// FailedTestRun.class
+ 
+	@Test(groups={"Smoke"}, description=" To subscribe for ABI", enabled=true, dataProvider="Address")																								
 	public void SubscribeToABI(ITestContext context, String addressType, String address) throws Exception {
 		System.out.println("Subscription");
 		ArrayList<String> dataList = signUpPage.signUpData();
@@ -162,9 +134,8 @@ public class TestArchitectureBillingIndex extends BaseClass {
 			pdfDetails = abisignUpPage.proceedToCheckOut();
 		}
 	}
-
-	@Test(groups = {
-			"Smoke" }, description = " To renew ABI subscription as Guest", enabled = true, dataProvider = "Address")
+	
+	@Test(groups={"Smoke"}, description=" To renew ABI subscription as Guest", enabled=true, dataProvider="Address")
 	public void SubscribeToABIAsGuest(ITestContext context, String addressType, String address) throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		abisignUpPage = PageFactory.initElements(driver, ABISignUpPage.class);
@@ -174,8 +145,7 @@ public class TestArchitectureBillingIndex extends BaseClass {
 		context.setAttribute("salesOrderId", pdfDetails.get(0).substring(13));
 		context.setAttribute("contactName", dataList.get(0) + " " + dataList.get(1));
 		users.put(dataList.get(0) + " " + dataList.get(1), dataList.get(5));
-		util.navigateToURl(driver,
-				DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
+		util.navigateToURl(driver, DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
 		fontevaLoginPage.viewSalesOrder((String) context.getAttribute("contactName"),
 				(String) context.getAttribute("salesOrderId"));
 		abisignUpPage.validateSubscriptionDetails(pdfDetails);
@@ -185,17 +155,19 @@ public class TestArchitectureBillingIndex extends BaseClass {
 	public Object[][] getAddress(ITestContext context) {
 
 		return new Object[][] { 
-		{ "US Taxable Address", "1735 york avenue, New york" }
+			{ "US Taxable Address", "1735 york avenue, New york" }
 			, {"US Non- Taxable Address", "115 E 3rd Ave, Anchorage, AK 99501, United States"}
-			, {"Non US Address", "Survey No.115 (Part), Waverock, TSIIC IT / ITES SEZ, Nanakramguda Village,Serilingampally Mandal, Hyderabad – 500032"}
-			, {"International Address", "Innominds Software Pvt. Ltd., 3rd Floor, Anand Bhavan, #9, Netkallappa Circle, Basavanagudi, Bengaluru-560004"}
-								};
+			,{"International Address", "9, Netkallappa Circle, Basavanagudi, Bengaluru, Karnataka, India"}
+			,{"Non US Address", "WAVEROCK SEZ, Road Number 2, Financial District"}
+		 };
 		}
+	
  
 	@AfterMethod(alwaysRun = true)
 	public void teardown() throws IOException {
 		BrowserSetup.closeBrowser(driver);
-		VideoRecorder.stopRecording();
+	}
+}
 	}
 
 }
