@@ -1,5 +1,7 @@
 package org.aia.pages.membership;
 
+import java.util.concurrent.Executor;
+
 import org.aia.utility.Utility;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -42,8 +44,10 @@ public class TellusAboutYourselfPage {
 	@FindBy(xpath = "//span[@title='None Selected']/parent::span")
 	WebElement noneSelectedCarTypTellpage;
 
-	//@FindBy(xpath = "//label[contains(text(),'I currently do not')]/preceding-sibling::lightning-input/div/span")
-	//@FindBy(xpath = "//label[contains(text(),'I currently do not')]/preceding-sibling::lightning-input/div/span//input")
+	// @FindBy(xpath = "//label[contains(text(),'I currently do
+	// not')]/preceding-sibling::lightning-input/div/span")
+	// @FindBy(xpath = "//label[contains(text(),'I currently do
+	// not')]/preceding-sibling::lightning-input/div/span//input")
 	@FindBy(xpath = "//label[contains(text(),'I currently do not')]/preceding::input[1]")
 	WebElement workBusinesChckboxTellpage;
 
@@ -60,32 +64,40 @@ public class TellusAboutYourselfPage {
 	@FindBy(xpath = "//label[text()='Home country']/parent::div/following-sibling::div[1]//button")
 	WebElement homecountryTellpage2;
 
-	@FindBy(xpath = "//span[@title='United States']/parent::span")
+//	@FindBy(xpath = "//span[@title='United States']/parent::span")
+//	WebElement homecountryUnitedStatesTellpage;
+
+	@FindBy(xpath = "(//span[@title='United States'])[1]")
 	WebElement homecountryUnitedStatesTellpage;
 
-	@FindBy(xpath = "//label[text()='Home country']/parent::div/following-sibling::div[1]//lightning-base-combobox/div/div[2]//span[@title='United States']/parent::span")
+//	@FindBy(xpath = "//label[text()='Home country']/parent::div/following-sibling::div[1]//lightning-base-combobox/div/div[2]//span[@title='United States']/parent::span")
+//	WebElement homecountryUnitedStates2Tellpage;
+
+	@FindBy(xpath = "//label[text()='Home country']/parent::div/following-sibling::div[1]//span[@title='United States']")
 	WebElement homecountryUnitedStates2Tellpage;
 
-	@FindBy(xpath = "//label[text()='Home street']/parent::div/following-sibling::div[1]")
+	@FindBy(xpath = "//label[text()='Home street']/parent::div/following-sibling::div[1]//input")
 	WebElement homestreetTellpage;
 
 	@FindBy(xpath = "//label[text()='Home street']/parent::div/following-sibling::div[2]/div/lightning-input")
 	WebElement homeCityTellpage;
 
-	//@FindBy(xpath = "//label[text()='State']/parent::div/following-sibling::lightning-combobox")
-	@FindBy(xpath="//label[text()='State']/parent::div/following-sibling::lightning-combobox//button")
+	// @FindBy(xpath =
+	// "//label[text()='State']/parent::div/following-sibling::lightning-combobox")
+	@FindBy(xpath = "//label[text()='State']/parent::div/following-sibling::lightning-combobox//button")
 	WebElement stateTellpage;
 
 	@FindBy(xpath = "//label[text()='State of license']/following-sibling::lightning-input-field")
 	WebElement stateOfLicenceTellpage;
 
-	//@FindBy(xpath = "//label[text()='State']/parent::div/following-sibling::lightning-combobox//span[@title='California']")
+	// @FindBy(xpath =
+	// "//label[text()='State']/parent::div/following-sibling::lightning-combobox//span[@title='California']")
 	@FindBy(xpath = "//label[text()='State']/parent::div/following-sibling::lightning-combobox//div[@role='listbox']//lightning-base-combobox-item//span//span[text()='California']")
 	WebElement californiaStateTellpage;
 
 //	@FindBy(xpath = "//label[text()='State of license']/following-sibling::lightning-input-field//lightning-base-combobox/div/div[2]//span[@title='California']")
 //	WebElement californiaStateLicenceTellpage;
-	
+
 	@FindBy(xpath = "//span[@title='California']")
 	WebElement californiaStateLicenceTellpage;
 
@@ -158,8 +170,29 @@ public class TellusAboutYourselfPage {
 			js.executeScript("window.scrollBy(0,300)", homecountryTellpage2);
 			homecountryTellpage2.click();
 			js.executeScript("window.scrollBy(0,50)", homecountryUnitedStates2Tellpage);
+			// homecountryUnitedStatesTellpage.click();
 			Thread.sleep(7000);
-			action.moveToElement(homecountryUnitedStates2Tellpage).click().build().perform();
+			js.executeScript("arguments[0].click();", homecountryUnitedStates2Tellpage);
+			util.waitUntilElement(driver, homestreetTellpage);
+			homestreetTellpage.click();
+			homestreetTellpage.sendKeys("us street");
+			util.waitUntilElement(driver, homeCityTellpage);
+			homeCityTellpage.click();
+			homeCityTellpage.sendKeys("Us city");
+			util.waitUntilElement(driver, stateTellpage);
+			stateTellpage.click();
+			util.waitUntilElement(driver, californiaStateTellpage);
+			js.executeScript("arguments[0].click();", californiaStateTellpage);
+			util.waitUntilElement(driver, zipCodeTellpage);
+			zipCodeTellpage.click();
+			zipCodeTellpage.sendKeys("12345");
+			util.waitUntilElement(driver, nextBtnTellpage);
+			js.executeScript("arguments[0].click();", nextBtnTellpage);
+			Thread.sleep(10000);
+			util.waitUntilElement(driver, nextBtnTellpage);
+			js.executeScript("window.scrollBy(0,300)", nextBtnTellpage);
+			js.executeScript("arguments[0].click();", nextBtnTellpage);
+			// action.moveToElement(homecountryUnitedStatesTellpage).click().build().perform();
 		} else if (text.contentEquals("activeNonUSLicense")) {
 			Thread.sleep(3000);
 			entercareerType(careerType);
@@ -334,8 +367,7 @@ public class TellusAboutYourselfPage {
 		Actions act = new Actions(driver);
 		act.moveToElement(workBusinesChckboxTellpage).build().perform();
 		js.executeScript("arguments[0].click();", workBusinesChckboxTellpage);
-		
-		
+
 	}
 
 	public void enterdetails(WebElement ele) throws InterruptedException {
@@ -364,7 +396,7 @@ public class TellusAboutYourselfPage {
 		util.waitUntilElement(driver, stateTellpage);
 		act.moveToElement(stateTellpage).build().perform();
 		js.executeScript("arguments[0].click();", stateTellpage);
-		//act.moveToElement(stateTellpage).click().build().perform();
+		// act.moveToElement(stateTellpage).click().build().perform();
 		Thread.sleep(7000);
 		util.waitUntilElement(driver, californiaStateTellpage);
 
@@ -381,7 +413,7 @@ public class TellusAboutYourselfPage {
 		js.executeScript("window.scrollBy(0,700)", nextBtnTellpage);
 
 		// act.moveToElement(nextBtnTellpage).click().build().perform();
-		//nextBtnTellpage.click();
+		// nextBtnTellpage.click();
 		js.executeScript("arguments[0].click();", nextBtnTellpage);
 		Thread.sleep(15000);
 		util.waitUntilElement(driver, EquityLabelEquityPage);
