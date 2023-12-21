@@ -111,24 +111,24 @@ public class OrderSummaryPage {
 				|| text.contentEquals("noLicense") || text.contentEquals("graduate") || text.contentEquals("axp")
 				|| text.contentEquals("faculty")) {
 			util.waitUntilElement(driver, duesLabel);
-			Thread.sleep(10000);
+			Thread.sleep(5000);
 			// util.waitUntilElement(driver, confirmTerms);
 			confirmTerms.click();
 		}
 
 		else if (text.contentEquals("activeUSLicense")) {
-			Thread.sleep(20000);
+			//Thread.sleep(20000);
 			util.waitUntilElement(driver, duesLabel);
-			Thread.sleep(10000);
+			//Thread.sleep(10000);
 			util.waitUntilElement(driver, confirmLicense);
-			Thread.sleep(10000);
+			//Thread.sleep(10000);
 			confirmLicense.click();
 			confirmTerms.click();
 		}
 
 		else if (text.contentEquals("allied")) {
 			util.waitUntilElement(driver, duesLabel);
-			Thread.sleep(10000);
+			//Thread.sleep(10000);
 			// util.waitUntilElement(driver, confirmTerms);
 			confirmTerms.click();
 			confirmAlliedProfessional.click();
