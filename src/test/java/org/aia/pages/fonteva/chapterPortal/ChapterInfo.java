@@ -107,6 +107,7 @@ public class ChapterInfo {
 		util.waitUntilElement(driver, uploadFileProgress);
 		System.out.println(uploadFileProgress.getText());
 		Assert.assertTrue(uploadSuccessImg.isDisplayed()); 
+		Thread.sleep(4000);
 		util.waitUntilElement(driver, doneButtonInUploadFilePopup);
 		doneButtonInUploadFilePopup.click();
 		Thread.sleep(2300);

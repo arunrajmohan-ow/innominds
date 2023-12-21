@@ -1,11 +1,15 @@
 package org.aia.pages.fonteva.chapterPortal;
 import org.testng.Assert;
 import org.testng.AssertJUnit;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import org.aia.utility.Utility;
 import org.apache.log4j.Logger;
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -20,6 +24,7 @@ public class NavigateToChapterPortal {
 	static Logger log = Logger.getLogger(NavigateToChapterPortal.class);
 	public String salesOrder = "";
 	public String aiaNumber = "";
+	public  ArrayList<String> groupList = new ArrayList<String>();
 
 	public NavigateToChapterPortal(WebDriver IDriver) {
 		this.driver = IDriver;
@@ -30,8 +35,8 @@ public class NavigateToChapterPortal {
 	@FindBy(xpath = "//a[@href='/lightning/o/Contact/home']")
 	WebElement contactsModule;
 
-	@FindBy(css = "a[title='Allison Garwood Freedland']")
-	WebElement contactAccessCP;
+//	@FindBy(css = "a[title='Allison Garwood Freedland']")
+//	WebElement contactAccessCP;
 
 	@FindBy(xpath = "//a[@href='javascript:void(0)']/parent::div")
 	WebElement showAllLink;
@@ -59,8 +64,8 @@ public class NavigateToChapterPortal {
 	@FindBy(xpath = "//a[@href='/Chapter/s/my-chapters']")
 	WebElement myChapterTab;
 
-	@FindBy(xpath = "//table[@aria-label='All Communities - Chapter Portal']/tbody//th/span/a")
-	WebElement comunityGroupName;
+	@FindAll(value = {@FindBy(xpath = "//table[@aria-label='All Communities - Chapter Portal']/tbody//th/span/a")})
+	List<WebElement> comunityGroupName;
 
 	@FindBy(xpath = "//button[text()='Membership']")
 	WebElement memberShipButtonInCP;
@@ -75,13 +80,16 @@ public class NavigateToChapterPortal {
 		}
 	}
 
-	public void clickContactsCPAccess() {
-		Utility.waitForWebElement(driver, contactAccessCP, 0);
+	public void clickContactsCPAccess(String contactName) throws Throwable {
+		Thread.sleep(5000);
+		WebElement contactAccessCP = driver.findElement(By.xpath("//a[@title='"+contactName+"']"));
 		util.scrollingElementUsingJS(driver, contactAccessCP);
+		Utility.waitForWebElement(driver, contactAccessCP, 0);
 		contactAccessCP.click();
 	}
 
 	public void showAllInRealtedQuickLinks() {
+	    util.waitForJavascript(driver, 2000, 7000);
 		Utility.waitForWebElement(driver, showAllLink, 0);
 		showAllLink.click();
 	}
@@ -96,7 +104,9 @@ public class NavigateToChapterPortal {
 		Assert.assertTrue(portalAccessCount.getText()!="0");
 	}
 
-	public void clickDropDownInActionContainer() {
+	public void clickDropDownInActionContainer() throws Throwable {
+		Thread.sleep(4000);
+		util.mosueOverUsingAction(driver, dropDownButtonActionContainer); 
 		Utility.waitForWebElement(driver, dropDownButtonActionContainer, 0);
 		dropDownButtonActionContainer.click();
 	}
@@ -115,7 +125,7 @@ public class NavigateToChapterPortal {
 				System.out.println(portalUserMemberList.size());
 				for (int j = 0; j < portalUserMemberList.size(); j++) {
 					String options2 = portalUserMemberList.get(j).getText();
-					Thread.sleep(3000);
+					Thread.sleep(7000);
 					log.info(options2);
 					if (options2.equalsIgnoreCase("Chapters")) {
 						portalUserMemberList.get(j).click();
@@ -135,10 +145,19 @@ public class NavigateToChapterPortal {
 		myChapterTab.click();
 	}
 
-	public void getComunityGroup() throws Throwable {
-		Utility.waitForWebElement(driver, comunityGroupName, 0);
-		log.info(comunityGroupName.getText());
-		comunityGroupName.click();
+	public void getComunityGroup(int index) throws Throwable {
+        Thread.sleep(10000);
+        for (int i = 1; i <= comunityGroupName.size(); i++) {
+        	String group = comunityGroupName.get(i-1).getText();
+        	Thread.sleep(2000);
+        	System.out.println(group);
+        if(i == index) {
+        	groupList.add(group);
+        	comunityGroupName.get(i-1).click();
+        	break;
+       	}
+       	}
+        
 		Thread.sleep(6000);
 		Utility.waitForWebElement(driver, memberShipButtonInCP, 0);
 		if (memberShipButtonInCP.isDisplayed()) {

@@ -318,7 +318,7 @@ public class MailinatorAPI {
 				extract().response();
 		System.out.println(response.getBody().asPrettyString());
 		jsonPathEval = response.jsonPath();
-		String messageId = jsonPathEval.getString("msgs[0].id");
+		String messageId = jsonPathEval.getString("msgs[1].id");
 		System.out.println("Message Id is "+messageId);
 		String message_uri = MAILINATOR_INBOS_ENDPOINT + inbox + "/messages/" + messageId ;
 		 response =  RestAssured.given().

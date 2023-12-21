@@ -42,7 +42,7 @@ public class CallForDues {
 		System.out.println(paragraphInComponentContact.getText()); 
 	}
 	
-	public void getcontactDetailsTextInComponent() {
+	public void getContactDetailsTextInComponent() {
 		util.waitUntilElement(driver, contactDetailsInComponent);
 	    String recordsData = contactDetailsInComponent.getText();
 	    System.out.println(recordsData);

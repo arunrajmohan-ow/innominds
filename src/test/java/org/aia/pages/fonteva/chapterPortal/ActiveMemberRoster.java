@@ -43,6 +43,14 @@ public class ActiveMemberRoster {
 	 
 	@FindAll(value = {@FindBy(xpath = "//table[@class='data-grid-table data-grid-full-table']//tr[contains(@class,'data-grid-table-row')]")}) List<WebElement> activeMemberRecordsData;
 	
+	@FindBy(xpath = "//button[contains(@class,'action-bar-action-searchTable reportAction')]")WebElement searchButton;
+	
+	@FindBy(xpath = "//input[@placeholder='Search report table...']")WebElement enterDataInSearch;
+	
+	@FindBy(xpath = "//input[@placeholder='Search report table...']/following::div[@class='num-of-results']/p") WebElement searchResult;
+	
+	@FindBy(xpath = "//table[@class='data-grid-table data-grid-full-table']//tr//td[contains(@style,'background-color')]")WebElement backGroundColorElement;
+	
 	
 	public void clickActiveMemberRosterTab() throws Throwable {
 		Utility.waitForWebElement(driver, activeMemberRoasterTab, 0);
@@ -116,6 +124,24 @@ public class ActiveMemberRoster {
 	    String uiRecordCount = decimalFormat.format(uiValue);
 		System.out.println(formattedRecordCount);
 		Assert.assertEquals(formattedRecordCount,uiRecordCount);
+	}
+	
+	public void SearchButtonInActiveMemberRoaster() throws InterruptedException {
+		excelDataProvider = new ExcelDataProvider("Portal Active Member Roster");
+		String aiaNumber = excelDataProvider.getCellData("Portal Active Member Roster", 17, 1);
+		String backGroundColor = "rgb(255, 240, 63);";
+		Thread.sleep(7000);
+		util.switchToFrameUsingWebElement(driver, activeMemberRoasterFrame);
+		util.waitUntilElement(driver, searchButton);
+		searchButton.click();
+		System.out.println(aiaNumber);
+		Thread.sleep(4000);
+		enterDataInSearch.sendKeys(aiaNumber);
+		System.out.println(searchResult.getText());
+		Thread.sleep(2000);
+		String bgcolor = backGroundColorElement.getAttribute("style");
+		System.out.println(bgcolor.replace("background-color: ", ""));
+		Assert.assertEquals(bgcolor.replace("background-color: ", ""), backGroundColor);
 	}
 
 }

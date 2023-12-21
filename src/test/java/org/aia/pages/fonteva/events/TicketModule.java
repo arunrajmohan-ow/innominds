@@ -302,7 +302,7 @@ public class TicketModule {
 			Utility.highLightElement(driver, saveAndContinueButtonInEditTicketType);
 			saveAndContinueButtonInEditTicketType.click();
 			log.info("Continue button is clicked in Edit ticket type");
-			Thread.sleep(5000);
+			Thread.sleep(10000);
 			break;
 		case "cancel":
 			// TODO

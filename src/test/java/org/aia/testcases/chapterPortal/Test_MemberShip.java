@@ -12,6 +12,7 @@ import org.aia.pages.fonteva.chapterPortal.Deceased;
 import org.aia.pages.fonteva.chapterPortal.EmailChangeLog;
 import org.aia.pages.fonteva.chapterPortal.FirmDetails;
 import org.aia.pages.fonteva.chapterPortal.FullMemberRoster;
+import org.aia.pages.fonteva.chapterPortal.GlobalSearch;
 import org.aia.pages.fonteva.chapterPortal.InterestAreas;
 import org.aia.pages.fonteva.chapterPortal.JoinReJoin;
 import org.aia.pages.fonteva.chapterPortal.LapsedMembers;
@@ -59,6 +60,8 @@ public class Test_MemberShip extends BaseClass {
 	Deceased deceased;
 	MembersInCESAudit membersInCESAudit;
 	JoinReJoin joinReJoin;
+	GlobalSearch globalSearch;
+	CommonMehodsInCP commonMehodsInCP;
 
 	@BeforeMethod(alwaysRun = true)
 	public void setUp() throws Exception {
@@ -87,6 +90,8 @@ public class Test_MemberShip extends BaseClass {
 		deceased=PageFactory.initElements(driver, Deceased.class);
 		membersInCESAudit=PageFactory.initElements(driver, MembersInCESAudit.class);
         joinReJoin=PageFactory.initElements(driver, JoinReJoin.class);
+        globalSearch = PageFactory.initElements(driver, GlobalSearch.class);
+        commonMehodsInCP = new CommonMehodsInCP(driver);
 		Logging.configure();
 	}
 	
@@ -95,14 +100,8 @@ public class Test_MemberShip extends BaseClass {
 		if (recording) {
 			VideoRecorder.startRecording("test_ValidateMembersShipTabSections");
 		}
-		naToChapterPortal.clickContactsModule();
-		naToChapterPortal.clickContactsCPAccess();
-		naToChapterPortal.showAllInRealtedQuickLinks();
-		naToChapterPortal.getPortalAccessCount();
-		naToChapterPortal.clickDropDownInActionContainer();
-		naToChapterPortal.optionsInactionContainer();
-		naToChapterPortal.clickMyChapterTab();
-		naToChapterPortal.getComunityGroup();
+		commonMehodsInCP.navigationChapterPortal("Allison Garwood Freedland");
+		naToChapterPortal.getComunityGroup(1);
 		memChapterPortal.validateMemberShipTabSections();
 		memChapterPortal.validateMemberShipPiecharts();
 	}
@@ -112,14 +111,8 @@ public class Test_MemberShip extends BaseClass {
 		if (recording) {
 			VideoRecorder.startRecording("test_ValidateFullMemberRoster");
 		}
-		naToChapterPortal.clickContactsModule();
-		naToChapterPortal.clickContactsCPAccess();
-		naToChapterPortal.showAllInRealtedQuickLinks();
-		naToChapterPortal.getPortalAccessCount();
-		naToChapterPortal.clickDropDownInActionContainer();
-		naToChapterPortal.optionsInactionContainer();
-		naToChapterPortal.clickMyChapterTab();
-		naToChapterPortal.getComunityGroup();
+		commonMehodsInCP.navigationChapterPortal("Allison Garwood Freedland");
+		naToChapterPortal.getComunityGroup(1);
 		memChapterPortal.validateMemberShipTabSections();
 		fullMemberRoster.clickFullMemberRosterTab();
 		fullMemberRoster.getFullMemberRosterRecordsCount();
@@ -131,14 +124,8 @@ public class Test_MemberShip extends BaseClass {
 		if (recording) {
 			VideoRecorder.startRecording("test_ValidateActiveMemberRoster");
 		}
-		naToChapterPortal.clickContactsModule();
-		naToChapterPortal.clickContactsCPAccess();
-		naToChapterPortal.showAllInRealtedQuickLinks();
-		naToChapterPortal.getPortalAccessCount();
-		naToChapterPortal.clickDropDownInActionContainer();
-		naToChapterPortal.optionsInactionContainer();
-		naToChapterPortal.clickMyChapterTab();
-		naToChapterPortal.getComunityGroup();
+		commonMehodsInCP.navigationChapterPortal("Allison Garwood Freedland");
+		naToChapterPortal.getComunityGroup(1);
 		memChapterPortal.validateMemberShipTabSections();
 		activeMemberRoster.clickActiveMemberRosterTab();
 		activeMemberRoster.getActiveMemberRosterRecordsCount();
@@ -150,14 +137,8 @@ public class Test_MemberShip extends BaseClass {
 		if (recording) {
 			VideoRecorder.startRecording("test_ExportfuncActiveMemberRoster");
 		}
-		naToChapterPortal.clickContactsModule();
-		naToChapterPortal.clickContactsCPAccess();
-		naToChapterPortal.showAllInRealtedQuickLinks();
-		naToChapterPortal.getPortalAccessCount();
-		naToChapterPortal.clickDropDownInActionContainer();
-		naToChapterPortal.optionsInactionContainer();
-		naToChapterPortal.clickMyChapterTab();
-		naToChapterPortal.getComunityGroup();
+		commonMehodsInCP.navigationChapterPortal("Allison Garwood Freedland");
+		naToChapterPortal.getComunityGroup(1);
 		memChapterPortal.validateMemberShipTabSections();
 		activeMemberRoster.clickActiveMemberRosterTab();
 		String recordCount = activeMemberRoster.getActiveMemberRosterRecordsCount();
@@ -175,14 +156,8 @@ public class Test_MemberShip extends BaseClass {
 		if (recording) {
 			VideoRecorder.startRecording("test_ValidateTerminatedMemberRoster");
 		}
-		naToChapterPortal.clickContactsModule();
-		naToChapterPortal.clickContactsCPAccess();
-		naToChapterPortal.showAllInRealtedQuickLinks();
-		naToChapterPortal.getPortalAccessCount();
-		naToChapterPortal.clickDropDownInActionContainer();
-		naToChapterPortal.optionsInactionContainer();
-		naToChapterPortal.clickMyChapterTab();
-		naToChapterPortal.getComunityGroup();
+		commonMehodsInCP.navigationChapterPortal("Allison Garwood Freedland");
+		naToChapterPortal.getComunityGroup(1);
 		memChapterPortal.validateMemberShipTabSections();
 		terminatedMembers.clickTerminatedMemberRosterTab();
 		terminatedMembers.getTerminatedMemberRosterRecordsCount();
@@ -194,14 +169,8 @@ public class Test_MemberShip extends BaseClass {
 		if (recording) {
 			VideoRecorder.startRecording("test_ValidateLapsedMemberRoster");
 		}
-		naToChapterPortal.clickContactsModule();
-		naToChapterPortal.clickContactsCPAccess();
-		naToChapterPortal.showAllInRealtedQuickLinks();
-		naToChapterPortal.getPortalAccessCount();
-		naToChapterPortal.clickDropDownInActionContainer();
-		naToChapterPortal.optionsInactionContainer();
-		naToChapterPortal.clickMyChapterTab();
-		naToChapterPortal.getComunityGroup();
+		commonMehodsInCP.navigationChapterPortal("Allison Garwood Freedland");
+		naToChapterPortal.getComunityGroup(1);
 		memChapterPortal.validateMemberShipTabSections();
 		lapsedMembers.clickLapsedMemberRosterTab();
 		lapsedMembers.getLapsedMemberRosterRecordsCount();
@@ -213,14 +182,8 @@ public class Test_MemberShip extends BaseClass {
 		if (recording) {
 			VideoRecorder.startRecording("test_ValidateUpgradeToArchitect");
 		}
-		naToChapterPortal.clickContactsModule();
-		naToChapterPortal.clickContactsCPAccess();
-		naToChapterPortal.showAllInRealtedQuickLinks();
-		naToChapterPortal.getPortalAccessCount();
-		naToChapterPortal.clickDropDownInActionContainer();
-		naToChapterPortal.optionsInactionContainer();
-		naToChapterPortal.clickMyChapterTab();
-		naToChapterPortal.getComunityGroup();
+		commonMehodsInCP.navigationChapterPortal("Allison Garwood Freedland");
+		naToChapterPortal.getComunityGroup(1);
 		memChapterPortal.validateMemberShipTabSections();
 		upgradeToArchitect.clickUpgradeToArchitectTab();
 		upgradeToArchitect.getUpgradeToArchitectTabRecordsCount();
@@ -231,14 +194,8 @@ public class Test_MemberShip extends BaseClass {
 		if (recording) {
 			VideoRecorder.startRecording("test_ValidateUpgradeToEmeritus");
 		}
-		naToChapterPortal.clickContactsModule();
-		naToChapterPortal.clickContactsCPAccess();
-		naToChapterPortal.showAllInRealtedQuickLinks();
-		naToChapterPortal.getPortalAccessCount();
-		naToChapterPortal.clickDropDownInActionContainer();
-		naToChapterPortal.optionsInactionContainer();
-		naToChapterPortal.clickMyChapterTab();
-		naToChapterPortal.getComunityGroup();
+		commonMehodsInCP.navigationChapterPortal("Allison Garwood Freedland");
+		naToChapterPortal.getComunityGroup(1);
 		memChapterPortal.validateMemberShipTabSections();
 		upgradeToEmeritus.clickUpgradeToEmeritusTab();
 		upgradeToEmeritus.getUpgradeToEmeritusTabRecordsCount();
@@ -249,14 +206,8 @@ public class Test_MemberShip extends BaseClass {
 		if (recording) {
 			VideoRecorder.startRecording("test_ValidateAssociatePathToLicensure");
 		}
-		naToChapterPortal.clickContactsModule();
-		naToChapterPortal.clickContactsCPAccess();
-		naToChapterPortal.showAllInRealtedQuickLinks();
-		naToChapterPortal.getPortalAccessCount();
-		naToChapterPortal.clickDropDownInActionContainer();
-		naToChapterPortal.optionsInactionContainer();
-		naToChapterPortal.clickMyChapterTab();
-		naToChapterPortal.getComunityGroup();
+		commonMehodsInCP.navigationChapterPortal("Allison Garwood Freedland");
+		naToChapterPortal.getComunityGroup(1);
 		memChapterPortal.validateMemberShipTabSections();
 	    associatePathToLicence.clickAssociatesPathtoLicensureTab();
 	    associatePathToLicence.getAssociatesPathtoLicensureRecordsCount();
@@ -268,14 +219,8 @@ public class Test_MemberShip extends BaseClass {
 		if (recording) {
 			VideoRecorder.startRecording("test_ValidateActiveArchitectMembersLicensed10Yrs");
 		}
-		naToChapterPortal.clickContactsModule();
-		naToChapterPortal.clickContactsCPAccess();
-		naToChapterPortal.showAllInRealtedQuickLinks();
-		naToChapterPortal.getPortalAccessCount();
-		naToChapterPortal.clickDropDownInActionContainer();
-		naToChapterPortal.optionsInactionContainer();
-		naToChapterPortal.clickMyChapterTab();
-		naToChapterPortal.getComunityGroup();
+		commonMehodsInCP.navigationChapterPortal("Allison Garwood Freedland");
+		naToChapterPortal.getComunityGroup(1);
 		memChapterPortal.validateMemberShipTabSections();
 		architectsLicenced.clickArchitectsLicensedTenyearsTab();
 		architectsLicenced.getArchitectsLicensedTenyearsRecordsCount();
@@ -287,14 +232,8 @@ public class Test_MemberShip extends BaseClass {
 		if (recording) {
 			VideoRecorder.startRecording("test_ValidateFirmDetails");
 		}
-		naToChapterPortal.clickContactsModule();
-		naToChapterPortal.clickContactsCPAccess();
-		naToChapterPortal.showAllInRealtedQuickLinks();
-		naToChapterPortal.getPortalAccessCount();
-		naToChapterPortal.clickDropDownInActionContainer();
-		naToChapterPortal.optionsInactionContainer();
-		naToChapterPortal.clickMyChapterTab();
-		naToChapterPortal.getComunityGroup();
+		commonMehodsInCP.navigationChapterPortal("Allison Garwood Freedland");
+		naToChapterPortal.getComunityGroup(1);
 		memChapterPortal.validateMemberShipTabSections();
 		firmDetails.clickFirmDetailsTab();
 		firmDetails.getFirmDetailsTabRecordsCount();
@@ -305,14 +244,8 @@ public class Test_MemberShip extends BaseClass {
 		if (recording) {
 			VideoRecorder.startRecording("test_ValidateEmailChangeLog");
 		}
-		naToChapterPortal.clickContactsModule();
-		naToChapterPortal.clickContactsCPAccess();
-		naToChapterPortal.showAllInRealtedQuickLinks();
-		naToChapterPortal.getPortalAccessCount();
-		naToChapterPortal.clickDropDownInActionContainer();
-		naToChapterPortal.optionsInactionContainer();
-		naToChapterPortal.clickMyChapterTab();
-		naToChapterPortal.getComunityGroup();
+		commonMehodsInCP.navigationChapterPortal("Allison Garwood Freedland");
+		naToChapterPortal.getComunityGroup(1);
 		memChapterPortal.validateMemberShipTabSections();
 		emailChangeLog.clickEmailChangeLogTab();
 		emailChangeLog.selectDateReportPopup("2/10/2023");
@@ -324,14 +257,8 @@ public class Test_MemberShip extends BaseClass {
 		if (recording) {
 			VideoRecorder.startRecording("test_ValidateInterestAreas");
 		}
-		naToChapterPortal.clickContactsModule();
-		naToChapterPortal.clickContactsCPAccess();
-		naToChapterPortal.showAllInRealtedQuickLinks();
-		naToChapterPortal.getPortalAccessCount();
-		naToChapterPortal.clickDropDownInActionContainer();
-		naToChapterPortal.optionsInactionContainer();
-		naToChapterPortal.clickMyChapterTab();
-		naToChapterPortal.getComunityGroup();
+		commonMehodsInCP.navigationChapterPortal("Allison Garwood Freedland");
+		naToChapterPortal.getComunityGroup(1);
 		memChapterPortal.validateMemberShipTabSections();
 		interestAreas.clickInterestAreasTab();
 		interestAreas.getInterestAreasTabRecordsCount();
@@ -342,14 +269,8 @@ public class Test_MemberShip extends BaseClass {
 		if (recording) {
 			VideoRecorder.startRecording("test_ValidateDeceased");
 		}
-		naToChapterPortal.clickContactsModule();
-		naToChapterPortal.clickContactsCPAccess();
-		naToChapterPortal.showAllInRealtedQuickLinks();
-		naToChapterPortal.getPortalAccessCount();
-		naToChapterPortal.clickDropDownInActionContainer();
-		naToChapterPortal.optionsInactionContainer();
-		naToChapterPortal.clickMyChapterTab();
-		naToChapterPortal.getComunityGroup();
+		commonMehodsInCP.navigationChapterPortal("Allison Garwood Freedland");
+		naToChapterPortal.getComunityGroup(1);
 		memChapterPortal.validateMemberShipTabSections();
 		deceased.clickDeceasedTab();
 		deceased.selectDateReportPopup("2/10/2023");
@@ -361,14 +282,8 @@ public class Test_MemberShip extends BaseClass {
 		if (recording) {
 			VideoRecorder.startRecording("test_ValidateMembersInCESAudit");
 		}
-		naToChapterPortal.clickContactsModule();
-		naToChapterPortal.clickContactsCPAccess();
-		naToChapterPortal.showAllInRealtedQuickLinks();
-		naToChapterPortal.getPortalAccessCount();
-		naToChapterPortal.clickDropDownInActionContainer();
-		naToChapterPortal.optionsInactionContainer();
-		naToChapterPortal.clickMyChapterTab();
-		naToChapterPortal.getComunityGroup();
+		commonMehodsInCP.navigationChapterPortal("Allison Garwood Freedland");
+		naToChapterPortal.getComunityGroup(1);
 		memChapterPortal.validateMemberShipTabSections();
 		membersInCESAudit.clickMembersInCESAuditTab();
 		membersInCESAudit.getMembersInCESAuditTabRecordsCount();
@@ -379,14 +294,8 @@ public class Test_MemberShip extends BaseClass {
 		if (recording) {
 			VideoRecorder.startRecording("test_ValidateMembersInCESAudit");
 		}
-		naToChapterPortal.clickContactsModule();
-		naToChapterPortal.clickContactsCPAccess();
-		naToChapterPortal.showAllInRealtedQuickLinks();
-		naToChapterPortal.getPortalAccessCount();
-		naToChapterPortal.clickDropDownInActionContainer();
-		naToChapterPortal.optionsInactionContainer();
-		naToChapterPortal.clickMyChapterTab();
-		naToChapterPortal.getComunityGroup();
+		commonMehodsInCP.navigationChapterPortal("Allison Garwood Freedland");
+		naToChapterPortal.getComunityGroup(1);
 		memChapterPortal.validateMemberShipTabSections();
 		joinReJoin.clickJoinReJoinTabTab();
 		joinReJoin.selectDateReportPopup("2/10/2023");
@@ -398,14 +307,8 @@ public class Test_MemberShip extends BaseClass {
 		if (recording) {
 			VideoRecorder.startRecording("test_ValidateTransfersOutReport");
 		}
-		naToChapterPortal.clickContactsModule();
-		naToChapterPortal.clickContactsCPAccess();
-		naToChapterPortal.showAllInRealtedQuickLinks();
-		naToChapterPortal.getPortalAccessCount();
-		naToChapterPortal.clickDropDownInActionContainer();
-		naToChapterPortal.optionsInactionContainer();
-		naToChapterPortal.clickMyChapterTab();
-		naToChapterPortal.getComunityGroup();
+		commonMehodsInCP.navigationChapterPortal("Allison Garwood Freedland");
+		naToChapterPortal.getComunityGroup(1);
 		memChapterPortal.validateMemberShipTabSections();
 		transfersOut.clickTransfersOutTab();
 		transfersOut.selectDateReportPopup("2/10/2023");
@@ -417,14 +320,8 @@ public class Test_MemberShip extends BaseClass {
 		if (recording) {
 			VideoRecorder.startRecording("test_ValidateTransfersInReport");
 		}
-		naToChapterPortal.clickContactsModule();
-		naToChapterPortal.clickContactsCPAccess();
-		naToChapterPortal.showAllInRealtedQuickLinks();
-		naToChapterPortal.getPortalAccessCount();
-		naToChapterPortal.clickDropDownInActionContainer();
-		naToChapterPortal.optionsInactionContainer();
-		naToChapterPortal.clickMyChapterTab();
-		naToChapterPortal.getComunityGroup();
+		commonMehodsInCP.navigationChapterPortal("Allison Garwood Freedland");
+		naToChapterPortal.getComunityGroup(1);
 		memChapterPortal.validateMemberShipTabSections();
 		transfersIn.clickTransfersInTab();
 		transfersIn.selectDateReportPopup("2/10/2023");
@@ -436,20 +333,26 @@ public class Test_MemberShip extends BaseClass {
 		if (recording) {
 			VideoRecorder.startRecording("test_ValidateNewGradReport");
 		}
-		naToChapterPortal.clickContactsModule();
-		naToChapterPortal.clickContactsCPAccess();
-		naToChapterPortal.showAllInRealtedQuickLinks();
-		naToChapterPortal.getPortalAccessCount();
-		naToChapterPortal.clickDropDownInActionContainer();
-		naToChapterPortal.optionsInactionContainer();
-		naToChapterPortal.clickMyChapterTab();
-		naToChapterPortal.getComunityGroup();
+		commonMehodsInCP.navigationChapterPortal("Allison Garwood Freedland");
+		naToChapterPortal.getComunityGroup(1);
 		memChapterPortal.validateMemberShipTabSections();
 		newGrad.clicknewGradTab();
 		newGrad.selectDateReportPopup("2/10/2023");
 		newGrad.getnewGradTabRecordsCount();;
 	}
 	
+	@Test(description = "FM-576 Seach functionality for report page's", enabled = true, priority = 20)
+	public void ValidateSearchFuntionInActiveMemberRoaster(ITestContext context) throws InterruptedException, Throwable {
+		if (recording) {
+			VideoRecorder.startRecording("ValidateSearchFuntionInActiveMemberRoaster");
+		}
+		commonMehodsInCP.navigationChapterPortal("Allison Garwood Freedland");
+		naToChapterPortal.getComunityGroup(1);
+		memChapterPortal.validateMemberShipTabSections();
+		activeMemberRoster.clickActiveMemberRosterTab();
+		activeMemberRoster.SearchButtonInActiveMemberRoaster();
+	}
+
 	@AfterMethod(alwaysRun = true)
 	public void teardown(ITestResult result) throws IOException {
 		if (recording) {

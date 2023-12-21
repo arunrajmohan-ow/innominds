@@ -4,6 +4,7 @@ import java.io.IOException;
 import org.aia.pages.BaseClass;
 import org.aia.pages.api.membership.FontevaConnectionSOAP;
 import org.aia.pages.fonteva.chapterPortal.ChapterInfo;
+import org.aia.pages.fonteva.chapterPortal.GlobalSearch;
 import org.aia.pages.fonteva.chapterPortal.MemberShipInChapterPortal;
 import org.aia.pages.fonteva.chapterPortal.NavigateToChapterPortal;
 import org.aia.utility.BrowserSetup;
@@ -23,7 +24,10 @@ public class Test_ChapterInfo extends BaseClass {
 	boolean recording;
 	NavigateToChapterPortal naToChapterPortal;
 	MemberShipInChapterPortal memChapterPortal;
+	CommonMehodsInCP commonMehodsInCP;
 	ChapterInfo chapterInfo;
+	GlobalSearch globalSearch;
+	
 	
 	
 	@BeforeMethod(alwaysRun = true)
@@ -36,6 +40,8 @@ public class Test_ChapterInfo extends BaseClass {
 		naToChapterPortal = PageFactory.initElements(driver, NavigateToChapterPortal.class);
 		memChapterPortal= PageFactory.initElements(driver, MemberShipInChapterPortal.class);
 		chapterInfo = PageFactory.initElements(driver, ChapterInfo.class);
+		globalSearch = PageFactory.initElements(driver, GlobalSearch.class);
+		commonMehodsInCP = new CommonMehodsInCP(driver);
 		Logging.configure();
 	}
 	
@@ -44,14 +50,8 @@ public class Test_ChapterInfo extends BaseClass {
 		if (recording) {
 			VideoRecorder.startRecording("test_VerificationChapterInfo");
 		}
-		naToChapterPortal.clickContactsModule();
-		naToChapterPortal.clickContactsCPAccess();
-		naToChapterPortal.showAllInRealtedQuickLinks();
-		naToChapterPortal.getPortalAccessCount();
-		naToChapterPortal.clickDropDownInActionContainer();
-		naToChapterPortal.optionsInactionContainer();
-		naToChapterPortal.clickMyChapterTab();
-		naToChapterPortal.getComunityGroup();
+		commonMehodsInCP.navigationChapterPortal("Allison Garwood Freedland");
+		naToChapterPortal.getComunityGroup(1);
 		memChapterPortal.clickChapterInfoTab();
 		chapterInfo.getdetailsStaffInChapterInfo();
 		chapterInfo.getLeaderShipTabledataInChapterInfo();

@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.aia.pages.BaseClass;
 import org.aia.pages.api.membership.FontevaConnectionSOAP;
 import org.aia.pages.fonteva.chapterPortal.ChapterInfo;
+import org.aia.pages.fonteva.chapterPortal.GlobalSearch;
 import org.aia.pages.fonteva.chapterPortal.MemberShipInChapterPortal;
 import org.aia.pages.fonteva.chapterPortal.NavigateToChapterPortal;
 import org.aia.pages.fonteva.chapterPortal.CallForDues;
@@ -25,7 +26,9 @@ public class Test_CallForDues extends BaseClass {
 	boolean recording;
 	NavigateToChapterPortal naToChapterPortal;
 	MemberShipInChapterPortal memChapterPortal;
+	CommonMehodsInCP commonMehodsInCP;
 	CallForDues callForDues;
+	GlobalSearch globalSearch;
 	
 	@BeforeMethod(alwaysRun = true)
 	public void setUp() throws Exception {
@@ -37,6 +40,8 @@ public class Test_CallForDues extends BaseClass {
 		naToChapterPortal = PageFactory.initElements(driver, NavigateToChapterPortal.class);
 		memChapterPortal= PageFactory.initElements(driver, MemberShipInChapterPortal.class);
 		callForDues = PageFactory.initElements(driver, CallForDues.class);
+		globalSearch = PageFactory.initElements(driver, GlobalSearch.class);
+		commonMehodsInCP = new CommonMehodsInCP(driver);
 		Logging.configure();
 	}
 	
@@ -45,18 +50,12 @@ public class Test_CallForDues extends BaseClass {
 		if (recording) {
 			VideoRecorder.startRecording("test_VerificationCallForDues");
 		}
-		naToChapterPortal.clickContactsModule();
-		naToChapterPortal.clickContactsCPAccess();
-		naToChapterPortal.showAllInRealtedQuickLinks();
-		naToChapterPortal.getPortalAccessCount();
-		naToChapterPortal.clickDropDownInActionContainer();
-		naToChapterPortal.optionsInactionContainer();
-		naToChapterPortal.clickMyChapterTab();
-		naToChapterPortal.getComunityGroup();
+		commonMehodsInCP.navigationChapterPortal("Allison Garwood Freedland");
+		naToChapterPortal.getComunityGroup(1);
 		memChapterPortal.clickChapterInfoTab();
 		callForDues.clickCallForDuesInfoTab();
 		callForDues.getParagraphTextInComponent();
-		callForDues.getcontactDetailsTextInComponent();
+		callForDues.getContactDetailsTextInComponent();
 	}
 	
 	@AfterMethod(alwaysRun = true)
