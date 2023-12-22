@@ -11,7 +11,7 @@ public class EventConfig {
 //Event info Module value
 
 	public static String eventID;
-	
+
 	public static String RegistrationTimer = "55";
 	public static boolean select24HoursTime = false;
 	public static String startDateWithTime = "11/16/2023 10:21";
@@ -55,7 +55,6 @@ public class EventConfig {
 //Tickets Module value
 
 	public static String ticketSalesStartDate = new SimpleDateFormat("MM/dd/yyyy").format(new Date());
-	
 
 //Venues
 
@@ -66,7 +65,7 @@ public class EventConfig {
 	public static String speakerNameInputField;
 
 	public static String scheduleNameInputFieldInAgenda;
-	
+
 	public static String scheduleDisplayNameInputFieldInAgenda;
 
 	public static String paymentButonfun;
@@ -91,7 +90,7 @@ public class EventConfig {
 	public static String getVenueRecordsCount2;
 
 	public static String getEventName;
-	
-	public static String eventOverView ="Presently, you are rich, with a compelling need, and resources except. Curabitur not at all is to sit at the time of the convallis quis of the lecturer. Until the course of the congue lion itself the following male.";
+
+	public static String eventOverView = "Presently, you are rich, with a compelling need, and resources except. Curabitur not at all is to sit at the time of the convallis quis of the lecturer. Until the course of the congue lion itself the following male.";
 
 }

@@ -244,7 +244,7 @@ public class RenewCESAPIValidation
 				 then().statusCode(200).extract().response();
 
 		jsonPathEval = responseAcc.jsonPath();
-		
+		Thread.sleep(10000);
 		String providerStatus = jsonPathEval.getString("AIA_CES_Provider_Status__c");
 		String csemembershipType = jsonPathEval.getString("Membership_Type__c");
 		String providerNumber = jsonPathEval.getString("AIA_CES_Provider_Number__c");

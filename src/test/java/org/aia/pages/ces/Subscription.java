@@ -10,6 +10,7 @@ import java.awt.event.KeyEvent;
 import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.Utility;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -221,6 +222,7 @@ public class Subscription {
 	 * "Accredited Academic Institution", "Non-profit", "None"
 	 */
 	public void ProfessionalType(String orgType) throws InterruptedException {
+		JavascriptExecutor js = (JavascriptExecutor) driver;
 		util.waitUntilElement(driver, profQualifyingQues);
 		if (orgType == null || orgType.isEmpty() || orgType.trim().isEmpty()) {
 			util.selectDropDownByText(profQualifyingQues, "None");
@@ -249,7 +251,8 @@ public class Subscription {
 
 		util.waitUntilElement(driver, pofessionalFileUplaodDoneButton);
 		Thread.sleep(3000);
-		pofessionalFileUplaodDoneButton.click();
+		js.executeScript("arguments[0].click();", pofessionalFileUplaodDoneButton);
+		//pofessionalFileUplaodDoneButton.click();
 		util.waitUntilElement(driver, pofessionalDeleteBtn);
 		professionalNext.click();
 		util.waitUntilElement(driver, confirmNext);

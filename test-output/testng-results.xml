@@ -32,6 +32,7 @@
       <![CDATA[LOG: INFO : Browser instances closed]]>
     </line>
   </reporter-output>
+<<<<<<< HEAD
   <suite started-at="2023-12-06T11:49:04 IST" name="Default suite" finished-at="2023-12-06T11:52:38 IST" duration-ms="213633">
     <groups>
     </groups>
@@ -46,6 +47,22 @@
           </reporter-output>
         </test-method> <!-- initialTestSetup -->
         <test-method is-config="true" signature="setupBrowser()[pri:0, instance:org.aia.testcases.membership.TestDIPOfflineJoin_Membership@1530c739]" started-at="2023-12-06T11:49:04 IST" name="setupBrowser" finished-at="2023-12-06T11:49:04 IST" duration-ms="2" status="PASS">
+=======
+  <suite started-at="2023-12-05T12:51:24 IST" name="Default suite" finished-at="2023-12-05T12:55:26 IST" duration-ms="241922">
+    <groups>
+    </groups>
+    <test started-at="2023-12-05T12:51:24 IST" name="Default test" finished-at="2023-12-05T12:55:26 IST" duration-ms="241922">
+      <class name="org.aia.testcases.membership.TestDeceasedMarkingProcess_Membership">
+        <test-method is-config="true" signature="setup()[pri:0, instance:org.aia.testcases.membership.TestDeceasedMarkingProcess_Membership@1530c739]" started-at="2023-12-05T12:51:24 IST" name="setup" finished-at="2023-12-05T12:51:24 IST" duration-ms="14" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setup -->
+        <test-method is-config="true" signature="initialTestSetup()[pri:0, instance:org.aia.testcases.membership.TestDeceasedMarkingProcess_Membership@1530c739]" started-at="2023-12-05T12:51:24 IST" name="initialTestSetup" finished-at="2023-12-05T12:51:24 IST" duration-ms="3" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- initialTestSetup -->
+        <test-method is-config="true" signature="setupBrowser()[pri:0, instance:org.aia.testcases.membership.TestDeceasedMarkingProcess_Membership@1530c739]" started-at="2023-12-05T12:51:24 IST" name="setupBrowser" finished-at="2023-12-05T12:51:24 IST" duration-ms="6" status="PASS">
+>>>>>>> cbb209fe9e17105df7cf925dea73c59163e3fbb9
           <reporter-output>
             <line>
               <![CDATA[LOG: INFO : Creating browser instances]]>
@@ -55,7 +72,11 @@
             </line>
           </reporter-output>
         </test-method> <!-- setupBrowser -->
+<<<<<<< HEAD
         <test-method is-config="true" signature="setUp()[pri:0, instance:org.aia.testcases.membership.TestDIPOfflineJoin_Membership@1530c739]" started-at="2023-12-06T11:49:04 IST" name="setUp" finished-at="2023-12-06T11:49:23 IST" duration-ms="19047" status="PASS">
+=======
+        <test-method is-config="true" signature="setUp()[pri:0, instance:org.aia.testcases.membership.TestDeceasedMarkingProcess_Membership@1530c739]" started-at="2023-12-05T12:51:24 IST" name="setUp" finished-at="2023-12-05T12:51:51 IST" duration-ms="26271" status="PASS">
+>>>>>>> cbb209fe9e17105df7cf925dea73c59163e3fbb9
           <reporter-output>
             <line>
               <![CDATA[LOG : INFO -Config File loaded]]>
@@ -77,6 +98,7 @@
             </line>
           </reporter-output>
         </test-method> <!-- setUp -->
+<<<<<<< HEAD
         <test-method signature="verifyDIPOfflineJoin()[pri:1, instance:org.aia.testcases.membership.TestDIPOfflineJoin_Membership@1530c739]" started-at="2023-12-06T11:49:23 IST" name="verifyDIPOfflineJoin" description="(FM-382) Membership Offline Join DIP Process" finished-at="2023-12-06T11:52:38 IST" duration-ms="194299" status="PASS">
           <reporter-output>
           </reporter-output>
@@ -86,13 +108,28 @@
             <param index="0">
               <value>
                 <![CDATA[[TestResult name=verifyDIPOfflineJoin status=SUCCESS method=TestDIPOfflineJoin_Membership.verifyDIPOfflineJoin()[pri:1, instance:org.aia.testcases.membership.TestDIPOfflineJoin_Membership@1530c739] output={null}]]]>
+=======
+        <test-method signature="verifyDeceasedMarkingProcess()[pri:1, instance:org.aia.testcases.membership.TestDeceasedMarkingProcess_Membership@1530c739]" started-at="2023-12-05T12:51:51 IST" name="verifyDeceasedMarkingProcess" description="(FM-364) Deceased Marking Process(Fovteva)" finished-at="2023-12-05T12:55:24 IST" duration-ms="213499" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- verifyDeceasedMarkingProcess -->
+        <test-method is-config="true" signature="tearDown(org.testng.ITestResult)[pri:0, instance:org.aia.testcases.membership.TestDeceasedMarkingProcess_Membership@1530c739]" started-at="2023-12-05T12:55:24 IST" name="tearDown" finished-at="2023-12-05T12:55:24 IST" duration-ms="147" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[[TestResult name=verifyDeceasedMarkingProcess status=SUCCESS method=TestDeceasedMarkingProcess_Membership.verifyDeceasedMarkingProcess()[pri:1, instance:org.aia.testcases.membership.TestDeceasedMarkingProcess_Membership@1530c739] output={null}]]]>
+>>>>>>> cbb209fe9e17105df7cf925dea73c59163e3fbb9
               </value>
             </param>
           </params>
           <reporter-output>
           </reporter-output>
         </test-method> <!-- tearDown -->
+<<<<<<< HEAD
         <test-method is-config="true" signature="tearDown()[pri:0, instance:org.aia.testcases.membership.TestDIPOfflineJoin_Membership@1530c739]" started-at="2023-12-06T11:52:38 IST" name="tearDown" finished-at="2023-12-06T11:52:38 IST" duration-ms="245" status="PASS">
+=======
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:org.aia.testcases.membership.TestDeceasedMarkingProcess_Membership@1530c739]" started-at="2023-12-05T12:55:24 IST" name="tearDown" finished-at="2023-12-05T12:55:26 IST" duration-ms="1924" status="PASS">
+>>>>>>> cbb209fe9e17105df7cf925dea73c59163e3fbb9
           <reporter-output>
             <line>
               <![CDATA[LOG: INFO : Closing browser instances]]>
@@ -102,11 +139,19 @@
             </line>
           </reporter-output>
         </test-method> <!-- tearDown -->
+<<<<<<< HEAD
         <test-method is-config="true" signature="finalTestTearDown()[pri:0, instance:org.aia.testcases.membership.TestDIPOfflineJoin_Membership@1530c739]" started-at="2023-12-06T11:52:38 IST" name="finalTestTearDown" finished-at="2023-12-06T11:52:38 IST" duration-ms="0" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- finalTestTearDown -->
       </class> <!-- org.aia.testcases.membership.TestDIPOfflineJoin_Membership -->
+=======
+        <test-method is-config="true" signature="finalTestTearDown()[pri:0, instance:org.aia.testcases.membership.TestDeceasedMarkingProcess_Membership@1530c739]" started-at="2023-12-05T12:55:26 IST" name="finalTestTearDown" finished-at="2023-12-05T12:55:26 IST" duration-ms="0" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- finalTestTearDown -->
+      </class> <!-- org.aia.testcases.membership.TestDeceasedMarkingProcess_Membership -->
+>>>>>>> cbb209fe9e17105df7cf925dea73c59163e3fbb9
     </test> <!-- Default test -->
   </suite> <!-- Default suite -->
 </testng-results>

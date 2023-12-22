@@ -36,6 +36,7 @@ public class PrimaryInformationPage {
 	String addressStatepac = "CA";
 	String addressZipCodepac = "94107";
 
+
 	public PrimaryInformationPage(WebDriver IDriver) {
 		this.driver = IDriver;
 	}

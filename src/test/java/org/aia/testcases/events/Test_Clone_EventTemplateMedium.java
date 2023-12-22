@@ -142,8 +142,8 @@ public class Test_Clone_EventTemplateMedium extends BaseClass {
 			// tickets tab
 			ticketModule.eventTicketsTab();
 			ticketModule.validateEventTicketSalesStartDate();
-			////fec-194
-			//ticketModule.verifyUserAbleToProvidedateIntoTicketSalesStartDate();
+			//// fec-194
+			// ticketModule.verifyUserAbleToProvidedateIntoTicketSalesStartDate();
 			ticketModule.editEventTicket(true);
 			ticketModule.validateEditTicketTypeHeader();
 			ticketModule.enterPriceInCreateTicketType("10.00");
@@ -165,10 +165,10 @@ public class Test_Clone_EventTemplateMedium extends BaseClass {
 			util.navigateToURl(driver, DataProviderFactory.getConfig().getValue("fonteva_sign_in"));
 			signInpage.login(dataList.get(5), dataList.get(6));
 			util.waitForJavascript(driver, 20000, 2000);
-			//String aiaNumber = eventRegistration.getAIAData();
+			// String aiaNumber = eventRegistration.getAIAData();
 			util.switchToTabs(driver, 0);
 			events.globalSearch(dataList.get(5));
-			String aiaNumber  =events.clickContactsInGlobalSearch();
+			String aiaNumber = events.clickContactsInGlobalSearch();
 			events.eventsTab();
 			events.eventsSearch(EventConfig.getEventName);
 			eventInfoModule.clickEventUrl();
@@ -219,7 +219,7 @@ public class Test_Clone_EventTemplateMedium extends BaseClass {
 		}
 
 	}
-	
+
 	@Test(priority = 3, description = "Verify Future date modify for an existing Event", enabled = true)
 	public void test_EditFutureDateCloneEventMediumTEmplate(ITestContext context) throws InterruptedException, Throwable {
 		Logging.logger
@@ -283,14 +283,13 @@ public class Test_Clone_EventTemplateMedium extends BaseClass {
 			// Email validations session confirm message
 			// Note:- Sometimes API body returning as null
 			mailinator.validateFutureDatesessionConfirmationEmailforEvents(dataList, eventName, EventInfoModule.futureDate);
+			
 
-		} catch (Exception e) {
-			throw new Exception(e.getMessage());
-		} catch (Throwable e) {
-			throw new AssertionError(e.getMessage());
+		}catch (Exception e) {
+			// TODO: handle exception
 		}
-	}
 
+}
 
 	@Test(priority = 4, description = "Verify 'Attendees' info after registering for the event", enabled = true)
 	public void validate_AttendeesMediumTEmplates(ITestContext context) throws InterruptedException, Throwable {
@@ -438,12 +437,11 @@ public class Test_Clone_EventTemplateMedium extends BaseClass {
 			throw new AssertionError(e.getMessage());
 		}
 	}
-	
+
 	@Test(priority = 6, description = "Verify 'validate_RegistrationTime' info after registering for the event", enabled = true)
-	public void validate_RegistrationTime(ITestContext context)
-			throws InterruptedException, Throwable {
-		Logging.logger.info(
-				"================================validate_RegistrationTime started==========================");
+	public void validate_RegistrationTime(ITestContext context) throws InterruptedException, Throwable {
+		Logging.logger
+				.info("================================validate_RegistrationTime started==========================");
 		try {
 			util.waitForJavascript(driver, 10000, 5000);
 			if (recording) {
@@ -475,15 +473,13 @@ public class Test_Clone_EventTemplateMedium extends BaseClass {
 			eventRegistration.ValidateEmailInRegistartion();
 			eventRegistration.singleticketRegistratioButton();
 			eventRegistration.validateTime(fontevaRegTime);
+		} catch (Exception e) {
+			throw new Exception(e.getMessage());
+		} catch (Throwable e) {
+			throw new AssertionError(e.getMessage());
 		}
-			 catch (Exception e) {
-					throw new Exception(e.getMessage());
-				} catch (Throwable e) {
-					throw new AssertionError(e.getMessage());
-				}
-			
-		}
-	
+
+	}
 
 	@Test(priority = 7, description = "Edit cloneEvent date and time,", enabled = true)
 	public void test_EditSelectDateInCloneEventInfoMediumTEmplate(ITestContext context)
@@ -521,7 +517,7 @@ public class Test_Clone_EventTemplateMedium extends BaseClass {
 			throw new AssertionError(e.getMessage());
 		}
 	}
-	
+
 	@AfterMethod(alwaysRun = true)
 	public void teardown(ITestResult result) throws IOException {
 		if (recording) {
