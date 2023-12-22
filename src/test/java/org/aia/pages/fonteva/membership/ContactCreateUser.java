@@ -205,8 +205,10 @@ public class ContactCreateUser {
 	String lName;
 	String fullname;
 	String emailPrefix;
+	String newEmailPrefix;
 	String emailDomain;
 	String emailaddressdata;
+	String newEmailaddressdata;
 	ArrayList<String> userList = new ArrayList<String>();
 
 	/**
@@ -247,7 +249,11 @@ public class ContactCreateUser {
 		log.info("Email:" + emailaddressdata);
 		userList.add(4, emailaddressdata);
 		fullname = fName + " " + lName;
-		userList.add(5, fullname);
+		userList.add(5, fullname);	
+		newEmailPrefix = "auto_" + RandomStringUtils.randomAlphabetic(3).toLowerCase() + date1;
+		userList.add(6, newEmailPrefix);
+		newEmailaddressdata=newEmailPrefix+emailDomain;
+		userList.add(7,newEmailaddressdata);
 		return userList;
 	}
 
