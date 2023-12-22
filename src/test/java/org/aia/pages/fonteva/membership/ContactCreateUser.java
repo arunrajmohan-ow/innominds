@@ -123,6 +123,9 @@ public class ContactCreateUser {
 	@FindBy(xpath = "//span[contains(@title,'Payment in Full')]")
 	WebElement selectDeusOpt;
 	
+	@FindBy(xpath = "//span[contains(@title,'Dues Installment Plan - 6 Installments')]")
+	WebElement selectDueDip;
+	
 	@FindBy(xpath="//span[contains(@title,'Dues Installment Plan ')]")
 	WebElement selectPayInInsatllmentElement;
 
@@ -165,11 +168,11 @@ public class ContactCreateUser {
 	@FindBy(xpath = "//span[text()='Process Payment']/parent::button")
 	WebElement processPaymentBtn;
 
-	@FindBy(xpath = "//lightning-formatted-text[@slot='primaryField']")
+	//@FindBy(xpath = "//lightning-formatted-text[@slot='primaryField']")
+	 // WebElement receiptNo;
+	
+	@FindBy(xpath = "//img[@title='Receipt']/following::div//slot[@name='primaryField']")
 	WebElement receiptNo;
-//	
-//	@FindBy(xpath = "//slot[@name='primaryField']")
-//	WebElement receiptNo;
 
 	@FindBy(xpath = "(//a[contains(@href,'OrderApi__Sales_Order__c')])[2]/slot/slot/span")
 	WebElement aiaNumber;
@@ -356,6 +359,32 @@ public class ContactCreateUser {
 		util.waitUntilElement(driver, applyLastPayment);
 		applyLastPayment.click();
 	}
+	
+	public void createDipSalesOrder(String paymentOpt) throws InterruptedException {
+		util.waitUntilElement(driver, selectDuesDrp);
+		selectDuesDrp.click();
+		// executor.executeScript("arguments[0].click();", selectDeusOpt);
+		selectDueDip.click();
+		createSalesOrder.click();
+		util.waitUntilElement(driver, readyForPaymentBtn);
+		readyForPaymentBtn.click();
+		util.waitUntilElement(driver, applyPayment);
+		applyPayment.click();
+		Thread.sleep(10000);
+		// check wait
+		driver.switchTo().frame(drpIframe);
+		Thread.sleep(60000);
+		// check wait
+		List<WebElement> options = driver.findElements(By.xpath("//select[@aria-label='Payment Type']/option"));
+		for (WebElement drpOption : options) {
+			System.out.println(drpOption.getText());
+			if (drpOption.getText().equalsIgnoreCase(paymentOpt)) {
+				drpOption.click();
+			}
+		}
+		util.waitUntilElement(driver, applyLastPayment);
+		applyLastPayment.click();
+	}
 
 	/**
 	 * @param fullName
@@ -391,6 +420,7 @@ public class ContactCreateUser {
 	 */
 	public ArrayList<Object> getPaymentReceiptData() throws InterruptedException {
 		ArrayList<Object> receiptData = new ArrayList<Object>();
+		driver.navigate().refresh();
 		util.waitUntilElement(driver, receiptNo);
 		String receiptNumber = receiptNo.getText();
 		receiptData.add(0, receiptNumber);

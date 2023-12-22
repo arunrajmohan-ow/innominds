@@ -41,7 +41,10 @@ public class ReNewUser {
   	@FindBy(xpath="//a[contains(text(),'Show All')]")
   	WebElement showAll;
   	
-	@FindBy(xpath = "//a/slot/span[contains(text(),'Memberships')]")
+	//@FindBy(xpath = "//a/slot/span[contains(text(),'Memberships')]")
+	//WebElement selectMembership;
+	
+	@FindBy(xpath = "//a/slot/span[contains(text(),'Memberships')]//ancestor::a")
 	WebElement selectMembership;
 
 	@FindBy(xpath = "(//table[@aria-label='Memberships']//tr)[2]//th//a")
@@ -79,9 +82,12 @@ public class ReNewUser {
 	@FindBy(xpath = "//span[text()='Dues - Renew Payment in Full']")
 	WebElement selectDeusPlan;
 
-	@FindBy(xpath = "//button[@name='executeRenew']")
+//	@FindBy(xpath = "//button[@name='executeRenew']")
+//	WebElement updateSalesOrderBtn;
+	
+	@FindBy(xpath = "//button[contains(text(),'Update Sales Order')]")
 	WebElement updateSalesOrderBtn;
-
+	
 	@FindBy(xpath = "//button[text()='Ready For Payment']")
 	WebElement readyForPayment;
 
@@ -111,7 +117,7 @@ public class ReNewUser {
 		action.sendKeys(Keys.ARROW_DOWN).build().perform();
 		action.sendKeys(Keys.ARROW_DOWN).build().perform();
 		util.waitUntilElement(driver, selectMembership);
-		selectMembership.click();
+		action.moveToElement(selectMembership).click().perform();
 		Thread.sleep(10000);
 		driver.navigate().refresh();
 		util.waitUntilElement(driver, subscriptionId);
@@ -145,7 +151,21 @@ public class ReNewUser {
 		subPlanDrp.click();
 		selectDeusPlan.click();
 		util.waitUntilElement(driver, updateSalesOrderBtn);
-		updateSalesOrderBtn.click();
+		executor.executeScript("arguments[0].click();", updateSalesOrderBtn);
+	}
+	
+	public void renewMembershipDIP(String fullName) throws InterruptedException {
+		Thread.sleep(10000);
+		executor.executeScript("window.scrollBy(0,-500)", "");
+		WebElement contactInTermLink = driver.findElement(By.xpath(String.format(contactTerm, fullName)));
+		executor.executeScript("arguments[0].click();", contactInTermLink);
+		util.waitUntilElement(driver, renewBtn);
+		renewBtn.click();
+		util.waitUntilElement(driver, subPlanDrp);
+		subPlanDrp.click();
+		selectPayInInsatllmentElement.click();
+		util.waitUntilElement(driver, updateSalesOrderBtn);
+		executor.executeScript("arguments[0].click();", updateSalesOrderBtn);
 	}
 
 	/**
