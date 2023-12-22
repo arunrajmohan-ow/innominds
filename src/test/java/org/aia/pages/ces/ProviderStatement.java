@@ -2,7 +2,6 @@ package org.aia.pages.ces;
 
 
 import static org.testng.Assert.assertTrue;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -23,6 +22,10 @@ public class ProviderStatement {
 		this.driver = Idriver;
 	}
 
+
+	
+	@FindBy(xpath="//div/span[@class='main']") WebElement tabTitleProvider;
+	
 
 	@FindBy(xpath = "//input[@name='Name']")
 	WebElement nameProviderStatement;
@@ -66,7 +69,8 @@ public class ProviderStatement {
 	@FindBy(xpath = "//div[@role='status']//span")
 	WebElement enterSomeValidInputError;
 	
-	@FindBy(xpath="//div/span[@class='main']") WebElement tabTitleProvider;
+	
+
 
 
 	public void providerStatementEnterNameDate(String firstname) throws InterruptedException {
