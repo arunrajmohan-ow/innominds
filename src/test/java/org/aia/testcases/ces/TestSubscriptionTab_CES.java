@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import org.aia.pages.BaseClass;
 import org.aia.pages.api.MailinatorCESAPI;
-import org.aia.pages.api.ces.JoinCESAPIValidation;
 import org.aia.pages.api.ces.FontevaConnectionSOAP;
+import org.aia.pages.api.ces.JoinCESAPIValidation;
 import org.aia.pages.ces.AdditionalProviderUser;
 import org.aia.pages.ces.AdditionalUsers;
 import org.aia.pages.ces.CheckOutPageCes;
@@ -36,7 +36,7 @@ import org.testng.annotations.Test;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 
-public class TestPoCTab_CES extends BaseClass {
+public class TestSubscriptionTab_CES extends BaseClass {
 	SignUpPageCes signUpPage;
 	SignInPage signInpage;
 	CloseBtnPageCes closeButtnPage;
@@ -86,15 +86,13 @@ public class TestPoCTab_CES extends BaseClass {
 		fontevaPage = PageFactory.initElements(driver, FontevaCES.class);
 	}
 
-	/**
-	 * @throws Exception
-	 */
-	@Test(priority = 1, description = "Validate Primary point of contact tab", enabled = false)
-	public void validatePrimaryPOCTab() throws Exception {
+	@Test(priority = 1, description = "(FC- 299,FC-300) Validate Subscription Tab", enabled = true)
+	public void validateSubscriptionTab() throws Exception {
 		String prefix = "Dr.";
 		String suffix = "Sr.";
 		signUpPage.clickSignUplink();
 		ArrayList<String> dataList = signUpPage.signUpData();
+		ArrayList<String> userAccount = dataList;
 		String mobileCountry = signUpPage.signUpUserDetail();
 		mailinator.verifyEmailForAccountSetup(dataList.get(3));
 		closeButtnPage.clickCloseAfterVerification();
@@ -103,105 +101,171 @@ public class TestPoCTab_CES extends BaseClass {
 		primarypocPage.verifyPOCTab();
 		primarypocPage.validateErrorOnPOCTab();
 		primarypocPage.enterPOCdetail(prefix, suffix, dataList.get(2), dataList, mobileCountry);
+		organizationPage.enterOrganizationDetails(dataList, "Other", "No", "United States of America (+1)");
+		subscribePage.verifySubscriptionTabText();
+		subscribePage.refreshFunction();
+		primarypocPage.verifyPrimayPOCTab();
+		FontevaConnectionSOAP sessionID = new FontevaConnectionSOAP();
+		System.out.println("sessionID is :" + sessionID);
+		final String sID = sessionID.getSessionID();
+		System.out.println("sessionID 2 is :" + sID);
+		driver.get("https://aia--testing.sandbox.my.salesforce.com/secur/frontdoor.jsp?sid=" + sID);
+		fontevaPage.checkUserInProviderApplication(sID);
 	}
 
-	/**
-	 * @throws Exception
-	 */
-	@Test(priority = 2, description = "Validate work fon number in Primary point of contact tab", enabled = false)
-	public void validateWorkPhoneCountryInPoc() throws Exception {
+	@Test(priority = 1, description = "(FC- 305) Validate Secondary POC Refresh Tab", enabled = false)
+	public void validateSecondaryPOCRefreshTab() throws Exception {
 		String prefix = "Dr.";
 		String suffix = "Sr.";
 		signUpPage.clickSignUplink();
 		ArrayList<String> dataList = signUpPage.signUpData();
-		signUpPage.signUpUserDetail();
-		mailinator.verifyEmailForAccountSetup(dataList.get(3));
-		closeButtnPage.clickCloseAfterVerification();
-		loginPageCes.loginToCes(dataList.get(5), dataList.get(6));
-		loginPageCes.checkLoginSuccess();
-		primarypocPage.verifyPOCTab();
-		primarypocPage.validateErrorOnPOCTab();
-		primarypocPage.enterInvalidWorkNumber();
-	}
-
-	@Test(priority = 3, description = "Validate refresh functionality Primary point of contact tab", enabled = true)
-	public void validateRefreshFuntionInPoc() throws Exception {
-		String prefix = "Dr.";
-		String suffix = "Sr.";
-		signUpPage.clickSignUplink();
-		ArrayList<String> dataList = signUpPage.signUpData();
-		signUpPage.signUpUserDetail();
-		mailinator.verifyEmailForAccountSetup(dataList.get(3));
-		closeButtnPage.clickCloseAfterVerification();
-		loginPageCes.loginToCes(dataList.get(5), dataList.get(6));
-		loginPageCes.checkLoginSuccess();
-		primarypocPage.refreshFunction();
-		driver.get(
-				DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + FontevaConnectionSOAP.getSessionID());
-		fontevaPage.checkUserInProviderApplication(dataList.get(0));
-
-	}
-
-	@Test(priority = 4, description = "Validate country code without selecting us or canada Primary point of contact tab", enabled = false)
-	public void validateWithoutUSCodeInPocTab() throws Exception {
-		String prefix = "Dr.";
-		String suffix = "Sr.";
-		signUpPage.clickSignUplink();
-		ArrayList<String> dataList = signUpPage.signUpData();
+		ArrayList<String> userAccount = dataList;
 		String mobileCountry = signUpPage.signUpUserDetail();
 		mailinator.verifyEmailForAccountSetup(dataList.get(3));
 		closeButtnPage.clickCloseAfterVerification();
 		loginPageCes.loginToCes(dataList.get(5), dataList.get(6));
 		loginPageCes.checkLoginSuccess();
-		primarypocPage.changeWorkPhoneCountryInPOC(testData.testDataProvider().getProperty("newCountry"));
-		primarypocPage.enterPOCdetail(prefix, suffix, dataList.get(2), dataList, mobileCountry);
+		primarypocPage.enterPrimaryPocDetails(prefix, suffix, dataList.get(2));
+		String subType = organizationPage.enterOrganizationDetails(dataList, "Architecture Firm", "No",
+				"United States of America (+1)");
+		subscribePage.SubscriptionType(subType, "Yes", null, "Non-profit");
+		secPoc.secondaryPOCTabRefresh();
+		primarypocPage.verifyPrimayPOCTab();
+		FontevaConnectionSOAP sessionID = new FontevaConnectionSOAP();
+		System.out.println("sessionID is :" + sessionID);
+		final String sID = sessionID.getSessionID();
+		System.out.println("sessionID 2 is :" + sID);
+		driver.get("https://aia--testing.sandbox.my.salesforce.com/secur/frontdoor.jsp?sid=" + sID);
+		fontevaPage.checkUserInProviderApplication(sID);
 	}
 
-	@Test(priority = 5, description = "FC-333 Validate 'Mobile phone country' in Primary POC tab", enabled = false)
-	public void validateMobilePhoneCountryInPocTab() throws Exception {
+	@Test(priority = 2, description = "(FC-301) Verify secondary POC tab", enabled = false)
+	public void validateSecondaryPOCTab() throws Exception {
+
 		String prefix = "Dr.";
 		String suffix = "Sr.";
 		signUpPage.clickSignUplink();
 		ArrayList<String> dataList = signUpPage.signUpData();
-		String mobileCountry = signUpPage.signUpUserDetail();
+		ArrayList<String> userAccount = dataList;
+		signUpPage.signUpUser();
 		mailinator.verifyEmailForAccountSetup(dataList.get(3));
 		closeButtnPage.clickCloseAfterVerification();
 		loginPageCes.loginToCes(dataList.get(5), dataList.get(6));
 		loginPageCes.checkLoginSuccess();
-		System.out.println("datalist value:" + dataList.get(2));
-		primarypocPage.enterPocDetailsWithOutMobilePone(prefix, suffix, "--None--", dataList.get(2));
-		primarypocPage.validateWorkPhoneError(prefix, suffix, "United States of America (+1)");
+		primarypocPage.enterPrimaryPocDetails(prefix, suffix, dataList.get(2));
+		String subType = organizationPage.enterOrganizationDetails(dataList, "Architecture Firm", "No",
+				"United States of America (+1)");
+		subscribePage.SubscriptionType(subType, "Yes", null, "Non-profit");
+		secPoc.enterSecondaryPocDetails(dataList, prefix, suffix, "Yes", "United States of America (+1)");
+		additionalUsers.verifyAUTab();
+
 	}
 
-	@Test(priority = 6, description = "FC-334 Validate 'Mobile phone' in Primary POC tab", enabled = false)
-	public void validateMobilePhoneInPocTab() throws Exception {
+	@Test(priority = 3, description = "(FC-302) Verify 'Work phone country' in secondary POC tab", enabled = false)
+	public void validateWorkPhoneSecondaryPOCTab() throws Exception {
+
 		String prefix = "Dr.";
 		String suffix = "Sr.";
 		signUpPage.clickSignUplink();
 		ArrayList<String> dataList = signUpPage.signUpData();
-		String mobileCountry = signUpPage.signUpUserDetail();
+		ArrayList<String> userAccount = dataList;
+		signUpPage.signUpUser();
 		mailinator.verifyEmailForAccountSetup(dataList.get(3));
 		closeButtnPage.clickCloseAfterVerification();
 		loginPageCes.loginToCes(dataList.get(5), dataList.get(6));
 		loginPageCes.checkLoginSuccess();
-		primarypocPage.enterPocDetailsWithOutMobilePone(prefix, suffix, "--None--", dataList.get(2));
-		primarypocPage.enterPrimaryPocAllDetails(prefix, suffix, "Algeria (+213)", dataList.get(2));
-		organizationPage.verifyOrganizationTab();
+		primarypocPage.enterPrimaryPocDetails(prefix, suffix, dataList.get(2));
+		String subType = organizationPage.enterOrganizationDetails(dataList, "Architecture Firm", "No",
+				"United States of America (+1)");
+		subscribePage.SubscriptionType(subType, "Yes", null, "Non-profit");
+		secPoc.enterInvalidWorkPhoneNumber(dataList, prefix, suffix, "Yes", "United States of America (+1)");
+
 	}
 
-	@Test(priority = 6, description = "FC-335 Validate 'Mobile phone/Country' in Primary POC tab", enabled = false)
-	public void validateMobileTabInPocTab() throws Exception {
+	@Test(priority = 3, description = "(FC-303) Verify 'Work phone country' in secondary POC tab", enabled = false)
+	public void validateWorkPhoneCountrySecondaryPOCTab() throws Exception {
+
 		String prefix = "Dr.";
 		String suffix = "Sr.";
 		signUpPage.clickSignUplink();
 		ArrayList<String> dataList = signUpPage.signUpData();
-		String mobileCountry = signUpPage.signUpUserDetail();
+		ArrayList<String> userAccount = dataList;
+		signUpPage.signUpUser();
 		mailinator.verifyEmailForAccountSetup(dataList.get(3));
 		closeButtnPage.clickCloseAfterVerification();
 		loginPageCes.loginToCes(dataList.get(5), dataList.get(6));
 		loginPageCes.checkLoginSuccess();
-		primarypocPage.enterPrimaryPocAllDetails(prefix, suffix, "United States of America (+1)", dataList.get(2));
-		organizationPage.verifyOrganizationTab();
+		primarypocPage.enterPrimaryPocDetails(prefix, suffix, dataList.get(2));
+		String subType = organizationPage.enterOrganizationDetails(dataList, "Architecture Firm", "No",
+				"United States of America (+1)");
+		subscribePage.SubscriptionType(subType, "Yes", null, "Non-profit");
+		secPoc.enterInvalidWorkPhoneCountry(dataList, prefix, suffix, "Yes");
+		secPoc.enterDetailsWithoutWorkCountry(dataList);
+	}
+
+	@Test(priority = 3, description = "(FC-304)Validating the 'Work phone country'without US or Canada", enabled = false)
+	public void validateOtherWorkPhoneCountry() throws Exception {
+
+		String prefix = "Dr.";
+		String suffix = "Sr.";
+		signUpPage.clickSignUplink();
+		ArrayList<String> dataList = signUpPage.signUpData();
+		ArrayList<String> userAccount = dataList;
+		signUpPage.signUpUser();
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
+		closeButtnPage.clickCloseAfterVerification();
+		loginPageCes.loginToCes(dataList.get(5), dataList.get(6));
+		loginPageCes.checkLoginSuccess();
+		primarypocPage.enterPrimaryPocDetails(prefix, suffix, dataList.get(2));
+		String subType = organizationPage.enterOrganizationDetails(dataList, "Architecture Firm", "No",
+				"United States of America (+1)");
+		subscribePage.SubscriptionType(subType, "Yes", null, "Non-profit");
+		secPoc.enterInvalidWorkPhoneCountry(dataList, prefix, suffix, "Yes");
+		secPoc.enterOtherWorkCountry(dataList, "Algeria (+213)");
+		additionalUsers.verifyAUTab();
+
+	}
+
+	@Test(priority = 3, description = "(FC-336)Verify the 'Mobile phone country' in secondary POC tab ", enabled = false)
+	public void validateOtherMobilePhoneCountry() throws Exception {
+
+		String prefix = "Dr.";
+		String suffix = "Sr.";
+		signUpPage.clickSignUplink();
+		ArrayList<String> dataList = signUpPage.signUpData();
+		ArrayList<String> userAccount = dataList;
+		signUpPage.signUpUser();
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
+		closeButtnPage.clickCloseAfterVerification();
+		loginPageCes.loginToCes(dataList.get(5), dataList.get(6));
+		loginPageCes.checkLoginSuccess();
+		primarypocPage.enterPrimaryPocDetails(prefix, suffix, dataList.get(2));
+		String subType = organizationPage.enterOrganizationDetails(dataList, "Architecture Firm", "No",
+				"United States of America (+1)");
+		subscribePage.SubscriptionType(subType, "Yes", null, "Non-profit");
+		secPoc.enterDetailswithMobileCountry(dataList, prefix, suffix, "Yes", "United States of America (+1)");
+
+	}
+
+	@Test(priority = 3, description = "(FC-337)Verify Validating the 'Mobile phone'secondary POCTab", enabled = false)
+	public void validateMobileCountryError() throws Exception {
+
+		String prefix = "Dr.";
+		String suffix = "Sr.";
+		signUpPage.clickSignUplink();
+		ArrayList<String> dataList = signUpPage.signUpData();
+		ArrayList<String> userAccount = dataList;
+		signUpPage.signUpUser();
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
+		closeButtnPage.clickCloseAfterVerification();
+		loginPageCes.loginToCes(dataList.get(5), dataList.get(6));
+		loginPageCes.checkLoginSuccess();
+		primarypocPage.enterPrimaryPocDetails(prefix, suffix, dataList.get(2));
+		String subType = organizationPage.enterOrganizationDetails(dataList, "Architecture Firm", "No",
+				"United States of America (+1)");
+		subscribePage.SubscriptionType(subType, "Yes", null, "Non-profit");
+		secPoc.enterDetailswithMobilePhone(dataList, prefix, suffix, "Yes", "United States of America (+1)");
+
 	}
 
 }

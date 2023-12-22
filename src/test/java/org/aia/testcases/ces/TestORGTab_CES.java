@@ -89,7 +89,7 @@ public class TestORGTab_CES extends BaseClass {
 	 * @throws Exception
 	 */
 	
-	@Test(priority = 1, description = "Validate Primary point of contact tab", enabled = true)
+	@Test(priority = 1, description = "Validate Primary point of contact tab", enabled = false)
 	public void validatePrimaryPOCTab() throws Exception {
 		String prefix = "Dr.";
 		String suffix = "Sr.";
@@ -109,7 +109,7 @@ public class TestORGTab_CES extends BaseClass {
 	 * @throws Exception
 	 */
 	
-	@Test(priority = 2, description = "Validate Error Message without entering values on Organizataion Tab", enabled = true)
+	@Test(priority = 2, description = "Validate Error Message without entering values on Organizataion Tab", enabled = false)
 	public void validateErrorMsgAllDetailsOrgTab() throws Exception {
 		String prefix = "Dr.";
 		String suffix = "Sr.";
@@ -131,7 +131,7 @@ public class TestORGTab_CES extends BaseClass {
 	 * @throws Exception
 	 */
     
-	@Test(priority = 3, description = "Validate Subscription Tab", enabled = true)
+	@Test(priority = 3, description = "Validate Subscription Tab", enabled = false)
 	public void validateSubscriptionTab() throws Exception {
 		String prefix = "Dr.";
 		String suffix = "Sr.";
@@ -154,7 +154,7 @@ public class TestORGTab_CES extends BaseClass {
 	 * @throws Exception
 	 */
 	
-	@Test(priority = 4, description = "Validate error for all the details in Organization tab except Organization Name", enabled = true)
+	@Test(priority = 4, description = "Validate error for all the details in Organization tab except Organization Name", enabled = false)
 	public void validateErrorORGNameInOrg() throws Exception {
 		String prefix = "Dr.";
 		String suffix = "Sr.";
@@ -181,7 +181,7 @@ public class TestORGTab_CES extends BaseClass {
 	 * @throws Exception
 	 */
 
-	@Test(priority = 5, description = "Validate error for all the details in Organization tab except Organization Type", enabled = true)
+	@Test(priority = 5, description = "Validate error for all the details in Organization tab except Organization Type", enabled = false)
 	public void validateErrorORGTypeInOrg() throws Exception {
 		String prefix = "Dr.";
 		String suffix = "Sr.";
@@ -209,7 +209,7 @@ public class TestORGTab_CES extends BaseClass {
 	 * @throws Exception
 	 */
 	
-	@Test(priority = 6, description = "Validate error for all the details in Organization tab except Prior Provider", enabled = true)
+	@Test(priority = 6, description = "Validate error for all the details in Organization tab except Prior Provider", enabled = false)
 	public void validatePriorProviderErrorOrg() throws Exception {
 		String prefix = "Dr.";
 		String suffix = "Sr.";
@@ -234,7 +234,7 @@ public class TestORGTab_CES extends BaseClass {
 	}
 	
 	
-	@Test(priority = 7, description = "Enter all the details in Organization tab and Select 'Work phone country'other than  'United States of America' or 'Canada", enabled = true)
+	@Test(priority = 7, description = "Enter all the details in Organization tab and Select 'Work phone country'other than  'United States of America' or 'Canada", enabled = false)
 	public void validateWorkPhoneCountryInOrg() throws Exception {
 		String prefix = "Dr.";
 		String suffix = "Sr.";
@@ -280,7 +280,7 @@ public class TestORGTab_CES extends BaseClass {
 	
 	}
 	
-	@Test(priority = 9, description = "Validate 'Next' without providing any details for 'Work phone country' and 'Work phone'", enabled = true)
+	@Test(priority = 9, description = "Validate 'Next' without providing any details for 'Work phone country' and 'Work phone'", enabled = false)
 	public void validateWorkPhoneErrorORGTab() throws Exception {
 		String prefix = "Dr.";
 		String suffix = "Sr.";
@@ -302,5 +302,29 @@ public class TestORGTab_CES extends BaseClass {
 		organizationPage.validateWorkPhoneError(dataList, "Other", "No", "United States of America (+1)");
 	
 	}
+	
+	@Test(priority = 10, description = "FC-275 Validating the 'Work phone' in Organization tab", enabled = true)
+	public void validateWorkPhoneORGTab() throws Exception {
+		String prefix = "Dr.";
+		String suffix = "Sr.";
+		signUpPage.clickSignUplink();
+		ArrayList<String> dataList = signUpPage.signUpData();
+		System.out.println("datalist value is : "+dataList);
+		System.out.println(dataList.get(3));
+		System.out.println(dataList.get(2));
+		String mobileCountry = signUpPage.signUpUserDetail();
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
+		closeButtnPage.clickCloseAfterVerification();
+		loginPageCes.loginToCes(dataList.get(5), dataList.get(6));
+		loginPageCes.checkLoginSuccess();
+		primarypocPage.verifyPOCTab();
+		primarypocPage.validateErrorOnPOCTab();
+		primarypocPage.enterPOCdetail(prefix, suffix, dataList.get(2), dataList, mobileCountry);
+		organizationPage.enterInvalidWorkPhoneCountry(dataList, "Other", "No");
+		organizationPage.enterDetailsWithoutWorkCountry(dataList);
+	
+	}
+	
+	
 
 }

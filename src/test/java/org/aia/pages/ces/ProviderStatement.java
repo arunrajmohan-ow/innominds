@@ -22,9 +22,11 @@ public class ProviderStatement {
 		this.driver = Idriver;
 	}
 
+
 	
 	@FindBy(xpath="//div/span[@class='main']") WebElement tabTitleProvider;
 	
+
 	@FindBy(xpath = "//input[@name='Name']")
 	WebElement nameProviderStatement;
 
@@ -66,6 +68,9 @@ public class ProviderStatement {
 
 	@FindBy(xpath = "//div[@role='status']//span")
 	WebElement enterSomeValidInputError;
+	
+	
+
 
 
 	public void providerStatementEnterNameDate(String firstname) throws InterruptedException {
