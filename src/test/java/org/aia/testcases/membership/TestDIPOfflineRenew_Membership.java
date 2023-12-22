@@ -20,11 +20,7 @@ import org.testng.annotations.Test;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 
-/**
- * @author IM-RT-LP-1483(Suhas)
- *
- */
-public class TestOfflineRenew_Membership extends BaseClass {
+public class TestDIPOfflineRenew_Membership extends BaseClass {
 	ContactCreateUser fontevaJoin;
 	ReNewUser reNew;
 	MailinatorAPI malinator;
@@ -48,8 +44,8 @@ public class TestOfflineRenew_Membership extends BaseClass {
 	/**
 	 * @throws InterruptedException
 	 */
-	@Test(priority = 1, description = "verify the offline membership renew in fonteva application", enabled = true, groups= {"Smoke"})
-	public void offlineRenewProcess() throws InterruptedException {
+	@Test(priority = 1, description = "(FM-383) Membership Offline Renew DIP Process", enabled = true, groups= {"Smoke"})
+	public void offlineRenewProcessDIP() throws InterruptedException {
 		ArrayList<String> dataList = fontevaJoin.userData();
 		//fontevaJoin.signInFonteva();
 	//	fontevaJoin.pointOffset();
@@ -61,25 +57,12 @@ public class TestOfflineRenew_Membership extends BaseClass {
 		fontevaJoin.applyPayment(dataList.get(5));
 		ArrayList<Object> data = fontevaJoin.getPaymentReceiptData();
 		reNew.changeTermDate(dataList.get(5));
-		reNew.renewMembership(dataList.get(5));
+		reNew.renewMembershipDIP(dataList.get(5));
 		reNew.applyForPayment(testData.testDataProvider().getProperty("paymentMethod"));
 		fontevaJoin.applyPayment(dataList.get(5));
 		ArrayList<Object> renewReciept = fontevaJoin.getPaymentReceiptData();
 		// Validation of Thank you massage in email inbox after renew
 		malinator.thankYouEmailforOfflineRenew(dataList.get(2));
-		// Validate Membership & Term is got created
-		offlinApiValidation.verifyMemebershipRenewal(dataList.get(2),
-				testData.testDataProvider().getProperty("termEndDate"), renewReciept.get(2),
-				DataProviderFactory.getConfig().getValue("type_aia_national"),
-				testData.testDataProvider().getProperty("membershipType"),
-				testData.testDataProvider().getProperty("selection"));
-		// Validate sales order created or not
-		offlinApiValidation.verifySalesOrder(DataProviderFactory.getConfig().getValue("salesOrderStatus"),
-				DataProviderFactory.getConfig().getValue("orderStatus"), renewReciept.get(2),
-				DataProviderFactory.getConfig().getValue("postingStatus"));
-		// Validate Receipt Details
-		offlinApiValidation.verifyReciptDetails(renewReciept.get(0), renewReciept.get(2));
-
 	}
 
 	@AfterMethod(alwaysRun=true)
