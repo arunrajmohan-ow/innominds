@@ -33,6 +33,7 @@ public class FontevaCES {
 	ConfigDataProvider data = new ConfigDataProvider();
 	Utility util = new Utility(driver, 10);
 
+
 	@FindBy(xpath = "//input[@id='username']")
 	WebElement userName;
 
@@ -74,6 +75,7 @@ public class FontevaCES {
 
 	@FindBy(xpath = "//button[text()='Save']")
 	WebElement saveBtn;
+
 
 	////////////// Membership
 
@@ -290,6 +292,7 @@ public class FontevaCES {
 		Thread.sleep(5000);
 		actions.sendKeys(Keys.ARROW_DOWN).build().perform();
 		actions.sendKeys(Keys.ARROW_DOWN).build().perform();
+
 		actions.moveToElement(showallBtn).build().perform();
 		showallBtn.click();
 		Thread.sleep(2000);
@@ -358,6 +361,7 @@ public class FontevaCES {
 		assertTrue(noItemHeading.isDisplayed());
 	}
 
+
 	public void selectProviderApplication(String user) throws InterruptedException {
 		Actions actions = new Actions(driver);
 		util.waitUntilElement(driver, appLauncherIcn);
@@ -381,4 +385,5 @@ public class FontevaCES {
 		util.waitUntilElement(driver, selectPId);
 		selectPId.click();
 	}
+
 }

@@ -50,10 +50,10 @@ public class FontevaLoginPage {
 	@FindBy(xpath = "//button[text()='Ready For Payment']")
 	WebElement ready4Pymt;
 	
-	@FindBy(xpath = "//ul[@class='slds-button-group-list']//li[9]")
+	@FindBy(xpath = "//lightning-button-menu[contains(@data-target-reveals,'OrderApi__Sales_Order__c')]")
 	WebElement dropDown;
 	
-	@FindBy(xpath = "//ul[@class='slds-button-group-list']//li[9]//span[text()='Send Public Proforma Invoice']")
+	@FindBy(xpath = "//lightning-menu-item[contains(@data-target-selection-name,'Send_Public_Proforma_Invoice')]")
 	WebElement sendPPInvoice;
 	
 	@FindBy(xpath = "//label[text()='Subject']//following::input[@class='slds-input'][1]")

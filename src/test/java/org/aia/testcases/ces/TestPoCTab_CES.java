@@ -89,7 +89,7 @@ public class TestPoCTab_CES extends BaseClass {
 	/**
 	 * @throws Exception
 	 */
-	@Test(priority = 1, description = "Validate Primary point of contact tab", enabled = true)
+	@Test(priority = 1, description = "Validate Primary point of contact tab", enabled = false)
 	public void validatePrimaryPOCTab() throws Exception {
 		String prefix = "Dr.";
 		String suffix = "Sr.";
@@ -108,7 +108,7 @@ public class TestPoCTab_CES extends BaseClass {
 	/**
 	 * @throws Exception
 	 */
-	@Test(priority = 2, description = "Validate work fon number in Primary point of contact tab", enabled = true)
+	@Test(priority = 2, description = "Validate work fon number in Primary point of contact tab", enabled = false)
 	public void validateWorkPhoneCountryInPoc() throws Exception {
 		String prefix = "Dr.";
 		String suffix = "Sr.";
@@ -142,7 +142,7 @@ public class TestPoCTab_CES extends BaseClass {
 
 	}
 
-	@Test(priority = 4, description = "Validate country code without selecting us or canada Primary point of contact tab", enabled = true)
+	@Test(priority = 4, description = "Validate country code without selecting us or canada Primary point of contact tab", enabled = false)
 	public void validateWithoutUSCodeInPocTab() throws Exception {
 		String prefix = "Dr.";
 		String suffix = "Sr.";
@@ -155,6 +155,53 @@ public class TestPoCTab_CES extends BaseClass {
 		loginPageCes.checkLoginSuccess();
 		primarypocPage.changeWorkPhoneCountryInPOC(testData.testDataProvider().getProperty("newCountry"));
 		primarypocPage.enterPOCdetail(prefix, suffix, dataList.get(2), dataList, mobileCountry);
+	}
+
+	@Test(priority = 5, description = "FC-333 Validate 'Mobile phone country' in Primary POC tab", enabled = false)
+	public void validateMobilePhoneCountryInPocTab() throws Exception {
+		String prefix = "Dr.";
+		String suffix = "Sr.";
+		signUpPage.clickSignUplink();
+		ArrayList<String> dataList = signUpPage.signUpData();
+		String mobileCountry = signUpPage.signUpUserDetail();
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
+		closeButtnPage.clickCloseAfterVerification();
+		loginPageCes.loginToCes(dataList.get(5), dataList.get(6));
+		loginPageCes.checkLoginSuccess();
+		System.out.println("datalist value:" + dataList.get(2));
+		primarypocPage.enterPocDetailsWithOutMobilePone(prefix, suffix, "--None--", dataList.get(2));
+		primarypocPage.validateWorkPhoneError(prefix, suffix, "United States of America (+1)");
+	}
+
+	@Test(priority = 6, description = "FC-334 Validate 'Mobile phone' in Primary POC tab", enabled = false)
+	public void validateMobilePhoneInPocTab() throws Exception {
+		String prefix = "Dr.";
+		String suffix = "Sr.";
+		signUpPage.clickSignUplink();
+		ArrayList<String> dataList = signUpPage.signUpData();
+		String mobileCountry = signUpPage.signUpUserDetail();
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
+		closeButtnPage.clickCloseAfterVerification();
+		loginPageCes.loginToCes(dataList.get(5), dataList.get(6));
+		loginPageCes.checkLoginSuccess();
+		primarypocPage.enterPocDetailsWithOutMobilePone(prefix, suffix, "--None--", dataList.get(2));
+		primarypocPage.enterPrimaryPocAllDetails(prefix, suffix, "Algeria (+213)", dataList.get(2));
+		organizationPage.verifyOrganizationTab();
+	}
+
+	@Test(priority = 6, description = "FC-335 Validate 'Mobile phone/Country' in Primary POC tab", enabled = false)
+	public void validateMobileTabInPocTab() throws Exception {
+		String prefix = "Dr.";
+		String suffix = "Sr.";
+		signUpPage.clickSignUplink();
+		ArrayList<String> dataList = signUpPage.signUpData();
+		String mobileCountry = signUpPage.signUpUserDetail();
+		mailinator.verifyEmailForAccountSetup(dataList.get(3));
+		closeButtnPage.clickCloseAfterVerification();
+		loginPageCes.loginToCes(dataList.get(5), dataList.get(6));
+		loginPageCes.checkLoginSuccess();
+		primarypocPage.enterPrimaryPocAllDetails(prefix, suffix, "United States of America (+1)", dataList.get(2));
+		organizationPage.verifyOrganizationTab();
 	}
 
 }

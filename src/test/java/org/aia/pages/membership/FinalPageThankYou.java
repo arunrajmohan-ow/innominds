@@ -37,12 +37,12 @@ public class FinalPageThankYou {
 	String totalAmnt = null;
 	String finalPagetotal = null;
 	public void verifyThankYouMessage() throws InterruptedException {
-		Thread.sleep(5000);
+		//Thread.sleep(5000);
 		util.waitUntilElement(driver, frame);
 		driver.switchTo().frame(frame);
 		util.waitUntilElement(driver, thankYou);
 		System.out.println("Thank you !  Message is Displayed");
-		Thread.sleep(12000);
+		//Thread.sleep(12000);
 	}
 
 	public ArrayList<Object> getFinalReceiptData() {
