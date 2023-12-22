@@ -3,7 +3,6 @@ package org.aia.utility;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.HashMap;
 
 import org.aia.pages.BaseClass;
 import org.openqa.selenium.OutputType;

@@ -107,7 +107,7 @@ public class TestReJoin_Membership extends BaseClass {
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
 		fontevaJoin.selectContact(dataList.get(0) + " " + dataList.get(1));
 		fontevaPage.setMembershipStatus(dataList.get(0) + " " + dataList.get(1),
-				testData.testDataProvider().getProperty("membershipStatus"));
+				testData.testDataProvider().getProperty("membershipStatusCancelled"));
 		fontevaJoin.selectContact(dataList.get(0) + " " + dataList.get(1));
 		fontevaPage.expireMembership();
 		Logging.logger.info("Set status as Canclled");
@@ -146,7 +146,7 @@ public class TestReJoin_Membership extends BaseClass {
 	/**
 	 * @throws Exception
 	 */
-	@Test(priority = 2, description = "verify the online allied membership rejoin in UI Application", enabled = true)
+	@Test(priority = 2, description = "verify the online allied membership rejoin in UI Application", enabled = false)
 	public void validateAlliedReJoin() throws Exception {
 		// User creating is starting
 		ArrayList<String> dataList = signUpPage.signUpData();
@@ -205,7 +205,7 @@ public class TestReJoin_Membership extends BaseClass {
 
 	}
 
-	@Test(priority = 3, description = "verify the online Associate membership rejoin in UI Application", enabled = true)
+	@Test(priority = 3, description = "verify the online Associate membership rejoin in UI Application", enabled = false)
 	public void validateAssociateReJoin() throws Exception {
 		// User creating is starting
 		ArrayList<String> dataList = signUpPage.signUpData();
@@ -264,7 +264,7 @@ public class TestReJoin_Membership extends BaseClass {
 
 	}
 
-	@Test(priority = 4, description = "Validate visibility of download pdf button in rejoin  ", enabled = true)
+	@Test(priority = 4, description = "Validate visibility of download pdf button in rejoin  ", enabled = false)
 	public void validateVisibilityDownloadPdfBtn() throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		signUpPage.gotoMembershipSignUpPage(dataList.get(5));

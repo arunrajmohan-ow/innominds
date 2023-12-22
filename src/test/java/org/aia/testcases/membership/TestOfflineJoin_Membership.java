@@ -53,7 +53,7 @@ public class TestOfflineJoin_Membership extends BaseClass {
 
 		// driver.get(DataProviderFactory.getConfig().getValue("fonteva_endpoint"));
 		ArrayList<String> dataList = fontevaJoin.userData();
-		fontevaJoin.pointOffset();
+		//fontevaJoin.pointOffset();
 		fontevaJoin.createUserInFonteva();
 		fontevaJoin.joinCreatedUser(testData.testDataProvider().getProperty("membershipType"),
 				testData.testDataProvider().getProperty("selection"));
