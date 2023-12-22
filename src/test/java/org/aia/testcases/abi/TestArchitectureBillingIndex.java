@@ -167,7 +167,5 @@ public class TestArchitectureBillingIndex extends BaseClass {
 	public void teardown() throws IOException {
 		BrowserSetup.closeBrowser(driver);
 	}
-}
-	}
 
 }
