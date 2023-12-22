@@ -2,7 +2,6 @@ package org.aia.utility;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 
 import org.apache.pdfbox.contentstream.operator.state.SetRenderingIntent;
 import org.openqa.selenium.OutputType;
@@ -26,7 +25,6 @@ public class GenerateReports {
 	//public static ExtentReports extent;
 	public static ExtentSparkReporter sparkReport;
 	public static ExtentTest logger;
-	public static ExtentTest node;
 	private static GenerateReports gr;
 	public static File file;
 	
@@ -51,7 +49,7 @@ public class GenerateReports {
 		extentreport.attachReporter(sparkReport);
 		extentreport.setSystemInfo("Host Name", "AIA");
 		extentreport.setSystemInfo("Environment", "Testing-Sandbox");
-		extentreport.setSystemInfo("User Name", System.getProperty("user.dir"));
+		extentreport.setSystemInfo("User Name", "Pallavi");
 
 		sparkReport.config().setDocumentTitle("Test Execution Report");
 		sparkReport.config().setReportName("Fonteva Ops Automation Test results");
@@ -70,13 +68,12 @@ public class GenerateReports {
 		logger.log(Status.INFO, message);
 	}
 	
-	public void logTestpassed(String methodName) {
-		node = logger.createNode(methodName);
-		node.log(Status.PASS, MarkupHelper.createLabel(methodName + " is a passTest", ExtentColor.GREEN));
+	public void logTestpassed(String testcaseName) {
+		logger.log(Status.PASS, MarkupHelper.createLabel(testcaseName + "is passTest", ExtentColor.GREEN));
 	}
 
 	public void logTestFailed(String testcaseName, String string) {
-		logger.log(Status.FAIL, MarkupHelper.createLabel(testcaseName + "is not a passTest", ExtentColor.RED));
+		logger.log(Status.FAIL, MarkupHelper.createLabel(testcaseName + "is not passTest", ExtentColor.RED));
 		logger.log(Status.FAIL, MarkupHelper.createLabel(string + "With above execution errors.", ExtentColor.RED));
 	}
 	

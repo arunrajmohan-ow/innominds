@@ -1,6 +1,7 @@
 package org.aia.pages.membership;
 
 import static org.junit.Assert.assertArrayEquals;
+
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
@@ -17,11 +18,15 @@ import org.aia.utility.Utility;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.Validate;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBys;
+
+import com.aventstack.extentreports.model.Log;
 
 import groovyjarjarantlr4.v4.runtime.tree.xpath.XPath;
 import io.cucumber.java.it.Data;
@@ -32,9 +37,11 @@ public class SignUpPage {
 	WebDriver driver;
 	Utility util = new Utility(driver, 30);
 	ConfigDataProvider data = new ConfigDataProvider();
+	JavascriptExecutor executor;
 
 	public SignUpPage(WebDriver Idriver) {
 		this.driver = Idriver;
+		executor = (JavascriptExecutor) driver;
 	}
 
 	@FindBy(xpath = "//*[@id=\"email \"]")
@@ -58,10 +65,14 @@ public class SignUpPage {
 	@FindBy(xpath = "//input[@formcontrolname='email']")
 	WebElement emailAddress;
 
-	@FindBy(xpath = "//mat-select[@formcontrolname='mobilePhoneCountry']")
+	//@FindBy(xpath = "//mat-select[@formcontrolname='mobilePhoneCountry']")
+	//@FindBy(xpath = "//mat-form-field//mat-select")
+	@FindBy(xpath = "//div[@class='mat-select-arrow-wrapper']")
+
 	WebElement mobileCountry;
 
-	@FindBy(xpath = "//span[text()=' United States of America (+1) ']")
+	//@FindBy(xpath = "//span[text()=' United States of America (+1) ']")
+	@FindBy(xpath = "//mat-option[@id='mat-option-0']")
 	WebElement mobileCountryoption;
 
 	@FindBy(xpath = "//input[@formcontrolname='mobilePhone']")
@@ -118,6 +129,7 @@ public class SignUpPage {
 		System.out.println(fName);
 		lName = "autoln" + RandomStringUtils.randomAlphabetic(4);
 		list.add(1, lName);
+		String fullName=fName+" "+lName;
 		System.out.println("Full name is:" + fName + "" + lName);
 		mobNumb = "012345" + String.format("%05d", new Random().nextInt(10000));
 		list.add(2, mobNumb);
@@ -136,10 +148,12 @@ public class SignUpPage {
 		System.out.println("Email address is:" + emailaddressdata);
 		password = "Login_123";
 		list.add(6, password);
+		list.add(7,fullName);
 
 		return list;
 	}
 
+	@SuppressWarnings("static-access")
 	@Step("Enter user details and click on submit button")
 	public void signUpUser() throws Exception {
 		util.waitUntilElement(driver, firstName);
@@ -148,8 +162,9 @@ public class SignUpPage {
 		lastName.sendKeys(lName);
 		emailAddress.sendKeys(emailaddressdata);
 		util.waitUntilElement(driver, mobileCountry);
-		mobileCountry.click();
-		Thread.sleep(7000);
+		executor.executeScript("arguments[0].click();",mobileCountry);
+		//mobileCountry.click();
+		//Thread.sleep(7000);
 		util.waitUntilElement(driver, mobileCountryoption);
 		mobileCountryoption.click();
 		mobilePhoneNum.sendKeys(mobNumb);

@@ -85,7 +85,7 @@ public class TestJoinPassport_CES extends BaseClass {
 		apiValidation = PageFactory.initElements(driver, JoinCESAPIValidation.class);
 	}
 	
-	@Test(priority=1, description="Validate creation of CES passport membership and view receipt.", enabled = false, groups= {"Smoke"})
+	@Test(priority=1, description="Validate creation of CES passport membership and view receipt.", enabled = true, groups= {"Smoke"})
 	public void ValidateReceiptForPassportJoin() throws Exception
 	{
 		String prefix = "Dr.";
@@ -113,7 +113,7 @@ public class TestJoinPassport_CES extends BaseClass {
 		Logging.logger.info("Account Name is : " + dataList.get(0));
 	}
 	
-	@Test(priority=2, description="Validate email after making the payment.", enabled = false)
+	@Test(priority=2, description="Validate email after making the payment.", enabled = true)
 	public void ValidateEmailPassportJoin() throws Exception
 	{
 		String prefix = "Dr.";
@@ -144,7 +144,7 @@ public class TestJoinPassport_CES extends BaseClass {
 		mailinator.welcomeAIAEmailLink(userAccount);
 	}
 	
-	@Test(priority=3, description="Validate Join Passport.", enabled = false)
+	@Test(priority=3, description="Validate Join Passport.", enabled = true)
 	public void ValidatePassportJoin() throws Exception
 	{
 		String prefix = "Dr.";

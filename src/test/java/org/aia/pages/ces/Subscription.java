@@ -1,14 +1,17 @@
 package org.aia.pages.ces;
 
-import static org.junit.Assert.assertTrue;
+
+import static org.testng.Assert.assertTrue;
 
 import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
 
+import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.Utility;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -25,6 +28,8 @@ public class Subscription {
 	WebDriver driver;
 
 	Utility util = new Utility(driver, 30);
+
+	ConfigDataProvider data = new ConfigDataProvider();
 
 	public Subscription(WebDriver Idriver) {
 		this.driver = Idriver;
@@ -98,6 +103,7 @@ public class Subscription {
 	@FindBy(xpath = "//span[text()='What is your employee size?']")
 	WebElement empSizetxt;
 
+
 	@FindBy(xpath = "//div[@class='slds-m-bottom_x-small']/span[@class='main']/img[contains(@src, 'Subscription')]")
 	WebElement tabTitleSubscription;
 
@@ -107,6 +113,37 @@ public class Subscription {
 	@FindBy(xpath = "//span/p/b[contains(text(), '﻿Based on the organization type you have chosen, you are eligible for')]")
 	WebElement subscriptionTabText;
 
+	@FindBy(xpath = "//*[text() ='﻿Based on the organization type you have chosen, you are eligible for: ']")
+	WebElement subscriptiontxt;
+
+	@FindBy(xpath = "//span[contains(text(),'Based on the organization type you had chosen you are eligible for the following subscription type:')]/..")
+	WebElement confirmationTxtLine2;
+
+	@FindBy(xpath = "//*[text()[contains(.,' to edit details or if the information looks correct click \"')]]/..")
+	WebElement confirmationTxtLine1;
+
+	@FindBy(xpath = "//*[text()[contains(.,'Confirm Details')]]")
+	WebElement confirmationTxt;
+
+	@FindBy(xpath = "//strong[text()='Organization Name: ']")
+	WebElement organizationName;
+
+	@FindBy(xpath = "//strong[text()='Organization Type: ']")
+	WebElement organazitionType;
+
+	@FindBy(xpath = "//strong[text()='Prior Provider: ']")
+	WebElement priorProvider;
+
+	@FindBy(xpath = "//strong[text()='Former CES Provider Number: ']")
+	WebElement formerCESProviderNum;
+
+	@FindBy(xpath = "//strong[text()='Work Phone Country Code: ']")
+	WebElement workPhoneCountryCode;
+
+	@FindBy(xpath = "//strong[text()='Work Phone:']")
+	WebElement workPhone;
+
+
 	/*
 	 * @param : text
 	 * 
@@ -114,6 +151,7 @@ public class Subscription {
 	 * 
 	 * @param : orgType
 	 */
+
 	public void SubscriptionType(String text, String isFirmSubscription, String aiaMemberNumber, String orgType)
 			throws InterruptedException {
 		if (text.contentEquals("Architecture Firm") || text.contentEquals("Architecture - Single Discipline")
@@ -150,13 +188,36 @@ public class Subscription {
 			System.out.println("Proration page is not available.");
 		}
 
+
 	}
 
-	public void PassportType() throws InterruptedException {
+	
 
+	public void PassportType() throws InterruptedException {
+		util.waitUntilElement(driver, subscriptiontxt);
+		String subscriptiontxtValue = subscriptiontxt.getText();
+		System.out.println("Text on subscription tab is: " + subscriptiontxtValue);
+		assertTrue(subscriptiontxtValue.equalsIgnoreCase(data.testDataProvider().getProperty("subscriptiontypetxt")));
+		Thread.sleep(1000);
 		util.waitUntilElement(driver, passportNext);
 		passportNext.click();
+		util.waitUntilElement(driver, confirmationTxt);
+		confirmationTxt.isDisplayed();
+		util.waitUntilElement(driver, confirmationTxtLine1);
+		String confirmationTxtLine1value = confirmationTxtLine1.getText();
+		System.out.println("confirmation Text Line1 is:" + confirmationTxtLine1value);
+		assertTrue(confirmationTxtLine1value.equalsIgnoreCase(data.testDataProvider().getProperty("confirmationTxt1")));
+		util.waitUntilElement(driver, confirmationTxtLine2);
+		String confirmationTxtLine2value = confirmationTxtLine2.getText();
+		System.out.println("confirmation Text Line2 is:" + confirmationTxtLine2value);
+		assertTrue(confirmationTxtLine2value.equalsIgnoreCase(data.testDataProvider().getProperty("confirmationTxt2")));
 		util.waitUntilElement(driver, confirmNext);
+		organizationName.isDisplayed();
+		organazitionType.isDisplayed();
+		priorProvider.isDisplayed();
+		formerCESProviderNum.isDisplayed();
+		workPhoneCountryCode.isDisplayed();
+		workPhone.isDisplayed();
 		Thread.sleep(3000);
 		confirmNext.click();
 	}
@@ -183,6 +244,7 @@ public class Subscription {
 	 * "Accredited Academic Institution", "Non-profit", "None"
 	 */
 	public void ProfessionalType(String orgType) throws InterruptedException {
+		JavascriptExecutor js = (JavascriptExecutor) driver;
 		util.waitUntilElement(driver, profQualifyingQues);
 		if (orgType == null || orgType.isEmpty() || orgType.trim().isEmpty()) {
 			util.selectDropDownByText(profQualifyingQues, "None");
@@ -211,7 +273,8 @@ public class Subscription {
 
 		util.waitUntilElement(driver, pofessionalFileUplaodDoneButton);
 		Thread.sleep(3000);
-		pofessionalFileUplaodDoneButton.click();
+		js.executeScript("arguments[0].click();", pofessionalFileUplaodDoneButton);
+		//pofessionalFileUplaodDoneButton.click();
 		util.waitUntilElement(driver, pofessionalDeleteBtn);
 		professionalNext.click();
 		util.waitUntilElement(driver, confirmNext);
@@ -226,6 +289,7 @@ public class Subscription {
 			System.out.println("Proration page is not available.");
 		}
 	}
+
 
 	public void verifySubscriptionTab() {
 		util.waitUntilElement(driver, tabTitleSubscription);
@@ -252,4 +316,5 @@ public class Subscription {
 		assertTrue(subscriptionTabText.isDisplayed());
 
 	}
+
 }

@@ -1,6 +1,5 @@
 package org.aia.pages.fonteva.ces;
 
-
 import static org.testng.Assert.*;
 
 import java.text.DateFormat;
@@ -10,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.aia.pages.api.ces.SubscriptionPlanPrice;
+import org.aia.pages.ces.Organization;
 import org.aia.pages.fonteva.membership.ContactCreateUser;
 import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.Utility;
@@ -32,6 +32,7 @@ public class CES_ContactPage {
 	Utility util = new Utility(driver, 30);
 	ConfigDataProvider data = new ConfigDataProvider();
 	SubscriptionPlanPrice subscriptionAPI = new SubscriptionPlanPrice(driver);
+	Organization org;
 	static Logger log = Logger.getLogger(ContactCreateUser.class);
 	Actions action;
 	JavascriptExecutor executor;
@@ -40,6 +41,7 @@ public class CES_ContactPage {
 		this.driver = Idriver;
 		action = new Actions(driver);
 		executor = (JavascriptExecutor) driver;
+		org = new Organization(driver);
 	}
 
 	@FindBy(xpath = "//*[@title='Contacts']/span")
@@ -211,7 +213,7 @@ public class CES_ContactPage {
 	@FindBy(xpath = "//span[text()='Providers']//ancestor::a")
 	WebElement providerAppLink;
 
-	@FindBy(xpath = "//p[text()='Account Name']//parent::div//div//a")
+	@FindBy(xpath = "//p[text()='Account Name']//parent::div//div//a//span")
 	WebElement accountName;
 
 	@FindBy(xpath = "//button[text()='Rapid Order Entry']")
@@ -239,7 +241,11 @@ public class CES_ContactPage {
 	@FindBy(xpath = "//button[text()='Add to Order']")
 	WebElement addOrderBtn;
 
-	String quickItemNatinal = "(//span[text()='%s'])";
+	String quickItemNatinal = "(//span[text()='%s'])[1]";
+
+	String providerApplication = "(//b[text()='%s'])[1]";
+
+	// String quickItemNatinal = "(//span[text()='%s'])";
 
 	String discountCodeInput = "//span[text()='%s']";
 
@@ -264,7 +270,7 @@ public class CES_ContactPage {
 	@FindBy(xpath = "//span[text()='Delete']")
 	WebElement Delete_membership;
 
-	@FindBy(xpath = "(//*[@role = 'table']//tbody//tr//td)[4]")
+	@FindBy(xpath = "(//*[@role = 'table']//tbody//tr//td)[4]//div//div")
 	WebElement AvailableMemType;
 
 	@FindBy(xpath = "//span[text()='Refresh']")
@@ -296,9 +302,80 @@ public class CES_ContactPage {
 
 	@FindBy(xpath = "//div/strong[text()='Items']/span")
 	WebElement itemsFees;
-	
+
 	@FindBy(xpath = "//div[text()='Receipt']/parent::h1")
-	WebElement receiptElement; 
+	WebElement receiptElement;
+
+	@FindBy(xpath = "//span[text()= 'Account Name']/parent::div/parent::div//a//span")
+	WebElement account;
+	// Point of contact
+	@FindBy(xpath = "//table[@aria-label='Points of contact']//tbody//tr[1]//th//a")
+	WebElement selectPrimaryContact;
+
+	@FindBy(xpath = "//table[@aria-label='Points of contact']//tbody//tr[2]//th//a")
+	WebElement selectSecondaryContact;
+
+	@FindBy(xpath = "//a[normalize-space()='Show All (10)']")
+	WebElement showallBtn;
+
+	@FindBy(xpath = "//*[contains(text(),'Open Supplemental dues')]/following::div[1]//a//span")
+	WebElement pointofContact;
+	/// transfer request
+	// **********************
+	@FindBy(xpath = "//button[contains(text(),'Renew')]/following::span[contains(text(),'Show more actions')]")
+	WebElement showMoreActionsBtn;
+
+	@FindBy(xpath = "//*[contains(text(),'New Transfer Request')]")
+	WebElement newTransferRequestOptn;
+
+	@FindBy(xpath = "//span[contains(text(),'If you have moved and need to')]")
+	WebElement transferRequestPopupMsg;
+
+	@FindBy(xpath = "//p[contains(text(),'Thank you for your interest in transferring your AIA membership.')]")
+	WebElement transferRequestThankYouMsg;
+	
+	@FindBy(xpath = "//p[contains(text(),'Please tell us your new address')]")
+	WebElement tellYourNewAddressMsg;
+
+	@FindBy(xpath = "//select[@name='Address_Type']")
+	WebElement addressType;
+
+	String adressTypeOptn = "//option[@value='%s']";
+
+	String countryOptn = "//option[contains(text(),'%s')]";
+
+	@FindBy(xpath = "//option[@value='Home']")
+	WebElement homeOptn;
+
+	@FindBy(xpath = "//option[@value='Work']")
+	WebElement workOptn;
+
+	@FindBy(xpath = "//label[contains(text(),'Country')]/following::select")
+	WebElement selectCountry;
+
+	@FindBy(xpath = "//input[@name='Street_Address']")
+	WebElement streetAddress;
+
+	@FindBy(xpath = "//input[@name='City']")
+	WebElement city;
+
+	@FindBy(xpath = "//input[@name='Postal_Code']")
+	WebElement postalCode;
+
+	@FindBy(xpath = "//div[contains(text(),'Membership Transfer')]")
+	WebElement membershipTransferHeading;
+
+	@FindBy(xpath = "//a[contains(text(),'Contact Details')]")
+	WebElement contactDetails;
+
+	@FindBy(xpath = "//a[contains(text(),'Current Membership Assignments')]")
+	WebElement currentMembershipAssignments;
+
+	@FindBy(xpath = "//a[contains(text(),'Application Details')]")
+	WebElement applicationDetails;
+	
+	@FindBy(xpath = "//span[text()='Contact']/parent::div/parent::div//slot/span")
+	WebElement selectContactonReceipt;
 
 	String fName;
 	String lName;
@@ -512,6 +589,7 @@ public class CES_ContactPage {
 		executor.executeScript("arguments[0].click();",
 				util.getCustomizedWebElement(driver, contactName, userFullname));
 		util.waitUntilElement(driver, showAll);
+		// action.moveToElement(showAll).click().perform();
 		showAll.click();
 	}
 
@@ -531,4 +609,229 @@ public class CES_ContactPage {
 		Thread.sleep(5000);
 	}
 
+	/**
+	 * @param userFullname
+	 * @param itemQuick
+	 * @throws InterruptedException
+	 * @throws AWTException
+	 */
+	public void selectRapidOrderEntry(String userFullname, String itemQuick, String quickElement)
+			throws InterruptedException {
+		selectCreatedContact(userFullname);
+		util.waitUntilElement(driver, accountName);
+		executor.executeScript("arguments[0].click();", accountName);
+		util.waitUntilElement(driver, rapidOrderEnteryBtn);
+		rapidOrderEnteryBtn.click();
+		Thread.sleep(20000);
+		util.waitUntilElement(driver, quickItemSelect);
+		executor.executeScript("arguments[0].click();", quickItemSelect);
+		// executor.executeScript("arguments[0].value='"+itemQuick+"';",
+		// quickItemSelect);
+		quickItemSelect.sendKeys(itemQuick);
+		Thread.sleep(20000);
+		util.waitUntilElement(driver, util.getCustomizedWebElement(driver, quickItemNatinal, quickElement));
+		util.getCustomizedWebElement(driver, quickItemNatinal, quickElement).click();
+		Thread.sleep(20000);
+		util.waitUntilElement(driver, addOrderBtn);
+		addOrderBtn.click();
+		util.waitUntilElement(driver, goBtn);
+		Thread.sleep(20000);
+		goBtn.click();
+
+	}
+
+	public void cesRapidOrderEntry(String userFullname, String itemQuick, String quickElement)
+			throws InterruptedException {
+		Thread.sleep(30000);
+		selectCreatedContact(userFullname);
+		util.waitUntilElement(driver, accountName);
+		executor.executeScript("arguments[0].click();", accountName);
+		util.waitUntilElement(driver, rapidOrderEnteryBtn);
+		rapidOrderEnteryBtn.click();
+		util.waitUntilElement(driver, quickItemSelect);
+		executor.executeScript("arguments[0].click();", quickItemSelect);
+		Thread.sleep(20000);
+		// executor.executeScript("arguments[0].value='"+itemQuick+"';",
+		// quickItemSelect);
+		quickItemSelect.sendKeys(itemQuick);
+		Thread.sleep(10000);
+		util.waitUntilElement(driver, util.getCustomizedWebElement(driver, quickItemNatinal, quickElement));
+		util.getCustomizedWebElement(driver, quickItemNatinal, quickElement).click();
+		Thread.sleep(10000);
+		util.waitUntilElement(driver, addOrderBtn);
+		addOrderBtn.click();
+		Thread.sleep(20000);
+		util.waitUntilElement(driver, itemsFees);
+		String fee = itemsFees.getText();
+		System.out.println("Item fee: " + fee);
+		if (fee.equalsIgnoreCase("Free")) {
+			Thread.sleep(10000);
+			util.waitUntilElement(driver, goBtn);
+			action.moveToElement(goBtn).click().perform();
+			System.out.println("GO button clicked");
+			Thread.sleep(10000);
+			util.waitUntilElement(driver, SelectAccount);
+			action.moveToElement(SelectAccount).click().perform();
+			System.out.println("Account selected");
+			Thread.sleep(10000);
+			util.waitUntilElement(driver, Membershipslnk);
+			action.moveToElement(Membershipslnk).click().perform();
+			System.out.println("Memberships clicked");
+			driver.navigate().refresh();
+		} else {
+			util.waitUntilElement(driver, goBtn);
+			action.moveToElement(goBtn).click().perform();
+			System.out.println("GO button clicked");
+			Thread.sleep(10000);
+			util.waitUntilElement(driver, referenceNumber);
+			referenceNumber.sendKeys(data.testDataProvider().getProperty("referenceNum"));
+			util.waitUntilElement(driver, applyPaymentBtn);
+			action.moveToElement(applyPaymentBtn).click().perform();
+			System.out.println("applyPaymentButton clicked");
+			Thread.sleep(20000);
+		}
+
+	}
+
+	public void validateDeleteCESMembership() throws InterruptedException {
+		List<WebElement> rows = driver.findElements(By.xpath("//*[@role ='table']//tbody//tr"));
+		System.out.println("Number of records:" + rows.size());
+		Thread.sleep(30000);
+		util.waitUntilElement(driver, Chevronbtn);
+		action.moveToElement(Chevronbtn).click().perform();
+		System.out.println("Chevron button clicked");
+		util.waitUntilElement(driver, DeleteBtn_chevrontype);
+		action.moveToElement(DeleteBtn_chevrontype).click().perform();
+		System.out.println("Delete Option clicked");
+		util.waitUntilElement(driver, DeleteMsg);
+		System.out.println("MyError:" + DeleteMsg.getText());
+		assertTrue(DeleteMsg.getText().equalsIgnoreCase(data.testDataProvider().getProperty("DeleteMsg")));
+		util.waitUntilElement(driver, Delete_membership);
+		action.moveToElement(Delete_membership).click().perform();
+		Thread.sleep(20000);
+	}
+
+	public void validateAvailableMemType() {
+		util.waitUntilElement(driver, AvailableMemType);
+		assertTrue(
+				AvailableMemType.getText().equalsIgnoreCase(data.testDataProvider().getProperty("availableMemType")));
+
+	}
+
+//	public void selectProviderApp(String userFullname,String quickElement)throws InterruptedException, AWTException {
+//		Thread.sleep(10000);
+//		util.waitUntilElement(driver, appLauncherIcn);
+//		appLauncherIcn.click();
+//		Thread.sleep(10000);
+//		appSearchtxtbx.sendKeys(data.testDataProvider().getProperty("providerApp"));
+//		Thread.sleep(10000);
+//		util.waitUntilElement(driver, util.getCustomizedWebElement(driver, providerApplication, quickElement));
+//		util.getCustomizedWebElement(driver, providerApplication, quickElement).click();
+//		util.waitUntilElement(driver, providerAppBtn);
+//		providerAppBtn.click();
+//		util.waitUntilElement(driver, allBtn);
+//		allBtn.click();
+//		executor.executeScript("arguments[0].scrollIntoView(true);",
+//				util.getCustomizedWebElement(driver, contactName, userFullname));
+//		util.waitUntilElement(driver, util.getCustomizedWebElement(driver, contactName, userFullname));
+//		executor.executeScript("arguments[0].click();",
+//				util.getCustomizedWebElement(driver, contactName, userFullname));
+//		util.waitUntilElement(driver, showAll);
+//		showAll.click();
+//		
+//}
+	/*
+	 * @throws InterruptedException selects the Primary contact from POC and checks
+	 * the account associated to contact
+	 */
+	public void verifyAccountAssociatedtoPrimaryPOC() throws InterruptedException {
+		util.waitUntilElement(driver, showallBtn);
+		action.moveToElement(showallBtn).click().perform();
+		Thread.sleep(5000);
+		util.waitUntilElement(driver, pointofContact);
+		action.moveToElement(pointofContact).click().perform();
+		util.waitUntilElement(driver, selectPrimaryContact);
+		action.moveToElement(selectPrimaryContact).click().perform();
+		util.waitUntilElement(driver, accountName);
+		String accountNameValue = accountName.getText();
+		System.out.println("accountName is:" + accountNameValue);
+		assertTrue(accountNameValue.equalsIgnoreCase(org.orgName));
+	}
+
+	/**
+	 * @throws InterruptedException selects the Secondary contact from POC and
+	 *                              checks the account associated to contact
+	 */
+	public void verifyAccountAssociatedtoSecondaryPOC() throws InterruptedException {
+		util.waitUntilElement(driver, showallBtn);
+		action.moveToElement(showallBtn).click().perform();
+		Thread.sleep(5000);
+		util.waitUntilElement(driver, pointofContact);
+		action.moveToElement(pointofContact).click().perform();
+		util.waitUntilElement(driver, selectPrimaryContact);
+		action.moveToElement(selectPrimaryContact).click().perform();
+		util.waitUntilElement(driver, accountName);
+		String accountNameValue = accountName.getText();
+		System.out.println("accountName is:" + accountNameValue);
+		assertTrue(accountNameValue.equalsIgnoreCase(org.orgName));
+	}
+
+	/**
+	 * @param addressTypevalue
+	 * @param countryValue
+	 * @throws InterruptedException
+	 */
+	public void verifyMemTransferApplicationProcess(String addressTypevalue, String countryValue)
+			throws InterruptedException {
+		util.waitUntilElement(driver, showMoreActionsBtn);
+		action.moveToElement(showMoreActionsBtn).click().perform();
+		util.waitUntilElement(driver, newTransferRequestOptn);
+		action.moveToElement(newTransferRequestOptn).click().perform();
+		util.waitUntilElement(driver, transferRequestPopupMsg);
+		String transferRequestPopuptext = transferRequestPopupMsg.getText();
+		System.out.println("popUpTxtValue:" + transferRequestPopuptext);
+		assertTrue(transferRequestPopuptext
+				.equalsIgnoreCase(data.testDataProvider().getProperty("transferRequestPopupMessage")));
+		util.waitUntilElement(driver, nextBtn);
+		nextBtn.isDisplayed();
+		action.moveToElement(nextBtn).click().perform();
+		util.waitUntilElement(driver, transferRequestThankYouMsg);
+		String transferRequestThankYouMsgValue = transferRequestThankYouMsg.getText();
+		System.out.println("transferRequestThankYouMsgValue:" + transferRequestThankYouMsgValue);
+		assertTrue(transferRequestThankYouMsgValue
+				.equalsIgnoreCase(data.testDataProvider().getProperty("transferRequestThankYouMessage")));
+		util.waitUntilElement(driver, tellYourNewAddressMsg);
+		String tellYourNewAddressMsgValue = tellYourNewAddressMsg.getText();
+		System.out.println("tellYourNewAddressMsgValue:" + tellYourNewAddressMsgValue);
+		assertTrue(tellYourNewAddressMsgValue
+				.equalsIgnoreCase(data.testDataProvider().getProperty("tellYourNewAddressMessage")));
+		util.waitUntilElement(driver, addressType);
+		action.moveToElement(addressType).click().perform();
+		util.getCustomizedWebElement(driver, adressTypeOptn, addressTypevalue).click();
+		util.getCustomizedWebElement(driver, countryOptn, countryValue).click();
+		util.waitUntilElement(driver, streetAddress);
+		streetAddress.sendKeys("Australia");
+		util.waitUntilElement(driver, city);
+		city.sendKeys("new street");
+		util.waitUntilElement(driver, postalCode);
+		postalCode.sendKeys("4321");
+		util.waitUntilElement(driver, nextBtn);
+		action.moveToElement(nextBtn).click().perform();
+		util.waitUntilElement(driver, membershipTransferHeading);
+		membershipTransferHeading.isDisplayed();
+		util.waitUntilElement(driver, contactDetails);
+		contactDetails.isDisplayed();
+		util.waitUntilElement(driver, currentMembershipAssignments);
+		currentMembershipAssignments.isDisplayed();
+		util.waitUntilElement(driver, applicationDetails);
+		applicationDetails.isDisplayed();
+	}
+	/**
+	 * @throws InterruptedException
+	 * selects Contact on the Receipt Page
+	 */
+	public void selectContactonReceiptPage() throws InterruptedException {
+		util.waitUntilElement(driver, selectContactonReceipt);
+		action.moveToElement(selectContactonReceipt).click().perform();
+	}
 }

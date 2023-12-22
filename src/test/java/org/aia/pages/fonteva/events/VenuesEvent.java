@@ -52,7 +52,7 @@ public class VenuesEvent {
 	@FindBy(xpath = "(//button[contains(text(),'Delete')])[2]")
 	WebElement confirmationDeleteButton;
 
-	@FindBy(xpath = "//div[@class='slds-grid slds-grid--align-spread slds-p-bottom--medium slds-m-bottom--medium']//div[@class='slds-text-heading--small']")
+	@FindBy(xpath = "//div[@class='EventApiEventBuilderVenues']//div//div[@class='slds-text-heading--small']")
 	WebElement createdVenueCountText;
 
 	@FindBy(xpath = "//h2[contains(text(),'Create Venue')]")
@@ -64,7 +64,7 @@ public class VenuesEvent {
 	@FindBy(xpath = "//label//span[contains(text(),'Primary Venue')]//preceding-sibling::span")
 	WebElement primaryVenueCheckBox;
 
-	@FindBy(xpath = "(//label[contains(text(),'Description')]//parent::span//following-sibling::div//p)[2]")
+	@FindBy(xpath = "//span[@data-name='description' and @data-label='Description']/following::div[@class='fr-element fr-view cke_editable']/p")
 	WebElement descriptionTextField;
 
 	@FindBy(xpath = "(//label[contains(text(),'Address')]//parent::span//following-sibling::div//input)[1]")
@@ -73,7 +73,7 @@ public class VenuesEvent {
 //	@FindBy(xpath  = "//span[contains(text(),'Hyderabad, Bhagya Nagar Colony, Kukatpally, Hyderabad, Telangana, India')]")
 //	WebElement selectAddressBasedUponInputField;
 
-	@FindBy(xpath = "//span[contains(text(),'Enter address manually')]//preceding-sibling::span")
+	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//label[@data-name='manualAddress']//input")
 	WebElement enterAddressManually;
 
 	@FindBy(xpath = "//label[contains(text(),'Street')]/parent::span//following-sibling::div//textarea")
@@ -97,13 +97,16 @@ public class VenuesEvent {
 	@FindBy(xpath = "//label[contains(text(),'Browse')]") // button[@data-label='Save']
 	WebElement browseButton;
 
-	@FindBy(xpath = "//button[@data-label='Save']")
+	@FindBy(xpath = "//input[@placeholder='Browse for files or paste in a URL']/following::input[@name='file' and @aria-label='venueImageUrl']") // button[@data-label='Save']
+	WebElement uploadFile;
+
+	@FindBy(xpath = "//div[@data-name='venueImageUrl']//button[@data-label='Save' and @data-name='saveCroppedImage']")
 	WebElement cropimageSaveButton;
 
 	@FindBy(xpath = "//button[contains(text(),'Save & Continue')]//preceding-sibling::button[contains(text(),'Cancel')]")
 	WebElement cancelButton;
 
-	@FindBy(xpath = "//button[contains(text(),'Cancel')]//following-sibling::button[contains(text(),'Save & Continue')]")
+	@FindBy(css = "div[class='windowViewMode-normal oneContent active lafPageHost'] button[data-name='venueModalSaveButton']")
 	WebElement saveContinueButton;
 
 	@FindBy(xpath = "//h2[contains(text(),'Create Venue')]//parent::div//span[@part='boundary']")
@@ -126,9 +129,13 @@ public class VenuesEvent {
 		Assert.assertTrue(createdVenueCountText.isDisplayed(), "create Venue count Text is not available");
 	}
 
-	public void navigateAddIntoVenuePopUpTabAndVerifyIt() {
+	public void clickAddVenue() {
 		util.waitUntilElement(driver, addVenueButton);
 		addVenueButton.click();
+	}
+
+	public void navigateAddIntoVenuePopUpTabAndVerifyIt() {
+		clickAddVenue();
 		util.waitUntilElement(driver, createdVenueCountText);
 		util.scrollingElementUsingJS(driver, createdVenueCountText);
 		Assert.assertTrue(createdVenueCountText.isDisplayed(), "create Venue Text is not available");
@@ -202,8 +209,14 @@ public class VenuesEvent {
 		util.scrollingElementUsingJS(driver, descriptionTextField);
 		descriptionTextField.sendKeys(description);
 
-		util.scrollingElementUsingJS(driver, enterAddressManually);
-		enterAddressManually.click();
+		util.waitUntilElement(driver, enterAddressManually);
+		Utility.highLightElement(driver, enterAddressManually);
+		if (enterAddressManually.isSelected()) {
+			System.out.println("is published checkobox is enabled");
+		} else {
+			util.clickUsingJS(driver, enterAddressManually);
+			log.info("IsPublished CheckBox is clicked");
+		}
 
 		util.scrollingElementUsingJS(driver, street);
 		street.sendKeys(venueAddress.get("street"));
@@ -222,14 +235,12 @@ public class VenuesEvent {
 		displayMapCheckBox.click();
 
 		util.scrollingElementUsingJS(driver, venueImageURLInput);
-		util.fileUploadThroughKeyBoardActions(driver, browseButton, imageURL);
-
-		Thread.sleep(4000);
-
+		uploadFile.sendKeys(imageURL);
+		Thread.sleep(5000);
 		if (cropimageSaveButton.isDisplayed()) {
 			cropimageSaveButton.click();
 		}
-		Thread.sleep(5000);
+		Thread.sleep(7000);
 		util.waitUntilElement(driver, saveContinueButton);
 		saveContinueButton.click();
 
@@ -247,6 +258,7 @@ public class VenuesEvent {
 				break;
 			}
 		}
+		Thread.sleep(5000);
 		Assert.assertTrue(value,
 				"Assert failure:- " + EventConfig.venueNameInputField + " is not dispayed in the venue listing screen");
 	}
@@ -262,7 +274,7 @@ public class VenuesEvent {
 	}
 
 	public void editCreatedVenueNameAndVerifyIt() throws InterruptedException {
-
+        Thread.sleep(5000);
 		System.out.println("edit event Name: " + EventConfig.venueNameInputField);
 
 		util.scrollingElementUsingJS(driver,

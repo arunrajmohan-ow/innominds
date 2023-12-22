@@ -8,7 +8,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-import org.aia.pages.fonteva.events.EditCloneEvent;
+import org.aia.pages.fonteva.events.EventInfoModule;
 import org.aia.pages.fonteva.events.EventConfig;
 import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.Utility;
@@ -40,8 +40,8 @@ public class EventRegistration {
 	public String postedDate = "";
 	public String totalAmount = "";
 	public String userName = "";
-	public String aiaNumber ="";
-	public String aiamemeberfullName="";
+	public String aiaNumber = "";
+	public String aiamemeberfullName = "";
 	ArrayList<Object> receiptData = new ArrayList<Object>();
 	static Logger log = Logger.getLogger(EventRegistration.class);
 
@@ -139,8 +139,16 @@ public class EventRegistration {
 
 	@FindBy(xpath = "//div[@data-name='subTotalPrice']/strong/span")
 	WebElement subTotalAmount;
+	
+	public static String scheduleInagenda() {
+		String xpath = null;
+		for (int i = 1; i <=3; i++) {
+			xpath = "(//div[@data-name='itemDiv'])'" + i + "'";
+		}
+	return xpath;
+	}
 
-	@FindBy(xpath = "//button[text()='Continue']")
+	@FindBy(xpath = "//div[@data-aura-class='LTEEventRegistrationSummary']/following::button[text()='Continue']")
 	WebElement continueButtonInAgenda;
 
 	// checkout
@@ -235,16 +243,45 @@ public class EventRegistration {
 
 	@FindBy(css = "[data-name='email'] input")
 	WebElement emailInReg;
+
+	@FindBy(xpath = "//p[@class='aia-number'][text()]")
+	WebElement getaiaNumber;
+
+	@FindBy(xpath = "//p[@class='aia-number']/span[text()]")
+	WebElement getAiaText;
+
+	@FindBy(xpath = "//div[@class='member-name']")
+	WebElement aiaMemberName;
 	
-	@FindBy(xpath = "//p[@class='aia-number'][text()]") WebElement getaiaNumber;
+	//overveiw
+	@FindBy(xpath = "//div[@id='navEventMenuItems']//button[@data-title='Details']") WebElement detailsNavigationButton;
 	
-	@FindBy(xpath = "//p[@class='aia-number']/span[text()]") WebElement getAiaText;
+	@FindBy(xpath  = "//lightning-formatted-rich-text[@class='event-rich-text slds-rich-text-editor__output']/parent::div") WebElement eventOverviewText;
+
+	// speakers
+	@FindBy(css = "div[id='navEventMenuItems'] button[data-title='Speakers']")
+	WebElement speakersButtonInAIAPage;
+
+	// Agenda
+	@FindBy(xpath = "//div[@id='navEventMenuItems']//div[text()='Agenda']")
+	WebElement agendaInAIA;
 	
-	@FindBy(xpath = "//div[@class='member-name']") WebElement aiaMemberName;
+	@FindBy(xpath ="//c-pfm-text[@tabindex='0']")
+	WebElement time;
+
+	public static String scheduleNameInAgenda(String scheduleName) {
+		String xpath = "//div/a/span[text()='" + scheduleName + "']";
+		return xpath;
+	}
+
+	public static String speakerName(String speakerName) {
+		String venueName1 = "//div[text()='" + speakerName + "']";
+		return venueName1;
+	}
 
 	public void validateFirstNameInRegistartion() {
-		util.scrollingElementUsingJS(driver, firstNameInReg);
 		Utility.waitForWebElement(driver, firstNameInReg, 20);
+		util.scrollingElementUsingJS(driver, firstNameInReg);
 		log.info(firstNameInReg.getAttribute("value"));
 		System.out.println(firstNameInReg.getAttribute("value"));
 	}
@@ -267,6 +304,7 @@ public class EventRegistration {
 	 */
 	public void RegisterLink(int tabIdx) throws Throwable {
 		util.switchToTabs(driver, tabIdx);
+		Thread.sleep(6000);
 		util.waitUntilElement(driver, eventRegister);
 		util.clickUsingJS(driver, eventRegister);
 		log.info("Event Register button is clicked sucessfully");
@@ -296,12 +334,12 @@ public class EventRegistration {
 		Utility.waitForWebElement(driver, singleTicketRegButton, 30);
 		singleTicketRegButton.click();
 	}
-	
+
 	public String getAIAData() {
 		Utility.waitForWebElement(driver, getaiaNumber, 10);
 		String ss = getAiaText.getText();
 		System.out.println(ss);
-		String	aiaNum =getaiaNumber.getText();
+		String aiaNum = getaiaNumber.getText();
 		aiaNumber = aiaNum.replace("AIA number: ", "");
 		System.out.println(aiaNumber);
 		Utility.waitForWebElement(driver, aiaMemberName, 10);
@@ -409,39 +447,62 @@ public class EventRegistration {
 	}
 
 	public void clickRegistrationButton() throws Throwable {
+		Utility.waitForWebElement(driver, continueButtonInRegistration, 0);
 		continueButtonInRegistration.click();
 		log.info("Continue button is clicked in registration");
 		Thread.sleep(18000);
 	}
 
 	public void validateRegisterReq() {
-		util.waitUntilElement(driver, firstName);
+		Utility.waitForWebElement(driver, firstName, 0);
 		log.info(firstName.getAttribute("value"));
-		util.waitUntilElement(driver, continueButtonInRegistration);
-		Utility.highLightElement(driver, continueButtonInRegistration);
-		continueButtonInRegistration.click();
+		System.out.println(lastName.getAttribute("value"));
+		log.info(lastName.getAttribute("value"));
+		System.out.println(email.getAttribute("value"));
+		log.info(email.getAttribute("value"));
+	}
+	
+	public void getScheduleDetailsInAgenda() throws InterruptedException{
+		Thread.sleep(7000);
+		ArrayList<String> scheduleinfo = new ArrayList<String>();
+		String xpath = null;
+		WebElement scheduleData=null;
+		for (int i = 1; i <=3; i++) {
+			xpath = "(//div[@data-name='itemDiv'])[" + i + "]";
+		 scheduleData = driver.findElement(By.xpath(xpath));
+		Utility.waitForWebElement(driver,scheduleData, 0);
+		System.out.println(scheduleData.getAttribute("textContent"));
+		log.info(scheduleData.getAttribute("textContent"));
+		scheduleinfo.add(scheduleData.getAttribute("textContent"));
+		}
+		Assert.assertTrue(scheduleinfo.get(0).contains(EventConfig.scheduleDisplayNameInputFieldInAgenda));
 	}
 
 	public void agendaModule() throws Throwable {
 		Thread.sleep(15000);
-		util.waitUntilElement(driver, continueButtonInAgenda);
-		Utility.highLightElement(driver, continueButtonInAgenda);
+		Utility.waitForWebElement(driver, continueButtonInAgenda, 0);
 		Thread.sleep(2000);
 		util.clickUsingJS(driver, continueButtonInAgenda);
 		log.info("Continue button is clicked in agenda");
+	}
+	
+	public ArrayList<Object> totalPaymentamountInCheckout() throws InterruptedException{
+		Utility.waitForWebElement(driver, totalAmountInCheckout, 0);
+		totalAmount = totalAmountInCheckout.getText();
+		if(totalAmount.equals("Free")) {
+			totalAmount = "$0.00";
+		}
+		receiptData.add(0, totalAmount);
+		log.info("Total Amount in checkout" + totalAmount);
+		Thread.sleep(14000);
+		return receiptData;
 	}
 
 	/**
 	 * @return
 	 * @throws Throwable
 	 */
-	public ArrayList<Object> paymentDataIncheckoutModule() throws Throwable {
-		util.waitUntilElement(driver, totalAmountInCheckout);
-		Utility.highLightElement(driver, totalAmountInCheckout);
-		totalAmount = totalAmountInCheckout.getText();
-		receiptData.add(0, totalAmount);
-		log.info("Total Amount in checkout" + totalAmount);
-		Thread.sleep(14000);
+	public void paymentDataIncheckoutModule() throws Throwable {
 		util.waitUntilElement(driver, cardHolderName);
 		Utility.highLightElement(driver, cardHolderName);
 		userName = cardHolderName.getAttribute("value");
@@ -460,8 +521,6 @@ public class EventRegistration {
 		log.info("ExpMonth selected as" + testData.testDataProvider().getProperty("CREDIT_CARD_EXP_MONTH"));
 		util.selectDropDownByText(expYear, testData.testDataProvider().getProperty("CREDIT_CARD_EXP_YEAR"));
 		log.info("ExpMonth selected as" + testData.testDataProvider().getProperty("CREDIT_CARD_EXP_YEAR"));
-		return receiptData;
-
 	}
 
 	public void paymentProcessButton() throws Throwable {
@@ -525,7 +584,6 @@ public class EventRegistration {
 	}
 
 	public ArrayList<Object> clickReceiptInChecout() {
-
 		receiptNum = receiptNumber.getText();
 		receiptData.add(1, receiptNum);
 		log.info("Receipt Number" + receiptNum);
@@ -537,6 +595,58 @@ public class EventRegistration {
 		util.clickUsingJS(driver, viewRecieptInCheckout);
 		log.info("View Receipts is clicked successfully using js & contains generate multiple pdf");
 		return receiptData;
+	}
+	
+	public void detailsNavButton() throws InterruptedException {
+		Thread.sleep(5000);
+		Utility.waitForWebElement(driver, detailsNavigationButton, 0);
+		detailsNavigationButton.click();
+	}
+	
+	public void validateEventOverView() throws InterruptedException {
+		Thread.sleep(10000);
+		util.scrollingElementUsingJS(driver, eventOverviewText);
+		Utility.waitForWebElement(driver, eventOverviewText, 0);
+		Assert.assertTrue(eventOverviewText.getText().contains(EventConfig.eventOverView));
+	}
+
+	public void speakersButtonInAIA() {
+		Utility.waitForWebElement(driver, speakersButtonInAIAPage, 0);
+		speakersButtonInAIAPage.click();
+	}
+
+	public void validateSpeakerInAIA() throws InterruptedException {
+		Thread.sleep(9000);
+		WebElement speaker = driver.findElement(By.xpath(EventRegistration.speakerName(EventConfig.speakerNameInputField)));
+		log.info(speaker.getText());
+		Assert.assertTrue(speaker.isDisplayed());
+	}
+
+	public void agendaNavigationButtonInAIA() {
+		Utility.waitForWebElement(driver, agendaInAIA, 0);
+		util.clickUsingJS(driver, agendaInAIA);
+	}
+
+	public void validateScheduleInAgenda() throws InterruptedException {
+		Thread.sleep(9000);
+		WebElement scheduleName = driver.findElement(By.xpath(EventRegistration.scheduleNameInAgenda(EventConfig.scheduleDisplayNameInputFieldInAgenda)));
+		Assert.assertTrue(scheduleName.isDisplayed());
+	}
+	
+	public void validateTime(String fontevaTime)throws InterruptedException {
+		System.out.println("print time");
+		Thread.sleep(15000);
+		util.waitForJavascript(driver, 30000, 5000);
+		Utility.waitForWebElement(driver, time, 0);
+		String initialTimerText = time.getText();
+	    util.waitUntilElement(driver, time);
+	    System.out.println(initialTimerText);
+	    if (initialTimerText.compareTo(fontevaTime) < 0) {
+	       log.info("Registration time fonteva time is less than the AIA registartion timer");
+	    }else {
+	    	log.info("notyhing");
+	    }
+		Assert.assertTrue(time.isDisplayed(), "Time is displayed");
 	}
 
 }
