@@ -1,4 +1,5 @@
 package org.aia.testcases.abi;
+
 import static io.restassured.RestAssured.given;
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -92,8 +93,8 @@ public class TestArchitectureBillingIndex extends BaseClass {
 		// ArchitectureBillingIndexAPIValidation.class);
 		Logging.configure();
 	}
- 
-	@Test(groups={"Smoke"}, description=" To subscribe for ABI", enabled=true, dataProvider="Address")																								
+
+	@Test(groups = { "Smoke" }, description = " To subscribe for ABI", enabled = true, dataProvider = "Address")
 	public void SubscribeToABI(ITestContext context, String addressType, String address) throws Exception {
 		System.out.println("Subscription");
 		ArrayList<String> dataList = signUpPage.signUpData();
@@ -134,8 +135,9 @@ public class TestArchitectureBillingIndex extends BaseClass {
 			pdfDetails = abisignUpPage.proceedToCheckOut();
 		}
 	}
-	
-	@Test(groups={"Smoke"}, description=" To renew ABI subscription as Guest", enabled=true, dataProvider="Address")
+
+	@Test(groups = {
+			"Smoke" }, description = " To renew ABI subscription as Guest", enabled = true, dataProvider = "Address")
 	public void SubscribeToABIAsGuest(ITestContext context, String addressType, String address) throws Exception {
 		ArrayList<String> dataList = signUpPage.signUpData();
 		abisignUpPage = PageFactory.initElements(driver, ABISignUpPage.class);
@@ -145,7 +147,8 @@ public class TestArchitectureBillingIndex extends BaseClass {
 		context.setAttribute("salesOrderId", pdfDetails.get(0).substring(13));
 		context.setAttribute("contactName", dataList.get(0) + " " + dataList.get(1));
 		users.put(dataList.get(0) + " " + dataList.get(1), dataList.get(5));
-		util.navigateToURl(driver, DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
+		util.navigateToURl(driver,
+				DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
 		fontevaLoginPage.viewSalesOrder((String) context.getAttribute("contactName"),
 				(String) context.getAttribute("salesOrderId"));
 		abisignUpPage.validateSubscriptionDetails(pdfDetails);
@@ -154,15 +157,12 @@ public class TestArchitectureBillingIndex extends BaseClass {
 	@DataProvider(name = "Address")
 	public Object[][] getAddress(ITestContext context) {
 
-		return new Object[][] { 
-			{ "US Taxable Address", "1735 york avenue, New york" }
-			, {"US Non- Taxable Address", "115 E 3rd Ave, Anchorage, AK 99501, United States"}
-			,{"International Address", "9, Netkallappa Circle, Basavanagudi, Bengaluru, Karnataka, India"}
-			,{"Non US Address", "WAVEROCK SEZ, Road Number 2, Financial District"}
-		 };
-		}
-	
- 
+		return new Object[][] { { "US Taxable Address", "1735 york avenue, New york" },
+				{ "US Non- Taxable Address", "115 E 3rd Ave, Anchorage, AK 99501, United States" },
+				{ "International Address", "9, Netkallappa Circle, Basavanagudi, Bengaluru, Karnataka, India" },
+				{ "Non US Address", "WAVEROCK SEZ, Road Number 2, Financial District" } };
+	}
+
 	@AfterMethod(alwaysRun = true)
 	public void teardown() throws IOException {
 		BrowserSetup.closeBrowser(driver);
