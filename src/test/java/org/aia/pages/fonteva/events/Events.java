@@ -31,12 +31,15 @@ public class Events {
 		executor = (JavascriptExecutor) driver;
 		testData = new ConfigDataProvider();
 	}
-	
-	@FindBy(xpath = "//button[@title='Select a List View: Events']") WebElement selectLastViewEvents;
-	
-	@FindBy(xpath = "//li//span[text()='Active Events']") WebElement activeEventsLink;
-	
-	@FindBy(xpath = "//li//span[text()='Recently Viewed']") WebElement recentlyEventsLink;
+
+	@FindBy(xpath = "//button[@title='Select a List View: Events']")
+	WebElement selectLastViewEvents;
+
+	@FindBy(xpath = "//li//span[text()='Active Events']")
+	WebElement activeEventsLink;
+
+	@FindBy(xpath = "//li//span[text()='Recently Viewed']")
+	WebElement recentlyEventsLink;
 
 	@FindBy(xpath = "//span[text()='App Launcher']//parent::div")
 	WebElement appLauncher;
@@ -49,7 +52,7 @@ public class Events {
 
 	@FindBy(xpath = "//a[contains(@class,'label-action dndItem')]/span[text()='Events']")
 	WebElement eventsModule;
-	
+
 	// Delete event
 	@FindBy(xpath = "(//div[@class='forceVirtualActionMarker forceVirtualAction']/a)[1]")
 	WebElement actionColumnHeader;
@@ -76,10 +79,13 @@ public class Events {
 	@FindBy(xpath = "//tbody/tr[1]/th[1]/span[1]/a")
 	WebElement createdEvent;
 	
-	@FindBy(xpath = "//table//a[text()='TestQAMedium11032023131804']") WebElement createdActiveEvent;
-	
+	@FindBy(xpath = "//table/tbody/tr/td[2]/span/span") WebElement aiaNumberInContact;
+
+	@FindBy(xpath = "//table//a[text()='TestQAMedium11032023131804']")
+	WebElement createdActiveEvent;
+
 	public static String createdActiveEvent(String activeEvent) {
-		String xpath = "//table//a[text()='"+activeEvent+"']";
+		String xpath = "//table//a[text()='" + activeEvent + "']";
 		return xpath;
 	}
 
@@ -103,6 +109,8 @@ public class Events {
 
 	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//span[text()='Number of Registered Attendees']/following::lightning-formatted-number[1]")
 	WebElement attandessInsalesRegisration;
+	
+	@FindBy(xpath = "//records-record-layout-item[@field-label='Registration Timer']//lightning-formatted-number") WebElement registrationTime;
 
 	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//span[text()='Number of Registered Attendees']/following::lightning-formatted-number[2]")
 	WebElement soldticketsInsalesRegisration;
@@ -112,8 +120,9 @@ public class Events {
 
 	@FindBy(xpath = "//div[@class='windowViewMode-normal oneContent active lafPageHost']//span[text()='Number of Registered Attendees']/following::lightning-formatted-number[4]")
 	WebElement ticketsremainInsalesRegisration;
-	
-	@FindBy(xpath = "//h1[text()='Search Results']/following::span[text()='Contacts']") WebElement contactsInGlobalSearch;
+
+	@FindBy(xpath = "//h1[text()='Search Results']/following::span[text()='Contacts']")
+	WebElement contactsInGlobalSearch;
 
 	public void eventsTab() throws Exception {
 		try {
@@ -132,7 +141,7 @@ public class Events {
 			appLauncherEventsValue.click();
 		}
 	}
-	
+
 	public String clickCreatedEvent(String option) {
 		String eventName = null;
 		Utility.waitForWebElement(driver, selectLastViewEvents, 10);
@@ -141,13 +150,14 @@ public class Events {
 		case "Active":
 			Utility.waitForWebElement(driver, activeEventsLink, 10);
 			activeEventsLink.click();
-			Utility.waitForWebElement(driver, driver.findElement(By.xpath(Events.createdActiveEvent(EventConfig.getEventName))), 10);
-			eventName =driver.findElement(By.xpath(Events.createdActiveEvent(EventConfig.getEventName))).getText();
+			Utility.waitForWebElement(driver,
+					driver.findElement(By.xpath(Events.createdActiveEvent(EventConfig.getEventName))), 10);
+			eventName = driver.findElement(By.xpath(Events.createdActiveEvent(EventConfig.getEventName))).getText();
 			driver.findElement(By.xpath(Events.createdActiveEvent(EventConfig.getEventName))).click();
 			break;
 		case "RecentEvents":
-			Utility.waitForWebElement(driver, recentlyEventsLink, 10); 
-			recentlyEventsLink.click();
+			Utility.waitForWebElement(driver, recentlyEventsLink, 10);
+			util.clickUsingJS(driver, recentlyEventsLink);
 			util.waitUntilElement(driver, createdEvent);
 			eventName = createdEvent.getText();
 			util.clickUsingJS(driver, createdEvent);
@@ -168,7 +178,7 @@ public class Events {
 		util.clickUsingJS(driver, createdEvent);
 		return eventName;
 	}
-	
+
 	public String clickCreatedEventInActiveEvents() throws Throwable {
 		util.waitUntilElement(driver, eventsModule);
 		util.clickUsingJS(driver, eventsModule);
@@ -190,11 +200,13 @@ public class Events {
 		Assert.assertTrue(cloneEventPopup);
 		log.info("Clone Event pop is displayed");
 	}
-	
-	public void clickContactsInGlobalSearch() {
+
+	public String clickContactsInGlobalSearch() {
 		Utility.waitForWebElement(driver, contactsInGlobalSearch, 10);
 		contactsInGlobalSearch.click();
-		util.waitForJavascript(driver, 7000, 2000);
+		Utility.waitForWebElement(driver, aiaNumberInContact, 0);
+		 String aiaNumber = aiaNumberInContact.getText();
+		 return aiaNumber;
 	}
 
 	/**
@@ -220,6 +232,12 @@ public class Events {
 		Thread.sleep(3000);
 		util.waitUntilElement(driver, eventName);
 		util.clickUsingJS(driver, eventName);
+	}
+	
+	public String registrationTimerDetails() {
+		Utility.waitForWebElement(driver, registrationTime, 0);
+		String fontevaRegTime =registrationTime.getAttribute("innerText");
+		return fontevaRegTime;
 	}
 
 	/**

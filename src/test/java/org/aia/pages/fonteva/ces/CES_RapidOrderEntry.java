@@ -7,6 +7,7 @@ import java.awt.AWTException;
 import java.util.List;
 
 import org.aia.pages.api.ces.SubscriptionPlanPrice;
+import org.aia.pages.ces.Organization;
 import org.aia.pages.fonteva.membership.ContactCreateUser;
 import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.Utility;
@@ -19,23 +20,23 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 
 public class CES_RapidOrderEntry {
-
 	WebDriver driver;
 	Utility util = new Utility(driver, 30);
 	ConfigDataProvider data = new ConfigDataProvider();
-	CES_ContactPage contactPage= new CES_ContactPage(driver);
+	CES_ContactPage contactPage;
 	SubscriptionPlanPrice subscriptionAPI = new SubscriptionPlanPrice(driver);
 	static Logger log = Logger.getLogger(ContactCreateUser.class);
 	Actions action;
 	JavascriptExecutor executor;
 
-	public CES_RapidOrderEntry(WebDriver driver) {
-		this.driver = driver;
+	public CES_RapidOrderEntry(WebDriver ldriver) {
+		this.driver = ldriver;
 		action = new Actions(driver);
 		executor = (JavascriptExecutor) driver;
+		contactPage = new CES_ContactPage(driver);
 	}
-	
-	@FindBy(xpath = "//p[text()='Account Name']//parent::div//div//a")
+
+	@FindBy(xpath = "//p[text()='Account Name']//parent::div//div//a//span")
 	WebElement accountName;
 
 	@FindBy(xpath = "//button[text()='Rapid Order Entry']")
@@ -73,7 +74,10 @@ public class CES_RapidOrderEntry {
 	@FindBy(xpath = "//*[contains(text(),'Open Memberships')]")
 	WebElement Membershipslnk;
 
-	@FindBy(xpath = "//span[text()= 'Account']/../..//span//a")
+//	@FindBy(xpath = "//span[text()= 'Account']/../..//span//a")
+//	WebElement SelectAccount;
+	
+	@FindBy(xpath = "//span[text()='Account']/parent::div/parent::div//slot/span")
 	WebElement SelectAccount;
 
 	@FindBy(xpath = "//*[@role = 'table']//tbody//tr")
@@ -120,10 +124,18 @@ public class CES_RapidOrderEntry {
 
 	@FindBy(xpath = "//div/strong[text()='Items']/span")
 	WebElement itemsFees;
-	
+
 	@FindBy(xpath = "//div[text()='Receipt']/parent::h1")
-	WebElement receiptElement; 
-	
+	WebElement receiptElement;
+
+	// @FindBy(xpath = "//a/slot/span[contains(text(),'Points of contact')]")
+	// WebElement pointofContact;
+
+	// @FindBy(xpath = "//*[contains(text(),'Open Points of contact')]")
+
+	@FindBy(xpath = "//a[normalize-space()='Show All (10)']")
+	WebElement showallBtn;
+
 	/**
 	 * @param userFullname
 	 * @param itemQuick
@@ -158,9 +170,6 @@ public class CES_RapidOrderEntry {
 	public void cesRapidOrderEntry(String userFullname, String itemQuick, String quickElement)
 			throws InterruptedException, AWTException {
 		Thread.sleep(30000);
-		contactPage.selectCreatedContact(userFullname);
-		util.waitUntilElement(driver, accountName);
-		executor.executeScript("arguments[0].click();", accountName);
 		util.waitUntilElement(driver, rapidOrderEnteryBtn);
 		rapidOrderEnteryBtn.click();
 		util.waitUntilElement(driver, quickItemSelect);
@@ -179,11 +188,6 @@ public class CES_RapidOrderEntry {
 		util.waitUntilElement(driver, itemsFees);
 		String fee = itemsFees.getText();
 		System.out.println("Item fee: " + fee);
-
-//		util.waitUntilElement(driver, goBtn);
-//		action.moveToElement(goBtn).click().perform();
-//		System.out.println("GO button clicked");
-
 		if (fee.equalsIgnoreCase("Free")) {
 			Thread.sleep(10000);
 			util.waitUntilElement(driver, goBtn);
@@ -256,6 +260,11 @@ public class CES_RapidOrderEntry {
 		executor.executeScript("arguments[0].click();", accountName);
 	}
 
+	public void selectAccount() throws InterruptedException {
+		util.waitUntilElement(driver, SelectAccount);
+		action.moveToElement(SelectAccount).click().perform();
+	}
+
 	/**
 	 * Selecting discount code in rapid order entry
 	 * 
@@ -296,13 +305,13 @@ public class CES_RapidOrderEntry {
 		util.waitUntilElement(driver, addOrderBtn);
 		addOrderBtn.click();
 		Thread.sleep(20000);
-		if(membershipType.contains("Basic")|| membershipType.contains("Passport")) {
+		if (membershipType.contains("Basic") || membershipType.contains("Passport")) {
 			System.out.println("My code:" + Integer.parseInt(discountCode.substring(0, 2)));
 			validateDiscountingAmmount(membershipPriceId, Integer.parseInt(discountCode.substring(0, 2)));
 		}
-		
+
 		applyPaymentInROE();
-		//Validate Receipt is visible
+		// Validate Receipt is visible
 		util.waitUntilElement(driver, receiptElement);
 		assertTrue(receiptElement.isDisplayed());
 	}
@@ -392,7 +401,7 @@ public class CES_RapidOrderEntry {
 			}
 			Double amountAfterDiscount = Double.parseDouble(build.toString());
 			// Validation of discounted amount.
-			if (amountAfterDiscount< totalAmount) {
+			if (amountAfterDiscount < totalAmount) {
 				int expectedAmount = (int) ((double) discount / 100 * totalAmount);
 				assertTrue((totalAmount - expectedAmount) == amountAfterDiscount);
 			} else {
@@ -403,5 +412,10 @@ public class CES_RapidOrderEntry {
 			System.out.println("Membership dues are zero");
 		}
 
+	}
+
+	public void verifyRecieptAfterROE() throws InterruptedException {
+		util.waitUntilElement(driver, receiptElement);
+		assertTrue(receiptElement.isDisplayed());
 	}
 }

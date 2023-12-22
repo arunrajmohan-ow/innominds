@@ -274,6 +274,45 @@ public final class DateUtils {
     	
     }
     
+    public static String setFutureDAte() {
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+ 
+        Calendar calendar = Calendar.getInstance();
+        Date currentDate = calendar.getTime();
+ 
+        // Calculate future date (e.g., add 3 days)
+        calendar.add(Calendar.DAY_OF_MONTH, 3);
+        Date futureDate = calendar.getTime();
+ 
+        String formattedFutureDate = sdf.format(futureDate);
+ 
+        System.out.println("Current Date: " + sdf.format(currentDate));
+        System.out.println("Future Date (after 7 days): " + formattedFutureDate);
+        return formattedFutureDate;
+    }
+    
+    public static String formatDate(String inputDateString) {
+    	String outputDateString = null;
+    	SimpleDateFormat inputDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        SimpleDateFormat outputDateFormat = new SimpleDateFormat("MMMM d, yyyy");
+
+        try {
+            // Parse the input string to a Date object
+            Date date = inputDateFormat.parse(inputDateString);
+
+            // Format the Date object to the desired output format
+             outputDateString = outputDateFormat.format(date);
+
+            // Print the converted date string
+            System.out.println("Converted Date: " + outputDateString);
+        } catch (ParseException e) {
+            // Handle the parsing exception if the format is incorrect
+            System.out.println("Error parsing the date: " + e.getMessage());
+        }
+		return outputDateString;
+    
+    }
+    
     
 }
 

@@ -40,8 +40,9 @@ public class TellusAboutYourselfPage {
 	@FindBy(xpath = "//span[@title='None Selected']/parent::span")
 	WebElement noneSelectedCarTypTellpage;
 
-	//@FindBy(xpath = "//label[contains(text(),'I currently do not')]/preceding-sibling::lightning-input/div/span")
-	@FindBy(xpath = "//label[contains(text(),'I currently do not')]/preceding-sibling::lightning-input/div/span//input")
+	// @FindBy(xpath = "//label[contains(text(),'I currently do
+	// not')]/preceding-sibling::lightning-input/div/span")
+	@FindBy(xpath = "//label[contains(text(),'I currently do not')]/preceding-sibling::lightning-input//div//span//input")
 	WebElement workBusinesChckboxTellpage;
 
 	@FindBy(css = "body > div.siteforceStarterBody > div.cCenterPanel.slds-m-top--x-large.slds-p-horizontal--medium > div > div > div > div > div.cb-section_row.slds-grid.slds-wrap.slds-large-nowrap > div > div > div > c-a-i-a-join-additional-info > div.scrollable > div > lightning-record-edit-form > lightning-record-edit-form-edit > form > slot > slot > div:nth-child(4) > div.slds-p-horizontal_x-large > div:nth-child(2) > lightning-input")
@@ -60,7 +61,7 @@ public class TellusAboutYourselfPage {
 	@FindBy(xpath = "//span[@title='United States']/parent::span")
 	WebElement homecountryUnitedStatesTellpage;
 
-	@FindBy(xpath = "//label[text()='Home country']/parent::div/following-sibling::div[1]//lightning-base-combobox/div/div[2]//span[@title='United States']/parent::span")
+	@FindBy(xpath = "(//label[text()='Home country']//parent::div//following-sibling::div//lightning-combobox//div//div//div//div//div)[3]//lightning-base-combobox-item//span//following-sibling::span//span[text()='United States']")
 	WebElement homecountryUnitedStates2Tellpage;
 
 	@FindBy(xpath = "//label[text()='Home street']/parent::div/following-sibling::div[1]")
@@ -69,18 +70,22 @@ public class TellusAboutYourselfPage {
 	@FindBy(xpath = "//label[text()='Home street']/parent::div/following-sibling::div[2]/div/lightning-input")
 	WebElement homeCityTellpage;
 
-	//@FindBy(xpath = "//label[text()='State']/parent::div/following-sibling::lightning-combobox")
-	@FindBy(xpath="//label[text()='State']/parent::div/following-sibling::lightning-combobox//button")
+	// @FindBy(xpath =
+	// "//label[text()='State']/parent::div/following-sibling::lightning-combobox")
+	@FindBy(xpath = "//label[text()='State']/parent::div/following-sibling::lightning-combobox//button")
 	WebElement stateTellpage;
 
 	@FindBy(xpath = "//label[text()='State of license']/following-sibling::lightning-input-field")
 	WebElement stateOfLicenceTellpage;
 
-	//@FindBy(xpath = "//label[text()='State']/parent::div/following-sibling::lightning-combobox//span[@title='California']")
+	// @FindBy(xpath =
+	// "//label[text()='State']/parent::div/following-sibling::lightning-combobox//span[@title='California']")
 	@FindBy(xpath = "//label[text()='State']/parent::div/following-sibling::lightning-combobox//div[@role='listbox']//lightning-base-combobox-item//span//span[text()='California']")
 	WebElement californiaStateTellpage;
 
-	@FindBy(xpath = "//label[text()='State of license']/following-sibling::lightning-input-field//lightning-base-combobox/div/div[2]//span[@title='California']")
+	@FindBy(xpath = "//lightning-base-combobox//span[@title='California']")
+//	@FindBy(xpath = "//label[text()='State of license']/following-sibling::lightning-input-field//lightning-base-combobox/div/div[2]//span[@title='California']")
+//	WebElement californiaStateLicenceTellpage;
 	WebElement californiaStateLicenceTellpage;
 
 	@FindBy(xpath = "//label[text()='Country of license']/following-sibling::lightning-input-field")
@@ -136,7 +141,7 @@ public class TellusAboutYourselfPage {
 			JavascriptExecutor js = (JavascriptExecutor) driver;
 			js.executeScript("window.scrollBy(0,900)", workBusinesChckboxTellpage);
 			clickonChckBox();
-			Thread.sleep(7000);
+			//Thread.sleep(7000);
 			enterdetails(homecountryUnitedStatesTellpage);
 
 		}
@@ -153,7 +158,7 @@ public class TellusAboutYourselfPage {
 			entercareerType(careerType);
 			enterLicenseDetailsNonUS();
 			clickonChckBox();
-			Thread.sleep(7000);
+			//Thread.sleep(7000);
 			enterdetails(homecountryUnitedStates2Tellpage);
 		}
 
@@ -233,7 +238,7 @@ public class TellusAboutYourselfPage {
 
 	public void entercareerType(String careerType) throws InterruptedException {
 
-		Thread.sleep(20000);
+		//Thread.sleep(30000);
 		util.waitUntilElement(driver, TellUsAbtLabelTellpage);
 		util.waitUntilElement(driver, CareeTypTellpage);
 		Thread.sleep(1000);
@@ -321,14 +326,13 @@ public class TellusAboutYourselfPage {
 		Actions act = new Actions(driver);
 		act.moveToElement(workBusinesChckboxTellpage).build().perform();
 		js.executeScript("arguments[0].click();", workBusinesChckboxTellpage);
-		
-		
+
 	}
 
 	public void enterdetails(WebElement ele) throws InterruptedException {
-		Thread.sleep(30000);
+		//Thread.sleep(30000);
 		JavascriptExecutor js = (JavascriptExecutor) driver;
-
+        
 		js.executeScript("window.scrollBy(0,30)", homecountryTellpage2);
 		util.waitUntilElement(driver, homecountryTellpage2);
 		Thread.sleep(10000);
@@ -351,7 +355,7 @@ public class TellusAboutYourselfPage {
 		util.waitUntilElement(driver, stateTellpage);
 		act.moveToElement(stateTellpage).build().perform();
 		js.executeScript("arguments[0].click();", stateTellpage);
-		//act.moveToElement(stateTellpage).click().build().perform();
+		// act.moveToElement(stateTellpage).click().build().perform();
 		Thread.sleep(7000);
 		util.waitUntilElement(driver, californiaStateTellpage);
 
@@ -368,9 +372,10 @@ public class TellusAboutYourselfPage {
 		js.executeScript("window.scrollBy(0,700)", nextBtnTellpage);
 
 		// act.moveToElement(nextBtnTellpage).click().build().perform();
-		//nextBtnTellpage.click();
+		// nextBtnTellpage.click();
 		js.executeScript("arguments[0].click();", nextBtnTellpage);
-		Thread.sleep(15000);
+		//Thread.sleep(15000);
+		Utility.waitForWebElement(driver, EquityLabelEquityPage, 10000);
 		util.waitUntilElement(driver, EquityLabelEquityPage);
 
 		util.waitUntilElement(driver, nextBtnEquitypage);
