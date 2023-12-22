@@ -1,5 +1,6 @@
 package org.aia.pages.ces;
 
+
 import static org.testng.Assert.assertTrue;
 
 import java.awt.Robot;
@@ -73,27 +74,7 @@ public class Subscription {
 	@FindBy(xpath = "//div[contains(@id,'help-message')]")
 	WebElement pofessionalUnsupportedFilTypes;
 
-	@FindBy(xpath = "//button[text()='Previous']")
-	WebElement professionalPrevious;
-
-	@FindBy(xpath = "//button[text()='Next']")
-	WebElement professionalNext;
-
-	// ConfirmDetailsPage
-	@FindBy(xpath = "//*[contains(text(),'You will not be able to go back once you continue.')]")
-	WebElement confirmContinueText;
-
-	@FindBy(xpath = "//*[contains(text(),'Organization Name')]/parent::p")
-	WebElement orgNameValue;
-
-	@FindBy(xpath = "//button[text()='Previous']")
-	WebElement confirmPrevious;
-
-	@FindBy(xpath = "//button[text()='Next']")
-	WebElement confirmNext;
-
-	@FindBy(xpath = "//span[text()='What is your employee size?']")
-	WebElement empSizetxt;
+	
 
 	@FindBy(xpath = "//*[text() ='﻿Based on the organization type you have chosen, you are eligible for: ']")
 	WebElement subscriptiontxt;
@@ -124,6 +105,26 @@ public class Subscription {
 
 	@FindBy(xpath = "//strong[text()='Work Phone:']")
 	WebElement workPhone;
+
+
+	@FindBy(xpath="//button[text()='Previous']") WebElement professionalPrevious;
+	
+	@FindBy(xpath="//button[text()='Next']") WebElement professionalNext;
+	
+	//ConfirmDetailsPage
+	@FindBy(xpath="//*[contains(text(),'You will not be able to go back once you continue.')]") WebElement confirmContinueText;
+	
+	@FindBy(xpath="//*[contains(text(),'Organization Name')]/parent::p") WebElement orgNameValue;
+	
+	@FindBy(xpath="//button[text()='Previous']") WebElement confirmPrevious;
+	
+	@FindBy(xpath="//button[text()='Next']") WebElement confirmNext;
+	
+	@FindBy(xpath="//span[text()='What is your employee size?']") WebElement empSizetxt;
+	
+	@FindBy(xpath = "//div[@class='slds-m-bottom_x-small']/span[@class='main']/img[contains(@src, 'Subscription')]")
+	WebElement tabTitleSubscription;
+	
 
 	/*
 	 * @param : text
@@ -267,5 +268,14 @@ public class Subscription {
 			System.out.println("Proration page is not available.");
 		}
 	}
+
+	
+	public void verifySubscriptionTab()
+	{
+		util.waitUntilElement(driver, tabTitleSubscription);
+		assertTrue(tabTitleSubscription.isDisplayed());
+		
+	}
+	
 
 }

@@ -53,12 +53,14 @@ public class BaseClass {
 		Reporter.log("LOG: INFO : Browser instance is ready ", true);
 	}
 
+
 	@AfterClass(alwaysRun = true)
 	public void tearDown() {
 			Reporter.log("LOG: INFO : Closing browser instances", true);
 	    	BrowserSetup.closeBrowser(driver);
 			Reporter.log("LOG: INFO : Browser instances closed", true);
 	}
+
 
 	@BeforeTest(alwaysRun = true)
 	public void initialTestSetup() {

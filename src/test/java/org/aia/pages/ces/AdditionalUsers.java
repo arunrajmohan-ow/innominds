@@ -52,6 +52,13 @@ WebDriver driver;
 		additionalNext.click();
 	}
 	
+	public void creatingNewUsers() throws Exception {
+		util.waitUntilElement(driver, createnewUserRdobtn);
+		Thread.sleep(2000);
+		createnewUserRdobtn.click();
+		additionalNext.click();
+	}
+	
 	public void verifyCesPrimDetails(ArrayList<String> dataList) {
 		for(WebElement primDetails:primRowDetails) {
 			 System.out.println(primDetails.getText());

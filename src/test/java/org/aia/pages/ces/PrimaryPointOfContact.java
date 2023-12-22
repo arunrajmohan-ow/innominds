@@ -241,5 +241,10 @@ public class PrimaryPointOfContact {
 		util.getCustomizedWebElement(driver, newWorkPhoneCountry, newCountry).click();
 		assertEquals(pocWorkPhoneCountryDrp.getAttribute("data-value"), newCountry);
 	}
+	
+	public void verifyPrimayPOCTab() {
+		util.waitUntilElement(driver, tabTitlePrimarypoc);
+		assertTrue(tabTitlePrimarypoc.isDisplayed());
+	}
 
 }
