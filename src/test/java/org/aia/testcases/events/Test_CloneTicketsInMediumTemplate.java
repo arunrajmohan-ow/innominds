@@ -24,7 +24,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
-@Listeners(org.aia.utility.GenerateReportsListener.class)
 public class Test_CloneTicketsInMediumTemplate extends BaseClass {
 	Events events;
 	NewCloneEvents cloneEventpage;

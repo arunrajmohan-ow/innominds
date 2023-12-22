@@ -33,7 +33,7 @@ public class RenewPage {
 
 	public void renewMembership(String emaildata) throws InterruptedException
 	{
-		Thread.sleep(20000);
+		Thread.sleep(15000);
 		util.waitUntilElement(driver, enteremail);
 		enteremail.sendKeys(emaildata);
 		util.waitUntilElement(driver, continuebtn);
