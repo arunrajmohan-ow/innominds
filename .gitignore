@@ -1,6 +1,4 @@
-<<<<<<< HEAD
-/target/
-=======
+
 # Compiled class file
 *.class
 
@@ -42,5 +40,3 @@ hs_err_pid*
 /.idea/
 /.vscode/
 *.iml 
-
->>>>>>> d40bdfe23e40574f929a029ee472e62d5818bc32
