@@ -26,7 +26,7 @@ public class ArchitectsLicenced {
 	
 	@FindBy(xpath = "//button[text()='Architects Licensed =/<10 years']") WebElement architectsLicensedTenyearsTab;
 	
-@FindBy(xpath = "//iframe[@title='Report Viewer']") WebElement architectsLicensedTenyearsFrame;
+    @FindBy(xpath = "//iframe[@title='Report Viewer']") WebElement architectsLicensedTenyearsFrame;
 	
 	@FindBy(xpath = "//div[@title='Total Records']/parent::li") WebElement architectsLicensedTenyearsRecords;
 	

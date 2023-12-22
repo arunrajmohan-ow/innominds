@@ -4,9 +4,11 @@ import java.io.IOException;
 
 import org.aia.pages.BaseClass;
 import org.aia.pages.api.membership.FontevaConnectionSOAP;
+import org.aia.pages.fonteva.chapterPortal.ChapterInfo;
 import org.aia.pages.fonteva.chapterPortal.GlobalSearch;
 import org.aia.pages.fonteva.chapterPortal.MemberShipInChapterPortal;
 import org.aia.pages.fonteva.chapterPortal.NavigateToChapterPortal;
+import org.aia.pages.fonteva.chapterPortal.CallForDues;
 import org.aia.utility.BrowserSetup;
 import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.DataProviderFactory;
@@ -20,13 +22,14 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class Test_NavigateToChapterPortal extends BaseClass {
+public class Test_CallForDues extends BaseClass {
 	boolean recording;
 	NavigateToChapterPortal naToChapterPortal;
 	MemberShipInChapterPortal memChapterPortal;
-	GlobalSearch globalSearch;
 	CommonMehodsInCP commonMehodsInCP;
-
+	CallForDues callForDues;
+	GlobalSearch globalSearch;
+	
 	@BeforeMethod(alwaysRun = true)
 	public void setUp() throws Exception {
 		testData = new ConfigDataProvider();
@@ -35,42 +38,26 @@ public class Test_NavigateToChapterPortal extends BaseClass {
 				testData.getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
 		recording = Boolean.parseBoolean(testData.testDataProvider().getProperty("videoRecording"));
 		naToChapterPortal = PageFactory.initElements(driver, NavigateToChapterPortal.class);
-		memChapterPortal = PageFactory.initElements(driver, MemberShipInChapterPortal.class);
+		memChapterPortal= PageFactory.initElements(driver, MemberShipInChapterPortal.class);
+		callForDues = PageFactory.initElements(driver, CallForDues.class);
 		globalSearch = PageFactory.initElements(driver, GlobalSearch.class);
 		commonMehodsInCP = new CommonMehodsInCP(driver);
 		Logging.configure();
 	}
-
-	@Test(description = "FM-397: Chapter Portal access for a contact", enabled = true, priority = 1)
-	public void test_CPAccessForContact(ITestContext context) throws InterruptedException, Throwable {
+	
+	@Test(description = "FM-412: \"Call For Dues\" Component Contact section", enabled = true, priority = 1)
+	public void test_VerificationCallForDues(ITestContext context) throws InterruptedException, Throwable {
 		if (recording) {
-			VideoRecorder.startRecording("test_CPAccessForContact");
-		}
-		commonMehodsInCP.navigationChapterPortal("Allison Garwood Freedland");
-	}
-
-	@Test(description = "FM-421: My chapters page and community group name verification", enabled = true, priority = 2)
-	public void test_NavigationToCP(ITestContext context) throws InterruptedException, Throwable {
-		if (recording) {
-			VideoRecorder.startRecording("test_navigationToCP");
+			VideoRecorder.startRecording("test_VerificationCallForDues");
 		}
 		commonMehodsInCP.navigationChapterPortal("Allison Garwood Freedland");
 		naToChapterPortal.getComunityGroup(1);
-	}
-
-	@Test(description = "FM-422: Tab's verification on My Chapters page", enabled = true, priority = 3)
-	public void test_VerificationTabsInCP(ITestContext context) throws InterruptedException, Throwable {
-		if (recording) {
-			VideoRecorder.startRecording("test_navigationToCP");
-		}
-		commonMehodsInCP.navigationChapterPortal("Allison Garwood Freedland");
-		naToChapterPortal.getComunityGroup(1);
-		memChapterPortal.clickRetentionTab();
-		memChapterPortal.clickFinanceTab();
 		memChapterPortal.clickChapterInfoTab();
-		memChapterPortal.clickCallForDuesInfoTab();
+		callForDues.clickCallForDuesInfoTab();
+		callForDues.getParagraphTextInComponent();
+		callForDues.getContactDetailsTextInComponent();
 	}
-
+	
 	@AfterMethod(alwaysRun = true)
 	public void teardown(ITestResult result) throws IOException {
 		if (recording) {
@@ -82,5 +69,6 @@ public class Test_NavigateToChapterPortal extends BaseClass {
 		}
 		BrowserSetup.closeBrowser(driver);
 	}
+
 
 }

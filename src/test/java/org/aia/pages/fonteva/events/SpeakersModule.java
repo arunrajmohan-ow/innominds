@@ -107,9 +107,10 @@ public class SpeakersModule {
 		log.info("speakersTab is displayed");
 	}
 
-	public void clickNewSpeaker() {
+	public void clickNewSpeaker() throws Throwable {
 		Utility.waitForWebElement(driver, newSpeaker, 10);
 		newSpeaker.click();
+		Thread.sleep(5000);
 		Assert.assertTrue(newspeakerPopupHeader.isDisplayed(), "New Speaker pop up is diplayed");
 	}
 
@@ -117,7 +118,6 @@ public class SpeakersModule {
 		EventConfig.speakerNameInputField = util.randomStringGenerator(5);
 		Utility.waitForWebElement(driver, speakerName, 10);
 		util.enterText(driver, speakerName, EventConfig.speakerNameInputField);
-
 	}
 
 	public void selectStatusInSpeakers() {
@@ -166,7 +166,6 @@ public class SpeakersModule {
 
 	public void cropImageButtonsInSpeaker() {
 		Utility.waitForWebElement(driver, cropimageSaveButton, 20);
-		System.out.println("km");
 		if (cropimageSaveButton.isDisplayed()) {
 			cropimageSaveButton.click();
 		}

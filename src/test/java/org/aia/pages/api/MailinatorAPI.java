@@ -307,9 +307,8 @@ public class MailinatorAPI {
 		try {
 		String inbox = dataList.get(3);
 		JsonPath jsonPathEval = null;
-		util.waitForJavascript(driver, 90000, 2000);
 		String mailinator_uri = MAILINATOR_API + inbox;
-		Thread.sleep(10000);
+		Thread.sleep(7000);
 		Response response =  RestAssured.given().headers("Content-Type",
 				ContentType.JSON, "Accept",
 				ContentType.JSON,"Authorization",
@@ -323,11 +322,10 @@ public class MailinatorAPI {
 		String messageId = jsonPathEval.getString("msgs[1].id");
 		System.out.println("Message Id is "+messageId);
 		String message_uri = MAILINATOR_INBOS_ENDPOINT + inbox + "/messages/" + messageId ;
-		Thread.sleep(10000);
 		 response =  RestAssured.given().
 				 headers("Content-Type", ContentType.JSON, "Accept", ContentType.JSON,"Authorization",bearerToken).when().get(message_uri).then().extract().response();
 		jsonPathEval = response.jsonPath();
-		Thread.sleep(6000);
+		Thread.sleep(5000);
 		System.out.println(response.getBody().asPrettyString());
 		String value = jsonPathEval.getString("parts[1].body");
 		System.out.println("body is " + value);
@@ -343,7 +341,7 @@ public class MailinatorAPI {
 		String inbox = dataList.get(3);
 		JsonPath jsonPathEval = null;
 		String mailinator_uri = MAILINATOR_API + inbox;
-		Thread.sleep(10000);
+		Thread.sleep(7000);
 		 Response response =  RestAssured.given().headers("Content-Type",
 				ContentType.JSON, "Accept",
 				ContentType.JSON,"Authorization",
@@ -357,7 +355,6 @@ public class MailinatorAPI {
 		String messageId = jsonPathEval.getString("msgs[0].id");
 		System.out.println("Message Id is "+messageId);
 		String message_uri = MAILINATOR_INBOS_ENDPOINT + inbox + "/messages/" + messageId ;
-		Thread.sleep(10000);
 		 response =  RestAssured.given().
 				 headers("Content-Type", ContentType.JSON, "Accept", ContentType.JSON,"Authorization",bearerToken).when().get(message_uri).then().extract().response();
 		jsonPathEval = response.jsonPath();
@@ -366,7 +363,6 @@ public class MailinatorAPI {
 		String value = jsonPathEval.getString("parts[1].body");
 		System.out.println("body is " + value);
 		Assert.assertTrue(value.contains(eventName));
-		//Assert.assertTrue(value.contains(scheduleName));
 		Assert.assertTrue(value.contains(dataList.get(0)));
 	}
 	
@@ -375,7 +371,7 @@ public class MailinatorAPI {
 		String inbox = emailList.get(i);
 		JsonPath jsonPathEval = null;
 		String mailinator_uri = MAILINATOR_API + inbox;
-		Thread.sleep(5000);
+		Thread.sleep(7000);
 		 Response response =  RestAssured.given().headers("Content-Type",
 				ContentType.JSON, "Accept",
 				ContentType.JSON,"Authorization",
@@ -393,7 +389,6 @@ public class MailinatorAPI {
 		 response =  RestAssured.given().
 				 headers("Content-Type", ContentType.JSON, "Accept", ContentType.JSON,"Authorization",bearerToken).when().get(message_uri).then().extract().response();
 		jsonPathEval = response.jsonPath();
-		Thread.sleep(5000);
 		System.out.println(response.getBody().asPrettyString());
 		String value = jsonPathEval.getString("parts[1].body");
 		System.out.println("body is " + value);
@@ -405,7 +400,7 @@ public class MailinatorAPI {
 		String inbox = dataList.get(3);
 		JsonPath jsonPathEval = null;
 		String mailinator_uri = MAILINATOR_API + inbox;
-		Thread.sleep(10000);
+		Thread.sleep(7000);
 		 Response response =  RestAssured.given().headers("Content-Type",
 				ContentType.JSON, "Accept",
 				ContentType.JSON,"Authorization",
@@ -419,7 +414,6 @@ public class MailinatorAPI {
 		String messageId = jsonPathEval.getString("msgs[0].id");
 		System.out.println("Message Id is "+messageId);
 		String message_uri = MAILINATOR_INBOS_ENDPOINT + inbox + "/messages/" + messageId ;
-		Thread.sleep(10000);
 		 response =  RestAssured.given().
 				 headers("Content-Type", ContentType.JSON, "Accept", ContentType.JSON,"Authorization",bearerToken).when().get(message_uri).then().extract().response();
 		jsonPathEval = response.jsonPath();
@@ -430,7 +424,6 @@ public class MailinatorAPI {
 		String startDate = DateUtils.formatDate(futureDate);
 		Assert.assertTrue(value.contains(eventName));
 		Assert.assertTrue(value.contains(startDate));
-		//Assert.assertTrue(value.contains(scheduleName));
 		Assert.assertTrue(value.contains(dataList.get(0)));
 	}
 }

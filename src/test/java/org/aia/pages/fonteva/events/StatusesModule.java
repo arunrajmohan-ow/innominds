@@ -67,7 +67,6 @@ public class StatusesModule {
 		log.info("new Statuses is clicked successfully");
 		Assert.assertTrue(headerInNewStatusPopup.isDisplayed());
 		log.info("header in new status popup is displayed");
-
 	}
 
 	public void enterstatusName() {

@@ -545,5 +545,15 @@ public class Utility {
 		}
 		return fileName;
 	}
+	
+	public void scrollingBottomOfPage(WebDriver driver) {
+		JavascriptExecutor js = ((JavascriptExecutor) driver);
+		js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+	}
+	
+	public void mouseOverToElement(WebDriver driver, WebElement element) {
+        Actions actions = new Actions(driver);
+        actions.moveToElement(element).click().build().perform();
+	}
 
 }
