@@ -194,14 +194,13 @@ public class ABISignUpPage {
 					continue;
 				} else if (currentUrl.contains("generateMultiplePDF")) {
 					//String path = "https://fonteva-io.herokuapp.com/generateMultiplePDF/dev/join?doc=https%3A%2F%2Faia--testing.sandbox.my.site.com%2Fecommerce%2Fs%2Freceipt%3FgeneratePDF%3Dtrue%26language%3Den_US%26id%3DKEQx4mKsEnk5PdW3nZTE6QhNQlxGVAEKZBcZr5Jgm8g%3D&doc=https%3A%2F%2Faia--testing.sandbox.my.site.com%2Fecommerce%2Fs%2Fsales-order%3FgeneratePDF%3Dtrue%26language%3Den_US%26id%3DHQEJO7wHomVY0Q52c561YthzO-2j6JVFxpaBvgSO75o%3D";
-					URI uri=new URI(currentUrl);
-					URL url=uri.toURL();
+					URL url = new URL(currentUrl);
 					InputStream is = url.openStream();
 					BufferedInputStream fileParse = new BufferedInputStream(is);
 					PDDocument document = null;
 					document = PDDocument.load(fileParse);
 					PDFTextStripper strip = new PDFTextStripper();
-					strip.setStartPage(2);
+					//strip.setStartPage(2);
 					String pdfContent = strip.getText(document);
 					System.out.println("*********************************************************************************************");
 					System.out.println("pdfContent: "+pdfContent);
@@ -218,6 +217,7 @@ public class ABISignUpPage {
 											}
 									}
 									scnr.close();
+									break;
 								}
 							}
 						return (ArrayList<String>) pdfDetails;
@@ -373,6 +373,9 @@ public class ABISignUpPage {
 				if(e.getKey().contains("STATE TAX")){Assert.assertEquals(pdfDetails.get(pdfDetails.indexOf("NY STATE TAX $14.76")).substring(14,19), String.valueOf(e.getValue()));}
 				if(e.getKey().contains("CITY TAX")){Assert.assertEquals(pdfDetails.get(pdfDetails.indexOf("NY CITY TAX $16.61")).substring(13,18), String.valueOf(e.getValue()));}
 				if(e.getKey().contains("SPECIAL TAX")){Assert.assertEquals(pdfDetails.get(pdfDetails.indexOf("NY SPECIAL TAX $1.38")).substring(16,20), String.valueOf(e.getValue()));}
+				if(e.getKey().contains("Receipt Number:")){Assert.assertEquals(pdfDetails.get(pdfDetails.indexOf("Receipt Number:")).substring(17), String.valueOf(e.getValue()));}
+				if(e.getKey().contains("Customer AIA Number:")){Assert.assertEquals(pdfDetails.get(pdfDetails.indexOf("Receipt Number:")).substring(22), String.valueOf(e.getValue()));}
+
 			}
 			System.out.println("**********************************************");
 		}
