@@ -53,13 +53,13 @@ public class TransfersIn {
 		transferInTab.click();
 	}
 	
-	public void selectDateReportPopup(String pastDate) {
+	public void selectDateReportPopupInTransferIn(String pastDate) {
 		util.waitUntilElement(driver, selectReportDatePopUp);
 		Assert.assertTrue(selectReportDatePopUp.isDisplayed());
 		util.enterText(driver, transferInFromDate, pastDate);
 		String fromDate = transferInFromDate.getAttribute("value");
 		log.info(fromDate);
-		transferInToDate.sendKeys(new SimpleDateFormat("MM/dd/yyyy").format(new Date()));
+		util.enterText(driver, transferInToDate, new SimpleDateFormat("MM/dd/yyyy").format(new Date()));
 		String toDate = transferInToDate.getAttribute("value");
 		log.info(toDate);
 		gotoReportButtonInSelectReportDatePopup.click();

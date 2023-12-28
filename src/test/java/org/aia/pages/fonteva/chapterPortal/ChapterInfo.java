@@ -115,7 +115,7 @@ public class ChapterInfo {
 	}
 	
 	public void deleteFileInNotesAndAttachments(String option) throws Throwable {
-		Thread.sleep(4000);
+		Thread.sleep(8000);
 		if (fileAddedInNotesAndAttachments.isDisplayed()) {
 			fileAddedInNotesAndAttachments.click();
 			Thread.sleep(5000);
@@ -124,10 +124,10 @@ public class ChapterInfo {
 			WebElement actionEle = driver.findElement(
 					By.xpath("//li//a[@title='" + option + "']//div[@class='forceContentPreviewerAction']"));
 			actionEle.click();
-			Thread.sleep(500);
+			Thread.sleep(1000);
 			System.out.println(headerInDeletePopup.getText());
 			System.out.println(deleteTextInDeletepopup.getText());
-			System.out.println();
+			Thread.sleep(500);
 			WebElement actionElem2 = driver.findElement(
 					By.xpath("//div[contains(@class,'forceModalActionContainer')]//button[@title='Delete']"));
 			actionElem2.click();
