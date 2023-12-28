@@ -1,3 +1,4 @@
+
 # Compiled class file
 *.class
 
@@ -38,5 +39,4 @@ hs_err_pid*
 # Ignore IDE-specific files
 /.idea/
 /.vscode/
-*.iml 
-
+*.iml

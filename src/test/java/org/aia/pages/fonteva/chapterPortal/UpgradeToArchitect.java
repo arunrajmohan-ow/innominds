@@ -25,37 +25,51 @@ public class UpgradeToArchitect {
 		executor = (JavascriptExecutor) driver;
 		act = new Actions(driver);
 	}
-	
-	@FindBy(xpath = "//button[text()='Upgrade to Architect']") WebElement upgradeToArchitectTab;
-	
-	@FindBy(xpath = "//header[@class='slds-modal__header']/h2") WebElement selectReportDatePopUp;
-	
-	@FindBy(xpath  = "//input[@name='fromDate']") WebElement upgradeFromDate;
-	
-	@FindBy(xpath =  "//input[@name='toDate']") WebElement upgradeToDate;
-	
-	@FindBy(xpath = "//button[text()='Go to Report']") WebElement gotoReportButtonInSelectReportDatePopup;
-	
-	@FindBy(xpath = "//iframe[@title='Report Viewer']") WebElement upgradeToArchitectFrame;
-	
-	@FindBy(xpath = "//div[@title='Total Records']/parent::li") WebElement upgradeToArchitectRecords;
-	
-	@FindBy(xpath  = "//div[@class='report-table-widget-noData']") WebElement upgradeNoDataMSg;
-	
-	@FindAll(value = {@FindBy(xpath = "//table[@class='data-grid-table data-grid-full-table']//tr[contains(@class,'data-grid-table-row')]")}) List<WebElement> upgradeToArchitectRecordsData;
-	
-	
+
+	@FindBy(xpath = "//button[text()='Upgrade to Architect']")
+	WebElement upgradeToArchitectTab;
+
+	@FindBy(xpath = "//header[@class='slds-modal__header']/h2")
+	WebElement selectReportDatePopUp;
+
+	@FindBy(xpath = "//input[@name='fromDate']")
+	WebElement upgradeFromDate;
+
+	@FindBy(xpath = "//input[@name='toDate']")
+	WebElement upgradeToDate;
+
+	@FindBy(xpath = "//button[text()='Go to Report']")
+	WebElement gotoReportButtonInSelectReportDatePopup;
+
+	@FindBy(xpath = "//iframe[@title='Report Viewer']")
+	WebElement upgradeToArchitectFrame;
+
+	@FindBy(xpath = "//div[@title='Total Records']/parent::li")
+	WebElement upgradeToArchitectRecords;
+
+	@FindBy(xpath = "//div[@class='report-table-widget-noData']")
+	WebElement upgradeNoDataMSg;
+
+	@FindAll(value = {
+			@FindBy(xpath = "//table[@class='data-grid-table data-grid-full-table']//tr[contains(@class,'data-grid-table-row')]") })
+	List<WebElement> upgradeToArchitectRecordsData;
+
 	public void clickUpgradeToArchitectTab() throws Throwable {
+		util.waitUntilElement(driver, upgradeToArchitectTab);
 		upgradeToArchitectTab.click();
+	}
+
+	public void selectDateReportPopup(String postDate) throws InterruptedException {
 		util.waitUntilElement(driver, selectReportDatePopUp);
 		Assert.assertTrue(selectReportDatePopUp.isDisplayed());
 		String fromDate = upgradeFromDate.getAttribute("value");
 		log.info(fromDate);
 		String toDate = upgradeToDate.getAttribute("value");
 		log.info(toDate);
+		Thread.sleep(5000);
 		gotoReportButtonInSelectReportDatePopup.click();
 	}
-	
+
 	public void getUpgradeToArchitectTabRecordsCount() throws Throwable {
 		Thread.sleep(10000);
 		util.switchToTabs(driver, 1);
@@ -65,12 +79,10 @@ public class UpgradeToArchitect {
 		String recordsCount = upgradeToArchitectRecords.getText();
 		String recordsTotal = recordsCount.replace("Total Records\n", "");
 		System.out.println(recordsCount);
-		if(recordsTotal.equalsIgnoreCase("0")) {
+		if (recordsTotal.equalsIgnoreCase("0")) {
 			String noDataMSg = upgradeNoDataMSg.getText();
 			log.info(noDataMSg.replace("\n", ""));
 		}
 	}
-	
+
 }
-
-

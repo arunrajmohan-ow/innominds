@@ -12,6 +12,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
 
 public class AdditionalProviderUser {
 
@@ -49,6 +50,9 @@ WebDriver driver;
 	
 	@FindBy(xpath="//button[text()='Next']") WebElement apuNextBtn;
 	
+	@FindBy(xpath = "//span[contains(text(), 'Phone number must be 10 digits.')]")
+	WebElement invalidNumberValidation;
+	
 	
 	String fName_addUser;
 	String lName_addUser;
@@ -65,9 +69,9 @@ WebDriver driver;
 	  System.out.println(fName_addUser); 
 	  lName_addUser = "autoAddUserln"+RandomStringUtils.randomAlphabetic(4);
 	  list.add(1, lName_addUser);
-	  workmobNumb_addUser = "09999"+String.format("%05d", new Random().nextInt(100000));
+	  workmobNumb_addUser = "09999"+String.format("%03d", new Random().nextInt(1000));
 	  list.add(2, workmobNumb_addUser);
-	  System.out.println(workmobNumb_addUser);
+	  System.out.println("Work phone is" +workmobNumb_addUser);
 	  DateFormat dateFormat = new SimpleDateFormat("mmmddyyyy");
 	  Date date = new Date();
 	  System.out.println(date.toString());
@@ -110,4 +114,16 @@ WebDriver driver;
 		Thread.sleep(1000);
 		e2.click();
 	}
+	
+	/*
+	 * Enter primary POC info with 10 digit numbers in work phone field.
+	 */
+	public void enterInvalidNumberValidation(String prefix, String suffix, String invalidNumber)
+			throws Exception {
+		enterAdditionalProviderUserPocDetails( list, prefix,  suffix,  invalidNumber);
+		util.waitUntilElement(driver, invalidNumberValidation);
+		WebElement textValidation = Utility.waitForWebElement(driver, invalidNumberValidation, 10);
+		Assert.assertEquals("Phone number must be 10 digits.", textValidation.getText());
+	}
+
 }

@@ -48,11 +48,15 @@ public class UpgradeToEmeritus {
 	@FindAll(value = {@FindBy(xpath = "//table[@class='data-grid-table data-grid-full-table']//tr[contains(@class,'data-grid-table-row')]")}) List<WebElement> upgradeToEmeritusRecordsData;
 	
 	
-	public void clicUpgradeToEmeritusTab() throws Throwable {
+	public void clickUpgradeToEmeritusTab() throws Throwable {
 		upgradeToEmeritusTab.click();
 		util.waitUntilElement(driver, selectReportDatePopUp);
+		
+	}
+	
+	public void selectDateReportPopup(String postDate) {
 		Assert.assertTrue(selectReportDatePopUp.isDisplayed());
-		upgradeFromDate.sendKeys("10/30/2023");
+		upgradeFromDate.sendKeys(postDate);
 		String fromDate = upgradeFromDate.getAttribute("value");
 		log.info(fromDate);
 		upgradeToDate.sendKeys(new SimpleDateFormat("MM/dd/yyyy").format(new Date()));
