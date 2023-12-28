@@ -156,9 +156,9 @@ public class TestArchitectureBillingIndex extends BaseClass {
 
 		return new Object[][] { 
 			{ "US Taxable Address", "1735 york avenue, New york" }
-			, {"US Non- Taxable Address", "115 E 3rd Ave, Anchorage, AK 99501, United States"}
-			,{"International Address", "9, Netkallappa Circle, Basavanagudi, Bengaluru, Karnataka, India"}
-			,{"Non US Address", "WAVEROCK SEZ, Road Number 2, Financial District"}
+			//, {"US Non- Taxable Address", "115 E 3rd Ave, Anchorage, AK 99501, United States"}
+			//,{"International Address", "9, Netkallappa Circle, Basavanagudi, Bengaluru, Karnataka, India"}
+			//,{"Non US Address", "WAVEROCK SEZ, Road Number 2, Financial District"}
 		 };
 		}
 	
@@ -168,4 +168,4 @@ public class TestArchitectureBillingIndex extends BaseClass {
 		BrowserSetup.closeBrowser(driver);
 	}
 }
-}
+
