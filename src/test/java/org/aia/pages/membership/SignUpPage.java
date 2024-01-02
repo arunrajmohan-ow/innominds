@@ -66,8 +66,8 @@ public class SignUpPage {
 	WebElement emailAddress;
 
 	//@FindBy(xpath = "//mat-select[@formcontrolname='mobilePhoneCountry']")
-	//@FindBy(xpath = "//mat-form-field//mat-select")
-	@FindBy(xpath = "//div[@class='mat-select-arrow-wrapper']")
+	@FindBy(xpath = "//mat-form-field//mat-select")
+	//@FindBy(xpath = "//div[@class='mat-select-arrow-wrapper']")
 
 	WebElement mobileCountry;
 

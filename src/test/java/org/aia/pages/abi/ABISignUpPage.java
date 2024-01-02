@@ -41,6 +41,12 @@ public class ABISignUpPage {
 
 	@FindBy(xpath = "//a[@title='Log In']")
 	WebElement loginBtn;
+	
+	@FindBy(xpath = "//div[@id='navDropDowns']")
+	WebElement userBtn;
+	
+	@FindBy(xpath = "//a[@aria-label='Logout']")
+	WebElement logoutBtn;
 
 	@FindBy(xpath = "//a[@routerlink='/signup']")
 	WebElement signUpLink;
@@ -143,6 +149,13 @@ public class ABISignUpPage {
 		loginBtn.click();
 	}
 	
+	public void clickLogOutLink() throws Exception {
+		util.waitUntilElement(driver, userBtn);
+		userBtn.click();
+		util.waitUntilElement(driver, logoutBtn);
+		logoutBtn.click();
+		
+	}
 	public void goToSignUpLink() throws Exception {
 		util.waitUntilElement(driver, loginBtn);
 		loginBtn.click();
