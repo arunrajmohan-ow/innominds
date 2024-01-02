@@ -81,11 +81,8 @@ public class Subscription {
 	@FindBy(xpath = "//div[contains(@id,'help-message')]")
 	WebElement pofessionalUnsupportedFilTypes;
 
-	@FindBy(xpath = "//button[text()='Previous']")
-	WebElement professionalPrevious;
+	
 
-	@FindBy(xpath = "//button[text()='Next']")
-	WebElement professionalNext;
 
 	// ConfirmDetailsPage
 	@FindBy(xpath = "//*[contains(text(),'You will not be able to go back once you continue.')]")
@@ -102,6 +99,7 @@ public class Subscription {
 
 	@FindBy(xpath = "//span[text()='What is your employee size?']")
 	WebElement empSizetxt;
+
 
 
 	@FindBy(xpath = "//div[@class='slds-m-bottom_x-small']/span[@class='main']/img[contains(@src, 'Subscription')]")
@@ -144,6 +142,15 @@ public class Subscription {
 	WebElement workPhone;
 
 
+
+
+	@FindBy(xpath="//button[text()='Previous']") WebElement professionalPrevious;
+	
+	@FindBy(xpath="//button[text()='Next']") WebElement professionalNext;
+	
+	
+	
+	
 	/*
 	 * @param : text
 	 * 
@@ -291,7 +298,10 @@ public class Subscription {
 	}
 
 
-	public void verifySubscriptionTab() {
+
+	public void verifySubscriptionTab()
+	{
+
 		util.waitUntilElement(driver, tabTitleSubscription);
 		assertTrue(tabTitleSubscription.isDisplayed());
 		confirmNext.click();
@@ -300,6 +310,7 @@ public class Subscription {
 		confirmNext.click();
 	}
 	
+
 	/**
 	 * Refresh Page
 	 */

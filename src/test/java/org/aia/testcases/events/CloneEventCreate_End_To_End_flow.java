@@ -85,7 +85,8 @@ public class CloneEventCreate_End_To_End_flow extends BaseClass {
 		Logging.configure();
 	}
 
-	@Test(priority = 1, description = "Create a Valid Clone event (End to End Process)", enabled = true)
+	@Test(priority = 1, description = "Create a Valid Clone event (End to End Process)", enabled = true, groups = {
+	"Smoke" })
 	public void CreateCloneEvent_End_To_End_Flow(ITestContext context) throws InterruptedException, Throwable {
 		if (recording) {
 			VideoRecorder.startRecording("CreateCloneEvent_End_To_End_Flow");

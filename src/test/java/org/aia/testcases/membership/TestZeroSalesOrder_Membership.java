@@ -88,7 +88,7 @@ public class TestZeroSalesOrder_Membership extends BaseClass {
 		salesOrder.switchToTab();
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
 		// joinFonteva.signInFonteva();
-		joinFonteva.pointOffset();
+		// joinFonteva.pointOffset();
 		joinFonteva.selectContact(dataList.get(0) + " " + dataList.get(1));
 		salesOrder.setDiscount();
 		paymentInfoPage.makeZeroOrderPayment();

@@ -479,14 +479,14 @@ public class EventRegistration {
 	}
 
 	public void agendaModule() throws Throwable {
-		Thread.sleep(15000);
+		Thread.sleep(20000);
 		Utility.waitForWebElement(driver, continueButtonInAgenda, 0);
-		Thread.sleep(2000);
 		util.clickUsingJS(driver, continueButtonInAgenda);
 		log.info("Continue button is clicked in agenda");
 	}
 	
 	public ArrayList<Object> totalPaymentamountInCheckout() throws InterruptedException{
+		Thread.sleep(12000);
 		Utility.waitForWebElement(driver, totalAmountInCheckout, 0);
 		totalAmount = totalAmountInCheckout.getText();
 		if(totalAmount.equals("Free")) {
@@ -508,8 +508,10 @@ public class EventRegistration {
 		userName = cardHolderName.getAttribute("value");
 		log.info(cardHolderName.getAttribute("value"));
 		System.out.println(cardHolderName.getAttribute("value"));
+		Thread.sleep(5000);
 		util.waitUntilElement(driver, creditCardPaymentFrame);
 		util.switchToFrameUsingWebElement(driver, creditCardPaymentFrame);
+		Thread.sleep(5000);
 		util.waitUntilElement(driver, cardNumFrame2);
 		util.switchToFrameUsingWebElement(driver, cardNumFrame2);
 		Utility.highLightElement(driver, creditCardNumber);
@@ -517,6 +519,7 @@ public class EventRegistration {
 		util.enterText(driver, creditCardNumber, testData.testDataProvider().getProperty("CREDIT_CARD_NUMBER"));
 		log.info("Credit Card number enterd as" + testData.testDataProvider().getProperty("CREDIT_CARD_NUMBER"));
 		driver.switchTo().defaultContent();
+		Thread.sleep(2000);
 		util.selectDropDownByText(expMonth, testData.testDataProvider().getProperty("CREDIT_CARD_EXP_MONTH"));
 		log.info("ExpMonth selected as" + testData.testDataProvider().getProperty("CREDIT_CARD_EXP_MONTH"));
 		util.selectDropDownByText(expYear, testData.testDataProvider().getProperty("CREDIT_CARD_EXP_YEAR"));

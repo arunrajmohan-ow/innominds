@@ -66,7 +66,7 @@ public class Test_AccountAccessforContact extends BaseClass{
 			System.out.println("LOG : FAIL Test failed to executed");
 			Utility.takeScreenShotAfterFail(driver, result);
 		}
-		BrowserSetup.closeBrowser(driver);
+		//BrowserSetup.closeBrowser(driver);
 	}
 
 }

@@ -13,6 +13,7 @@ import org.aia.pages.api.ces.SubscriptionPlanPrice;
 import org.aia.pages.ces.Organization;
 import org.aia.pages.fonteva.membership.ContactCreateUser;
 import org.aia.utility.ConfigDataProvider;
+import org.aia.utility.DateUtils;
 import org.aia.utility.Utility;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.log4j.Logger;
@@ -37,12 +38,15 @@ public class CES_ContactPage {
 	static Logger log = Logger.getLogger(ContactCreateUser.class);
 	Actions action;
 	JavascriptExecutor executor;
+	DateUtils dateUtils;
 
 	public CES_ContactPage(WebDriver Idriver) {
 		this.driver = Idriver;
 		action = new Actions(driver);
 		executor = (JavascriptExecutor) driver;
 		org = new Organization(driver);
+		dateUtils = new DateUtils();
+		
 	}
 
 	@FindBy(xpath = "//*[@title='Contacts']/span")
@@ -231,6 +235,9 @@ public class CES_ContactPage {
 
 	@FindBy(xpath = "//button[@title='Save']")
 	WebElement advanceSettingsaveBtn;
+	
+	@FindBy(xpath = "//span[text()='My Account']//ancestor::a")
+	WebElement myAccountLink;
 
 	// @FindBy(xpath = "//strong[text()='Item Quick
 	// Add']//parent::span//following-sibling::span//div//input")
@@ -321,6 +328,20 @@ public class CES_ContactPage {
 
 	@FindBy(xpath = "//*[contains(text(),'Open Supplemental dues')]/following::div[1]//a//span")
 	WebElement pointofContact;
+	
+	/// Deceased marking Process
+	@FindBy(xpath = "//span[text()='Contact']/parent::div/parent::div//slot/span")
+	WebElement selectContactonReceipt;
+
+	@FindBy(xpath = "//a//span[contains(text(),'Deceased')]")
+	WebElement deceasedOption;
+	
+	@FindBy(xpath="//input[@name='DonorApi__Deceased__c']")
+	WebElement deceasedCheckbox;
+	
+	@FindBy(xpath="//span[text()='Deceased Date']/parent::div/parent::div//slot/..")
+	WebElement deceasedDate;
+
 	/// transfer request
 	// **********************
 	@FindBy(xpath = "//button[contains(text(),'Renew')]/following::span[contains(text(),'Show more actions')]")
@@ -374,10 +395,7 @@ public class CES_ContactPage {
 
 	@FindBy(xpath = "//a[contains(text(),'Application Details')]")
 	WebElement applicationDetails;
-	
-	@FindBy(xpath = "//span[text()='Contact']/parent::div/parent::div//slot/span")
-	WebElement selectContactonReceipt;
-	///
+
 	@FindBy(xpath = "//button[@name='Contact.Email_Change_Request']")
 	WebElement emailChangeRequestBtn;
 	
@@ -796,6 +814,29 @@ public class CES_ContactPage {
 	}
 
 	/**
+	 * @throws InterruptedException
+	 * makes the member Deceased and checks the Deceased checkbox and date is displayed or not
+	 */
+	public void verifyDeceasedMarkingProcess() throws InterruptedException {
+		util.waitUntilElement(driver, showMoreActionsBtn);
+		action.moveToElement(showMoreActionsBtn).click().perform();
+		util.waitUntilElement(driver, deceasedOption);
+		action.moveToElement(deceasedOption).click().perform();
+		util.waitUntilElement(driver, nextBtn);
+		nextBtn.isDisplayed();
+		action.moveToElement(nextBtn).click().perform();
+		util.waitUntilElement(driver, deceasedCheckbox);
+		deceasedCheckbox.isEnabled();
+		util.waitUntilElement(driver, deceasedDate);
+		String deceasedDateValue=deceasedDate.getText();
+		System.out.println("deceasedDateValue:"+deceasedDateValue);
+		String todaysDate = dateUtils.getDate(0, "M/d/yyyy");
+		System.out.println("today's Date is: " +todaysDate);
+		assertEquals(deceasedDateValue, todaysDate);
+	}
+
+	/**
+	 * @throws InterruptedException selects Contact on the Receipt Page
 	 * @param addressTypevalue
 	 * @param countryValue
 	 * @throws InterruptedException
@@ -878,5 +919,16 @@ public class CES_ContactPage {
 		assertTrue(personalEmailValue.equalsIgnoreCase(newEmailAddress));
 	}
 	
-	
+	public void selectExpAsUserOpt2() throws InterruptedException {
+		util.waitUntilElement(driver, moreActionBtn);
+		moreActionBtn.click();
+		util.waitUntilElement(driver, loginAsExpUserOpt);
+		loginAsExpUserOpt.click();
+		util.waitUntilElement(driver, siteUserOpt);
+		assertTrue(siteUserOpt.isDisplayed());
+		util.waitUntilElement(driver, myAccountLink);
+		myAccountLink.click();
+		Thread.sleep(5000);
+	}
+	//myAccountLink
 }

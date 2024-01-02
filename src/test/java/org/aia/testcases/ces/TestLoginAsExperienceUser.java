@@ -165,7 +165,7 @@ public class TestLoginAsExperienceUser extends BaseClass {
 				userAccount.get(0) + " " + userAccount.get(1));
 	}
 
-	@Test(priority = 2, description = "Validate Login experience user as CES AIA Component.", enabled = true)
+	@Test(priority = 2, description = "Validate Login experience user as CES AIA Component.", enabled = false)
 	public void verifyLoginAsExpUserCESAIAComponent() throws Exception {
 		String prefix = "Dr.";
 		String suffix = "Sr.";

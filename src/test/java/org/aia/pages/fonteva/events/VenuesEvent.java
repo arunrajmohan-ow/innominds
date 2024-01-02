@@ -206,6 +206,7 @@ public class VenuesEvent {
 		util.scrollingElementUsingJS(driver, venueNameInputField);
 		venueNameInputField.sendKeys(EventConfig.venueNameInputField);
 
+		Thread.sleep(3000);
 		util.scrollingElementUsingJS(driver, descriptionTextField);
 		descriptionTextField.sendKeys(description);
 

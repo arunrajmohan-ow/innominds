@@ -7,11 +7,13 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.Utility;
 import org.apache.tools.ant.taskdefs.Sync.MyCopy;
 import org.bouncycastle.asn1.eac.PublicKeyDataObject;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -27,6 +29,7 @@ public class PrimaryPointOfContact {
 	WebDriver driver;
 	Utility util = new Utility(driver, 30);
 	ConfigDataProvider data = new ConfigDataProvider();
+	JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
 
 	public PrimaryPointOfContact(WebDriver IDriver) {
 		this.driver = IDriver;
@@ -59,7 +62,10 @@ public class PrimaryPointOfContact {
 	@FindBy(xpath = "//span[contains(text(), 'Phone number must be 10 digits.')]")
 	WebElement invalidNumberValidation;
 
-	@FindBy(xpath = "//label[text()='Mobile Phone']/following-sibling::lightning-input/div/input")
+//	@FindBy(xpath = "//label[text()='Mobile Phone']/following-sibling::lightning-input/div/input")
+//	WebElement mobilePhoneNumPrimary;
+
+	@FindBy(xpath = "//label[text()='Mobile']/following-sibling::lightning-input//input")
 	WebElement mobilePhoneNumPrimary;
 
 	@FindBy(xpath = "//*[text()='Work Phone Country']/following-sibling::lightning-input-field/lightning-picklist")
@@ -109,6 +115,15 @@ public class PrimaryPointOfContact {
 
 	String newWorkPhoneCountry = "//span[text()='%s']";
 
+	@FindBy(xpath = "//*[@name='AIA_Mobile_Phone_Country__c']")
+	WebElement mobilePhoneCountry;
+
+	@FindBy(xpath = "//span[contains(text(), 'Please select the country code')]")
+	WebElement mobileCountryText;
+
+	@FindBy(xpath = "//span[contains(text(), 'Please enter a mobile phone number')]")
+	WebElement mobilePhoneText;
+
 	/*
 	 * Enter primary POC info with 10 digit numbers in work phone field.
 	 */
@@ -126,7 +141,7 @@ public class PrimaryPointOfContact {
 	/*
 	 * Enter primary POC info with 10 digit numbers in work phone field.
 	 */
-	public void enterPrimaryPocAllDetails(String prefix, String suffix, String workPhoneNumber)
+	public void enterPrimaryPocAllDetails(String prefix, String suffix, String countryCode, String workPhoneNumber)
 			throws InterruptedException {
 		util.waitUntilElement(driver, prefixPrimary);
 		util.selectDropDownByText(prefixPrimary, prefix);
@@ -134,6 +149,7 @@ public class PrimaryPointOfContact {
 		util.waitUntilElement(driver, workPhoneNumPrimary);
 		workPhoneNumPrimary.clear();
 		workPhoneNumPrimary.sendKeys(workPhoneNumber);
+		selectWorkPhoneCountry(countryCode);
 		nextBtnPrimary.click();
 	}
 
@@ -171,6 +187,14 @@ public class PrimaryPointOfContact {
 		WebElement e2 = Utility.waitForWebElement(driver,
 				"//label[text()='Work Phone Country']//parent::div//span[@title='" + country + "']", 10);
 		e2.click();
+	}
+
+	public void selectMobilePhoneCountry(String country) {
+		WebElement countrydrpdwn2 = Utility.waitForWebElement(driver, mobilePhoneCountry, 10);
+		countrydrpdwn2.click();
+		WebElement e = Utility.waitForWebElement(driver,
+				"//label[text()='Mobile Phone Country']//parent::div//span[@title='" + country + "']", 10);
+		e.click();
 	}
 
 	/**
@@ -245,10 +269,50 @@ public class PrimaryPointOfContact {
 		util.getCustomizedWebElement(driver, newWorkPhoneCountry, newCountry).click();
 		assertEquals(pocWorkPhoneCountryDrp.getAttribute("data-value"), newCountry);
 	}
-	
-	public void verifyPrimaryPOCTab() {
+
+
+	public void verifyPrimayPOCTab() {
 		util.waitUntilElement(driver, tabTitlePrimarypoc);
 		assertTrue(tabTitlePrimarypoc.isDisplayed());
+	}
+
+	public void enterPocDetailsWithOutMobilePone(String prefix, String suffix, String countryCode,
+			String workPhoneNumber) throws InterruptedException {
+		util.waitUntilElement(driver, prefixPrimary);
+		util.selectDropDownByText(prefixPrimary, prefix);
+		util.selectDropDownByText(SuffixPicklistPrimary, suffix);
+		selectMobilePhoneCountry(countryCode);
+		mobilePhoneNumPrimary.clear();
+		mobilePhoneNumPrimary.sendKeys(workPhoneNumber);
+		workPhoneNumPrimary.clear();
+		workPhoneNumPrimary.sendKeys(workPhoneNumber);
+		nextBtnPrimary.click();
+		WebElement textValidation = Utility.waitForWebElement(driver, mobileCountryText, 10);
+		Assert.assertEquals("Please select the country code as you've already entered the mobile phone number",
+				textValidation.getText());
+		Thread.sleep(20000);
+		workPhoneNumPrimary.clear();
+		selectWorkPhoneCountry(countryCode);
+
+		nextBtnPrimary.click();
+		util.waitUntilElement(driver, invalidWorkPhoneError);
+		assertTrue(invalidWorkPhoneError.isDisplayed());
+
+	}
+
+	public void validateWorkPhoneError(String prefix, String suffix, String countryCode) throws InterruptedException {
+		util.waitUntilElement(driver, prefixPrimary);
+		util.selectDropDownByText(prefixPrimary, prefix);
+		util.selectDropDownByText(SuffixPicklistPrimary, suffix);
+		selectMobilePhoneCountry(countryCode);
+		mobilePhoneNumPrimary.clear();
+		mobilePhoneNumPrimary.sendKeys("01234" + String.format("%05d", new Random().nextInt(10000)));
+		selectWorkPhoneCountry(countryCode);
+		workPhoneNumPrimary.clear();
+		workPhoneNumPrimary.sendKeys("1234" + String.format("%04d", new Random().nextInt(1000)));
+		nextBtnPrimary.click();
+		WebElement textValidation = Utility.waitForWebElement(driver, invalidNumberValidation, 10);
+		Assert.assertEquals("Phone number must be 10 digits.", textValidation.getText());
 	}
 
 }
