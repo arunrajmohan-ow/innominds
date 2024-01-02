@@ -253,8 +253,11 @@ public class MailinatorAPI {
 		JsonPath jsonPathEval = null;
 		String mailinator_uri = MAILINATOR_API + inbox;
 		Thread.sleep(10000);
-		Response response =  RestAssured.given()
-				.headers("Content-Type",
+
+	
+
+		Response response =  RestAssured.given().headers("Content-Type",
+
 				ContentType.JSON, "Accept",
 				ContentType.JSON,"Authorization",
 				bearerToken).

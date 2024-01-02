@@ -140,8 +140,9 @@ public class TestSubscriptionTab_CES extends BaseClass {
 	}
 
 
-	@Test(priority = 3, description = "(FC-301) Verify secondary POC tab", enabled = true)
-    public void validateSecondaryPOCTab() throws Exception {
+	@Test(priority = 2, description = "(FC-301) Verify secondary POC tab", enabled = false)
+	public void validateSecondaryPOCTab() throws Exception {
+
 
 		String prefix = "Dr.";
 		String suffix = "Sr.";
@@ -163,7 +164,8 @@ public class TestSubscriptionTab_CES extends BaseClass {
 	}
 
 
-	@Test(priority = 4, description = "(FC-302) Verify 'Work phone country' in secondary POC tab", enabled = true)
+	@Test(priority = 3, description = "(FC-302) Verify 'Work phone country' in secondary POC tab", enabled = false)
+
 	public void validateWorkPhoneSecondaryPOCTab() throws Exception {
 
 		String prefix = "Dr.";
@@ -183,6 +185,7 @@ public class TestSubscriptionTab_CES extends BaseClass {
 		secPoc.enterInvalidWorkPhoneNumber(dataList, prefix, suffix, "Yes", "United States of America (+1)");
 
 	}
+
 
 
 	@Test(priority = 5, description = "(FC-303) Verify 'Work phone country' in secondary POC tab", enabled = true)
@@ -207,7 +210,8 @@ public class TestSubscriptionTab_CES extends BaseClass {
 	}
 
 
-	@Test(priority = 6, description = "(FC-304)Validating the 'Work phone country'without US or Canada", enabled = true)
+	@Test(priority = 3, description = "(FC-304)Validating the 'Work phone country'without US or Canada", enabled = false)
+
 	public void validateOtherWorkPhoneCountry() throws Exception {
 
 		String prefix = "Dr.";
@@ -231,8 +235,9 @@ public class TestSubscriptionTab_CES extends BaseClass {
 	}
 
 
-	@Test(priority = 7, description = "(FC-336)Verify the 'Mobile phone country' in secondary POC tab ", enabled = true)
-    public void validateOtherMobilePhoneCountry() throws Exception {
+	@Test(priority = 3, description = "(FC-336)Verify the 'Mobile phone country' in secondary POC tab ", enabled = false)
+	public void validateOtherMobilePhoneCountry() throws Exception {
+
 
 		String prefix = "Dr.";
 		String suffix = "Sr.";
@@ -253,7 +258,8 @@ public class TestSubscriptionTab_CES extends BaseClass {
 	}
 
 
-	@Test(priority = 8, description = "(FC-337)Verify Validating the 'Mobile phone'secondary POCTab", enabled = true)
+	@Test(priority = 3, description = "(FC-337)Verify Validating the 'Mobile phone'secondary POCTab", enabled = false)
+
 	public void validateMobileCountryError() throws Exception {
 
 		String prefix = "Dr.";

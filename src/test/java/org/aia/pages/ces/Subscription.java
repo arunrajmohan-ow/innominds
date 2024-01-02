@@ -102,6 +102,7 @@ public class Subscription {
 
 
 
+
 	@FindBy(xpath = "//div[@class='slds-m-bottom_x-small']/span[@class='main']/img[contains(@src, 'Subscription')]")
 	WebElement tabTitleSubscription;
 
@@ -142,12 +143,11 @@ public class Subscription {
 	WebElement workPhone;
 
 
-
-
 	@FindBy(xpath="//button[text()='Previous']") WebElement professionalPrevious;
 	
 	@FindBy(xpath="//button[text()='Next']") WebElement professionalNext;
 	
+
 	
 	
 	

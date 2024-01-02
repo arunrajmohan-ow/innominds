@@ -166,29 +166,8 @@ public class FontevaCES {
 	@FindBy(xpath = "//table[@aria-label='Sales Orders']/tbody//a//span[contains(text(), '000')]")
 	WebElement salesOrderID;
 	
-	@FindBy(xpath = "//a[contains(@href, '/lightning/r/Account/')]")
-	WebElement accountsLink;
 	
-	@FindBy(xpath = "//records-highlights-details-item//records-hoverable-link//a[contains(@href, 'lightning/r/Account')]")
-	WebElement contactsLink;
-	
-	@FindBy(xpath = "//records-highlights-details-item//p[@title = 'Primary Contact']/following-sibling::*//a")
-	WebElement primaryContactsLink;
-	
-	@FindBy(xpath = "//span[text()='Enable Customer User']/parent::a")
-	WebElement enableCustomerUserOpt;
-	
-	@FindBy(xpath = "//lightning-button-menu[contains(@data-target-reveals,'Disable_Auto_Renew')]//button")
-	WebElement moreActionBtn;
 
-	@FindBy(xpath = "//span[text()='Log in to Experience as User']//ancestor::a")
-	WebElement loginAsExpUserOpt;
-	
-	@FindBy(xpath = "//span//select[@id='Profile']")
-	WebElement userProfiledrpdwn;
-	
-	@FindBy(xpath = "//td[@id='bottomButtonRow']//input[@value= ' Save ' ]")
-	WebElement userProfileSave;
 	
 
 	String startLocator = "//div[@class='uiVirtualDataTable indicator']/following-sibling::table/tbody//a[text()='";
@@ -331,6 +310,7 @@ public class FontevaCES {
 	}
 
 
+
 	public void changeProviderApplicationRenew(String fullName, String providerID, String providerStatus)
 			throws InterruptedException {
 		/*
@@ -369,6 +349,7 @@ public class FontevaCES {
 		act.sendKeys(Keys.F5);
 		Thread.sleep(5000);
 	}
+
 
 
 	public void checkProviderApplicationFields(String fullName, String providerID) throws InterruptedException {
@@ -447,41 +428,6 @@ public class FontevaCES {
 		searchBox.sendKeys(null);
 	}
 
-	public void selectUserProfile(String profile) {
-		WebElement profiledrpdwn = Utility.waitForWebElement(driver, userProfiledrpdwn, 10);
-		profiledrpdwn.click();
-		Select dropdown = new Select(userProfiledrpdwn);
-		dropdown.selectByVisibleText(profile);
-	}
-	
-   public void verifyFieldsMemberPortal(String profile) throws InterruptedException {
-	   JavascriptExecutor js = (JavascriptExecutor) driver;
-	   util.waitUntilElement(driver, accountsLink);
-		js.executeScript("arguments[0].click();", accountsLink);
-		Thread.sleep(20000);
-		util.waitUntilElement(driver, primaryContactsLink);
-		js.executeScript("arguments[0].click();", primaryContactsLink);
-		//primaryContactsLink.click();
-		Thread.sleep(50000);
-		util.waitUntilElement(driver, contactsLink);
-		js.executeScript("arguments[0].click();", contactsLink);
-		//contactsLink.click();
-		Thread.sleep(20000);
-		util.waitUntilElement(driver, primaryContactsLink);
-		js.executeScript("arguments[0].click();", primaryContactsLink);
-		Thread.sleep(50000);
-		util.waitUntilElement(driver, moreActionBtn);
-		moreActionBtn.click();
-		util.waitUntilElement(driver, enableCustomerUserOpt);
-		js.executeScript("arguments[0].click();", enableCustomerUserOpt);
-		Thread.sleep(50000);
-		driver.switchTo().frame(0);
-		WebElement userProfiledrpdwn = driver.findElement(By.id("Profile"));
-		Select dropdown = new Select(userProfiledrpdwn);
-        dropdown.selectByVisibleText(profile);
-        util.waitUntilElement(driver, userProfileSave);
-        userProfileSave.click();
-        driver.navigate().back();
-        driver.navigate().back();
-   }
+
+   
 }

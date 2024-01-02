@@ -3,7 +3,6 @@ package org.aia.pages.ces;
 
 import static org.testng.Assert.assertTrue;
 
-
 import static org.testng.Assert.assertTrue;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -28,7 +27,8 @@ public class ProviderStatement {
 
 
 
-
+	@FindBy(xpath="//div/span[@class='main']") 
+	WebElement tabTitleProvider;
 	
 
 
@@ -73,9 +73,9 @@ public class ProviderStatement {
 
 	@FindBy(xpath = "//div[@role='status']//span")
 	WebElement enterSomeValidInputError;
+	
+	
 
-    
-	@FindBy(xpath="//div/span[@class='main']") WebElement tabTitleProvider;
 
 
 

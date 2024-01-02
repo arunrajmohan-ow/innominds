@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 2023-12-05 13:17:13,659 +0530 [main] INFO  (org.aia.pages.fonteva.membership.ContactCreateUser:234) - Users First Name:autofnYgHX
 2023-12-05 13:17:13,668 +0530 [main] INFO  (org.aia.pages.fonteva.membership.ContactCreateUser:237) - Users Last Name:autolnipbx
 2023-12-05 13:17:13,668 +0530 [main] INFO  (org.aia.pages.fonteva.membership.ContactCreateUser:246) - Email:auto_wonx12052023@architects-team.m8r.co
@@ -8,7 +8,7 @@
 2023-12-06 11:49:23,861 +0530 [main] INFO  (org.aia.pages.fonteva.membership.ContactCreateUser:234) - Users First Name:autofnyOHs
 2023-12-06 11:49:23,868 +0530 [main] INFO  (org.aia.pages.fonteva.membership.ContactCreateUser:237) - Users Last Name:autolnNhrn
 2023-12-06 11:49:23,870 +0530 [main] INFO  (org.aia.pages.fonteva.membership.ContactCreateUser:246) - Email:auto_qiii12062023@architects-team.m8r.co
-=======
+
 2023-11-14 17:54:30,736 +0530 [main] INFO  (org.aia.utility.Logging:62) - {"links":["https:\/\/account-dev.aia.org\/confirm-signup?code=284544&username=YXV0b19randuMTExNDIwMjNAYXJjaGl0ZWN0cy10ZWFtLm04ci5jbw%3D%3D"]}
 2023-11-15 11:59:28,677 +0530 [main] INFO  (org.aia.utility.Logging:62) - {"links":["https:\/\/account-dev.aia.org\/confirm-signup?code=910243&username=YXV0b19nZmNrMTExNTIwMjNAYXJjaGl0ZWN0cy10ZWFtLm04ci5jbw%3D%3D"]}
 2023-11-24 17:35:00,441 +0530 [main] INFO  (org.aia.utility.Logging:62) - {"links":["https:\/\/account-dev.aia.org\/confirm-signup?code=794289&username=YXV0b19wbm1sMTEyNDIwMjNAYXJjaGl0ZWN0cy10ZWFtLm04ci5jbw%3D%3D"]}
@@ -222,6 +222,7 @@
 2023-12-05 12:51:51,174 +0530 [main] INFO  (org.aia.pages.fonteva.membership.ContactCreateUser:234) - Users Last Name:autolnhBSh
 2023-12-05 12:51:51,174 +0530 [main] INFO  (org.aia.pages.fonteva.membership.ContactCreateUser:243) - Email:auto_gwct12052023@architects-team.m8r.co
 >>>>>>> cbb209fe9e17105df7cf925dea73c59163e3fbb9
+<<<<<<< HEAD
 2023-12-24 22:03:27,377 +0530 [main] INFO  (org.aia.pages.fonteva.membership.ContactCreateUser:240) - Users First Name:autofnTmli
 2023-12-24 22:03:27,388 +0530 [main] INFO  (org.aia.pages.fonteva.membership.ContactCreateUser:243) - Users Last Name:autolnEfPi
 2023-12-24 22:03:27,388 +0530 [main] INFO  (org.aia.pages.fonteva.membership.ContactCreateUser:252) - Email:auto_utce12242023@architects-team.m8r.co
@@ -414,3 +415,4 @@
 2024-01-02 19:03:05,419 +0530 [main] INFO  (org.aia.pages.fonteva.membership.ContactCreateUser:240) - Users First Name:autofnPLSX
 2024-01-02 19:03:05,435 +0530 [main] INFO  (org.aia.pages.fonteva.membership.ContactCreateUser:243) - Users Last Name:autolnhWak
 2024-01-02 19:03:05,442 +0530 [main] INFO  (org.aia.pages.fonteva.membership.ContactCreateUser:252) - Email:auto_keib01022024@architects-team.m8r.co
+
