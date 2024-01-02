@@ -144,7 +144,7 @@ public class TestMemberPortal extends BaseClass {
 		memberPotalPage.validateContactInformationpage(dataList.get(0), dataList.get(1), dataList.get(2), "United States");
 	}
 	
-	@Test(priority = 2, description = " FM- 324 Membership page verification", enabled = false)
+	@Test(priority = 2, description = " FM- 324 Membership page verification", enabled = true)
 	public void verifyMembershipPage() throws InterruptedException {
 
 	;
@@ -162,7 +162,7 @@ public class TestMemberPortal extends BaseClass {
 		memberPotalPage.validateMembershipFields();
 	}
 		
-	@Test(priority = 3, description = " FM- 325 Interest Areas page verification", enabled = false)
+	@Test(priority = 3, description = " FM- 325 Interest Areas page verification", enabled = true)
 	public void interestAreaPageVerification() throws InterruptedException {
 
 		
@@ -180,7 +180,7 @@ public class TestMemberPortal extends BaseClass {
 		memberPotalPage.validateInterestPageFields();
 	}
 	
-	@Test(priority = 4, description = " FM- 326 Demographics page verification(My Account)", enabled = false)
+	@Test(priority = 4, description = " FM- 326 Demographics page verification(My Account)", enabled = true)
 	public void demographicsPageVerification() throws InterruptedException {
 
 		
@@ -201,7 +201,7 @@ public class TestMemberPortal extends BaseClass {
 	
 	
 
-	@Test(priority = 5, description = " FM- 320 Communication Preferences page verification(My Account)", enabled = false)
+	@Test(priority = 5, description = " FM- 320 Communication Preferences page verification(My Account)", enabled = true)
 	public void communicationPreferencesVerification() throws InterruptedException {
 
 		
