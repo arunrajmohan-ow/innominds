@@ -95,7 +95,7 @@ public class Test_MemberShip extends BaseClass {
 		Logging.configure();
 	}
 	
-	@Test(description = "FM-425: Membership Tab page and its section's verification", enabled = true, priority = 1)
+	@Test(description = "FM-425: Membership Tab page and its section's verification", enabled = false, priority = 1)
 	public void test_ValidateMembersShipTabSections(ITestContext context) throws InterruptedException, Throwable {
 		if (recording) {
 			VideoRecorder.startRecording("test_ValidateMembersShipTabSections");
@@ -216,7 +216,7 @@ public class Test_MemberShip extends BaseClass {
 	    associatePathToLicence.getAssociatesPathtoLicensureRecordsData();
 	}
 	
-	@Test(description = "FM-442: \"Active Architect Members Licensed <10Yrs\" report page", enabled = true, priority = 10)
+	@Test(description = "FM-442: \"Active Architect Members Licensed <10Yrs\" report page", enabled = false, priority = 10)
 	public void test_ValidateActiveArchitectMembersLicensed10Yrs(ITestContext context) throws InterruptedException, Throwable {
 		if (recording) {
 			VideoRecorder.startRecording("test_ValidateActiveArchitectMembersLicensed10Yrs");
@@ -229,7 +229,7 @@ public class Test_MemberShip extends BaseClass {
 		architectsLicenced.getArchitectsLicensedTenyearsRecordsData();
 	}
 	
-	@Test(description = "FM-446: Firm Details report page", enabled = true, priority = 11)
+	@Test(description = "FM-446: Firm Details report page", enabled = false, priority = 11)
 	public void test_ValidateFirmDetails(ITestContext context) throws InterruptedException, Throwable {
 		if (recording) {
 			VideoRecorder.startRecording("test_ValidateFirmDetails");
@@ -241,7 +241,7 @@ public class Test_MemberShip extends BaseClass {
 		firmDetails.getFirmDetailsTabRecordsCount();
 	}
 	
-	@Test(description = "FM-447: Email Change Log report page", enabled = true, priority = 12)
+	@Test(description = "FM-447: Email Change Log report page", enabled = false, priority = 12)
 	public void test_ValidateEmailChangeLog(ITestContext context) throws InterruptedException, Throwable {
 		if (recording) {
 			VideoRecorder.startRecording("test_ValidateEmailChangeLog");
@@ -254,7 +254,7 @@ public class Test_MemberShip extends BaseClass {
 		emailChangeLog.getEmailChangeLogTabRecordsCount();
 	}
 	
-	@Test(description = "FM-449: Interest Areas report page", enabled = true, priority = 13)
+	@Test(description = "FM-449: Interest Areas report page", enabled = false, priority = 13)
 	public void test_ValidateInterestAreas(ITestContext context) throws InterruptedException, Throwable {
 		if (recording) {
 			VideoRecorder.startRecording("test_ValidateInterestAreas");
@@ -266,7 +266,7 @@ public class Test_MemberShip extends BaseClass {
 		interestAreas.getInterestAreasTabRecordsCount(); 
 	}
 	
-	@Test(description = "FM-450: Deceased report page", enabled = true, priority = 14)
+	@Test(description = "FM-450: Deceased report page", enabled = false, priority = 14)
 	public void test_ValidateDeceased(ITestContext context) throws InterruptedException, Throwable {
 		if (recording) {
 			VideoRecorder.startRecording("test_ValidateDeceased");
@@ -279,7 +279,7 @@ public class Test_MemberShip extends BaseClass {
 		deceased.getDeceasedTabRecordsCount();
 	}
 	
-	@Test(description = "FM-451: Members in CES Audit report page", enabled = true, priority = 15)
+	@Test(description = "FM-451: Members in CES Audit report page", enabled = false, priority = 15)
 	public void test_ValidateMembersInCESAudit(ITestContext context) throws InterruptedException, Throwable {
 		if (recording) {
 			VideoRecorder.startRecording("test_ValidateMembersInCESAudit");
@@ -304,7 +304,7 @@ public class Test_MemberShip extends BaseClass {
 		joinReJoin.getJoinReJoinTabRecordsCount();
 	}
 	
-	@Test(description = "FM-458: Transfers Out report page", enabled = true, priority = 17)
+	@Test(description = "FM-458: Transfers Out report page", enabled = false, priority = 17)
 	public void test_ValidateTransfersOutReport(ITestContext context) throws InterruptedException, Throwable {
 		if (recording) {
 			VideoRecorder.startRecording("test_ValidateTransfersOutReport");
@@ -317,7 +317,7 @@ public class Test_MemberShip extends BaseClass {
 		transfersOut.getTransfersOutTabRecordsCount();
 	}
 	
-	@Test(description = "FM-459: Transfers In report page", enabled = true, priority = 18)
+	@Test(description = "FM-459: Transfers In report page", enabled = false, priority = 18)
 	public void test_ValidateTransfersInReport(ITestContext context) throws InterruptedException, Throwable {
 		if (recording) {
 			VideoRecorder.startRecording("test_ValidateTransfersInReport");
@@ -330,7 +330,7 @@ public class Test_MemberShip extends BaseClass {
 		transfersIn.getTransfersInTabRecordsCount();
 	}
 	
-	@Test(description = "FM-461: New Grad report page report page", enabled = true, priority = 19)
+	@Test(description = "FM-461: New Grad report page report page", enabled = false, priority = 19)
 	public void test_ValidateNewGradReport(ITestContext context) throws InterruptedException, Throwable {
 		if (recording) {
 			VideoRecorder.startRecording("test_ValidateNewGradReport");

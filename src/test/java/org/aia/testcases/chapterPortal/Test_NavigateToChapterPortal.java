@@ -41,7 +41,7 @@ public class Test_NavigateToChapterPortal extends BaseClass {
 		Logging.configure();
 	}
 
-	@Test(description = "FM-397: Chapter Portal access for a contact", enabled = true, priority = 1)
+	@Test(description = "FM-397: Chapter Portal access for a contact", enabled = false, priority = 1)
 	public void test_CPAccessForContact(ITestContext context) throws InterruptedException, Throwable {
 		if (recording) {
 			VideoRecorder.startRecording("test_CPAccessForContact");

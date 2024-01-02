@@ -131,7 +131,7 @@ public class TestClone_EventsWLSTemplate extends BaseClass {
 
 	}
 
-	@Test(priority = 2, description = "Verify Price modify for an existing Event", enabled = false)
+	@Test(priority = 2, description = "Verify Price modify for an existing Event", enabled = true)
 	public void test_EditPriceInCloneEvent(ITestContext context) throws InterruptedException, Throwable {
 		Logging.logger.info(
 				"================================test_EditPriceInCloneEvent wls template started==========================");

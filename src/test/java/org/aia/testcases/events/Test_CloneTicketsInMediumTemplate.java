@@ -98,7 +98,7 @@ public class Test_CloneTicketsInMediumTemplate extends BaseClass {
 		}
 	}
 
-	@Test(priority = 3, description = "FEC-104:-verify field in TicketModule info, tickets sales start date,", enabled = false)
+	@Test(priority = 3, description = "FEC-104:-verify field in TicketModule info, tickets sales start date,", enabled = true)
 	public void test_VeriftTickets_sales_startDateMediumTEmplate(ITestContext context)
 			throws InterruptedException, Throwable {
 		Logging.logger.info(
@@ -185,7 +185,7 @@ public class Test_CloneTicketsInMediumTemplate extends BaseClass {
 
 	}
 	
-	@Test(priority = 6, description = "FEC-103:-Verify creation of New Ticket Type", enabled = false)
+	@Test(priority = 6, description = "FEC-103:-Verify creation of New Ticket Type", enabled = true)
 	public void validate_CreateNewTicketTypeMediumTEmplate(ITestContext context)
 			throws InterruptedException, Throwable {
 		Logging.logger.info(
