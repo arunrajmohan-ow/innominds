@@ -131,7 +131,7 @@ public class TestClone_EventsWLSTemplate extends BaseClass {
 
 	}
 
-	@Test(priority = 2, description = "Verify Price modify for an existing Event", enabled = true)
+	@Test(priority = 2, description = "Verify Price modify for an existing Event", enabled = false)
 	public void test_EditPriceInCloneEvent(ITestContext context) throws InterruptedException, Throwable {
 		Logging.logger.info(
 				"================================test_EditPriceInCloneEvent wls template started==========================");
@@ -244,6 +244,14 @@ public class TestClone_EventsWLSTemplate extends BaseClass {
 			events.eventsTab();
 			util.waitForJavascript(driver, 90000, 5000);
 			String eventName = events.clickCreatedEvent("RecentEvents");
+			ticketModule.eventTicketsTab();
+			ticketModule.validateEventTicketSalesStartDate();
+			//fec-194
+			//ticketModule.verifyUserAbleToProvidedateIntoTicketSalesStartDate();
+			ticketModule.editEventTicket(true);
+			ticketModule.validateEditTicketTypeHeader();
+			ticketModule.enterPriceInCreateTicketType("100.00");
+			ticketModule.saveAndContinueButtonInTicketType();
 			eventInfoModule.clickEventUrl();
 			// sometimes Register link is not clicked in AIA application
 			eventRegistration.RegisterLink(1);

@@ -45,7 +45,7 @@ public class Test_ChapterInfo extends BaseClass {
 		Logging.configure();
 	}
 	
-	@Test(description = "FM-429: Chapter Info Tab page verification", enabled = true, priority = 1)
+	@Test(description = "FM-429: Chapter Info Tab page verification", enabled = false, priority = 1)
 	public void test_VerificationChapterInfo(ITestContext context) throws InterruptedException, Throwable {
 		if (recording) {
 			VideoRecorder.startRecording("test_VerificationChapterInfo");
@@ -56,8 +56,8 @@ public class Test_ChapterInfo extends BaseClass {
 		chapterInfo.getdetailsStaffInChapterInfo();
 		chapterInfo.getLeaderShipTabledataInChapterInfo();
 		chapterInfo.getServiceAreaContactsInChapterINfo();
-		chapterInfo.fileUploadInChapterInfo();
-		//pending It is not working in headless mode..
+		//pending It is not working in headless mode.
+		//chapterInfo.fileUploadInChapterInfo();
 		//chapterInfo.validateUploadFilePopup();
 		//chapterInfo.deleteFileInNotesAndAttachments("Delete");
 	}

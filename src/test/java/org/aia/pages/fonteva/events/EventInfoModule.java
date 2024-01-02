@@ -426,8 +426,6 @@ public class EventInfoModule {
 	
 	public void enterEventOverview() {
 		log.info(eventOverViewText.size());
-		System.out.println("hgfj");
-		System.out.println("hjf");
 		for (int i = 0; i < eventOverViewText.size(); i++) {
 		log.info(eventOverViewText.get(i).getText());
 			eventOverViewText.get(i).clear();

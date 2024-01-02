@@ -1,10 +1,12 @@
 package org.aia.pages.fonteva.chapterPortal;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.aia.pages.fonteva.events.EventConfig;
 import org.aia.utility.Utility;
 import org.apache.log4j.Logger;
+import org.junit.rules.ExpectedException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -12,6 +14,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 import groovy.transform.Final;
@@ -73,6 +77,7 @@ public class ChapterInfo {
 		ArrayList<String> detailsStaffInfo = new ArrayList<String>();
 		for (int i = 0; i < detailsStaffInfoInChatpterInfo.size(); i++) {
 			 detailsStaffInfo.add(detailsStaffInfoInChatpterInfo.get(i).getText());
+			 Assert.assertTrue(detailsStaffInfoInChatpterInfo.get(i).isDisplayed());
 			System.out.println(detailsStaffInfo);
 		}
 	}
@@ -82,6 +87,7 @@ public class ChapterInfo {
 		ArrayList<String> leaderShipDataInfo = new ArrayList<String>();
 		for (int i = 0; i < leaderhipTableDataInChatpterInfo.size(); i++) {
 			leaderShipDataInfo.add(leaderhipTableDataInChatpterInfo.get(i).getText());
+			Assert.assertTrue(leaderhipTableDataInChatpterInfo.get(i).isDisplayed());
 		}
 		System.out.println(leaderShipDataInfo.size());
 	}
@@ -91,14 +97,15 @@ public class ChapterInfo {
 		ArrayList<String> serviceAreaContacsInfo = new ArrayList<String>();
 		for (int i = 0; i < serviceAreaContactsTableDataInChatpterInfo.size(); i++) {
 			serviceAreaContacsInfo.add(serviceAreaContactsTableDataInChatpterInfo.get(i).getText());
+			Assert.assertTrue(serviceAreaContactsTableDataInChatpterInfo.get(i).isDisplayed());
 			System.out.println(serviceAreaContacsInfo);
 		}
 	}
 	
 	public void fileUploadInChapterInfo() {
-		util.scrollingBottomOfPage(driver);
-		util.waitUntilElement(driver, uploadFileInChapterInfo);
-		uploadFileInChapterInfo.sendKeys(EventConfig.venueImageURLInput);
+			util.scrollingBottomOfPage(driver);
+			util.waitUntilElement(driver, uploadFileInChapterInfo);
+			uploadFileInChapterInfo.sendKeys(EventConfig.venueImageURLInput);
 	}
 	
 	public void validateUploadFilePopup() throws Throwable {

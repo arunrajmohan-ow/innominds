@@ -97,6 +97,7 @@ public class Finance {
 			Thread.sleep(8000);
 			System.out.println(duesInstallmentRecordsData.size());
 			for (int i = 0; i < duesInstallmentRecordsData.size(); i++) {
+			Assert.assertTrue(duesInstallmentRecordsData.get(i).isDisplayed(), "Record is dsiplayed");
 			String recordsData = duesInstallmentRecordsData.get(i).getText();
 			System.out.println(recordsData.replace("\n", ""));
 			log.info(recordsData.replace("\n", ""));
@@ -143,6 +144,7 @@ public class Finance {
 			Thread.sleep(8000);
 			System.out.println(duesWaiverRecordsData.size());
 			for (int i = 0; i < duesWaiverRecordsData.size(); i++) {
+			Assert.assertTrue(duesWaiverRecordsData.get(i).isDisplayed(), "Record is displayed");
 			String recordsData = duesWaiverRecordsData.get(i).getText();
 			System.out.println(recordsData.replace("\n", ""));
 			log.info(recordsData.replace("\n", ""));

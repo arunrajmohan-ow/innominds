@@ -121,7 +121,7 @@ public class Test_Clone_EventTemplateMedium extends BaseClass {
 		}
 	}
 
-	@Test(priority = 2, description = "Verify Price modify for an existing Event", enabled = true)
+	@Test(priority = 2, description = "Verify Price modify for an existing Event", enabled = false)
 	public void test_EditPriceInCloneEventMediumTEmplate(ITestContext context) throws InterruptedException, Throwable {
 		Logging.logger
 				.info("================================test_EditPriceInCloneEvent started==========================");
@@ -210,7 +210,7 @@ public class Test_Clone_EventTemplateMedium extends BaseClass {
 			mailinator.sessionConfirmationEmailforEvents(dataList, eventName);
 
 			// Email validations registration confirm message
-			mailinator.registrationConfirmationEmailforEvents(dataList, eventName);
+		    mailinator.registrationConfirmationEmailforEvents(dataList, eventName);
 		} catch (Exception e) {
 			throw new Exception(e.getMessage());
 		} catch (Throwable e) {
@@ -243,6 +243,13 @@ public class Test_Clone_EventTemplateMedium extends BaseClass {
 //			agendaModule.enterFuturestartDateInscheduleItem();
 //         	agendaModule.clickbuttonsInScheduleItem();
 //			util.waitForJavascript(driver, 10000, 5000);
+			ticketModule.eventTicketsTab();
+			ticketModule.validateEventTicketSalesStartDate();
+			ticketModule.editEventTicket(true);
+			ticketModule.validateEditTicketTypeHeader();
+			ticketModule.enterPriceInCreateTicketType("10.00");
+			ticketModule.saveAndContinueButtonInTicketType();
+			eventInfoModule.selectActiveStatus();
 			eventInfoModule.saveExitButton();
 			util.waitForJavascript(driver, 30000, 5000);
 			eventInfoModule.clickEventUrl();

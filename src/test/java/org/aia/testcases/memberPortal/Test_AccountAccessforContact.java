@@ -28,7 +28,7 @@ import com.aventstack.extentreports.ExtentTest;
 public class Test_AccountAccessforContact extends BaseClass{
 	boolean recording;
 	ContactCreateUser fontevaJoin;
-	MailinatorAPI malinator;
+	MailinatorAPI mailinator;
 	JoinAPIValidation offlinApiValidation;
 	public ExtentReports extent;
 	public ExtentTest extentTest;
@@ -43,7 +43,7 @@ public class Test_AccountAccessforContact extends BaseClass{
 		util = new Utility(driver, 30);
 		testData = new ConfigDataProvider();
 		fontevaJoin = PageFactory.initElements(driver, ContactCreateUser.class);
-		malinator = PageFactory.initElements(driver, MailinatorAPI.class);
+		mailinator = new MailinatorAPI(driver);
 		offlinApiValidation = PageFactory.initElements(driver, JoinAPIValidation.class);
 		comMethodsForMP = new CommonMethodsForMP(driver);
 		myInformation = PageFactory.initElements(driver, MyInformation.class);
@@ -53,7 +53,7 @@ public class Test_AccountAccessforContact extends BaseClass{
 	
 	@Test(description = "FM-318: My Account access for a contact", enabled = true, priority = 1)
 	public void myAccountAccessForContact() throws Throwable {
-		comMethodsForMP.navigateToMyAccount();
+		comMethodsForMP.navigateToMyAccount(mailinator);
 		myInformation.verifyMyinformationTabSections();
 	}
 	
