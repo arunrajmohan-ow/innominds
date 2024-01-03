@@ -55,11 +55,13 @@ public class UpgradeToArchitect {
 	List<WebElement> upgradeToArchitectRecordsData;
 
 	public void clickUpgradeToArchitectTab() throws Throwable {
+		Thread.sleep(7000);
+		util.scrollingElementUsingJS(driver, upgradeToArchitectTab);
 		util.waitUntilElement(driver, upgradeToArchitectTab);
 		upgradeToArchitectTab.click();
 	}
 
-	public void selectDateReportPopup(String postDate) throws InterruptedException {
+	public void selectDateReportPopupInUpGradeArchitect(String postDate) throws InterruptedException {
 		util.waitUntilElement(driver, selectReportDatePopUp);
 		Assert.assertTrue(selectReportDatePopUp.isDisplayed());
 		String fromDate = upgradeFromDate.getAttribute("value");
@@ -68,12 +70,12 @@ public class UpgradeToArchitect {
 		log.info(toDate);
 		Thread.sleep(5000);
 		gotoReportButtonInSelectReportDatePopup.click();
+		Thread.sleep(10000);
 	}
 
 	public void getUpgradeToArchitectTabRecordsCount() throws Throwable {
-		Thread.sleep(10000);
+		Thread.sleep(20000);
 		util.switchToTabs(driver, 1);
-		util.waitForJavascript(driver, 10000, 2000);
 		util.switchToFrameUsingWebElement(driver, upgradeToArchitectFrame);
 		Utility.waitForWebElement(driver, upgradeToArchitectRecords, 0);
 		String recordsCount = upgradeToArchitectRecords.getText();
@@ -83,6 +85,7 @@ public class UpgradeToArchitect {
 			String noDataMSg = upgradeNoDataMSg.getText();
 			log.info(noDataMSg.replace("\n", ""));
 		}
+		driver.switchTo().defaultContent();
 	}
 
 }

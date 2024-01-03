@@ -34,8 +34,8 @@ public class ExcelDataProvider {
 	{
 		try 
 		{
-			String fileName = Utility.getfileNameFromFolder(new File(System.getProperty("user.dir")+"\\DownloadFiles").listFiles(), expFileName);
-			wb=new XSSFWorkbook(new FileInputStream(new File(System.getProperty("user.dir")+"\\DownloadFiles"+File.separator+fileName)));
+			String fileName = Utility.getfileNameFromFolder(new File(System.getProperty("user.dir")+File.separator +"DownloadFiles").listFiles(), expFileName);
+			wb=new XSSFWorkbook(new FileInputStream(new File(System.getProperty("user.dir")+File.separator+ "DownloadFiles"+File.separator+fileName)));
 			
 			Reporter.log("LOG : INFO -Data File loaded", true);
 

@@ -53,12 +53,12 @@ public class NewGrad {
 		util.waitUntilElement(driver, selectReportDatePopUp);
 	}
 	
-	public void selectDateReportPopup(String pastDate) {
+	public void selectDateReportPopupInNewGrad(String pastDate) {
 		Assert.assertTrue(selectReportDatePopUp.isDisplayed());
 		util.enterText(driver, newGradFromDate, pastDate);
 		String fromDate = newGradFromDate.getAttribute("value");
 		log.info(fromDate);
-		newGradToDate.sendKeys(new SimpleDateFormat("MM/dd/yyyy").format(new Date()));
+		util.enterText(driver, newGradToDate, new SimpleDateFormat("MM/dd/yyyy").format(new Date()));
 		String toDate = newGradToDate.getAttribute("value");
 		log.info(toDate);
 		gotoReportButtonInSelectReportDatePopup.click();

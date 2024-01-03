@@ -34,7 +34,6 @@ public class CommonMehodsInCP  {
 		naToChapterPortal.clickContactsModule();
 		globalSearch.globalSearchInContact(contactName);
 		globalSearch.clickContactsInGlobalSearch(contactName);
-		//naToChapterPortal.clickContactsCPAccess(contactName);
 		naToChapterPortal.showAllInRealtedQuickLinks();
 		naToChapterPortal.getPortalAccessCount();
 		naToChapterPortal.clickDropDownInActionContainer();

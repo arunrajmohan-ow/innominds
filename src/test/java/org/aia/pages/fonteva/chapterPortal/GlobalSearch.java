@@ -54,7 +54,7 @@ public class GlobalSearch {
 		Utility.waitForWebElement(driver, globSearchInContact, 30);
 		globSearchInContact.click();
 		globSearchInputInContact.sendKeys(contactName);
-		Thread.sleep(4000);
+		Thread.sleep(5000);
 		globSearchInputInContact.sendKeys(Keys.ENTER);
 	}
 	
@@ -62,7 +62,7 @@ public class GlobalSearch {
 		Thread.sleep(5000);
 		Utility.waitForWebElement(driver, contactsInGlobalSearch, 10);
 		contactsInGlobalSearch.click();
-		Thread.sleep(4000);
+		Thread.sleep(6000);
 		WebElement contactElement = driver.findElement(By.xpath("//table[@data-aura-class='uiVirtualDataTable'][not(contains(@aria-label,'Recently Viewed'))]/tbody/tr/th/span/a[@title='"+contactName+"']"));
 		util.waitUntilElement(driver, contactElement);
 		contactElement.click();

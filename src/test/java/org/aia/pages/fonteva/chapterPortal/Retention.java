@@ -51,6 +51,8 @@ public class Retention {
 		util.switchToFrameUsingWebElement(driver, renewedMembersFrame);
 		System.out.println(retentionRenewedMembersRecordsData.size());
 		for (int i = 0; i < retentionRenewedMembersRecordsData.size(); i++) {
+		Assert.assertTrue(retentionRenewedMembersRecordsData.get(i).isDisplayed(), "Record "+i+"  is not displayed");
+		System.out.println("RecordData "+i+" is displayed");
 		String recordsData = retentionRenewedMembersRecordsData.get(i).getText();
 		System.out.println(recordsData.replace("\n", ""));
 		log.info(recordsData.replace("\n", ""));
