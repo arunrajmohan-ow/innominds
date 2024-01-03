@@ -49,18 +49,24 @@ public class EmailChangeLog {
 	
 	
 	public void clickEmailChangeLogTab() throws Throwable {
+        util.scrollingElementUsingJS(driver, emailChangeLogTab);
 		Utility.waitForWebElement(driver, emailChangeLogTab, 0);
 		emailChangeLogTab.click();
 	}
 	
-	public void selectDateReportPopup(String pastDate) {
+	public void selectDateReportPopupInEmailChange(String pastDate) throws Throwable {
+		util.waitUntilElement(driver, selectReportDatePopUp);
+		Assert.assertTrue(selectReportDatePopUp.isDisplayed());
+		Thread.sleep(5000);
 		util.enterText(driver, emailChangeLogFromDate, pastDate);
 		String fromDate = emailChangeLogFromDate.getAttribute("value");
 		log.info(fromDate);
-		emailChangeLogToDate.sendKeys(new SimpleDateFormat("MM/dd/yyyy").format(new Date()));
+		util.enterText(driver, emailChangeLogToDate, new SimpleDateFormat("MM/dd/yyyy").format(new Date()));
 		String toDate = emailChangeLogToDate.getAttribute("value");
 		log.info(toDate);
+		Thread.sleep(5000);
 		gotoReportButtonInSelectReportDatePopup.click();
+		Thread.sleep(8000);
 	}
 	
 	public void getEmailChangeLogTabRecordsCount() throws Throwable {

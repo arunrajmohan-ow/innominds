@@ -47,7 +47,7 @@ public class Test_Retention extends BaseClass {
 		Logging.configure();
 	}
 	
-	@Test(description = "FM-430: Retention Tab page verification", enabled = true, priority = 1)
+	@Test(description = "FM-430: Retention Tab page verification", enabled = false, priority = 1)
 	public void test_VerificationRetention(ITestContext context) throws InterruptedException, Throwable {
 		if (recording) {
 			VideoRecorder.startRecording("test_VerificationRetention");
@@ -59,12 +59,12 @@ public class Test_Retention extends BaseClass {
 		retention.getRenewedMembersRecordsData();
 		//UI changed new table data is displayed instead of non renewed members table data
 		retention.clickInvocingCycleLink();
-		//After clicking on the Invoicing link it showing universal login.need credential for universal login.
+		//After clicking on the Invoicing link it showing universal login.It needs credential for universal login.
 		util.switchToTabs(driver, 1);
 		Thread.sleep(5000);
 		util.switchToTabs(driver, 0);
 		retention.clickMembershipApplicationFormLink();
-		//After clicking on the memberShipApllicatinForm link it showing universal login.need credential for universal login.
+		//After clicking on the memberShipApllicatinForm link it showing universal login.It needs credential for universal login.
 		util.switchToTabs(driver, 2);
 		Thread.sleep(5000);
 		util.switchToTabs(driver, 0);

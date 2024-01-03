@@ -53,14 +53,19 @@ public class Deceased {
 		deceasedTab.click();
 	}
 	
-	public void selectDateReportPopup(String postdate) {
+	public void selectDateReportPopupInDeceased(String postdate) throws Throwable {
+		util.waitUntilElement(driver, selectReportDatePopUp);
+		Assert.assertTrue(selectReportDatePopUp.isDisplayed());
+		Thread.sleep(3000);
 		util.enterText(driver, deceasedFromDate, postdate);
 		String fromDate = deceasedFromDate.getAttribute("value");
 		log.info(fromDate);
-		deceasedToDate.sendKeys(new SimpleDateFormat("MM/dd/yyyy").format(new Date()));
+		util.enterText(driver, deceasedToDate, new SimpleDateFormat("MM/dd/yyyy").format(new Date()));
 		String toDate = deceasedToDate.getAttribute("value");
 		log.info(toDate);
+		Thread.sleep(5000);
 		gotoReportButtonInSelectReportDatePopup.click();
+		Thread.sleep(7000);
 	}
 	
 	public void getDeceasedTabRecordsCount() throws Throwable {

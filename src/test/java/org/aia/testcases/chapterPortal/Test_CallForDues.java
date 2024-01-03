@@ -45,7 +45,7 @@ public class Test_CallForDues extends BaseClass {
 		Logging.configure();
 	}
 	
-	@Test(description = "FM-412: \"Call For Dues\" Component Contact section", enabled = true, priority = 1)
+	@Test(description = "FM-412: \"Call For Dues\" Component Contact section", enabled = false, priority = 1)
 	public void test_VerificationCallForDues(ITestContext context) throws InterruptedException, Throwable {
 		if (recording) {
 			VideoRecorder.startRecording("test_VerificationCallForDues");

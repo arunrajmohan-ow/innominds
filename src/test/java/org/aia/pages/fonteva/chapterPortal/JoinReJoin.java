@@ -49,26 +49,30 @@ public class JoinReJoin {
 	
 	
 	public void clickJoinReJoinTabTab() throws Throwable {
+		Thread.sleep(7000);
+		util.scrollingElementUsingJS(driver, joinReJoinTab);
 		joinReJoinTab.click();
 		util.waitUntilElement(driver, selectReportDatePopUp);
 		
 	}
 	
-	public void selectDateReportPopup(String pastDate) {
+	public void selectDateReportPopupInJoinRejoin(String pastDate) throws Throwable {
 		Assert.assertTrue(selectReportDatePopUp.isDisplayed());
+		util.waitUntilElement(driver, joinReJoinFromDate);
 		util.enterText(driver, joinReJoinFromDate, pastDate);
 		String fromDate = joinReJoinFromDate.getAttribute("value");
 		log.info(fromDate);
-		joinReJoinToDate.sendKeys(new SimpleDateFormat("MM/dd/yyyy").format(new Date()));
+		util.enterText(driver, joinReJoinToDate, new SimpleDateFormat("MM/dd/yyyy").format(new Date()));
 		String toDate = joinReJoinToDate.getAttribute("value");
 		log.info(toDate);
+		Thread.sleep(5000);
 		gotoReportButtonInSelectReportDatePopup.click();
+		Thread.sleep(10000);
 	}
 	
 	public void getJoinReJoinTabRecordsCount() throws Throwable {
-		Thread.sleep(10000);
+		Thread.sleep(15000);
 		util.switchToTabs(driver, 1);
-		util.waitForJavascript(driver, 10000, 2000);
 		util.switchToFrameUsingWebElement(driver, joinReJoinFrame);
 		Utility.waitForWebElement(driver, joinReJoinRecords, 0);
 		String recordsCount = joinReJoinRecords.getText();
