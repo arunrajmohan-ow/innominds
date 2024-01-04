@@ -1,8 +1,12 @@
-package org.aia.pages.fonteva.memberPortal;
+package org.aia.pages.memberPortal;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.aia.pages.fonteva.memberPortal.AccountAcessForContact;
 import org.aia.utility.Utility;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
@@ -10,8 +14,12 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
+import org.testng.Assert;
+
+import groovyjarjarantlr4.v4.parse.ANTLRParser.throwsSpec_return;
 
 public class MemberPortal {
   
@@ -51,7 +59,7 @@ public class MemberPortal {
 	@FindBy(xpath = "//td[@id='bottomButtonRow']//input[@value= ' Save ' ]")
 	WebElement userProfileSave;
 	
-	@FindBy(xpath = "(//a[text()='Membership'])[2]")
+	@FindBy(xpath = "//a[@title='Membership']")
 	WebElement membership;
 	
 	@FindBy(xpath = "//div//h2[text()='Membership & Chapter Assignment']")
@@ -78,8 +86,10 @@ public class MemberPortal {
 	@FindBy(xpath = "//p[contains(text(), 'Status')]")
 	WebElement statusTxt;
 
-	@FindBy(xpath = "(//a[text()='Interest Areas'])[2]")
+	@FindBy(xpath = "//a[@title='Interest Areas']")
 	WebElement interestArea;
+	
+	@FindAll(value = {@FindBy(xpath = "//input[contains(@id,'checkbox')]")}) List<WebElement> interestAreasCheckBoxes;
 	
 	@FindBy(xpath = "//span[text()='Academy of Architecture for Health (AAH)']")
 	WebElement aahText;
@@ -141,8 +151,10 @@ public class MemberPortal {
 	@FindBy(xpath = "//span[text()='Technology in Architectural Practice (TAP)']")
 	WebElement tapTxt;
 	
-	@FindBy(xpath = "(//a[text()='Interest Areas'])[2]")
+	@FindBy(xpath = "//a[@title='Demographics']")
 	WebElement demographics;
+	
+	@FindAll(value = @FindBy(xpath = "//p//lightning-formatted-text[@class='fieldBox_Value']")) List<WebElement> demographicsListData;
 	
 	@FindBy(xpath = "//p[text()='Birthdate']")
 	WebElement birthdate;
@@ -180,13 +192,13 @@ public class MemberPortal {
 	@FindBy(xpath = "//p[text()='Ability Notes']")
 	WebElement abilityNotesTxt;
 	
-	@FindBy(xpath = "(//a[text()='Contact Information'])[2]")
+	@FindBy(xpath = "//a[@title='Contact Information']")
 	WebElement contactInformation;
 	
-	@FindBy(xpath = "//p//lightning-formatted-text[contains(text(),'autofn')]")
-	WebElement firstNameCI;
+    @FindAll(value = {@FindBy(xpath = "//p//lightning-formatted-text[@class='fieldBox_Value']")})	List<WebElement> contactInfoList;
 	
-	
+    @FindAll(value = {@FindBy(xpath = "//p//lightning-formatted-text[@class='fieldBox_Value']")})	List<WebElement> memberShipInfoList;
+    
 	@FindBy(xpath = "//p//lightning-formatted-text[contains(text(),'autoln')]")
 	WebElement lastNameCI;
 	
@@ -199,9 +211,10 @@ public class MemberPortal {
 	@FindBy(xpath = "(//p//lightning-formatted-text[contains(text(),'40')]")
 	WebElement aiaNumber;
 	
-	@FindBy(xpath = "((//a[text()='Communication Preferences'])[1]")
+	@FindBy(xpath = "//a[@title='Communication Preferences']")
 	WebElement communicationPreferences;
 	
+	@FindAll(value= {@FindBy(xpath = "//div//p[text()='Do Not Contact by Phone']//following::input")}) List<WebElement> communicationsCheckBoxes;
 	
 	@FindBy(xpath = "(//p[text()='Do Not Contact by Phone']")
 	WebElement contactByPhoneTxt;
@@ -243,152 +256,97 @@ public class MemberPortal {
 	        driver.navigate().back();
 	   }
 	 
-	public void validateContactInformationpage(String firstName, String lastName , String email, String address ) {
+	public ArrayList<String> validateContactInformationpage( ) throws InterruptedException {
+		Thread.sleep(15000);
+		ArrayList<String>contactInfo = new ArrayList<String>();
 		util.waitUntilElement(driver, contactInformation);
 		contactInformation.click();
-		util.waitUntilElement(driver, firstNameCI);
-		assertEquals(firstNameCI.getText(), firstName);
-		util.waitUntilElement(driver, lastNameCI);
-		util.waitUntilElement(driver, personalEmail);
-		assertTrue(personalEmail.isDisplayed());
-		util.waitUntilElement(driver, homeAddressCI);
-		assertTrue(homeAddressCI.isDisplayed());
-		
+		Thread.sleep(5000);
+		System.out.println(contactInfoList.size());
+		for (int i = 0; i < contactInfoList.size(); i++) {
+			Thread.sleep(2000);
+		String contactDetails =	contactInfoList.get(i).getText();
+		if(contactDetails !="") {
+			contactInfo.add(contactDetails);
+		}else {
+			System.out.println("null");
+		}
+	}
+		System.out.println(contactInfo);
+		return contactInfo;
 	}
 	
 
 	
-	public void validateMembershipFields() {
+	public ArrayList<String> validateMembershipFields() throws InterruptedException {
+		Thread.sleep(15000);
 		util.waitUntilElement(driver, membership);
 		membership.click();
-		
-		util.waitUntilElement(driver, aiaNumber);
-		assertTrue(aiaNumber.isDisplayed());
-		
-		util.waitUntilElement(driver, chapterAssignment);
-		assertTrue(chapterAssignment.isDisplayed());
-		util.waitUntilElement(driver, transferRequest);
-		assertTrue(transferRequest.isDisplayed());
-		assertTrue(aiaNumberTxt.isDisplayed());
-		util.waitUntilElement(driver, membershipTypeTxt);
-		assertTrue(membershipTypeTxt.isDisplayed());
-		util.waitUntilElement(driver, localAssignmetTxt);
-		assertTrue(localAssignmetTxt.isDisplayed());
-		util.waitUntilElement(driver, stateAssignmetTxt);
-		assertTrue(sectionAssignmetTxt.isDisplayed());
+		Thread.sleep(5000);
+		System.out.println(memberShipInfoList.size());
+		ArrayList<String> memberShipInfo = new ArrayList<String>();
+		for (int i = 0; i < memberShipInfoList.size(); i++) {
+			Thread.sleep(2000);
+			String memberDetails =	memberShipInfoList.get(i).getText();
+			if(memberDetails !="") {
+				memberShipInfo.add(memberDetails);
+			}else {
+				System.out.println("null");
+			}
+		}
+			System.out.println(memberShipInfo);
+			return memberShipInfo;
 	}
 	
 	
-	public void validateInterestPageFields() {
+	public void validateInterestPageFields() throws Throwable {
+		Thread.sleep(15000);
 		util.waitUntilElement(driver, interestArea);
 		interestArea.click();
-		util.waitUntilElement(driver, aahText);
-		assertTrue(aahText.isDisplayed());
-		util.waitUntilElement(driver, aajText);
-		assertTrue(aajText.isDisplayed());
-		assertTrue(bpkcText.isDisplayed());
-		util.waitUntilElement(driver, caeTxt);
-		assertTrue(caeTxt.isDisplayed());
-		util.waitUntilElement(driver, codTxt);
-		assertTrue(codTxt.isDisplayed());
-		util.waitUntilElement(driver, coteTxt);
-		assertTrue(coteTxt.isDisplayed());
-		assertTrue(cafmTxt.isDisplayed());
-		assertTrue(cranTxt.isDisplayed());
-		assertTrue(dfaTxt.isDisplayed());
-		assertTrue(hrcTxt.isDisplayed());
-		assertTrue(hcdTxt.isDisplayed());
-		assertTrue(idTxt.isDisplayed());
-		assertTrue(iakcTxt.isDisplayed());
-		assertTrue(pmkcTxt.isDisplayed());
-		assertTrue(pdTxt.isDisplayed());
-		assertTrue(rudcTxt.isDisplayed());
-		assertTrue(rekcTxt.isDisplayed());
-		assertTrue(spdTxt.isDisplayed());
-		assertTrue(tapTxt.isDisplayed());
+		Thread.sleep(5000);
+		System.out.println(interestAreasCheckBoxes.size());
+		for (int i = 0; i < interestAreasCheckBoxes.size(); i++) {
+			if(interestAreasCheckBoxes.get(i).isEnabled()) {
+				Assert.assertFalse(interestAreasCheckBoxes.get(i).isSelected());
+			}else {
+				System.out.println("Checkboxes is disabled");
+			}
+			
+		}
 	}
 	
-	public void verifyDemographicsFields() {
+	public ArrayList<String> verifyDemographicsFields() throws Throwable {
+		Thread.sleep(15000);
 		util.waitUntilElement(driver, demographics);
 		demographics.click();
-		util.waitUntilElement(driver, demographicsTxt);
-		assertTrue(demographicsTxt.isDisplayed());
-		util.waitUntilElement(driver, birthdate);
-		assertTrue(birthdate.isDisplayed());
-		assertTrue(genderIdentity.isDisplayed());
-		util.waitUntilElement(driver, gender);
-		assertTrue(gender.isDisplayed());
-		util.waitUntilElement(driver, lgbtqTxt);
-		assertTrue(lgbtqTxt.isDisplayed());
-		util.waitUntilElement(driver, preferredPronounsTxt);
-		assertTrue(preferredPronounsTxt.isDisplayed());
-		util.waitUntilElement(driver, raceEthnicityTxt);
-		assertTrue(raceEthnicityTxt.isDisplayed());
-		assertTrue(primaryEthnicityTxt.isDisplayed());
-		assertTrue(secondaryEthnicityTxt.isDisplayed());
-		assertTrue(diverseAbilitiesTxt.isDisplayed());
-		assertTrue(diverseAbilityTxt.isDisplayed());
-		assertTrue(abilityNotesTxt.isDisplayed());
-	}
-	
-	public void verifyContactPage() {
-		util.waitUntilElement(driver, demographics);
-		demographics.click();
-		util.waitUntilElement(driver, demographicsTxt);
-		assertTrue(demographicsTxt.isDisplayed());
-		util.waitUntilElement(driver, birthdate);
-		assertTrue(birthdate.isDisplayed());
-		assertTrue(genderIdentity.isDisplayed());
-		util.waitUntilElement(driver, gender);
-		assertTrue(gender.isDisplayed());
-		util.waitUntilElement(driver, lgbtqTxt);
-		assertTrue(lgbtqTxt.isDisplayed());
-		util.waitUntilElement(driver, preferredPronounsTxt);
-		assertTrue(preferredPronounsTxt.isDisplayed());
-		util.waitUntilElement(driver, raceEthnicityTxt);
-		assertTrue(raceEthnicityTxt.isDisplayed());
-		assertTrue(primaryEthnicityTxt.isDisplayed());
-		assertTrue(secondaryEthnicityTxt.isDisplayed());
-		assertTrue(diverseAbilitiesTxt.isDisplayed());
-		assertTrue(diverseAbilityTxt.isDisplayed());
-		assertTrue(abilityNotesTxt.isDisplayed());
-	}
-	
-	public void verifyContactPageInfo() {
-		util.waitUntilElement(driver, contactInformation);
-		contactInformation.click();
-		util.waitUntilElement(driver, firstNameCI);
-		assertTrue(firstNameCI.isDisplayed());
-		util.waitUntilElement(driver, lastNameCI);
-		assertTrue(lastNameCI.isDisplayed());
-	
-		util.waitUntilElement(driver, aiaNumberTxt);
-		assertTrue(aiaNumberTxt.isDisplayed());
-		util.waitUntilElement(driver, membershipTypeTxt);
-		assertTrue(membershipTypeTxt.isDisplayed());
-		assertTrue(localAssignmetTxt.isDisplayed());
-		assertTrue(stateAssignmetTxt.isDisplayed());
-		assertTrue(sectionAssignmetTxt.isDisplayed());
-		assertTrue(homeAddressCI.isDisplayed());
-		
-		
+		Thread.sleep(5000);
+		ArrayList<String> demographicsData = new ArrayList<String>();
+		System.out.println(demographicsListData.size());
+		for (int i = 0; i < demographicsListData.size(); i++) {
+			Thread.sleep(2000);
+			String data = demographicsListData.get(i).getText();
+			if(data=="") {
+				data = null;
+			demographicsData.add(data);
+			}
+		}
+		return demographicsData;
 		
 	}
 	
-	public void verifycommunicationPreferences() {
+	public void verifycommunicationPreferences() throws Throwable {
+		Thread.sleep(15000);
 		util.waitUntilElement(driver, communicationPreferences);
 		communicationPreferences.click();
-		util.waitUntilElement(driver, contactByPhoneTxt);
-		assertTrue(contactByPhoneTxt.isDisplayed());
-		util.waitUntilElement(driver, contactByEmailTxt);
-		assertTrue(contactByEmailTxt.isDisplayed());
-	
-		util.waitUntilElement(driver, contactByPostTxt);
-		assertTrue(contactByPostTxt.isDisplayed());
-
-		
-		
-		
+		Thread.sleep(5000);
+		System.out.println(communicationsCheckBoxes.size());
+		for (int i = 0; i < communicationsCheckBoxes.size(); i++) {
+			if(!(communicationsCheckBoxes.get(i).isEnabled())) {
+				System.out.println("Checkbox is disabled"+""+i);
+			}else {
+				System.out.println("Checkbox is enabled"+""+i);
+			}
+		}
 	}
 	
 

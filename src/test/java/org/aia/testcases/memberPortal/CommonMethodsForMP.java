@@ -63,7 +63,7 @@ public class CommonMethodsForMP {
 	}
 	
 	
-	public void navigateToMyAccount(MailinatorAPI mailinator) throws Throwable {
+	public ArrayList<String> navigateToMyAccount(MailinatorAPI mailinator) throws Throwable {
 		ArrayList<String> dataList = fontevaJoin.userData();
 		//fontevaJoin.pointOffset();
 		fontevaJoin.createUserInFonteva();
@@ -90,7 +90,7 @@ public class CommonMethodsForMP {
 		accAcessForContact.verifyFieldsMemberPortal("AIA Customer");
 		accAcessForContact.clickDropDownInActionContainer();
 		accAcessForContact.optionsInactionContainer();
-		
+		return dataList;
 	}
 
 }

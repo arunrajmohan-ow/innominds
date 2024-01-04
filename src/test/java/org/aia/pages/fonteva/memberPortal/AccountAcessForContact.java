@@ -37,14 +37,15 @@ public class AccountAcessForContact {
 
 	@FindBy(xpath = "//label[contains(text(),'Search')]/following-sibling::div/input[contains(@aria-controls,'suggestionsList')]")
 	WebElement globSearchInputInContact;
-	
+
 	@FindBy(xpath = "//span[text()='App Launcher']//parent::div")
 	WebElement appLauncher;
 
 	@FindBy(xpath = "//input[@placeholder='Search apps and items...']")
 	WebElement appLauncherSearchBox;
-	
-	@FindBy(xpath = "//a[@href='/lightning/o/Contact/home' and @id='Contact']") WebElement appLauncherContactsValue;
+
+	@FindBy(xpath = "//a[@href='/lightning/o/Contact/home' and @id='Contact']")
+	WebElement appLauncherContactsValue;
 
 	@FindBy(xpath = "//li/a[@title='Contacts']")
 	WebElement contactsInGlobalSearch;
@@ -111,26 +112,26 @@ public class AccountAcessForContact {
 		Utility.waitForWebElement(driver, dropDownButtonActionContainer, 0);
 		dropDownButtonActionContainer.click();
 	}
-	
+
 	public void verifyFieldsMemberPortal(String profile) throws InterruptedException {
-		   JavascriptExecutor js = (JavascriptExecutor) driver;
-		   Thread.sleep(4000);
-			util.waitUntilElement(driver, enableCustomerUserOpt);
-			js.executeScript("arguments[0].click();", enableCustomerUserOpt);
-			Thread.sleep(15000);
-			WebElement profileFrame = driver.findElement(By.xpath("//iframe[contains(@name,'vfFrameId_')]"));
-			driver.switchTo().frame(profileFrame);
-			WebElement userProfiledrpdwn = driver.findElement(By.cssSelector("select[id='Profile']"));
-			Select dropdown = new Select(userProfiledrpdwn);
-	        dropdown.selectByVisibleText(profile);
-	        util.waitUntilElement(driver, userProfileSave);
-	        util.scrollingElementUsingJS(driver, userProfileSave);
-	        userProfileSave.click();
-	        driver.navigate().back();
-	        driver.navigate().back();
-	        driver.navigate().back();
-	   }
-	
+		Thread.sleep(5000);
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		util.waitUntilElement(driver, enableCustomerUserOpt);
+		js.executeScript("arguments[0].click();", enableCustomerUserOpt);
+		Thread.sleep(15000);
+		WebElement profileFrame = driver.findElement(By.xpath("//iframe[contains(@name,'vfFrameId_')]"));
+		driver.switchTo().frame(profileFrame);
+		WebElement userProfiledrpdwn = driver.findElement(By.cssSelector("select[id='Profile']"));
+		Select dropdown = new Select(userProfiledrpdwn);
+		dropdown.selectByVisibleText(profile);
+		util.waitUntilElement(driver, userProfileSave);
+		util.scrollingElementUsingJS(driver, userProfileSave);
+		userProfileSave.click();
+		driver.navigate().back();
+		driver.navigate().back();
+		driver.navigate().back();
+	}
+
 	public void navigateContactsModule() throws Throwable {
 		System.out.println("Contacts module is not displayed");
 		util.waitUntilElement(driver, appLauncher);
@@ -160,10 +161,10 @@ public class AccountAcessForContact {
 					log.info(options2);
 					if (options2.equalsIgnoreCase("My Account")) {
 						portalUserMemberList.get(j).click();
-						log.info("chaptersPortal is clicked successfully");
+						log.info("memberPortal is clicked successfully");
 						Thread.sleep(10000);
 					} else {
-						log.info("chaptersPortal is not clicked successfully");
+						log.info("memberPortal is not clicked successfully");
 					}
 				}
 				break;
