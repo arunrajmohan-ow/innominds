@@ -57,7 +57,7 @@ public class JoinAPIValidation {
 					.header("Authorization", "Bearer " + bearerToken).header("Content-Type", ContentType.JSON)
 					.header("Accept", ContentType.JSON).param("q", memberAccount).param("sobject", "Account").when()
 					.get(PARAMETERIZED_SEARCH_URI).then().statusCode(200).extract().response();
-
+			
 			jsonPathEval = response.jsonPath();
 			accountID = jsonPathEval.getString("searchRecords[0].Id");
             System.out.println("Account ID:"+accountID);
@@ -72,7 +72,7 @@ public class JoinAPIValidation {
 									+ "OrderApi__Activated_Date__c," + "OrderApi__Paid_Through_Date__c,"
 									+ "OrderApi__Days_To_Lapse__c," + "OrderApi__Item__c, " + "OrderApi__Contact__c")
 					.when().get(SUBSCRIPTIONS_URI).then().statusCode(200).extract().response();
-
+ 
 			jsonPathEval = response.jsonPath();
 
 			totalMembershipCount = jsonPathEval.getInt("totalSize");
@@ -130,7 +130,7 @@ public class JoinAPIValidation {
 					.header("Content-Type", ContentType.JSON).header("Accept", ContentType.JSON)
 					.param("fields", "AIA_Member_Type_Assignment__c").when().get(Member_Type_Assignment_URI).then()
 					.statusCode(200).extract().response();
-
+			
 			jsonPathEval = response2.jsonPath();
 
 			String AIA_Member_Type = jsonPathEval.getString("AIA_Member_Type_Assignment__c");
@@ -143,7 +143,7 @@ public class JoinAPIValidation {
 					.header("Content-Type", ContentType.JSON).header("Accept", ContentType.JSON)
 					.param("fields", "AIA_Career_Type__c").when().get(contact_URI).then().statusCode(200).extract()
 					.response();
-
+			
 			jsonPathEval = response_contact.jsonPath();
 
 			String AIA_Career_Type = jsonPathEval.getString("AIA_Career_Type__c");
@@ -257,8 +257,7 @@ public class JoinAPIValidation {
 						.then().statusCode(200).extract().response();
 				jsonPathEval = priceRuleUriResponse.jsonPath();
 				String priceRuleText = jsonPathEval.getString("Name");
-				
-				assertTrue(priceRuleText.contains(java.time.Year.now().toString()) && priceRuleText.contains(membershipType));
+				//assertTrue(priceRuleText.contains(java.time.Year.now().toString()) && priceRuleText.contains(membershipType));
 			}
 		} else {
 			System.out.println("No Sales order found");

@@ -32,6 +32,7 @@ public class EventInfoModule {
 	static Logger log = Logger.getLogger(EventInfoModule.class);
 	public String salesOrder = "";
 	public String aiaNumber = "";
+	public static String futureDate="";
 
 	public EventInfoModule(WebDriver IDriver) {
 		this.driver = IDriver;
@@ -395,8 +396,7 @@ public class EventInfoModule {
 				if (!exactTotalElementText.contains(values.get(i))) {
 					value = false;
 					break;
-				}
-				;
+				};
 			}
 		}
 		Assert.assertTrue(value, "Assert failure:- giving date duration is wrong");
@@ -426,8 +426,6 @@ public class EventInfoModule {
 	
 	public void enterEventOverview() {
 		log.info(eventOverViewText.size());
-		System.out.println("hgfj");
-		System.out.println("hjf");
 		for (int i = 0; i < eventOverViewText.size(); i++) {
 		log.info(eventOverViewText.get(i).getText());
 			eventOverViewText.get(i).clear();
@@ -467,5 +465,11 @@ public class EventInfoModule {
 			Utility.waitForWebElement(driver, timeZoneIneventInfo, 0);
 			util.selectDropDownByText(timeZoneIneventInfo, timeZone);
 			log.info("time zone in event info selected");
+		}
+		
+		public void enterStartDateInEventInfo() {
+		    futureDate = DateUtils.setFutureDAte();
+			Utility.waitForWebElement(driver, eventStartDate, 0);
+			util.enterText(driver, eventStartDate, futureDate);
 		}
 }

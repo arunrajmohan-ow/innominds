@@ -52,7 +52,7 @@ public class TestOfflineRenew_Membership extends BaseClass {
 	public void offlineRenewProcess() throws InterruptedException {
 		ArrayList<String> dataList = fontevaJoin.userData();
 		//fontevaJoin.signInFonteva();
-		fontevaJoin.pointOffset();
+	//	fontevaJoin.pointOffset();
 		fontevaJoin.createUserInFonteva();
 		fontevaJoin.joinCreatedUser(testData.testDataProvider().getProperty("membershipType"),
 				testData.testDataProvider().getProperty("selection"));

@@ -11,6 +11,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
 
 public class FontevaLoginPage {
 	WebDriver driver;
@@ -50,11 +51,17 @@ public class FontevaLoginPage {
 	@FindBy(xpath = "//button[text()='Ready For Payment']")
 	WebElement ready4Pymt;
 	
-	@FindBy(xpath = "//ul[@class='slds-button-group-list']//li[9]")
+	@FindBy(xpath = "//lightning-button-menu[contains(@data-target-reveals,'OrderApi__Sales_Order__c')]")
 	WebElement dropDown;
 	
-	@FindBy(xpath = "//ul[@class='slds-button-group-list']//li[9]//span[text()='Send Public Proforma Invoice']")
+	@FindBy(xpath = "//lightning-menu-item[contains(@data-target-selection-name,'Send_Public_Proforma_Invoice')]")
 	WebElement sendPPInvoice;
+	
+	@FindBy(xpath = "//header[text()='Business Information']/following::button[1]")
+	WebElement businessGroup;
+	
+	@FindBy(xpath = "//header[text()='Proforma Invoice Message']/following::input[1]")
+	WebElement sendTo;
 	
 	@FindBy(xpath = "//label[text()='Subject']//following::input[@class='slds-input'][1]")
 	WebElement subject;
@@ -62,12 +69,27 @@ public class FontevaLoginPage {
 	@FindBy(xpath = "//lightning-base-combobox//button[@aria-label='Select a site, Select a Community Site...']")
 	WebElement selectACommunitySite;
 	
+	@FindBy(xpath = "//th[@data-label='SHOPPING CART']")
+	WebElement shoppingCart;
+	
+	@FindBy(xpath = "//td[@data-label='QTY']")
+	WebElement qty;
+	
+	@FindBy(xpath = "//td[@data-label='PRICE']")
+	WebElement price;
+	
+	@FindBy(xpath = "//label[text()='Discount code']/following::input")
+	WebElement discountCode;
+	
 	@FindBy(xpath = "//button[text()='Send Email']")
 	WebElement sendEmailBtn;
 	
 	public void renewABI(String user) throws InterruptedException {
 		util.waitUntilElement(driver, renewBtn);
 		util.clickUsingJS(driver, renewBtn);
+		Assert.assertEquals(false, renewBtn.isDisplayed());
+		Assert.assertTrue(driver.getCurrentUrl().contains("OrderApi__Sales_Order__c"));
+		Assert.assertEquals(true, ready4Pymt.isDisplayed());
 		util.waitUntilElement(driver, ready4Pymt);
 		ready4Pymt.click();
 		util.waitUntilElement(driver, dropDown);
@@ -76,6 +98,7 @@ public class FontevaLoginPage {
 		util.waitUntilElement(driver, sendPPInvoice);
 		sendPPInvoice.click();
 		util.waitForJavascript(driver, 6000, 1000);
+		Assert.assertEquals(false, sendPPInvoice.isDisplayed());
 		util.waitUntilElement(driver, subject);
 		subject.click();
 		subject.sendKeys("Payment_For_Renewal");	
@@ -83,6 +106,14 @@ public class FontevaLoginPage {
 		util.waitUntilElement(driver, selectACommunitySite);
 		selectACommunitySite.click();
 		selectACommunitySite.sendKeys(Keys.ENTER);
+		Assert.assertTrue(businessGroup.getText().contains("eCommerce"));
+		Assert.assertTrue(subject.getText().contains("Payment_For_Renewal"));
+		Assert.assertTrue(sendTo.getText().contains("auto_"));
+		Assert.assertTrue(selectACommunitySite.getText().contains("Ecommerce"));
+		Assert.assertTrue(shoppingCart.isDisplayed());
+		Assert.assertTrue(qty.isDisplayed());
+		Assert.assertTrue(price.isDisplayed());
+		Assert.assertTrue(discountCode.isDisplayed());
 		util.waitUntilElement(driver, sendEmailBtn);
 		util.clickUsingJS(driver, sendEmailBtn);
 	}

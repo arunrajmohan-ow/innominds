@@ -1,6 +1,8 @@
 package org.aia.testcases.events;
 
 import java.util.ArrayList;
+
+
 import org.aia.pages.BaseClass;
 import org.aia.pages.api.MailinatorAPI;
 import org.aia.pages.api.events.EventAPIValidations;
@@ -19,10 +21,12 @@ import org.aia.pages.fonteva.events.TicketModule;
 import org.aia.pages.membership.CheckYourEmailPage;
 import org.aia.pages.membership.SignInPage;
 import org.aia.pages.membership.SignUpPage;
+import org.aia.testcases.ces.TestCESMembershipStatus_CES;
 import org.aia.utility.BrowserSetup;
 import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.DataProviderFactory;
 import org.aia.utility.Logging;
+import org.apache.log4j.Logger;
 import org.aia.utility.Utility;
 import org.aia.utility.VideoRecorder;
 import org.openqa.selenium.support.PageFactory;
@@ -33,7 +37,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
-@Listeners(org.aia.utility.GenerateReportsListener.class)
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.ExtentTest;
 
 public class TestClone_EventsWLSTemplate extends BaseClass {
 
@@ -49,6 +54,9 @@ public class TestClone_EventsWLSTemplate extends BaseClass {
 	ViewRecipts viewReceipts;
 	EventAPIValidations eventApivalidation;
 	QuickLinksInEvents linksInEvents;
+	public ExtentReports extent;
+	public ExtentTest extentTest;
+	final static Logger logger = Logger.getLogger(TestClone_EventsWLSTemplate.class);
 	TicketModule ticketModule;
 	SpeakersModule speakersModule;
 	AgendaModule agendaModule;
@@ -153,7 +161,6 @@ public class TestClone_EventsWLSTemplate extends BaseClass {
 			eventInfoModule.editEventVenues();
 			eventInfoModule.editEventAccessPermissions();
 			speakersModule.eventSpeakersTab();
-			;
 			agendaModule.clickEventAgenda();
 			// String scheduleName = editCloneEvent.getSceduleItemsInAgenda();
 			eventInfoModule.editEventSponsorPackages();
@@ -186,17 +193,14 @@ public class TestClone_EventsWLSTemplate extends BaseClass {
 			eventRegistration.rigisterRequiredInfo();
 			eventRegistration.clickRegistrationButton();
 			eventRegistration.validateRegisterReq();
+			eventRegistration.clickRegistrationButton();
 			eventRegistration.agendaModule();
-
+			eventRegistration.totalPaymentamountInCheckout();
 			// Here we getting receipt data from UI and storing in ArrayList
 			eventRegistration.paymentDataIncheckoutModule();
-
 			eventRegistration.biilingaddressInCheckoutModule();
-
 			eventRegistration.paymentProcessButton();
-
 			ArrayList<Object> receiptData = eventRegistration.clickReceiptInChecout();
-
 			util.waitForJavascript(driver, 90000, 5000);
 
 			// Here we validate PDF data
@@ -215,11 +219,12 @@ public class TestClone_EventsWLSTemplate extends BaseClass {
 					DataProviderFactory.getConfig().getValue("postingStatus"));
 
 			// Email validations session confirm message
+			// Note:- Sometimes API body returning as null
 			mailinator.sessionConfirmationEmailforEvents(dataList, eventName);
 
 			// Email validations registration confirm message
 			// Note:- Sometimes API body returning as null
-			mailinator.registrationConfirmationEmailforEvents(dataList, eventName);
+		   mailinator.registrationConfirmationEmailforEvents(dataList, eventName);
 		} catch (Exception e) {
 			throw new Exception(e.getMessage());
 		} catch (Throwable e) {
@@ -239,6 +244,14 @@ public class TestClone_EventsWLSTemplate extends BaseClass {
 			events.eventsTab();
 			util.waitForJavascript(driver, 90000, 5000);
 			String eventName = events.clickCreatedEvent("RecentEvents");
+			ticketModule.eventTicketsTab();
+			ticketModule.validateEventTicketSalesStartDate();
+			//fec-194
+			//ticketModule.verifyUserAbleToProvidedateIntoTicketSalesStartDate();
+			ticketModule.editEventTicket(true);
+			ticketModule.validateEditTicketTypeHeader();
+			ticketModule.enterPriceInCreateTicketType("100.00");
+			ticketModule.saveAndContinueButtonInTicketType();
 			eventInfoModule.clickEventUrl();
 			// sometimes Register link is not clicked in AIA application
 			eventRegistration.RegisterLink(1);
@@ -262,38 +275,31 @@ public class TestClone_EventsWLSTemplate extends BaseClass {
 			eventRegistration.rigisterRequiredInfo();
 			eventRegistration.clickRegistrationButton();
 			eventRegistration.validateRegisterReq();
+			eventRegistration.clickRegistrationButton();
 			eventRegistration.agendaModule();
-
+			eventRegistration.totalPaymentamountInCheckout();
 			// Here we getting receipt data from UI and storing in ArrayList
 			eventRegistration.paymentDataIncheckoutModule();
-
 			eventRegistration.biilingaddressInCheckoutModule();
-
 			eventRegistration.paymentProcessButton();
-
 			ArrayList<Object> receiptData = eventRegistration.clickReceiptInChecout();
-
 			util.waitForJavascript(driver, 90000, 5000);
-
 			// Here we validate PDF data
 			String paymentType = testData.testDataProvider().getProperty("PaymentType");
 			String paymentMethodDescr = testData.testDataProvider().getProperty("PaymentMethodDescription");
 			viewReceipts.viewReceiptValidationsForEvents(receiptData.get(1), receiptData.get(0), paymentType,
 					paymentMethodDescr, aiaNumber);
-
 			util.switchToTabs(driver, 0);
 			events.eventsTab();
 			events.eventsSearch(eventName);
 			String eventID = cloneEventpage.getEventId();
 			ArrayList<String> afterRegistrationsalesandTotal = events.validateAfterRegistrationData();
 			linksInEvents.clickAttendees();
-
 			// Registered attendees count
 			linksInEvents.getAttendeesSize();
 			context.setAttribute("eventName", eventName);
 			context.setAttribute("attendees", afterRegistrationsalesandTotal.get(0));
 			context.setAttribute("eventId", eventID);
-
 			// Here we validate Attendees totals using api call
 			eventApivalidation.verifyAttendees(context);
 		} catch (Exception e) {
@@ -339,25 +345,20 @@ public class TestClone_EventsWLSTemplate extends BaseClass {
 			eventRegistration.rigisterRequiredInfo();
 			eventRegistration.clickRegistrationButton();
 			eventRegistration.validateRegisterReq();
+			eventRegistration.clickRegistrationButton();
 			eventRegistration.agendaModule();
-
+			eventRegistration.totalPaymentamountInCheckout();
 			// Here we getting receipt data from UI and storing in ArrayList
 			eventRegistration.paymentDataIncheckoutModule();
-
 			eventRegistration.biilingaddressInCheckoutModule();
-
 			eventRegistration.paymentProcessButton();
-
 			ArrayList<Object> receiptData = eventRegistration.clickReceiptInChecout();
-
 			util.waitForJavascript(driver, 90000, 5000);
-
 			// Here we validate PDF data
 			String paymentType = testData.testDataProvider().getProperty("PaymentType");
 			String paymentMethodDescr = testData.testDataProvider().getProperty("PaymentMethodDescription");
 			viewReceipts.viewReceiptValidationsForEvents(receiptData.get(1), receiptData.get(0), paymentType,
 					paymentMethodDescr, aiaNumber);
-
 			util.switchToTabs(driver, 0);
 			events.eventsTab();
 			events.eventsSearch(eventName);

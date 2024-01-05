@@ -273,7 +273,7 @@ public class TestAccountAssociated_CES extends BaseClass {
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
 //fontevaPage.changeTermDates(dataList.get(0) + " " + dataList.get(1));
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
-		fontevaPage.selectProviderApplication(dataList.get(0) + " " + dataList.get(1));
+		fontevaPage.checkUserInProviderApplication(dataList.get(0) + " " + dataList.get(1));
 		rapidOrderEntery.selectAccount();
 		apiValidation.verifyProviderApplicationAccountDetails(
 				testData.testDataProvider().getProperty("cesmembershipStatus"),
@@ -316,7 +316,7 @@ public class TestAccountAssociated_CES extends BaseClass {
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
 //fontevaPage.changeTermDates(dataList.get(0) + " " + dataList.get(1));
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
-		fontevaPage.selectProviderApplication(dataList.get(0) + " " + dataList.get(1));
+		fontevaPage.checkUserInProviderApplication(dataList.get(0) + " " + dataList.get(1));
 		rapidOrderEntery.selectAccount();
 		apiValidation.verifyProviderApplicationAccountDetails(
 				testData.testDataProvider().getProperty("cesmembershipStatus"),
@@ -358,7 +358,7 @@ public class TestAccountAssociated_CES extends BaseClass {
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
 //fontevaPage.changeTermDates(dataList.get(0) + " " + dataList.get(1));
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
-		fontevaPage.selectProviderApplication(dataList.get(0) + " " + dataList.get(1));
+		fontevaPage.checkUserInProviderApplication(dataList.get(0) + " " + dataList.get(1));
 		rapidOrderEntery.selectAccount();
 		apiValidation.verifyProviderApplicationAccountDetails(
 				testData.testDataProvider().getProperty("cesmembershipStatus"),

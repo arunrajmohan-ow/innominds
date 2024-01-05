@@ -1,5 +1,6 @@
 package org.aia.pages.ces;
 
+
 import static org.testng.Assert.assertTrue;
 
 import java.awt.Robot;
@@ -10,16 +11,24 @@ import java.awt.event.KeyEvent;
 import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.Utility;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+/**
+ * 
+ */
+/**
+ * 
+ */
 public class Subscription {
 
 	WebDriver driver;
 
 	Utility util = new Utility(driver, 30);
+
 	ConfigDataProvider data = new ConfigDataProvider();
 
 	public Subscription(WebDriver Idriver) {
@@ -72,11 +81,8 @@ public class Subscription {
 	@FindBy(xpath = "//div[contains(@id,'help-message')]")
 	WebElement pofessionalUnsupportedFilTypes;
 
-	@FindBy(xpath = "//button[text()='Previous']")
-	WebElement professionalPrevious;
+	
 
-	@FindBy(xpath = "//button[text()='Next']")
-	WebElement professionalNext;
 
 	// ConfirmDetailsPage
 	@FindBy(xpath = "//*[contains(text(),'You will not be able to go back once you continue.')]")
@@ -93,6 +99,18 @@ public class Subscription {
 
 	@FindBy(xpath = "//span[text()='What is your employee size?']")
 	WebElement empSizetxt;
+
+
+
+
+	@FindBy(xpath = "//div[@class='slds-m-bottom_x-small']/span[@class='main']/img[contains(@src, 'Subscription')]")
+	WebElement tabTitleSubscription;
+
+	@FindBy(xpath = "//b[text()= 'Primary Point of Contact']")
+	WebElement tabTitlePrimarypoc;
+
+	@FindBy(xpath = "//span/p/b[contains(text(), '﻿Based on the organization type you have chosen, you are eligible for')]")
+	WebElement subscriptionTabText;
 
 	@FindBy(xpath = "//*[text() ='﻿Based on the organization type you have chosen, you are eligible for: ']")
 	WebElement subscriptiontxt;
@@ -124,6 +142,15 @@ public class Subscription {
 	@FindBy(xpath = "//strong[text()='Work Phone:']")
 	WebElement workPhone;
 
+
+	@FindBy(xpath="//button[text()='Previous']") WebElement professionalPrevious;
+	
+	@FindBy(xpath="//button[text()='Next']") WebElement professionalNext;
+	
+
+	
+	
+	
 	/*
 	 * @param : text
 	 * 
@@ -168,7 +195,10 @@ public class Subscription {
 			System.out.println("Proration page is not available.");
 		}
 
+
 	}
+
+	
 
 	public void PassportType() throws InterruptedException {
 		util.waitUntilElement(driver, subscriptiontxt);
@@ -221,6 +251,7 @@ public class Subscription {
 	 * "Accredited Academic Institution", "Non-profit", "None"
 	 */
 	public void ProfessionalType(String orgType) throws InterruptedException {
+		JavascriptExecutor js = (JavascriptExecutor) driver;
 		util.waitUntilElement(driver, profQualifyingQues);
 		if (orgType == null || orgType.isEmpty() || orgType.trim().isEmpty()) {
 			util.selectDropDownByText(profQualifyingQues, "None");
@@ -249,7 +280,8 @@ public class Subscription {
 
 		util.waitUntilElement(driver, pofessionalFileUplaodDoneButton);
 		Thread.sleep(3000);
-		pofessionalFileUplaodDoneButton.click();
+		js.executeScript("arguments[0].click();", pofessionalFileUplaodDoneButton);
+		//pofessionalFileUplaodDoneButton.click();
 		util.waitUntilElement(driver, pofessionalDeleteBtn);
 		professionalNext.click();
 		util.waitUntilElement(driver, confirmNext);
@@ -263,6 +295,37 @@ public class Subscription {
 		} else {
 			System.out.println("Proration page is not available.");
 		}
+	}
+
+
+
+	public void verifySubscriptionTab()
+	{
+
+		util.waitUntilElement(driver, tabTitleSubscription);
+		assertTrue(tabTitleSubscription.isDisplayed());
+		confirmNext.click();
+		util.waitUntilElement(driver, confirmContinueText);
+		assertTrue(confirmContinueText.isDisplayed());
+		confirmNext.click();
+	}
+	
+
+	/**
+	 * Refresh Page
+	 */
+	public void refreshFunction() throws InterruptedException {
+		driver.navigate().refresh();
+		Thread.sleep(20000);
+	}
+	
+	/**
+	 * Validating user is on Subscription Tab
+	 */
+	public void verifySubscriptionTabText() {
+		util.waitUntilElement(driver, subscriptionTabText);
+		assertTrue(subscriptionTabText.isDisplayed());
+
 	}
 
 }

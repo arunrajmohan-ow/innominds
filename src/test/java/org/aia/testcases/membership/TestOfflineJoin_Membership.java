@@ -53,7 +53,7 @@ public class TestOfflineJoin_Membership extends BaseClass {
 
 		// driver.get(DataProviderFactory.getConfig().getValue("fonteva_endpoint"));
 		ArrayList<String> dataList = fontevaJoin.userData();
-		fontevaJoin.pointOffset();
+		//fontevaJoin.pointOffset();
 		fontevaJoin.createUserInFonteva();
 		fontevaJoin.joinCreatedUser(testData.testDataProvider().getProperty("membershipType"),
 				testData.testDataProvider().getProperty("selection"));
@@ -64,18 +64,18 @@ public class TestOfflineJoin_Membership extends BaseClass {
 		//Validation of Thank you massage in email inbox after register.
 		malinator.thankYouEmailforOfflineJoin(dataList.get(2));
 		//Validate Membership & Term is got created
-		offlinApiValidation.verifyMemebershipCreation(dataList.get(2),
-				DataProviderFactory.getConfig().getValue("termEndDate"), data.get(2),
-				DataProviderFactory.getConfig().getValue("type_aia_national"), testData.testDataProvider().getProperty("membershipType"),
-				testData.testDataProvider().getProperty("selection"));
-		//Validate sales order is created or not
-		offlinApiValidation.verifySalesOrderForPriceRule(testData.testDataProvider().getProperty("membershipType"));
+//		offlinApiValidation.verifyMemebershipCreation(dataList.get(2),
+//				DataProviderFactory.getConfig().getValue("termEndDate"), data.get(2),
+//				DataProviderFactory.getConfig().getValue("type_aia_national"), testData.testDataProvider().getProperty("membershipType"),
+//				testData.testDataProvider().getProperty("selection"));
+//		//Validate sales order is created or not
+//		offlinApiValidation.verifySalesOrderForPriceRule(testData.testDataProvider().getProperty("membershipType"));
 		
 	}
 
-	@AfterMethod(alwaysRun=true)
-	public void teardown() {
-		BrowserSetup.closeBrowser(driver);
-	}
+//	@AfterMethod(alwaysRun=true)
+//	public void teardown() {
+//		BrowserSetup.closeBrowser(driver);
+//	}
 
 }

@@ -147,7 +147,7 @@ public class SalesOrder {
 		util.enterText(driver, discountInput, data.testDataProvider().getProperty("discountAmt"));
 		util.waitUntilElement(driver, nextBtn);
 		nextBtn.click();
-		util.waitUntilElement(driver, afterDiscountAmt);
+		//util.waitUntilElement(driver, afterDiscountAmt);
 		// Validate discount is set as $0 for first line
 		driver.navigate().refresh();
 		util.waitUntilElement(driver, afterDiscountAmt);
@@ -158,6 +158,7 @@ public class SalesOrder {
 		executor.executeScript("arguments[0].click();", salesOrderFirstLine);
 		// salesOrderSecondLine.click();
 		// util.waitUntilElement(driver, salesOrderFirstLine);
+		util.waitUntilElement(driver, setDiscountBtnSecond);
 		setDiscountBtnSecond.click();
 		util.waitUntilElement(driver, discountPopUp);
 		assertTrue(discountPopUp.isDisplayed());
@@ -167,7 +168,8 @@ public class SalesOrder {
 		driver.navigate().refresh();
 		util.waitUntilElement(driver, afterDiscountAmt);
 		// Validate discount is set as $0 for second Line
-		assertEquals(afterDiscountAmt.getText(), data.testDataProvider().getProperty("replacatedAmt"));
+		String afterDiscountAmtValue=afterDiscountAmt.getText();
+		assertEquals(afterDiscountAmtValue,data.testDataProvider().getProperty("replacatedAmt"));
 		ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
 		driver.switchTo().window(tabs.get(0));
 		Thread.sleep(10000);

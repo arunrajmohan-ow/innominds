@@ -1,11 +1,14 @@
 package org.aia.pages.ces;
 
+
 import static org.testng.Assert.assertTrue;
 
+import static org.testng.Assert.assertTrue;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import static org.testng.Assert.assertTrue;
 import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.Utility;
 import org.openqa.selenium.By;
@@ -21,6 +24,13 @@ public class ProviderStatement {
 	public ProviderStatement(WebDriver Idriver) {
 		this.driver = Idriver;
 	}
+
+
+
+	@FindBy(xpath="//div/span[@class='main']") 
+	WebElement tabTitleProvider;
+	
+
 
 	@FindBy(xpath = "//input[@name='Name']")
 	WebElement nameProviderStatement;
@@ -63,6 +73,12 @@ public class ProviderStatement {
 
 	@FindBy(xpath = "//div[@role='status']//span")
 	WebElement enterSomeValidInputError;
+	
+	
+
+
+
+
 
 	public void providerStatementEnterNameDate(String firstname) throws InterruptedException {
 
@@ -194,5 +210,15 @@ public class ProviderStatement {
 		nameProviderStatement.isDisplayed();
 		util.waitUntilElement(driver, dateProviderStatement);
 		dateProviderStatement.isDisplayed();
+	}
+	
+	/*
+	 * Validate Organization Tab.
+	 */
+	
+	public void verifyProviderStatementTab() {
+		util.waitUntilElement(driver, tabTitleProvider);
+		assertTrue(tabTitleProvider.isDisplayed());
+		
 	}
 }

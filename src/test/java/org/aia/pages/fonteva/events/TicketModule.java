@@ -252,6 +252,7 @@ public class TicketModule {
 	 * @throws Throwable
 	 */
 	public void editEventTicket(Boolean editTicket) throws Throwable {
+		Thread.sleep(5000);
 		String option;
 		if (editTicket == true) {
 			actionsColoumnInTicketTypes.click();
@@ -261,12 +262,12 @@ public class TicketModule {
 					actionOptions.get(i).click();
 				}
 				System.out.println(option);
-			}
-			;
+			};
 		}
 	}
 
-	public void validateEditTicketTypeHeader() {
+	public void validateEditTicketTypeHeader() throws Throwable {
+		Thread.sleep(5000);
 		util.waitUntilElement(driver, ediTicketTypeHeader);
 		Assert.assertTrue(ediTicketTypeHeader.isDisplayed());
 	}
@@ -287,7 +288,6 @@ public class TicketModule {
 			log.info("IsActive CheckBox is clicked");
 			util.enterText(driver, miniQuantityInCreateTicketType, "1");
 			util.enterText(driver, maxQuantityInCreateTicketType, "1");
-
 		}
 	}
 
@@ -302,7 +302,7 @@ public class TicketModule {
 			Utility.highLightElement(driver, saveAndContinueButtonInEditTicketType);
 			saveAndContinueButtonInEditTicketType.click();
 			log.info("Continue button is clicked in Edit ticket type");
-			Thread.sleep(5000);
+			Thread.sleep(10000);
 			break;
 		case "cancel":
 			// TODO
@@ -458,10 +458,11 @@ public class TicketModule {
 		util.enterText(driver, attendeeRegistration, "260");
 	}
 
-	public String VerifyEventTicketCapacity() {
+	public String VerifyEventTicketCapacity() throws InterruptedException {
 		String aiaMemberPrice = attendeeRegistration.getAttribute("value");
 		editEventTicketCapacity = Integer.parseInt(aiaMemberPrice);
 		saveTicketButton.click();
+		Thread.sleep(4000);
 		util.waitUntilElement(driver, eventinfo);
 		eventinfo.click();
 		util.waitUntilElement(driver, EventCapacityInEventInfo);

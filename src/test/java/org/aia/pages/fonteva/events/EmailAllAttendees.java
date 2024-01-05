@@ -153,13 +153,6 @@ public class EmailAllAttendees {
 			String Toast = toastmessage.getText();
 			Assert.assertTrue(toastmessage.isEnabled(), "Toast message is not displayed");
 			System.out.println(Toast);
-//			util.acceptAlert();
-			// Assert.assertTrue(wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//b[text()='Manage
-			// Adapters']"))).isDisplayed());
-//			Assert.assertTrue(toastmessage.isDisplayed(),
-//					"Mass Email Sent Successful! The session agenda has been emailed to each attendee registered to the event");
-//			System.out.println(
-//					"Mass Email Sent Successful! The session agenda has been emailed to each attendee registered to the event");
 		} else {
 			Assert.fail();
 		}

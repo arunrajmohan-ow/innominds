@@ -8,10 +8,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.aia.pages.api.MailinatorAPI;
 import org.aia.pages.api.ces.SubscriptionPlanPrice;
 import org.aia.pages.ces.Organization;
 import org.aia.pages.fonteva.membership.ContactCreateUser;
 import org.aia.utility.ConfigDataProvider;
+import org.aia.utility.DateUtils;
 import org.aia.utility.Utility;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.log4j.Logger;
@@ -36,12 +38,15 @@ public class CES_ContactPage {
 	static Logger log = Logger.getLogger(ContactCreateUser.class);
 	Actions action;
 	JavascriptExecutor executor;
+	DateUtils dateUtils;
 
 	public CES_ContactPage(WebDriver Idriver) {
 		this.driver = Idriver;
 		action = new Actions(driver);
 		executor = (JavascriptExecutor) driver;
 		org = new Organization(driver);
+		dateUtils = new DateUtils();
+		
 	}
 
 	@FindBy(xpath = "//*[@title='Contacts']/span")
@@ -230,6 +235,9 @@ public class CES_ContactPage {
 
 	@FindBy(xpath = "//button[@title='Save']")
 	WebElement advanceSettingsaveBtn;
+	
+	@FindBy(xpath = "//span[text()='My Account']//ancestor::a")
+	WebElement myAccountLink;
 
 	// @FindBy(xpath = "//strong[text()='Item Quick
 	// Add']//parent::span//following-sibling::span//div//input")
@@ -241,12 +249,11 @@ public class CES_ContactPage {
 	@FindBy(xpath = "//button[text()='Add to Order']")
 	WebElement addOrderBtn;
 
-
 	String quickItemNatinal = "(//span[text()='%s'])[1]";
-	
-	String providerApplication="(//b[text()='%s'])[1]";
 
-	//String quickItemNatinal = "(//span[text()='%s'])";
+	String providerApplication = "(//b[text()='%s'])[1]";
+
+	// String quickItemNatinal = "(//span[text()='%s'])";
 
 	String discountCodeInput = "//span[text()='%s']";
 
@@ -321,8 +328,92 @@ public class CES_ContactPage {
 
 	@FindBy(xpath = "//*[contains(text(),'Open Supplemental dues')]/following::div[1]//a//span")
 	WebElement pointofContact;
+	
+	/// Deceased marking Process
+	@FindBy(xpath = "//span[text()='Contact']/parent::div/parent::div//slot/span")
+	WebElement selectContactonReceipt;
 
+	@FindBy(xpath = "//a//span[contains(text(),'Deceased')]")
+	WebElement deceasedOption;
+	
+	@FindBy(xpath="//input[@name='DonorApi__Deceased__c']")
+	WebElement deceasedCheckbox;
+	
+	@FindBy(xpath="//span[text()='Deceased Date']/parent::div/parent::div//slot/..")
+	WebElement deceasedDate;
 
+	/// transfer request
+	// **********************
+	@FindBy(xpath = "//button[contains(text(),'Renew')]/following::span[contains(text(),'Show more actions')]")
+	WebElement showMoreActionsBtn;
+
+	@FindBy(xpath = "//*[contains(text(),'New Transfer Request')]")
+	WebElement newTransferRequestOptn;
+
+	@FindBy(xpath = "//span[contains(text(),'If you have moved and need to')]")
+	WebElement transferRequestPopupMsg;
+
+	@FindBy(xpath = "//p[contains(text(),'Thank you for your interest in transferring your AIA membership.')]")
+	WebElement transferRequestThankYouMsg;
+	
+	@FindBy(xpath = "//p[contains(text(),'Please tell us your new address')]")
+	WebElement tellYourNewAddressMsg;
+
+	@FindBy(xpath = "//select[@name='Address_Type']")
+	WebElement addressType;
+
+	String adressTypeOptn = "//option[@value='%s']";
+
+	String countryOptn = "//option[contains(text(),'%s')]";
+
+	@FindBy(xpath = "//option[@value='Home']")
+	WebElement homeOptn;
+
+	@FindBy(xpath = "//option[@value='Work']")
+	WebElement workOptn;
+
+	@FindBy(xpath = "//label[contains(text(),'Country')]/following::select")
+	WebElement selectCountry;
+
+	@FindBy(xpath = "//input[@name='Street_Address']")
+	WebElement streetAddress;
+
+	@FindBy(xpath = "//input[@name='City']")
+	WebElement city;
+
+	@FindBy(xpath = "//input[@name='Postal_Code']")
+	WebElement postalCode;
+
+	@FindBy(xpath = "//div[contains(text(),'Membership Transfer')]")
+	WebElement membershipTransferHeading;
+
+	@FindBy(xpath = "//a[contains(text(),'Contact Details')]")
+	WebElement contactDetails;
+
+	@FindBy(xpath = "//a[contains(text(),'Current Membership Assignments')]")
+	WebElement currentMembershipAssignments;
+
+	@FindBy(xpath = "//a[contains(text(),'Application Details')]")
+	WebElement applicationDetails;
+
+	@FindBy(xpath = "//button[@name='Contact.Email_Change_Request']")
+	WebElement emailChangeRequestBtn;
+	
+	@FindBy(xpath = "//label[contains(text(),'Personal Email')]/following::div[1]/input")
+	WebElement personalEmail;
+	
+	@FindBy(xpath = "//h2[contains(text(),'Email Change Request')]")
+	WebElement emailChangeRequestPopUp;
+	
+	@FindBy(xpath = "//button[@title='Close this window']")
+	WebElement closeEmailChangeRequestPopUp;
+	
+	@FindBy(xpath = "//span[contains(text(),'Your email has been successfully changed.')]")
+	WebElement successfulEmailChangeMsg;
+	
+	@FindBy(xpath = "//span[contains(text(),'Personal Email')]/following::div[2]//a")
+	WebElement personalEmailunderEmailSection;
+	
 	String fName;
 	String lName;
 	String fullname;
@@ -535,7 +626,7 @@ public class CES_ContactPage {
 		executor.executeScript("arguments[0].click();",
 				util.getCustomizedWebElement(driver, contactName, userFullname));
 		util.waitUntilElement(driver, showAll);
-		//action.moveToElement(showAll).click().perform();
+		// action.moveToElement(showAll).click().perform();
 		showAll.click();
 	}
 
@@ -663,7 +754,7 @@ public class CES_ContactPage {
 				AvailableMemType.getText().equalsIgnoreCase(data.testDataProvider().getProperty("availableMemType")));
 
 	}
-	
+
 //	public void selectProviderApp(String userFullname,String quickElement)throws InterruptedException, AWTException {
 //		Thread.sleep(10000);
 //		util.waitUntilElement(driver, appLauncherIcn);
@@ -688,7 +779,7 @@ public class CES_ContactPage {
 //}
 	/*
 	 * @throws InterruptedException selects the Primary contact from POC and checks
-	 *                              the account associated to contact
+	 * the account associated to contact
 	 */
 	public void verifyAccountAssociatedtoPrimaryPOC() throws InterruptedException {
 		util.waitUntilElement(driver, showallBtn);
@@ -721,4 +812,123 @@ public class CES_ContactPage {
 		System.out.println("accountName is:" + accountNameValue);
 		assertTrue(accountNameValue.equalsIgnoreCase(org.orgName));
 	}
+
+	/**
+	 * @throws InterruptedException
+	 * makes the member Deceased and checks the Deceased checkbox and date is displayed or not
+	 */
+	public void verifyDeceasedMarkingProcess() throws InterruptedException {
+		util.waitUntilElement(driver, showMoreActionsBtn);
+		action.moveToElement(showMoreActionsBtn).click().perform();
+		util.waitUntilElement(driver, deceasedOption);
+		action.moveToElement(deceasedOption).click().perform();
+		util.waitUntilElement(driver, nextBtn);
+		nextBtn.isDisplayed();
+		action.moveToElement(nextBtn).click().perform();
+		util.waitUntilElement(driver, deceasedCheckbox);
+		deceasedCheckbox.isEnabled();
+		util.waitUntilElement(driver, deceasedDate);
+		String deceasedDateValue=deceasedDate.getText();
+		System.out.println("deceasedDateValue:"+deceasedDateValue);
+		String todaysDate = dateUtils.getDate(0, "M/d/yyyy");
+		System.out.println("today's Date is: " +todaysDate);
+		assertEquals(deceasedDateValue, todaysDate);
+	}
+
+	/**
+	 * @throws InterruptedException selects Contact on the Receipt Page
+	 * @param addressTypevalue
+	 * @param countryValue
+	 * @throws InterruptedException
+	 */
+	public void verifyMemTransferApplicationProcess(String addressTypevalue, String countryValue)
+			throws InterruptedException {
+		util.waitUntilElement(driver, showMoreActionsBtn);
+		action.moveToElement(showMoreActionsBtn).click().perform();
+		util.waitUntilElement(driver, newTransferRequestOptn);
+		action.moveToElement(newTransferRequestOptn).click().perform();
+		util.waitUntilElement(driver, transferRequestPopupMsg);
+		String transferRequestPopuptext = transferRequestPopupMsg.getText();
+		System.out.println("popUpTxtValue:" + transferRequestPopuptext);
+		assertTrue(transferRequestPopuptext
+				.equalsIgnoreCase(data.testDataProvider().getProperty("transferRequestPopupMessage")));
+		util.waitUntilElement(driver, nextBtn);
+		nextBtn.isDisplayed();
+		action.moveToElement(nextBtn).click().perform();
+		util.waitUntilElement(driver, transferRequestThankYouMsg);
+		String transferRequestThankYouMsgValue = transferRequestThankYouMsg.getText();
+		System.out.println("transferRequestThankYouMsgValue:" + transferRequestThankYouMsgValue);
+		assertTrue(transferRequestThankYouMsgValue
+				.equalsIgnoreCase(data.testDataProvider().getProperty("transferRequestThankYouMessage")));
+		util.waitUntilElement(driver, tellYourNewAddressMsg);
+		String tellYourNewAddressMsgValue = tellYourNewAddressMsg.getText();
+		System.out.println("tellYourNewAddressMsgValue:" + tellYourNewAddressMsgValue);
+		assertTrue(tellYourNewAddressMsgValue
+				.equalsIgnoreCase(data.testDataProvider().getProperty("tellYourNewAddressMessage")));
+		util.waitUntilElement(driver, addressType);
+		action.moveToElement(addressType).click().perform();
+		util.getCustomizedWebElement(driver, adressTypeOptn, addressTypevalue).click();
+		util.getCustomizedWebElement(driver, countryOptn, countryValue).click();
+		util.waitUntilElement(driver, streetAddress);
+		streetAddress.sendKeys("Australia");
+		util.waitUntilElement(driver, city);
+		city.sendKeys("new street");
+		util.waitUntilElement(driver, postalCode);
+		postalCode.sendKeys("4321");
+		util.waitUntilElement(driver, nextBtn);
+		action.moveToElement(nextBtn).click().perform();
+		util.waitUntilElement(driver, membershipTransferHeading);
+		membershipTransferHeading.isDisplayed();
+		util.waitUntilElement(driver, contactDetails);
+		contactDetails.isDisplayed();
+		util.waitUntilElement(driver, currentMembershipAssignments);
+		currentMembershipAssignments.isDisplayed();
+		util.waitUntilElement(driver, applicationDetails);
+		applicationDetails.isDisplayed();
+	}
+	/**
+	 * @throws InterruptedException
+	 * selects Contact on the Receipt Page
+	 */
+	public void selectContactonReceiptPage() throws InterruptedException {
+		util.waitUntilElement(driver, selectContactonReceipt);
+		action.moveToElement(selectContactonReceipt).click().perform();
+	}
+	
+	public void sendEmailChangeRequest(String newEmailAddress) throws InterruptedException {
+		util.waitUntilElement(driver, emailChangeRequestBtn);
+		action.moveToElement(emailChangeRequestBtn).click().perform();
+		util.waitUntilElement(driver, personalEmail);
+		personalEmail.clear();
+		action.moveToElement(personalEmail).click().perform();
+		personalEmail.sendKeys(newEmailAddress);
+		util.waitUntilElement(driver, saveBtn);
+		action.moveToElement(saveBtn).click().perform();
+		util.waitUntilElement(driver, emailChangeRequestPopUp);
+		emailChangeRequestPopUp.isDisplayed();
+		util.waitUntilElement(driver, closeEmailChangeRequestPopUp);
+		action.moveToElement(closeEmailChangeRequestPopUp).click().perform();
+	}
+	
+	public void verifyChangesinEmailSection(String newEmailAddress){
+		System.out.println("newEmailAddress:"+newEmailAddress);
+		driver.navigate().refresh();
+		util.waitUntilElement(driver, personalEmailunderEmailSection);
+		String personalEmailValue= personalEmailunderEmailSection.getText();
+		System.out.println("personalEmailValue:"+personalEmailValue);
+		assertTrue(personalEmailValue.equalsIgnoreCase(newEmailAddress));
+	}
+	
+	public void selectExpAsUserOpt2() throws InterruptedException {
+		util.waitUntilElement(driver, moreActionBtn);
+		moreActionBtn.click();
+		util.waitUntilElement(driver, loginAsExpUserOpt);
+		loginAsExpUserOpt.click();
+		util.waitUntilElement(driver, siteUserOpt);
+		assertTrue(siteUserOpt.isDisplayed());
+		util.waitUntilElement(driver, myAccountLink);
+		myAccountLink.click();
+		Thread.sleep(5000);
+	}
+	//myAccountLink
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.aia.pages.BaseClass;
 import org.aia.pages.api.MailinatorCESAPI;
+import org.aia.pages.api.ces.FontevaCESTermDateChangeAPI;
 import org.aia.pages.api.ces.RenewCESAPIValidation;
 import org.aia.pages.api.membership.FontevaConnectionSOAP;
 import org.aia.pages.ces.AdditionalProviderUser;
@@ -69,6 +70,7 @@ public class TestLoginAsExperienceUser extends BaseClass {
 	CES_ReNewUser reNewUser;
 	CES_ContactPage ces_ContactPage;
 	CES_Memberships ces_membership;
+	FontevaCESTermDateChangeAPI termDateChangeAPICall;
 	CES_RapidOrderEntry rapidOrderEntery;
 	public ExtentReports extent;
 	public ExtentTest extentTest;
@@ -102,10 +104,11 @@ public class TestLoginAsExperienceUser extends BaseClass {
 		reNewUser = PageFactory.initElements(driver, CES_ReNewUser.class);
 		ces_ContactPage = PageFactory.initElements(driver, CES_ContactPage.class);
 		ces_membership=PageFactory.initElements(driver, CES_Memberships.class);
+		termDateChangeAPICall = PageFactory.initElements(driver, FontevaCESTermDateChangeAPI.class);
 		rapidOrderEntery = PageFactory.initElements(driver, CES_RapidOrderEntry.class);
 	}
 
-	@Test(priority = 1, description = "Validate Login experience user in multiple module.", enabled = false)
+	@Test(priority = 1, description = "Validate Login experience user in multiple module.", enabled = true)
 	public void verifyLoginAsExpUser() throws Exception {
 		String prefix = "Dr.";
 		String suffix = "Sr.";
@@ -131,8 +134,9 @@ public class TestLoginAsExperienceUser extends BaseClass {
 		// Navigate to Fonteva app and make record renew eligible.
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
 		// driver.get(DataProviderFactory.getConfig().getValue("fonteva_endpoint"));
-		fontevaPage.changeTermDates(dataList.get(0) + " " + dataList.get(1));
-		reNewUser.selectContactInTerm(dataList.get(0) + " " + dataList.get(1));
+		//fontevaPage.changeTermDates(dataList.get(0) + " " + dataList.get(1));
+		termDateChangeAPICall.changeTermDateAPI(dataList.get(3), "2023-12-31");
+		ces_ContactPage.selectCreatedContact(dataList.get(0) + " " + dataList.get(1));
 		ces_ContactPage.selectExpAsUserOpt();
 		renew.clickOnRenewBtn();
 		checkOutPageCes.enterCardDetailsCes();
@@ -161,7 +165,7 @@ public class TestLoginAsExperienceUser extends BaseClass {
 				userAccount.get(0) + " " + userAccount.get(1));
 	}
 
-	@Test(priority = 2, description = "Validate Login experience user as CES AIA Component.", enabled = true)
+	@Test(priority = 2, description = "Validate Login experience user as CES AIA Component.", enabled = false)
 	public void verifyLoginAsExpUserCESAIAComponent() throws Exception {
 		String prefix = "Dr.";
 		String suffix = "Sr.";
