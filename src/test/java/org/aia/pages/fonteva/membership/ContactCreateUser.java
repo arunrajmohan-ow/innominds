@@ -123,16 +123,11 @@ public class ContactCreateUser {
 
 	@FindBy(xpath = "//span[contains(@title,'Payment in Full')]")
 	WebElement selectDeusOpt;
-<<<<<<< HEAD
-
-	@FindBy(xpath = "//span[contains(@title,'Dues Installment Plan ')]")
-=======
 	
 	@FindBy(xpath = "//span[contains(@title,'Dues Installment Plan - 6 Installments')]")
 	WebElement selectDueDip;
 	
 	@FindBy(xpath="//span[contains(@title,'Dues Installment Plan ')]")
->>>>>>> 4ef9a8556b1f154f6dcf9d5091f938b42f35d9d8
 	WebElement selectPayInInsatllmentElement;
 
 	@FindBy(xpath = "//button[contains(text(),'Create sales order')]")
@@ -436,13 +431,8 @@ public class ContactCreateUser {
 		util.waitUntilElement(driver, expYear);
 		util.selectDrp(expYear).selectByValue(data.testDataProvider().getProperty("CREDIT_CARD_EXP_YEAR"));
 		processPaymentBtn.click();
-<<<<<<< HEAD
-		driver.switchTo().defaultContent(); // Switching iframe to default content
-
-=======
 		driver.switchTo().defaultContent();
 		Thread.sleep(20000);
->>>>>>> 4ef9a8556b1f154f6dcf9d5091f938b42f35d9d8
 	}
 
 	/**
