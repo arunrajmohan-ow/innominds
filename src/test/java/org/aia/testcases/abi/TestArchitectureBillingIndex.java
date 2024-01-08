@@ -60,7 +60,8 @@ public class TestArchitectureBillingIndex extends BaseClass {
 	public ExtentReports extent;
 	public ExtentTest extentTest;
 	public String inbox;
-	public static HashMap<String, String> users = new HashMap<String, String>();
+	public static HashMap<String, String> registeredUsers = new HashMap<String, String>();
+	public static HashMap<String, String> guestUsers = new HashMap<String, String>();
 	public static ArrayList<String> pdfDetails = new ArrayList<String>();
 	public String[] addresses = { "1735 york avenue, New york" ,
 			"115 E 3rd Ave, Anchorage, AK 99501, United States" ,
@@ -108,7 +109,7 @@ public class TestArchitectureBillingIndex extends BaseClass {
 		// report.logTestInfo((String)addressType+"-"+(String)address);
 		context.setAttribute("salesOrderId", pdfDetails.get(0).substring(13));
 		context.setAttribute("contactName", dataList.get(0) + " " + dataList.get(1));
-		users.put(dataList.get(0) + " " + dataList.get(1), dataList.get(5));
+		registeredUsers.put(dataList.get(0) + " " + dataList.get(1), dataList.get(5));
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
 		fontevaLoginPage.viewSalesOrder((String) context.getAttribute("contactName"),
 				(String) context.getAttribute("salesOrderId"));
@@ -119,7 +120,7 @@ public class TestArchitectureBillingIndex extends BaseClass {
 		fontevaLoginPage.viewSalesOrder((String) context.getAttribute("contactName"),
 				(String) context.getAttribute("salesOrderId"));
 		abisignUpPage.validateSubscriptionDetails(pdfDetails);
-		System.out.println("UserCount: "+users.keySet().size());
+		System.out.println("RegisteredUserCount: "+registeredUsers.keySet().size());
 	}
 	
 	@Test(groups = { "Smoke" }, description = " To subscribe for ABI", enabled = true, priority=1)
@@ -138,7 +139,7 @@ public class TestArchitectureBillingIndex extends BaseClass {
 		// report.logTestInfo((String)addressType+"-"+(String)address);
 		context.setAttribute("salesOrderId", pdfDetails.get(0).substring(13));
 		context.setAttribute("contactName", dataList.get(0) + " " + dataList.get(1));
-		users.put(dataList.get(0) + " " + dataList.get(1), dataList.get(5));
+		registeredUsers.put(dataList.get(0) + " " + dataList.get(1), dataList.get(5));
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
 		fontevaLoginPage.viewSalesOrder((String) context.getAttribute("contactName"),
 				(String) context.getAttribute("salesOrderId"));
@@ -149,7 +150,7 @@ public class TestArchitectureBillingIndex extends BaseClass {
 		fontevaLoginPage.viewSalesOrder((String) context.getAttribute("contactName"),
 				(String) context.getAttribute("salesOrderId"));
 		abisignUpPage.validateSubscriptionDetails(pdfDetails);
-		System.out.println("UserCount: "+users.keySet().size());
+		System.out.println("RegisteredUserCount: "+registeredUsers.keySet().size());
 	}
 	
 	@Test(groups = { "Smoke" }, description = " To subscribe for ABI", enabled = true, priority=2)
@@ -168,7 +169,7 @@ public class TestArchitectureBillingIndex extends BaseClass {
 		// report.logTestInfo((String)addressType+"-"+(String)address);
 		context.setAttribute("salesOrderId", pdfDetails.get(0).substring(13));
 		context.setAttribute("contactName", dataList.get(0) + " " + dataList.get(1));
-		users.put(dataList.get(0) + " " + dataList.get(1), dataList.get(5));
+		registeredUsers.put(dataList.get(0) + " " + dataList.get(1), dataList.get(5));
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
 		fontevaLoginPage.viewSalesOrder((String) context.getAttribute("contactName"),
 				(String) context.getAttribute("salesOrderId"));
@@ -179,7 +180,7 @@ public class TestArchitectureBillingIndex extends BaseClass {
 		fontevaLoginPage.viewSalesOrder((String) context.getAttribute("contactName"),
 				(String) context.getAttribute("salesOrderId"));
 		abisignUpPage.validateSubscriptionDetails(pdfDetails);
-		System.out.println("UserCount: "+users.keySet().size());
+		System.out.println("RegisteredUserCount: "+registeredUsers.keySet().size());
 	}
 	
 	@Test(groups = { "Smoke" }, description = " To subscribe for ABI", enabled = true, priority=3)
@@ -198,7 +199,7 @@ public class TestArchitectureBillingIndex extends BaseClass {
 		// report.logTestInfo((String)addressType+"-"+(String)address);
 		context.setAttribute("salesOrderId", pdfDetails.get(0).substring(13));
 		context.setAttribute("contactName", dataList.get(0) + " " + dataList.get(1));
-		users.put(dataList.get(0) + " " + dataList.get(1), dataList.get(5));
+		registeredUsers.put(dataList.get(0) + " " + dataList.get(1), dataList.get(5));
 		driver.get(DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
 		fontevaLoginPage.viewSalesOrder((String) context.getAttribute("contactName"),
 				(String) context.getAttribute("salesOrderId"));
@@ -209,7 +210,7 @@ public class TestArchitectureBillingIndex extends BaseClass {
 		fontevaLoginPage.viewSalesOrder((String) context.getAttribute("contactName"),
 				(String) context.getAttribute("salesOrderId"));
 		abisignUpPage.validateSubscriptionDetails(pdfDetails);
-		System.out.println("UserCount: "+users.keySet().size());
+		System.out.println("RegisteredUserCount: "+registeredUsers.keySet().size());
 	}
 
 
@@ -223,13 +224,13 @@ public class TestArchitectureBillingIndex extends BaseClass {
 		pdfDetails = abisignUpPage.subscribeToABI(dataList.get(0) + " " + dataList.get(1), "1735 york avenue, New york");
 		context.setAttribute("salesOrderId", pdfDetails.get(0).substring(13));
 		context.setAttribute("contactName", dataList.get(0) + " " + dataList.get(1));
-		users.put(dataList.get(0) + " " + dataList.get(1), dataList.get(5));
+		guestUsers.put(dataList.get(0) + " " + dataList.get(1), dataList.get(5));
 		util.navigateToURl(driver,
 				DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
 		fontevaLoginPage.viewSalesOrder((String) context.getAttribute("contactName"),
 				(String) context.getAttribute("salesOrderId"));
 		abisignUpPage.validateSubscriptionDetails(pdfDetails);
-		System.out.println("UserCount: "+users.keySet().size());
+		System.out.println("GuestUserCount: "+guestUsers.keySet().size());
 	}
 
 	@Test(groups = {"Smoke" }, description = " To renew ABI subscription as Guest", enabled = true, priority=5)
@@ -241,13 +242,13 @@ public class TestArchitectureBillingIndex extends BaseClass {
 		pdfDetails = abisignUpPage.subscribeToABI(dataList.get(0) + " " + dataList.get(1), "115 E 3rd Ave, Anchorage, AK 99501, United States");
 		context.setAttribute("salesOrderId", pdfDetails.get(0).substring(13));
 		context.setAttribute("contactName", dataList.get(0) + " " + dataList.get(1));
-		users.put(dataList.get(0) + " " + dataList.get(1), dataList.get(5));
+		guestUsers.put(dataList.get(0) + " " + dataList.get(1), dataList.get(5));
 		util.navigateToURl(driver,
 				DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
 		fontevaLoginPage.viewSalesOrder((String) context.getAttribute("contactName"),
 				(String) context.getAttribute("salesOrderId"));
 		abisignUpPage.validateSubscriptionDetails(pdfDetails);
-		System.out.println("UserCount: "+users.keySet().size());
+		System.out.println("GuestUserCount: "+guestUsers.keySet().size());
 
 	}
 	
@@ -260,13 +261,13 @@ public class TestArchitectureBillingIndex extends BaseClass {
 		pdfDetails = abisignUpPage.subscribeToABI(dataList.get(0) + " " + dataList.get(1), "9, Netkallappa Circle, Basavanagudi, Bengaluru, Karnataka, India");
 		context.setAttribute("salesOrderId", pdfDetails.get(0).substring(13));
 		context.setAttribute("contactName", dataList.get(0) + " " + dataList.get(1));
-		users.put(dataList.get(0) + " " + dataList.get(1), dataList.get(5));
+		guestUsers.put(dataList.get(0) + " " + dataList.get(1), dataList.get(5));
 		util.navigateToURl(driver,
 				DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
 		fontevaLoginPage.viewSalesOrder((String) context.getAttribute("contactName"),
 				(String) context.getAttribute("salesOrderId"));
 		abisignUpPage.validateSubscriptionDetails(pdfDetails);
-		System.out.println("UserCount: "+users.keySet().size());
+		System.out.println("GuestUserCount: "+guestUsers.keySet().size());
 
 	}
 	
@@ -279,21 +280,20 @@ public class TestArchitectureBillingIndex extends BaseClass {
 		pdfDetails = abisignUpPage.subscribeToABI(dataList.get(0) + " " + dataList.get(1), "WAVEROCK SEZ, Road Number 2, Financial District");
 		context.setAttribute("salesOrderId", pdfDetails.get(0).substring(13));
 		context.setAttribute("contactName", dataList.get(0) + " " + dataList.get(1));
-		users.put(dataList.get(0) + " " + dataList.get(1), dataList.get(5));
+		guestUsers.put(dataList.get(0) + " " + dataList.get(1), dataList.get(5));
 		util.navigateToURl(driver,
 				DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
 		fontevaLoginPage.viewSalesOrder((String) context.getAttribute("contactName"),
 				(String) context.getAttribute("salesOrderId"));
 		abisignUpPage.validateSubscriptionDetails(pdfDetails);
-		System.out.println("UserCount: "+users.keySet().size());
+		System.out.println("GuestUserCount: "+guestUsers.keySet().size());
 
 	}
 	
-	@Test(groups = { "Smoke" }, description = " To renew ABI subscription", enabled = true, priority=8)
-	public void RenewABISubscription_US_Taxable_Address(ITestContext context) throws Exception {
-		for (Map.Entry<String, String> e : users.entrySet()) {
-			util.navigateToURl(driver,
-					DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
+	@Test(groups = { "Smoke" }, description = " To renew ABI subscription", enabled = true, priority=8)	
+	public void RenewABISubscription_RegisteredUsers(ITestContext context) throws Exception {
+		for (Map.Entry<String, String> e : registeredUsers.entrySet()) {
+			util.navigateToURl(driver, DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
 			fontevaLoginPage.viewSubscriptionOrder(e.getKey());
 			fontevaLoginPage.renewABI(e.getKey());
 			abisignUpPage.processPayment(e.getValue());
@@ -301,6 +301,16 @@ public class TestArchitectureBillingIndex extends BaseClass {
 		}
 	}
 	
+	@Test(groups = { "Smoke" }, description = " To renew ABI subscription", enabled = true, priority=8)	
+	public void RenewABISubscription_GuestUsers(ITestContext context) throws Exception {
+		for (Map.Entry<String, String> e : guestUsers.entrySet()) {
+			util.navigateToURl(driver, DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
+			fontevaLoginPage.viewSubscriptionOrder(e.getKey());
+			fontevaLoginPage.renewABI(e.getKey());
+			abisignUpPage.processPayment(e.getValue());
+			pdfDetails = abisignUpPage.proceedToCheckOut();
+		}
+	}
 		
 	/*
 	 * @DataProvider(name = "Address") public Object[][] getAddress(ITestContext
