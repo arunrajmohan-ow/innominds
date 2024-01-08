@@ -49,26 +49,29 @@ public class UpgradeToEmeritus {
 	
 	
 	public void clickUpgradeToEmeritusTab() throws Throwable {
+		Thread.sleep(7000);
+		util.scrollingElementUsingJS(driver, upgradeToEmeritusTab);
 		upgradeToEmeritusTab.click();
 		util.waitUntilElement(driver, selectReportDatePopUp);
-		
 	}
 	
-	public void selectDateReportPopup(String postDate) {
+	public void selectDateReportPopupInUpGradeEmeritus(String postDate) throws InterruptedException {
 		Assert.assertTrue(selectReportDatePopUp.isDisplayed());
-		upgradeFromDate.sendKeys(postDate);
+		util.waitUntilElement(driver, upgradeFromDate);
+		util.enterText(driver, upgradeFromDate, postDate);
 		String fromDate = upgradeFromDate.getAttribute("value");
 		log.info(fromDate);
-		upgradeToDate.sendKeys(new SimpleDateFormat("MM/dd/yyyy").format(new Date()));
+		util.enterText(driver, upgradeToDate, new SimpleDateFormat("MM/dd/yyyy").format(new Date()));
 		String toDate = upgradeToDate.getAttribute("value");
 		log.info(toDate);
+		Thread.sleep(5000);
 		gotoReportButtonInSelectReportDatePopup.click();
+		Thread.sleep(10000);
 	}
 	
 	public void getUpgradeToEmeritusTabRecordsCount() throws Throwable {
-		Thread.sleep(10000);
+		Thread.sleep(20000);
 		util.switchToTabs(driver, 1);
-		util.waitForJavascript(driver, 10000, 2000);
 		util.switchToFrameUsingWebElement(driver, upgradeToEmeritusFrame);
 		Utility.waitForWebElement(driver, upgradeToEmeritusRecords, 0);
 		String recordsCount = upgradeToEmeritusRecords.getText();
@@ -78,6 +81,7 @@ public class UpgradeToEmeritus {
 			String noDataMSg = upgradeNoDataMSg.getText();
 			log.info(noDataMSg.replace("\n", ""));
 		}
+		driver.switchTo().defaultContent();
 	}
 	
 }

@@ -2,6 +2,8 @@ package org.aia.pages.fonteva.chapterPortal;
 import org.testng.Assert;
 import org.testng.AssertJUnit;
 
+import groovyjarjarantlr4.v4.parse.ANTLRParser.throwsSpec_return;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,13 +90,14 @@ public class NavigateToChapterPortal {
 		contactAccessCP.click();
 	}
 
-	public void showAllInRealtedQuickLinks() {
-	    util.waitForJavascript(driver, 2000, 7000);
+	public void showAllInRealtedQuickLinks() throws Throwable {
+	    Thread.sleep(4000);
 		Utility.waitForWebElement(driver, showAllLink, 0);
 		showAllLink.click();
 	}
 
 	public void getPortalAccessCount() throws Throwable {
+		Thread.sleep(5000);
 		Utility.waitForWebElement(driver, memebershipCountInRLQL, 0);
 	    System.out.println(memebershipCountInRLQL.getText());
 	    Thread.sleep(2000);
@@ -146,7 +149,7 @@ public class NavigateToChapterPortal {
 	}
 
 	public void getComunityGroup(int index) throws Throwable {
-        Thread.sleep(10000);
+        Thread.sleep(15000);
         for (int i = 1; i <= comunityGroupName.size(); i++) {
         	String group = comunityGroupName.get(i-1).getText();
         	Thread.sleep(2000);

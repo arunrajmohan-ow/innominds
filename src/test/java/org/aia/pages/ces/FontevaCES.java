@@ -2,35 +2,29 @@ package org.aia.pages.ces;
 
 import static org.testng.Assert.assertTrue;
 
-import java.time.LocalDate;
-import java.util.List;
+import java.time.Duration;
 
-import org.aia.utility.ConfigDataProvider;
-
-import org.aia.utility.DateUtils;
 import org.aia.utility.Utility;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.AddHasCasting;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
-
-import io.cucumber.java.it.Data;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 
 public class FontevaCES {
 
 	WebDriver driver;
-	Actions action;
 
 	public FontevaCES(WebDriver Idriver) {
 		this.driver = Idriver;
-		action = new Actions(driver);
 	}
 
-	ConfigDataProvider data = new ConfigDataProvider();
 	Utility util = new Utility(driver, 10);
 
 
@@ -42,6 +36,9 @@ public class FontevaCES {
 
 	@FindBy(xpath = "//input[@id='Login']")
 	WebElement loginBtn;
+
+//	@FindBy(xpath="//*[@title='Contact']/span") WebElement contacts;
+	// Incorrect Spelling -- corrected below
 
 	@FindBy(xpath = "//*[@title='Contacts']/span")
 	WebElement contacts;
@@ -117,7 +114,13 @@ public class FontevaCES {
 	// @FindBy(xpath="//span[text()='Term End
 	// Date']/parent::div/following-sibling::div//button") WebElement editBtn;
 
-	// @FindBy(xpath="//a[contains(text(),'Show All (1')]") WebElement showallBtn;
+	@FindBy(xpath = "//button[@title='Edit Term End Date']/span")
+	WebElement editBtn;
+
+	// @FindBy(xpath="//a[contains(text(),'Show')]") WebElement showallBtn;
+
+	@FindBy(xpath = "//a[contains(text(),'Show All (10)')]")
+	WebElement showallBtn;
 
 	// @FindBy(xpath="//lst-related-list-quick-links-grid//div//div[@class='slds-card__body
 	// slds-card__body--inner']//div[@class='rlql-toggle
@@ -142,98 +145,37 @@ public class FontevaCES {
 	@FindBy(xpath = "//p[text()='Account Name']//parent::div//div//a")
 	WebElement accountName;
 
-	@FindBy(xpath = "(//*[@role = 'grid']//tbody//tr//td)[2]//a")
-	WebElement selectPId;
+	@FindBy(xpath = "//span[text()='AutomationOrg']")
+	WebElement accountNameLink;
 
-	@FindBy(xpath = "//span[text()='Provider Application Number']/parent::div/parent::div//div//span//slot/*[@slot='outputField']")
-	WebElement pAppNumber;
+	@FindBy(xpath = "//span[text()='Annual Revenue']")
+	WebElement annualRevenueTxt;
 
-	@FindBy(xpath = "//span[text()='Owner']/parent::div/parent::div//slot/span")
-	WebElement ownerName;
+	@FindBy(xpath = "//span[text()='Where do you offer courses']")
+	WebElement offerCoursesTxt;
 
-	@FindBy(xpath = "//span[text()='Original Application Type']/parent::div/parent::div//div//span//slot/*[@slot='outputField']")
-	WebElement originalAppType;
+	@FindBy(xpath = "//span[text()='Organization Tax Id']")
+	WebElement orgTaxIDTxt;
+	
+	@FindBy(xpath = "//a/slot/span[contains(text(),'Sales Orders')]//ancestor::a")
+	WebElement salesOrder;
+	
+	@FindBy(xpath = "//div//span//slot//lightning-formatted-text[contains(text(), 'CES Provider Join')]")
+	WebElement salesOrderOriginTxt;
+	
+	@FindBy(xpath = "//table[@aria-label='Sales Orders']/tbody//a//span[contains(text(), '000')]")
+	WebElement salesOrderID;
+	
+	
 
-	@FindBy(xpath = "//span[text()='Application Status']/parent::div/parent::div//div//span//slot/*[@slot='outputField']")
-	WebElement appStatus;
+	
 
-	@FindBy(xpath = "//span[text()='Attestation Date']/parent::div/parent::div//div//span//slot/*[@slot='outputField']")
-	WebElement attestationDate;
-
-	// @FindBy(xpath="//span[text()='Account']/parent::div/parent::div//div//span//slot/*[@slot='outputField']")WebElement
-	// accounttxt;
-	@FindBy(xpath = "//span[text()= 'Account']/parent::div/parent::div//a//span")
-	WebElement accounttxt;
-
-	@FindBy(xpath = "//span[text()='Organization Name']/parent::div/parent::div//div//span//slot/*[@slot='outputField']")
-	WebElement organizationName;
-
-	@FindBy(xpath = "//span[text()= 'Telephone']/parent::div/parent::div//a")
-	WebElement telephonetxt;
-
-	@FindBy(xpath = "//span[text()='CES Provider Number']/parent::div/parent::div//div//span//slot/*[@slot='outputField']")
-	WebElement cesProviderNum;
-
-	@FindBy(xpath = "//span[text()='CES Provider Status']/parent::div/parent::div//div//span//slot/*[@slot='outputField']")
-	WebElement cesProviderStatus;
-
-	@FindBy(xpath = "//span[text()='CES Membership Type']/parent::div/parent::div//div//span//slot/*[@slot='outputField']")
-	WebElement cesMembershipType;
-
-	@FindBy(xpath = "//*[contains(text(),'Open Memberships')]")
-	WebElement membershipslnk;
-
-	@FindBy(xpath = "(//*[@role = 'table']//tbody//tr//td)[4]//div//div")
-	WebElement availableMemType;
-
-	@FindBy(xpath = "//div//a[@title='AutomationOrg']")
-	WebElement accountPage;
-
-	@FindBy(xpath = "//*[contains(text(),'Open Sales Orders')]")
-	WebElement salesOrderlnk;
-
-	@FindBy(xpath = "//*[@data-label='Sales Order #']//a//span")
-	WebElement salesOrderNumber;
-
-	@FindBy(xpath = "//*[contains(text(),'Open Receipts')]")
-	WebElement receiptslnk;
-
-	@FindBy(xpath = "//*[@data-label='Receipt Number']//a//span")
-	WebElement receiptNumber;
-
-	@FindBy(xpath = "//*[contains(text(),'Open Transaction Lines')]")
-	WebElement transcationsLines;
-
-	@FindBy(xpath = "//*[contains(text(),'Open Points of contact')]")
-	WebElement pointsofContactlnk;
-
-	@FindBy(xpath = "//*[@aria-label='Points of contact']//th//div//span//a")
-	WebElement pointsofContactName;
-
-	@FindBy(xpath = "//button[@title='Edit Application Status']")
-	WebElement editApplicationStatus;
-
-	// @FindBy(xpath="//span[text()='Term End
-	// Date']/parent::div/following-sibling::div//button") WebElement editBtn;
-
-	@FindBy(xpath = "//button[@title='Edit Term End Date']/span")
-	WebElement editBtn;
-
-	// @FindBy(xpath="//a[contains(text(),'Show')]") WebElement showallBtn;
-
-	@FindBy(xpath = "//a[contains(text(),'Show All (1')]")
-	WebElement showallBtn;
-
-	// @FindBy(xpath="//lst-related-list-quick-links-grid//div//div[@class='slds-card__body
-	// slds-card__body--inner']//div[@class='rlql-toggle
-	// slds-text-align_center']//a[contains(text(),'Show All')]") WebElement
-	// showallBtn;
 	String startLocator = "//div[@class='uiVirtualDataTable indicator']/following-sibling::table/tbody//a[text()='";
 	String endLocator = "']";
 	String appName = "Provider Application";
 
-	public void changeProviderApplicationStatus(String fullName, String providerID, String providerStatus) throws InterruptedException 
-	{
+	public void changeProviderApplicationStatus(String fullName, String providerID, String providerStatus)
+			throws InterruptedException {
 		/*
 		 * util.waitUntilElement(driver, userName);
 		 * userName.sendKeys("sgopisetty@innominds.com.aia.testing");
@@ -263,6 +205,7 @@ public class FontevaCES {
 		editAppStatusIon.click();
 		util.waitUntilElement(driver, appStatusBtnDrpdwn);
 		appStatusBtnDrpdwn.click();
+		Thread.sleep(5000); // added wait
 		WebElement provStatusElement = Utility.waitForWebElement(driver, "//span[@title='" + providerStatus + "']", 10);
 		provStatusElement.click();
 		saveBtn.click();
@@ -275,6 +218,7 @@ public class FontevaCES {
 		Actions actions = new Actions(driver);
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		util.waitUntilElement(driver, contacts);
+		Thread.sleep(5000);
 		contactsDiv.click();
 		// driver.navigate().refresh();
 		util.waitUntilElement(driver, tableheaderName);
@@ -283,8 +227,13 @@ public class FontevaCES {
 		contactallBtn.click();
 		util.waitUntilElement(driver, contactallLink);
 		contactallLink.click();
-		Thread.sleep(15000);
-		driver.findElement(By.xpath(startLocator + fullName + endLocator)).click();
+//		Thread.sleep(15000);
+//		driver.findElement(By.xpath(startLocator+fullName+endLocator)).click();
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+		WebElement contactsLink = wait
+				.until(ExpectedConditions.elementToBeClickable(By.xpath(startLocator + fullName + endLocator)));
+		contactsLink.click();
+
 		util.waitUntilElement(driver, accountName);
 		js.executeScript("arguments[0].click();", accountName);
 		// accountName.click();
@@ -292,7 +241,6 @@ public class FontevaCES {
 		Thread.sleep(5000);
 		actions.sendKeys(Keys.ARROW_DOWN).build().perform();
 		actions.sendKeys(Keys.ARROW_DOWN).build().perform();
-
 		actions.moveToElement(showallBtn).build().perform();
 		showallBtn.click();
 		Thread.sleep(2000);
@@ -362,8 +310,14 @@ public class FontevaCES {
 	}
 
 
-	public void selectProviderApplication(String user) throws InterruptedException {
-		Actions actions = new Actions(driver);
+
+	public void changeProviderApplicationRenew(String fullName, String providerID, String providerStatus)
+			throws InterruptedException {
+		/*
+		 * util.waitUntilElement(driver, userName);
+		 * userName.sendKeys("sgopisetty@innominds.com.aia.testing");
+		 * password.sendKeys("Harshi@437"); loginBtn.click();
+		 */
 		util.waitUntilElement(driver, appLauncherIcn);
 		Thread.sleep(10000);
 		appLauncherIcn.click();
@@ -378,12 +332,102 @@ public class FontevaCES {
 		selectList.click();
 		util.waitUntilElement(driver, allBtn);
 		allBtn.click();
-		util.waitUntilElement(driver, searchBox);
-		searchBox.click();
-		searchBox.sendKeys(user);
-		actions.sendKeys(Keys.ENTER).build().perform();
-		util.waitUntilElement(driver, selectPId);
-		selectPId.click();
+		WebElement provAppIDElement = Utility.waitForWebElement(driver,
+				"//table[@aria-label='All']/tbody//a[@title='" + providerID + "']", 10);
+		provAppIDElement.click();
+		Thread.sleep(2000);
+		Actions act = new Actions(driver);
+		act.scrollToElement(editAppStatusIon);
+		util.waitUntilElement(driver, editAppStatusIon);
+		editAppStatusIon.click();
+		util.waitUntilElement(driver, appStatusBtnDrpdwn);
+		appStatusBtnDrpdwn.click();
+		WebElement provStatusElement = Utility.waitForWebElement(driver, "//span[@title='" + providerStatus + "']", 10);
+		provStatusElement.click();
+		saveBtn.click();
+		Thread.sleep(1000);
+		act.sendKeys(Keys.F5);
+		Thread.sleep(5000);
 	}
 
+
+
+	public void checkProviderApplicationFields(String fullName, String providerID) throws InterruptedException {
+		/*
+		 * util.waitUntilElement(driver, userName);
+		 * userName.sendKeys("sgopisetty@innominds.com.aia.testing");
+		 * password.sendKeys("Harshi@437"); loginBtn.click();
+		 */
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		util.waitUntilElement(driver, appLauncherIcn);
+		Thread.sleep(10000);
+		appLauncherIcn.click();
+		util.waitUntilElement(driver, appSearchtxtbx);
+		util.enterText(driver, appSearchtxtbx, appName);
+		util.waitUntilElement(driver, searchedAppPA);
+		WebElement provAppElement = Utility.waitForWebElement(driver, "//b[text()='" + appName + "']", 10);
+		provAppElement.click();
+		Thread.sleep(2000);
+		util.waitUntilElement(driver, tableProviderApp);
+		util.waitUntilElement(driver, selectList);
+		selectList.click();
+		util.waitUntilElement(driver, allBtn);
+		allBtn.click();
+		WebElement provAppIDElement = Utility.waitForWebElement(driver,
+				"//table[@aria-label='All']/tbody//a[@title='" + providerID + "']", 10);
+		provAppIDElement.click();
+		util.waitUntilElement(driver, accountNameLink);
+		js.executeScript("arguments[0].click();", accountNameLink);
+		util.waitUntilElement(driver, annualRevenueTxt);
+		assertTrue(annualRevenueTxt.isDisplayed());
+		util.waitUntilElement(driver, offerCoursesTxt);
+		assertTrue(offerCoursesTxt.isDisplayed());
+		util.waitUntilElement(driver, orgTaxIDTxt);
+		assertTrue(orgTaxIDTxt.isDisplayed());
+
+	}
+	
+	
+	public void checkOriginField(String fullName, String providerID) throws InterruptedException {
+		/*
+		 * util.waitUntilElement(driver, userName);
+		 * userName.sendKeys("sgopisetty@innominds.com.aia.testing");
+		 * password.sendKeys("Harshi@437"); loginBtn.click();
+		 */
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		util.waitUntilElement(driver, appLauncherIcn);
+		Thread.sleep(10000);
+		appLauncherIcn.click();
+		util.waitUntilElement(driver, appSearchtxtbx);
+		util.enterText(driver, appSearchtxtbx, appName);
+		util.waitUntilElement(driver, searchedAppPA);
+		WebElement provAppElement = Utility.waitForWebElement(driver, "//b[text()='" + appName + "']", 10);
+		provAppElement.click();
+		Thread.sleep(2000);
+		util.waitUntilElement(driver, tableProviderApp);
+		util.waitUntilElement(driver, selectList);
+		selectList.click();
+		util.waitUntilElement(driver, allBtn);
+		allBtn.click();
+		WebElement provAppIDElement = Utility.waitForWebElement(driver,
+				"//table[@aria-label='All']/tbody//a[@title='" + providerID + "']", 10);
+		provAppIDElement.click();
+		util.waitUntilElement(driver, accountNameLink);
+		js.executeScript("arguments[0].click();", accountNameLink);
+		util.waitUntilElement(driver, salesOrder);
+		salesOrder.click();
+		util.waitUntilElement(driver, salesOrderID);
+		salesOrderID.click();
+		WebElement textValidation = Utility.waitForWebElement(driver, salesOrderOriginTxt, 10);
+		Assert.assertEquals("CES Provider Join",textValidation.getText());
+	}
+	
+	
+	public void checkOriginFieldRenew() {
+		util.waitUntilElement(driver, searchBox);
+		searchBox.sendKeys(null);
+	}
+
+
+   
 }

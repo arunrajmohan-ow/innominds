@@ -1,6 +1,10 @@
 package org.aia.pages.ces;
 
-import static org.junit.Assert.*;
+
+
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -265,6 +269,7 @@ public class PrimaryPointOfContact {
 		util.getCustomizedWebElement(driver, newWorkPhoneCountry, newCountry).click();
 		assertEquals(pocWorkPhoneCountryDrp.getAttribute("data-value"), newCountry);
 	}
+
 
 	public void verifyPrimayPOCTab() {
 		util.waitUntilElement(driver, tabTitlePrimarypoc);

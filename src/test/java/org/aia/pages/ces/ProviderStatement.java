@@ -2,10 +2,13 @@ package org.aia.pages.ces;
 
 
 import static org.testng.Assert.assertTrue;
+
+import static org.testng.Assert.assertTrue;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import static org.testng.Assert.assertTrue;
 import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.Utility;
 import org.openqa.selenium.By;
@@ -23,9 +26,11 @@ public class ProviderStatement {
 	}
 
 
+
+	@FindBy(xpath="//div/span[@class='main']") 
+	WebElement tabTitleProvider;
 	
-	@FindBy(xpath="//div/span[@class='main']") WebElement tabTitleProvider;
-	
+
 
 	@FindBy(xpath = "//input[@name='Name']")
 	WebElement nameProviderStatement;
@@ -70,6 +75,8 @@ public class ProviderStatement {
 	WebElement enterSomeValidInputError;
 	
 	
+
+
 
 
 

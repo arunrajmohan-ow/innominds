@@ -59,9 +59,10 @@ public class ActiveMemberRoster {
 		util.switchToTabs(driver, 1);
 	}
 	
-	public void clickExportButton() {
+	public void clickExportButton() throws Throwable {
 		Utility.waitForWebElement(driver, exportButtonInActiveMem, 0);
 		exportButtonInActiveMem.click();
+		Thread.sleep(5000);
 		driver.switchTo().defaultContent();
 	}
 	
@@ -82,11 +83,12 @@ public class ActiveMemberRoster {
 		}
 	}
 	
-	public void clickExportButtonInexportPopup(String option) {
+	public void clickExportButtonInexportPopup(String option) throws Throwable {
 		switch (option) {
 		case "Export":
 		WebElement exportEle =	driver.findElement(By.xpath("//div[@class='modal-footer slds-modal__footer']//button[@title='"+option+"']"));
 		exportEle.click();
+		Thread.sleep(8000);
 			break;
 		case "Cancel":
 			//TODO:
@@ -116,14 +118,14 @@ public class ActiveMemberRoster {
 	
 	public void validateDownloafFileDataAndApplicationdata(String uiActiveMemRecordCount) {
 		excelDataProvider = new ExcelDataProvider("Portal Active Member Roster");
-		String recordCount = excelDataProvider.getCellData("Portal Active Member Roster", 46, 3);
+		String recordCount = excelDataProvider.getCellData("Portal Active Member Roster", 69, 3);
 		double value = Double.parseDouble(recordCount);
 		double uiValue = Double.parseDouble(uiActiveMemRecordCount);
 		DecimalFormat decimalFormat = new DecimalFormat("0.00");
 	    String formattedRecordCount = decimalFormat.format(value);
 	    String uiRecordCount = decimalFormat.format(uiValue);
 		System.out.println(formattedRecordCount);
-		Assert.assertEquals(formattedRecordCount,uiRecordCount);
+		Assert.assertEquals(formattedRecordCount,uiRecordCount, "Count not matched");
 	}
 	
 	public void SearchButtonInActiveMemberRoaster() throws InterruptedException {

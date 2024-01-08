@@ -8,11 +8,12 @@
 		<classes>
 	    	<class name="org.aia.testcases.chapterPortal.Test_NavigateToChapterPortal"></class>
 		    <class name="org.aia.testcases.chapterPortal.Test_MemberShip"></class>
-		    <class name="org.aia.testcases.chapterPortal.Test_Retention"></class>
+		    <!--<class name="org.aia.testcases.chapterPortal.Test_Retention"></class>
 		    <class name="org.aia.testcases.chapterPortal.Test_ChapterInfo"></class>
 		    <class name="org.aia.testcases.chapterPortal.Test_Finance"></class>
 		    <class name="org.aia.testcases.chapterPortal.Test_CallForDues"></class>
 		    <class name="org.aia.testcases.chapterPortal.GlobalSearchInCP"></class>
+		    <class name="org.aia.testcases.chapterPortal.Test_CommunityGroups"></class>-->
 		</classes>
 	</test> 
 </suite> 

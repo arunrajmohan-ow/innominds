@@ -48,12 +48,11 @@ public class Test_CloneTicketsInMediumTemplate extends BaseClass {
 		Logging.configure();
 	}
 
-	@Test(priority = 1, description = "verify field in TicketModule tickets info,", enabled = true)
+	@Test(priority = 1, description = "FEC-102:- verify field in TicketModule tickets info,", enabled = true)
 	public void test_verifyFieldInTicketModuleMediumTEmplate(ITestContext context)
 			throws InterruptedException, Throwable {
 		Logging.logger.info(
 				"================================test_verifyFieldInTicketModuleMediumTEmplate started==========================");
-		// Fec-102
 		try {
 			if (recording) {
 				VideoRecorder.startRecording("test_verifyFieldInTicketModule");
@@ -71,9 +70,8 @@ public class Test_CloneTicketsInMediumTemplate extends BaseClass {
 
 	}
 
-	@Test(priority = 2, description = "test_VerifyManageInventoryInTickets", enabled = true)
+	@Test(priority = 2, description = "FEC-118:-test_VerifyManageInventoryInTickets", enabled = true)
 	public void test_VerifyManageInventoryInTickets(ITestContext context) throws InterruptedException, Throwable {
-		// Fec-118
 		try {
 			if (recording) {
 				VideoRecorder.startRecording("test_VerifyManageInventoryInTickets");
@@ -100,12 +98,12 @@ public class Test_CloneTicketsInMediumTemplate extends BaseClass {
 		}
 	}
 
-	@Test(priority = 3, description = "verify field in TicketModule info, tickets sales start date,", enabled = true)
+	@Test(priority = 3, description = "FEC-104:-verify field in TicketModule info, tickets sales start date,", enabled = true)
 	public void test_VeriftTickets_sales_startDateMediumTEmplate(ITestContext context)
 			throws InterruptedException, Throwable {
 		Logging.logger.info(
 				"================================test_VeriftTickets_sales_startDateMediumTEmplates started==========================");
-		// Fec-104
+		
 		try {
 			if (recording) {
 				VideoRecorder.startRecording("validate_CreateNewTicketTypeMediumTEmplate");
@@ -129,12 +127,12 @@ public class Test_CloneTicketsInMediumTemplate extends BaseClass {
 		}
 	}
 
-	@Test(priority = 4, description = "Verify CreateNewTicket And ValidateAllfields,", enabled = true)
+	@Test(priority = 4, description = "FEC-114:-Verify CreateNewTicket And ValidateAllfields,", enabled = true)
 	public void test_VerifycCreateNewTicketAndValidateAllfieldsMediumTEmplate(ITestContext context)
 			throws InterruptedException, Throwable {
 		Logging.logger.info(
 				"================================test_VerifycCreateNewTicketAndValidateAllfieldsMediumTEmplate started==========================");
-		// Fec-114
+		
 		try {
 			if (recording) {
 				VideoRecorder.startRecording("validate_CreateNewTicketTypeMediumTEmplate");
@@ -160,9 +158,11 @@ public class Test_CloneTicketsInMediumTemplate extends BaseClass {
 		}
 	}
 
-	@Test(priority = 5, description = "validate_TicketDisplayOrderValues", enabled = true)
+	@Test(priority = 5, description = "FEC-115:-validate_TicketDisplayOrderValues", enabled = true)
 	public void validate_TicketDisplayOrderValues(ITestContext context) throws InterruptedException, Throwable {
-		// fec-115
+		Logging.logger.info(
+				"================================validate_TicketDisplayOrderValues started==========================");
+		
 		try {
 			if (recording) {
 				VideoRecorder.startRecording("validate_TicketDisplayOrderValues");
@@ -185,12 +185,12 @@ public class Test_CloneTicketsInMediumTemplate extends BaseClass {
 
 	}
 	
-	@Test(priority = 6, description = "Verify creation of New Ticket Type", enabled = true)
+	@Test(priority = 6, description = "FEC-103:-Verify creation of New Ticket Type", enabled = true)
 	public void validate_CreateNewTicketTypeMediumTEmplate(ITestContext context)
 			throws InterruptedException, Throwable {
 		Logging.logger.info(
 				"================================validate_CreateNewTicketTypeMediumTEmplate started==========================");
-		// fec-103
+		
 		try {
 			if (recording) {
 				VideoRecorder.startRecording("validate_CreateNewTicketTypeMediumTEmplate");

@@ -235,6 +235,9 @@ public class CES_ContactPage {
 
 	@FindBy(xpath = "//button[@title='Save']")
 	WebElement advanceSettingsaveBtn;
+	
+	@FindBy(xpath = "//span[text()='My Account']//ancestor::a")
+	WebElement myAccountLink;
 
 	// @FindBy(xpath = "//strong[text()='Item Quick
 	// Add']//parent::span//following-sibling::span//div//input")
@@ -916,5 +919,16 @@ public class CES_ContactPage {
 		assertTrue(personalEmailValue.equalsIgnoreCase(newEmailAddress));
 	}
 	
-	
+	public void selectExpAsUserOpt2() throws InterruptedException {
+		util.waitUntilElement(driver, moreActionBtn);
+		moreActionBtn.click();
+		util.waitUntilElement(driver, loginAsExpUserOpt);
+		loginAsExpUserOpt.click();
+		util.waitUntilElement(driver, siteUserOpt);
+		assertTrue(siteUserOpt.isDisplayed());
+		util.waitUntilElement(driver, myAccountLink);
+		myAccountLink.click();
+		Thread.sleep(5000);
+	}
+	//myAccountLink
 }

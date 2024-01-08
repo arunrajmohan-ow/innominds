@@ -1,5 +1,8 @@
 package org.aia.pages.memberPortal;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
 import org.aia.utility.ConfigDataProvider;
 import org.aia.utility.Utility;
 import org.junit.Assert;

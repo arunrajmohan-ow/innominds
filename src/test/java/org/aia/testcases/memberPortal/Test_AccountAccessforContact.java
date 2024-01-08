@@ -25,38 +25,38 @@ import org.testng.annotations.Test;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 
-public class Test_AccountAccessforContact extends BaseClass{
+public class Test_AccountAccessforContact extends BaseClass {
 	boolean recording;
 	ContactCreateUser fontevaJoin;
-	MailinatorAPI malinator;
+	MailinatorAPI mailinator;
 	JoinAPIValidation offlinApiValidation;
 	public ExtentReports extent;
 	public ExtentTest extentTest;
 	MyInformation myInformation;
 	CommonMethodsForMP comMethodsForMP;
-	
+
 	@BeforeMethod(alwaysRun = true)
 	public void setUp() throws Exception {
-		sessionID=new FontevaConnectionSOAP();
+		sessionID = new FontevaConnectionSOAP();
 		driver = BrowserSetup.startApplication(driver, DataProviderFactory.getConfig().getValue("browser"),
-				DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl")+sessionID.getSessionID());
+				DataProviderFactory.getConfig().getValue("fontevaSessionIdUrl") + sessionID.getSessionID());
 		util = new Utility(driver, 30);
 		testData = new ConfigDataProvider();
 		fontevaJoin = PageFactory.initElements(driver, ContactCreateUser.class);
-		malinator = PageFactory.initElements(driver, MailinatorAPI.class);
+		mailinator = new MailinatorAPI(driver);
 		offlinApiValidation = PageFactory.initElements(driver, JoinAPIValidation.class);
 		comMethodsForMP = new CommonMethodsForMP(driver);
 		myInformation = PageFactory.initElements(driver, MyInformation.class);
 		// Configure Log4j to perform error logging
 		Logging.configure();
 	}
-	
+
 	@Test(description = "FM-318: My Account access for a contact", enabled = true, priority = 1)
 	public void myAccountAccessForContact() throws Throwable {
-		comMethodsForMP.navigateToMyAccount();
+		comMethodsForMP.navigateToMyAccount(mailinator);
 		myInformation.verifyMyinformationTabSections();
 	}
-	
+
 	@AfterMethod(alwaysRun = true)
 	public void teardown(ITestResult result) throws IOException {
 		if (recording) {

@@ -28,7 +28,6 @@ public class CommonMethodsForMP {
 	WebDriver driver;
 	ConfigDataProvider testData;
 	ContactCreateUser fontevaJoin;
-	MailinatorAPI malinator;
 	JoinAPIValidation offlinApiValidation;
 	public ExtentReports extent;
 	public ExtentTest extentTest;
@@ -41,7 +40,6 @@ public class CommonMethodsForMP {
 	OrderSummaryPage orderSummaryPage;
 	PaymentInformation paymentInfoPage;
 	FinalPageThankYou finalPage;
-	JoinAPIValidation apiValidation;
 	TellusAboutYourselfPage tellAbtPage;
 	SalesOrder salesOrder;
 	AccountAcessForContact accAcessForContact;
@@ -49,13 +47,11 @@ public class CommonMethodsForMP {
 	public CommonMethodsForMP(WebDriver IDriver) {
 		driver=IDriver;
 		testData = new ConfigDataProvider();
-		mailinator = PageFactory.initElements(driver, MailinatorAPI.class);
 		signUpPage = PageFactory.initElements(driver, SignUpPage.class);
+		offlinApiValidation = new JoinAPIValidation(driver);
 		signInpage = PageFactory.initElements(driver, SignInPage.class);
 		closeButtnPage = PageFactory.initElements(driver, CheckYourEmailPage.class);
-		mailinator = PageFactory.initElements(driver, MailinatorAPI.class);
 		successPage = PageFactory.initElements(driver, SignUpSuccess.class);
-		apiValidation = PageFactory.initElements(driver, JoinAPIValidation.class);
 		primaryInfoPage = PageFactory.initElements(driver, PrimaryInformationPage.class);
 		orderSummaryPage = PageFactory.initElements(driver, OrderSummaryPage.class);
 		paymentInfoPage = PageFactory.initElements(driver, PaymentInformation.class);
@@ -67,7 +63,7 @@ public class CommonMethodsForMP {
 	}
 	
 	
-	public void navigateToMyAccount() throws Throwable {
+	public ArrayList<String> navigateToMyAccount(MailinatorAPI mailinator) throws Throwable {
 		ArrayList<String> dataList = fontevaJoin.userData();
 		//fontevaJoin.pointOffset();
 		fontevaJoin.createUserInFonteva();
@@ -78,12 +74,12 @@ public class CommonMethodsForMP {
 		fontevaJoin.applyPayment(dataList.get(5));
 		ArrayList<Object> data =fontevaJoin.getPaymentReceiptData();
 		//Validation of Thank you massage in email inbox after register.
-		malinator.thankYouEmailforOfflineJoin(dataList.get(2));
+		mailinator.thankYouEmailforOfflineJoin(dataList.get(2));
 		//Validate Membership & Term is got created
 		offlinApiValidation.verifyMemebershipCreation(dataList.get(2),
-				DataProviderFactory.getConfig().getValue("termEndDate"), data.get(2),
-				DataProviderFactory.getConfig().getValue("type_aia_national"), testData.testDataProvider().getProperty("membershipType"),
-				testData.testDataProvider().getProperty("selection"));
+			DataProviderFactory.getConfig().getValue("termEndDate"), data.get(2),
+			DataProviderFactory.getConfig().getValue("type_aia_national"), testData.testDataProvider().getProperty("membershipType"),
+  		    testData.testDataProvider().getProperty("selection"));
 		//Validate sales order is created or not
 	//	offlinApiValidation.verifySalesOrderForPriceRule(testData.testDataProvider().getProperty("membershipType"));
 		accAcessForContact.clickContactsModule();
@@ -91,7 +87,10 @@ public class CommonMethodsForMP {
 		accAcessForContact.clickContactsInGlobalSearch(dataList.get(5));
 		accAcessForContact.showAllInRealtedQuickLinks();
 		accAcessForContact.clickDropDownInActionContainer();
+		accAcessForContact.verifyFieldsMemberPortal("AIA Customer");
+		accAcessForContact.clickDropDownInActionContainer();
 		accAcessForContact.optionsInactionContainer();
+		return dataList;
 	}
 
 }
